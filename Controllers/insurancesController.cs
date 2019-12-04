@@ -238,12 +238,12 @@ namespace HRworks.Controllers
                 var img = new insurance();
                 img.employee_no=insurance.employee_no;
                 img.card_no = insurance.card_no;
-                img.dob = insurance.dob;
+                img.dob = insurance.master_file.dob;
                 img.age = insurance.age;
-                img.gender = insurance.gender;
+                img.gender = insurance.master_file.gender;
                 img.dependency = insurance.dependency;
                 img.marital_status = insurance.marital_status;
-                img.nationality = insurance.nationality;
+                img.nationality = insurance.master_file.nationality;
                 img.eid_no = insurance.eid_no;
                 img.pasport_no = insurance.pasport_no;
                 img.uid_no = insurance.uid_no;
@@ -259,7 +259,6 @@ namespace HRworks.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
             ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no");
             ViewBag.employee_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
@@ -317,12 +316,12 @@ namespace HRworks.Controllers
                 var img = new insurance();
                 img.employee_no = insurance.employee_no;
                 img.card_no = insurance.card_no;
-                img.dob = insurance.dob;
+                img.dob = insurance.master_file.dob;
                 img.age = insurance.age;
-                img.gender = insurance.gender;
+                img.gender = insurance.master_file.gender;
                 img.dependency = insurance.dependency;
                 img.marital_status = insurance.marital_status;
-                img.nationality = insurance.nationality;
+                img.nationality = insurance.master_file.nationality;
                 img.eid_no = insurance.eid_no;
                 img.pasport_no = insurance.pasport_no;
                 img.uid_no = insurance.uid_no;
