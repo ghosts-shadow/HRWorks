@@ -1,0 +1,221 @@
+﻿@using PagedList.Mvc
+@model IEnumerable<HRworks.Models.contract>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css"
+      rel="stylesheet">
+<link rel="stylesheet"
+      href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+      href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+<h2>Index</h2>
+@if (Request.IsAuthenticated)
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <script type="text/javascript">
+        var tableToExcel = (function () {
+            var uri = 'data:application/vnd.ms-excel;base64,',
+                template =
+                    '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>',
+                base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) },
+                format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+            return function (table, name) {
+                if (!table.nodeType) table = document.getElementById(table)
+                var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+                window.location.href = uri + base64(format(template, ctx))
+            }
+        })()
+        function norc(parameters) {
+            var x = document.getElementById("pageSize").value;
+            alert("no of records changed to " + x);
+
+            var y = document.getElementById("form1");
+            y.submit();
+        }
+    </script>
+
+
+    using (Html.BeginForm("Index", "passports", FormMethod.Get, new { id = "form1" }))
+    {
+        <div>
+            @*Page Size:@Html.DropDownList("pageSize", null, new { @id = "pageSize"/*, @onchange = "norc()"*/ })
+            *@
+            page size:-<input type="text" name="pagesize" id="pagesize" />
+            search:-
+            @Html.TextBox("search")
+           <input type="submit"
+                   name="submit"
+                   value="Search/change records" ondblclick="norc()" />
+    
+            <div>
+                <a href="@Url.Action("DownloadExcel","contracts",new{search=ViewBag.search})">Download Excel</a>
+            </div>
+        </div>}
+
+    <table class="table"
+           id="contract">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.employee_no)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.master_file.employee_no)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.master_file.employee_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.con_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.designation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.grade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.departmant_project)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.salary_details)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.basic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.housing_allowance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.transportation_allowance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FOT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.food_allowance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.living_allowance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ticket_allowance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.others)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.arrears)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.imgpath)
+            </th>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("admin"))
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.changed_by)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.date_changed)
+                    </th>
+                }
+            }
+
+                <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.employee_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.con_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.designation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.grade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.departmant_project)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.salary_details)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.basic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.housing_allowance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.transportation_allowance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FOT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.food_allowance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.living_allowance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ticket_allowance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.others)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.arrears)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.imgpath)
+        </td>
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("admin"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.changed_by)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date_changed)
+                </td>
+            }
+        }
+            <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.employee_id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.employee_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.employee_id })
+        </td>
+    </tr>
+        }
+
+    </table>
+}

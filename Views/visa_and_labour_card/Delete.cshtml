@@ -1,0 +1,137 @@
+﻿@model HRworks.Models.visa_and_labour_card
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (Request.IsAuthenticated)
+{
+    <h2>Delete</h2>
+
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>visa_and_labour_card</h4>
+        <hr/>
+        <dl
+            class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.emp_no)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.emp_no)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.master_file.employee_name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.master_file.employee_name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.lc_no)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.lc_no)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.uid_no)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.uid_no)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.passport_no)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.passport_no)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.company_code)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.company_code)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.nationality)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.nationality)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.person_code)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.person_code)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.class_type)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.class_type)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.rv_expiry)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.rv_expiry)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.lc_expiry)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.lc_expiry)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.passport_expiry)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.passport_expiry)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.proff_as_per_visa)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.proff_as_per_visa)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div
+                class="form-actions no-color">
+                <input
+                    type="submit"
+                    value="Delete"
+                    class="btn btn-default"/> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+}

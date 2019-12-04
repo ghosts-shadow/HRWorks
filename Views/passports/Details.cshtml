@@ -1,0 +1,127 @@
+﻿@model HRworks.Models.passport
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (Request.IsAuthenticated)
+{
+    <h2>Details</h2>
+
+    <div>
+        <h4>passport</h4>
+        <hr/>
+        <dl
+            class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.employee_no)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.employee_no)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.master_file.employee_name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.master_file.employee_name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.company_code)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.company_code)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.passport_no)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.passport_no)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.passport_expiry)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.passport_expiry)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.passport_issue_date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.passport_issue_date)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.passport_return_date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.passport_return_date)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.passport_remarks)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.passport_remarks)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.status)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.status)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.rv_expiry)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.rv_expiry)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.vl_start)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.vl_start)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.vl_end)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.vl_end)
+            </dd>
+
+
+        </dl>
+        <div
+            class="col-lg-5">
+            <img
+                src="@Html.DisplayFor(model => model.imgpath)"
+                alt="@Html.DisplayFor(model => model.master_file.employee_name)"
+                width=250
+                height=250/>
+        </div>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new {id = Model.employee_id}) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

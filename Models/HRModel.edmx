@@ -1,0 +1,1009 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="contract">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="con_id" Type="int" />
+          <Property Name="employee_no" Type="int" Nullable="false" />
+          <Property Name="designation" Type="nvarchar" MaxLength="50" />
+          <Property Name="grade" Type="nvarchar" MaxLength="50" />
+          <Property Name="departmant/project" Type="nvarchar" MaxLength="50" />
+          <Property Name="salary_details" Type="int" />
+          <Property Name="basic" Type="int" />
+          <Property Name="housing_allowance" Type="int" />
+          <Property Name="transportation_allowance" Type="int" />
+          <Property Name="FOT" Type="int" />
+          <Property Name="food_allowance" Type="int" />
+          <Property Name="living_allowance" Type="int" />
+          <Property Name="ticket_allowance" Type="int" />
+          <Property Name="others" Type="int" />
+          <Property Name="arrears" Type="int" />
+          <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imgpath" Type="nvarchar(max)" />
+          <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="date_changed" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="emirates_id">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee no" Type="int" Nullable="false" />
+          <Property Name="eid no" Type="int" Nullable="false" />
+          <Property Name="eid expiry" Type="date" Nullable="false" />
+          <Property Name="imgpath" Type="nvarchar(max)" />
+          <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="date_changed" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="insurance">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_no" Type="int" Nullable="false" />
+          <Property Name="card_no" Type="int" />
+          <Property Name="dob" Type="date" />
+          <Property Name="age" Type="int" />
+          <Property Name="gender" Type="varchar" MaxLength="10" />
+          <Property Name="dependency" Type="varchar" MaxLength="25" />
+          <Property Name="marital_status" Type="varchar" MaxLength="25" />
+          <Property Name="nationality" Type="varchar" MaxLength="25" />
+          <Property Name="eid_no" Type="int" />
+          <Property Name="pasport_no" Type="int" />
+          <Property Name="uid_no" Type="int" />
+          <Property Name="emitae_visa_issue" Type="date" />
+          <Property Name="annual_primium" Type="int" />
+          <Property Name="deletion_date" Type="date" />
+          <Property Name="invoice_no" Type="int" />
+          <Property Name="credit_amt" Type="int" />
+          <Property Name="imgpath" Type="nvarchar(max)" />
+          <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="date_changed" Type="datetime" />
+        </EntityType>
+        <EntityType Name="master_file">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_no" Type="int" Nullable="false" />
+          <Property Name="employee_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="nationality" Type="nvarchar" MaxLength="50" />
+          <Property Name="dob" Type="date" />
+          <Property Name="date_joined" Type="date" />
+          <Property Name="last_working_day" Type="date" />
+          <Property Name="gender" Type="nvarchar" MaxLength="50" />
+          <Property Name="IBAN" Type="nvarchar(max)" />
+          <Property Name="account_no" Type="bigint" />
+          <Property Name="bank_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="img" Type="nvarchar(max)" />
+          <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="date_changed" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="passport">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_no" Type="int" Nullable="false" />
+          <Property Name="company_code" Type="varchar" MaxLength="25" />
+          <Property Name="passport_no" Type="int" />
+          <Property Name="passport_expiry" Type="date" />
+          <Property Name="passport_issue_date" Type="date" />
+          <Property Name="passport_return_date" Type="date" />
+          <Property Name="passport_remarks" Type="varchar" MaxLength="50" />
+          <Property Name="status" Type="varchar" MaxLength="50" />
+          <Property Name="rv_expiry" Type="date" />
+          <Property Name="vl_start" Type="date" />
+          <Property Name="vl_end" Type="date" />
+          <Property Name="imgpath" Type="nvarchar(max)" />
+          <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="date_changed" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="gender" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="usernames">
+          <Key>
+            <PropertyRef Name="aspnet_uid" />
+          </Key>
+          <Property Name="full_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="aspnet_uid" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="visa_and_labour_card">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lc_no" Type="int" />
+          <Property Name="uid_no" Type="int" />
+          <Property Name="emp_no" Type="int" Nullable="false" />
+          <Property Name="passport_no" Type="int" />
+          <Property Name="company_code" Type="varchar" MaxLength="11" />
+          <Property Name="nationality" Type="varchar" MaxLength="11" />
+          <Property Name="person_code" Type="varchar" MaxLength="11" />
+          <Property Name="class_type" Type="varchar" MaxLength="25" />
+          <Property Name="rv_expiry" Type="date" />
+          <Property Name="lc_expiry" Type="date" />
+          <Property Name="passport_expiry" Type="date" />
+          <Property Name="proff_as_per_visa" Type="varchar" MaxLength="25" />
+          <Property Name="imgpath" Type="nvarchar(max)" />
+          <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="date_changed" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_contract_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="contract" Type="Self.contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="contract">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_emirates_id_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="emirates_id" Type="Self.emirates_id" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="emirates_id">
+              <PropertyRef Name="employee no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_insurance_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="insurance" Type="Self.insurance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="insurance">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_passport_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="passport" Type="Self.passport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="passport">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usernames_To_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="usernames" Type="Self.usernames" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="usernames">
+              <PropertyRef Name="aspnet_uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VLC_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="visa_and_labour_card" Type="Self.visa_and_labour_card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="visa_and_labour_card">
+              <PropertyRef Name="emp_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HRModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="contract" EntityType="Self.contract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="emirates_id" EntityType="Self.emirates_id" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="insurance" EntityType="Self.insurance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="master_file" EntityType="Self.master_file" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="passport" EntityType="Self.passport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usernames" EntityType="Self.usernames" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_contract_master_file" Association="Self.FK_contract_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="contract" EntitySet="contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_emirates_id_master_file" Association="Self.FK_emirates_id_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="emirates_id" EntitySet="emirates_id" />
+          </AssociationSet>
+          <AssociationSet Name="FK_insurance_master_file" Association="Self.FK_insurance_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="insurance" EntitySet="insurance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_passport_master_file" Association="Self.FK_passport_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="passport" EntitySet="passport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usernames_To_AspNetUsers" Association="Self.FK_usernames_To_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="usernames" EntitySet="usernames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VLC_master_file" Association="Self.FK_VLC_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="visa_and_labour_card" EntitySet="visa_and_labour_card" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="username1" Relationship="Self.FK_usernames_To_AspNetUsers" FromRole="AspNetUsers" ToRole="usernames" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="contract">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="con_id" Type="Int32" />
+          <Property Name="employee_no" Type="Int32" Nullable="false" />
+          <Property Name="designation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="grade" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="departmant_project" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="salary_details" Type="Int32" />
+          <Property Name="basic" Type="Int32" />
+          <Property Name="housing_allowance" Type="Int32" />
+          <Property Name="transportation_allowance" Type="Int32" />
+          <Property Name="FOT" Type="Int32" />
+          <Property Name="food_allowance" Type="Int32" />
+          <Property Name="living_allowance" Type="Int32" />
+          <Property Name="ticket_allowance" Type="Int32" />
+          <Property Name="others" Type="Int32" />
+          <Property Name="arrears" Type="Int32" />
+          <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_contract_master_file" FromRole="contract" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="emirates_id">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_no" Type="Int32" Nullable="false" />
+          <Property Name="eid_no" Type="Int32" Nullable="false" />
+          <Property Name="eid_expiry" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_emirates_id_master_file" FromRole="emirates_id" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="insurance">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_no" Type="Int32" Nullable="false" />
+          <Property Name="card_no" Type="Int32" />
+          <Property Name="dob" Type="DateTime" Precision="0" />
+          <Property Name="age" Type="Int32" />
+          <Property Name="gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="dependency" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="marital_status" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="nationality" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="eid_no" Type="Int32" />
+          <Property Name="pasport_no" Type="Int32" />
+          <Property Name="uid_no" Type="Int32" />
+          <Property Name="emitae_visa_issue" Type="DateTime" Precision="0" />
+          <Property Name="annual_primium" Type="Int32" />
+          <Property Name="deletion_date" Type="DateTime" Precision="0" />
+          <Property Name="invoice_no" Type="Int32" />
+          <Property Name="credit_amt" Type="Int32" />
+          <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date_changed" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_insurance_master_file" FromRole="insurance" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="master_file">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_no" Type="Int32" Nullable="false" />
+          <Property Name="employee_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dob" Type="DateTime" Precision="0" />
+          <Property Name="date_joined" Type="DateTime" Precision="0" />
+          <Property Name="last_working_day" Type="DateTime" Precision="0" />
+          <Property Name="gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IBAN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="account_no" Type="Int64" />
+          <Property Name="bank_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="img" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="contracts" Relationship="Self.FK_contract_master_file" FromRole="master_file" ToRole="contract" />
+          <NavigationProperty Name="emirates_id" Relationship="Self.FK_emirates_id_master_file" FromRole="master_file" ToRole="emirates_id" />
+          <NavigationProperty Name="insurances" Relationship="Self.FK_insurance_master_file" FromRole="master_file" ToRole="insurance" />
+          <NavigationProperty Name="passports" Relationship="Self.FK_passport_master_file" FromRole="master_file" ToRole="passport" />
+          <NavigationProperty Name="visa_and_labour_card" Relationship="Self.FK_VLC_master_file" FromRole="master_file" ToRole="visa_and_labour_card" />
+        </EntityType>
+        <EntityType Name="passport">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_no" Type="Int32" Nullable="false" />
+          <Property Name="company_code" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="passport_no" Type="Int32" />
+          <Property Name="passport_expiry" Type="DateTime" Precision="0" />
+          <Property Name="passport_issue_date" Type="DateTime" Precision="0" />
+          <Property Name="passport_return_date" Type="DateTime" Precision="0" />
+          <Property Name="passport_remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="rv_expiry" Type="DateTime" Precision="0" />
+          <Property Name="vl_start" Type="DateTime" Precision="0" />
+          <Property Name="vl_end" Type="DateTime" Precision="0" />
+          <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_passport_master_file" FromRole="passport" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="Table">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="gender" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="username">
+          <Key>
+            <PropertyRef Name="aspnet_uid" />
+          </Key>
+          <Property Name="full_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="aspnet_uid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_usernames_To_AspNetUsers" FromRole="usernames" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="visa_and_labour_card">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lc_no" Type="Int32" />
+          <Property Name="uid_no" Type="Int32" />
+          <Property Name="emp_no" Type="Int32" Nullable="false" />
+          <Property Name="passport_no" Type="Int32" />
+          <Property Name="company_code" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="nationality" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="person_code" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="class_type" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="rv_expiry" Type="DateTime" Precision="0" />
+          <Property Name="lc_expiry" Type="DateTime" Precision="0" />
+          <Property Name="passport_expiry" Type="DateTime" Precision="0" />
+          <Property Name="proff_as_per_visa" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_VLC_master_file" FromRole="visa_and_labour_card" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usernames_To_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+          <End Role="usernames" Type="Self.username" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="usernames">
+              <PropertyRef Name="aspnet_uid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_contract_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="contract" Type="Self.contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="contract">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_emirates_id_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="emirates_id" Type="Self.emirates_id" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="emirates_id">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_insurance_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="insurance" Type="Self.insurance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="insurance">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_passport_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="passport" Type="Self.passport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="passport">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VLC_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="visa_and_labour_card" Type="Self.visa_and_labour_card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="visa_and_labour_card">
+              <PropertyRef Name="emp_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="HREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="contracts" EntityType="Self.contract" />
+          <EntitySet Name="emirates_id" EntityType="Self.emirates_id" />
+          <EntitySet Name="insurances" EntityType="Self.insurance" />
+          <EntitySet Name="master_file" EntityType="Self.master_file" />
+          <EntitySet Name="passports" EntityType="Self.passport" />
+          <EntitySet Name="Tables" EntityType="Self.Table" />
+          <EntitySet Name="usernames" EntityType="Self.username" />
+          <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usernames_To_AspNetUsers" Association="Self.FK_usernames_To_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="usernames" EntitySet="usernames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_contract_master_file" Association="Self.FK_contract_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="contract" EntitySet="contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_emirates_id_master_file" Association="Self.FK_emirates_id_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="emirates_id" EntitySet="emirates_id" />
+          </AssociationSet>
+          <AssociationSet Name="FK_insurance_master_file" Association="Self.FK_insurance_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="insurance" EntitySet="insurances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_passport_master_file" Association="Self.FK_passport_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="passport" EntitySet="passports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VLC_master_file" Association="Self.FK_VLC_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="visa_and_labour_card" EntitySet="visa_and_labour_card" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRModelStoreContainer" CdmEntityContainer="HREntities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="HRModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="HRModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="HRModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="HRModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="HRModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="contracts">
+            <EntityTypeMapping TypeName="HRModel.contract">
+              <MappingFragment StoreEntitySet="contract">
+                <ScalarProperty Name="con_id" ColumnName="con_id" />
+                <ScalarProperty Name="employee_no" ColumnName="employee_no" />
+                <ScalarProperty Name="designation" ColumnName="designation" />
+                <ScalarProperty Name="grade" ColumnName="grade" />
+                <ScalarProperty Name="departmant_project" ColumnName="departmant/project" />
+                <ScalarProperty Name="salary_details" ColumnName="salary_details" />
+                <ScalarProperty Name="basic" ColumnName="basic" />
+                <ScalarProperty Name="housing_allowance" ColumnName="housing_allowance" />
+                <ScalarProperty Name="transportation_allowance" ColumnName="transportation_allowance" />
+                <ScalarProperty Name="FOT" ColumnName="FOT" />
+                <ScalarProperty Name="food_allowance" ColumnName="food_allowance" />
+                <ScalarProperty Name="living_allowance" ColumnName="living_allowance" />
+                <ScalarProperty Name="ticket_allowance" ColumnName="ticket_allowance" />
+                <ScalarProperty Name="others" ColumnName="others" />
+                <ScalarProperty Name="arrears" ColumnName="arrears" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="imgpath" ColumnName="imgpath" />
+                <ScalarProperty Name="changed_by" ColumnName="changed_by" />
+                <ScalarProperty Name="date_changed" ColumnName="date_changed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="emirates_id">
+            <EntityTypeMapping TypeName="HRModel.emirates_id">
+              <MappingFragment StoreEntitySet="emirates_id">
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="employee_no" ColumnName="employee no" />
+                <ScalarProperty Name="eid_no" ColumnName="eid no" />
+                <ScalarProperty Name="eid_expiry" ColumnName="eid expiry" />
+                <ScalarProperty Name="imgpath" ColumnName="imgpath" />
+                <ScalarProperty Name="changed_by" ColumnName="changed_by" />
+                <ScalarProperty Name="date_changed" ColumnName="date_changed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="insurances">
+            <EntityTypeMapping TypeName="HRModel.insurance">
+              <MappingFragment StoreEntitySet="insurance">
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="employee_no" ColumnName="employee_no" />
+                <ScalarProperty Name="card_no" ColumnName="card_no" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="dependency" ColumnName="dependency" />
+                <ScalarProperty Name="marital_status" ColumnName="marital_status" />
+                <ScalarProperty Name="nationality" ColumnName="nationality" />
+                <ScalarProperty Name="eid_no" ColumnName="eid_no" />
+                <ScalarProperty Name="pasport_no" ColumnName="pasport_no" />
+                <ScalarProperty Name="uid_no" ColumnName="uid_no" />
+                <ScalarProperty Name="emitae_visa_issue" ColumnName="emitae_visa_issue" />
+                <ScalarProperty Name="annual_primium" ColumnName="annual_primium" />
+                <ScalarProperty Name="deletion_date" ColumnName="deletion_date" />
+                <ScalarProperty Name="invoice_no" ColumnName="invoice_no" />
+                <ScalarProperty Name="credit_amt" ColumnName="credit_amt" />
+                <ScalarProperty Name="imgpath" ColumnName="imgpath" />
+                <ScalarProperty Name="changed_by" ColumnName="changed_by" />
+                <ScalarProperty Name="date_changed" ColumnName="date_changed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="master_file">
+            <EntityTypeMapping TypeName="HRModel.master_file">
+              <MappingFragment StoreEntitySet="master_file">
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="employee_no" ColumnName="employee_no" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="nationality" ColumnName="nationality" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+                <ScalarProperty Name="date_joined" ColumnName="date_joined" />
+                <ScalarProperty Name="last_working_day" ColumnName="last_working_day" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="IBAN" ColumnName="IBAN" />
+                <ScalarProperty Name="account_no" ColumnName="account_no" />
+                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
+                <ScalarProperty Name="img" ColumnName="img" />
+                <ScalarProperty Name="changed_by" ColumnName="changed_by" />
+                <ScalarProperty Name="date_changed" ColumnName="date_changed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="passports">
+            <EntityTypeMapping TypeName="HRModel.passport">
+              <MappingFragment StoreEntitySet="passport">
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="employee_no" ColumnName="employee_no" />
+                <ScalarProperty Name="company_code" ColumnName="company_code" />
+                <ScalarProperty Name="passport_no" ColumnName="passport_no" />
+                <ScalarProperty Name="passport_expiry" ColumnName="passport_expiry" />
+                <ScalarProperty Name="passport_issue_date" ColumnName="passport_issue_date" />
+                <ScalarProperty Name="passport_return_date" ColumnName="passport_return_date" />
+                <ScalarProperty Name="passport_remarks" ColumnName="passport_remarks" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="rv_expiry" ColumnName="rv_expiry" />
+                <ScalarProperty Name="vl_start" ColumnName="vl_start" />
+                <ScalarProperty Name="vl_end" ColumnName="vl_end" />
+                <ScalarProperty Name="imgpath" ColumnName="imgpath" />
+                <ScalarProperty Name="changed_by" ColumnName="changed_by" />
+                <ScalarProperty Name="date_changed" ColumnName="date_changed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tables">
+            <EntityTypeMapping TypeName="HRModel.Table">
+              <MappingFragment StoreEntitySet="Table">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usernames">
+            <EntityTypeMapping TypeName="HRModel.username">
+              <MappingFragment StoreEntitySet="usernames">
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="aspnet_uid" ColumnName="aspnet_uid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="visa_and_labour_card">
+            <EntityTypeMapping TypeName="HRModel.visa_and_labour_card">
+              <MappingFragment StoreEntitySet="visa_and_labour_card">
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="lc_no" ColumnName="lc_no" />
+                <ScalarProperty Name="uid_no" ColumnName="uid_no" />
+                <ScalarProperty Name="emp_no" ColumnName="emp_no" />
+                <ScalarProperty Name="passport_no" ColumnName="passport_no" />
+                <ScalarProperty Name="company_code" ColumnName="company_code" />
+                <ScalarProperty Name="nationality" ColumnName="nationality" />
+                <ScalarProperty Name="person_code" ColumnName="person_code" />
+                <ScalarProperty Name="class_type" ColumnName="class_type" />
+                <ScalarProperty Name="rv_expiry" ColumnName="rv_expiry" />
+                <ScalarProperty Name="lc_expiry" ColumnName="lc_expiry" />
+                <ScalarProperty Name="passport_expiry" ColumnName="passport_expiry" />
+                <ScalarProperty Name="proff_as_per_visa" ColumnName="proff_as_per_visa" />
+                <ScalarProperty Name="imgpath" ColumnName="imgpath" />
+                <ScalarProperty Name="changed_by" ColumnName="changed_by" />
+                <ScalarProperty Name="date_changed" ColumnName="date_changed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="HRModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

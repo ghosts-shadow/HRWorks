@@ -1,0 +1,160 @@
+﻿@model HRworks.Models.contract
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (Request.IsAuthenticated)
+{
+    <h2>Delete</h2>
+
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>contract</h4>
+        <hr/>
+        <dl
+            class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.employee_no)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.employee_no)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.master_file.employee_name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.master_file.employee_name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.con_id)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.con_id)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.designation)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.designation)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.grade)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.grade)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.departmant_project)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.departmant_project)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.salary_details)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.salary_details)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.basic)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.basic)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.housing_allowance)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.housing_allowance)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.transportation_allowance)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.transportation_allowance)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FOT)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FOT)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.food_allowance)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.food_allowance)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.living_allowance)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.living_allowance)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ticket_allowance)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ticket_allowance)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.others)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.others)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.arrears)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.arrears)
+            </dd>
+
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div
+                class="form-actions no-color">
+                <input
+                    type="submit"
+                    value="Delete"
+                    class="btn btn-default"/> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+}

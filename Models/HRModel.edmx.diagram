@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4f941989f23b483b8d7d54b9d23c8dae" Name="Diagram1">
+        <EntityTypeShape EntityType="HRModel.C__MigrationHistory" Width="1.5" PointX="5.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.AspNetRole" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.AspNetUserClaim" Width="1.5" PointX="10.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.AspNetUserLogin" Width="1.5" PointX="10.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.AspNetUser" Width="1.5" PointX="8" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.contract" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.emirates_id" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.insurance" Width="1.5" PointX="3" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.master_file" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.passport" Width="1.5" PointX="3" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.Table" Width="1.5" PointX="7.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.username" Width="1.5" PointX="10.25" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.visa_and_labour_card" Width="1.5" PointX="3" PointY="21.625" IsExpanded="true" />
+        <AssociationConnector Association="HRModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_usernames_To_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_contract_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_emirates_id_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_insurance_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_passport_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_VLC_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
