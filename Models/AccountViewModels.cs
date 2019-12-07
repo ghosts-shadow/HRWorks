@@ -49,8 +49,7 @@ namespace HRworks.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
+        [Display(Name = "Username")]
         public string Email { get; set; }
 
         [Required]
@@ -64,9 +63,7 @@ namespace HRworks.Models
 
     public class RegisterViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Username")]
         public string Email { get; set; }
 
         [Required]
@@ -79,13 +76,18 @@ namespace HRworks.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        [Display(Name = "User Role")]
+        public string UserRole { get; set; }
+        [Required]
+        [Display(Name = "Name")]
+        public string full_name { get; set; }
     }
 
     public class ResetPasswordViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "username")]
         public string Email { get; set; }
 
         [Required]

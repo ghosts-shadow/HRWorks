@@ -10,6 +10,12 @@
     @Html.AntiForgeryToken()
     <h4>Create a new account.</h4>
     <hr />
+    <div class="form-group">
+        @Html.LabelFor(m => m.full_name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.full_name, new { @class = "form-control" })
+        </div>
+    </div>
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -27,6 +33,17 @@
         @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserRole, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.RadioButtonFor(m => m.UserRole, "admin", new {@class = "radio-inline"})@Html.Label("admin")
+            @Html.RadioButtonFor(m => m.UserRole, "visitor", new {@class = "radio-inline"})@Html.Label("visitor")
+            @Html.RadioButtonFor(m => m.UserRole, "employee_EID", new {@class = "radio-inline"})@Html.Label("employee_EID")<br/>
+            @Html.RadioButtonFor(m => m.UserRole, "employee_INC", new {@class = "radio-inline"})@Html.Label("employee_INC")
+            @Html.RadioButtonFor(m => m.UserRole, "employee_PASS", new {@class = "radio-inline"})@Html.Label("employee_PASS")<br/>
+            @Html.RadioButtonFor(m => m.UserRole, "employee_VLC", new {@class = "radio-inline"})@Html.Label("employee_VLC")
         </div>
     </div>
     <div class="form-group">

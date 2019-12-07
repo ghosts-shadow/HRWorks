@@ -136,7 +136,7 @@ namespace HRworks.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "admin")]
         public ActionResult Register()
         {
             return View();
@@ -145,8 +145,8 @@ namespace HRworks.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
