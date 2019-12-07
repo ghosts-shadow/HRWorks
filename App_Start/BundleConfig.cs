@@ -20,10 +20,12 @@ namespace HRworks
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                     //"~/Scripts/bootstrap scripts/bootstrap.js"));
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                        //                      "~/Content/testbootstrap/bootstrap.css",
+                        "~/Content/bootstrap.css",
                       "~/Content/site.css"));
         }
     }
