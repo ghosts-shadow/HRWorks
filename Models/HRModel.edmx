@@ -567,6 +567,8 @@
           <Property Name="Return_leave" Type="DateTime" Precision="0" />
           <Property Name="Employee_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_leave_master_file" FromRole="Leave" ToRole="master_file" />
+          <Property Name="leave_type" Type="String" Nullable="false" FixedLength="false" MaxLength="Max" />
+          <Property Name="actual_return_date" Type="DateTime" Nullable="true" />
         </EntityType>
         <EntityType Name="master_file">
           <Key>

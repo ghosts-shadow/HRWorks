@@ -21,6 +21,8 @@ namespace HRworks.Models
         public Nullable<System.DateTime> End_leave { get; set; }
         public Nullable<System.DateTime> Return_leave { get; set; }
         public int Employee_id { get; set; }
+        public string leave_type { get; set; }
+        public Nullable<System.DateTime> actual_return_date { get; set; }
     
         public virtual master_file master_file { get; set; }
     }
