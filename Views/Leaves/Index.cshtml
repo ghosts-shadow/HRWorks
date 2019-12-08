@@ -1,0 +1,64 @@
+﻿@model IEnumerable<HRworks.Models.Leave>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reference)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Start_leave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.End_leave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Return_leave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Reference)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Start_leave)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.End_leave)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Return_leave)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

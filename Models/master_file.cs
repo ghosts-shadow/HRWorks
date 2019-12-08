@@ -22,6 +22,7 @@ namespace HRworks.Models
             this.contracts = new HashSet<contract>();
             this.emirates_id = new HashSet<emirates_id>();
             this.insurances = new HashSet<insurance>();
+            this.Leaves = new HashSet<Leave>();
             this.passports = new HashSet<passport>();
             this.visa_and_labour_card = new HashSet<visa_and_labour_card>();
         }
@@ -61,10 +62,10 @@ namespace HRworks.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<insurance> insurances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Leave> Leaves { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<passport> passports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<visa_and_labour_card> visa_and_labour_card { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Leave> leave { get; set; }
     }
 }

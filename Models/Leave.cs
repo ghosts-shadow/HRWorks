@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace HRworks.Models
 {
     using System;
@@ -17,19 +15,11 @@ namespace HRworks.Models
     public partial class Leave
     {
         public int Id { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public System.DateTime Date { get; set; }
         public string Reference { get; set; }
-        [Display(Name = "Start Leave")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public System.DateTime Start_leave { get; set; }
-        [Display(Name = "End Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> End_leave { get; set; }
-        [Display(Name = "Return Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> Return_leave { get; set; }
-        [Display(Name="Employee ID")]
         public int Employee_id { get; set; }
     
         public virtual master_file master_file { get; set; }

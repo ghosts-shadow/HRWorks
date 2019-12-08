@@ -184,6 +184,7 @@
     <Compile Include="Controllers\emirates_idController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\insurancesController.cs" />
+    <Compile Include="Controllers\LeavesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\master_fileController.cs" />
     <Compile Include="Controllers\passportsController.cs" />
@@ -381,6 +382,11 @@
     <Content Include="Views\insurances\Details.cshtml" />
     <Content Include="Views\insurances\Edit.cshtml" />
     <Content Include="Views\insurances\Index.cshtml" />
+    <Content Include="Views\Leaves\Create.cshtml" />
+    <Content Include="Views\Leaves\Delete.cshtml" />
+    <Content Include="Views\Leaves\Details.cshtml" />
+    <Content Include="Views\Leaves\Edit.cshtml" />
+    <Content Include="Views\Leaves\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
