@@ -27,31 +27,31 @@ namespace HRworks.Models
         }
 
         public int employee_id { get; set; }
-        [Display(Name = "employee NO")]
+        [Display(Name = "Employee NO")]
         public int employee_no { get; set; }
-        [Display(Name = "employee name")]
+        [Display(Name = "Employee Name")]
         public string employee_name { get; set; }
         public string nationality { get; set; }
         [Display(Name = "DOB")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> dob { get; set; }
-        [Display(Name = "date joined")]
+        [Display(Name = "Date Joined")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> date_joined { get; set; }
-        [Display(Name = "last working day")]
+        [Display(Name = "Last Working Day")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> last_working_day { get; set; }
         public string gender { get; set; }
         public string IBAN { get; set; }
-        [Display(Name = "account no")]
+        [Display(Name = "Account No")]
         public Nullable<long> account_no { get; set; }
-        [Display(Name = "bank name")]
+        [Display(Name = "Bank Name")]
         public string bank_name { get; set; }
-        [Display(Name = "photo")]
+        [Display(Name = "Photo")]
         public string img { get; set; }
-        [Display(Name = "changed by")]
+        [Display(Name = "Changed By")]
         public string changed_by { get; set; }
-        [Display(Name = "date changed")]
+        [Display(Name = "Date Changed")]
         public System.DateTime date_changed { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

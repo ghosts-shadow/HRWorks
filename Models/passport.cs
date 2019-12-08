@@ -17,38 +17,38 @@ namespace HRworks.Models
     public partial class passport
     {
         public int employee_id { get; set; }
-        [Display(Name = "employee id")]
+        [Display(Name = "Employee ID")]
         public int employee_no { get; set; }
-        [Display(Name = "company code")]
+        [Display(Name = "Company Code")]
         public string company_code { get; set; }
-        [Display(Name = "passport no")]
+        [Display(Name = "Passport No")]
         public Nullable<int> passport_no { get; set; }
-        [Display(Name = "passport expiry")]
+        [Display(Name = "Passport Expiry")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> passport_expiry { get; set; }
-        [Display(Name = "passport issue date")]
+        [Display(Name = "Passport Issue Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> passport_issue_date { get; set; }
-        [Display(Name = "passport return date")]
+        [Display(Name = "Passport Return Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> passport_return_date { get; set; }
-        [Display(Name = "passport remarks")]
+        [Display(Name = "Passport Remarks")]
         public string passport_remarks { get; set; }
         public string status { get; set; }
-        [Display(Name = "RV expiry")]
+        [Display(Name = "RV Expiry")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> rv_expiry { get; set; }
-        [Display(Name = "VL start")]
+        [Display(Name = "VL Start")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> vl_start { get; set; }
-        [Display(Name = "VL end")]
+        [Display(Name = "VL End")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> vl_end { get; set; }
-        [Display(Name = "photo")]
+        [Display(Name = "Photo")]
         public string imgpath { get; set; }
-        [Display(Name = "changed by")]
+        [Display(Name = "Changed By")]
         public string changed_by { get; set; }
-        [Display(Name = "date changed")]
+        [Display(Name = "Date Changed")]
         public System.DateTime date_changed { get; set; }
 
         public virtual master_file master_file { get; set; }

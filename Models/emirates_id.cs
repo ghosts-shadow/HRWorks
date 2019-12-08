@@ -17,18 +17,18 @@ namespace HRworks.Models
     public partial class emirates_id
     {
         public int employee_id { get; set; }
-        [Display(Name = "employee ID")]
+        [Display(Name = "Employee ID")]
         public int employee_no { get; set; }
         [Display(Name = "EID no")]
         public int eid_no { get; set; }
         [Display(Name = " EID expiry")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public System.DateTime eid_expiry { get; set; }
-        [Display(Name = "photo")]
+        [Display(Name = "Photo")]
         public string imgpath { get; set; }
-        [Display(Name = "changed by")]
+        [Display(Name = "Changed by")]
         public string changed_by { get; set; }
-        [Display(Name = "date changed")]
+        [Display(Name = "Date Changed")]
         public System.DateTime date_changed { get; set; }
 
         public virtual master_file master_file { get; set; }

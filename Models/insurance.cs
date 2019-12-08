@@ -17,42 +17,45 @@ namespace HRworks.Models
     public partial class insurance
     {
         public int employee_id { get; set; }
-        [Display(Name = "employee ID")]
+        [Display(Name = "Employee ID")]
         public int employee_no { get; set; }
-        [Display(Name = "card no")]
+        [Display(Name = "Card no")]
         public Nullable<int> card_no { get; set; }
         [Display(Name = "DOB")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> dob { get; set; }
+        [Display(Name = "Age")]
         public Nullable<int> age { get; set; }
+        [Display(Name = "Gender")]
         public string gender { get; set; }
+        [Display(Name = "Dependency")]
         public string dependency { get; set; }
-        [Display(Name = "marital status")]
+        [Display(Name = "Marital Status")]
         public string marital_status { get; set; }
         public string nationality { get; set; }
         [Display(Name = "EID no")]
         public Nullable<int> eid_no { get; set; }
-        [Display(Name = "pasport no")]
+        [Display(Name = "Pasport no")]
         public Nullable<int> pasport_no { get; set; }
         [Display(Name = " UID no")]
         public Nullable<int> uid_no { get; set; }
-        [Display(Name = "emitae visa issue")]
+        [Display(Name = "Emitae Visa Issue")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> emitae_visa_issue { get; set; }
-        [Display(Name = "annual primium")]
+        [Display(Name = "Annual Primium")]
         public Nullable<int> annual_primium { get; set; }
-        [Display(Name = "deletion date")]
+        [Display(Name = "Deletion Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> deletion_date { get; set; }
-        [Display(Name = "invoice no")]
+        [Display(Name = "Invoice No")]
         public Nullable<int> invoice_no { get; set; }
-        [Display(Name = "credit amt")]
+        [Display(Name = "Credit Amt")]
         public Nullable<int> credit_amt { get; set; }
-        [Display(Name = "photo")]
+        [Display(Name = "Photo")]
         public string imgpath { get; set; }
-        [Display(Name = "changed by")]
+        [Display(Name = "Changed By")]
         public string changed_by { get; set; }
-        [Display(Name = "date changed")]
+        [Display(Name = "Date Changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
 
 
