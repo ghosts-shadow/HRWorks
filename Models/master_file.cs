@@ -64,5 +64,7 @@ namespace HRworks.Models
         public virtual ICollection<passport> passports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<visa_and_labour_card> visa_and_labour_card { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Leave> leave { get; set; }
     }
 }

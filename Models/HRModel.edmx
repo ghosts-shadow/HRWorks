@@ -127,6 +127,18 @@
           <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
+        <EntityType Name="Leave">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Reference" Type="nvarchar(max)" />
+          <Property Name="Start_leave" Type="date" Nullable="false" />
+          <Property Name="End_leave" Type="date" />
+          <Property Name="Return_leave" Type="date" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="master_file">
           <Key>
             <PropertyRef Name="employee_id" />
@@ -299,6 +311,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_leave_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Leave" Type="Self.Leave" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="Leave">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_passport_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -349,6 +375,7 @@
           <EntitySet Name="contract" EntityType="Self.contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="insurance" EntityType="Self.insurance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Leave" EntityType="Self.Leave" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="master_file" EntityType="Self.master_file" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="passport" EntityType="Self.passport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
@@ -381,6 +408,10 @@
           <AssociationSet Name="FK_insurance_master_file" Association="Self.FK_insurance_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="insurance" EntitySet="insurance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_leave_master_file" Association="Self.FK_leave_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="Leave" EntitySet="Leave" />
           </AssociationSet>
           <AssociationSet Name="FK_passport_master_file" Association="Self.FK_passport_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -524,6 +555,19 @@
           <Property Name="date_changed" Type="DateTime" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_insurance_master_file" FromRole="insurance" ToRole="master_file" />
         </EntityType>
+        <EntityType Name="Leave">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Reference" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Start_leave" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="End_leave" Type="DateTime" Precision="0" />
+          <Property Name="Return_leave" Type="DateTime" Precision="0" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_leave_master_file" FromRole="Leave" ToRole="master_file" />
+        </EntityType>
         <EntityType Name="master_file">
           <Key>
             <PropertyRef Name="employee_id" />
@@ -545,6 +589,7 @@
           <NavigationProperty Name="contracts" Relationship="Self.FK_contract_master_file" FromRole="master_file" ToRole="contract" />
           <NavigationProperty Name="emirates_id" Relationship="Self.FK_emirates_id_master_file" FromRole="master_file" ToRole="emirates_id" />
           <NavigationProperty Name="insurances" Relationship="Self.FK_insurance_master_file" FromRole="master_file" ToRole="insurance" />
+          <NavigationProperty Name="Leaves" Relationship="Self.FK_leave_master_file" FromRole="master_file" ToRole="Leave" />
           <NavigationProperty Name="passports" Relationship="Self.FK_passport_master_file" FromRole="master_file" ToRole="passport" />
           <NavigationProperty Name="visa_and_labour_card" Relationship="Self.FK_VLC_master_file" FromRole="master_file" ToRole="visa_and_labour_card" />
         </EntityType>
@@ -688,6 +733,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_leave_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Leave" Type="Self.Leave" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="Leave">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_passport_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -729,6 +788,7 @@
           <EntitySet Name="contracts" EntityType="Self.contract" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" />
           <EntitySet Name="insurances" EntityType="Self.insurance" />
+          <EntitySet Name="Leaves" EntityType="Self.Leave" />
           <EntitySet Name="master_file" EntityType="Self.master_file" />
           <EntitySet Name="passports" EntityType="Self.passport" />
           <EntitySet Name="Tables" EntityType="Self.Table" />
@@ -757,6 +817,10 @@
           <AssociationSet Name="FK_insurance_master_file" Association="Self.FK_insurance_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="insurance" EntitySet="insurances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_leave_master_file" Association="Self.FK_leave_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="Leave" EntitySet="Leaves" />
           </AssociationSet>
           <AssociationSet Name="FK_passport_master_file" Association="Self.FK_passport_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -893,6 +957,19 @@
                 <ScalarProperty Name="imgpath" ColumnName="imgpath" />
                 <ScalarProperty Name="changed_by" ColumnName="changed_by" />
                 <ScalarProperty Name="date_changed" ColumnName="date_changed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Leaves">
+            <EntityTypeMapping TypeName="HRModel.Leave">
+              <MappingFragment StoreEntitySet="Leave">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Start_leave" ColumnName="Start_leave" />
+                <ScalarProperty Name="End_leave" ColumnName="End_leave" />
+                <ScalarProperty Name="Return_leave" ColumnName="Return_leave" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

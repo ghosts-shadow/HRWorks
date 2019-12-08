@@ -233,6 +233,9 @@
     <Compile Include="Models\insurance.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Leave.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\master_file.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -284,6 +287,12 @@
     <Content Include="Scripts\bootstrap scripts\bootstrap.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\testbootstrap\bootstrap-grid.css.map" />
+    <Content Include="Content\testbootstrap\bootstrap-grid.min.css.map" />
+    <Content Include="Content\testbootstrap\bootstrap-reboot.css.map" />
+    <Content Include="Content\testbootstrap\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\testbootstrap\bootstrap.css.map" />
+    <Content Include="Content\testbootstrap\bootstrap.min.css.map" />
     <EntityDeploy Include="Models\HRModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
@@ -291,12 +300,6 @@
     <Content Include="Models\HRModel.edmx.diagram">
       <DependentUpon>HRModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Content\testbootstrap\bootstrap-grid.css.map" />
-    <Content Include="Content\testbootstrap\bootstrap-grid.min.css.map" />
-    <Content Include="Content\testbootstrap\bootstrap-reboot.css.map" />
-    <Content Include="Content\testbootstrap\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\testbootstrap\bootstrap.css.map" />
-    <Content Include="Content\testbootstrap\bootstrap.min.css.map" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.min.js.map" />

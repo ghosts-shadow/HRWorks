@@ -33,6 +33,7 @@ namespace HRworks.Models
         public virtual DbSet<contract> contracts { get; set; }
         public virtual DbSet<emirates_id> emirates_id { get; set; }
         public virtual DbSet<insurance> insurances { get; set; }
+        public virtual DbSet<Leave> Leaves { get; set; }
         public virtual DbSet<master_file> master_file { get; set; }
         public virtual DbSet<passport> passports { get; set; }
         public virtual DbSet<Table> Tables { get; set; }
