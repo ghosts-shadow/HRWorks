@@ -48,13 +48,14 @@ namespace HRworks.Models
         public Nullable<long> account_no { get; set; }
         [Display(Name = "Bank Name")]
         public string bank_name { get; set; }
+        public string status { get; set; }
         [Display(Name = "Photo")]
         public string img { get; set; }
         [Display(Name = "Changed By")]
         public string changed_by { get; set; }
         [Display(Name = "Date Changed")]
         public System.DateTime date_changed { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<contract> contracts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

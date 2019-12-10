@@ -14,13 +14,13 @@ namespace HRworks.Models
     
     public partial class Leave
     {
+        public int Employee_id { get; set; }
         public int Id { get; set; }
         public System.DateTime Date { get; set; }
         public string Reference { get; set; }
         public System.DateTime Start_leave { get; set; }
         public Nullable<System.DateTime> End_leave { get; set; }
         public Nullable<System.DateTime> Return_leave { get; set; }
-        public int Employee_id { get; set; }
         public string leave_type { get; set; }
         public Nullable<System.DateTime> actual_return_date { get; set; }
     

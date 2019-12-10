@@ -73,12 +73,11 @@
     @*Page Size:@Html.DropDownList("pageSize", null, new { @id = "pageSize"/*, @onchange = "norc()"*/ })
     *@
     page size:-<input type="text" name="pagesize" id="pagesize" />
-    search:- 
-    @Html.TextBox("search")<input
-                               type="date"
-                               id="datepicker"
-                               class="form-control"
-                               name="pDate"/>
+    <ul>
+        search:- @Html.TextBox("search") (by name)
+        <input type="date" id="datepicker" class="form-control" name="pDate"/>
+    </ul>
+    
     <input type="submit"
            name="submit"
            value="Search/change records" ondblclick="norc()" />

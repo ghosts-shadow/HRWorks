@@ -37,6 +37,7 @@
                     <li>@Html.ActionLink("visa and labor card", "Index", "visa_and_labour_card")</li>
                     <li>@Html.ActionLink("contract", "Index", "contracts")</li>
                     <li>@Html.ActionLink("employee details", "Index", "master_file")</li>
+                    <li>@Html.ActionLink("leave", "Index", "Leaves")</li>
                     if (User.Identity.IsAuthenticated)
                     {
                         if (User.IsInRole("admin"))

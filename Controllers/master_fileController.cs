@@ -249,6 +249,7 @@ namespace HRworks.Controllers
                 img.bank_name = master_file.bank_name;
                 img.changed_by= User.Identity.Name;
                 img.date_changed = current;
+                img.status = "in process";
                 img.img = serverfile;
                 db.master_file.Add(img);
                 db.SaveChanges();

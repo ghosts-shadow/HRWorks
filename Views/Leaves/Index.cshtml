@@ -28,6 +28,12 @@
             @Html.DisplayNameFor(model => model.Return_leave)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.leave_type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.actual_return_date)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.master_file.employee_name)
         </th>
         <th></th>
@@ -51,6 +57,12 @@
             @Html.DisplayFor(modelItem => item.Return_leave)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.leave_type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.actual_return_date)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.master_file.employee_name)
         </td>
         <td>
@@ -60,5 +72,4 @@
         </td>
     </tr>
 }
-
 </table>

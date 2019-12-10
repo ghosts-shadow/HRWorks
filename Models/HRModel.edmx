@@ -131,13 +131,15 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="Reference" Type="nvarchar(max)" />
           <Property Name="Start_leave" Type="date" Nullable="false" />
           <Property Name="End_leave" Type="date" />
           <Property Name="Return_leave" Type="date" />
-          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="leave_type" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="actual_return_date" Type="date" />
         </EntityType>
         <EntityType Name="master_file">
           <Key>
@@ -154,6 +156,7 @@
           <Property Name="IBAN" Type="nvarchar(max)" />
           <Property Name="account_no" Type="bigint" />
           <Property Name="bank_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="status" Type="varchar(max)" Nullable="false" />
           <Property Name="img" Type="nvarchar(max)" />
           <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
           <Property Name="date_changed" Type="datetime" Nullable="false" />
@@ -559,16 +562,16 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Reference" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Start_leave" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="End_leave" Type="DateTime" Precision="0" />
           <Property Name="Return_leave" Type="DateTime" Precision="0" />
-          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="leave_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="actual_return_date" Type="DateTime" Precision="0" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_leave_master_file" FromRole="Leave" ToRole="master_file" />
-          <Property Name="leave_type" Type="String" Nullable="false" FixedLength="false" MaxLength="Max" />
-          <Property Name="actual_return_date" Type="DateTime" Nullable="true" />
         </EntityType>
         <EntityType Name="master_file">
           <Key>
@@ -585,6 +588,7 @@
           <Property Name="IBAN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="account_no" Type="Int64" />
           <Property Name="bank_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="img" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
@@ -965,13 +969,15 @@
           <EntitySetMapping Name="Leaves">
             <EntityTypeMapping TypeName="HRModel.Leave">
               <MappingFragment StoreEntitySet="Leave">
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Reference" ColumnName="Reference" />
                 <ScalarProperty Name="Start_leave" ColumnName="Start_leave" />
                 <ScalarProperty Name="End_leave" ColumnName="End_leave" />
                 <ScalarProperty Name="Return_leave" ColumnName="Return_leave" />
-                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="leave_type" ColumnName="leave_type" />
+                <ScalarProperty Name="actual_return_date" ColumnName="actual_return_date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -989,6 +995,7 @@
                 <ScalarProperty Name="IBAN" ColumnName="IBAN" />
                 <ScalarProperty Name="account_no" ColumnName="account_no" />
                 <ScalarProperty Name="bank_name" ColumnName="bank_name" />
+                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="img" ColumnName="img" />
                 <ScalarProperty Name="changed_by" ColumnName="changed_by" />
                 <ScalarProperty Name="date_changed" ColumnName="date_changed" />
