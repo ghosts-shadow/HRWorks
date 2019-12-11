@@ -34,42 +34,36 @@ namespace HRworks.Controllers
             ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("employee details");
             Sheet.Cells["A1"].Value = "employee no";
             Sheet.Cells["B1"].Value = "employee name";
-            Sheet.Cells["C1"].Value = "employee_id";
-            Sheet.Cells["D1"].Value = "nationality";
-            Sheet.Cells["E1"].Value = "dob";
-            Sheet.Cells["F1"].Value = "date_joined";
-            Sheet.Cells["G1"].Value = "last_working_day";
-            Sheet.Cells["H1"].Value = "gender";
-            Sheet.Cells["I1"].Value = "IBAN";
-            Sheet.Cells["J1"].Value = "account_no";
-            Sheet.Cells["K1"].Value = "bank_name";
-            Sheet.Cells["L1"].Value = "changed by";
-            Sheet.Cells["M1"].Value = "date changed";
-            Sheet.Cells["N1"].Value = "img";
+            Sheet.Cells["C1"].Value = "nationality";
+            Sheet.Cells["D1"].Value = "dob";
+            Sheet.Cells["E1"].Value = "date_joined";
+            Sheet.Cells["F1"].Value = "last_working_day";
+            Sheet.Cells["G1"].Value = "gender";
+            Sheet.Cells["H1"].Value = "status";
+            Sheet.Cells["I1"].Value = "changed by";
+            Sheet.Cells["J1"].Value = "date changed";
+            Sheet.Cells["K1"].Value = "img";
             int row = 2;
             foreach (var item in passexel)
             {
 
                 Sheet.Cells[string.Format("A{0}", row)].Value = item.employee_no;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.employee_name;
-                Sheet.Cells[string.Format("C{0}", row)].Value = item.employee_id;
-                Sheet.Cells[string.Format("D{0}", row)].Value = item.nationality;
-                Sheet.Cells[string.Format("E{0}", row)].Value = item.dob;
-                Sheet.Cells[string.Format("F{0}", row)].Value = item.date_joined;
-                Sheet.Cells[string.Format("G{0}", row)].Value = item.last_working_day;
-                Sheet.Cells[string.Format("H{0}", row)].Value = item.gender;
-                Sheet.Cells[string.Format("I{0}", row)].Value = item.IBAN;
-                Sheet.Cells[string.Format("J{0}", row)].Value = item.account_no;
-                Sheet.Cells[string.Format("K{0}", row)].Value = item.bank_name;
-                Sheet.Cells[string.Format("L{0}", row)].Value = item.changed_by;
-                Sheet.Cells[string.Format("M{0}", row)].Value = item.date_changed.ToString();
-                Sheet.Cells[string.Format("N{0}", row)].Value = item.img;
+                Sheet.Cells[string.Format("C{0}", row)].Value = item.nationality;
+                Sheet.Cells[string.Format("D{0}", row)].Value = item.dob;
+                Sheet.Cells[string.Format("E{0}", row)].Value = item.date_joined;
+                Sheet.Cells[string.Format("F{0}", row)].Value = item.last_working_day;
+                Sheet.Cells[string.Format("G{0}", row)].Value = item.gender;
+                Sheet.Cells[string.Format("H{0}", row)].Value = item.status;
+                Sheet.Cells[string.Format("I{0}", row)].Value = item.changed_by;
+                Sheet.Cells[string.Format("J{0}", row)].Value = item.date_changed.ToString();
+                Sheet.Cells[string.Format("K{0}", row)].Value = item.img;
                 row++;
             }
             Sheet.Cells["A:AZ"].AutoFitColumns();
             Response.Clear();
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.AddHeader("content-disposition", "filename =EMPLOYEE DETAILS.xlsx");
+            Response.AddHeader("content-disposition", "filename =EMPLOYEE_DETAILS.xlsx");
             Response.BinaryWrite(Ep.GetAsByteArray());
             Response.End();
         }
@@ -244,9 +238,6 @@ namespace HRworks.Controllers
                 img.date_joined = master_file.date_joined;
                 img.last_working_day = master_file.last_working_day;
                 img.gender = master_file.gender;
-                img.IBAN = master_file.IBAN;
-                img.account_no = master_file.account_no;
-                img.bank_name = master_file.bank_name;
                 img.changed_by= User.Identity.Name;
                 img.date_changed = current;
                 img.status = "in process";
@@ -316,11 +307,7 @@ namespace HRworks.Controllers
                 img.date_joined = master_file.date_joined;
                 img.last_working_day = master_file.last_working_day;
                 img.gender = master_file.gender;
-                img.IBAN = master_file.IBAN;
-                img.account_no = master_file.account_no;
-                img.bank_name = master_file.bank_name;
                 img.img = serverfile;
-                db.master_file.Add(img);
                 img.changed_by = User.Identity.Name;
                 img.date_changed = DateTime.Now;
                 db.master_file.Add(img);

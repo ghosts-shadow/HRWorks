@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    WebGrid webGrid = new WebGrid(source: Model, canSort: false, canPage: false);
 }
 @if (Request.IsAuthenticated)
 {
@@ -138,11 +139,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.bank_name)
         </td>
+        @*@Url.Action(item.img)*@
         <td>
-            <img src="@Html.DisplayFor(modelItem => item.img)"
-                 alt="@Html.DisplayFor(modelItem => item.employee_name)"
-                 width=100
-                 height=100 />
+            <iframe src="@Url.Content(item.img)"
+                    alt="@Html.DisplayFor(modelItem => item.employee_name)"
+                    style="height: 150px; width: 125px"></iframe>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.status)
