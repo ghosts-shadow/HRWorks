@@ -66,6 +66,16 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="bank_details">
+          <Key>
+            <PropertyRef Name="Employee_Id" />
+          </Key>
+          <Property Name="Employee_Id" Type="int" Nullable="false" />
+          <Property Name="employee_no" Type="int" Nullable="false" />
+          <Property Name="IBAN" Type="nvarchar(max)" />
+          <Property Name="Account_no" Type="bigint" />
+          <Property Name="bank_name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="contract">
           <Key>
             <PropertyRef Name="employee_id" />
@@ -95,7 +105,7 @@
             <PropertyRef Name="employee_id" />
           </Key>
           <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="employee no" Type="int" Nullable="false" />
+          <Property Name="employee_no" Type="int" Nullable="false" />
           <Property Name="eid no" Type="int" Nullable="false" />
           <Property Name="eid expiry" Type="date" Nullable="false" />
           <Property Name="imgpath" Type="nvarchar(max)" />
@@ -153,10 +163,8 @@
           <Property Name="date_joined" Type="date" />
           <Property Name="last_working_day" Type="date" />
           <Property Name="gender" Type="nvarchar" MaxLength="50" />
-          <Property Name="IBAN" Type="nvarchar(max)" />
-          <Property Name="account_no" Type="bigint" />
-          <Property Name="bank_name" Type="nvarchar" MaxLength="50" />
           <Property Name="status" Type="varchar(max)" Nullable="false" />
+          <Property Name="person_code" Type="bigint" />
           <Property Name="img" Type="nvarchar(max)" />
           <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
           <Property Name="date_changed" Type="datetime" Nullable="false" />
@@ -216,10 +224,20 @@
           <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
           <Property Name="date_changed" Type="datetime" Nullable="false" />
         </EntityType>
-        <Association Name="FK_contract_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_bank_details_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="bank_details" Type="Self.bank_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="bank_details">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_contract_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="contract" Type="Self.contract" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -286,24 +304,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_emirates_id_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_emirates_id_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="emirates_id" Type="Self.emirates_id" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="emirates_id">
-              <PropertyRef Name="employee no" />
+              <PropertyRef Name="employee_no" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_insurance_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_insurance_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="insurance" Type="Self.insurance" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -314,10 +328,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_leave_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_leave_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="Leave" Type="Self.Leave" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -328,10 +340,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_passport_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_passport_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="passport" Type="Self.passport" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -354,10 +364,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_VLC_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_visa_and_labour_card_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="visa_and_labour_card" Type="Self.visa_and_labour_card" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -375,6 +383,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="bank_details" EntityType="Self.bank_details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="contract" EntityType="Self.contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="insurance" EntityType="Self.insurance" Schema="dbo" store:Type="Tables" />
@@ -384,7 +393,11 @@
           <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usernames" EntityType="Self.usernames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_contract_master_file" Association="Self.FK_contract_master_file">
+          <AssociationSet Name="FK_bank_details_To_master_file" Association="Self.FK_bank_details_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="bank_details" EntitySet="bank_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_contract_To_master_file" Association="Self.FK_contract_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="contract" EntitySet="contract" />
           </AssociationSet>
@@ -404,19 +417,19 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_emirates_id_master_file" Association="Self.FK_emirates_id_master_file">
+          <AssociationSet Name="FK_emirates_id_To_master_file" Association="Self.FK_emirates_id_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emirates_id" EntitySet="emirates_id" />
           </AssociationSet>
-          <AssociationSet Name="FK_insurance_master_file" Association="Self.FK_insurance_master_file">
+          <AssociationSet Name="FK_insurance_To_master_file" Association="Self.FK_insurance_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="insurance" EntitySet="insurance" />
           </AssociationSet>
-          <AssociationSet Name="FK_leave_master_file" Association="Self.FK_leave_master_file">
+          <AssociationSet Name="FK_leave_To_master_file" Association="Self.FK_leave_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="Leave" EntitySet="Leave" />
           </AssociationSet>
-          <AssociationSet Name="FK_passport_master_file" Association="Self.FK_passport_master_file">
+          <AssociationSet Name="FK_passport_To_master_file" Association="Self.FK_passport_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="passport" EntitySet="passport" />
           </AssociationSet>
@@ -424,7 +437,7 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="usernames" EntitySet="usernames" />
           </AssociationSet>
-          <AssociationSet Name="FK_VLC_master_file" Association="Self.FK_VLC_master_file">
+          <AssociationSet Name="FK_visa_and_labour_card_To_master_file" Association="Self.FK_visa_and_labour_card_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="visa_and_labour_card" EntitySet="visa_and_labour_card" />
           </AssociationSet>
@@ -494,6 +507,17 @@
           <NavigationProperty Name="username1" Relationship="Self.FK_usernames_To_AspNetUsers" FromRole="AspNetUsers" ToRole="usernames" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
+        <EntityType Name="bank_details">
+          <Key>
+            <PropertyRef Name="Employee_Id" />
+          </Key>
+          <Property Name="Employee_Id" Type="Int32" Nullable="false" />
+          <Property Name="employee_no" Type="Int32" Nullable="false" />
+          <Property Name="IBAN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Account_no" Type="Int64" />
+          <Property Name="bank_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_bank_details_To_master_file" FromRole="bank_details" ToRole="master_file" />
+        </EntityType>
         <EntityType Name="contract">
           <Key>
             <PropertyRef Name="employee_id" />
@@ -517,7 +541,7 @@
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="master_file" Relationship="Self.FK_contract_master_file" FromRole="contract" ToRole="master_file" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_contract_To_master_file" FromRole="contract" ToRole="master_file" />
         </EntityType>
         <EntityType Name="emirates_id">
           <Key>
@@ -530,7 +554,7 @@
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="master_file" Relationship="Self.FK_emirates_id_master_file" FromRole="emirates_id" ToRole="master_file" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_emirates_id_To_master_file" FromRole="emirates_id" ToRole="master_file" />
         </EntityType>
         <EntityType Name="insurance">
           <Key>
@@ -556,7 +580,7 @@
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="date_changed" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="master_file" Relationship="Self.FK_insurance_master_file" FromRole="insurance" ToRole="master_file" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_insurance_To_master_file" FromRole="insurance" ToRole="master_file" />
         </EntityType>
         <EntityType Name="Leave">
           <Key>
@@ -571,7 +595,7 @@
           <Property Name="Return_leave" Type="DateTime" Precision="0" />
           <Property Name="leave_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="actual_return_date" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="master_file" Relationship="Self.FK_leave_master_file" FromRole="Leave" ToRole="master_file" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_leave_To_master_file" FromRole="Leave" ToRole="master_file" />
         </EntityType>
         <EntityType Name="master_file">
           <Key>
@@ -585,19 +609,18 @@
           <Property Name="date_joined" Type="DateTime" Precision="0" />
           <Property Name="last_working_day" Type="DateTime" Precision="0" />
           <Property Name="gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IBAN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="account_no" Type="Int64" />
-          <Property Name="bank_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="person_code" Type="Int64" />
           <Property Name="img" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="contracts" Relationship="Self.FK_contract_master_file" FromRole="master_file" ToRole="contract" />
-          <NavigationProperty Name="emirates_id" Relationship="Self.FK_emirates_id_master_file" FromRole="master_file" ToRole="emirates_id" />
-          <NavigationProperty Name="insurances" Relationship="Self.FK_insurance_master_file" FromRole="master_file" ToRole="insurance" />
-          <NavigationProperty Name="Leaves" Relationship="Self.FK_leave_master_file" FromRole="master_file" ToRole="Leave" />
-          <NavigationProperty Name="passports" Relationship="Self.FK_passport_master_file" FromRole="master_file" ToRole="passport" />
-          <NavigationProperty Name="visa_and_labour_card" Relationship="Self.FK_VLC_master_file" FromRole="master_file" ToRole="visa_and_labour_card" />
+          <NavigationProperty Name="bank_details" Relationship="Self.FK_bank_details_To_master_file" FromRole="master_file" ToRole="bank_details" />
+          <NavigationProperty Name="contracts" Relationship="Self.FK_contract_To_master_file" FromRole="master_file" ToRole="contract" />
+          <NavigationProperty Name="emirates_id" Relationship="Self.FK_emirates_id_To_master_file" FromRole="master_file" ToRole="emirates_id" />
+          <NavigationProperty Name="insurances" Relationship="Self.FK_insurance_To_master_file" FromRole="master_file" ToRole="insurance" />
+          <NavigationProperty Name="Leaves" Relationship="Self.FK_leave_To_master_file" FromRole="master_file" ToRole="Leave" />
+          <NavigationProperty Name="passports" Relationship="Self.FK_passport_To_master_file" FromRole="master_file" ToRole="passport" />
+          <NavigationProperty Name="visa_and_labour_card" Relationship="Self.FK_visa_and_labour_card_To_master_file" FromRole="master_file" ToRole="visa_and_labour_card" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -618,7 +641,7 @@
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="master_file" Relationship="Self.FK_passport_master_file" FromRole="passport" ToRole="master_file" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_passport_To_master_file" FromRole="passport" ToRole="master_file" />
         </EntityType>
         <EntityType Name="Table">
           <Key>
@@ -655,7 +678,7 @@
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="master_file" Relationship="Self.FK_VLC_master_file" FromRole="visa_and_labour_card" ToRole="master_file" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_visa_and_labour_card_To_master_file" FromRole="visa_and_labour_card" ToRole="master_file" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -697,10 +720,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_contract_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_bank_details_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="bank_details" Type="Self.bank_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="bank_details">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_contract_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="contract" Type="Self.contract" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -711,10 +744,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_emirates_id_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_emirates_id_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="emirates_id" Type="Self.emirates_id" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -725,10 +756,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_insurance_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_insurance_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="insurance" Type="Self.insurance" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -739,10 +768,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_leave_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_leave_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="Leave" Type="Self.Leave" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -753,10 +780,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_passport_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_passport_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="passport" Type="Self.passport" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -767,10 +792,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_VLC_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK_visa_and_labour_card_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="visa_and_labour_card" Type="Self.visa_and_labour_card" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -791,6 +814,7 @@
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="bank_details" EntityType="Self.bank_details" />
           <EntitySet Name="contracts" EntityType="Self.contract" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" />
           <EntitySet Name="insurances" EntityType="Self.insurance" />
@@ -812,27 +836,31 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="usernames" EntitySet="usernames" />
           </AssociationSet>
-          <AssociationSet Name="FK_contract_master_file" Association="Self.FK_contract_master_file">
+          <AssociationSet Name="FK_bank_details_To_master_file" Association="Self.FK_bank_details_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="bank_details" EntitySet="bank_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_contract_To_master_file" Association="Self.FK_contract_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="contract" EntitySet="contracts" />
           </AssociationSet>
-          <AssociationSet Name="FK_emirates_id_master_file" Association="Self.FK_emirates_id_master_file">
+          <AssociationSet Name="FK_emirates_id_To_master_file" Association="Self.FK_emirates_id_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emirates_id" EntitySet="emirates_id" />
           </AssociationSet>
-          <AssociationSet Name="FK_insurance_master_file" Association="Self.FK_insurance_master_file">
+          <AssociationSet Name="FK_insurance_To_master_file" Association="Self.FK_insurance_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="insurance" EntitySet="insurances" />
           </AssociationSet>
-          <AssociationSet Name="FK_leave_master_file" Association="Self.FK_leave_master_file">
+          <AssociationSet Name="FK_leave_To_master_file" Association="Self.FK_leave_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="Leave" EntitySet="Leaves" />
           </AssociationSet>
-          <AssociationSet Name="FK_passport_master_file" Association="Self.FK_passport_master_file">
+          <AssociationSet Name="FK_passport_To_master_file" Association="Self.FK_passport_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="passport" EntitySet="passports" />
           </AssociationSet>
-          <AssociationSet Name="FK_VLC_master_file" Association="Self.FK_VLC_master_file">
+          <AssociationSet Name="FK_visa_and_labour_card_To_master_file" Association="Self.FK_visa_and_labour_card_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="visa_and_labour_card" EntitySet="visa_and_labour_card" />
           </AssociationSet>
@@ -902,6 +930,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="bank_details">
+            <EntityTypeMapping TypeName="HRModel.bank_details">
+              <MappingFragment StoreEntitySet="bank_details">
+                <ScalarProperty Name="Employee_Id" ColumnName="Employee_Id" />
+                <ScalarProperty Name="employee_no" ColumnName="employee_no" />
+                <ScalarProperty Name="IBAN" ColumnName="IBAN" />
+                <ScalarProperty Name="Account_no" ColumnName="Account_no" />
+                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="contracts">
             <EntityTypeMapping TypeName="HRModel.contract">
               <MappingFragment StoreEntitySet="contract">
@@ -931,7 +970,7 @@
             <EntityTypeMapping TypeName="HRModel.emirates_id">
               <MappingFragment StoreEntitySet="emirates_id">
                 <ScalarProperty Name="employee_id" ColumnName="employee_id" />
-                <ScalarProperty Name="employee_no" ColumnName="employee no" />
+                <ScalarProperty Name="employee_no" ColumnName="employee_no" />
                 <ScalarProperty Name="eid_no" ColumnName="eid no" />
                 <ScalarProperty Name="eid_expiry" ColumnName="eid expiry" />
                 <ScalarProperty Name="imgpath" ColumnName="imgpath" />
@@ -992,10 +1031,8 @@
                 <ScalarProperty Name="date_joined" ColumnName="date_joined" />
                 <ScalarProperty Name="last_working_day" ColumnName="last_working_day" />
                 <ScalarProperty Name="gender" ColumnName="gender" />
-                <ScalarProperty Name="IBAN" ColumnName="IBAN" />
-                <ScalarProperty Name="account_no" ColumnName="account_no" />
-                <ScalarProperty Name="bank_name" ColumnName="bank_name" />
                 <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="person_code" ColumnName="person_code" />
                 <ScalarProperty Name="img" ColumnName="img" />
                 <ScalarProperty Name="changed_by" ColumnName="changed_by" />
                 <ScalarProperty Name="date_changed" ColumnName="date_changed" />

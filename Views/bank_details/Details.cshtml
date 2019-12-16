@@ -1,0 +1,51 @@
+﻿@model HRworks.Models.bank_details
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>bank_details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IBAN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IBAN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Account_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Account_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bank_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bank_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Employee_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

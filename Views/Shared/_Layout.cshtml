@@ -31,19 +31,19 @@
                 <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 @if (Request.IsAuthenticated)
                 {
-                    <li>@Html.ActionLink("emirates id", "Index", "emirates_id")</li>
-                    <li>@Html.ActionLink("insurance", "Index", "insurances")</li>
-                    <li>@Html.ActionLink("passport ", "Index", "passports")</li>
-                    <li>@Html.ActionLink("visa and labor card", "Index", "visa_and_labour_card")</li>
-                    <li>@Html.ActionLink("contract", "Index", "contracts")</li>
-                    <li>@Html.ActionLink("employee details", "Index", "master_file")</li>
-                    <li>@Html.ActionLink("leave", "Index", "Leaves")</li>
+                    <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
+                    <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
+                    <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
+                    <li>@Html.ActionLink("Visa And Labor Card", "Index", "visa_and_labour_card")</li>
+                    <li>@Html.ActionLink("Contract", "Index", "contracts")</li>
+                    <li>@Html.ActionLink("Employee Details", "Index", "master_file")</li>
+                    <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
+                    <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
                     if (User.Identity.IsAuthenticated)
                     {
                         if (User.IsInRole("admin"))
                         {
                             <li>@Html.ActionLink("user name", "index", "usernames")</li>
-
                         }
                     }
 

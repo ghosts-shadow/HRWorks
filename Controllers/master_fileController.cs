@@ -73,9 +73,18 @@ namespace HRworks.Controllers
             int pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             int defaSize = 10;
+            
             if (pagesize != 0)
             {
-                defaSize = (pagesize ?? 10);
+                int a=10;
+                if (pagesize!=null)
+                {
+                    if (pagesize!=0)
+                    {
+                        a  = (int)pagesize;
+                    }
+                }
+                defaSize = a;
             }
 
             ViewBag.PageSize = new List<SelectListItem>()
@@ -86,7 +95,7 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="50", Text= "50" },
                 new SelectListItem() { Value="100", Text= "100" },
             };
-            ViewBag.psize = defaSize;
+            ViewBag.pagesize = defaSize;
             IPagedList<master_file> passlist = null;
             var ab = db.master_file.OrderBy(p => p.employee_no).ToList();
             var lists = new List<master_file>();
@@ -123,9 +132,9 @@ namespace HRworks.Controllers
                     lists.Add(ab[i]);
                 }
             }
-            if (search != null)
+            if (!string.IsNullOrEmpty(search))
             {
-
+                lists.RemoveRange(0,ab.Count);
                 j = 0;
                 ab = db.master_file.Where(x => x.employee_name.StartsWith(search)).ToList();
                 if (ab.Count != 0)
@@ -155,6 +164,7 @@ namespace HRworks.Controllers
                     if (lists.Count == 0)
                     {
                         i -= 1;
+                        
                         lists.Add(ab[i]);
                     }
                 }

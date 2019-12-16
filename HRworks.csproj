@@ -180,6 +180,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\bank_detailsController.cs" />
     <Compile Include="Controllers\contractsController.cs" />
     <Compile Include="Controllers\emirates_idController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -204,6 +205,9 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserLogin.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bank_details.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\contract.cs">
@@ -387,9 +391,15 @@
     <Content Include="Views\Leaves\Details.cshtml" />
     <Content Include="Views\Leaves\Edit.cshtml" />
     <Content Include="Views\Leaves\Index.cshtml" />
+    <Content Include="Views\bank_details\Create.cshtml" />
+    <Content Include="Views\bank_details\Delete.cshtml" />
+    <Content Include="Views\bank_details\Details.cshtml" />
+    <Content Include="Views\bank_details\Edit.cshtml" />
+    <Content Include="Views\bank_details\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\upload\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

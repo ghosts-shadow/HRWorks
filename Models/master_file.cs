@@ -19,6 +19,7 @@ namespace HRworks.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public master_file()
         {
+            this.bank_details = new HashSet<bank_details>();
             this.contracts = new HashSet<contract>();
             this.emirates_id = new HashSet<emirates_id>();
             this.insurances = new HashSet<insurance>();
@@ -26,7 +27,7 @@ namespace HRworks.Models
             this.passports = new HashSet<passport>();
             this.visa_and_labour_card = new HashSet<visa_and_labour_card>();
         }
-
+    
         public int employee_id { get; set; }
         [Display(Name = "Employee NO")]
         public int employee_no { get; set; }
@@ -43,19 +44,17 @@ namespace HRworks.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> last_working_day { get; set; }
         public string gender { get; set; }
-        public string IBAN { get; set; }
-        [Display(Name = "Account No")]
-        public Nullable<long> account_no { get; set; }
-        [Display(Name = "Bank Name")]
-        public string bank_name { get; set; }
         public string status { get; set; }
+        public Nullable<long> person_code { get; set; }
         [Display(Name = "Photo")]
         public string img { get; set; }
         [Display(Name = "Changed By")]
         public string changed_by { get; set; }
         [Display(Name = "Date Changed")]
-        public System.DateTime date_changed { get; set; }
+        public Nullable<System.DateTime> date_changed { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<bank_details> bank_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<contract> contracts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

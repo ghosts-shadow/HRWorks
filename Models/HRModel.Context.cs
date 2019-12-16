@@ -30,6 +30,7 @@ namespace HRworks.Models
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<bank_details> bank_details { get; set; }
         public virtual DbSet<contract> contracts { get; set; }
         public virtual DbSet<emirates_id> emirates_id { get; set; }
         public virtual DbSet<insurance> insurances { get; set; }

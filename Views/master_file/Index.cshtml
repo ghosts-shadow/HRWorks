@@ -40,14 +40,18 @@
         <div>
             @*Page Size:@Html.DropDownList("pageSize", null, new { @id = "pageSize"/*, @onchange = "norc()"*/ })
     *@
-            page size:-<input type="text" name="pagesize" id="pagesize" />
+            page size:-<input type="text" name="pagesize" id="pagesize" value="@ViewBag.pagesize"/>
             search:- 
             @Html.TextBox("search")
             <input type="submit"
                    name="submit"
                    value="Search/change records" ondblclick="norc()" />
 
-        </div> }
+        </div>
+        <div>
+            @Html.PagedListPager((PagedList.IPagedList) Model, page => Url.Action("Index",new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter,pagesize=ViewBag.pagesize }))
+        </div>
+    }
     <div>  
         <a href="@Url.Action("DownloadExcel","master_file",new{search=ViewBag.search})">Download Excel</a>  
     </div> 
@@ -75,15 +79,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IBAN)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.account_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.bank_name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.img)
@@ -130,20 +125,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.gender)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IBAN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.account_no)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.bank_name)
-        </td>
         @*@Url.Action(item.img)*@
         <td>
-            <iframe src="@Url.Content(item.img)"
-                    alt="@Html.DisplayFor(modelItem => item.employee_name)"
-                    style="height: 150px; width: 125px"></iframe>
+        <img src="@item.img"
+             alt="@Html.DisplayFor(modelItem => item.employee_name)"
+             style="height: 150px; width: 125px"/>
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.status)

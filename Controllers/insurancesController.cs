@@ -80,7 +80,7 @@ namespace HRworks.Controllers
             Sheet.Cells["A:AZ"].AutoFitColumns();
             Response.Clear();
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.AddHeader("content-disposition", "filename =CONTRACT.xlsx");
+            Response.AddHeader("content-disposition", "filename =insurance.xlsx");
             Response.BinaryWrite(Ep.GetAsByteArray());
             Response.End();
         }
