@@ -70,11 +70,11 @@
           <Key>
             <PropertyRef Name="Employee_Id" />
           </Key>
-          <Property Name="Employee_Id" Type="int" Nullable="false" />
+          <Property Name="Employee_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="employee_no" Type="int" Nullable="false" />
           <Property Name="IBAN" Type="nvarchar(max)" />
           <Property Name="Account_no" Type="bigint" />
-          <Property Name="bank_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="bank_name" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="contract">
           <Key>
@@ -97,8 +97,8 @@
           <Property Name="arrears" Type="int" />
           <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="imgpath" Type="nvarchar(max)" />
-          <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="date_changed" Type="datetime" Nullable="false" />
+          <Property Name="changed_by" Type="nvarchar(max)" />
+          <Property Name="date_changed" Type="datetime" />
         </EntityType>
         <EntityType Name="emirates_id">
           <Key>
@@ -106,11 +106,11 @@
           </Key>
           <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="employee_no" Type="int" Nullable="false" />
-          <Property Name="eid no" Type="int" Nullable="false" />
+          <Property Name="eid no" Type="bigint" Nullable="false" />
           <Property Name="eid expiry" Type="date" Nullable="false" />
           <Property Name="imgpath" Type="nvarchar(max)" />
-          <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="date_changed" Type="datetime" Nullable="false" />
+          <Property Name="changed_by" Type="nvarchar(max)" />
+          <Property Name="date_changed" Type="datetime" />
         </EntityType>
         <EntityType Name="insurance">
           <Key>
@@ -119,22 +119,15 @@
           <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="employee_no" Type="int" Nullable="false" />
           <Property Name="card_no" Type="int" />
-          <Property Name="dob" Type="date" />
           <Property Name="age" Type="int" />
-          <Property Name="gender" Type="varchar" MaxLength="10" />
           <Property Name="dependency" Type="varchar" MaxLength="25" />
           <Property Name="marital_status" Type="varchar" MaxLength="25" />
-          <Property Name="nationality" Type="varchar" MaxLength="25" />
-          <Property Name="eid_no" Type="int" />
-          <Property Name="pasport_no" Type="int" />
-          <Property Name="uid_no" Type="int" />
-          <Property Name="emitae_visa_issue" Type="date" />
           <Property Name="annual_primium" Type="int" />
           <Property Name="deletion_date" Type="date" />
           <Property Name="invoice_no" Type="int" />
           <Property Name="credit_amt" Type="int" />
           <Property Name="imgpath" Type="nvarchar(max)" />
-          <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
         <EntityType Name="Leave">
@@ -157,17 +150,17 @@
           </Key>
           <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="employee_no" Type="int" Nullable="false" />
-          <Property Name="employee_name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="nationality" Type="nvarchar" MaxLength="50" />
+          <Property Name="employee_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="nationality" Type="nvarchar(max)" />
           <Property Name="dob" Type="date" />
           <Property Name="date_joined" Type="date" />
           <Property Name="last_working_day" Type="date" />
-          <Property Name="gender" Type="nvarchar" MaxLength="50" />
-          <Property Name="status" Type="varchar(max)" Nullable="false" />
+          <Property Name="gender" Type="nvarchar(max)" />
+          <Property Name="status" Type="nvarchar(max)" Nullable="false" />
           <Property Name="person_code" Type="bigint" />
           <Property Name="img" Type="nvarchar(max)" />
-          <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="date_changed" Type="datetime" Nullable="false" />
+          <Property Name="changed_by" Type="nvarchar(max)" />
+          <Property Name="date_changed" Type="datetime" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -176,18 +169,15 @@
           <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="employee_no" Type="int" Nullable="false" />
           <Property Name="company_code" Type="varchar" MaxLength="25" />
-          <Property Name="passport_no" Type="int" />
+          <Property Name="passport_no" Type="nvarchar(max)" />
           <Property Name="passport_expiry" Type="date" />
           <Property Name="passport_issue_date" Type="date" />
           <Property Name="passport_return_date" Type="date" />
           <Property Name="passport_remarks" Type="varchar" MaxLength="50" />
           <Property Name="status" Type="varchar" MaxLength="50" />
-          <Property Name="rv_expiry" Type="date" />
-          <Property Name="vl_start" Type="date" />
-          <Property Name="vl_end" Type="date" />
           <Property Name="imgpath" Type="nvarchar(max)" />
-          <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="date_changed" Type="datetime" Nullable="false" />
+          <Property Name="changed_by" Type="nvarchar(max)" />
+          <Property Name="date_changed" Type="datetime" />
         </EntityType>
         <EntityType Name="Table">
           <Key>
@@ -211,20 +201,15 @@
           <Property Name="lc_no" Type="int" />
           <Property Name="uid_no" Type="int" />
           <Property Name="emp_no" Type="int" Nullable="false" />
-          <Property Name="passport_no" Type="int" />
-          <Property Name="company_code" Type="varchar" MaxLength="11" />
-          <Property Name="nationality" Type="varchar" MaxLength="11" />
-          <Property Name="person_code" Type="varchar" MaxLength="11" />
           <Property Name="class_type" Type="varchar" MaxLength="25" />
           <Property Name="rv_expiry" Type="date" />
           <Property Name="lc_expiry" Type="date" />
-          <Property Name="passport_expiry" Type="date" />
           <Property Name="proff_as_per_visa" Type="varchar" MaxLength="25" />
           <Property Name="imgpath" Type="nvarchar(max)" />
-          <Property Name="changed_by" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="date_changed" Type="datetime" Nullable="false" />
+          <Property Name="changed_by" Type="nvarchar(max)" />
+          <Property Name="date_changed" Type="datetime" />
         </EntityType>
-        <Association Name="FK_bank_details_To_master_file">
+        <Association Name="FK_bank_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="bank_details" Type="Self.bank_details" Multiplicity="*" />
           <ReferentialConstraint>
@@ -393,7 +378,7 @@
           <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usernames" EntityType="Self.usernames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_bank_details_To_master_file" Association="Self.FK_bank_details_To_master_file">
+          <AssociationSet Name="FK_bank_To_master_file" Association="Self.FK_bank_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="bank_details" EntitySet="bank_details" />
           </AssociationSet>
@@ -511,12 +496,12 @@
           <Key>
             <PropertyRef Name="Employee_Id" />
           </Key>
-          <Property Name="Employee_Id" Type="Int32" Nullable="false" />
+          <Property Name="Employee_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="employee_no" Type="Int32" Nullable="false" />
           <Property Name="IBAN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Account_no" Type="Int64" />
-          <Property Name="bank_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="master_file" Relationship="Self.FK_bank_details_To_master_file" FromRole="bank_details" ToRole="master_file" />
+          <Property Name="bank_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_bank_To_master_file" FromRole="bank_details" ToRole="master_file" />
         </EntityType>
         <EntityType Name="contract">
           <Key>
@@ -539,8 +524,8 @@
           <Property Name="arrears" Type="Int32" />
           <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date_changed" Type="DateTime" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_contract_To_master_file" FromRole="contract" ToRole="master_file" />
         </EntityType>
         <EntityType Name="emirates_id">
@@ -549,11 +534,11 @@
           </Key>
           <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="employee_no" Type="Int32" Nullable="false" />
-          <Property Name="eid_no" Type="Int32" Nullable="false" />
+          <Property Name="eid_no" Type="Int64" Nullable="false" />
           <Property Name="eid_expiry" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date_changed" Type="DateTime" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_emirates_id_To_master_file" FromRole="emirates_id" ToRole="master_file" />
         </EntityType>
         <EntityType Name="insurance">
@@ -563,22 +548,15 @@
           <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="employee_no" Type="Int32" Nullable="false" />
           <Property Name="card_no" Type="Int32" />
-          <Property Name="dob" Type="DateTime" Precision="0" />
           <Property Name="age" Type="Int32" />
-          <Property Name="gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="dependency" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
           <Property Name="marital_status" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="nationality" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="eid_no" Type="Int32" />
-          <Property Name="pasport_no" Type="Int32" />
-          <Property Name="uid_no" Type="Int32" />
-          <Property Name="emitae_visa_issue" Type="DateTime" Precision="0" />
           <Property Name="annual_primium" Type="Int32" />
           <Property Name="deletion_date" Type="DateTime" Precision="0" />
           <Property Name="invoice_no" Type="Int32" />
           <Property Name="credit_amt" Type="Int32" />
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_changed" Type="DateTime" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_insurance_To_master_file" FromRole="insurance" ToRole="master_file" />
         </EntityType>
@@ -603,18 +581,18 @@
           </Key>
           <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="employee_no" Type="Int32" Nullable="false" />
-          <Property Name="employee_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="employee_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="nationality" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="dob" Type="DateTime" Precision="0" />
           <Property Name="date_joined" Type="DateTime" Precision="0" />
           <Property Name="last_working_day" Type="DateTime" Precision="0" />
-          <Property Name="gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="person_code" Type="Int64" />
           <Property Name="img" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="bank_details" Relationship="Self.FK_bank_details_To_master_file" FromRole="master_file" ToRole="bank_details" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date_changed" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="bank_details" Relationship="Self.FK_bank_To_master_file" FromRole="master_file" ToRole="bank_details" />
           <NavigationProperty Name="contracts" Relationship="Self.FK_contract_To_master_file" FromRole="master_file" ToRole="contract" />
           <NavigationProperty Name="emirates_id" Relationship="Self.FK_emirates_id_To_master_file" FromRole="master_file" ToRole="emirates_id" />
           <NavigationProperty Name="insurances" Relationship="Self.FK_insurance_To_master_file" FromRole="master_file" ToRole="insurance" />
@@ -629,18 +607,15 @@
           <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="employee_no" Type="Int32" Nullable="false" />
           <Property Name="company_code" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <Property Name="passport_no" Type="Int32" />
+          <Property Name="passport_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="passport_expiry" Type="DateTime" Precision="0" />
           <Property Name="passport_issue_date" Type="DateTime" Precision="0" />
           <Property Name="passport_return_date" Type="DateTime" Precision="0" />
           <Property Name="passport_remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="rv_expiry" Type="DateTime" Precision="0" />
-          <Property Name="vl_start" Type="DateTime" Precision="0" />
-          <Property Name="vl_end" Type="DateTime" Precision="0" />
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date_changed" Type="DateTime" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_passport_To_master_file" FromRole="passport" ToRole="master_file" />
         </EntityType>
         <EntityType Name="Table">
@@ -666,18 +641,13 @@
           <Property Name="lc_no" Type="Int32" />
           <Property Name="uid_no" Type="Int32" />
           <Property Name="emp_no" Type="Int32" Nullable="false" />
-          <Property Name="passport_no" Type="Int32" />
-          <Property Name="company_code" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="nationality" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Name="person_code" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
           <Property Name="class_type" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
           <Property Name="rv_expiry" Type="DateTime" Precision="0" />
           <Property Name="lc_expiry" Type="DateTime" Precision="0" />
-          <Property Name="passport_expiry" Type="DateTime" Precision="0" />
           <Property Name="proff_as_per_visa" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="date_changed" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date_changed" Type="DateTime" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_visa_and_labour_card_To_master_file" FromRole="visa_and_labour_card" ToRole="master_file" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
@@ -720,7 +690,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_bank_details_To_master_file">
+        <Association Name="FK_bank_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="bank_details" Type="Self.bank_details" Multiplicity="*" />
           <ReferentialConstraint>
@@ -836,7 +806,7 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="usernames" EntitySet="usernames" />
           </AssociationSet>
-          <AssociationSet Name="FK_bank_details_To_master_file" Association="Self.FK_bank_details_To_master_file">
+          <AssociationSet Name="FK_bank_To_master_file" Association="Self.FK_bank_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="bank_details" EntitySet="bank_details" />
           </AssociationSet>
@@ -985,16 +955,9 @@
                 <ScalarProperty Name="employee_id" ColumnName="employee_id" />
                 <ScalarProperty Name="employee_no" ColumnName="employee_no" />
                 <ScalarProperty Name="card_no" ColumnName="card_no" />
-                <ScalarProperty Name="dob" ColumnName="dob" />
                 <ScalarProperty Name="age" ColumnName="age" />
-                <ScalarProperty Name="gender" ColumnName="gender" />
                 <ScalarProperty Name="dependency" ColumnName="dependency" />
                 <ScalarProperty Name="marital_status" ColumnName="marital_status" />
-                <ScalarProperty Name="nationality" ColumnName="nationality" />
-                <ScalarProperty Name="eid_no" ColumnName="eid_no" />
-                <ScalarProperty Name="pasport_no" ColumnName="pasport_no" />
-                <ScalarProperty Name="uid_no" ColumnName="uid_no" />
-                <ScalarProperty Name="emitae_visa_issue" ColumnName="emitae_visa_issue" />
                 <ScalarProperty Name="annual_primium" ColumnName="annual_primium" />
                 <ScalarProperty Name="deletion_date" ColumnName="deletion_date" />
                 <ScalarProperty Name="invoice_no" ColumnName="invoice_no" />
@@ -1051,9 +1014,6 @@
                 <ScalarProperty Name="passport_return_date" ColumnName="passport_return_date" />
                 <ScalarProperty Name="passport_remarks" ColumnName="passport_remarks" />
                 <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="rv_expiry" ColumnName="rv_expiry" />
-                <ScalarProperty Name="vl_start" ColumnName="vl_start" />
-                <ScalarProperty Name="vl_end" ColumnName="vl_end" />
                 <ScalarProperty Name="imgpath" ColumnName="imgpath" />
                 <ScalarProperty Name="changed_by" ColumnName="changed_by" />
                 <ScalarProperty Name="date_changed" ColumnName="date_changed" />
@@ -1083,14 +1043,9 @@
                 <ScalarProperty Name="lc_no" ColumnName="lc_no" />
                 <ScalarProperty Name="uid_no" ColumnName="uid_no" />
                 <ScalarProperty Name="emp_no" ColumnName="emp_no" />
-                <ScalarProperty Name="passport_no" ColumnName="passport_no" />
-                <ScalarProperty Name="company_code" ColumnName="company_code" />
-                <ScalarProperty Name="nationality" ColumnName="nationality" />
-                <ScalarProperty Name="person_code" ColumnName="person_code" />
                 <ScalarProperty Name="class_type" ColumnName="class_type" />
                 <ScalarProperty Name="rv_expiry" ColumnName="rv_expiry" />
                 <ScalarProperty Name="lc_expiry" ColumnName="lc_expiry" />
-                <ScalarProperty Name="passport_expiry" ColumnName="passport_expiry" />
                 <ScalarProperty Name="proff_as_per_visa" ColumnName="proff_as_per_visa" />
                 <ScalarProperty Name="imgpath" ColumnName="imgpath" />
                 <ScalarProperty Name="changed_by" ColumnName="changed_by" />

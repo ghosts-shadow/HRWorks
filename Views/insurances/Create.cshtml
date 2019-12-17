@@ -122,31 +122,11 @@
 
             <div
                 class="form-group">
-                @Html.LabelFor(model => model.dob, htmlAttributes: new {@class = "control-label col-md-2", @id = "dis"})
-                <div
-                    class="col-md-10">
-                    @Html.EditorFor(model => model.dob, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.dob, "", new {@class = "text-danger"})
-                </div>
-            </div>
-
-            <div
-                class="form-group">
                 @Html.LabelFor(model => model.age, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div
                     class="col-md-10">
                     @Html.EditorFor(model => model.age, new {htmlAttributes = new {@class = "form-control"}})
                     @Html.ValidationMessageFor(model => model.age, "", new {@class = "text-danger"})
-                </div>
-            </div>
-
-            <div
-                class="form-group">
-                @Html.LabelFor(model => model.gender, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div
-                    class="col-md-10">
-                    @Html.DropDownList("gender", null, new { @class = "form-control", @id = "gender" })
-                    @Html.ValidationMessageFor(model => model.gender, "", new {@class = "text-danger"})
                 </div>
             </div>
 
@@ -170,55 +150,6 @@
                 </div>
             </div>
 
-            <div
-                class="form-group">
-                @Html.LabelFor(model => model.nationality, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div
-                    class="col-md-10">
-                    @Html.EditorFor(model => model.nationality, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.nationality, "", new {@class = "text-danger"})
-                </div>
-            </div>
-
-            <div
-                class="form-group">
-                @Html.LabelFor(model => model.eid_no, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div
-                    class="col-md-10">
-                    @Html.EditorFor(model => model.eid_no, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.eid_no, "", new {@class = "text-danger"})
-                </div>
-            </div>
-
-            <div
-                class="form-group">
-                @Html.LabelFor(model => model.pasport_no, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div
-                    class="col-md-10">
-                    @Html.EditorFor(model => model.pasport_no, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.pasport_no, "", new {@class = "text-danger"})
-                </div>
-            </div>
-
-            <div
-                class="form-group">
-                @Html.LabelFor(model => model.uid_no, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div
-                    class="col-md-10">
-                    @Html.EditorFor(model => model.uid_no, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.uid_no, "", new {@class = "text-danger"})
-                </div>
-            </div>
-
-            <div
-                class="form-group">
-                @Html.LabelFor(model => model.emitae_visa_issue, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div
-                    class="col-md-10">
-                    @Html.EditorFor(model => model.emitae_visa_issue, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.emitae_visa_issue, "", new {@class = "text-danger"})
-                </div>
-            </div>
 
             <div
                 class="form-group">

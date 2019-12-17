@@ -86,15 +86,6 @@ namespace HRworks.Controllers
                 }
                 defaSize = a;
             }
-
-            ViewBag.PageSize = new List<SelectListItem>()
-            {
-                new SelectListItem() { Value="10", Text= "10" },
-                new SelectListItem() { Value="15", Text= "15" },
-                new SelectListItem() { Value="25", Text= "25" },
-                new SelectListItem() { Value="50", Text= "50" },
-                new SelectListItem() { Value="100", Text= "100" },
-            };
             ViewBag.pagesize = defaSize;
             IPagedList<master_file> passlist = null;
             var ab = db.master_file.OrderBy(p => p.employee_no).ToList();

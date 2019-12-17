@@ -50,8 +50,8 @@ namespace HRworks.Models
         [Display(Name = "Changed by")]
         public string changed_by { get; set; }
         [Display(Name = "Date changed")]
-        public System.DateTime date_changed { get; set; }
-
+        public Nullable<System.DateTime> date_changed { get; set; }
+    
         public virtual master_file master_file { get; set; }
     }
 }

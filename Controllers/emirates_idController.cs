@@ -67,7 +67,15 @@ namespace HRworks.Controllers
             int defaSize = 10;
             if (pagesize != 0)
             {
-                defaSize = (pagesize ?? 10);
+                int a = 10;
+                if (pagesize != null)
+                {
+                    if (pagesize != 0)
+                    {
+                        a = (int)pagesize;
+                    }
+                }
+                defaSize = a;
             }
 
             ViewBag.PageSize = new List<SelectListItem>()
@@ -78,14 +86,14 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="50", Text= "50" },
                 new SelectListItem() { Value="100", Text= "100" },
             };
-            ViewBag.psize = defaSize;
+            ViewBag.pagesize = defaSize;
             IPagedList<emirates_id> passlist = null;
-            passlist = db.emirates_id.OrderBy(p=>p.employee_no).ToPagedList(pageIndex, defaSize);
+            passlist = db.emirates_id.OrderBy(p=>p.master_file.employee_no).ToPagedList(pageIndex, defaSize);
             //            if (search != null)
             //            {
             //                return View(db.emirates_id.Where(x => x.master_file.employee_name.StartsWith(search)).ToList().ToPagedList(page ?? 1, defaSize));
             //            }
-            var ab = db.emirates_id.OrderBy(p => p.employee_no).ToList();
+            var ab = db.emirates_id.OrderBy(p => p.master_file.employee_no).ToList();
             var lists = new List<emirates_id>();
             int j = 0;
             int i;

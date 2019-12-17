@@ -21,27 +21,12 @@ namespace HRworks.Models
         public int employee_no { get; set; }
         [Display(Name = "Card no")]
         public Nullable<int> card_no { get; set; }
-        [Display(Name = "DOB")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public Nullable<System.DateTime> dob { get; set; }
         [Display(Name = "Age")]
         public Nullable<int> age { get; set; }
-        [Display(Name = "Gender")]
-        public string gender { get; set; }
         [Display(Name = "Dependency")]
         public string dependency { get; set; }
         [Display(Name = "Marital Status")]
         public string marital_status { get; set; }
-        public string nationality { get; set; }
-        [Display(Name = "EID no")]
-        public Nullable<int> eid_no { get; set; }
-        [Display(Name = "Pasport no")]
-        public Nullable<int> pasport_no { get; set; }
-        [Display(Name = " UID no")]
-        public Nullable<int> uid_no { get; set; }
-        [Display(Name = "Emitae Visa Issue")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public Nullable<System.DateTime> emitae_visa_issue { get; set; }
         [Display(Name = "Annual Primium")]
         public Nullable<int> annual_primium { get; set; }
         [Display(Name = "Deletion Date")]
@@ -57,8 +42,8 @@ namespace HRworks.Models
         public string changed_by { get; set; }
         [Display(Name = "Date Changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
-
-
+        
+        
         public virtual master_file master_file { get; set; }
     }
 }

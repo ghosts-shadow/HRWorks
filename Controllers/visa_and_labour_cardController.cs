@@ -35,19 +35,13 @@ namespace TEST2.Controllers
             Sheet.Cells["B1"].Value = "employee name";
             Sheet.Cells["C1"].Value = "lc_no";
             Sheet.Cells["D1"].Value = "uid_no";
-            Sheet.Cells["E1"].Value = "passport_no";
-            Sheet.Cells["F1"].Value = "company_code";
-            Sheet.Cells["G1"].Value = "nationality";
-            Sheet.Cells["H1"].Value = "person_code";
-            Sheet.Cells["I1"].Value = "nationality";
-            Sheet.Cells["J1"].Value = "class_type";
-            Sheet.Cells["K1"].Value = "rv_expiry";
-            Sheet.Cells["L1"].Value = "lc_expiry";
-            Sheet.Cells["M1"].Value = "passport_expiry";
-            Sheet.Cells["N1"].Value = "proff_as_per_visa";
-            Sheet.Cells["O1"].Value = "changed by";
-            Sheet.Cells["P1"].Value = "imgpath";
-            Sheet.Cells["Q1"].Value = "date_changed";
+            Sheet.Cells["E1"].Value = "class_type";
+            Sheet.Cells["F1"].Value = "rv_expiry";
+            Sheet.Cells["G1"].Value = "lc_expiry";
+            Sheet.Cells["H1"].Value = "proff_as_per_visa";
+            Sheet.Cells["I1"].Value = "changed by";
+            Sheet.Cells["J1"].Value = "imgpath";
+            Sheet.Cells["K1"].Value = "date_changed";
             int row = 2;
             foreach (var item in passexel)
             {
@@ -56,19 +50,13 @@ namespace TEST2.Controllers
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.master_file.employee_name;
                 Sheet.Cells[string.Format("C{0}", row)].Value = item.lc_no;
                 Sheet.Cells[string.Format("D{0}", row)].Value = item.uid_no;
-                Sheet.Cells[string.Format("E{0}", row)].Value = item.passport_no;
-                Sheet.Cells[string.Format("F{0}", row)].Value = item.company_code;
-                Sheet.Cells[string.Format("G{0}", row)].Value = item.nationality;
-                Sheet.Cells[string.Format("H{0}", row)].Value = item.person_code;
-                Sheet.Cells[string.Format("I{0}", row)].Value = item.nationality;
-                Sheet.Cells[string.Format("J{0}", row)].Value = item.class_type;
-                Sheet.Cells[string.Format("K{0}", row)].Value = item.rv_expiry;
-                Sheet.Cells[string.Format("L{0}", row)].Value = item.lc_expiry;
-                Sheet.Cells[string.Format("M{0}", row)].Value = item.passport_expiry;
-                Sheet.Cells[string.Format("N{0}", row)].Value = item.proff_as_per_visa;
-                Sheet.Cells[string.Format("O{0}", row)].Value = item.imgpath;
-                Sheet.Cells[string.Format("P{0}", row)].Value = item.changed_by;
-                Sheet.Cells[string.Format("Q{0}", row)].Value = item.date_changed;
+                Sheet.Cells[string.Format("E{0}", row)].Value = item.class_type;
+                Sheet.Cells[string.Format("F{0}", row)].Value = item.rv_expiry;
+                Sheet.Cells[string.Format("G{0}", row)].Value = item.lc_expiry;
+                Sheet.Cells[string.Format("H{0}", row)].Value = item.proff_as_per_visa;
+                Sheet.Cells[string.Format("I{0}", row)].Value = item.imgpath;
+                Sheet.Cells[string.Format("J{0}", row)].Value = item.changed_by;
+                Sheet.Cells[string.Format("K{0}", row)].Value = item.date_changed;
                 row++;
             }
             Sheet.Cells["A:AZ"].AutoFitColumns();
@@ -99,7 +87,7 @@ namespace TEST2.Controllers
                 new SelectListItem() { Value="50", Text= "50" },
                 new SelectListItem() { Value="100", Text= "100" },
             };
-            ViewBag.psize = defaSize;
+            ViewBag.pagesize = defaSize;
             IPagedList<visa_and_labour_card> passlist = null;
             passlist = db.visa_and_labour_card.OrderBy(x => x.employee_id).ToPagedList(pageIndex, defaSize);
             var lists = new List<visa_and_labour_card>();
@@ -236,14 +224,9 @@ namespace TEST2.Controllers
                 img.lc_no=visa_and_labour_card.lc_no;
                 img.uid_no = visa_and_labour_card.uid_no;
                 img.emp_no = visa_and_labour_card.emp_no;
-                img.passport_no = visa_and_labour_card.passport_no;
-                img.company_code = visa_and_labour_card.company_code;
-                img.nationality = visa_and_labour_card.nationality;
-                img.person_code = visa_and_labour_card.person_code;
                 img.class_type = visa_and_labour_card.class_type;
                 img.rv_expiry = visa_and_labour_card.rv_expiry;
                 img.lc_expiry = visa_and_labour_card.lc_expiry;
-                img.passport_expiry = visa_and_labour_card.passport_expiry;
                 img.proff_as_per_visa = visa_and_labour_card.proff_as_per_visa;
                 img.imgpath = serverfile;
                 img.changed_by = User.Identity.Name;
@@ -313,14 +296,9 @@ namespace TEST2.Controllers
                 img.lc_no = visa_and_labour_card.lc_no;
                 img.uid_no = visa_and_labour_card.uid_no;
                 img.emp_no = visa_and_labour_card.emp_no;
-                img.passport_no = visa_and_labour_card.passport_no;
-                img.company_code = visa_and_labour_card.company_code;
-                img.nationality = visa_and_labour_card.nationality;
-                img.person_code = visa_and_labour_card.person_code;
                 img.class_type = visa_and_labour_card.class_type;
                 img.rv_expiry = visa_and_labour_card.rv_expiry;
                 img.lc_expiry = visa_and_labour_card.lc_expiry;
-                img.passport_expiry = visa_and_labour_card.passport_expiry;
                 img.proff_as_per_visa = visa_and_labour_card.proff_as_per_visa;
                 img.imgpath = serverfile;
                 img.changed_by = User.Identity.Name;

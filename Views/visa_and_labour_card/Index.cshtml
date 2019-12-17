@@ -48,6 +48,9 @@
         </div>
         <div>
             <a href="@Url.Action("DownloadExcel","visa_and_labour_card",new{search=ViewBag.search})">Download Excel</a>
+        </div>
+        <div>
+            @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pagesize = ViewBag.pagesize }))
         </div>}
     <table class="table"
            id="visa_and_labour_card"
@@ -69,16 +72,7 @@
                 @Html.DisplayNameFor(model => model.uid_no)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.passport_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.company_code)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.master_file.nationality)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.person_code)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.class_type)
@@ -88,9 +82,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.lc_expiry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.passport_expiry)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.proff_as_per_visa)
@@ -132,18 +123,6 @@
                     @Html.DisplayFor(modelItem => item.uid_no)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.passport_no)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.company_code)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.nationality)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.person_code)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.class_type)
                 </td>
                 <td>
@@ -151,9 +130,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.lc_expiry)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.passport_expiry)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.proff_as_per_visa)

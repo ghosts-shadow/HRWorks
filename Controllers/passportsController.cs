@@ -28,15 +28,7 @@ namespace HRworks.Controllers
             {
                 defaSize = (pagesize??10);
             }
-            ViewBag.PageSize = new List<SelectListItem>()
-            {
-                new SelectListItem() { Value="10", Text= "10" },
-                new SelectListItem() { Value="15", Text= "15" },
-                new SelectListItem() { Value="25", Text= "25" },
-                new SelectListItem() { Value="50", Text= "50" },
-                new SelectListItem() { Value="100", Text= "100" },
-            };
-            ViewBag.psize = defaSize;
+            ViewBag.pagesize = defaSize;
             ViewBag.search = search;
             ViewBag.pDate = pDate;
             IPagedList<passport> passlist = null;
@@ -172,13 +164,10 @@ namespace HRworks.Controllers
             Sheet.Cells["F1"].Value = "passport return_date";
             Sheet.Cells["G1"].Value = "passport remarks";
             Sheet.Cells["H1"].Value = "status";
-            Sheet.Cells["I1"].Value = "rv expiry";
-            Sheet.Cells["J1"].Value = "vl start";
-            Sheet.Cells["K1"].Value = "vl end";
-            Sheet.Cells["L1"].Value = "img path";
-            Sheet.Cells["M1"].Value = "employee name";
-            Sheet.Cells["N1"].Value = "changed_by";
-            Sheet.Cells["O1"].Value = "date_changed";
+            Sheet.Cells["I1"].Value = "img path";
+            Sheet.Cells["J1"].Value = "employee name";
+            Sheet.Cells["K1"].Value = "changed_by";
+            Sheet.Cells["L1"].Value = "date_changed";
             int row = 2;
             foreach (var item in passexel)
             {
@@ -191,13 +180,10 @@ namespace HRworks.Controllers
                 Sheet.Cells[string.Format("F{0}", row)].Value = item.passport_return_date;
                 Sheet.Cells[string.Format("G{0}", row)].Value = item.passport_remarks;
                 Sheet.Cells[string.Format("H{0}", row)].Value = item.status;
-                Sheet.Cells[string.Format("I{0}", row)].Value = item.rv_expiry;
-                Sheet.Cells[string.Format("J{0}", row)].Value = item.vl_start;
-                Sheet.Cells[string.Format("K{0}", row)].Value = item.vl_end;
-                Sheet.Cells[string.Format("L{0}", row)].Value = item.imgpath;
-                Sheet.Cells[string.Format("M{0}", row)].Value = item.master_file.employee_name;
-                Sheet.Cells[string.Format("N{0}", row)].Value = item.changed_by;
-                Sheet.Cells[string.Format("O{0}", row)].Value = item.date_changed.ToString();
+                Sheet.Cells[string.Format("I{0}", row)].Value = item.imgpath;
+                Sheet.Cells[string.Format("J{0}", row)].Value = item.master_file.employee_name;
+                Sheet.Cells[string.Format("K{0}", row)].Value = item.changed_by;
+                Sheet.Cells[string.Format("L{0}", row)].Value = item.date_changed.ToString();
                 row++;
             }
             Sheet.Cells["A:AZ"].AutoFitColumns();
@@ -273,9 +259,6 @@ namespace HRworks.Controllers
                 img.passport_return_date = passport.passport_return_date;
                 img.passport_remarks = passport.passport_remarks;
                 img.status = passport.status;
-                img.rv_expiry = passport.rv_expiry;
-                img.vl_start = passport.vl_start;
-                img.vl_end = passport.vl_end;
                 img.imgpath = serverfile;
                 img.changed_by = User.Identity.Name;
                 img.date_changed = DateTime.Now;
@@ -350,9 +333,6 @@ namespace HRworks.Controllers
                 img.passport_return_date = passport.passport_return_date;
                 img.passport_remarks = passport.passport_remarks;
                 img.status = passport.status;
-                img.rv_expiry = passport.rv_expiry;
-                img.vl_start = passport.vl_start;
-                img.vl_end = passport.vl_end;
                 img.imgpath = serverfile;
                 img.changed_by = User.Identity.Name;
                 img.date_changed = DateTime.Now;

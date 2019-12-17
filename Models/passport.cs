@@ -22,7 +22,7 @@ namespace HRworks.Models
         [Display(Name = "Company Code")]
         public string company_code { get; set; }
         [Display(Name = "Passport No")]
-        public Nullable<int> passport_no { get; set; }
+        public string passport_no { get; set; }
         [Display(Name = "Passport Expiry")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> passport_expiry { get; set; }
@@ -35,22 +35,12 @@ namespace HRworks.Models
         [Display(Name = "Passport Remarks")]
         public string passport_remarks { get; set; }
         public string status { get; set; }
-        [Display(Name = "RV Expiry")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public Nullable<System.DateTime> rv_expiry { get; set; }
-        [Display(Name = "VL Start")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public Nullable<System.DateTime> vl_start { get; set; }
-        [Display(Name = "VL End")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public Nullable<System.DateTime> vl_end { get; set; }
-        [Display(Name = "Photo")]
         public string imgpath { get; set; }
         [Display(Name = "Changed By")]
         public string changed_by { get; set; }
         [Display(Name = "Date Changed")]
-        public System.DateTime date_changed { get; set; }
-
+        public Nullable<System.DateTime> date_changed { get; set; }
+    
         public virtual master_file master_file { get; set; }
     }
 }

@@ -97,7 +97,7 @@ namespace HRworks.Controllers
             var ab = db.contracts.OrderBy(p => p.employee_no).ToList();
             var lists = new List<contract>();
             int j = 0;
-            ViewBag.psize = defaSize;
+            ViewBag.pagesize = defaSize;
             IPagedList<contract> passlist = null;
             int i;
             if (ab.Count != 0)

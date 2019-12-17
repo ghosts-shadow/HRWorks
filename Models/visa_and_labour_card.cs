@@ -24,14 +24,6 @@ namespace HRworks.Models
         public Nullable<int> uid_no { get; set; }
         [Display(Name = "Employee ID.")]
         public int emp_no { get; set; }
-        [Display(Name = "Pasport no.")]
-        public Nullable<int> passport_no { get; set; }
-        [Display(Name = "Company code")]
-        public string company_code { get; set; }
-        public string nationality { get; set; }
-        [Display(Name = "Person code")]
-        public string person_code { get; set; }
-        [Display(Name = "Class type")]
         public string class_type { get; set; }
         [Display(Name = "RV expiry")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
@@ -39,9 +31,6 @@ namespace HRworks.Models
         [Display(Name = "LC expiry")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> lc_expiry { get; set; }
-        [Display(Name = "Passport Expiry")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public Nullable<System.DateTime> passport_expiry { get; set; }
         [Display(Name = "Proffession As Per Visa")]
         public string proff_as_per_visa { get; set; }
         [Display(Name = "Photo")]
@@ -49,8 +38,8 @@ namespace HRworks.Models
         [Display(Name = "Changed By")]
         public string changed_by { get; set; }
         [Display(Name = "Date Changed")]
-        public System.DateTime date_changed { get; set; }
-
+        public Nullable<System.DateTime> date_changed { get; set; }
+    
         public virtual master_file master_file { get; set; }
     }
 }

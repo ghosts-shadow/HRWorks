@@ -20,7 +20,7 @@ namespace HRworks.Models
         [Display(Name = "Employee ID")]
         public int employee_no { get; set; }
         [Display(Name = "EID no")]
-        public int eid_no { get; set; }
+        public long eid_no { get; set; }
         [Display(Name = " EID expiry")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public System.DateTime eid_expiry { get; set; }
@@ -29,8 +29,8 @@ namespace HRworks.Models
         [Display(Name = "Changed by")]
         public string changed_by { get; set; }
         [Display(Name = "Date Changed")]
-        public System.DateTime date_changed { get; set; }
-
+        public Nullable<System.DateTime> date_changed { get; set; }
+    
         public virtual master_file master_file { get; set; }
     }
 }

@@ -6,30 +6,23 @@
     function norc(parameters) {
         var x = document.getElementById("pageSize").value;
         alert("why did you double click");
-//        var y = document.getElementById("form1");
-//        y.submit();
+        //        var y = document.getElementById("form1");
+        //        y.submit();
     }
 </script>
 
-<script
-    src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
-<script
-    src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-<link
-    href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css"
-    rel="stylesheet">
-<link
-    rel="stylesheet"
-    href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link
-    rel="stylesheet"
-    href="/resources/demos/style.css">
-<script
-    src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script
-    src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css"
+      rel="stylesheet">
+<link rel="stylesheet"
+      href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+      href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-    $(function() {
+    $(function () {
         $("#datepicker").datepicker();
     });
 </script>
@@ -60,32 +53,36 @@
         })()
 
 
-    </script>@*
-    <input type="button"
-           onclick="tableToExcel('passport', 'passport')"
-           value="Export to Excel"
-           style="position: absolute; right: 2.5%; top: 12.5%">*@
+    </script>
+    @*
+        <input type="button"
+               onclick="tableToExcel('passport', 'passport')"
+               value="Export to Excel"
+               style="position: absolute; right: 2.5%; top: 12.5%">*@
 
 
     using (Html.BeginForm("Index", "passports", FormMethod.Get, new { id = "form1" }))
     {
-<div>
-    @*Page Size:@Html.DropDownList("pageSize", null, new { @id = "pageSize"/*, @onchange = "norc()"*/ })
-    *@
-    page size:-<input type="text" name="pagesize" id="pagesize" />
-    <ul>
-        search:- @Html.TextBox("search") (by name)
-        <input type="date" id="datepicker" class="form-control" name="pDate"/>
-    </ul>
-    
-    <input type="submit"
-           name="submit"
-           value="Search/change records" ondblclick="norc()" />
+        <div>
+            @*Page Size:@Html.DropDownList("pageSize", null, new { @id = "pageSize"/*, @onchange = "norc()"*/ })
+            *@
+            page size:-<input type="text" name="pagesize" id="pagesize" />
+            <ul>
+                search:- @Html.TextBox("search") (by name)
+                <input type="date" id="datepicker" class="form-control" name="pDate" />
+            </ul>
 
-</div>
-        <div>  
-            <a href="@Url.Action("DownloadExcel","passports",new{search=ViewBag.search})">Download Excel</a>  
-        </div> 
+            <input type="submit"
+                   name="submit"
+                   value="Search/change records" ondblclick="norc()" />
+
+        </div>
+        <div>
+            <a href="@Url.Action("DownloadExcel","passports",new{search=ViewBag.search})">Download Excel</a>
+        </div>
+        <div>
+            @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pagesize = ViewBag.pagesize }))
+        </div>
 
         <table class="table"
                id="passport">
@@ -121,15 +118,6 @@
                     @Html.DisplayNameFor(model => model.status)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.rv_expiry)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.vl_start)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.vl_end)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.imgpath)
                 </th>
                 @if (User.Identity.IsAuthenticated)
@@ -144,76 +132,67 @@
                         </th>
                     }
                 }
-                    
-                    </tr>
+
+            </tr>
 
             @foreach (var item in Model)
             {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.employee_no)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.master_file.employee_no)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.master_file.employee_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.company_code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.passport_no)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.passport_expiry)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.passport_issue_date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.passport_return_date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.passport_remarks)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.rv_expiry)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.vl_start)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.vl_end)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.imgpath)
-            </td>
-            @if (User.Identity.IsAuthenticated)
-            {
-                if (User.IsInRole("admin"))
-                {
+                <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.date_changed)
+                        @Html.DisplayFor(modelItem => item.employee_no)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.changed_by)
+                        @Html.DisplayFor(modelItem => item.master_file.employee_no)
                     </td>
-                }
-            }
-                <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.employee_id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.employee_id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.employee_id })
-            </td>
-        </tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.master_file.employee_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.company_code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.passport_no)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.passport_expiry)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.passport_issue_date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.passport_return_date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.passport_remarks)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.imgpath)
+                    </td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("admin"))
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.date_changed)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.changed_by)
+                            </td>
+                        }
+                    }
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.employee_id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.employee_id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.employee_id })
+                    </td>
+                </tr>
             }
 
         </table>
-        @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("Index", new { page, pageSize = ViewBag.psize ,search=ViewBag.search,pDate=ViewBag.pDate}));
+        @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("Index", new { page, pageSize = ViewBag.psize, search = ViewBag.search, pDate = ViewBag.pDate }));
 
     } @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")}
