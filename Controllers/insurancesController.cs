@@ -23,7 +23,7 @@ namespace HRworks.Controllers
             List<insurance> passexel;
             if (search != null)
             {
-                passexel = db.insurances.Where(x => x.master_file.employee_name.StartsWith(search)).ToList();
+                passexel = db.insurances.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
             }
             else
             {
@@ -48,7 +48,7 @@ namespace HRworks.Controllers
             foreach (var item in passexel)
             {
 
-                Sheet.Cells[string.Format("A{0}", row)].Value = item.employee_no;
+                Sheet.Cells[string.Format("A{0}", row)].Value = item.master_file.employee_no;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.master_file.employee_name;
                 Sheet.Cells[string.Format("C{0}", row)].Value = item.card_no;
                 Sheet.Cells[string.Format("D{0}", row)].Value = item.age;
@@ -82,14 +82,7 @@ namespace HRworks.Controllers
                 defaSize = (pagesize ?? 10);
             }
 
-            ViewBag.PageSize = new List<SelectListItem>()
-            {
-                new SelectListItem() { Value="10", Text= "10" },
-                new SelectListItem() { Value="15", Text= "15" },
-                new SelectListItem() { Value="25", Text= "25" },
-                new SelectListItem() { Value="50", Text= "50" },
-                new SelectListItem() { Value="100", Text= "100" },
-            };
+            
             ViewBag.pagesize = defaSize;
             IPagedList<insurance> passlist = null;
             passlist = db.insurances.OrderBy(x => x.employee_id).ToPagedList(pageIndex, defaSize);
@@ -129,8 +122,17 @@ namespace HRworks.Controllers
             }
             if (search != null)
             {
+                lists.RemoveRange(0, ab.Count);
                 j = 0;
-                ab = db.insurances.Where(x => x.master_file.employee_name.StartsWith(search)).ToList();
+                int idk;
+                if (int.TryParse(search, out idk))
+                {
+                    ab = db.insurances.Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                }
+                else
+                {
+                    ab = db.insurances.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                }
                 if (ab.Count != 0)
                 {
                     for (i = 0; i < ab.Count; i++)
@@ -163,7 +165,8 @@ namespace HRworks.Controllers
                 }
                 return View(lists.ToPagedList(page ?? 1, defaSize));
             }
-            return View(lists);
+           
+            return View(lists.ToPagedList(page ?? 1, defaSize));
         }
 
         // GET: insurances/Details/5
@@ -186,8 +189,8 @@ namespace HRworks.Controllers
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no");
-            ViewBag.employee_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.employee_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
+            ViewBag.employee_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View();
         }
 
@@ -239,8 +242,8 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no");
-            ViewBag.employee_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.employee_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
+            ViewBag.employee_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View(insurance);
         }
 
@@ -258,8 +261,8 @@ namespace HRworks.Controllers
                 return HttpNotFound();
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no");
-            ViewBag.employee_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.employee_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
+            ViewBag.employee_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View(insurance);
         }
 
@@ -310,8 +313,8 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no");
-            ViewBag.employee_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.employee_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
+            ViewBag.employee_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View(insurance);
         }
 

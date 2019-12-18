@@ -23,14 +23,14 @@ namespace TEST2.Controllers
             List<visa_and_labour_card> passexel;
             if (search != null)
             {
-                passexel = db.visa_and_labour_card.Where(x => x.master_file.employee_name.StartsWith(search)).ToList();
+                passexel = db.visa_and_labour_card.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
             }
             else
             {
                 passexel = db.visa_and_labour_card.Include(p => p.master_file).ToList();
             }
             ExcelPackage Ep = new ExcelPackage();
-            ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("INSURANCE");
+            ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("visa_and_labour_card".ToUpper());
             Sheet.Cells["A1"].Value = "employee no";
             Sheet.Cells["B1"].Value = "employee name";
             Sheet.Cells["C1"].Value = "lc_no";
@@ -46,7 +46,7 @@ namespace TEST2.Controllers
             foreach (var item in passexel)
             {
 
-                Sheet.Cells[string.Format("A{0}", row)].Value = item.emp_no;
+                Sheet.Cells[string.Format("A{0}", row)].Value = item.master_file.employee_no;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.master_file.employee_name;
                 Sheet.Cells[string.Format("C{0}", row)].Value = item.lc_no;
                 Sheet.Cells[string.Format("D{0}", row)].Value = item.uid_no;
@@ -66,7 +66,7 @@ namespace TEST2.Controllers
             Response.BinaryWrite(Ep.GetAsByteArray());
             Response.End();
         }
-        public ActionResult Index(string search, int? page, int? pagesize)
+        public ActionResult Index(string search, int? page, int? pagesize,int? idsearch)
         {
             //            ViewBag.employee_name = new SelectList(db.master_file, "employee_no", "employee_name");
             //            var visa_and_labour_card = db.visa_and_labour_card.Include(v => v.master_file);
@@ -126,8 +126,54 @@ namespace TEST2.Controllers
             }
             if (search != null)
             {
-                j = 0;  
-                ab = db.visa_and_labour_card.Where(x => x.master_file.employee_name.StartsWith(search)).ToList();
+                lists.RemoveRange(0, ab.Count);
+                j = 0;
+                int idk;
+                if (int.TryParse(search, out idk))
+                {
+                    ab = db.visa_and_labour_card.Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                }
+                else
+                {
+                    ab = db.visa_and_labour_card.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                }
+                if (ab.Count != 0)
+                {
+                    for (i = 0; i < ab.Count; i++)
+                    {
+                        if (++j != ab.Count())
+                        {
+                            if (ab[i].emp_no == ab[j].emp_no)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                lists.Add(ab[i]);
+                            }
+                        }
+                    }
+                    if (ab.Count != 1)
+                    {
+                        if (ab[--j] != ab[i = i - 2])
+                        {
+                            lists.Add(ab[j]);
+                        }
+                    }
+
+                    if (lists.Count == 0)
+                    {
+                        i -= 1;
+                        lists.Add(ab[i]);
+                    }
+                }
+                return View(lists.ToPagedList(page ?? 1, defaSize));
+            }
+            if (search == null && idsearch != null)
+            {
+                lists.RemoveRange(0, ab.Count);
+                j = 0;
+                ab = db.visa_and_labour_card.Where(x => x.master_file.employee_no.Equals(idsearch) /*.Contains(search) /*.StartsWith(search)*/).ToList();
                 if (ab.Count != 0)
                 {
                     for (i = 0; i < ab.Count; i++)
@@ -184,8 +230,8 @@ namespace TEST2.Controllers
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            ViewBag.emp_no = new SelectList(db.master_file, "employee_id", "employee_no");
-            ViewBag.emp_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.emp_no = new SelectList(db.master_file.OrderBy(e=>e.employee_no), "employee_id", "employee_no");
+            ViewBag.emp_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View();
         }
 

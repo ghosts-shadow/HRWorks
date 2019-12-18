@@ -68,10 +68,11 @@ namespace HRworks.Controllers
                     lists.Add(ab[i]);
                 }
             }
-            if (search!=null && pDate.HasValue)
+            if (pDate.HasValue)
             {
+                lists.RemoveRange(0, ab.Count);
                 j = 0;
-                ab = db.passports.Where(x =>x.master_file.employee_name.StartsWith(search) && x.passport_issue_date.Value >= pDate.Value).ToList();
+                ab = db.passports.Where(x =>x.passport_issue_date.Value >= pDate.Value).ToList();
                 if (ab.Count != 0)
                 {
                     for (i = 0; i < ab.Count; i++)
@@ -106,8 +107,17 @@ namespace HRworks.Controllers
             }
             else if (search != null)
             {
+                lists.RemoveRange(0, ab.Count);
                 j = 0;
-                ab = db.passports.Where(x => x.master_file.employee_name.StartsWith(search)).ToList();
+                int idk;
+                if (int.TryParse(search, out idk))
+                {
+                    ab = db.passports.Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                }
+                else
+                {
+                    ab = db.passports.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                }
                 if (ab.Count != 0)
                 {
                     for (i = 0; i < ab.Count; i++)
@@ -140,6 +150,7 @@ namespace HRworks.Controllers
                 }
                 return View(lists.ToPagedList(page ?? 1, defaSize));
             }
+            
             return View(lists.ToPagedList(page ?? 1, defaSize));
         }
 
@@ -148,7 +159,7 @@ namespace HRworks.Controllers
             List<passport> passexel;
             if (search != null)
             {
-                passexel = db.passports.Where(x => x.master_file.employee_name.StartsWith(search)).ToList();
+                passexel = db.passports.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
             }
             else
             {
@@ -172,7 +183,7 @@ namespace HRworks.Controllers
             foreach (var item in passexel)
             {
 
-                Sheet.Cells[string.Format("A{0}", row)].Value = item.employee_no;
+                Sheet.Cells[string.Format("A{0}", row)].Value = item.master_file.employee_no;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.company_code;
                 Sheet.Cells[string.Format("C{0}", row)].Value = item.passport_no;
                 Sheet.Cells[string.Format("D{0}", row)].Value = item.passport_expiry;
@@ -213,8 +224,8 @@ namespace HRworks.Controllers
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no");
-            ViewBag.employee_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.employee_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
+            ViewBag.employee_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View();
         }
 
@@ -267,9 +278,8 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no");
-            ViewBag.employee_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.employee_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
+            ViewBag.employee_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View(passport);
         }
 
@@ -287,8 +297,8 @@ namespace HRworks.Controllers
                 return HttpNotFound();
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no");
-            ViewBag.employee_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.employee_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
+            ViewBag.employee_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View(passport);
         }
 
@@ -342,8 +352,8 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no");
-            ViewBag.employee_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.employee_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
+            ViewBag.employee_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View(passport);
         }
 

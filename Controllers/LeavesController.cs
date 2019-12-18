@@ -51,7 +51,7 @@ namespace HRworks.Controllers
                 new ListItem { Text = "Unpaid", Value="Unpaid" }
             };
             ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.Employee_id = new SelectList(db.master_file.OrderBy(e=>e.employee_name), "employee_id", "employee_name");
             return View();
         }
 

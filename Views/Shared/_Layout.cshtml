@@ -6,67 +6,93 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <script type="text/javascript">
+        var i = 0;
+        $(document).ready(function() {
+            ShowCurrentTime();
+        });
+        $(document).body.onclick(reset());
 
+        function reset() {
+            i = 0;
+        }
+        function ShowCurrentTime() {
+            var dt = new Date();
+            document.getElementById("lblTime").innerHTML = 180 - i + " Seconds";
+            i++;
+            if (i==170) {
+                document.getElementById("lblTime").style.display ="";
+            }
+            if (i == 180) {
+                setTimeout("javascript:document.getElementById('logoutForm').submit()", 0);
+                }
+            window.setTimeout("ShowCurrentTime()", 1000);
+        }
+
+    </script>
 </head>
-<body>
+    <body onload="ShowCurrentTime()">
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-header">
-            <button type="button"
-                    class="navbar-toggle"
-                    data-toggle="collapse"
-                    data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>@Html.ActionLink("HRworks", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 
-        </div>
-        <div class="navbar-collapse collapse">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-header">
+                <button type="button"
+                        class="navbar-toggle"
+                        data-toggle="collapse"
+                        data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>@Html.ActionLink("HRworks", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 
-            <ul class="nav navbar-nav">
+            </div>
+            <div class="navbar-collapse collapse">
 
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("About", "About", "Home")</li>
-                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                @if (Request.IsAuthenticated)
-                {
-                    <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
-                    <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
-                    <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
-                    <li>@Html.ActionLink("Visa And Labor Card", "Index", "visa_and_labour_card")</li>
-                    <li>@Html.ActionLink("Contract", "Index", "contracts")</li>
-                    <li>@Html.ActionLink("Employee Details", "Index", "master_file")</li>
-                    <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
-                    <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
-                    if (User.Identity.IsAuthenticated)
+                <ul class="nav navbar-nav">
+
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (Request.IsAuthenticated)
                     {
-                        if (User.IsInRole("admin"))
+                        <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
+                        <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
+                        <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
+                        <li>@Html.ActionLink("Visa And Labor Card", "Index", "visa_and_labour_card")</li>
+                        <li>@Html.ActionLink("Contract", "Index", "contracts")</li>
+                        <li>@Html.ActionLink("Employee Details", "Index", "master_file")</li>
+                        <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
+                        <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
+                        if (User.Identity.IsAuthenticated)
                         {
-                            <li>@Html.ActionLink("user name", "index", "usernames")</li>
+                            if (User.IsInRole("admin"))
+                            {
+                                <li>@Html.ActionLink("user name", "index", "usernames")</li>
+                            }
                         }
+
                     }
 
-                }
+                </ul>
+                @Html.Partial("_LoginPartial")
 
-            </ul>
-            @Html.Partial("_LoginPartial")
-
+            </div>
         </div>
-    </div>
 
-<div class="body-content">
+        <div class="body-content">
 
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                @if (Request.IsAuthenticated) {<label id="lblTime" style="display: none"></label> }
+                    
+            </footer>
+        </div>
 
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
 </html>

@@ -24,7 +24,7 @@ namespace HRworks.Controllers
             List<master_file> passexel;
             if (search != null)
             {
-                passexel = db.master_file.Where(x => x.employee_name.StartsWith(search)).ToList();
+                passexel = db.master_file.Where(x => x.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
             }
             else
             {
@@ -67,7 +67,7 @@ namespace HRworks.Controllers
             Response.BinaryWrite(Ep.GetAsByteArray());
             Response.End();
         }
-        public ActionResult Index(string search, int? page, int? pagesize)
+        public ActionResult Index(string search, int? page, int? pagesize,int? idsearch)
         {
             //            return View(db.master_file.ToList());
             int pageIndex = 1;
@@ -127,7 +127,15 @@ namespace HRworks.Controllers
             {
                 lists.RemoveRange(0,ab.Count);
                 j = 0;
-                ab = db.master_file.Where(x => x.employee_name.StartsWith(search)).ToList();
+                int idk;
+                if (int.TryParse(search, out idk))
+                {
+                    ab = db.master_file.Where(x => x.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                }
+                else
+                {
+                    ab = db.master_file.Where(x => x.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                }
                 if (ab.Count != 0)
                 {
                     for (i = 0; i < ab.Count; i++)
