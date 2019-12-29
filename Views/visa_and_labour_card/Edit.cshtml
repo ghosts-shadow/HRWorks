@@ -7,7 +7,20 @@
 @if (Request.IsAuthenticated)
 {
     <h2>Edit</h2>
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+        $(function () {
+            $("#datepicker1").datepicker();
+        });
+        $(function () {
+            $("#datepicker2").datepicker();
+        });
+    </script>
     <script>
         function byidfill(parameters) {
             var filled = document.getElementById('fill');
@@ -68,14 +81,14 @@
              @Html.ValidationSummary(true, "", new {@class = "text-danger"})
              @Html.HiddenFor(model => model.employee_id)
 
-             <div
+             @*<div
                  class="form-group">
                  @Html.LabelFor(model => model.emp_no, "employee_no", htmlAttributes: new {@class = "control-label col-md-2"})
                  <div
                      class="col-md-4"
                      id="hide">
-                     @*
-                        @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})*@
+                     $1$
+                        @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})#1#
                      @Html.DropDownList("emp_no", null, new {@class = "form-control", @id = "employee_no"})
                      @Html.ValidationMessageFor(model => model.emp_no, "", new {@class = "text-danger"})
 
@@ -84,8 +97,8 @@
                      class="col-md-4"
                      id="hide2"
                      style="display: none">
-                     @*
-                        @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})*@
+                     $1$
+                        @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})#1#
                      @Html.DropDownList("emp_no1", null, new {@class = "form-control", @id = "employee_no1"})
                      @Html.ValidationMessageFor(model => model.emp_no, "", new {@class = "text-danger"})
 
@@ -94,7 +107,7 @@
                      class="col-md-6">
                      <input
                          type="button"
-                         onclick="bynamefill()" @*ondblclick="byidfill()"*@
+                         onclick="bynamefill()" $1$ondblclick="byidfill()"#1#
                          value="change to name"
                          id="demo"/>
                  </div>
@@ -107,8 +120,15 @@
                          style="display: none"
                          id="demo1"/>
                  </div>
-             </div>
+             </div>*@
 
+         <div class="form-group">
+             @Html.LabelFor(model => model.emp_no, htmlAttributes: new { @class = "control-label col-md-2" })
+             <div class="col-md-10">
+                 @Html.EditorFor(model => model.master_file.employee_no, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                 @Html.EditorFor(model => model.emp_no, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly",@style="display:none" } })
+             </div>
+            </div>
              <div
                  class="form-group">
                  @Html.LabelFor(model => model.uid_no, htmlAttributes: new {@class = "control-label col-md-2"})
@@ -136,7 +156,7 @@
                  @Html.LabelFor(model => model.rv_expiry, htmlAttributes: new {@class = "control-label col-md-2"})
                  <div
                      class="col-md-10">
-                     @Html.EditorFor(model => model.rv_expiry, new {htmlAttributes = new {@class = "form-control"}})
+                     @Html.EditorFor(model => model.rv_expiry, new {htmlAttributes = new {@class = "form-control",@id="datepicker"}})
                      @Html.ValidationMessageFor(model => model.rv_expiry, "", new {@class = "text-danger"})
                  </div>
              </div>
@@ -144,10 +164,9 @@
              <div
                  class="form-group">
                  @Html.LabelFor(model => model.lc_expiry, htmlAttributes: new {@class = "control-label col-md-2"})
-                 <div
-                     class="col-md-10">
-                     @Html.EditorFor(model => model.lc_expiry, new {htmlAttributes = new {@class = "form-control"}})
-                     @Html.ValidationMessageFor(model => model.lc_expiry, "", new {@class = "text-danger"})
+                 <div class="col-md-10">
+                     @Html.EditorFor(model => model.lc_expiry, new { htmlAttributes = new { @class = "form-control" ,@id="datepicker2"} })
+                     @Html.ValidationMessageFor(model => model.lc_expiry, "", new { @class = "text-danger" })
                  </div>
              </div>
 
@@ -170,22 +189,17 @@
                      @Html.LabelFor(model => model.imgpath, htmlAttributes: new {@class = "control-label col-md-2"})
                      <div
                          class="col-md-5">
-                         <input
-                             type="file"
-                             id="fileBase"
-                             style="display: none;"
-                             accept="image/*"
-                             onchange="loadfile(event)"
-                             name="fileBase"/>
-                         <input
-                             type="button"
-                             value="Browse..."
-                             onclick="document.getElementById('fileBase').click();"/>
+                         <input type="file"
+                                id="fileBase"
+                                style="display: none;"
+                                accept="image/*" onchange="document.getElementById('test').innerHTML = 'file added'"
+                                name="fileBase" />
+                         <input type="button"
+                                value="Upload"
+                                onclick="document.getElementById('fileBase').click();" /><p id="test"></p>
                      </div>
                      <div
                          class="col-md-5">
-                         <img
-                             id="output"/>
                      </div>
                  </div>
                  <hr/>

@@ -85,8 +85,8 @@ namespace HRworks.Controllers
             
             ViewBag.pagesize = defaSize;
             IPagedList<insurance> passlist = null;
-            passlist = db.insurances.OrderBy(x => x.employee_id).ToPagedList(pageIndex, defaSize);
-            var ab = db.insurances.OrderBy(p => p.employee_no).ToList();
+            passlist = db.insurances.OrderBy(x => x.master_file.employee_id).ToPagedList(pageIndex, defaSize);
+            var ab = db.insurances.OrderBy(p => p.master_file.employee_no).ToList();
             var lists = new List<insurance>();
             int j = 0;
             int i;
@@ -122,7 +122,7 @@ namespace HRworks.Controllers
             }
             if (search != null)
             {
-                lists.RemoveRange(0, ab.Count);
+                lists.RemoveRange(0, lists.Count);
                 j = 0;
                 int idk;
                 if (int.TryParse(search, out idk))
@@ -205,17 +205,18 @@ namespace HRworks.Controllers
             string serverfile;
             if (fileBase != null)
             {
+                var a = db.master_file.Find(insurance.employee_no);
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/insurance/" + fileexe);
-                serverfile = "D:/HR/insurance/" + insurance.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/insurance/" + fileexe);
+                serverfile = "D:/HR/img/insurance/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 int i = 0;
                 do
                 {
-                    serverfile = "D:/HR/insurance/" + insurance.employee_no + "/" + insurance.employee_no + "_" + i +fileexe;
+                    serverfile = "D:/HR/img/insurance/" + a.employee_no + "/" + a.employee_no + "_" + i +fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/insurance/" + insurance.employee_no + "/" + insurance.employee_no + "_" + i +fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/insurance/" + a.employee_no + "/" + a.employee_no + "_" + i +fileexe));
                     fileBase.SaveAs(serverfile);
             }
             else
@@ -277,16 +278,18 @@ namespace HRworks.Controllers
             string serverfile;
             if (fileBase != null)
             {
+                var a = db.master_file.Find(insurance.employee_no);
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/insurance/" + fileexe);
-                serverfile = "D:/HR/insurance/" + insurance.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
-                filepath = Directory.CreateDirectory(serverfile); int i = 0;
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/insurance/" + fileexe);
+                serverfile = "D:/HR/img/insurance/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                filepath = Directory.CreateDirectory(serverfile);
+                int i = 0;
                 do
                 {
-                    serverfile = "D:/HR/insurance/" + insurance.employee_no + "/" + insurance.employee_no + "_" + i + fileexe;
+                    serverfile = "D:/HR/img/insurance/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/insurance/" + insurance.employee_no + "/" + insurance.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/insurance/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
                 fileBase.SaveAs(serverfile);
             }
             else

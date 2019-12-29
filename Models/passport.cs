@@ -35,6 +35,7 @@ namespace HRworks.Models
         [Display(Name = "Passport Remarks")]
         public string passport_remarks { get; set; }
         public string status { get; set; }
+        [Display(Name = "Personal files")]
         public string imgpath { get; set; }
         [Display(Name = "Changed By")]
         public string changed_by { get; set; }

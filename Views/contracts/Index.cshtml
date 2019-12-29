@@ -21,7 +21,7 @@
         $("#datepicker").datepicker();
     });
 </script>
-<h2>Index</h2>
+<h2 style="text-transform: uppercase">contract</h2>
 @if (Request.IsAuthenticated)
 {
     <p>
@@ -72,10 +72,10 @@
 
     <table class="table"
            id="contract">
-        <tr>
+        <tr>@*
             <th>
                 @Html.DisplayNameFor(model => model.employee_no)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.master_file.employee_no)
             </th>
@@ -145,10 +145,10 @@
 
         @foreach (var item in Model)
         {
-    <tr>
+    <tr>@*
         <td>
             @Html.DisplayFor(modelItem => item.employee_no)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.master_file.employee_no)
         </td>

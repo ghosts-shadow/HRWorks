@@ -7,7 +7,7 @@
 }
 @if (Request.IsAuthenticated)
 {
-    <h2>Index</h2>
+    <h2 style="text-transform: uppercase">emirates id</h2>
 
     <p>
         @Html.ActionLink("Create New", "Create")
@@ -41,10 +41,10 @@
             *@
             page size:-<input type="text" name="pagesize" id="pagesize" value="@ViewBag.pagesize" />
             search:-
-            @Html.TextBox("search")<input type="date"
-                                          id="datepicker"
-                                          class="form-control"
-                                          name="pDate" />
+            @Html.TextBox("search")@*<input type="date"
+                id="datepicker"
+                class="form-control"
+                name="pDate" />*@
             <input type="submit"
                    name="submit"
                    value="Search/change records" ondblclick="norc()" />
@@ -61,77 +61,79 @@
     <table class="table"
            id="emirates_id">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.employee_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.master_file.employee_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.master_file.employee_name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.eid_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.eid_expiry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.imgpath)
-            </th>
-            @if (User.Identity.IsAuthenticated)
-            {
-                if (User.IsInRole("admin"))
-                {
-                    <th>
-                        @Html.DisplayNameFor(model => model.changed_by)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.date_changed)
-                    </th>
-                }
-            }
-        </tr>
-
-        @foreach (var item in Model)
+            @*
+                <th>
+                    @Html.DisplayNameFor(model => model.employee_no)
+                </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.eid_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.eid_expiry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.imgpath)
+        </th>
+        @if (User.Identity.IsAuthenticated)
         {
-            <tr>
+            if (User.IsInRole("admin"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.changed_by)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.date_changed)
+                </th>
+            }
+        }
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*
                 <td>
                     @Html.DisplayFor(modelItem => item.employee_no)
+                </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.eid_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.eid_expiry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.imgpath)
+        </td>
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("admin"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.changed_by)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.master_file.employee_no)
+                    @Html.DisplayFor(modelItem => item.date_changed)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.master_file.employee_name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.eid_no)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.eid_expiry)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.imgpath)
-                </td>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    if (User.IsInRole("admin"))
-                    {
-                        <td>
-                            @Html.DisplayFor(modelItem => item.changed_by)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.date_changed)
-                        </td>
-                    }
-                }
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.employee_id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.employee_id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.employee_id })
-                </td>
-            </tr>
+            }
         }
-    </table>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.employee_id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.employee_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.employee_id })
+        </td>
+    </tr>
+}
+</table>
 }

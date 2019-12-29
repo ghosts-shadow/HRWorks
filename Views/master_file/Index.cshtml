@@ -8,21 +8,20 @@
 }
 @if (Request.IsAuthenticated)
 {
-    <h2>Index</h2>
+    <h2 style="text-transform: uppercase">employee details</h2>
 
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
 
-    <script
-        type="text/javascript">
-        var tableToExcel = (function() {
+    <script type="text/javascript">
+        var tableToExcel = (function () {
             var uri = 'data:application/vnd.ms-excel;base64,',
                 template =
                     '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>',
-                base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) },
-                format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
-            return function(table, name) {
+                base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) },
+                format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+            return function (table, name) {
                 if (!table.nodeType) table = document.getElementById(table)
                 var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
                 window.location.href = uri + base64(format(template, ctx))
@@ -30,8 +29,8 @@
         })()
         function norc(parameters) {
             var x = document.getElementById("pageSize").value;
-            alert("no of records changed to "+x);
-        
+            alert("no of records changed to " + x);
+
             var y = document.getElementById("form1");
             y.submit();
     </script>
@@ -39,9 +38,9 @@
     {
         <div>
             @*Page Size:@Html.DropDownList("pageSize", null, new { @id = "pageSize"/*, @onchange = "norc()"*/ })
-    *@
-            page size:-<input type="text" name="pagesize" id="pagesize" value="@ViewBag.pagesize"/>
-            search:- 
+            *@
+            page size:-<input type="text" name="pagesize" id="pagesize" value="@ViewBag.pagesize" />
+            search:-
             @Html.TextBox("search")
             <input type="submit"
                    name="submit"
@@ -49,15 +48,14 @@
 
         </div>
         <div>
-            @Html.PagedListPager((PagedList.IPagedList) Model, page => Url.Action("Index",new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter,pagesize=ViewBag.pagesize }))
+            @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pagesize = ViewBag.pagesize }))
         </div>
     }
-    <div>  
-        <a href="@Url.Action("DownloadExcel","master_file",new{search=ViewBag.search})">Download Excel</a>  
-    </div> 
-    <table
-        class="table"
-        id="master_file">
+    <div>
+        <a href="@Url.Action("DownloadExcel","master_file",new{search=ViewBag.search})">Download Excel</a>
+    </div>
+    <table class="table"
+           id="master_file">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.employee_no)
@@ -103,55 +101,55 @@
 
         @foreach (var item in Model)
         {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.employee_no)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.employee_name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.nationality)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.dob)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.date_joined)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.last_working_day)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.gender)
-        </td>
-        @*@Url.Action(item.img)*@
-        <td>
-        <img src="@item.img"
-             alt="@Html.DisplayFor(modelItem => item.employee_name)"
-             style="height: 150px; width: 125px"/>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.status)
-        </td>
-        @if (User.Identity.IsAuthenticated)
-        {
-            if (User.IsInRole("admin"))
-            {
+            <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.changed_by)
+                    @Html.DisplayFor(modelItem => item.employee_no)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.date_changed)
+                    @Html.DisplayFor(modelItem => item.employee_name)
                 </td>
-            }
-        }
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.employee_id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.employee_id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.employee_id })
-        </td>
-    </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nationality)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dob)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date_joined)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.last_working_day)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.gender)
+                </td>
+                @*@Url.Action(item.img)*@
+                <td>
+                    <img src="@item.img"
+                         alt="@Html.DisplayFor(modelItem => item.employee_name)"
+                         style="height: 150px; width: 125px" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("admin"))
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.changed_by)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.date_changed)
+                        </td>
+                    }
+                }
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.employee_id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.employee_id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.employee_id })
+                </td>
+            </tr>
         }
 
     </table>

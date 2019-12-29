@@ -32,7 +32,7 @@
 }
 @if (Request.IsAuthenticated)
 {
-    <h2>Index</h2>
+<h2 style="text-transform: uppercase">passport</h2>
 
     <p>
         @Html.ActionLink("Create New", "Create")
@@ -65,16 +65,17 @@
     {
         <div>
             @*Page Size:@Html.DropDownList("pageSize", null, new { @id = "pageSize"/*, @onchange = "norc()"*/ })
-            *@
-            page size:-<input type="text" name="pagesize" id="pagesize" />
-            <ul>
-                search:- @Html.TextBox("search") (by name)
-                <input type="date" id="datepicker" class="form-control" name="pDate" />
-            </ul>
+            *@<ul>
+    page size:-
+    <input type="text" name="pagesize" id="pagesize" />
 
-            <input type="submit"
-                   name="submit"
-                   value="Search/change records" ondblclick="norc()" />
+    search:- @Html.TextBox("search") @*
+        <input type="date" id="datepicker" class="form-control" name="pDate" />*@
+    <input type="submit"
+           name="submit"
+           value="Search/change records" ondblclick="norc()" />
+</ul>
+
 
         </div>
         <div>
@@ -86,10 +87,10 @@
 
         <table class="table"
                id="passport">
-            <tr>
+            <tr>@*
                 <th>
                     @Html.DisplayNameFor(model => model.employee_no)
-                </th>
+                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.master_file.employee_no)
                 </th>
@@ -137,10 +138,10 @@
 
             @foreach (var item in Model)
             {
-                <tr>
+                <tr>@*
                     <td>
                         @Html.DisplayFor(modelItem => item.employee_no)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.master_file.employee_no)
                     </td>

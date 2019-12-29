@@ -21,10 +21,10 @@ namespace HRworks
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                      //"~/Scripts/bootstrap scripts/bootstrap.js"));
-                      "~/Scripts/bootstrap.js"));
+                      "~/Scripts/bootstrap.js", "~/Scripts/jqueryui.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                        //                      "~/Content/testbootstrap/bootstrap.css",
+                          "~/Content/jqueryui.css",
                         "~/Content/bootstrap.css",
                       "~/Content/site.css"));
         }

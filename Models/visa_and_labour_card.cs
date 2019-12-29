@@ -33,7 +33,7 @@ namespace HRworks.Models
         public Nullable<System.DateTime> lc_expiry { get; set; }
         [Display(Name = "Proffession As Per Visa")]
         public string proff_as_per_visa { get; set; }
-        [Display(Name = "Photo")]
+        [Display(Name = "Personal files")]
         public string imgpath { get; set; }
         [Display(Name = "Changed By")]
         public string changed_by { get; set; }

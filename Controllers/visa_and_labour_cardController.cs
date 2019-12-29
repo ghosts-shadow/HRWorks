@@ -124,19 +124,26 @@ namespace TEST2.Controllers
                     lists.Add(ab[i]);
                 }
             }
+
             if (search != null)
             {
-                lists.RemoveRange(0, ab.Count);
+                lists.RemoveRange(0, lists.Count);
                 j = 0;
                 int idk;
                 if (int.TryParse(search, out idk))
                 {
-                    ab = db.visa_and_labour_card.Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    ab = db.visa_and_labour_card
+                        .Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/)
+                        .ToList();
                 }
                 else
                 {
-                    ab = db.visa_and_labour_card.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    ab = db.visa_and_labour_card
+                        .Where(
+                            x => x.master_file.employee_name
+                                .Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
                 }
+
                 if (ab.Count != 0)
                 {
                     for (i = 0; i < ab.Count; i++)
@@ -153,6 +160,7 @@ namespace TEST2.Controllers
                             }
                         }
                     }
+
                     if (ab.Count != 1)
                     {
                         if (ab[--j] != ab[i = i - 2])
@@ -167,45 +175,10 @@ namespace TEST2.Controllers
                         lists.Add(ab[i]);
                     }
                 }
-                return View(lists.ToPagedList(page ?? 1, defaSize));
-            }
-            if (search == null && idsearch != null)
-            {
-                lists.RemoveRange(0, ab.Count);
-                j = 0;
-                ab = db.visa_and_labour_card.Where(x => x.master_file.employee_no.Equals(idsearch) /*.Contains(search) /*.StartsWith(search)*/).ToList();
-                if (ab.Count != 0)
-                {
-                    for (i = 0; i < ab.Count; i++)
-                    {
-                        if (++j != ab.Count())
-                        {
-                            if (ab[i].emp_no == ab[j].emp_no)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                lists.Add(ab[i]);
-                            }
-                        }
-                    }
-                    if (ab.Count != 1)
-                    {
-                        if (ab[--j] != ab[i = i - 2])
-                        {
-                            lists.Add(ab[j]);
-                        }
-                    }
 
-                    if (lists.Count == 0)
-                    {
-                        i -= 1;
-                        lists.Add(ab[i]);
-                    }
-                }
                 return View(lists.ToPagedList(page ?? 1, defaSize));
             }
+
             return View(lists.ToPagedList(page ?? 1, defaSize));
         }
 
@@ -247,16 +220,17 @@ namespace TEST2.Controllers
             string serverfile;
             if (fileBase != null)
             {
+                var a = db.master_file.Find(visa_and_labour_card.emp_no);
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/visa_and_labour_card/" + fileexe);
-                serverfile = "D:/HR/visa_and_labour_card/" + visa_and_labour_card.emp_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/visa_and_labour_card/" + fileexe);
+                serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile); int i = 1;
                 do
                 {
-                    serverfile = "D:/HR/visa_and_labour_card/" + visa_and_labour_card.emp_no + "/" + visa_and_labour_card.emp_no + "_" + i + fileexe;
+                    serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/visa_and_labour_card/" + visa_and_labour_card.emp_no + "/" + visa_and_labour_card.emp_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -318,18 +292,18 @@ namespace TEST2.Controllers
             string serverfile;
             if (fileBase != null)
             {
+                var a = db.master_file.Find(visa_and_labour_card.emp_no);
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/visa_and_labour_card/" + fileexe);
-                serverfile = "D:/HR/visa_and_labour_card/" + visa_and_labour_card.emp_no;/*+ "/"+ passport.employee_no + fileexe;*/
-                filepath = Directory.CreateDirectory(serverfile);
-                int i = 1;
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/visa_and_labour_card/" + fileexe);
+                serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                filepath = Directory.CreateDirectory(serverfile); int i = 1;
                 do
                 {
-                    serverfile = "D:/HR/visa_and_labour_card/" + visa_and_labour_card.emp_no + "/" + visa_and_labour_card.emp_no + "_" + i + fileexe;
+                    serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/visa_and_labour_card/" + visa_and_labour_card.emp_no + "/"+ visa_and_labour_card.emp_no+"_" + i + fileexe));
-                
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
+
                 fileBase.SaveAs(serverfile);
             }
             else

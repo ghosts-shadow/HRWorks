@@ -75,14 +75,14 @@ using (Html.BeginForm("Edit", "contracts", FormMethod.Post, new {enctype = "mult
                  @Html.ValidationMessageFor(model => model.con_id, "", new {@class = "text-danger"})
              </div>
          </div>
-         <div
+         @*<div
              class="form-group">
              @Html.LabelFor(model => model.employee_no, "employee_no", htmlAttributes: new {@class = "control-label col-md-2"})
              <div
                  class="col-md-4"
                  id="hide">
-                 @*
-                    @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})*@
+                 $1$
+                    @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})#1#
                  @Html.DropDownList("employee_no", null, new {@class = "form-control", @id = "employee_no"})
                  @Html.ValidationMessageFor(model => model.employee_no, "", new {@class = "text-danger"})
 
@@ -91,8 +91,8 @@ using (Html.BeginForm("Edit", "contracts", FormMethod.Post, new {enctype = "mult
                  class="col-md-4"
                  id="hide2"
                  style="display: none">
-                 @*
-                    @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})*@
+                 $1$
+                    @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})#1#
                  @Html.DropDownList("employee_no1", null, new {@class = "form-control", @id = "employee_no1"})
                  @Html.ValidationMessageFor(model => model.employee_no, "", new {@class = "text-danger"})
 
@@ -102,7 +102,7 @@ using (Html.BeginForm("Edit", "contracts", FormMethod.Post, new {enctype = "mult
                  class="col-md-6">
                  <input
                      type="button"
-                     onclick="bynamefill()" @*ondblclick="byidfill()"*@
+                     onclick="bynamefill()" $1$ondblclick="byidfill()"#1#
                      value="change to name"
                      id="demo"/>
              </div>
@@ -115,8 +115,14 @@ using (Html.BeginForm("Edit", "contracts", FormMethod.Post, new {enctype = "mult
                      style="display: none"
                      id="demo1"/>
              </div>
+         </div>*@
+         <div class="form-group">
+             @Html.LabelFor(model => model.employee_no, htmlAttributes: new { @class = "control-label col-md-2" })
+             <div class="col-md-10">
+                 @Html.EditorFor(model => model.master_file.employee_no, new { htmlAttributes = new { @class = "form-control" , @readonly="readonly"} })
+                 @Html.EditorFor(model => model.employee_no, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @Style="display:none" } })
+             </div>
          </div>
-
          <div
              class="form-group">
              @Html.LabelFor(model => model.designation, htmlAttributes: new {@class = "control-label col-md-2"})
@@ -253,19 +259,16 @@ using (Html.BeginForm("Edit", "contracts", FormMethod.Post, new {enctype = "mult
                  class="row">
 
                  @Html.LabelFor(model => model.imgpath, htmlAttributes: new {@class = "control-label col-md-2"})
-                 <div
-                     class="col-md-5">
-                     <input
-                         type="file"
-                         id="fileBase"
-                         style="display: none;"
-                         accept="image/*"
-                         onchange="loadfile(event)"
-                         name="fileBase"/>
-                     <input
-                         type="button"
-                         value="Browse..."
-                         onclick="document.getElementById('fileBase').click();"/>
+                 
+                 <div class="col-md-5">
+                     <input type="file"
+                            id="fileBase"
+                            style="display: none;"
+                            accept="image/*" onchange="document.getElementById('test').innerHTML = 'file added'"
+                            name="fileBase" />
+                     <input type="button"
+                            value="Upload"
+                            onclick="document.getElementById('fileBase').click();" /><p id="test"></p>
                  </div>
                  <div
                      class="col-md-5">

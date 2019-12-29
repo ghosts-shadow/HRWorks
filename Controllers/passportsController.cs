@@ -18,7 +18,7 @@ namespace HRworks.Controllers
         private HREntities db = new HREntities();
 
         // GET: passports
-        public ActionResult Index(string search, int? page, int? pagesize , DateTime? pDate)
+        public ActionResult Index(string search, int? page, int? pagesize /*, DateTime? pDate*/)
         {
             var passports = db.passports;
             int pageIndex = 1;
@@ -29,12 +29,12 @@ namespace HRworks.Controllers
                 defaSize = (pagesize??10);
             }
             ViewBag.pagesize = defaSize;
-            ViewBag.search = search;
-            ViewBag.pDate = pDate;
+            ViewBag.search = search;/*
+            ViewBag.pDate = pDate;*/
             IPagedList<passport> passlist = null;
 
-           passlist= db.passports.OrderBy(x => x.employee_id).ToPagedList(pageIndex, defaSize);
-           var ab = db.passports.OrderBy(x => x.employee_id).ToList();
+           passlist= db.passports.OrderBy(x => x.master_file.employee_no).ToPagedList(pageIndex, defaSize);
+           var ab = db.passports.OrderBy(x => x.master_file.employee_no).ToList();
            var lists = new List<passport>();
            int i;
             int j = 0;
@@ -68,7 +68,7 @@ namespace HRworks.Controllers
                     lists.Add(ab[i]);
                 }
             }
-            if (pDate.HasValue)
+            /*if (pDate.HasValue)
             {
                 lists.RemoveRange(0, ab.Count);
                 j = 0;
@@ -105,9 +105,9 @@ namespace HRworks.Controllers
                 }
                 return View(lists.ToPagedList(page ?? 1, defaSize));
             }
-            else if (search != null)
+            else*/ if (search != null)
             {
-                lists.RemoveRange(0, ab.Count);
+                lists.RemoveRange(0, lists.Count);
                 j = 0;
                 int idk;
                 if (int.TryParse(search, out idk))
@@ -240,18 +240,19 @@ namespace HRworks.Controllers
             string serverfile;
             if (fileBase != null)
             {
+                var a = db.master_file.Find(passport.employee_no);
                 int i = 0;
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/pp/");
-                serverfile = "D:/HR/pp/" + passport.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/passport/");
+                serverfile = "D:/HR/img/passport/" + passport.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 do
                 {
-                serverfile = "D:/HR/pp/" + passport.employee_no + "/" + passport.employee_no+"_"+i + fileexe;
+                serverfile = "D:/HR/img/passport/" + a.employee_no + "/" + a.employee_no+"_"+i + fileexe;
                 i++;
                 } while (System.IO.File.Exists(
-                    serverfile = "D:/HR/pp/" + passport.employee_no + "/" + passport.employee_no + "_" + i + fileexe));
+                    serverfile = "D:/HR/img/passport/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
                 fileBase.SaveAs(serverfile);
                 
             }
@@ -313,18 +314,21 @@ namespace HRworks.Controllers
             string serverfile;
             if (fileBase != null)
             {
+                var a = db.master_file.Find(passport.employee_no);
                 int i = 0;
-                var db1 = db.passports.Find(passport.employee_id);
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                string filepath = "D:/HR/pp/" + passport.employee_id + fileexe;
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/passport/");
+                serverfile = "D:/HR/img/passport/" + passport.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                filepath = Directory.CreateDirectory(serverfile);
                 do
                 {
-                    serverfile = "D:/HR/pp/" + passport.employee_no + "/" + passport.employee_no + "_" + i + fileexe;
+                    serverfile = "D:/HR/img/passport/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
                     i++;
                 } while (System.IO.File.Exists(
-                    serverfile = "D:/HR/pp/" + passport.employee_no + "/" + passport.employee_no + "_" + i + fileexe));
+                    serverfile = "D:/HR/img/passport/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
                 fileBase.SaveAs(serverfile);
+
             }
             else
             {

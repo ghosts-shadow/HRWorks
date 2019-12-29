@@ -256,19 +256,15 @@
                      class="row">
 
                      @Html.LabelFor(model => model.imgpath, htmlAttributes: new {@class = "control-label col-md-2"})
-                     <div
-                         class="col-md-5">
-                         <input
-                             type="file"
-                             id="fileBase"
-                             style="display: none;"
-                             accept="image/*"
-                             onchange="loadfile(event)"
-                             name="fileBase"/>
-                         <input
-                             type="button"
-                             value="Browse..."
-                             onclick="document.getElementById('fileBase').click();"/>
+                     <div class="col-md-5">
+                         <input type="file"
+                                id="fileBase"
+                                style="display: none;"
+                                accept="image/*" onchange="document.getElementById('test').innerHTML = 'file added'"
+                                name="fileBase" />
+                         <input type="button"
+                                value="Upload"
+                                onclick="document.getElementById('fileBase').click();" /><p id="test"></p>
                      </div>
                      <div
                          class="col-md-5">

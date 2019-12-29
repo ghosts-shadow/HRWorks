@@ -72,9 +72,17 @@ namespace HRworks.Controllers
             }
             if (!string.IsNullOrEmpty(search))
             {
-                lists.RemoveRange(0,ab.Count);
+                lists.RemoveRange(0, lists.Count);
                 j = 0;
-                ab = db.bank_details.Where(x => x.master_file.employee_name.StartsWith(search)).ToList();
+                int idk;
+                if (int.TryParse(search, out idk))
+                {
+                    ab = db.bank_details.Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                }
+                else
+                {
+                    ab = db.bank_details.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                }
                 if (ab.Count != 0)
                 {
                     for (i = 0; i < ab.Count; i++)
@@ -131,7 +139,7 @@ namespace HRworks.Controllers
         // GET: bank_details/Create
         public ActionResult Create()
         {
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no");
             return View();
         }
 
@@ -149,7 +157,7 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_name", bank_details.employee_no);
+            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no", bank_details.employee_no);
             return View(bank_details);
         }
 
@@ -165,7 +173,7 @@ namespace HRworks.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_name", bank_details.employee_no);
+            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no", bank_details.employee_no);
             return View(bank_details);
         }
 
@@ -182,7 +190,7 @@ namespace HRworks.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_name", bank_details.employee_no);
+            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no", bank_details.employee_no);
             return View(bank_details);
         }
 

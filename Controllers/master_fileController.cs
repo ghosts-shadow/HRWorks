@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -125,7 +126,7 @@ namespace HRworks.Controllers
             }
             if (!string.IsNullOrEmpty(search))
             {
-                lists.RemoveRange(0,ab.Count);
+                lists.RemoveRange(0, lists.Count);
                 j = 0;
                 int idk;
                 if (int.TryParse(search, out idk))
@@ -220,15 +221,15 @@ namespace HRworks.Controllers
             {
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/masterfile/" + fileexe);
-                serverfile = "D:/HR/masterfile/" + master_file.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
-                filepath = Directory.CreateDirectory(serverfile); 
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/masterfile/" + fileexe);
+                serverfile = "D:/HR/img/masterfile/" + master_file.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                filepath = Directory.CreateDirectory(serverfile);
                 int i = 0;
                 do
                 {
-                    serverfile = "D:/HR/masterfile/" + master_file.employee_no + "/" + master_file.employee_no + "_" + i + fileexe;
+                    serverfile = "D:/HR/img/masterfile/" + master_file.employee_no + "/" + master_file.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/masterfile/" + master_file.employee_no + "/" + master_file.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/masterfile/" + master_file.employee_no + "/" + master_file.employee_no + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -283,22 +284,22 @@ namespace HRworks.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public ActionResult Edit([Bind(Include = "employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id")] master_file master_file,HttpPostedFileBase fileBase)
+        public ActionResult Edit([Bind(Include = "employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id,status")] master_file master_file,HttpPostedFileBase fileBase)
         {
             string serverfile;
             if (fileBase != null)
             {
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/masterfile/" + fileexe);
-                serverfile = "D:/HR/masterfile/" + master_file.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/masterfile/" + fileexe);
+                serverfile = "D:/HR/img/masterfile/" + master_file.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 int i = 0;
                 do
                 {
-                    serverfile = "D:/HR/masterfile/" + master_file.employee_no + "/" + master_file.employee_no + "_" + i + fileexe;
+                    serverfile = "D:/HR/img/masterfile/" + master_file.employee_no + "/" + master_file.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/masterfile/" + master_file.employee_no + "/" + master_file.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/masterfile/" + master_file.employee_no + "/" + master_file.employee_no + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -308,21 +309,64 @@ namespace HRworks.Controllers
             }
             if (ModelState.IsValid)
             {
-                var img = new master_file();
-                img.employee_no = master_file.employee_no;
-                img.employee_name = master_file.employee_name;
-                img.nationality = master_file.nationality;
-                img.dob = master_file.dob;
-                img.date_joined = master_file.date_joined;
-                img.last_working_day = master_file.last_working_day;
-                img.gender = master_file.gender;
-                img.img = serverfile;
-                img.changed_by = User.Identity.Name;
-                img.date_changed = DateTime.Now;
-                db.master_file.Add(img);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-               
+                try
+                {
+                    /*var img = new master_file();
+    //                img.emirates_id = master_file.emirates_id;
+    //                img.employee_no = master_file.employee_no;
+    //                img.employee_name = master_file.employee_name;
+    //                img.nationality = master_file.nationality;
+    //                img.dob = master_file.dob;
+    //                img.date_joined = master_file.date_joined;
+    //                img.last_working_day = master_file.last_working_day;
+    //                img.gender = master_file.gender;
+                    master_file.img = serverfile;
+                    master_file.img = serverfile;
+                    master_file.changed_by = User.Identity.Name;
+                    master_file.date_changed = DateTime.Now;
+                    db.master_file.Add(master_file);*/
+                    var current = DateTime.Now;
+                    var img = new master_file();
+                    img.employee_no = master_file.employee_no;
+                    img.employee_name = master_file.employee_name;
+                    img.nationality = master_file.nationality;
+                    img.dob = master_file.dob;
+                    img.date_joined = master_file.date_joined;
+                    img.last_working_day = master_file.last_working_day;
+                    img.gender = master_file.gender;
+                    img.changed_by = User.Identity.Name;
+                    img.date_changed = current;
+                    img.status = master_file.status;
+                    img.img = serverfile;
+                    db.master_file.Add(img);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }/*
+                catch (Exception e)
+                {
+                    System.Diagnostics.Debug.WriteLine(e);
+                    return Content(e.ToString());
+                    throw;
+                }*/
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"",
+                                ve.PropertyName,
+                                eve.Entry.CurrentValues.GetValue<object>(ve.PropertyName),
+                                ve.ErrorMessage);
+                        }
+                    }
+
+                    return Content(e.ToString());
+                    throw;
+                }             
+
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
             ViewBag.employee_no = new SelectList(db.emirates_id, "id", "id", master_file.employee_no);

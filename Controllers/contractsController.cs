@@ -94,7 +94,7 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="50", Text= "50" },
                 new SelectListItem() { Value="100", Text= "100" },
             }; 
-            var ab = db.contracts.OrderBy(p => p.employee_no).ToList();
+            var ab = db.contracts.OrderBy(p => p.master_file.employee_no).ToList();
             var lists = new List<contract>();
             int j = 0;
             ViewBag.pagesize = defaSize;
@@ -134,7 +134,7 @@ namespace HRworks.Controllers
             if (search != null)
             {
                 
-                lists.RemoveRange(0, ab.Count);
+                lists.RemoveRange(0, lists.Count);
                 j = 0;
                 int idk;
                 if (int.TryParse(search,out idk))
@@ -217,17 +217,18 @@ namespace HRworks.Controllers
             string serverfile;
             if (fileBase != null)
             {
+                var a = db.master_file.Find(contract.employee_no);
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/contract/" + fileexe);
-                serverfile = "D:/HR/contract/" + contract.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/contract/" + fileexe);
+                serverfile = "D:/HR/img/contract/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 int i = 0;
                 do
                 {
-                    serverfile = "D:/HR/contract/" + contract.employee_no + "/" + contract.employee_no + "_" + i + fileexe;
+                    serverfile = "D:/HR/img/contract/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/contract/" + contract.employee_no + "/" + contract.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/contract/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -298,16 +299,18 @@ namespace HRworks.Controllers
             string serverfile;
             if (fileBase != null)
             {
+                var a = db.master_file.Find(contract.employee_no);
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/contract/" + fileexe);
-                serverfile = "D:/HR/contract/" + contract.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
-                filepath = Directory.CreateDirectory(serverfile); int i = 0;
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/contract/" + fileexe);
+                serverfile = "D:/HR/img/contract/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                filepath = Directory.CreateDirectory(serverfile);
+                int i = 0;
                 do
                 {
-                    serverfile = "D:/HR/contract/" + contract.employee_no + "/" + contract.employee_no + "_" + i + fileexe;
+                    serverfile = "D:/HR/img/contract/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/contract/" + contract.employee_no + "/" + contract.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/contract/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }

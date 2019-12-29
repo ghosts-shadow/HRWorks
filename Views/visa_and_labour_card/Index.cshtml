@@ -7,8 +7,8 @@
 }
 @if (Request.IsAuthenticated)
 {
-    <h2>Index</h2>
-
+    <h2 style="text-transform: uppercase" >visa and labour Card</h2>
+    
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
@@ -55,10 +55,10 @@
     <table class="table"
            id="visa_and_labour_card"
            runat="server">
-        <tr>
+        <tr>@*
             <th>
                 @Html.DisplayNameFor(model => model.emp_no)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.master_file.employee_no)
             </th>
@@ -106,10 +106,11 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.emp_no)
-                </td>
+    <tr>
+        @*
+        <td>
+            @Html.DisplayFor(modelItem => item.emp_no)
+        </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.master_file.employee_no)
                 </td>
@@ -121,6 +122,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.uid_no)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.master_file.nationality)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.class_type)

@@ -286,6 +286,7 @@
       <DependentUpon>HRModel.edmx</DependentUpon>
       <LastGenOutput>HRModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\ajaxjquery.min.js" />
     <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap scripts\bootstrap.js" />
@@ -311,6 +312,7 @@
     <Content Include="Scripts\bootstrap scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap scripts\bootstrap.min.js.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -320,7 +322,10 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jqueryui.css" />
+    <Content Include="Scripts\jqueryui.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <None Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -36,7 +36,7 @@ namespace HRworks.Models
         public Nullable<int> invoice_no { get; set; }
         [Display(Name = "Credit Amt")]
         public Nullable<int> credit_amt { get; set; }
-        [Display(Name = "Photo")]
+        [Display(Name = "Personal files")]
         public string imgpath { get; set; }
         [Display(Name = "Changed By")]
         public string changed_by { get; set; }

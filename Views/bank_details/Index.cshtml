@@ -6,27 +6,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
+    <h2 style="text-transform: uppercase">bank details</h2>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 @using (Html.BeginForm("Index", "bank_details", FormMethod.Get, new { id = "form1" }))
 {
-<div>
-    @*Page Size:@Html.DropDownList("pageSize", null, new { @id = "pageSize"/*, @onchange = "norc()"*/ })
-    *@
-    page size:-<input type="text" name="pagesize" id="pagesize" value="@ViewBag.pagesize"/>
-    search:- 
-    @Html.TextBox("search")
-    <input type="submit"
-           name="submit"
-           value="Search/change records" ondblclick="norc()" />
+    <div>
+        @*Page Size:@Html.DropDownList("pageSize", null, new { @id = "pageSize"/*, @onchange = "norc()"*/ })
+        *@
+        page size:-<input type="text" name="pagesize" id="pagesize" value="@ViewBag.pagesize" />
+        search:-
+        @Html.TextBox("search")
+        <input type="submit"
+               name="submit"
+               value="Search/change records" ondblclick="norc()" />
 
-</div>
-<div>
-    @Html.PagedListPager((PagedList.IPagedList) Model, page => Url.Action("Index",new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter,pagesize=ViewBag.pagesize }))
-</div>
+    </div>
+    <div>
+        @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pagesize = ViewBag.pagesize }))
+    </div>
 }
 <table class="table">
     <tr>
@@ -42,29 +41,36 @@
         <th>
             @Html.DisplayNameFor(model => model.master_file.employee_name)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.IBAN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Account_no)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.bank_name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.master_file.employee_name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Employee_Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Employee_Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Employee_Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IBAN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Account_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bank_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_no)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Employee_Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Employee_Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Employee_Id })
+            </td>
+        </tr>
+    }
 
 </table>

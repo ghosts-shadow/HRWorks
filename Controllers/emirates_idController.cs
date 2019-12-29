@@ -58,7 +58,7 @@ namespace HRworks.Controllers
             Response.BinaryWrite(Ep.GetAsByteArray());
             Response.End();
         }
-        public ActionResult Index(string search, int? page, int? pagesize, DateTime? pDate)
+        public ActionResult Index(string search, int? page, int? pagesize/*, DateTime? pDate*/)
         {
             var emirates_id = db.emirates_id.Include(e => e.master_file);
             ViewBag.employee_name = new SelectList(db.master_file, "employee_no", "employee_name");
@@ -123,7 +123,7 @@ namespace HRworks.Controllers
                 }
             }
 
-            if (pDate.HasValue)
+            /*if (pDate.HasValue)
             {
                 lists.RemoveRange(0, ab.Count);
                 j = 0;
@@ -161,9 +161,9 @@ namespace HRworks.Controllers
                 }
                 return View(lists.ToPagedList(page ?? 1, defaSize));
             }
-            else if (!string.IsNullOrEmpty(search))
+            else*/ if (!string.IsNullOrEmpty(search))
             {
-                lists.RemoveRange(0, ab.Count);
+                lists.RemoveRange(0, lists.Count);
                 j = 0;
                 int idk;
                 if (int.TryParse(search, out idk))
@@ -250,17 +250,18 @@ namespace HRworks.Controllers
             string serverfile;
             if (fileBase != null)
             {
+                var a = db.master_file.Find(emirates_id.employee_no);
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/EMID/" + fileexe);
-                serverfile = "D:/HR/EMID/" + emirates_id.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/EMID/" + fileexe);
+                serverfile = "D:/HR/img/EMID/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 int i = 0;
                 do
                 {
-                    serverfile = "D:/HR/EMID/" + emirates_id.employee_no + "/" + emirates_id.employee_no + "_" + i + fileexe;
+                    serverfile = "D:/HR/img/EMID/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/EMID/" + emirates_id.employee_no + "/" + emirates_id.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/EMID/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -318,17 +319,18 @@ namespace HRworks.Controllers
             string serverfile;
             if (fileBase != null)
             {
+                var a = db.master_file.Find(emirates_id.employee_no);
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/EMID/" + fileexe);
-                serverfile = "D:/HR/EMID/" + emirates_id.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/EMID/" + fileexe);
+                serverfile = "D:/HR/img/EMID/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 int i = 0;
                 do
                 {
-                    serverfile = "D:/HR/EMID/" + emirates_id.employee_no + "/" + emirates_id.employee_no + "_" + i + fileexe;
+                    serverfile = "D:/HR/img/EMID/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/EMID/" + emirates_id.employee_no + "/" + emirates_id.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/EMID/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }

@@ -45,7 +45,7 @@ namespace HRworks.Models
         [Display(Name = "Arrears")]
         public Nullable<int> arrears { get; set; }
         public int employee_id { get; set; }
-        [Display(Name = "Photo")]
+        [Display(Name = "Personal files")]
         public string imgpath { get; set; }
         [Display(Name = "Changed by")]
         public string changed_by { get; set; }
