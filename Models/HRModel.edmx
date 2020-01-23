@@ -201,10 +201,10 @@
           <Property Name="lc_no" Type="int" />
           <Property Name="uid_no" Type="int" />
           <Property Name="emp_no" Type="int" Nullable="false" />
-          <Property Name="class_type" Type="varchar" MaxLength="25" />
+          <Property Name="class_type" Type="nvarchar(max)"/>
           <Property Name="rv_expiry" Type="date" />
           <Property Name="lc_expiry" Type="date" />
-          <Property Name="proff_as_per_visa" Type="varchar" MaxLength="25" />
+          <Property Name="proff_as_per_visa" Type="nvarchar(max)" />
           <Property Name="imgpath" Type="nvarchar(max)" />
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
@@ -641,10 +641,10 @@
           <Property Name="lc_no" Type="Int32" />
           <Property Name="uid_no" Type="Int32" />
           <Property Name="emp_no" Type="Int32" Nullable="false" />
-          <Property Name="class_type" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="class_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="rv_expiry" Type="DateTime" Precision="0" />
           <Property Name="lc_expiry" Type="DateTime" Precision="0" />
-          <Property Name="proff_as_per_visa" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="proff_as_per_visa" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_changed" Type="DateTime" Precision="3" />

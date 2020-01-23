@@ -89,11 +89,11 @@ namespace TEST2.Controllers
             };
             ViewBag.pagesize = defaSize;
             IPagedList<visa_and_labour_card> passlist = null;
-            passlist = db.visa_and_labour_card.OrderBy(x => x.employee_id).ToPagedList(pageIndex, defaSize);
+            passlist = db.visa_and_labour_card.OrderBy(x => x.date_changed).ToPagedList(pageIndex, defaSize);
             var lists = new List<visa_and_labour_card>();
             int j = 0;
             int i;
-            var ab = db.visa_and_labour_card.OrderBy(x => x.employee_id).ToList();
+            var ab = db.visa_and_labour_card.OrderBy(x => x.master_file.employee_no).ThenBy(x=>x.date_changed).ToList();
             if (ab.Count != 0)
             {
                 for (i = 0; i < ab.Count; i++)
@@ -133,7 +133,7 @@ namespace TEST2.Controllers
                 if (int.TryParse(search, out idk))
                 {
                     ab = db.visa_and_labour_card
-                        .Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/)
+                        .Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed)
                         .ToList();
                 }
                 else
@@ -141,7 +141,7 @@ namespace TEST2.Controllers
                     ab = db.visa_and_labour_card
                         .Where(
                             x => x.master_file.employee_name
-                                .Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                                .Contains(search) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
                 }
 
                 if (ab.Count != 0)
@@ -225,7 +225,7 @@ namespace TEST2.Controllers
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
                 DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/visa_and_labour_card/" + fileexe);
                 serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
-                filepath = Directory.CreateDirectory(serverfile); int i = 1;
+                filepath = Directory.CreateDirectory(serverfile); int i = 0;
                 do
                 {
                     serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
@@ -297,7 +297,7 @@ namespace TEST2.Controllers
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
                 DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/visa_and_labour_card/" + fileexe);
                 serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
-                filepath = Directory.CreateDirectory(serverfile); int i = 1;
+                filepath = Directory.CreateDirectory(serverfile); int i = 0;
                 do
                 {
                     serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
@@ -323,6 +323,7 @@ namespace TEST2.Controllers
                 img.imgpath = serverfile;
                 img.changed_by = User.Identity.Name;
                 img.date_changed = DateTime.Now;
+                db.visa_and_labour_card.Add(img);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

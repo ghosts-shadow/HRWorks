@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using OfficeOpenXml;
 using PagedList;
 using HRworks.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace HRworks.Controllers
 {
@@ -89,7 +90,7 @@ namespace HRworks.Controllers
             }
             ViewBag.pagesize = defaSize;
             IPagedList<master_file> passlist = null;
-            var ab = db.master_file.OrderBy(p => p.employee_no).ToList();
+            var ab = db.master_file.OrderBy(p => p.employee_no).ThenBy(x => x.date_changed).ToList();
             var lists = new List<master_file>();
             int j = 0;
             passlist = db.master_file.OrderBy(x => x.employee_id).ToPagedList(pageIndex, defaSize);
@@ -131,11 +132,11 @@ namespace HRworks.Controllers
                 int idk;
                 if (int.TryParse(search, out idk))
                 {
-                    ab = db.master_file.Where(x => x.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    ab = db.master_file.Where(x => x.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.employee_no).ThenBy(x => x.date_changed).ToList();
                 }
                 else
                 {
-                    ab = db.master_file.Where(x => x.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    ab = db.master_file.Where(x => x.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.employee_no).ThenBy(x => x.date_changed).ToList();
                 }
                 if (ab.Count != 0)
                 {
@@ -336,7 +337,15 @@ namespace HRworks.Controllers
                     img.gender = master_file.gender;
                     img.changed_by = User.Identity.Name;
                     img.date_changed = current;
-                    img.status = master_file.status;
+                    if (!master_file.status.IsNullOrWhiteSpace())
+                    {
+                        img.status = master_file.status;
+                    }
+                    else
+                    {
+                         img.status = "in process";
+                    }
+                   
                     img.img = serverfile;
                     db.master_file.Add(img);
                     db.SaveChanges();

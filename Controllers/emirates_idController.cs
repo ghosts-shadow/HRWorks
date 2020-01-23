@@ -93,7 +93,7 @@ namespace HRworks.Controllers
             //            {
             //                return View(db.emirates_id.Where(x => x.master_file.employee_name.Contains(search) /*.StartsWith(search)*/).ToList().ToPagedList(page ?? 1, defaSize));
             //            }
-            var ab = db.emirates_id.OrderBy(p => p.master_file.employee_no).ToList();
+            var ab = db.emirates_id.OrderBy(p => p.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
             var lists = new List<emirates_id>();
             int j = 0;
             int i;
@@ -168,11 +168,11 @@ namespace HRworks.Controllers
                 int idk;
                 if (int.TryParse(search, out idk))
                 {
-                    ab = db.emirates_id.Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    ab = db.emirates_id.Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
                 }
                 else
                 {
-                    ab = db.emirates_id.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    ab = db.emirates_id.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
                 }
                 lists = new List<emirates_id>(); ;
                 if (ab.Count!=0)

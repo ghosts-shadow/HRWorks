@@ -34,7 +34,7 @@ namespace HRworks.Controllers
             IPagedList<passport> passlist = null;
 
            passlist= db.passports.OrderBy(x => x.master_file.employee_no).ToPagedList(pageIndex, defaSize);
-           var ab = db.passports.OrderBy(x => x.master_file.employee_no).ToList();
+           var ab = db.passports.OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
            var lists = new List<passport>();
            int i;
             int j = 0;
@@ -245,12 +245,12 @@ namespace HRworks.Controllers
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
                 DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/passport/");
-                serverfile = "D:/HR/img/passport/" + passport.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                serverfile = "D:/HR/img/passport/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 do
                 {
-                serverfile = "D:/HR/img/passport/" + a.employee_no + "/" + a.employee_no+"_"+i + fileexe;
-                i++;
+                    serverfile = "D:/HR/img/passport/" + a.employee_no + "/" + a.employee_no+"_"+i + fileexe;
+                    i++;
                 } while (System.IO.File.Exists(
                     serverfile = "D:/HR/img/passport/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
                 fileBase.SaveAs(serverfile);
@@ -319,7 +319,7 @@ namespace HRworks.Controllers
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
                 DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/passport/");
-                serverfile = "D:/HR/img/passport/" + passport.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                serverfile = "D:/HR/img/passport/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 do
                 {

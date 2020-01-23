@@ -85,8 +85,8 @@ namespace HRworks.Controllers
             
             ViewBag.pagesize = defaSize;
             IPagedList<insurance> passlist = null;
-            passlist = db.insurances.OrderBy(x => x.master_file.employee_id).ToPagedList(pageIndex, defaSize);
-            var ab = db.insurances.OrderBy(p => p.master_file.employee_no).ToList();
+            passlist = db.insurances.OrderBy(x => x.master_file.employee_id).ThenBy(x => x.date_changed).ToPagedList(pageIndex, defaSize);
+            var ab = db.insurances.OrderBy(p => p.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
             var lists = new List<insurance>();
             int j = 0;
             int i;
@@ -127,11 +127,11 @@ namespace HRworks.Controllers
                 int idk;
                 if (int.TryParse(search, out idk))
                 {
-                    ab = db.insurances.Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    ab = db.insurances.Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
                 }
                 else
                 {
-                    ab = db.insurances.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    ab = db.insurances.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
                 }
                 if (ab.Count != 0)
                 {

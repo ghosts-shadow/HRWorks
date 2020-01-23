@@ -94,7 +94,7 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="50", Text= "50" },
                 new SelectListItem() { Value="100", Text= "100" },
             }; 
-            var ab = db.contracts.OrderBy(p => p.master_file.employee_no).ToList();
+            var ab = db.contracts.OrderBy(p => p.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
             var lists = new List<contract>();
             int j = 0;
             ViewBag.pagesize = defaSize;
@@ -139,11 +139,11 @@ namespace HRworks.Controllers
                 int idk;
                 if (int.TryParse(search,out idk))
                 {
-                    ab = db.contracts.Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    ab = db.contracts.Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
                 }
                 else
                 {
-                    ab = db.contracts.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    ab = db.contracts.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
                 }
                 if (ab.Count != 0)
                 {
