@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace HRworks.Models
 {
     using System;
@@ -24,33 +22,23 @@ namespace HRworks.Models
             this.emirates_id = new HashSet<emirates_id>();
             this.insurances = new HashSet<insurance>();
             this.Leaves = new HashSet<Leave>();
+            this.liquidations = new HashSet<liquidation>();
             this.passports = new HashSet<passport>();
             this.visa_and_labour_card = new HashSet<visa_and_labour_card>();
         }
     
         public int employee_id { get; set; }
-        [Display(Name = "Employee NO")]
         public int employee_no { get; set; }
-        [Display(Name = "Employee Name")]
         public string employee_name { get; set; }
         public string nationality { get; set; }
-        [Display(Name = "DOB")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> dob { get; set; }
-        [Display(Name = "Date Joined")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> date_joined { get; set; }
-        [Display(Name = "Last Working Day")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> last_working_day { get; set; }
         public string gender { get; set; }
         public string status { get; set; }
         public Nullable<long> person_code { get; set; }
-        [Display(Name = "Photo")]
         public string img { get; set; }
-        [Display(Name = "Changed By")]
         public string changed_by { get; set; }
-        [Display(Name = "Date Changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -63,6 +51,8 @@ namespace HRworks.Models
         public virtual ICollection<insurance> insurances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Leave> Leaves { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<liquidation> liquidations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<passport> passports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

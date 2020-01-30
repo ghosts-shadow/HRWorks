@@ -186,6 +186,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\insurancesController.cs" />
     <Compile Include="Controllers\LeavesController.cs" />
+    <Compile Include="Controllers\liquidationsController.cs" />
+    <Compile Include="Controllers\liquidation_refController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\master_fileController.cs" />
     <Compile Include="Controllers\passportsController.cs" />
@@ -210,6 +212,7 @@
     <Compile Include="Models\bank_details.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\liquilist.cs" />
     <Compile Include="Models\contract.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -239,6 +242,12 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Leave.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\liquidation.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\liquidation_ref.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
@@ -276,6 +285,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\CITI SCAPE LOGO.png" />
     <Content Include="Models\HRModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HRModel.edmx</DependentUpon>
@@ -401,6 +411,9 @@
     <Content Include="Views\bank_details\Details.cshtml" />
     <Content Include="Views\bank_details\Edit.cshtml" />
     <Content Include="Views\bank_details\Index.cshtml" />
+    <Content Include="Views\liquidations\Create.cshtml" />
+    <Content Include="Views\liquidation_ref\Create.cshtml" />
+    <Content Include="Views\liquidations\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

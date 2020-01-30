@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace HRworks.Models
 {
     using System;
@@ -16,9 +14,7 @@ namespace HRworks.Models
     
     public partial class username
     {
-        [Display(Name = "full name")]
         public string full_name { get; set; }
-        [Display(Name = "user name")]
         public string aspnet_uid { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }

@@ -11,13 +11,13 @@
         </li>
         <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
 
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off          .........</a></li>
+        <li ><a href="javascript:document.getElementById('logoutForm').submit()" style="margin-left: 1%; margin-right: 1%">Log off</a></li>
     </ul>
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right" style=" padding-left:  1%">
          <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }

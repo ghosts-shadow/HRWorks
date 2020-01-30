@@ -16,7 +16,6 @@ namespace TEST2.Controllers
     public class visa_and_labour_cardController : Controller
     {
         private HREntities db = new HREntities();
-
         // GET: visa_and_labour_card
         public void DownloadExcel(string search)
         {

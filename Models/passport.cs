@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace HRworks.Models
 {
     using System;
@@ -17,29 +15,16 @@ namespace HRworks.Models
     public partial class passport
     {
         public int employee_id { get; set; }
-        [Display(Name = "Employee ID")]
         public int employee_no { get; set; }
-        [Display(Name = "Company Code")]
         public string company_code { get; set; }
-        [Display(Name = "Passport No")]
         public string passport_no { get; set; }
-        [Display(Name = "Passport Expiry")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> passport_expiry { get; set; }
-        [Display(Name = "Passport Issue Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> passport_issue_date { get; set; }
-        [Display(Name = "Passport Return Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public Nullable<System.DateTime> passport_return_date { get; set; }
-        [Display(Name = "Passport Remarks")]
         public string passport_remarks { get; set; }
         public string status { get; set; }
-        [Display(Name = "Personal files")]
         public string imgpath { get; set; }
-        [Display(Name = "Changed By")]
         public string changed_by { get; set; }
-        [Display(Name = "Date Changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
     
         public virtual master_file master_file { get; set; }

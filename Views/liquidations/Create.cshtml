@@ -1,0 +1,296 @@
+﻿@model HRworks.Models.liquilist
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm())
+
+{
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Content/Style.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        var counter = 1;
+        var number = 0;
+        $(function() {
+            $('#add').click(() => {
+                if (number <= 9) {
+                number = counter++;
+                    container = $('#tablerow1');
+                    template = $('#tr0');
+                    var clone = template.clone(true);
+                    clone.attr('id', "tr" + number);
+                    clone.find('#expenses' + 0).attr('name', 'Liquidations1[' + number + '].expenses');
+                    clone.find('#bill_no' + 0).attr('name', 'Liquidations1[' + number + '].bill_no');
+                    clone.find('#invoice_date' + 0).attr('name', 'Liquidations1[' + number + '].invoice_date');
+                    clone.find('#discription' + 0).attr('name', 'Liquidations1[' + number + '].discription');
+                    clone.find('#employee_no' + 0).attr('name', 'Liquidations1[' + number + '].employee_no');
+                    clone.find('#MBNo' + 0).attr('name', 'Liquidations1[' + number + '].MBNo');
+                    clone.find('#invoice' + 0).attr('name', 'Liquidations1[' + number + '].invoice');
+                    clone.find('#VAT' + 0).attr('name', 'Liquidations1[' + number + '].VAT');
+                    clone.find('#invoice_amount' + 0).attr('name', 'Liquidations1[' + number + '].invoice_amount');
+                    clone.find('#expenses' + 0).attr('id', 'expenses' + number);
+                    clone.find('#bill_no' + 0).attr('id', 'bill_no' + number);
+                    clone.find('#invoice_date' + 0).attr('id', 'invoice_date' + number);
+                    clone.find('#discription' + 0).attr('id', 'discription' + number);
+                    clone.find('#employee_no' + 0).attr('id', 'employee_no' + number);
+                    clone.find('#MBNo' + 0).attr('id', 'MBNo' + number);
+                    clone.find('#invoice' + 0).attr('id', 'invoice' + number);
+                    clone.find('#VAT' + 0).attr('id', 'VAT' + number);
+                    clone.find('#tdel' + 1).attr('id', 'tdel' + 1 + number);
+                    clone.find('#tdel' + 2).attr('id', 'tdel' + 2 + number);
+                    clone.find('#invoice_amount' + 0).attr('id', 'invoice_amount' + number);
+
+                $('#discription' + number).val(' ');
+                container.append(clone).before(clone);
+                    if (number>8) {
+                        $("#add").hide();
+                    }
+                                } 
+                
+            });
+        });
+        var total1 = 0;
+
+        function total() {
+            var sum = 0;
+            var a, b;
+            for (var i = 0; i < counter; i++) {
+                a = $("#invoice" + i).val() == '' ? 0 : $("#invoice" + i).val();
+                b = $("#VAT" + i).val() == '' ? 0 : $("#VAT" + i).val();
+                sum = parseFloat(a) + parseFloat(b);
+                $("#invoice_amount" + i).val(sum);
+            }
+            ttotal();
+        };
+
+        function ttotal() {
+
+            for (var i = 0; i < counter; i++) {
+                var a = $("#invoice_amount" + i).val() == '' ? 0 : $("#invoice_amount" + i).val();
+                total1 = total1 + parseFloat(a);
+            $('#discription' + i).val("Emp#" + $('#employee_no' + i + ' :selected').text() + '_' + $('#MBNo' + i).val());
+            }
+            var t = $("#totalq").html(total1);
+            var t = $("#tt").html(total1);
+            total1 = 0;
+        };
+    </script>
+    <script>
+        document.onkeydown = function(e) {
+            if (event.keyCode == 123) {
+                return false;
+            }
+            if (e.ctrlKey && e.keyCode == 'P'.charCodeAt(0)) {
+                $("#del").hide();
+                $("#thdel1").hide();
+                $("#thdel2").hide();
+                $("#tdel1").hide();
+                $("#tdel2").hide();
+                for (var i = 1; i < number+1; i++) {
+
+                    $("#tdel"+1+i).hide();
+                    $("#tdel"+2+i).hide();
+                }
+                $("#add").hide();
+                return true;
+            } else {
+                $("#del").show();
+                $("#thdel1").show();
+                $("#thdel2").show();
+                $("#tdel1").show();
+                $("#tdel2").show();
+                for (var j = 1; j < number+1; j++) {
+                    $("#tdel"+1 + j).show();
+                    $("#tdel"+2 + j).show();
+                }
+                $("#add").show();
+            }
+        }
+    </script>
+    @Html.AntiForgeryToken()
+    <style>
+        table { text-align: center }
+
+        th, td { text-align: center; }
+        .row {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+    </style>
+    <div class="form-horizontal" onclick="total()" >
+        <p id="del">save bill elements<input type="submit" value="save" class="btn btn-default" id="save" /></p>
+        <hr/>
+        <div class="row" style="position: relative; left: 40%; top: 0%">
+            <img src="~/img/CITI SCAPE LOGO.png" height="200" width="200"/>
+        </div>
+        <div class="row" style="text-align: center; color: white; background-color: black">
+            <h2 style="text-transform: uppercase;text-align: center;">petty cash imprest sheet </h2>
+        </div>
+        <div class="row">
+            <div style="left: 5%; position: relative;">
+                @Html.LabelFor(model => model.Liquidations1[0].refr, "ref :", new { @class = "control-label " })
+                @ViewBag.refr
+            </div>
+            <div style="position: relative; left: 90%;">
+                @Html.LabelFor(model => model.Liquidations1[0].liquidation_ref.date, "date:", new { @class = "control-label " })
+                @ViewBag.date
+            </div>
+            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+        </div>
+        <div class="row">
+            <table style="text-align: center;" onclick="total()">
+                <col>
+                <thead>
+                <tr>
+                    <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].bill_no, new { @class = "control-label " })</th>
+                    <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].expenses, new { @class = "control-label " })</th>
+                    <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].invoice_date, new { @class = "control-label " })</th>
+                    <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].discription, new { @class = "control-label " })</th>
+                    <th rowspan="2" scope="rowgroup" id="thdel1"> @Html.LabelFor(model => model.Liquidations1[0].employee_no, new { @class = "control-label " })</th>
+                    <th rowspan="2" scope="rowgroup" id="thdel2"> @Html.LabelFor(model => model.Liquidations1[0].MBNo, new { @class = "control-label " })</th>
+                    <th colspan="3">debit amount</th>
+                </tr>
+                <tr>
+                    <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].invoice, new { @class = "control-label " })</th>
+                    <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].VAT, new { @class = "control-label " })</th>
+                    <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].invoice_amount, new { @class = "control-label " })</th>
+                </tr>
+                </thead>
+                <tr id="tr0">
+                    <td>
+                        @Html.EditorFor(model => model.Liquidations1[0].bill_no, new { htmlAttributes = new { @class = "form-control", id = "bill_no0" } })
+                        @Html.ValidationMessageFor(model => model.Liquidations1[0].bill_no, string.Empty, new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.Liquidations1[0].expenses, new { htmlAttributes = new { @class = "form-control", id = "expenses0" } })
+                        @Html.ValidationMessageFor(model => model.Liquidations1[0].expenses, string.Empty, new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @*
+                    @Html.EditorFor(model => model.Liquidations1[0].invoice_date, new { htmlAttributes = new { @class = "form-control", id = "invoice_date0" } })*@
+                        <input type="date" name="Liquidations1[0].invoice_date" class="form-control" , id="invoice_date0"/>
+                        @Html.ValidationMessageFor(model => model.Liquidations1[0].invoice_date, string.Empty, new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.Liquidations1[0].discription, new { htmlAttributes = new { @class = "form-control", id = "discription0", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.Liquidations1[0].discription, string.Empty, new { @class = "text-danger" })
+                    </td>
+
+                    <td id="tdel1">
+                        @*@Html.EditorFor(model => model.Liquidations1[0].employee_no, new { htmlAttributes = new { @class = "form-control", id = "employee_no0" } })*@
+                        @Html.DropDownList("Liquidations1[0].employee_no", new List<SelectListItem>(ViewBag.employee_no), new { @class = "form-control", @id = "employee_no0" })
+                        @Html.ValidationMessageFor(model => model.Liquidations1[0].employee_no, string.Empty, new { @class = "text-danger" })
+                    </td>
+
+                    <td id="tdel2">
+                        @Html.EditorFor(model => model.Liquidations1[0].MBNo, new { htmlAttributes = new { @class = "form-control", id = "MBNo0" } })
+                        @Html.ValidationMessageFor(model => model.Liquidations1[0].MBNo, string.Empty, new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.Liquidations1[0].invoice, new { htmlAttributes = new { @class = "form-control", id = "invoice0" } })
+                        @Html.ValidationMessageFor(model => model.Liquidations1[0].invoice, string.Empty, new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.Liquidations1[0].VAT, new { htmlAttributes = new { @class = "form-control", id = "VAT0" } })
+                        @Html.ValidationMessageFor(model => model.Liquidations1[0].VAT, string.Empty, new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.Liquidations1[0].invoice_amount, new { htmlAttributes = new { @class = "form-control", id = "invoice_amount0", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.Liquidations1[0].invoice_amount, string.Empty, new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr id="tablerow1"></tr>
+                <tr>
+                    <td colspan="6" style="text-align: right" onclick="ttotal()">total</td>
+                    <td colspan="3" style="text-align: left" id="totalq" onclick="ttotal()"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-2">
+            <input type="button" class="btn btn-default" value="add" id="add" name="add" onclick="total()"/>
+        </div>
+        <br/>
+        <br/>
+        <div class="row" style="text-align: left; border: 1px solid black">
+            <br/>
+            <div class="col-md-4" style="border: 1px solid black; padding: 1%">
+                <p>we certify that above mantioned material consumed and / or expenditures incurred for<br /><input type="text" style="height: 25px; width: 100%; border: none" /></p>
+
+                
+                <div class="col-md-4" style="text-align: center">
+                    <hr style="border: none; height: 2px; /* Set the hr color */color: #333; /* old IE */background-color: #333; /* Modern Browsers */"/>
+                    imperst holder
+                </div>
+                <div class="col-md-4" style="text-align: center">
+                    <hr style="border: none; height: 2px; /* Set the hr color */color: #333; /* old IE */background-color: #333; /* Modern Browsers */"/>
+                    pm/hod
+                </div>
+                <div class="col-md-4" style="text-align: center">
+                    <hr style="border: none; height: 2px; /* Set the hr color */color: #333; /* old IE */background-color: #333; /* Modern Browsers */"/>
+                    od/head of projects
+                </div>
+
+
+
+            </div>
+            <div class="col-md-2" style="border: 1px solid black; padding: 5%;">
+                <b>
+                    float amount:
+                </b><br/>
+                <b>
+                    expenses:
+                </b><br/>
+                <b>
+                    remaining balance:
+                </b>
+            </div>
+                <b class="col-md-2" id="tt" style="text-align: center; padding: 5%;">
+
+                </b>
+        </div>
+        <div class="row" style="border: 1px solid black;">
+            <b>
+                <b>
+                    for the use of accounts department only
+                </b></b>
+        </div>
+        <div class="row" style="border: 1px solid black; text-align: center">
+            <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
+                <hr style="border: none; height: 2px; /* Set the hr color */color: #333; /* old IE */background-color: #333; /* Modern Browsers */"/>
+                checked by
+            </div>
+            <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
+                <hr style="border: none; height: 2px; /* Set the hr color */color: #333; /* old IE */background-color: #333; /* Modern Browsers */"/>
+                reviewed by
+            </div>
+            <div class="col-lg-4" style="border: 1px solid black;width:33.33% ">
+                <hr style="border: none; height: 2px; /* Set the hr color */color: #333; /* old IE */background-color: #333; /* Modern Browsers */"/>
+                approved by
+            </div>
+        </div>
+        <div class="row" style="border: 1px solid black;">
+            <br/>
+            encoded in the system by:_____________________
+            <br/>.
+        </div>
+        <p style="text-align: center"><b> CSFIN04 </b><b style="text-align: end"> Version R4</b></p>
+    </div>
+    <br/>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
