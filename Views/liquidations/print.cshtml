@@ -27,8 +27,12 @@
 <style>
     table { text-align: center; }
 
-    th, td { text-align: center; }
-
+    th, td,tr { text-align: center;
+        background-color: white;
+        color: black;
+        border: 1px solid black;
+    }
+    
     .row {
         -ms-flex-wrap: wrap;
         display: -ms-flexbox;
@@ -51,26 +55,22 @@
 
     <div class="row" style="left: 45%; position: relative; top: 0%">
         <img src="~/img/logo.png" height="50" width="100" />
-        <br />
     </div>
     <br />
     <div class="row" style="background-color: black !important; color: white; text-align: center;">
         <h2 style="-webkit-print-color-adjust: exact; margin-left: 25%; text-align: center; text-transform: uppercase;">petty cash imprest sheet </h2>
     </div>
-    <div class="row">
+    <div class="row" style="border: 1px solid black;">
         <div style="left: 5%; position: relative;">
-            @*@Html.DisplayFor(model => model[0].refr, "ref :", new { @class = "control-label " })
-                @ViewBag.refr*@
+           ref : @ViewBag.refr
         </div>
         <div style="left: 75%; position: relative;">
-            @*@Html.DisplayFor(model => model.liquidation_ref.date, "date:", new { @class = "control-label " })
-                @ViewBag.date*@
+            date :@ViewBag.pdate
         </div>
         @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
     </div>
-    <br />
     <div class="row">
-        <table class="table" style="background-color: white" >
+        <table class="table" style="margin-bottom: 0;">
             <col>
             <thead onclick="check()">
                 <tr>
@@ -113,32 +113,30 @@
                 </tr>
             }
             <tr>
-                <td colspan="6" style="text-align: right" >total</td>
+                <td colspan="4" style="text-align: right">total</td>
                 <td colspan="3" style="text-align: left" id="totalq">@ViewBag.ttinsum</td>
             </tr>
 
         </table>
     </div>
-    <br />
-    <br />
     <div class="row" style="border: 1px solid black; text-align: left;">
-        <br />
         <div class="col-sm-7" style="border: 1px solid black;">
+            <br />
             <div class="row">
-                <p>we certify that above mantioned material consumed and / or expenditures incurred for<br /><input type="text" style="border: none; font-weight: bold; height: 25px; width: 100%;" placeholder="purpose" /></p>
+                <p>we certify that above mantioned material consumed and / or expenditures incurred for<br /><input type="text" style="border: none; font-weight: bold; height: 25px; width: 100%;" placeholder="enter purpose" /></p>
             </div>
             <br />
             <div class="row" style="text-transform: capitalize">
                 <div class="col-md-3" style="text-align: center">
-                    <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
+                    <hr style="background-color: #333;border: none;color: #333;height: 3px;" />
                     <b>imperst holder</b>
                 </div>
                 <div class="col-md-3" style="text-align: center">
-                    <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
+                    <hr style="/* old IE */background-color: black; /* Modern Browsers */border: none; /* Set the hr color */color: black; height: 3px;" />
                     <b style="text-transform: uppercase">pm/hod</b>
                 </div>
                 <div class="col-md-3" style="text-align: center">
-                    <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
+                    <hr style="/* old IE */background-color: black; /* Modern Browsers */border: none; /* Set the hr color */color: black; height: 3px;" />
                     <b>OD/Head of projects</b>
                 </div>
             </div>
@@ -159,13 +157,13 @@
                 remaining balance:
             </b>
         </div>
-        <div class="col-sm-1" style="text-align: center;">
+        <div class="col-sm-2" style="text-align: center;">
             <br />
             <br />
             <br />
             <br />
-            <b id="tt" style="text-align: center;">
-                @ViewBag.ttinsum
+            <b id="tt" >
+                @ViewBag.ttinsum AED
             </b>
         </div>
     </div>
@@ -199,11 +197,8 @@
             approved by
         </div>
     </div>
-    <div class="row" style="border: 1px solid black;">
-        .<br />
-        <br />
-        encoded in the system by:_____________________
-        <br />.
+    <div class="row" style="border: 1px solid black; padding: 1%">
+        encoded in the system by:<u> @User.Identity.Name</u>
     </div>
     <div class="row" style="margin-left: 20%">
 

@@ -38,7 +38,7 @@
 
         public ActionResult index()
         {
-            var lii = this.db.liquidations.ToList();
+            var lii = this.db.liquidations.ToList().OrderBy(x => x.master_file.employee_no);
             return this.View(lii);
         }
 
@@ -54,6 +54,8 @@
                 foreach (var liid in liqireflist)
                 {
                     printlist1 = this.db.liquidations.Where(x => x.refr == liid.Id).ToList();
+                    ViewBag.refr = prefr;
+                    ViewBag.pdate = pdate.Value.ToShortDateString();
                 }
                 foreach (var pl in printlist1)
                 {
@@ -128,12 +130,9 @@
                     var lilist = db.liquidations.ToList();
                     if (liqui.bill_no != null && liqui.employee_no != null)
                     {
-                        if (!lilist.Exists(x=>x.bill_no == liqui.bill_no) )
-                        {
                                 liqui.refr = refrlist.Last().Id;
                                 this.db.liquidations.Add(liqui);
                                 this.db.SaveChanges();
-                        }
                     }
                 }
                 

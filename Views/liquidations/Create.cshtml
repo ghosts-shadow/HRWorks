@@ -229,7 +229,7 @@
                     <td>
                         @*
             @Html.EditorFor(model => model.Liquidations1[0].invoice_date, new { htmlAttributes = new { @class = "form-control", id = "invoice_date0" } })*@
-                        <input type="date" name="Liquidations1[0].invoice_date" class="form-control" , id="invoice_date0" />
+                        <input type="date" name="Liquidations1[0].invoice_date" class="form-control" , id="invoice_date0" required="true"/>
                         @Html.ValidationMessageFor(model => model.Liquidations1[0].invoice_date, string.Empty, new { @class = "text-danger" })
                     </td>
                     <td>
@@ -239,7 +239,7 @@
 
                     <td id="tdel1">
                         @*@Html.EditorFor(model => model.Liquidations1[0].employee_no, new { htmlAttributes = new { @class = "form-control", id = "employee_no0" } })*@
-                        @Html.DropDownList("Liquidations1[0].employee_no", new List<SelectListItem>(ViewBag.ee), new { @class = "form-control chosen-select", @id = "employee_no0" })
+                        @Html.DropDownList("Liquidations1[0].employee_no", new List<SelectListItem>(ViewBag.ee), new { @class = "form-control chosen-select", @id = "employee_no0",@required="true" })
                         @*<input type="text" class="form-control" id="employee_no0" list="ll" name="Liquidations1[0].employee_no"/>
             <datalist id="ll">
                 <option value=""> </option>
