@@ -185,6 +185,7 @@
     <Compile Include="Controllers\emirates_idController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\insurancesController.cs" />
+    <Compile Include="Controllers\labour_cardController.cs" />
     <Compile Include="Controllers\LeavesController.cs" />
     <Compile Include="Controllers\liquidationsController.cs" />
     <Compile Include="Controllers\liquidation_refController.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Controllers\master_fileController.cs" />
     <Compile Include="Controllers\passportsController.cs" />
     <Compile Include="Controllers\usernamesController.cs" />
+    <Compile Include="Controllers\visasController.cs" />
     <Compile Include="Controllers\visa_and_labour_cardController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -212,7 +214,6 @@
     <Compile Include="Models\bank_details.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\liquilist.cs" />
     <Compile Include="Models\contract.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -237,8 +238,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HRModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\insurance.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\labour_card.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Leave.cs">
@@ -250,6 +253,8 @@
     <Compile Include="Models\liquidation_ref.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\liquilist.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\master_file.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -263,6 +268,9 @@
     <Compile Include="Models\username.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\visa.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\visa_and_labour_card.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -274,6 +282,13 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen\chosen-sprite.png" />
+    <Content Include="Content\chosen\chosen.css" />
+    <Content Include="Content\chosen\chosen.min.css" />
+    <Content Include="Content\chosen\index.html" />
+    <Content Include="Content\chosen\index.proto.html" />
+    <Content Include="Content\chosen\options.html" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\testbootstrap\bootstrap-grid.css" />
     <Content Include="Content\testbootstrap\bootstrap-grid.min.css" />
@@ -286,6 +301,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="img\CITI SCAPE LOGO.png" />
+    <Content Include="img\logo.png" />
     <Content Include="Models\HRModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HRModel.edmx</DependentUpon>
@@ -296,13 +312,6 @@
       <DependentUpon>HRModel.edmx</DependentUpon>
       <LastGenOutput>HRModel.cs</LastGenOutput>
     </Content>
-    <Content Include="Scripts\ajaxjquery.min.js" />
-    <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.js" />
-    <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.min.js" />
-    <Content Include="Scripts\bootstrap scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap scripts\bootstrap.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\testbootstrap\bootstrap-grid.css.map" />
     <Content Include="Content\testbootstrap\bootstrap-grid.min.css.map" />
     <Content Include="Content\testbootstrap\bootstrap-reboot.css.map" />
@@ -316,13 +325,22 @@
     <Content Include="Models\HRModel.edmx.diagram">
       <DependentUpon>HRModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\chosen\composer.json" />
+    <Content Include="Content\chosen\LICENSE.md" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
-    <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.js.map" />
-    <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap scripts\bootstrap.min.js.map" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\ajaxjquery.min.js" />
+    <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\chosen\chosen.jquery.js" />
+    <Content Include="Scripts\chosen\chosen.jquery.min.js" />
+    <Content Include="Scripts\chosen\chosen.proto.js" />
+    <Content Include="Scripts\chosen\chosen.proto.min.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -414,6 +432,23 @@
     <Content Include="Views\liquidations\Create.cshtml" />
     <Content Include="Views\liquidation_ref\Create.cshtml" />
     <Content Include="Views\liquidations\index.cshtml" />
+    <Content Include="Views\visas\Create.cshtml" />
+    <Content Include="Views\visas\Delete.cshtml" />
+    <Content Include="Views\visas\Details.cshtml" />
+    <Content Include="Views\visas\Edit.cshtml" />
+    <Content Include="Views\visas\Index.cshtml" />
+    <Content Include="Views\labour_card\Create.cshtml" />
+    <Content Include="Views\labour_card\Delete.cshtml" />
+    <Content Include="Views\labour_card\Details.cshtml" />
+    <Content Include="Views\labour_card\Edit.cshtml" />
+    <Content Include="Views\labour_card\Index.cshtml" />
+    <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Views\liquidations\print.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -429,8 +464,6 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

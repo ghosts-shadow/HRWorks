@@ -102,7 +102,6 @@
                         @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})*@
                     @Html.DropDownList("emp_no", null, new { @class = "form-control", @id = "employee_no" })
                     @Html.ValidationMessageFor(model => model.emp_no, "", new { @class = "text-danger" })
-
                 </div>
                 <div class="col-md-4"
                      id="hide2"

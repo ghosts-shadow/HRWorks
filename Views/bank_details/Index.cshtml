@@ -7,9 +7,9 @@
 }
 
     <h2 style="text-transform: uppercase">bank details</h2>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+    <p>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New"/>
+    </p>
 @using (Html.BeginForm("Index", "bank_details", FormMethod.Get, new { id = "form1" }))
 {
     <div>

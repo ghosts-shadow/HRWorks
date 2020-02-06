@@ -6,9 +6,10 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/favicon.ico");
     <script type="text/javascript">
         var i = 0;
-        $(document).ready(function() {
+        $(document).ready(function () {
             ShowCurrentTime();
         });
         $(document).body.onclick(reset());
@@ -19,8 +20,8 @@
             var dt = new Date();
             document.getElementById("lblTime").innerHTML = 180 - i + " Seconds";
             i++;
-            if (i==170) {
-                document.getElementById("lblTime").style.display ="";
+            if (i == 170) {
+                document.getElementById("lblTime").style.display = "";
             }
             if (i == 180) {
                 setTimeout("javascript:document.getElementById('logoutForm').submit()", 0);
@@ -31,22 +32,31 @@
     <style>
         table {
             width: 100%;
-            background-color: #eeeeee;
+            background-color: #01ffe7;
             -webkit-print-color-adjust: exact;
             border-collapse: collapse;
         }
-        th {
-            background-color: #2c6faa;
-            color: white;
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
-        th,tr,td {
-            border: 1px solid black;
-            padding: 0.3%
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        th, tr, td {
+            border: 1px solid black !important;
+            padding: 0.3% !important;
+            text-align: center ;
         }
     </style>
 </head>
-    <body onload="ShowCurrentTime()" style="text-transform: capitalize; margin-left: 1%;margin-right: 1%">
-        <div class="navbar navbar-inverse navbar-fixed-top" style="position: relative;top: 0%">
+    <body @*onload="ShowCurrentTime()"*@ style="text-transform: capitalize; margin-left: 1%;margin-right: 1%">
+        <div class="navbar navbar-inverse navbar-fixed-top" style="position: relative;top: -50px">
             <div class="navbar-header">
                 <button type="button"
                         class="navbar-toggle"
@@ -67,10 +77,10 @@
                         <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
                         <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
                         <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
-                        <li>@Html.ActionLink("Visa And Labor Card", "Index", "visa_and_labour_card")</li>
                         <li>@Html.ActionLink("Contract", "Index", "contracts")</li>
                         <li>@Html.ActionLink("Employee Details", "Index", "master_file")</li>
                         <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
+                        <li>@Html.ActionLink("visa and labor card(temp)", "Index", "visa_and_labour_card")</li>
                         <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
                         <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
                         if (User.Identity.IsAuthenticated)
@@ -78,6 +88,8 @@
                             if (User.IsInRole("admin"))
                             {
                                 <li>@Html.ActionLink("user name", "index", "usernames")</li>
+                                <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
+                                <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
                             }
                         }
 
@@ -86,10 +98,15 @@
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
-        <div class="body-content row" style="text-transform: capitalize; margin-left: 1%; margin-right: 1%; position: relative;top: 5%">
+        <div class="body-content row" style="        text-transform: capitalize;
+        margin-left: 1%;
+        margin-right: 1%;
+        position: relative;
+        top: 5%
+" >
             @RenderBody()
             <hr />
-            <footer>
+            <footer id="foot">
                 <p>&copy; @DateTime.Now.Year - CITISCAPE L.L.C.</p>
                 @if (Request.IsAuthenticated) {<label id="lblTime" style="display: none"></label> }
             </footer>

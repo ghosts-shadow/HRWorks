@@ -4,24 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="23b8caffd83f43499bcd1beec6e47ce0" Name="Diagram1">
+      <Diagram DiagramId="5dfe7ab0825c4f099236bf81aee6f3fc" Name="Diagram1">
         <EntityTypeShape EntityType="HRModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.AspNetRole" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.AspNetUserClaim" Width="1.5" PointX="10.25" PointY="1.125" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.AspNetUserLogin" Width="1.5" PointX="10.25" PointY="3.875" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.AspNetUser" Width="1.5" PointX="8" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.bank_details" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.contract" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.emirates_id" Width="1.5" PointX="3" PointY="13.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.insurance" Width="1.5" PointX="3" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.Leave" Width="1.5" PointX="3" PointY="20.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.liquidation" Width="1.5" PointX="6" PointY="16.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.liquidation_ref" Width="1.5" PointX="3.75" PointY="25.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.master_file" Width="1.5" PointX="0.75" PointY="15.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.passport" Width="1.5" PointX="3" PointY="28.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.bank_details" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.contract" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.emirates_id" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.insurance" Width="1.5" PointX="3" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.labour_card" Width="1.5" PointX="3" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.Leave" Width="1.5" PointX="3" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.liquidation" Width="1.5" PointX="6" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.liquidation_ref" Width="1.5" PointX="3.75" PointY="29" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.master_file" Width="1.5" PointX="0.75" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.passport" Width="1.5" PointX="3" PointY="33.125" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.Table" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.username" Width="1.5" PointX="10.25" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.visa_and_labour_card" Width="1.5" PointX="3" PointY="33.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.visa" Width="1.5" PointX="3" PointY="37.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.visa_and_labour_card" Width="1.5" PointX="3" PointY="41.875" IsExpanded="true" />
         <AssociationConnector Association="HRModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_usernames_To_AspNetUsers" ManuallyRouted="false" />
@@ -29,11 +31,13 @@
         <AssociationConnector Association="HRModel.FK_con_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_em_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_in_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_labour_card_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_le_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_liqui_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_liquidation_To_lref" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_pass_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_v_l_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_visa_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.AspNetUserRoles" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

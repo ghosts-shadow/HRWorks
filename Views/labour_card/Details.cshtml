@@ -1,0 +1,81 @@
+﻿@model HRworks.Models.labour_card
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>labour_card</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.work_permit_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.work_permit_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.personal_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.personal_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.proffession)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.proffession)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lc_expiry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lc_expiry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.establishment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.establishment)
+        </dd>
+    </dl>
+    <div class="col-lg-5">
+        <img src="@Html.DisplayFor(model => model.master_file.img)"
+             alt="@Html.DisplayFor(model => model.master_file.employee_name)"
+             width=250
+             height=250 />
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.employee_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

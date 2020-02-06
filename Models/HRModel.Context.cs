@@ -34,6 +34,7 @@ namespace HRworks.Models
         public virtual DbSet<contract> contracts { get; set; }
         public virtual DbSet<emirates_id> emirates_id { get; set; }
         public virtual DbSet<insurance> insurances { get; set; }
+        public virtual DbSet<labour_card> labour_card { get; set; }
         public virtual DbSet<Leave> Leaves { get; set; }
         public virtual DbSet<liquidation> liquidations { get; set; }
         public virtual DbSet<liquidation_ref> liquidation_ref { get; set; }
@@ -41,6 +42,7 @@ namespace HRworks.Models
         public virtual DbSet<passport> passports { get; set; }
         public virtual DbSet<Table> Tables { get; set; }
         public virtual DbSet<username> usernames { get; set; }
+        public virtual DbSet<visa> visas { get; set; }
         public virtual DbSet<visa_and_labour_card> visa_and_labour_card { get; set; }
     }
 }

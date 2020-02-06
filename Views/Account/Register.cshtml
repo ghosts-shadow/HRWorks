@@ -39,11 +39,12 @@
         @Html.LabelFor(m => m.UserRole, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.RadioButtonFor(m => m.UserRole, "admin", new {@class = "radio-inline"})@Html.Label("admin")
-            @Html.RadioButtonFor(m => m.UserRole, "visitor", new {@class = "radio-inline"})@Html.Label("visitor")
-            @Html.RadioButtonFor(m => m.UserRole, "employee_EID", new {@class = "radio-inline"})@Html.Label("employee_EID")<br/>
-            @Html.RadioButtonFor(m => m.UserRole, "employee_INC", new {@class = "radio-inline"})@Html.Label("employee_INC")
-            @Html.RadioButtonFor(m => m.UserRole, "employee_PASS", new {@class = "radio-inline"})@Html.Label("employee_PASS")<br/>
-            @Html.RadioButtonFor(m => m.UserRole, "employee_VLC", new {@class = "radio-inline"})@Html.Label("employee_VLC")
+            @Html.RadioButtonFor(m => m.UserRole, "Manager", new {@class = "radio-inline"})@Html.Label("manager")<br/>
+            @Html.RadioButtonFor(m => m.UserRole, "liquidation", new {@class = "radio-inline"})@Html.Label("liquidation")
+            @Html.RadioButtonFor(m => m.UserRole, "employee_EID", new {@class = "radio-inline"})@Html.Label("employee_EID")
+            @Html.RadioButtonFor(m => m.UserRole, "employee_INC", new {@class = "radio-inline"})@Html.Label("employee_INC")<br />
+            @Html.RadioButtonFor(m => m.UserRole, "employee_PASS", new {@class = "radio-inline"})@Html.Label("employee_PASS")
+            @Html.RadioButtonFor(m => m.UserRole, "employee_VLC", new {@class = "radio-inline"})@Html.Label("employee_VLC")<br />
         </div>
     </div>
     <div class="form-group">

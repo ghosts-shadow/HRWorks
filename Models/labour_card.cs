@@ -7,29 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
 namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class emirates_id
+    public partial class labour_card
     {
         public int employee_id { get; set; }
-        [Display(Name = "Employee ID")]
-        public int employee_no { get; set; }
-        [Display(Name = "EID no")]
-        public long eid_no { get; set; }
-        [Display(Name = " EID expiry")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public System.DateTime eid_expiry { get; set; }
-        [Display(Name = "Photo")]
+        public Nullable<int> work_permit_no { get; set; }
+        public Nullable<int> personal_no { get; set; }
+        public int emp_no { get; set; }
+        public string proffession { get; set; }
+        public Nullable<System.DateTime> lc_expiry { get; set; }
+        public string establishment { get; set; }
         public string imgpath { get; set; }
-        [Display(Name = "Changed by")]
         public string changed_by { get; set; }
-        [Display(Name = "Date Changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
-
+    
         public virtual master_file master_file { get; set; }
     }
 }

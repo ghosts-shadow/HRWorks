@@ -24,9 +24,9 @@
 <h2 style="text-transform: uppercase">contract</h2>
 @if (Request.IsAuthenticated)
 {
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+<p>
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New"/>
+</p>
     <script type="text/javascript">
         var tableToExcel = (function () {
             var uri = 'data:application/vnd.ms-excel;base64,',
@@ -55,7 +55,7 @@
         <div>
             @*Page Size:@Html.DropDownList("pageSize", null, new { @id = "pageSize"/*, @onchange = "norc()"*/ })
             *@
-            page size:-<input type="text" name="pagesize" id="pagesize" />
+            page size:-<input type="text" name="pagesize" id="pagesize"  />
             search:-
             @Html.TextBox("search")
            <input type="submit"

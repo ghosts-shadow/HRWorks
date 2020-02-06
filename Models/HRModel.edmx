@@ -130,6 +130,21 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
+        <EntityType Name="labour_card">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="work_permit_no" Type="int" />
+          <Property Name="personal_no" Type="int" />
+          <Property Name="emp_no" Type="int" Nullable="false" />
+          <Property Name="proffession" Type="nvarchar(max)" />
+          <Property Name="lc_expiry" Type="date" />
+          <Property Name="establishment" Type="nvarchar(max)" />
+          <Property Name="imgpath" Type="nvarchar(max)" />
+          <Property Name="changed_by" Type="nvarchar(max)" />
+          <Property Name="date_changed" Type="datetime" />
+        </EntityType>
         <EntityType Name="Leave">
           <Key>
             <PropertyRef Name="Id" />
@@ -216,6 +231,24 @@
           </Key>
           <Property Name="full_name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="aspnet_uid" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="visa">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid_no" Type="bigint" />
+          <Property Name="file_no" Type="bigint" />
+          <Property Name="emp_no" Type="int" Nullable="false" />
+          <Property Name="place_of_issue" Type="nvarchar(max)" />
+          <Property Name="accompanied_by" Type="nvarchar(max)" />
+          <Property Name="rv_expiry" Type="date" />
+          <Property Name="rv_issue" Type="date" />
+          <Property Name="proff_as_per_visa" Type="nvarchar(max)" />
+          <Property Name="imgpath" Type="nvarchar(max)" />
+          <Property Name="sponsor" Type="nvarchar(max)" />
+          <Property Name="changed_by" Type="nvarchar(max)" />
+          <Property Name="date_changed" Type="datetime" />
         </EntityType>
         <EntityType Name="visa_and_labour_card">
           <Key>
@@ -337,6 +370,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_labour_card_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="labour_card" Type="Self.labour_card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="labour_card">
+              <PropertyRef Name="emp_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_le_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="Leave" Type="Self.Leave" Multiplicity="*" />
@@ -409,6 +454,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_visa_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="visa" Type="Self.visa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="visa">
+              <PropertyRef Name="emp_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="HRModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -420,6 +477,7 @@
           <EntitySet Name="contract" EntityType="Self.contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="insurance" EntityType="Self.insurance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="labour_card" EntityType="Self.labour_card" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave" EntityType="Self.Leave" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation" EntityType="Self.liquidation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation_ref" EntityType="Self.liquidation_ref" Schema="dbo" store:Type="Tables" />
@@ -427,6 +485,7 @@
           <EntitySet Name="passport" EntityType="Self.passport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usernames" EntityType="Self.usernames" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="visa" EntityType="Self.visa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_bank_To_master_file" Association="Self.FK_bank_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -460,6 +519,10 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="insurance" EntitySet="insurance" />
           </AssociationSet>
+          <AssociationSet Name="FK_labour_card_To_master_file" Association="Self.FK_labour_card_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="labour_card" EntitySet="labour_card" />
+          </AssociationSet>
           <AssociationSet Name="FK_le_To_master_file" Association="Self.FK_le_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="Leave" EntitySet="Leave" />
@@ -483,6 +546,10 @@
           <AssociationSet Name="FK_v$l_To_master_file" Association="Self.FK_v$l_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="visa_and_labour_card" EntitySet="visa_and_labour_card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_visa_To_master_file" Association="Self.FK_visa_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="visa" EntitySet="visa" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -618,6 +685,22 @@
           <Property Name="date_changed" Type="DateTime" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_in_To_master_file" FromRole="insurance" ToRole="master_file" />
         </EntityType>
+        <EntityType Name="labour_card">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="work_permit_no" Type="Int32" />
+          <Property Name="personal_no" Type="Int32" />
+          <Property Name="emp_no" Type="Int32" Nullable="false" />
+          <Property Name="proffession" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="lc_expiry" Type="DateTime" Precision="0" />
+          <Property Name="establishment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date_changed" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_labour_card_To_master_file" FromRole="labour_card" ToRole="master_file" />
+        </EntityType>
         <EntityType Name="Leave">
           <Key>
             <PropertyRef Name="Id" />
@@ -681,10 +764,12 @@
           <NavigationProperty Name="contracts" Relationship="Self.FK_con_To_master_file" FromRole="master_file" ToRole="contract" />
           <NavigationProperty Name="emirates_id" Relationship="Self.FK_em_To_master_file" FromRole="master_file" ToRole="emirates_id" />
           <NavigationProperty Name="insurances" Relationship="Self.FK_in_To_master_file" FromRole="master_file" ToRole="insurance" />
+          <NavigationProperty Name="labour_card" Relationship="Self.FK_labour_card_To_master_file" FromRole="master_file" ToRole="labour_card" />
           <NavigationProperty Name="Leaves" Relationship="Self.FK_le_To_master_file" FromRole="master_file" ToRole="Leave" />
           <NavigationProperty Name="liquidations" Relationship="Self.FK_liqui_To_master_file" FromRole="master_file" ToRole="liquidation" />
           <NavigationProperty Name="passports" Relationship="Self.FK_pass_To_master_file" FromRole="master_file" ToRole="passport" />
           <NavigationProperty Name="visa_and_labour_card" Relationship="Self.FK_v_l_To_master_file" FromRole="master_file" ToRole="visa_and_labour_card" />
+          <NavigationProperty Name="visas" Relationship="Self.FK_visa_To_master_file" FromRole="master_file" ToRole="visa" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -718,6 +803,25 @@
           <Property Name="full_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="aspnet_uid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_usernames_To_AspNetUsers" FromRole="usernames" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="visa">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid_no" Type="Int64" />
+          <Property Name="file_no" Type="Int64" />
+          <Property Name="emp_no" Type="Int32" Nullable="false" />
+          <Property Name="place_of_issue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="accompanied_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="rv_expiry" Type="DateTime" Precision="0" />
+          <Property Name="rv_issue" Type="DateTime" Precision="0" />
+          <Property Name="proff_as_per_visa" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sponsor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date_changed" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="Self.FK_visa_To_master_file" FromRole="visa" ToRole="master_file" />
         </EntityType>
         <EntityType Name="visa_and_labour_card">
           <Key>
@@ -824,6 +928,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_labour_card_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="labour_card" Type="Self.labour_card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="labour_card">
+              <PropertyRef Name="emp_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_le_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="Leave" Type="Self.Leave" Multiplicity="*" />
@@ -884,6 +1000,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_visa_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="visa" Type="Self.visa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="visa">
+              <PropertyRef Name="emp_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -898,6 +1026,7 @@
           <EntitySet Name="contracts" EntityType="Self.contract" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" />
           <EntitySet Name="insurances" EntityType="Self.insurance" />
+          <EntitySet Name="labour_card" EntityType="Self.labour_card" />
           <EntitySet Name="Leaves" EntityType="Self.Leave" />
           <EntitySet Name="liquidations" EntityType="Self.liquidation" />
           <EntitySet Name="liquidation_ref" EntityType="Self.liquidation_ref" />
@@ -905,6 +1034,7 @@
           <EntitySet Name="passports" EntityType="Self.passport" />
           <EntitySet Name="Tables" EntityType="Self.Table" />
           <EntitySet Name="usernames" EntityType="Self.username" />
+          <EntitySet Name="visas" EntityType="Self.visa" />
           <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -934,6 +1064,10 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="insurance" EntitySet="insurances" />
           </AssociationSet>
+          <AssociationSet Name="FK_labour_card_To_master_file" Association="Self.FK_labour_card_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="labour_card" EntitySet="labour_card" />
+          </AssociationSet>
           <AssociationSet Name="FK_le_To_master_file" Association="Self.FK_le_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="Leave" EntitySet="Leaves" />
@@ -953,6 +1087,10 @@
           <AssociationSet Name="FK_v_l_To_master_file" Association="Self.FK_v_l_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="visa_and_labour_card" EntitySet="visa_and_labour_card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_visa_To_master_file" Association="Self.FK_visa_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="visa" EntitySet="visas" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -1088,6 +1226,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="labour_card">
+            <EntityTypeMapping TypeName="HRModel.labour_card">
+              <MappingFragment StoreEntitySet="labour_card">
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="work_permit_no" ColumnName="work_permit_no" />
+                <ScalarProperty Name="personal_no" ColumnName="personal_no" />
+                <ScalarProperty Name="emp_no" ColumnName="emp_no" />
+                <ScalarProperty Name="proffession" ColumnName="proffession" />
+                <ScalarProperty Name="lc_expiry" ColumnName="lc_expiry" />
+                <ScalarProperty Name="establishment" ColumnName="establishment" />
+                <ScalarProperty Name="imgpath" ColumnName="imgpath" />
+                <ScalarProperty Name="changed_by" ColumnName="changed_by" />
+                <ScalarProperty Name="date_changed" ColumnName="date_changed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Leaves">
             <EntityTypeMapping TypeName="HRModel.Leave">
               <MappingFragment StoreEntitySet="Leave">
@@ -1179,6 +1333,25 @@
               <MappingFragment StoreEntitySet="usernames">
                 <ScalarProperty Name="full_name" ColumnName="full_name" />
                 <ScalarProperty Name="aspnet_uid" ColumnName="aspnet_uid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="visas">
+            <EntityTypeMapping TypeName="HRModel.visa">
+              <MappingFragment StoreEntitySet="visa">
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="uid_no" ColumnName="uid_no" />
+                <ScalarProperty Name="file_no" ColumnName="file_no" />
+                <ScalarProperty Name="emp_no" ColumnName="emp_no" />
+                <ScalarProperty Name="place_of_issue" ColumnName="place_of_issue" />
+                <ScalarProperty Name="accompanied_by" ColumnName="accompanied_by" />
+                <ScalarProperty Name="rv_expiry" ColumnName="rv_expiry" />
+                <ScalarProperty Name="rv_issue" ColumnName="rv_issue" />
+                <ScalarProperty Name="proff_as_per_visa" ColumnName="proff_as_per_visa" />
+                <ScalarProperty Name="imgpath" ColumnName="imgpath" />
+                <ScalarProperty Name="sponsor" ColumnName="sponsor" />
+                <ScalarProperty Name="changed_by" ColumnName="changed_by" />
+                <ScalarProperty Name="date_changed" ColumnName="date_changed" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

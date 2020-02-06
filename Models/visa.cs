@@ -7,39 +7,27 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-
-    public partial class visa_and_labour_card
+    
+    public partial class visa
     {
-        [Display(Name = "Employee ID")]
         public int employee_id { get; set; }
-        [Display(Name = "LC no.")]
-        public Nullable<int> lc_no { get; set; }
-        [Display(Name = "UID no.")]
-        public Nullable<int> uid_no { get; set; }
-        [Display(Name = "Employee ID.")]
+        public Nullable<long> uid_no { get; set; }
+        public Nullable<long> file_no { get; set; }
         public int emp_no { get; set; }
-        public string class_type { get; set; }
-        [Display(Name = "RV expiry")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        public string place_of_issue { get; set; }
+        public string accompanied_by { get; set; }
         public Nullable<System.DateTime> rv_expiry { get; set; }
-        [Display(Name = "LC expiry")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
-        public Nullable<System.DateTime> lc_expiry { get; set; }
-        [Display(Name = "Proffession As Per Visa")]
+        public Nullable<System.DateTime> rv_issue { get; set; }
         public string proff_as_per_visa { get; set; }
-        [Display(Name = "Photo")]
         public string imgpath { get; set; }
-        [Display(Name = "Changed By")]
+        public string sponsor { get; set; }
         public string changed_by { get; set; }
-        [Display(Name = "Date Changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
-
+    
         public virtual master_file master_file { get; set; }
     }
 }

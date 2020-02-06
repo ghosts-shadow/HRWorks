@@ -28,9 +28,20 @@ namespace HRworks.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.liquidation_ref.Add(liquidation_ref);
-                db.SaveChanges();
-                return RedirectToAction("Create","liquidations");
+
+                if (this.db.liquidation_ref.ToList().Exists(x => x.date == liquidation_ref.date && x.refr == liquidation_ref.refr))
+                {
+                    var aaaa = this.db.liquidation_ref.ToList().Find(x => x.date == liquidation_ref.date && x.refr == liquidation_ref.refr);
+                    liquidation_ref = aaaa;
+                    this.db.Entry(liquidation_ref).State = EntityState.Modified;
+                    this.db.SaveChanges();
+                }
+                else
+                {
+                    db.liquidation_ref.Add(liquidation_ref);
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Create", "liquidations");
             }
 
             return View(liquidation_ref);

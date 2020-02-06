@@ -10,66 +10,69 @@ using System.Web.Mvc;
 using OfficeOpenXml;
 using PagedList;
 using HRworks.Models;
-// date format fun [DisplayFormat(ApplyFormatInEditMode=true, DataFormatString = "{0:d}")]
-namespace TEST2.Controllers
+
+namespace HRworks.Controllers
 {
-    public class visa_and_labour_cardController : Controller
+    public class visasController : Controller
     {
         private HREntities db = new HREntities();
-        // GET: visa_and_labour_card
+
         public void DownloadExcel(string search)
         {
-            List<visa_and_labour_card> passexel;
+            List<visa> passexel;
             if (search != null)
             {
-                passexel = db.visa_and_labour_card.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                passexel = db.visas.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
             }
             else
             {
-                passexel = db.visa_and_labour_card.Include(p => p.master_file).ToList();
+                passexel = db.visas.Include(p => p.master_file).ToList();
             }
             ExcelPackage Ep = new ExcelPackage();
-            ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("visa_and_labour_card".ToUpper());
+            ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("visa".ToUpper());
             Sheet.Cells["A1"].Value = "employee no";
             Sheet.Cells["B1"].Value = "employee name";
-            Sheet.Cells["C1"].Value = "lc_no";
-            Sheet.Cells["D1"].Value = "uid_no";
-            Sheet.Cells["E1"].Value = "class_type";
-            Sheet.Cells["F1"].Value = "rv_expiry";
-            Sheet.Cells["G1"].Value = "lc_expiry";
-            Sheet.Cells["H1"].Value = "proff_as_per_visa";
-            Sheet.Cells["I1"].Value = "changed by";
-            Sheet.Cells["J1"].Value = "imgpath";
-            Sheet.Cells["K1"].Value = "date_changed";
+            Sheet.Cells["C1"].Value = "file no";
+            Sheet.Cells["D1"].Value = "uid no";
+            Sheet.Cells["E1"].Value = "place of issue";
+            Sheet.Cells["F1"].Value = "rv expiry";
+            Sheet.Cells["G1"].Value = "lc expiry";
+            Sheet.Cells["H1"].Value = "proff as per visa";
+            Sheet.Cells["I1"].Value = "imgpath";
+            Sheet.Cells["J1"].Value = "accompanied by";
+            Sheet.Cells["K1"].Value = "sponsor";
+            Sheet.Cells["L1"].Value = "changed by";
+            Sheet.Cells["M1"].Value = "date_changed";
             int row = 2;
             foreach (var item in passexel)
             {
 
                 Sheet.Cells[string.Format("A{0}", row)].Value = item.master_file.employee_no;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.master_file.employee_name;
-                Sheet.Cells[string.Format("C{0}", row)].Value = item.lc_no;
+                Sheet.Cells[string.Format("C{0}", row)].Value = item.file_no;
                 Sheet.Cells[string.Format("D{0}", row)].Value = item.uid_no;
-                Sheet.Cells[string.Format("E{0}", row)].Value = item.class_type;
+                Sheet.Cells[string.Format("E{0}", row)].Value = item.place_of_issue;
                 Sheet.Cells[string.Format("F{0}", row)].Value = item.rv_expiry;
-                Sheet.Cells[string.Format("G{0}", row)].Value = item.lc_expiry;
+                Sheet.Cells[string.Format("G{0}", row)].Value = item.rv_issue;
                 Sheet.Cells[string.Format("H{0}", row)].Value = item.proff_as_per_visa;
                 Sheet.Cells[string.Format("I{0}", row)].Value = item.imgpath;
-                Sheet.Cells[string.Format("J{0}", row)].Value = item.changed_by;
-                Sheet.Cells[string.Format("K{0}", row)].Value = item.date_changed;
+                Sheet.Cells[string.Format("J{0}", row)].Value = item.accompanied_by;
+                Sheet.Cells[string.Format("K{0}", row)].Value = item.sponsor;
+                Sheet.Cells[string.Format("L{0}", row)].Value = item.changed_by;
+                Sheet.Cells[string.Format("M{0}", row)].Value = item.date_changed;
                 row++;
             }
             Sheet.Cells["A:AZ"].AutoFitColumns();
             Response.Clear();
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.AddHeader("content-disposition", "filename =visa_and_labour_card.xlsx");
+            Response.AddHeader("content-disposition", "filename =visa.xlsx");
             Response.BinaryWrite(Ep.GetAsByteArray());
             Response.End();
         }
-        public ActionResult Index(string search, int? page, int? pagesize,int? idsearch)
+
+        // GET: visas
+        public ActionResult Index(string search, int? page, int? pagesize, int? idsearch)
         {
-            //            ViewBag.employee_name = new SelectList(db.master_file, "employee_no", "employee_name");
-            //            var visa_and_labour_card = db.visa_and_labour_card.Include(v => v.master_file);
-            //            return View(visa_and_labour_card.ToList());
             int pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             int defaSize = 10;
@@ -87,12 +90,12 @@ namespace TEST2.Controllers
                 new SelectListItem() { Value="100", Text= "100" },
             };
             ViewBag.pagesize = defaSize;
-            IPagedList<visa_and_labour_card> passlist = null;
-            passlist = db.visa_and_labour_card.OrderBy(x => x.date_changed).ToPagedList(pageIndex, defaSize);
-            var lists = new List<visa_and_labour_card>();
+            IPagedList<visa> passlist = null;
+            passlist = db.visas.OrderBy(x => x.date_changed).ToPagedList(pageIndex, defaSize);
+            var lists = new List<visa>();
             int j = 0;
             int i;
-            var ab = db.visa_and_labour_card.OrderBy(x => x.master_file.employee_no).ThenBy(x=>x.date_changed).ToList();
+            var ab = db.visas.OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
             if (ab.Count != 0)
             {
                 for (i = 0; i < ab.Count; i++)
@@ -131,13 +134,13 @@ namespace TEST2.Controllers
                 int idk;
                 if (int.TryParse(search, out idk))
                 {
-                    ab = db.visa_and_labour_card
+                    ab = db.visas
                         .Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed)
                         .ToList();
                 }
                 else
                 {
-                    ab = db.visa_and_labour_card
+                    ab = db.visas
                         .Where(
                             x => x.master_file.employee_name
                                 .Contains(search) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
@@ -181,55 +184,53 @@ namespace TEST2.Controllers
             return View(lists.ToPagedList(page ?? 1, defaSize));
         }
 
-        // GET: visa_and_labour_card/Details/5
+        // GET: visas/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            visa_and_labour_card visa_and_labour_card = db.visa_and_labour_card.Find(id);
-            if (visa_and_labour_card == null)
+            visa visa = db.visas.Find(id);
+            if (visa == null)
             {
                 return HttpNotFound();
             }
-            return View(visa_and_labour_card);
+            return View(visa);
         }
 
-        // GET: visa_and_labour_card/Create
-
+        // GET: visas/Create
         [Authorize(Roles = "admin,employee_VLC")]
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            ViewBag.emp_no = new SelectList(db.master_file.OrderBy(e=>e.employee_no), "employee_id", "employee_no");
+            ViewBag.emp_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
             ViewBag.emp_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View();
         }
 
-        // POST: visa_and_labour_card/Create
+        // POST: visas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         [Authorize(Roles = "admin,employee_VLC")]
-        public ActionResult Create([Bind(Include = "id,lc_no,uid_no,emp_no,passport_no,company_code,nationality,person_code,class_type,rv_expiry,lc_expiry,passport_expiry,proff_as_per_visa")] visa_and_labour_card visa_and_labour_card, HttpPostedFileBase fileBase)
+        public ActionResult Create([Bind(Include = "employee_id,uid_no,file_no,emp_no,place_of_issue,accompanied_by,rv_expiry,rv_issue,proff_as_per_visa,imgpath,sponsor,changed_by,date_changed")] visa visa, HttpPostedFileBase fileBase)
         {
             string serverfile;
             if (fileBase != null)
             {
-                var a = db.master_file.Find(visa_and_labour_card.emp_no);
+                var a = db.master_file.Find(visa.emp_no);
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/visa_and_labour_card/" + fileexe);
-                serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/visa/" + fileexe);
+                serverfile = "D:/HR/img/visa/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile); int i = 0;
                 do
                 {
-                    serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
+                    serverfile = "D:/HR/img/visa/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/visa/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -239,18 +240,20 @@ namespace TEST2.Controllers
             }
             if (ModelState.IsValid)
             {
-                var img = new visa_and_labour_card();
-                img.lc_no=visa_and_labour_card.lc_no;
-                img.uid_no = visa_and_labour_card.uid_no;
-                img.emp_no = visa_and_labour_card.emp_no;
-                img.class_type = visa_and_labour_card.class_type;
-                img.rv_expiry = visa_and_labour_card.rv_expiry;
-                img.lc_expiry = visa_and_labour_card.lc_expiry;
-                img.proff_as_per_visa = visa_and_labour_card.proff_as_per_visa;
+                var img = new visa();
+                img.file_no = visa.file_no;
+                img.place_of_issue = visa.place_of_issue;
+                img.accompanied_by = visa.accompanied_by;
+                img.rv_issue = visa.rv_issue;
+                img.sponsor = visa.sponsor;
+                img.uid_no = visa.uid_no;
+                img.emp_no = visa.emp_no;
+                img.rv_expiry = visa.rv_expiry;
+                img.proff_as_per_visa = visa.proff_as_per_visa;
                 img.imgpath = serverfile;
                 img.changed_by = User.Identity.Name;
                 img.date_changed = DateTime.Now;
-                db.visa_and_labour_card.Add(img);
+                db.visas.Add(img);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -258,10 +261,10 @@ namespace TEST2.Controllers
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
             ViewBag.emp_no = new SelectList(db.master_file, "employee_id", "employee_no");
             ViewBag.emp_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
-            return View(visa_and_labour_card);
+            return View(visa);
         }
 
-        // GET: visa_and_labour_card/Edit/5
+        // GET: visas/Edit/5
         [Authorize(Roles = "admin,employee_VLC")]
         public ActionResult Edit(int? id)
         {
@@ -269,39 +272,39 @@ namespace TEST2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            visa_and_labour_card visa_and_labour_card = db.visa_and_labour_card.Find(id);
-            if (visa_and_labour_card == null)
+            visa visa = db.visas.Find(id);
+            if (visa == null)
             {
                 return HttpNotFound();
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
             ViewBag.emp_no = new SelectList(db.master_file, "employee_id", "employee_no");
             ViewBag.emp_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
-            return View(visa_and_labour_card);
+            return View(visa);
         }
 
-        // POST: visa_and_labour_card/Edit/5
+        // POST: visas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin,employee_VLC")]
-        public ActionResult Edit([Bind(Include = "id,lc_no,uid_no,emp_no,passport_no,company_code,nationality,person_code,class_type,rv_expiry,lc_expiry,passport_expiry,proff_as_per_visa")] visa_and_labour_card visa_and_labour_card, HttpPostedFileBase fileBase)
+        public ActionResult Edit([Bind(Include = "id,lc_no,uid_no,emp_no,passport_no,company_code,nationality,person_code,class_type,rv_expiry,lc_expiry,passport_expiry,proff_as_per_visa")] visa visa, HttpPostedFileBase fileBase)
         {
             string serverfile;
             if (fileBase != null)
             {
-                var a = db.master_file.Find(visa_and_labour_card.emp_no);
+                var a = db.master_file.Find(visa.emp_no);
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
-                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/visa_and_labour_card/" + fileexe);
-                serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
+                DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/visa/" + fileexe);
+                serverfile = "D:/HR/img/visa/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile); int i = 0;
                 do
                 {
-                    serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
+                    serverfile = "D:/HR/img/visa/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/img/visa_and_labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/visa/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -311,28 +314,25 @@ namespace TEST2.Controllers
             }
             if (ModelState.IsValid)
             {
-                var img = new visa_and_labour_card();
-                img.lc_no = visa_and_labour_card.lc_no;
-                img.uid_no = visa_and_labour_card.uid_no;
-                img.emp_no = visa_and_labour_card.emp_no;
-                img.class_type = visa_and_labour_card.class_type;
-                img.rv_expiry = visa_and_labour_card.rv_expiry;
-                img.lc_expiry = visa_and_labour_card.lc_expiry;
-                img.proff_as_per_visa = visa_and_labour_card.proff_as_per_visa;
+                var img = new visa(); 
+                img.uid_no = visa.uid_no;
+                img.emp_no = visa.emp_no;
+                img.rv_expiry = visa.rv_expiry;
+                img.proff_as_per_visa = visa.proff_as_per_visa;
                 img.imgpath = serverfile;
                 img.changed_by = User.Identity.Name;
                 img.date_changed = DateTime.Now;
-                db.visa_and_labour_card.Add(img);
+                db.visas.Add(img);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
             ViewBag.emp_no = new SelectList(db.master_file, "employee_id", "employee_no");
             ViewBag.emp_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
-            return View(visa_and_labour_card);
+            return View(visa);
         }
 
-        // GET: visa_and_labour_card/Delete/5
+        // GET: visas/Delete/5
         [Authorize(Roles = "admin,employee_VLC")]
         public ActionResult Delete(int? id)
         {
@@ -340,20 +340,22 @@ namespace TEST2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            visa_and_labour_card visa_and_labour_card = db.visa_and_labour_card.Find(id);
-            if (visa_and_labour_card == null)
+            visa visa = db.visas.Find(id);
+            if (visa == null)
             {
                 return HttpNotFound();
             }
-            return View(visa_and_labour_card);
+            return View(visa);
         }
 
-        // POST: visa_and_labour_card/Deledir
-     
+        // POST: visas/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,employee_VLC")]
         public ActionResult DeleteConfirmed(int id)
         {
-            visa_and_labour_card visa_and_labour_card = db.visa_and_labour_card.Find(id);
-            db.visa_and_labour_card.Remove(visa_and_labour_card);
+            visa visa = db.visas.Find(id);
+            db.visas.Remove(visa);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
