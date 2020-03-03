@@ -27,11 +27,10 @@ namespace HRworks
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-
             // In Startup iam creating first Admin Role and creating a default Admin User     
             if (!roleManager.RoleExists("admin"))
             {
-                // first we create Admin rool    
+                // first we create Admin role    
                 var role = new IdentityRole();
                 role.Name = "admin";
                 roleManager.Create(role);

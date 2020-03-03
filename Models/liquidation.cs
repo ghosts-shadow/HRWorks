@@ -12,7 +12,7 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class liquidation
     {
         public int Id { get; set; }
@@ -32,6 +32,8 @@ namespace HRworks.Models
         [Display(Name = "invoice amount")]
         public Nullable<decimal> invoice_amount { get; set; }
         public Nullable<long> refr { get; set; }
+        public string changed_by { get; set; }
+        public Nullable<System.DateTime> date_changed { get; set; }
     
         public virtual master_file master_file { get; set; }
         public virtual liquidation_ref liquidation_ref { get; set; }

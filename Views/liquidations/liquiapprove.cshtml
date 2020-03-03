@@ -1,0 +1,122 @@
+﻿@model IEnumerable<HRworks.Models.liquidation>
+
+@{
+    ViewBag.Title = "liquiapprove";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function() {
+        $(".datepicker").datepicker();
+    });
+</script>
+<h2>approve</h2>
+
+@using (Html.BeginForm("liquiapprove", "liquidations"))
+{
+<p>
+    Date:<input type="text" class="datepicker" name="pdate" value="@ViewBag.pdate"/>
+    refr:<input type="text" name="prefr" value="@ViewBag.pregr "/>
+    <input type="submit" class="btn " value="search"/>
+    <br />
+</p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.liquidation_ref.date)
+        </th>
+        <th>@Html.DisplayNameFor(model => model.liquidation_ref.refr)</th>
+        <th>
+            @Html.DisplayNameFor(model => model.bill_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.expenses)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.invoice_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.discription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MBNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.invoice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VAT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.invoice_amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.liquidation_ref.date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.liquidation_ref.refr)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bill_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.expenses)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.invoice_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.discription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MBNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.invoice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VAT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.invoice_amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_no)
+            </td>
+            <td>
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("approveliqui","liquidations",new {pid=item.Id })'" value="approve" style="background-color: green"/>
+                <input type="button" class="btn btn-default" onclick="reject(@item.Id)" value="reject" style="background-color: red"/>
+            </td>
+        </tr>
+    }
+
+</table>
+<script>
+    function reject(pid1) {
+        var status1 = prompt("enter reason for rejection", "");
+        if (status1 == null) {
+            alert("you have not entered data");
+        } else {
+            var a = parseInt(pid1);
+            window.location.href = '/liquidations/rejectliqui?pid=' + a + '&remark=' + status1;
+        }
+    }
+</script>

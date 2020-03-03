@@ -8,45 +8,118 @@
 
     using HRworks.Models;
 
-    using Microsoft.Ajax.Utilities;
-
     public class liquidationsController : Controller
     {
         private readonly HREntities db = new HREntities();
 
         // GET: liquidations/Create
+        [Authorize(Roles = "liquidation")]
         public ActionResult Create()
         {
-            var refrlist=this.db.liquidation_ref.ToList();
-            ViewBag.refr = refrlist.Last().refr;
-            ViewBag.date = refrlist.Last().date.Value.ToShortDateString();
-            ViewBag.employee_no = new SelectList(db.master_file.OrderBy(e => e.employee_no),"employee_id","employee_no");
-            var eel=this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var refrlist = this.db.liquidation_ref.ToList();
+            this.ViewBag.refr = refrlist.Last().refr;
+            this.ViewBag.date = refrlist.Last().date.Value.ToShortDateString();
+            this.ViewBag.employee_no = new SelectList(
+                this.db.master_file.OrderBy(e => e.employee_no),
+                "employee_id",
+                "employee_no");
+            var eel = this.db.master_file.OrderBy(e => e.employee_no).ToList();
             var liste = new List<master_file>();
             foreach (var file in eel)
-            {
-                if (!liste.Exists(x=>x.employee_no == file.employee_no))
-                {
+                if (!liste.Exists(x => x.employee_no == file.employee_no))
                     liste.Add(file);
+
+            this.ViewBag.eee = this.db.master_file.Select(x => x.employee_no).ToList();
+            this.ViewBag.ee = new SelectList(liste, "employee_id", "employee_no");
+            return this.View();
+        }
+
+        // POST: liquidations/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "liquidation")]
+        public ActionResult Create(liquilist liquilist)
+        {
+            var la = new liqiapproval();
+            var refrlist = this.db.liquidation_ref.ToList();
+            this.ViewBag.employee_no = new SelectList(
+                this.db.master_file.OrderBy(e => e.employee_no),
+                "employee_id",
+                "employee_no");
+            var eel = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var liste = new List<master_file>();
+            foreach (var file in eel)
+                if (!liste.Exists(x => x.employee_no == file.employee_no))
+                    liste.Add(file);
+
+            this.ViewBag.ee = new SelectList(liste, "employee_id", "employee_no");
+            if (this.ModelState.IsValid)
+            {
+                foreach (var liqui in liquilist.Liquidations1)
+                {
+                    var lilist = this.db.liquidations.ToList();
+                    if (liqui.bill_no != null && liqui.employee_no != null)
+                    {
+                        liqui.refr = refrlist.Last().Id;
+                        liqui.changed_by = User.Identity.Name;;
+                        liqui.date_changed = DateTime.Now;
+                        this.db.liquidations.Add(liqui);
+                        this.db.SaveChanges();
+                        var liquilist2 = this.db.liquidations.ToList();
+                        la.sumited_by = User.Identity.Name;
+                        la.date = refrlist.Last().date;
+                        la.refre = refrlist.Last().refr;
+                        la.pid = liquilist2.Last().Id;
+                        la.status = "submitted";
+                        this.db.liqiapprovals.Add(la);
+                        this.db.SaveChanges();
+                    }
                 }
+
+                return this.RedirectToAction("Create", "liquidation_ref");
             }
 
-            ViewBag.eee = this.db.master_file.Select(x=>x.employee_no).ToList();
-            ViewBag.ee = new SelectList(liste, "employee_id", "employee_no");
-            return this.View();
+            this.ViewBag.refr = refrlist.Last().refr;
+            this.ViewBag.date = refrlist.Last().date.Value.ToShortDateString();
+            return this.View(liquilist);
         }
 
         public ActionResult index()
         {
             var lii = this.db.liquidations.ToList().OrderBy(x => x.master_file.employee_no);
-            return this.View(lii);
+            var lalist = this.db.liqiapprovals.ToList();
+            List<liquidation> lii2 = new List<liquidation>();
+            foreach (var lii1 in lii)
+            {
+                if (lalist.Exists(x => x.pid == lii1.Id))
+                {
+                    var il1 = lalist.Find(x => x.pid == lii1.Id);
+                    if (il1.status == "submitted")
+                    {
+                        lii2.Add(lii1);
+                    }
+                    else if (il1.status.Contains("rejected"))
+                    {
+                        lii1.discription =  lii1.discription + " (" + il1.status + ")";
+                        lii2.Add(lii1);
+                    }
+                    else
+                    {
+                        lii1.discription =  lii1.discription + " (" + il1.status + ")";
+                        lii2.Add(lii1);
+                    }
+                }
+            }
+            return this.View(lii2);
         }
 
-        public ActionResult print(DateTime? pdate,int? prefr)
+        public ActionResult print(DateTime? pdate, int? prefr)
         {
-            var printlist1=new List<liquidation>();
-                var printlist= new List<liquidation>();
-                var printlist2= new List<liquidation>();
+            var printlist1 = new List<liquidation>();
+            var printlist = new List<liquidation>();
+            var printlist2 = new List<liquidation>();
             if (pdate.HasValue && prefr.HasValue)
             {
                 var liqireflist = this.db.liquidation_ref.Where(x => x.date == pdate && x.refr == prefr).ToList();
@@ -54,16 +127,13 @@
                 foreach (var liid in liqireflist)
                 {
                     printlist1 = this.db.liquidations.Where(x => x.refr == liid.Id).ToList();
-                    ViewBag.refr = prefr;
-                    ViewBag.pdate = pdate.Value.ToShortDateString();
+                    this.ViewBag.prefr = prefr;
+                    this.ViewBag.pdate = pdate.Value.ToShortDateString();
                 }
+
                 foreach (var pl in printlist1)
-                {
                     if (!printlist2.Exists(x => x.expenses == pl.expenses))
-                    {
                         printlist2.Add(pl);
-                    }
-                }
 
                 decimal ttinsum = 0;
                 foreach (var pl1 in printlist2)
@@ -74,21 +144,13 @@
                     var pll = printlist1.FindAll(x => x.expenses == pl1.expenses);
                     foreach (var liq in pll)
                     {
-                        if (liq.invoice.HasValue)
-                        {
-                            insum = insum + liq.invoice.Value;
-                        }
-                        if (liq.VAT.HasValue)
-                        {
-                            vsum = vsum + liq.VAT.Value;
-                        }
-                        if (liq.invoice_amount.HasValue)
-                        {
-                            tinsum = tinsum + liq.invoice_amount.Value;
-                        }
+                        if (liq.invoice.HasValue) insum = insum + liq.invoice.Value;
+                        if (liq.VAT.HasValue) vsum = vsum + liq.VAT.Value;
+                        if (liq.invoice_amount.HasValue) tinsum = tinsum + liq.invoice_amount.Value;
                     }
+
                     ttinsum += tinsum;
-                    ViewBag.ttinsum = ttinsum;
+                    this.ViewBag.ttinsum = ttinsum;
                     var count = pll.Count();
                     pl1.discription = $"{pl1.expenses} for {count} employees";
                     pl1.invoice_date = null;
@@ -97,50 +159,67 @@
                     pl1.invoice_amount = tinsum;
                 }
             }
+
             return this.View(printlist2);
         }
 
-        // POST: liquidations/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(liquilist liquilist)
+        [Authorize(Roles = "Manager")]
+        public ActionResult liquiapprove(DateTime? pdate, int? prefr)
         {
-            var refrlist = this.db.liquidation_ref.ToList();
-            ViewBag.employee_no = new SelectList(
-                db.master_file.OrderBy(e => e.employee_no),
-                "employee_id",
-                "employee_no");
-            var eel = this.db.master_file.OrderBy(e => e.employee_no).ToList();
-            var liste = new List<master_file>();
-            foreach (var file in eel)
+            var lii =new List<liquidation>();
+            List<liquidation> lii2 =new List<liquidation>();
+            if (pdate.HasValue && prefr.HasValue)
             {
-                if (!liste.Exists(x => x.employee_no == file.employee_no))
+                var lalist = this.db.liqiapprovals.ToList();
+                var lli = this.db.liquidations.Where(x => x.liquidation_ref.date == pdate.Value).OrderBy(x => x.master_file.employee_no);
+                lii = lli.ToList();
+                
+                foreach (var lii1 in lii)
                 {
-                    liste.Add(file);
-                }
-            }
-
-            ViewBag.ee = new SelectList(liste, "employee_id", "employee_no");
-            if (this.ModelState.IsValid)
-            {
-                foreach (var liqui in liquilist.Liquidations1)
-                {
-                    var lilist = db.liquidations.ToList();
-                    if (liqui.bill_no != null && liqui.employee_no != null)
+                    if (lalist.Exists(x=>x.pid==lii1.Id))
                     {
-                                liqui.refr = refrlist.Last().Id;
-                                this.db.liquidations.Add(liqui);
-                                this.db.SaveChanges();
+                        var il1 = lalist.Find(x => x.pid == lii1.Id);
+                        if (il1.status!="approved")
+                        {
+                            lii2.Add(lii1);
+                        }
                     }
                 }
-                
-                return this.RedirectToAction("Create", "liquidation_ref");
+                ViewBag.pdate = pdate.Value.ToShortDateString();
+                ViewBag.pregr = prefr;
             }
-            ViewBag.refr = refrlist.Last().refr;
-            ViewBag.date = refrlist.Last().date.Value.ToShortDateString();
-            return this.View(liquilist);
+            return this.View(lii2);
+        }
+
+        [Authorize(Roles = "Manager")]
+        public ActionResult approveliqui(int? pid)
+        {
+            var lalist = this.db.liqiapprovals.ToList();
+            var la = lalist.Find(x => x.pid == pid);
+            if (la.pid != 0 || la != null)
+            {
+                la.approved_by = User.Identity.Name;
+                la.status = "approved";
+                db.Entry(la).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("liquiapprove");
+        }
+
+        [Authorize(Roles = "Manager")]
+        public ActionResult rejectliqui(int? pid, string remark)
+        {
+
+            var lalist = this.db.liqiapprovals.ToList();
+            var la = lalist.Find(x => x.pid == pid);
+            if (la.pid != 0 || la != null)
+            { 
+                la.status = "rejected due to :" + remark;
+            db.Entry(la).State = EntityState.Modified;
+            db.SaveChanges();
+            }
+            return RedirectToAction("liquiapprove");
         }
 
         protected override void Dispose(bool disposing)
@@ -148,5 +227,7 @@
             if (disposing) this.db.Dispose();
             base.Dispose(disposing);
         }
+
     }
+
 }

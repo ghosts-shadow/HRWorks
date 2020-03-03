@@ -8,8 +8,20 @@
 <h2>index</h2>
 
 <div>
-    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create","liquidation_ref")'" value="Create New" />
+    
     <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("print")'" value="print" />
+    @if (Request.IsAuthenticated)
+    {
+        if (User.IsInRole("Manager"))
+        {
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("liquiapprove")'" value="approval"/>
+        }
+        else
+        {
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create", "liquidation_ref")'" value="Create New"/>
+        }
+    }
+    
 </div>
 <br />
 

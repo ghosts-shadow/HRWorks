@@ -247,6 +247,9 @@
     <Compile Include="Models\Leave.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\liqiapproval.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\liquidation.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -302,6 +305,22 @@
     <Content Include="Content\Site.css" />
     <Content Include="img\CITI SCAPE LOGO.png" />
     <Content Include="img\logo.png" />
+    <Content Include="Content\testbootstrap\bootstrap-grid.css.map" />
+    <Content Include="Content\testbootstrap\bootstrap-grid.min.css.map" />
+    <Content Include="Content\testbootstrap\bootstrap-reboot.css.map" />
+    <Content Include="Content\testbootstrap\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\testbootstrap\bootstrap.css.map" />
+    <Content Include="Content\testbootstrap\bootstrap.min.css.map" />
+    <Content Include="Content\chosen\composer.json" />
+    <Content Include="Content\chosen\LICENSE.md" />
+    <EntityDeploy Include="Models\HRModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\HRModel.edmx.diagram">
+      <DependentUpon>HRModel.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Models\HRModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HRModel.edmx</DependentUpon>
@@ -312,22 +331,6 @@
       <DependentUpon>HRModel.edmx</DependentUpon>
       <LastGenOutput>HRModel.cs</LastGenOutput>
     </Content>
-    <Content Include="Content\testbootstrap\bootstrap-grid.css.map" />
-    <Content Include="Content\testbootstrap\bootstrap-grid.min.css.map" />
-    <Content Include="Content\testbootstrap\bootstrap-reboot.css.map" />
-    <Content Include="Content\testbootstrap\bootstrap-reboot.min.css.map" />
-    <Content Include="Content\testbootstrap\bootstrap.css.map" />
-    <Content Include="Content\testbootstrap\bootstrap.min.css.map" />
-    <EntityDeploy Include="Models\HRModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\HRModel.edmx.diagram">
-      <DependentUpon>HRModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Content\chosen\composer.json" />
-    <Content Include="Content\chosen\LICENSE.md" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Scripts\ajaxjquery.min.js" />
     <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.min.js" />
@@ -449,6 +452,7 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Views\liquidations\print.cshtml" />
+    <Content Include="Views\liquidations\liquiapprove.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

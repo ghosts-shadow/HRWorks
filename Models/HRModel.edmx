@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -159,6 +159,18 @@
           <Property Name="leave_type" Type="nvarchar(max)" Nullable="false" />
           <Property Name="actual_return_date" Type="date" />
         </EntityType>
+        <EntityType Name="liqiapproval">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="date" />
+          <Property Name="refre" Type="bigint" />
+          <Property Name="sumited_by" Type="nvarchar(max)" />
+          <Property Name="approved_by" Type="nvarchar(max)" />
+          <Property Name="status" Type="nvarchar(max)" />
+          <Property Name="pid" Type="int" />
+        </EntityType>
         <EntityType Name="liquidation">
           <Key>
             <PropertyRef Name="Id" />
@@ -174,6 +186,8 @@
           <Property Name="VAT" Type="decimal" Precision="18" Scale="2" />
           <Property Name="invoice_amount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="refr" Type="bigint" />
+          <Property Name="changed_by" Type="nvarchar(max)" />
+          <Property Name="date_changed" Type="datetime" />
         </EntityType>
         <EntityType Name="liquidation_ref">
           <Key>
@@ -407,7 +421,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_liquidation_To_lref">
-          <End Role="liquidation_ref" Type="Self.liquidation_ref" Multiplicity="0..1" />
+          <End Role="liquidation_ref" Type="Self.liquidation_ref" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="liquidation" Type="Self.liquidation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="liquidation_ref">
@@ -479,6 +495,7 @@
           <EntitySet Name="insurance" EntityType="Self.insurance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="labour_card" EntityType="Self.labour_card" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave" EntityType="Self.Leave" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="liqiapproval" EntityType="Self.liqiapproval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation" EntityType="Self.liquidation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation_ref" EntityType="Self.liquidation_ref" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="master_file" EntityType="Self.master_file" Schema="dbo" store:Type="Tables" />
@@ -716,6 +733,18 @@
           <Property Name="actual_return_date" Type="DateTime" Precision="0" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_le_To_master_file" FromRole="Leave" ToRole="master_file" />
         </EntityType>
+        <EntityType Name="liqiapproval">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="refre" Type="Int64" />
+          <Property Name="sumited_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="approved_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="pid" Type="Int32" />
+        </EntityType>
         <EntityType Name="liquidation">
           <Key>
             <PropertyRef Name="Id" />
@@ -733,6 +762,8 @@
           <Property Name="refr" Type="Int64" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_liqui_To_master_file" FromRole="liquidation" ToRole="master_file" />
           <NavigationProperty Name="liquidation_ref" Relationship="Self.FK_liquidation_To_lref" FromRole="liquidation" ToRole="liquidation_ref" />
+          <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="date_changed" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="liquidation_ref">
           <Key>
@@ -965,7 +996,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_liquidation_To_lref">
-          <End Role="liquidation_ref" Type="Self.liquidation_ref" Multiplicity="0..1" />
+          <End Role="liquidation_ref" Type="Self.liquidation_ref" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="liquidation" Type="Self.liquidation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="liquidation_ref">
@@ -1028,6 +1061,7 @@
           <EntitySet Name="insurances" EntityType="Self.insurance" />
           <EntitySet Name="labour_card" EntityType="Self.labour_card" />
           <EntitySet Name="Leaves" EntityType="Self.Leave" />
+          <EntitySet Name="liqiapprovals" EntityType="Self.liqiapproval" />
           <EntitySet Name="liquidations" EntityType="Self.liquidation" />
           <EntitySet Name="liquidation_ref" EntityType="Self.liquidation_ref" />
           <EntitySet Name="master_file" EntityType="Self.master_file" />
@@ -1257,9 +1291,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="liqiapprovals">
+            <EntityTypeMapping TypeName="HRModel.liqiapproval">
+              <MappingFragment StoreEntitySet="liqiapproval">
+                <ScalarProperty Name="pid" ColumnName="pid" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="refre" ColumnName="refre" />
+                <ScalarProperty Name="sumited_by" ColumnName="sumited_by" />
+                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="liquidations">
             <EntityTypeMapping TypeName="HRModel.liquidation">
               <MappingFragment StoreEntitySet="liquidation">
+                <ScalarProperty Name="date_changed" ColumnName="date_changed" />
+                <ScalarProperty Name="changed_by" ColumnName="changed_by" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="bill_no" ColumnName="bill_no" />
                 <ScalarProperty Name="expenses" ColumnName="expenses" />
