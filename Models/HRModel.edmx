@@ -153,6 +153,31 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
           <Property Name="Reference" Type="nvarchar(max)" />
+          <Property Name="Start_leave" Type="date" />
+          <Property Name="End_leave" Type="date" />
+          <Property Name="Return_leave" Type="date" />
+          <Property Name="leave_type" Type="nvarchar(max)" />
+          <Property Name="actual_return_date" Type="date" />
+          <Property Name="toltal_requested_days" Type="float" />
+          <Property Name="leave_salary" Type="bit" />
+          <Property Name="mobile_no" Type="bigint" />
+          <Property Name="email" Type="nvarchar(max)" />
+          <Property Name="leave_bal" Type="nvarchar(max)" />
+          <Property Name="submitted_by" Type="nvarchar(max)" />
+          <Property Name="approved_by" Type="nvarchar(max)" />
+          <Property Name="time" Type="datetime" />
+          <Property Name="days" Type="int" />
+          <Property Name="data_o_n" Type="nchar" MaxLength="10" />
+          <Property Name="half" Type="bit" />
+        </EntityType>
+        <EntityType Name="Leave_approved">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Reference" Type="nvarchar(max)" />
           <Property Name="Start_leave" Type="date" Nullable="false" />
           <Property Name="End_leave" Type="date" />
           <Property Name="Return_leave" Type="date" />
@@ -360,42 +385,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_em_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
-          <End Role="emirates_id" Type="Self.emirates_id" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="master_file">
-              <PropertyRef Name="employee_id" />
-            </Principal>
-            <Dependent Role="emirates_id">
-              <PropertyRef Name="employee_no" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_in_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
-          <End Role="insurance" Type="Self.insurance" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="master_file">
-              <PropertyRef Name="employee_id" />
-            </Principal>
-            <Dependent Role="insurance">
-              <PropertyRef Name="employee_no" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_labour_card_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
-          <End Role="labour_card" Type="Self.labour_card" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="master_file">
-              <PropertyRef Name="employee_id" />
-            </Principal>
-            <Dependent Role="labour_card">
-              <PropertyRef Name="emp_no" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+      <Association Name="FK_em_To_master_file">
+        <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+        <End Role="emirates_id" Type="Self.emirates_id" Multiplicity="*" />
+        <ReferentialConstraint>
+          <Principal Role="master_file">
+            <PropertyRef Name="employee_id" />
+          </Principal>
+          <Dependent Role="emirates_id">
+            <PropertyRef Name="employee_no" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="FK_in_To_master_file">
+        <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+        <End Role="insurance" Type="Self.insurance" Multiplicity="*" />
+        <ReferentialConstraint>
+          <Principal Role="master_file">
+            <PropertyRef Name="employee_id" />
+          </Principal>
+          <Dependent Role="insurance">
+            <PropertyRef Name="employee_no" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="FK_labour_card_To_master_file">
+        <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+        <End Role="labour_card" Type="Self.labour_card" Multiplicity="*" />
+        <ReferentialConstraint>
+          <Principal Role="master_file">
+            <PropertyRef Name="employee_id" />
+          </Principal>
+          <Dependent Role="labour_card">
+            <PropertyRef Name="emp_no" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
         <Association Name="FK_le_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="Leave" Type="Self.Leave" Multiplicity="*" />
@@ -404,6 +429,18 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="Leave">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_leap_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="Leave_approved" Type="Self.Leave_approved" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="Leave_approved">
               <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -447,7 +484,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_usernames_To_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="usernames" Type="Self.usernames" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
@@ -495,6 +534,7 @@
           <EntitySet Name="insurance" EntityType="Self.insurance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="labour_card" EntityType="Self.labour_card" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave" EntityType="Self.Leave" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Leave_approved" EntityType="Self.Leave_approved" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liqiapproval" EntityType="Self.liqiapproval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation" EntityType="Self.liquidation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation_ref" EntityType="Self.liquidation_ref" Schema="dbo" store:Type="Tables" />
@@ -543,6 +583,10 @@
           <AssociationSet Name="FK_le_To_master_file" Association="Self.FK_le_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="Leave" EntitySet="Leave" />
+          </AssociationSet>
+          <AssociationSet Name="FK_leap_To_master_file" Association="Self.FK_leap_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="Leave_approved" EntitySet="Leave_approved" />
           </AssociationSet>
           <AssociationSet Name="FK_liqui_To_master_file" Association="Self.FK_liqui_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -726,12 +770,23 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Reference" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Start_leave" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Start_leave" Type="DateTime" Precision="0" />
           <Property Name="End_leave" Type="DateTime" Precision="0" />
           <Property Name="Return_leave" Type="DateTime" Precision="0" />
-          <Property Name="leave_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="leave_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="actual_return_date" Type="DateTime" Precision="0" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_le_To_master_file" FromRole="Leave" ToRole="master_file" />
+          <Property Name="toltal_requested_days" Type="Double" />
+          <Property Name="leave_salary" Type="Boolean" />
+          <Property Name="mobile_no" Type="Int64" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="leave_bal" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="submitted_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="approved_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="time" Type="DateTime" Precision="3" />
+          <Property Name="days" Type="Int32" />
+          <Property Name="data_o_n" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="half" Type="Boolean" />
         </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
@@ -801,6 +856,7 @@
           <NavigationProperty Name="passports" Relationship="Self.FK_pass_To_master_file" FromRole="master_file" ToRole="passport" />
           <NavigationProperty Name="visa_and_labour_card" Relationship="Self.FK_v_l_To_master_file" FromRole="master_file" ToRole="visa_and_labour_card" />
           <NavigationProperty Name="visas" Relationship="Self.FK_visa_To_master_file" FromRole="master_file" ToRole="visa" />
+          <NavigationProperty Name="Leave_approved" Relationship="HRModel.FK_leap_To_master_file" FromRole="master_file" ToRole="Leave_approved" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -1130,7 +1186,39 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="Leave_approved" EntityType="HRModel.Leave_approved" />
+          <AssociationSet Name="FK_leap_To_master_file" Association="HRModel.FK_leap_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="Leave_approved" EntitySet="Leave_approved" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Leave_approved">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Reference" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Start_leave" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="End_leave" Type="DateTime" Precision="0" />
+          <Property Name="Return_leave" Type="DateTime" Precision="0" />
+          <Property Name="leave_type" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="actual_return_date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_leap_To_master_file" FromRole="Leave_approved" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_leap_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.Leave_approved" Role="Leave_approved" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="Leave_approved">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1279,6 +1367,17 @@
           <EntitySetMapping Name="Leaves">
             <EntityTypeMapping TypeName="HRModel.Leave">
               <MappingFragment StoreEntitySet="Leave">
+                <ScalarProperty Name="half" ColumnName="half" />
+                <ScalarProperty Name="data_o_n" ColumnName="data_o_n" />
+                <ScalarProperty Name="days" ColumnName="days" />
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
+                <ScalarProperty Name="submitted_by" ColumnName="submitted_by" />
+                <ScalarProperty Name="leave_bal" ColumnName="leave_bal" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="leave_salary" ColumnName="leave_salary" />
+                <ScalarProperty Name="toltal_requested_days" ColumnName="toltal_requested_days" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
@@ -1429,6 +1528,21 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Leave_approved">
+            <EntityTypeMapping TypeName="HRModel.Leave_approved">
+              <MappingFragment StoreEntitySet="Leave_approved">
+                <ScalarProperty Name="actual_return_date" ColumnName="actual_return_date" />
+                <ScalarProperty Name="leave_type" ColumnName="leave_type" />
+                <ScalarProperty Name="Return_leave" ColumnName="Return_leave" />
+                <ScalarProperty Name="End_leave" ColumnName="End_leave" />
+                <ScalarProperty Name="Start_leave" ColumnName="Start_leave" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

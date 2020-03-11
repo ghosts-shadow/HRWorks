@@ -9,15 +9,17 @@
 
 <p>
     @Html.ActionLink("Create New", "Create")
+    <b style="position: relative; left: 90%">@Html.ActionLink("report", "report")</b>
+    
 </p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Date)
-        </th>
+        </th>@*
         <th>
             @Html.DisplayNameFor(model => model.Reference)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.Start_leave)
         </th>
@@ -25,51 +27,130 @@
             @Html.DisplayNameFor(model => model.End_leave)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.days)
+        </th>@*
+        <th>
             @Html.DisplayNameFor(model => model.Return_leave)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.leave_type)
-        </th>
+        </th>@*
         <th>
             @Html.DisplayNameFor(model => model.actual_return_date)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.master_file.employee_name)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>@*
         <td>
             @Html.DisplayFor(modelItem => item.Reference)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Start_leave)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.End_leave)
-        </td>
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Start_leave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.End_leave)
+            </td>
+            <td>
+                @if (item.leave_type == "8")
+                {
+                    double days = 0.5;
+                    @days.ToString()
+                }
+                else
+                {
+                    if (item.days != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.days)
+
+                    }
+                    else
+                    {
+
+                        var a = item.Start_leave;
+                        var b = item.End_leave;
+                        double days = 0;
+                        if (a == b)
+                        {
+                            days = 1;
+                        }
+                        else
+                        {
+                            var ab = b - a;
+                            if (ab.HasValue)
+                            {
+                                days = ab.Value.TotalDays;
+                                days = System.Math.Abs(days);
+                                days += 1;
+                            }
+                        }
+                        @days.ToString()
+                    }
+                }
+
+            </td>
+            @*
         <td>
             @Html.DisplayFor(modelItem => item.Return_leave)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.leave_type)
-        </td>
+        </td>*@
+            <td>
+                @if (item.leave_type == "1")
+                {
+                    <i>Annual</i>
+                }
+                @if (item.leave_type == "2")
+                {
+                    <i>Sick</i>
+                }
+                @if (item.leave_type == "3")
+                {
+                    <i>Compassionate</i>
+                }
+                @if (item.leave_type == "4")
+                {
+                    <i>Maternity </i>
+                }
+                @if (item.leave_type == "5")
+                {
+                    <i>Haj</i>
+                }
+                @if (item.leave_type == "6")
+                {
+                    <i>Unpaid </i>
+                }
+                @if (item.leave_type == "7")
+                {
+                    <i> others</i>
+                }
+                @if (item.leave_type == "8")
+                {
+                    <i>half - day</i>
+                }
+            </td>@*
         <td>
             @Html.DisplayFor(modelItem => item.actual_return_date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.master_file.employee_name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_no)
+            </td>@*
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>*@
+        </tr>
+    }
 </table>

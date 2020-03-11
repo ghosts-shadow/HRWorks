@@ -18,7 +18,7 @@
         <EntityTypeShape EntityType="HRModel.Leave" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.liqiapproval" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.liquidation" Width="1.5" PointX="6.25" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.liquidation_ref" Width="1.5" PointX="3.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.liquidation_ref" Width="1.5" PointX="5.75" PointY="16" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.master_file" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.passport" Width="1.5" PointX="7.75" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.Table" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
@@ -30,16 +30,64 @@
         <AssociationConnector Association="HRModel.FK_usernames_To_AspNetUsers" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_bank_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_con_To_master_file" ManuallyRouted="false" />
-        <AssociationConnector Association="HRModel.FK_em_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_em_To_master_file" ManuallyRouted="true" >
+          <ConnectorPoint PointX="2.25" PointY="8.9696126302083332" />
+          <ConnectorPoint PointX="2.415" PointY="8.9696126302083332" />
+          <ConnectorPoint PointX="2.415" PointY="11.927945963541667" />
+          <ConnectorPoint PointX="2.75" PointY="11.927945963541667" />
+          <ConnectorPoint PointX="2.75" PointY="6" />
+          <ConnectorPoint PointX="9.5" PointY="6" />
+          <ConnectorPoint PointX="9.5" PointY="7.75" />
+        </AssociationConnector>
         <AssociationConnector Association="HRModel.FK_in_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_labour_card_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_le_To_master_file" ManuallyRouted="false" />
-        <AssociationConnector Association="HRModel.FK_liqui_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_liqui_To_master_file" ManuallyRouted="true" >
+          <ConnectorPoint PointX="1.0937475" PointY="6.75" />
+          <ConnectorPoint PointX="1.0937475" PointY="6.1875000000000009" />
+          <ConnectorPoint PointX="1.4166666666666667" PointY="6.1875" />
+          <ConnectorPoint PointX="1.5833333333333333" PointY="6.1875000000000009" />
+          <ConnectorPoint PointX="1.8229186666666666" PointY="6.1875" />
+          <ConnectorPoint PointX="1.9895853333333331" PointY="6.1875000000000009" />
+          <ConnectorPoint PointX="2.6666666666666665" PointY="6.1875" />
+          <ConnectorPoint PointX="2.8333333333333335" PointY="6.1875000000000009" />
+          <ConnectorPoint PointX="4.548436675" PointY="6.1875000000000009" />
+          <ConnectorPoint PointX="4.548436675" PointY="6.46875" />
+          <ConnectorPoint PointX="6.25" PointY="6.46875" />
+        </AssociationConnector>
         <AssociationConnector Association="HRModel.FK_liquidation_To_lref" ManuallyRouted="false" />
-        <AssociationConnector Association="HRModel.FK_pass_To_master_file" ManuallyRouted="false" />
-        <AssociationConnector Association="HRModel.FK_v_l_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_pass_To_master_file" ManuallyRouted="true" >
+          <ConnectorPoint PointX="1.7109393750000002" PointY="12.384013671875" />
+          <ConnectorPoint PointX="1.7109393750000002" PointY="13.509348958333334" />
+          <ConnectorPoint PointX="1.9244822916666668" PointY="13.509348958333334" />
+          <ConnectorPoint PointX="2.0911489583333336" PointY="13.509348958333334" />
+          <ConnectorPoint PointX="5.510416666666667" PointY="13.509348958333334" />
+          <ConnectorPoint PointX="5.510416666666667" PointY="15.384095052083332" />
+          <ConnectorPoint PointX="6.416666666666667" PointY="15.384095052083332" />
+          <ConnectorPoint PointX="6.583333333333333" PointY="15.384095052083332" />
+          <ConnectorPoint PointX="7.375" PointY="15.384095052083332" />
+          <ConnectorPoint PointX="7.375" PointY="13.509348958333334" />
+          <ConnectorPoint PointX="7.75" PointY="13.509348958333334" />
+        </AssociationConnector>
+        <AssociationConnector Association="HRModel.FK_v_l_To_master_file" ManuallyRouted="true" >
+          <ConnectorPoint PointX="2.25" PointY="10.29475830078125" />
+          <ConnectorPoint PointX="2.3316666666666666" PointY="10.29475830078125" />
+          <ConnectorPoint PointX="2.4983333333333335" PointY="10.29475830078125" />
+          <ConnectorPoint PointX="2.75" PointY="10.29475830078125" />
+          <ConnectorPoint PointX="2.75" PointY="11.823141276041669" />
+          <ConnectorPoint PointX="4.6875" PointY="11.823141276041669" />
+          <ConnectorPoint PointX="4.6875" PointY="10.890524088541666" />
+          <ConnectorPoint PointX="5.416666666666667" PointY="10.890524088541666" />
+          <ConnectorPoint PointX="5.583333333333333" PointY="10.890524088541666" />
+          <ConnectorPoint PointX="10.5" PointY="10.890524088541666" />
+          <ConnectorPoint PointX="10.5" PointY="9.5" />
+          <ConnectorPoint PointX="13.5" PointY="9.5" />
+          <ConnectorPoint PointX="13.5" PointY="9.75" />
+        </AssociationConnector>
         <AssociationConnector Association="HRModel.FK_visa_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HRModel.Leave_approved" Width="1.5" PointX="3" PointY="19.125" />
+        <AssociationConnector Association="HRModel.FK_leap_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

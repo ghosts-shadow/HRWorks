@@ -19,8 +19,40 @@ namespace HRworks.Controllers
         // GET: Leaves
         public ActionResult Index()
         {
-            var leaves = db.Leaves.Include(l => l.master_file);
+            var leaves = db.Leaves.Include(l => l.master_file).OrderByDescending(x=>x.Id);
             return View(leaves.ToList());
+        }
+        public ActionResult report(long? Employee_id, DateTime? stdate,DateTime? eddate)
+        {
+            var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0)
+                {
+                    afinallist.Add(file);
+                }
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                {
+                    afinallist.Add(file);
+                }
+            }
+
+            ViewBag.employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
+
+            if (Employee_id != null && stdate != null && eddate != null)
+            {
+                var leaves = db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(x => x.Employee_id == Employee_id && x.Start_leave >= stdate && x.End_leave <= eddate);
+                return View(leaves.ToList());
+            }
+            if (Employee_id == null && stdate != null && eddate != null)
+            {
+                var leaves = db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(x => x.Start_leave >= stdate && x.End_leave <= eddate);
+                return View(leaves.ToList());
+            }
+            var leave = new List<Leave>();
+            return this.View(leave);
         }
 
         // GET: Leaves/Details/5
@@ -38,20 +70,37 @@ namespace HRworks.Controllers
             return View(leave);
         }
 
-        // GET: Leaves/Create
+        // GET: Leaves/Create               
         public ActionResult Create()
         {
             var listItems = new List<ListItem>
             {
-                new ListItem { Text = "Annual", Value="Annual" },
-                new ListItem { Text = "Sick", Value="Sick" },
-                new ListItem { Text = "Compassionate", Value="Compassionate" },
-                new ListItem { Text = "Maternity", Value="Maternity" },
-                new ListItem { Text = "Haj", Value="Haj" },
-                new ListItem { Text = "Unpaid", Value="Unpaid" }
+                new ListItem { Text = "Annual", Value="1" },
+                new ListItem { Text = "Sick", Value="2" },
+                new ListItem { Text = "Compassionate", Value="3" },
+                new ListItem { Text = "Maternity", Value="4" },
+                new ListItem { Text = "Haj", Value="5" },
+                new ListItem { Text = "Unpaid", Value="6" },
+                new ListItem { Text = "others", Value="7" },
+                new ListItem { Text = "half-day", Value="8" }
             };
             ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
-            ViewBag.Employee_id = new SelectList(db.master_file.OrderBy(e=>e.employee_name), "employee_id", "employee_name");
+            var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0)
+                {
+                    afinallist.Add(file);
+                }
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                {
+                    afinallist.Add(file);
+                }
+            }
+
+            ViewBag.employee_id = new SelectList(afinallist.OrderBy(x=>x.employee_no), "employee_id", "employee_no");
             return View();
         }
 
@@ -60,8 +109,9 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Employee_id,Id,Date,Reference,Start_leave,End_leave,Return_leave,leave_type,actual_return_date")] Leave leave, HttpPostedFileBase fileBase)
+        public ActionResult Create([Bind(Include = "Employee_id,Id,Date,Reference,Start_leave,End_leave,Return_leave,days,leave_type,actual_return_date")] Leave leave, HttpPostedFileBase fileBase)
         {
+            
             string serverfile;
             if (fileBase != null)
             {
@@ -95,6 +145,8 @@ namespace HRworks.Controllers
                 file1.End_leave= leave.End_leave;
                 file1.Return_leave= leave.Return_leave;
                 file1.leave_type= leave.leave_type;
+                file1.days= leave.days;
+                file1.data_o_n= "New";
                 file1.actual_return_date= leave.actual_return_date;
                 if (leave.actual_return_date==null)
                 {
@@ -118,8 +170,22 @@ namespace HRworks.Controllers
                 new ListItem { Text = "Unpaid", Value="Unpaid" },
                 new ListItem { Text = "Other", Value="Other" }
             };
+            var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0)
+                {
+                    afinallist.Add(file);
+                }
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                {
+                    afinallist.Add(file);
+                }
+            }
             ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name", leave.Employee_id);
+            ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
             return View(leave);
         }
 
@@ -146,7 +212,22 @@ namespace HRworks.Controllers
                 new ListItem { Text = "Other", Value="Other" }
             };
             ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name", leave.Employee_id);
+            var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0)
+                {
+                    afinallist.Add(file);
+                }
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                {
+                    afinallist.Add(file);
+                }
+            }
+
+            ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
             return View(leave);
         }
 
@@ -214,7 +295,23 @@ namespace HRworks.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name", leave.Employee_id);
+
+            var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0)
+                {
+                    afinallist.Add(file);
+                }
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                {
+                    afinallist.Add(file);
+                }
+            }
+
+            ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
             return View(leave);
         }
 

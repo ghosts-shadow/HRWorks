@@ -247,6 +247,9 @@
     <Compile Include="Models\Leave.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Leave_approved.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\liqiapproval.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -453,6 +456,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Views\liquidations\print.cshtml" />
     <Content Include="Views\liquidations\liquiapprove.cshtml" />
+    <Content Include="Views\Leaves\report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
