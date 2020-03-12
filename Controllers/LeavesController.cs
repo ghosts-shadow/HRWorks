@@ -27,8 +27,7 @@
                                     new ListItem { Text = "Maternity", Value = "4" },
                                     new ListItem { Text = "Haj", Value = "5" },
                                     new ListItem { Text = "Unpaid", Value = "6" },
-                                    new ListItem { Text = "others", Value = "7" },
-                                    new ListItem { Text = "half-day", Value = "8" }
+                                    new ListItem { Text = "others", Value = "7" }
                                 };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
@@ -107,13 +106,13 @@
 
             var listItems = new List<ListItem>
                                 {
-                                    new ListItem { Text = "Annual", Value = "Annual" },
-                                    new ListItem { Text = "Sick", Value = "Sick" },
-                                    new ListItem { Text = "Compassionate", Value = "Compassionate" },
-                                    new ListItem { Text = "Maternity", Value = "Maternity" },
-                                    new ListItem { Text = "Haj", Value = "Haj" },
-                                    new ListItem { Text = "Unpaid", Value = "Unpaid" },
-                                    new ListItem { Text = "Other", Value = "Other" }
+                                    new ListItem { Text = "Annual", Value = "1" },
+                                    new ListItem { Text = "Sick", Value = "2" },
+                                    new ListItem { Text = "Compassionate", Value = "3" },
+                                    new ListItem { Text = "Maternity", Value = "4" },
+                                    new ListItem { Text = "Haj", Value = "5" },
+                                    new ListItem { Text = "Unpaid", Value = "6" },
+                                    new ListItem { Text = "others", Value = "7" }
                                 };
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
             var afinallist = new List<master_file>();
@@ -123,9 +122,9 @@
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
+            this.ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
 
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
-            this.ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
             return this.View(leave);
         }
 
@@ -205,13 +204,13 @@
         {
             var listItems = new List<ListItem>
                                 {
-                                    new ListItem { Text = "Annual", Value = "Annual" },
-                                    new ListItem { Text = "Sick", Value = "Sick" },
-                                    new ListItem { Text = "Compassionate", Value = "Compassionate" },
-                                    new ListItem { Text = "Maternity", Value = "Maternity" },
-                                    new ListItem { Text = "Haj", Value = "Haj" },
-                                    new ListItem { Text = "Unpaid", Value = "Unpaid" },
-                                    new ListItem { Text = "Other", Value = "Other" }
+                                    new ListItem { Text = "Annual", Value = "1" },
+                                    new ListItem { Text = "Sick", Value = "2" },
+                                    new ListItem { Text = "Compassionate", Value = "3" },
+                                    new ListItem { Text = "Maternity", Value = "4" },
+                                    new ListItem { Text = "Haj", Value = "5" },
+                                    new ListItem { Text = "Unpaid", Value = "6" },
+                                    new ListItem { Text = "others", Value = "7" }
                                 };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             string serverfile;
@@ -304,7 +303,7 @@
                 var asf = empjd.date_joined;
                 var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
                     x => x.Employee_id == Employee_id && x.Start_leave >= asf && x.End_leave <= eddate);
-                var times = eddate-asf ;
+                var times = eddate - asf;
                 if (times != null)
                 {
                     var period = times.Value.TotalDays + 1;
@@ -332,40 +331,136 @@
                             }
                         }
 
+                        double sick = 0;
+                        if (leaf.leave_type == "2")
+                        {
+                            if (leaf.days != null)
+                            {
+                                sick += leaf.days.Value;
+                            }
+                            else
+                            {
+                                if (leaf.half)
+                                {
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
+                                }
+                                else
+                                {
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) sick += times.Value.TotalDays + 1;
+                                }
+                            }
+                        }
+
+                        this.ViewBag.sick = sick;
+
+                        double comp = 0;
+                        if (leaf.leave_type == "3")
+                        {
+                            if (leaf.days != null)
+                            {
+                                comp += leaf.days.Value;
+                            }
+                            else
+                            {
+                                if (leaf.half)
+                                {
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
+                                }
+                                else
+                                {
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) comp += times.Value.TotalDays + 1;
+                                }
+                            }
+                        }
+
+                        this.ViewBag.comp = comp;
+
+                        double mate = 0;
+                        if (leaf.leave_type == "4")
+                        {
+                            if (leaf.days != null)
+                            {
+                                mate += leaf.days.Value;
+                            }
+                            else
+                            {
+                                if (leaf.half)
+                                {
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
+                                }
+                                else
+                                {
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) mate += times.Value.TotalDays + 1;
+                                }
+                            }
+                        }
+
+                        this.ViewBag.mate = mate;
+                        double haj = 0;
+                        if (leaf.leave_type == "5")
+                        {
+                            if (leaf.days != null)
+                            {
+                                haj += leaf.days.Value;
+                            }
+                            else
+                            {
+                                if (leaf.half)
+                                {
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
+                                }
+                                else
+                                {
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) haj += times.Value.TotalDays + 1;
+                                }
+                            }
+                        }
+
+                        this.ViewBag.haj = haj;
+
                         if (leaf.leave_type == "1")
                         {
                             if (leaf.days != null)
                             {
                                 avalied += leaf.days.Value;
                             }
-                        else
-                        {
-                            if (leaf.half)
-                            {
-                                times =leaf.End_leave - leaf.Start_leave  ;
-                                if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
-                            }
                             else
                             {
-                                times = leaf.End_leave - leaf.Start_leave;
+                                if (leaf.half)
+                                {
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
+                                }
+                                else
+                                {
+                                    times = leaf.End_leave - leaf.Start_leave;
                                     if (times != null) avalied += times.Value.TotalDays + 1;
+                                }
                             }
-                        }
                         }
                     }
 
                     netperiod = period - unpaid;
                     accrued = Math.Round(netperiod * 30 / 360);
                     lbal = accrued - avalied;
-                    ViewBag.name = empjd.employee_name;
-                    ViewBag.lbal = lbal;
-                    ViewBag.per = period;
-                    ViewBag.aval = avalied;
-                    ViewBag.netp = netperiod;
-                    ViewBag.ump = unpaid;
-                    ViewBag.accr = accrued;
+                    this.ViewBag.lbal = lbal;
+                    this.ViewBag.per = period;
+                    this.ViewBag.aval = avalied;
+                    this.ViewBag.netp = netperiod;
+                    this.ViewBag.ump = unpaid;
+                    this.ViewBag.accr = accrued;
+                    this.ViewBag.name = empjd.employee_name;
+
+                    return this.View(leaves.ToList());
                 }
-                return this.View(leaves.ToList());
             }
 
             // if (Employee_id == null  && eddate != null)

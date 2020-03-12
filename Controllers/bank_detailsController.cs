@@ -139,7 +139,16 @@ namespace HRworks.Controllers
         // GET: bank_details/Create
         public ActionResult Create()
         {
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no");
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
             return View();
         }
 
@@ -157,7 +166,16 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no", bank_details.employee_no);
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no",bank_details.employee_no);
             return View(bank_details);
         }
 
@@ -173,7 +191,17 @@ namespace HRworks.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no", bank_details.employee_no);
+
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
             return View(bank_details);
         }
 
@@ -190,7 +218,17 @@ namespace HRworks.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.employee_no = new SelectList(db.master_file, "employee_id", "employee_no", bank_details.employee_no);
+
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
             return View(bank_details);
         }
 

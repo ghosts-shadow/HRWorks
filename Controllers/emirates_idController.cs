@@ -61,7 +61,16 @@ namespace HRworks.Controllers
         public ActionResult Index(string search, int? page, int? pagesize/*, DateTime? pDate*/)
         {
             var emirates_id = db.emirates_id.Include(e => e.master_file);
-            ViewBag.employee_name = new SelectList(db.master_file, "employee_no", "employee_name");
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+
+            this.ViewBag.employee_name = new SelectList(afinallist.OrderBy(x => x.employee_name), "employee_no", "employee_name");
             int pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             int defaSize = 10;
@@ -84,7 +93,7 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="15", Text= "15" },
                 new SelectListItem() { Value="25", Text= "25" },
                 new SelectListItem() { Value="50", Text= "50" },
-                new SelectListItem() { Value="100", Text= "100" },
+                new SelectListItem() { Value="100", Text= "100" }
             };
             ViewBag.pagesize = defaSize;
             IPagedList<emirates_id> passlist = null;
@@ -234,8 +243,17 @@ namespace HRworks.Controllers
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            ViewBag.employee_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
-            ViewBag.employee_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
+            ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View();
         }
 
@@ -284,8 +302,17 @@ namespace HRworks.Controllers
 
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            ViewBag.employee_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
-            ViewBag.employee_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
+            ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View(emirates_id);
         }
 
@@ -351,8 +378,17 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            ViewBag.employee_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
-            ViewBag.employee_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
+            ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View(emirates_id);
         }
 
