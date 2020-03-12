@@ -18,27 +18,27 @@ namespace HRworks.Models
         [Display(Name = "Employee ID")]
         public int Employee_id { get; set; }
         public int Id { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public System.DateTime Date { get; set; }
         public string Reference { get; set; }
 
         [Display(Name = "from")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> Start_leave { get; set; }
 
         [Display(Name = "to")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> End_leave { get; set; }
 
         [Display(Name = "Return leave")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> Return_leave { get; set; }
 
         [Display(Name = "leave type")]
         public string leave_type { get; set; }
 
         [Display(Name = "actual_return_date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd M yy}")]
         public Nullable<System.DateTime> actual_return_date { get; set; }
         public Nullable<double> toltal_requested_days { get; set; }
         public Nullable<bool> leave_salary { get; set; }
@@ -52,7 +52,7 @@ namespace HRworks.Models
         public string data_o_n { get; set; }
 
         [Display(Name = "is half-day included")]
-        public Nullable<bool> half { get; set; }
+        public bool half { get; set; }
     
         public virtual master_file master_file { get; set; }
     }

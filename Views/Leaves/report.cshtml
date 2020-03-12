@@ -7,13 +7,13 @@
 }
 
 <h2>report</h2>
-<br />
+<br/>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    $(function () {
+    $(function() {
         $("#datepicker").datepicker({
             altField: "#alternate",
             altFormat: "MM,yy",
@@ -39,13 +39,13 @@
 </script>
 @using (Html.BeginForm())
 {
-    @Html.DropDownList("Employee_id", null," ", htmlAttributes: new { @class = "form-control", @id = "empno" })<br/><br/>
-    <i>start leave</i><input type="text" id="datepicker" name="stdate" class="form-control" /><br/>
-    <i>end leave</i><input type="text" id="datepicker1" name="eddate" class="form-control" /><br/>
-    <input type="submit" value="Search" class="btn btn-default" />
+    @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "empno" })<br/><br/>
+    <i>report Date</i><input type="text" id="datepicker1" name="eddate" class="form-control"/><br/>
+    <input type="submit" value="Search" class="btn btn-default"/>
 }
-<br />
-<hr />
+<br/>
+<b>@ViewBag.name</b>
+<hr/>
 <table class="table">
     <tr>
         <th>
@@ -119,12 +119,29 @@
                 }
             </td>
             <td>
-                @* 
-                helped by ahemed yousaf    
-                *@
-                @if (item.leave_type == "8")
+                @*
+            helped by ahemed yousaf
+        *@
+                @if (item.half == true)
                 {
-                    double days = 0.5;
+                    var a = item.Start_leave;
+                    var b = item.End_leave;
+                    double days = 0;
+                    if (a == b)
+                    {
+                        days = 1;
+                    }
+                    else
+                    {
+                        var ab = b - a;
+                        if (ab.HasValue)
+                        {
+                            days = ab.Value.TotalDays;
+                            days = System.Math.Abs(days);
+                            days += 1;
+                        }
+                    }
+                    days -= 0.5;
                     @days.ToString()
                 }
                 else
@@ -158,6 +175,20 @@
                 }
 
             </td>
+
+            <td>
+                @{
+                    if (item.half)
+                    {
+                        <p>YES</p>
+                    }
+                    else
+                    {
+                        <p>no</p>
+                    }
+
+                }
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.master_file.employee_name)
             </td>
@@ -168,3 +199,23 @@
     }
 
 </table>
+<div style="font: 25px bold;">
+    <div>
+       period = @ViewBag.per days
+    </div>
+    <div>
+        unpaid =  @ViewBag.ump days
+    </div>
+    <div>
+        net period =  @ViewBag.netp days
+    </div>
+    <div>
+        accrued =  @ViewBag.accr days
+    </div>
+    <div>
+        annual leave taken = @ViewBag.aval days
+    </div>
+    <div>
+        leave balance = @ViewBag.lbal days
+    </div>
+</div>
