@@ -314,7 +314,12 @@
                         {
                             if (leaf.days != null)
                             {
-                                unpaid += leaf.days.Value;
+                                if (leaf.half)
+                                {
+                                    unpaid += leaf.days.Value - 0.5;
+                                }
+                                else
+                                    unpaid += leaf.days.Value;
                             }
                             else
                             {
@@ -336,7 +341,12 @@
                         {
                             if (leaf.days != null)
                             {
-                                sick += leaf.days.Value;
+                                if (leaf.half)
+                                {
+                                    sick += leaf.days.Value - 0.5;
+                                }
+                                else
+                                    sick += leaf.days.Value;
                             }
                             else
                             {
@@ -360,7 +370,15 @@
                         {
                             if (leaf.days != null)
                             {
+                                if (leaf.half)
+                                {
+                                    comp += leaf.days.Value - 0.5;
+                                }
+                                else
+                                {
                                 comp += leaf.days.Value;
+                                }
+
                             }
                             else
                             {
@@ -384,7 +402,16 @@
                         {
                             if (leaf.days != null)
                             {
+                                if (leaf.half)
+                                {
+                                    mate += leaf.days.Value - 0.5;
+                                }
+                                else
+                                {
                                 mate += leaf.days.Value;
+
+                                }
+
                             }
                             else
                             {
@@ -407,7 +434,14 @@
                         {
                             if (leaf.days != null)
                             {
-                                haj += leaf.days.Value;
+                                if (leaf.half)
+                                {
+                                    haj += leaf.days.Value - 0.5;
+                                }
+                                else
+                                {
+                                    haj += leaf.days.Value;
+                                }
                             }
                             else
                             {
@@ -430,7 +464,14 @@
                         {
                             if (leaf.days != null)
                             {
-                                avalied += leaf.days.Value;
+                                if (leaf.half)
+                                {
+                                    avalied += leaf.days.Value - 0.5;
+                                }
+                                else
+                                {
+                                    avalied += leaf.days.Value;
+                                }
                             }
                             else
                             {

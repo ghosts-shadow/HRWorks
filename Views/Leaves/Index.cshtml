@@ -11,15 +11,15 @@
     @Html.ActionLink("Create New", "Create")
     <b style="position: relative; left: 90%">@Html.ActionLink("report", "report")</b>
     
-</p>
+</p>@*
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Date)
-        </th>@*
+        </th>$1$
         <th>
             @Html.DisplayNameFor(model => model.Reference)
-        </th>*@
+        </th>#1#
         <th>
             @Html.DisplayNameFor(model => model.Start_leave)
         </th>
@@ -31,16 +31,16 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.half)
-        </th>@*
+        </th>$1$
         <th>
             @Html.DisplayNameFor(model => model.Return_leave)
-        </th>*@
+        </th>#1#
         <th>
             @Html.DisplayNameFor(model => model.leave_type)
-        </th>@*
+        </th>$1$
         <th>
             @Html.DisplayNameFor(model => model.actual_return_date)
-        </th>*@
+        </th>#1#
         <th>
             @Html.DisplayNameFor(model => model.master_file.employee_name)
         </th>
@@ -55,10 +55,10 @@
     <td>
         @Html.DisplayFor(modelItem => item.Date)
     </td>
-    @*
+    $1$
         <td>
             @Html.DisplayFor(modelItem => item.Reference)
-        </td>*@
+        </td>#1#
     <td>
         @Html.DisplayFor(modelItem => item.Start_leave)
     </td>
@@ -66,9 +66,9 @@
         @Html.DisplayFor(modelItem => item.End_leave)
     </td>
     <td>
-        @*
+        $1$
             helped by ahemed yousaf
-        *@
+        #1#
         @if (item.half == true)
         {
             var a = item.Start_leave;
@@ -135,10 +135,10 @@
            
         }
     </td>
-    @*
+    $1$
         <td>
             @Html.DisplayFor(modelItem => item.Return_leave)
-        </td>*@
+        </td>#1#
     <td>
         @if (item.leave_type == "1")
         {
@@ -173,22 +173,22 @@
             <i>half - day</i>
         }
     </td>
-    @*
+    $1$
         <td>
             @Html.DisplayFor(modelItem => item.actual_return_date)
-        </td>*@
+        </td>#1#
     <td>
         @Html.DisplayFor(modelItem => item.master_file.employee_name)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.master_file.employee_no)
     </td>
-    @*
+    $1$
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
             @Html.ActionLink("Details", "Details", new { id = item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-        </td>*@
+        </td>#1#
 </tr>
     }
-</table>
+</table>*@
