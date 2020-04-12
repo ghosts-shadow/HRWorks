@@ -460,6 +460,7 @@
     <Content Include="Views\liquidations\print.cshtml" />
     <Content Include="Views\liquidations\liquiapprove.cshtml" />
     <Content Include="Views\Leaves\report.cshtml" />
+    <Content Include="Views\Leaves\reportserch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

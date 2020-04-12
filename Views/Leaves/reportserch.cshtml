@@ -1,13 +1,11 @@
-﻿@using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
-@model IEnumerable<HRworks.Models.Leave>
+﻿@model IEnumerable<HRworks.Models.Leave>
 
 @{
-    ViewBag.Title = "report";
+    ViewBag.Title = "reportsearch";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>report summary</h2>
-<br/>
+<h2>report</h2>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -39,13 +37,18 @@
 </script>
 @using (Html.BeginForm())
 {
-    @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "empno" })<br/><br/>
-    <i>report Date</i><input type="text" id="datepicker1" name="eddate" class="form-control"/><br/>
-    <input type="submit" value="Search" class="btn btn-default"/>
+    <i>no of days</i>
+    <input type="text" id="days" name="days" class="form-control" />
+    <br />
+    <br />
+    <i>report Date</i>
+    <input type="text" id="datepicker1" name="actual_re_date" class="form-control" />
+    <br />
+    <input type="submit" value="Search" class="btn btn-default" />
+    <br/>
+    <br/>
+    <br/>
 }
-<br/>
-<b>@ViewBag.name</b>
-<hr/>
 <table class="table">
     <tr>
         <th>
@@ -56,6 +59,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.End_leave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.actual_return_date)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.leave_type)
@@ -72,11 +78,14 @@
         <th>
             @Html.DisplayNameFor(model => model.master_file.employee_no)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.leave_bal)
+        </th>
     </tr>
 
     @foreach (var item in Model)
     {
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
@@ -86,6 +95,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.End_leave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.actual_return_date)
             </td>
             <td>
                 @if (item.leave_type == "1")
@@ -123,8 +135,8 @@
             </td>
             <td>
                 @*
-            helped by ahemed yousaf
-        *@
+                    helped by ahemed yousaf
+                *@
                 @if (item.half == true)
                 {
                     var a = item.Start_leave;
@@ -181,7 +193,7 @@
 
             <td>
                 @{
-                    
+
                     if (item.half)
                     {
                         <p>YES</p>
@@ -199,44 +211,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.master_file.employee_no)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.leave_bal)
+            </td>
         </tr>
     }
 
 </table>
-<div style="font: 25px bold;">
-    <div>
-        period = @ViewBag.per days
-    </div>
-    <div>
-        unpaid =  @ViewBag.ump days
-    </div>
-    <div>
-        net period =  @ViewBag.netp days
-    </div>
-    <div>
-        accrued =  @ViewBag.accr days
-    </div>
-    <div>
-        annual leave taken = @ViewBag.aval days
-    </div>
-    <div>
-        leave balance = @ViewBag.lbal days
-    </div>
-</div>
-<br/>
-<br/>
-<br/>
-<div style="font: 25px bold;">
-    <div>
-        sick = @ViewBag.sick days
-    </div>
-    <div>
-        compassionate = @ViewBag.comp days
-    </div>
-    <div>
-        maternity = @ViewBag.mate days
-    </div>
-    <div>
-        haj = @ViewBag.haj days
-    </div>
-</div>

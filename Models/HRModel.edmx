@@ -162,7 +162,7 @@
           <Property Name="leave_salary" Type="bit" />
           <Property Name="mobile_no" Type="bigint" />
           <Property Name="email" Type="nvarchar(max)" />
-          <Property Name="leave_bal" Type="nvarchar(max)" />
+          <Property Name="leave_bal" Type="float" />
           <Property Name="submitted_by" Type="nvarchar(max)" />
           <Property Name="approved_by" Type="nvarchar(max)" />
           <Property Name="time" Type="datetime" />
@@ -190,7 +190,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Employee_id" Type="int" />
-          <Property Name="leave_balance" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="leave_balance" Type="float" />
           <Property Name="period" Type="float" />
           <Property Name="anual_leave_taken" Type="float" />
           <Property Name="unpaid_leave" Type="float" />
@@ -810,7 +810,7 @@
           <Property Name="leave_salary" Type="Boolean" />
           <Property Name="mobile_no" Type="Int64" />
           <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="leave_bal" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="leave_bal" Type="Double" />
           <Property Name="submitted_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="approved_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="time" Type="DateTime" Precision="3" />
@@ -1261,7 +1261,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Employee_id" Type="Int32" />
-          <Property Name="leave_balance" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="leave_balance" Type="Double" />
           <Property Name="period" Type="Double" />
           <Property Name="anual_leave_taken" Type="Double" />
           <Property Name="unpaid_leave" Type="Double" />

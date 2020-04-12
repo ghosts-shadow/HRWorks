@@ -16,7 +16,7 @@ namespace HRworks.Models
     {
         public int Id { get; set; }
         public Nullable<int> Employee_id { get; set; }
-        public Nullable<decimal> leave_balance { get; set; }
+        public Nullable<double> leave_balance { get; set; }
         public Nullable<double> period { get; set; }
         public Nullable<double> anual_leave_taken { get; set; }
         public Nullable<double> unpaid_leave { get; set; }
