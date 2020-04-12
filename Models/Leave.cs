@@ -41,7 +41,7 @@ namespace HRworks.Models
         public string leave_type { get; set; }
 
         [Display(Name = "actual_return_date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd M yy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> actual_return_date { get; set; }
 
         public Nullable<double> toltal_requested_days { get; set; }
