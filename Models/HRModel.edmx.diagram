@@ -31,8 +31,8 @@
         <AssociationConnector Association="HRModel.FK_bank_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_con_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_em_To_master_file" ManuallyRouted="true" >
-          <ConnectorPoint PointX="2.25" PointY="8.9696126302083332" />
-          <ConnectorPoint PointX="2.415" PointY="8.9696126302083332" />
+          <ConnectorPoint PointX="2.25" PointY="12.576315104166666" />
+          <ConnectorPoint PointX="2.415" PointY="106.79262323888142" />
           <ConnectorPoint PointX="2.415" PointY="11.927945963541667" />
           <ConnectorPoint PointX="2.75" PointY="11.927945963541667" />
           <ConnectorPoint PointX="2.75" PointY="6" />
@@ -43,42 +43,54 @@
         <AssociationConnector Association="HRModel.FK_labour_card_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_le_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_liqui_To_master_file" ManuallyRouted="true" >
-          <ConnectorPoint PointX="1.0937475" PointY="6.75" />
+          <ConnectorPoint PointX="1.0937475" PointY="6.7500000000000009" />
           <ConnectorPoint PointX="1.0937475" PointY="6.1875000000000009" />
-          <ConnectorPoint PointX="1.4166666666666667" PointY="6.1875" />
-          <ConnectorPoint PointX="1.5833333333333333" PointY="6.1875000000000009" />
-          <ConnectorPoint PointX="1.8229186666666666" PointY="6.1875" />
-          <ConnectorPoint PointX="1.9895853333333331" PointY="6.1875000000000009" />
+          <ConnectorPoint PointX="1.3151035416666668" PointY="6.1875" />
+          <ConnectorPoint PointX="1.4817702083333333" PointY="6.1875000000000009" />
+          <ConnectorPoint PointX="1.6197929166666667" PointY="6.1875" />
+          <ConnectorPoint PointX="1.7864595833333332" PointY="6.1875000000000009" />
           <ConnectorPoint PointX="2.6666666666666665" PointY="6.1875" />
           <ConnectorPoint PointX="2.8333333333333335" PointY="6.1875000000000009" />
           <ConnectorPoint PointX="4.548436675" PointY="6.1875000000000009" />
-          <ConnectorPoint PointX="4.548436675" PointY="6.46875" />
-          <ConnectorPoint PointX="6.25" PointY="6.46875" />
+          <ConnectorPoint PointX="4.548436675" PointY="13.080776367187498" />
+          <ConnectorPoint PointX="5.4581233746351794" PointY="11.5156946773632" />
+          <ConnectorPoint PointX="5.54187662536482" PointY="11.37160036529643" />
+          <ConnectorPoint PointX="6.25" PointY="10.15330078125" />
         </AssociationConnector>
         <AssociationConnector Association="HRModel.FK_liquidation_To_lref" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_pass_To_master_file" ManuallyRouted="true" >
-          <ConnectorPoint PointX="1.7109393750000002" PointY="12.384013671875" />
-          <ConnectorPoint PointX="1.7109393750000002" PointY="13.509348958333334" />
-          <ConnectorPoint PointX="1.9244822916666668" PointY="13.509348958333334" />
-          <ConnectorPoint PointX="2.0911489583333336" PointY="13.509348958333334" />
-          <ConnectorPoint PointX="5.510416666666667" PointY="13.509348958333334" />
-          <ConnectorPoint PointX="5.510416666666667" PointY="15.384095052083332" />
-          <ConnectorPoint PointX="6.416666666666667" PointY="15.384095052083332" />
-          <ConnectorPoint PointX="6.583333333333333" PointY="15.384095052083332" />
-          <ConnectorPoint PointX="7.375" PointY="15.384095052083332" />
-          <ConnectorPoint PointX="7.375" PointY="13.509348958333334" />
-          <ConnectorPoint PointX="7.75" PointY="13.509348958333334" />
+          <ConnectorPoint PointX="2.25" PointY="10.363810585123694" />
+          <ConnectorPoint PointX="2.6041666666666665" PointY="10.363810585123694" />
+          <ConnectorPoint PointX="2.8333333333333335" PointY="10.363810585123694" />
+          <ConnectorPoint PointX="2.875" PointY="10.363810585123694" />
+          <ConnectorPoint PointX="2.875" PointY="12.057109375000003" />
+          <ConnectorPoint PointX="4.4651033416666666" PointY="12.057109375000003" />
+          <ConnectorPoint PointX="4.6317700083333326" PointY="12.057109375000003" />
+          <ConnectorPoint PointX="5.060098640444366" PointY="12.057109375000003" />
+          <ConnectorPoint PointX="5.226765307111032" PointY="12.057109375000003" />
+          <ConnectorPoint PointX="5.4375" PointY="12.057109375000003" />
+          <ConnectorPoint PointX="5.4375" PointY="11.5" />
+          <ConnectorPoint PointX="7.447916666666667" PointY="11.5" />
+          <ConnectorPoint PointX="7.614583333333333" PointY="11.5" />
+          <ConnectorPoint PointX="8.5" PointY="11.5" />
+          <ConnectorPoint PointX="8.5" PointY="11.75" />
         </AssociationConnector>
         <AssociationConnector Association="HRModel.FK_v_l_To_master_file" ManuallyRouted="true" >
-          <ConnectorPoint PointX="2.25" PointY="10.29475830078125" />
-          <ConnectorPoint PointX="2.3316666666666666" PointY="10.29475830078125" />
-          <ConnectorPoint PointX="2.4983333333333335" PointY="10.29475830078125" />
-          <ConnectorPoint PointX="2.75" PointY="10.29475830078125" />
+          <ConnectorPoint PointX="2.25" PointY="12.576315104166666" />
+          <ConnectorPoint PointX="2.4147293392128346" PointY="63.294310393451006" />
+          <ConnectorPoint PointX="2.4152706607871663" PointY="63.460976181028208" />
+          <ConnectorPoint PointX="2.75" PointY="166.51973384075166" />
           <ConnectorPoint PointX="2.75" PointY="11.823141276041669" />
+          <ConnectorPoint PointX="2.7916666666666665" PointY="11.823141276041669" />
+          <ConnectorPoint PointX="2.9583333333333335" PointY="11.823141276041669" />
+          <ConnectorPoint PointX="4.4651033416666666" PointY="11.823141276041669" />
+          <ConnectorPoint PointX="4.6317700083333326" PointY="11.823141276041669" />
           <ConnectorPoint PointX="4.6875" PointY="11.823141276041669" />
           <ConnectorPoint PointX="4.6875" PointY="10.890524088541666" />
-          <ConnectorPoint PointX="5.416666666666667" PointY="10.890524088541666" />
-          <ConnectorPoint PointX="5.583333333333333" PointY="10.890524088541666" />
+          <ConnectorPoint PointX="5.7381636424062661" PointY="10.890524088541666" />
+          <ConnectorPoint PointX="5.9048303090729322" PointY="10.890524088541666" />
+          <ConnectorPoint PointX="7.447916666666667" PointY="10.890524088541666" />
+          <ConnectorPoint PointX="7.614583333333333" PointY="10.890524088541666" />
           <ConnectorPoint PointX="10.5" PointY="10.890524088541666" />
           <ConnectorPoint PointX="10.5" PointY="9.5" />
           <ConnectorPoint PointX="13.5" PointY="9.5" />
@@ -88,6 +100,8 @@
         <AssociationConnector Association="HRModel.AspNetUserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="HRModel.Leave_approved" Width="1.5" PointX="3" PointY="19.125" />
         <AssociationConnector Association="HRModel.FK_leap_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.leavecal" Width="1.5" PointX="3" PointY="23.25" />
+        <AssociationConnector Association="HRModel.FK_leave_cal_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

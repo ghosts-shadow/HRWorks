@@ -168,7 +168,7 @@
           <Property Name="time" Type="datetime" />
           <Property Name="days" Type="int" />
           <Property Name="data_o_n" Type="nchar" MaxLength="10" />
-          <Property Name="half" Type="bit" />
+          <Property Name="half" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Leave_approved">
           <Key>
@@ -183,6 +183,19 @@
           <Property Name="Return_leave" Type="date" />
           <Property Name="leave_type" Type="nvarchar(max)" Nullable="false" />
           <Property Name="actual_return_date" Type="date" />
+        </EntityType>
+        <EntityType Name="leavecal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="leave_balance" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="period" Type="float" />
+          <Property Name="anual_leave_taken" Type="float" />
+          <Property Name="unpaid_leave" Type="float" />
+          <Property Name="net_period" Type="float" />
+          <Property Name="accrued" Type="float" />
         </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
@@ -317,18 +330,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_con_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
-          <End Role="contract" Type="Self.contract" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="master_file">
-              <PropertyRef Name="employee_id" />
-            </Principal>
-            <Dependent Role="contract">
-              <PropertyRef Name="employee_no" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+      <Association Name="FK_con_To_master_file">
+        <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+        <End Role="contract" Type="Self.contract" Multiplicity="*" />
+        <ReferentialConstraint>
+          <Principal Role="master_file">
+            <PropertyRef Name="employee_id" />
+          </Principal>
+          <Dependent Role="contract">
+            <PropertyRef Name="employee_no" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -445,6 +458,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_leave_cal_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="leavecal" Type="Self.leavecal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="leavecal">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_liqui_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="liquidation" Type="Self.liquidation" Multiplicity="*" />
@@ -535,6 +560,7 @@
           <EntitySet Name="labour_card" EntityType="Self.labour_card" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave" EntityType="Self.Leave" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave_approved" EntityType="Self.Leave_approved" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="leavecal" EntityType="Self.leavecal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liqiapproval" EntityType="Self.liqiapproval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation" EntityType="Self.liquidation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation_ref" EntityType="Self.liquidation_ref" Schema="dbo" store:Type="Tables" />
@@ -587,6 +613,10 @@
           <AssociationSet Name="FK_leap_To_master_file" Association="Self.FK_leap_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="Leave_approved" EntitySet="Leave_approved" />
+          </AssociationSet>
+          <AssociationSet Name="FK_leave_cal_To_master_file" Association="Self.FK_leave_cal_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="leavecal" EntitySet="leavecal" />
           </AssociationSet>
           <AssociationSet Name="FK_liqui_To_master_file" Association="Self.FK_liqui_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -786,7 +816,7 @@
           <Property Name="time" Type="DateTime" Precision="3" />
           <Property Name="days" Type="Int32" />
           <Property Name="data_o_n" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="half" Type="Boolean" />
+          <Property Name="half" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
@@ -857,6 +887,7 @@
           <NavigationProperty Name="visa_and_labour_card" Relationship="Self.FK_v_l_To_master_file" FromRole="master_file" ToRole="visa_and_labour_card" />
           <NavigationProperty Name="visas" Relationship="Self.FK_visa_To_master_file" FromRole="master_file" ToRole="visa" />
           <NavigationProperty Name="Leave_approved" Relationship="HRModel.FK_leap_To_master_file" FromRole="master_file" ToRole="Leave_approved" />
+          <NavigationProperty Name="leavecals" Relationship="HRModel.FK_leave_cal_To_master_file" FromRole="master_file" ToRole="leavecal" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -1191,6 +1222,11 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="Leave_approved" EntitySet="Leave_approved" />
           </AssociationSet>
+          <EntitySet Name="leavecals" EntityType="HRModel.leavecal" />
+          <AssociationSet Name="FK_leave_cal_To_master_file" Association="HRModel.FK_leave_cal_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="leavecal" EntitySet="leavecals" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
           <Key>
@@ -1215,6 +1251,32 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="Leave_approved">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="leavecal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="leave_balance" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="period" Type="Double" />
+          <Property Name="anual_leave_taken" Type="Double" />
+          <Property Name="unpaid_leave" Type="Double" />
+          <Property Name="net_period" Type="Double" />
+          <Property Name="accrued" Type="Double" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_leave_cal_To_master_file" FromRole="leavecal" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_leave_cal_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.leavecal" Role="leavecal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="leavecal">
               <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1540,6 +1602,20 @@
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="leavecals">
+            <EntityTypeMapping TypeName="HRModel.leavecal">
+              <MappingFragment StoreEntitySet="leavecal">
+                <ScalarProperty Name="accrued" ColumnName="accrued" />
+                <ScalarProperty Name="net_period" ColumnName="net_period" />
+                <ScalarProperty Name="unpaid_leave" ColumnName="unpaid_leave" />
+                <ScalarProperty Name="anual_leave_taken" ColumnName="anual_leave_taken" />
+                <ScalarProperty Name="period" ColumnName="period" />
+                <ScalarProperty Name="leave_balance" ColumnName="leave_balance" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

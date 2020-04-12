@@ -29,6 +29,7 @@ namespace HRworks.Models
             this.visa_and_labour_card = new HashSet<visa_and_labour_card>();
             this.visas = new HashSet<visa>();
             this.Leave_approved = new HashSet<Leave_approved>();
+            this.leavecals = new HashSet<leavecal>();
         }
     
         public int employee_id { get; set; }
@@ -91,5 +92,7 @@ namespace HRworks.Models
         public virtual ICollection<visa> visas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Leave_approved> Leave_approved { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<leavecal> leavecals { get; set; }
     }
 }

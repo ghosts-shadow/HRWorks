@@ -247,6 +247,9 @@
     <Compile Include="Models\Leave.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\leavecal.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Leave_approved.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
