@@ -7,13 +7,13 @@
 }
 
 <h2>report summary</h2>
-<br/>
+<br />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    $(function() {
+    $(function () {
         $("#datepicker").datepicker({
             altField: "#alternate",
             altFormat: "MM,yy",
@@ -37,15 +37,24 @@
         $("#empno").chosen({ no_results_text: "Oops, nothing found!" });
     });
 </script>
+
+<p>
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New" />
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel", "Leaves", new {  Employee_id = ViewBag.no, eddate = ViewBag.eddate })'" value="Export"/>
+</p>
 @using (Html.BeginForm())
 {
-    @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "empno" })<br/><br/>
-    <i>report Date</i><input type="text" id="datepicker1" name="eddate" class="form-control"/><br/>
-    <input type="submit" value="Search" class="btn btn-default"/>
+    @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "empno" })
+    <br />
+    <br />
+    <i>report Date</i>
+    <input type="text" id="datepicker1" name="eddate" class="form-control" />
+    <br />
+    <input type="submit" value="Search" class="btn btn-default" />
 }
-<br/>
-<b>@ViewBag.name</b>
-<hr/>
+<br />
+<h3><b>employee name:- @ViewBag.name <br /> employee no:- @ViewBag.no</b></h3>
+<hr />
 <table class="table">
     <tr>
         <th>
@@ -66,13 +75,6 @@
         <th>
             @Html.DisplayNameFor(model => model.half)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.master_file.employee_name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.master_file.employee_no)
-        </th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -123,8 +125,8 @@
             </td>
             <td>
                 @*
-            helped by ahemed yousaf
-        *@
+                    helped by ahemed yousaf
+                *@
                 @if (item.half == true)
                 {
                     var a = item.Start_leave;
@@ -181,7 +183,7 @@
 
             <td>
                 @{
-                    
+
                     if (item.half)
                     {
                         <p>YES</p>
@@ -192,12 +194,6 @@
                     }
 
                 }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.master_file.employee_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.master_file.employee_no)
             </td>
         </tr>
     }
@@ -223,9 +219,9 @@
         leave balance = @ViewBag.lbal days
     </div>
 </div>
-<br/>
-<br/>
-<br/>
+<br />
+<br />
+<br />
 <div style="font: 25px bold;">
     <div>
         sick = @ViewBag.sick days

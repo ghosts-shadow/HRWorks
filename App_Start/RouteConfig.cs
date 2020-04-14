@@ -18,6 +18,19 @@ namespace HRworks
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+
+            routes.MapRoute(
+                "report_summery",
+                "report/{Employee_id}/{eddate}",
+                new
+                    {
+                        controller = "Leaves",
+                        action = "DownloadExcel",
+                        Employee_id = UrlParameter.Optional,
+                        eddate = UrlParameter.Optional
+                    });
+
         }
     }
 }

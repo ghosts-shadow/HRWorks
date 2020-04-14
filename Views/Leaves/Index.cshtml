@@ -7,13 +7,19 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-    <b style="position: relative; left: 90%">@Html.ActionLink("report summary", "report")</b>
+    <div class="col-lg-5"><br/>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New" class="btn btn-default" />
+    </div>
+<div class="col-lg-5">
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("report")'" value="Report Summarry " class="btn btn-default" />
     <br />
-    @Html.ActionLink("report", "reportserch")
-
-</p>@*
+    <br />
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reportserch")'" value=" Report(days/year)" class="btn btn-default" />
+</div>
+<br/>
+<br/>
+<br/>
+@*
 <table class="table">
     <tr>
         <th>
