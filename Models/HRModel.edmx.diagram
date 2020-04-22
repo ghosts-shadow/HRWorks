@@ -48,6 +48,8 @@
         <AssociationConnector Association="HRModel.FK_leap_To_master_file" />
         <EntityTypeShape EntityType="HRModel.leavecal" Width="1.5" PointX="3" PointY="23.25" />
         <AssociationConnector Association="HRModel.FK_leave_cal_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.leave_absence" Width="1.5" PointX="2.75" PointY="27.625" />
+        <AssociationConnector Association="HRModel.FK_la_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

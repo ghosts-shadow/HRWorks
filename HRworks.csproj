@@ -250,6 +250,9 @@
     <Compile Include="Models\leavecal.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\leave_absence.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Leave_approved.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -277,6 +280,7 @@
     <Compile Include="Models\username.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Utility.cs" />
     <Compile Include="Models\visa.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -461,6 +465,7 @@
     <Content Include="Views\liquidations\liquiapprove.cshtml" />
     <Content Include="Views\Leaves\report.cshtml" />
     <Content Include="Views\Leaves\reportserch.cshtml" />
+    <Content Include="Views\Leaves\Importexcel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

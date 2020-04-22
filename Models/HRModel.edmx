@@ -170,6 +170,15 @@
           <Property Name="data_o_n" Type="nchar" MaxLength="10" />
           <Property Name="half" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="leave_absence">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="absence" Type="float" />
+          <Property Name="month" Type="date" />
+        </EntityType>
         <EntityType Name="Leave_approved">
           <Key>
             <PropertyRef Name="Id" />
@@ -398,6 +407,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_la_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="leave_absence" Type="Self.leave_absence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="leave_absence">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       <Association Name="FK_em_To_master_file">
         <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
         <End Role="emirates_id" Type="Self.emirates_id" Multiplicity="*" />
@@ -559,6 +580,7 @@
           <EntitySet Name="insurance" EntityType="Self.insurance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="labour_card" EntityType="Self.labour_card" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave" EntityType="Self.Leave" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="leave_absence" EntityType="Self.leave_absence" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave_approved" EntityType="Self.Leave_approved" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leavecal" EntityType="Self.leavecal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liqiapproval" EntityType="Self.liqiapproval" Schema="dbo" store:Type="Tables" />
@@ -593,6 +615,10 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_la_To_master_file" Association="Self.FK_la_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="leave_absence" EntitySet="leave_absence" />
           </AssociationSet>
           <AssociationSet Name="FK_em_To_master_file" Association="Self.FK_em_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -888,6 +914,7 @@
           <NavigationProperty Name="visas" Relationship="Self.FK_visa_To_master_file" FromRole="master_file" ToRole="visa" />
           <NavigationProperty Name="Leave_approved" Relationship="HRModel.FK_leap_To_master_file" FromRole="master_file" ToRole="Leave_approved" />
           <NavigationProperty Name="leavecals" Relationship="HRModel.FK_leave_cal_To_master_file" FromRole="master_file" ToRole="leavecal" />
+          <NavigationProperty Name="leave_absence" Relationship="HRModel.FK_la_To_master_file" FromRole="master_file" ToRole="leave_absence" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -1227,6 +1254,11 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="leavecal" EntitySet="leavecals" />
           </AssociationSet>
+          <EntitySet Name="leave_absence" EntityType="HRModel.leave_absence" />
+          <AssociationSet Name="FK_la_To_master_file" Association="HRModel.FK_la_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="leave_absence" EntitySet="leave_absence" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
           <Key>
@@ -1277,6 +1309,28 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="leavecal">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="leave_absence">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="absence" Type="Double" />
+          <Property Name="month" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_la_To_master_file" FromRole="leave_absence" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_la_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.leave_absence" Role="leave_absence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="leave_absence">
               <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1616,6 +1670,16 @@
                 <ScalarProperty Name="leave_balance" ColumnName="leave_balance" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="leave_absence">
+            <EntityTypeMapping TypeName="HRModel.leave_absence">
+              <MappingFragment StoreEntitySet="leave_absence">
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="absence" ColumnName="absence" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -9,9 +9,8 @@
     using System.Web;
     using System.Web.Mvc;
     using System.Web.UI.WebControls;
-
+    using System.Data;
     using HRworks.Models;
-
     using OfficeOpenXml;
 
     public class LeavesController : Controller
@@ -1298,6 +1297,91 @@
             }
 
             return this.View(leaves);
+        }
+
+        HREntities hrdb = new HREntities();
+
+        public ActionResult ImportExcel()
+        {
+            return View();
+        }
+
+        [ActionName("Importexcel")]
+        [HttpPost]
+        public ActionResult Importexcel()
+        {
+            if (this.Request.Files["FileUpload1"].ContentLength > 0)
+            {
+                var extension = Path.GetExtension(this.Request.Files["FileUpload1"].FileName).ToLower();
+                string query = null;
+                var connString = string.Empty;
+
+                string[] validFileTypes = { ".csv" };
+
+                var path1 = string.Format(
+                    "{0}/{1}",
+                    this.Server.MapPath("~/Content/Uploads"),
+                    this.Request.Files["FileUpload1"].FileName);
+                if (!Directory.Exists(path1)) Directory.CreateDirectory(this.Server.MapPath("~/Content/Uploads"));
+
+                if (validFileTypes.Contains(extension))
+                {
+                    if (System.IO.File.Exists(path1)) System.IO.File.Delete(path1);
+
+                    this.Request.Files["FileUpload1"].SaveAs(path1);
+                    if (extension == ".csv")
+                    {
+                        var dt = Utility.ConvertCSVtoDataTable(path1);
+                        this.ViewBag.Data = dt;
+                        if (dt.Rows.Count > 0)
+                        {
+                            var pro = new leave_absence();
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                foreach (DataColumn column in dt.Columns)
+                                {
+                                    if (dr[column] == null || dr[column] == " ") goto e;
+
+                                    if (column.ColumnName == "Month")
+                                    {
+                                        DateTime.TryParse(dr[column].ToString(), out var dtt);
+                                        pro.month = dtt;
+                                    }
+
+                                    if (column.ColumnName == "Absence")
+                                    {
+                                        float.TryParse(dr[column].ToString(), out var dtt);
+                                        pro.absence = dtt;
+                                    }
+
+                                    if (column.ColumnName == "EMPNO")
+                                    {
+                                        int.TryParse(dr[column].ToString(), out var idm);
+                                        if (idm != 0)
+                                        {
+                                            var dbmf = this.hrdb.master_file.ToList();
+                                            var epid = dbmf.Find(x => x.employee_no == idm);
+                                            if (epid == null) goto e;
+                                            pro.Employee_id = epid.employee_id;
+                                        }
+                                    }
+                                }
+
+                                this.hrdb.leave_absence.Add(pro);
+                                this.hrdb.SaveChanges();
+                                e:;
+                            }
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                this.ViewBag.Error = "Please Upload Files in .csv format";
+            }
+
+            return this.View();
         }
 
         protected override void Dispose(bool disposing)

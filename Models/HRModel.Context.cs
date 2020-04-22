@@ -47,5 +47,6 @@ namespace HRworks.Models
         public virtual DbSet<visa_and_labour_card> visa_and_labour_card { get; set; }
         public virtual DbSet<Leave_approved> Leave_approved { get; set; }
         public virtual DbSet<leavecal> leavecals { get; set; }
+        public virtual DbSet<leave_absence> leave_absence { get; set; }
     }
 }
