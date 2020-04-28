@@ -79,7 +79,9 @@
 </style>
 
 <!--<![endif]-->
-@using (Html.BeginForm("ImportExcel", "testupload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leave_absence_Index")'" value=" Absence Report"/>
+<br/>
+@using (Html.BeginForm("ImportExcel", "Leaves", FormMethod.Post, new { enctype = "multipart/form-data" }))
 
 {
     <table>

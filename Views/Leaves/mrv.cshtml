@@ -1,0 +1,150 @@
+﻿@model IEnumerable<HRworks.Models.con_leavemodel>
+
+@{
+    ViewBag.Title = "mrv";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function() {
+        $("#datepicker1").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy"
+        });
+        $("#datepicker2").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy"
+        });
+    });
+</script>
+<h2>monthly report - VACATION</h2>
+<br />
+<script>
+    document.onkeydown = function(e) {
+        if (event.keyCode == 123) {
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+            return false;
+        }
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+            return false;
+        }
+        if (e.ctrlKey && e.keyCode == 'P'.charCodeAt(0)) {
+            $(':text').hide();
+            $(':submit').hide();
+            return true;
+        } else {
+            $(':text ').show();
+            $(':submit').show();
+        }
+        return true;
+    }
+</script>
+@using (Html.BeginForm())
+{
+    <input type="text" id="datepicker1" name="eddate" class="form-control" />
+    <br />
+    <input type="text" id="datepicker2" name="eddate1" class="form-control" />
+    <br />
+    <input type="submit" value="Search" class="btn btn-default" />
+}
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.employee_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.designation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Start_leave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.End_leave)
+        </th>
+    </tr>
+    @{ var dp = "";}
+    @foreach (var item in Model)
+    {
+        if (dp != item.departmant_project)
+        {
+            dp = item.departmant_project;
+            <tr>
+                <td colspan="5"></td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <b>@Html.DisplayFor(modelItem => item.departmant_project)</b>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5"></td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.employee_no)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.employee_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.designation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Start_leave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.End_leave)
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.employee_no)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.employee_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.designation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Start_leave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.End_leave)
+                </td>
+            </tr>
+        }
+
+    }
+
+</table>

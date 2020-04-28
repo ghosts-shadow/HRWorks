@@ -217,6 +217,7 @@
     <Compile Include="Models\contract.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\con_leavemodel.cs" />
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -466,6 +467,8 @@
     <Content Include="Views\Leaves\report.cshtml" />
     <Content Include="Views\Leaves\reportserch.cshtml" />
     <Content Include="Views\Leaves\Importexcel.cshtml" />
+    <Content Include="Views\Leaves\leave_absence_Index.cshtml" />
+    <Content Include="Views\Leaves\mrv.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

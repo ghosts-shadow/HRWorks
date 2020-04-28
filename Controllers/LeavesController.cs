@@ -13,6 +13,8 @@
     using HRworks.Models;
     using OfficeOpenXml;
 
+    using TEST2.Controllers;
+
     public class LeavesController : Controller
     {
         private readonly HREntities db = new HREntities();
@@ -1050,6 +1052,16 @@
             return this.View(leaves);
         }
 
+        public ActionResult leave_absence_Index(DateTime? eddate)
+        {
+            var leaves = new List<leave_absence>();
+            if (eddate != null)
+            {
+                leaves = this.db.leave_absence.Where(x => x.month.Value.Month == eddate.Value.Month && x.month.Value.Year == eddate.Value.Year).OrderByDescending(x => x.Id).ToList();
+            }
+
+            return this.View(leaves.OrderBy(x=>x.master_file.employee_no));
+        }
         public ActionResult report(long? Employee_id, DateTime? eddate)
         {
             ViewBag.Employee_id = Employee_id;
@@ -1279,7 +1291,6 @@
 
                 return this.View(leaves.OrderBy(x => x.leave_bal));
             }
-
             if (leave_bal_till.HasValue)
             {
                 var leaveslist = new List<Leave>();
@@ -1335,12 +1346,13 @@
                         this.ViewBag.Data = dt;
                         if (dt.Rows.Count > 0)
                         {
+                            var leavecheck = this.db.leave_absence.ToList();
                             var pro = new leave_absence();
                             foreach (DataRow dr in dt.Rows)
                             {
                                 foreach (DataColumn column in dt.Columns)
                                 {
-                                    if (dr[column] == null || dr[column] == " ") goto e;
+                                    if (dr[column] == null || dr[column].ToString() == " ") goto e;
 
                                     if (column.ColumnName == "Month")
                                     {
@@ -1348,7 +1360,7 @@
                                         pro.month = dtt;
                                     }
 
-                                    if (column.ColumnName == "Absence")
+                                    if (column.ColumnName == "Absents")
                                     {
                                         float.TryParse(dr[column].ToString(), out var dtt);
                                         pro.absence = dtt;
@@ -1367,9 +1379,22 @@
                                     }
                                 }
 
-                                this.hrdb.leave_absence.Add(pro);
-                                this.hrdb.SaveChanges();
-                                e:;
+                                if (leavecheck.Exists(x => x.Employee_id == pro.Employee_id && x.month.Value.Year == pro.month.Value.Year && x.month.Value.Month == pro.month.Value.Month))
+                                {
+                                    var leaveab = leavecheck.Find(
+                                        x => x.Employee_id == pro.Employee_id
+                                             && x.month.Value.Year == pro.month.Value.Year
+                                             && x.month.Value.Month == pro.month.Value.Month);
+                                    leaveab.absence = pro.absence;
+                                    this.db.Entry(leaveab).State = EntityState.Modified;
+                                    this.db.SaveChanges();
+                                }
+                                else
+                                {
+                                    this.hrdb.leave_absence.Add(pro);
+                                    this.hrdb.SaveChanges();
+                                }
+                                e: ;
                             }
                         }
                     }
@@ -1384,6 +1409,47 @@
             return this.View();
         }
 
+        public ActionResult mrv(DateTime? eddate,DateTime? eddate1)
+        {
+            var con_leave = from l in this.db.Leaves
+                            join con in this.db.contracts on l.Employee_id equals con.employee_id
+                            select new
+                                       {
+                                           l.master_file.employee_no,
+                                           l.master_file.employee_name,
+                                           con.designation,
+                                           con.departmant_project,
+                                           l.Start_leave,
+                                           l.End_leave
+                                       };
+            var listconleave = con_leave.OrderBy(x=>x.departmant_project).ToList();
+            var cllist = new List<con_leavemodel>();
+            int i = 0;
+            foreach (var cl in listconleave)
+            {
+                var clitem = new con_leavemodel();
+                clitem.id = ++i;
+                clitem.employee_no = cl.employee_no;
+                clitem.employee_name = cl.employee_name;
+                clitem.designation = cl.designation;
+                clitem.departmant_project = cl.departmant_project;
+                clitem.Start_leave = cl.Start_leave;
+                clitem.End_leave = cl.End_leave;
+                cllist.Add(clitem);
+            }
+
+            if (eddate.HasValue && !eddate1.HasValue)
+            {
+                return this.View(cllist.Where(x => x.Start_leave >= eddate).OrderBy(x => x.departmant_project).ThenBy(x => x.Start_leave));
+            }
+            if (eddate.HasValue && eddate1.HasValue)
+            {
+                return this.View(cllist.Where(x => x.Start_leave >= eddate && x.Start_leave <= eddate1).OrderBy(x => x.departmant_project).ThenBy(x => x.Start_leave));
+            }
+            
+            return this.View(new List<con_leavemodel>());
+        }
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing) this.db.Dispose();

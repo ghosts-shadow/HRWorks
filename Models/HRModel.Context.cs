@@ -48,5 +48,7 @@ namespace HRworks.Models
         public virtual DbSet<Leave_approved> Leave_approved { get; set; }
         public virtual DbSet<leavecal> leavecals { get; set; }
         public virtual DbSet<leave_absence> leave_absence { get; set; }
+
+        public System.Data.Entity.DbSet<HRworks.Models.con_leavemodel> con_leavemodel { get; set; }
     }
 }

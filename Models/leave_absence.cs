@@ -11,12 +11,15 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class leave_absence
     {
         public Nullable<int> Employee_id { get; set; }
         public int Id { get; set; }
         public Nullable<double> absence { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MMM yyyy}")]
         public Nullable<System.DateTime> month { get; set; }
     
         public virtual master_file master_file { get; set; }
