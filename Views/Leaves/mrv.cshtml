@@ -9,7 +9,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    $(function() {
+    $(function () {
         $("#datepicker1").datepicker({
             altField: "#alternate",
             altFormat: "MM,yy",
@@ -32,10 +32,17 @@
         });
     });
 </script>
-<h2>monthly report - VACATION</h2>
-<br />
+<div class="row">
+    <div class="col-md-5">
+        <h2>monthly report</h2>
+        <br/>
+    </div>
+    <div class="col-md-5" style="left: 50%">
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value="back to main"/>
+    </div>
+</div>
 <script>
-    document.onkeydown = function(e) {
+    document.onkeydown = function (e) {
         if (event.keyCode == 123) {
             return false;
         }
@@ -64,8 +71,14 @@
 </script>
 @using (Html.BeginForm())
 {
+    <p>
+        from
+    </p>
     <input type="text" id="datepicker1" name="eddate" class="form-control" />
     <br />
+    <p>
+        to
+    </p>
     <input type="text" id="datepicker2" name="eddate1" class="form-control" />
     <br />
     <input type="submit" value="Search" class="btn btn-default" />
@@ -73,6 +86,9 @@
 <br />
 <table class="table">
     <tr>
+        <th>
+            SN#
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.employee_no)
         </th>
@@ -90,23 +106,32 @@
         </th>
     </tr>
     @{ var dp = "";}
+    @{
+        int i = 0;
+    }
     @foreach (var item in Model)
     {
         if (dp != item.departmant_project)
         {
             dp = item.departmant_project;
             <tr>
-                <td colspan="5"></td>
+                <td colspan="6"></td>
             </tr>
             <tr>
-                <td colspan="5">
+                <td colspan="6">
                     <b>@Html.DisplayFor(modelItem => item.departmant_project)</b>
                 </td>
             </tr>
             <tr>
-                <td colspan="5"></td>
+                <td colspan="6"></td>
             </tr>
             <tr>
+                <td>
+                    @{
+                        i++;
+                    }
+                    @i
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.employee_no)
                 </td>
@@ -127,6 +152,12 @@
         else
         {
             <tr>
+                <td>
+                    @{
+                        i++;
+                    }
+                    @i
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.employee_no)
                 </td>

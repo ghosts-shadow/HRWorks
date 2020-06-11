@@ -1276,12 +1276,12 @@
             var leaves = new List<Leave>();
             if (days.HasValue)
             {
-                var leaveballist = this.db.leavecals.Where(x => x.leave_balance >= days.Value).ToList();
                 this.cal_bal();
+                var leaveballist = this.db.leavecals.Where(x => x.leave_balance >= days.Value).ToList();
                 foreach (var leavecal in leaveballist)
                 {
                     var leaveempid = this.db.Leaves.Where(x => x.Employee_id == leavecal.Employee_id)
-                        .Include(l => l.master_file).OrderByDescending(x => x.Id).ToList();
+                        .Include(l => l.master_file).OrderByDescending(x => x.leave_bal).ToList();
                     foreach (var leaf in leaveempid)
                     {
                         leaf.leave_bal = leavecal.leave_balance;
@@ -1289,7 +1289,19 @@
                     }
                 }
 
-                return this.View(leaves.OrderBy(x => x.leave_bal));
+                var leavesnew = new List<Leave>();
+                foreach (var leaf in leaves)
+                {
+                    if (leaf.leave_bal < days.Value)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        leavesnew.Add(leaf);
+                    }
+                }
+                return this.View(leavesnew.OrderBy(x => x.leave_bal));
             }
             if (leave_bal_till.HasValue)
             {

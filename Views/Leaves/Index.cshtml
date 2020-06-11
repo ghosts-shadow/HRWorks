@@ -8,22 +8,33 @@
 <h2>Index</h2>
 <div class="row">
     <div class="col-lg-5">
-        <br />
         <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New"  />
     </div>
     <div class="col-lg-5">
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("report")'" value="Report Summarry "  />
-        <br />
-        <br />
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reportserch")'" value=" Report(days/year)"  />
-    </div>
+        <div class="row">
+            <div class="col-lg-5">
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("report")'" value="Individual Report " />
+                <br />
+                <br />
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reportserch")'" value=" Periodic Report" />
+                <br />
+                <br />
+            </div>
+            <div class="col-lg-5">
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leave_absence_Index")'" value=" Absence Report" />
+                <br />
+                <br />
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("mrv")'" value="Monthly Report" />
+                <br />
+                <br />
+            </div>
+        </div>
+        </div>
 </div>
 <div class="row">
     <div class="col-lg-5">
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leave_absence_Index")'" value=" Absence Report"/>
     </div>
     <div class="col-lg-5">
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("mrv")'" value="Monthly Report - VACATION"/>
     </div>
 </div>
 <br/>

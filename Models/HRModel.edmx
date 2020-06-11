@@ -66,6 +66,18 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="ATTENDANCE_ADJUSTMENT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="date_prepared" Type="date" />
+          <Property Name="DJ_date" Type="date" />
+          <Property Name="late_in" Type="time" Precision="7" />
+          <Property Name="early_out" Type="time" Precision="7" />
+          <Property Name="reason" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="bank_details">
           <Key>
             <PropertyRef Name="Employee_Id" />
@@ -75,6 +87,45 @@
           <Property Name="IBAN" Type="nvarchar(max)" />
           <Property Name="Account_no" Type="bigint" />
           <Property Name="bank_name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="BUSINESS_TRIP_REPORT ">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="date" Type="date" />
+          <Property Name="type_of_trip" Type="nvarchar(max)" />
+          <Property Name="IO_specify" Type="nvarchar(max)" />
+          <Property Name="destination" Type="nvarchar(max)" />
+          <Property Name="Departure_Date" Type="date" />
+          <Property Name="Return_Date" Type="date" />
+          <Property Name="TRIP_OBJECTIVE" Type="nvarchar(max)" />
+          <Property Name="Objectives" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="CERTIFICATE_REQUEST">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_id" Type="int" />
+          <Property Name="LETTER_TYPE" Type="nvarchar(max)" />
+          <Property Name="MENTION_SALARY" Type="nvarchar(max)" />
+          <Property Name="BL_bank_nane" Type="nvarchar(max)" />
+          <Property Name="BL_account_no" Type="nvarchar(max)" />
+          <Property Name="EL_name" Type="nvarchar(max)" />
+          <Property Name="EL_purpose" Type="nvarchar(max)" />
+          <Property Name="EL_DOV_from" Type="date" />
+          <Property Name="EL_DOV_to" Type="date" />
+          <Property Name="TD_NCARREG" Type="bit" />
+          <Property Name="TD_CARREGREN" Type="bit" />
+          <Property Name="TD_DLA" Type="bit" />
+          <Property Name="TDLREN" Type="bit" />
+          <Property Name="other" Type="nvarchar(max)" />
+          <Property Name="Etisalat" Type="bit" />
+          <Property Name="ADWEA" Type="bit" />
+          <Property Name="Mawaqif" Type="bit" />
+          <Property Name="Immigration" Type="bit" />
         </EntityType>
         <EntityType Name="contract">
           <Key>
@@ -100,6 +151,22 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
+        <EntityType Name="DUTY_HANDOVER">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_NO1" Type="int" />
+          <Property Name="Employee_NO2" Type="int" />
+          <Property Name="leave_start" Type="date" />
+          <Property Name="leave_end" Type="date" />
+          <Property Name="reason_for_handover" Type="nvarchar(max)" />
+          <Property Name="RNR_HO1" Type="nvarchar(max)" />
+          <Property Name="RNR_HO2" Type="nvarchar(max)" />
+          <Property Name="RNR_HO3" Type="nvarchar(max)" />
+          <Property Name="RNR_HO4" Type="nvarchar(max)" />
+          <Property Name="RNR_HO5" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="emirates_id">
           <Key>
             <PropertyRef Name="employee_id" />
@@ -111,6 +178,49 @@
           <Property Name="imgpath" Type="nvarchar(max)" />
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EXIT_INTERVIEW">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="1B" Type="nvarchar(max)" />
+          <Property Name="2B" Type="nvarchar(max)" />
+          <Property Name="3B" Type="nvarchar(max)" />
+          <Property Name="4B" Type="nvarchar(max)" />
+          <Property Name="5B" Type="nvarchar(max)" />
+          <Property Name="6B" Type="nvarchar(max)" />
+          <Property Name="7B" Type="nvarchar(max)" />
+          <Property Name="8B" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="HRA_requset">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="Amonths" Type="int" />
+          <Property Name="OTdate" Type="date" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+          <Property Name="BS" Type="bigint" />
+          <Property Name="house_RA" Type="bigint" />
+          <Property Name="HRA_advance_com" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="induction_training">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_id" Type="int" />
+          <Property Name="1a" Type="bit" Nullable="false" />
+          <Property Name="2a" Type="bit" Nullable="false" />
+          <Property Name="3a" Type="bit" Nullable="false" />
+          <Property Name="4a" Type="bit" Nullable="false" />
+          <Property Name="5a" Type="bit" Nullable="false" />
+          <Property Name="6a" Type="bit" Nullable="false" />
+          <Property Name="7a" Type="bit" Nullable="false" />
+          <Property Name="8a" Type="bit" Nullable="false" />
+          <Property Name="9a" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="insurance">
           <Key>
@@ -129,6 +239,31 @@
           <Property Name="imgpath" Type="nvarchar(max)" />
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
+        </EntityType>
+        <EntityType Name="JOB_INTERVIEW_EVALUATION">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="interviewee_name" Type="nvarchar(max)" />
+          <Property Name="interview_date" Type="date" />
+          <Property Name="job_applied_for" Type="nvarchar(max)" />
+          <Property Name="department" Type="nvarchar(max)" />
+          <Property Name="education" Type="nchar" MaxLength="10" />
+          <Property Name="experience" Type="nchar" MaxLength="10" />
+          <Property Name="job_knoledge" Type="nchar" MaxLength="10" />
+          <Property Name="conceptual_clarity" Type="nchar" MaxLength="10" />
+          <Property Name="appearance" Type="nchar" MaxLength="10" />
+          <Property Name="communication" Type="nchar" MaxLength="10" />
+          <Property Name="confidence_level" Type="nchar" MaxLength="10" />
+          <Property Name="attitude" Type="nchar" MaxLength="10" />
+          <Property Name="current_salary" Type="bigint" />
+          <Property Name="expected_salary" Type="bigint" />
+          <Property Name="reason_F_L_P_C" Type="nvarchar(max)" />
+          <Property Name="overall_evaluation" Type="nchar" MaxLength="10" />
+          <Property Name="recommented_to_be_employed" Type="bit" Nullable="false" />
+          <Property Name="in_position_of" Type="nvarchar(max)" />
+          <Property Name="employment_in_the_future" Type="bit" />
         </EntityType>
         <EntityType Name="labour_card">
           <Key>
@@ -244,6 +379,18 @@
           <Property Name="date" Type="date" />
           <Property Name="refr" Type="bigint" />
         </EntityType>
+        <EntityType Name="MANPOWER_TRANSFER_REQUEST">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="request_date" Type="date" />
+          <Property Name="pro_from" Type="nvarchar(max)" />
+          <Property Name="por_to" Type="nvarchar(max)" />
+          <Property Name="effective_date" Type="date" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="master_file">
           <Key>
             <PropertyRef Name="employee_id" />
@@ -262,6 +409,30 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
+        <EntityType Name="OT_employee_list">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OT_link" Type="int" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="OT_from" Type="time" Precision="1" />
+          <Property Name="OT_to" Type="time" Precision="1" />
+          <Property Name="NO_OTHr" Type="int" />
+          <Property Name="justification" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="OVERTIME_APPROVAL">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date_Prepared" Type="date" />
+          <Property Name="project" Type="nvarchar(max)" />
+          <Property Name="Location" Type="nvarchar(max)" />
+          <Property Name="NO_EOTH" Type="bigint" />
+          <Property Name="start_date" Type="date" />
+          <Property Name="end_date" Type="date" />
+        </EntityType>
         <EntityType Name="passport">
           <Key>
             <PropertyRef Name="employee_id" />
@@ -279,12 +450,137 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
+        <EntityType Name="PROBATION_ASSESSMENT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_id" Type="int" />
+          <Property Name="Knowledge_of_job" Type="nvarchar(max)" />
+          <Property Name="Quality_of_work" Type="nvarchar(max)" />
+          <Property Name="Achievement_Oriented" Type="nvarchar(max)" />
+          <Property Name="Ability_To_Learn" Type="nvarchar(max)" />
+          <Property Name="Work_Attitude_and_Co_operation" Type="nvarchar(max)" />
+          <Property Name="Ability_To_work_Independently" Type="nvarchar(max)" />
+          <Property Name="Reliability" Type="nvarchar(max)" />
+          <Property Name="Initiative" Type="nvarchar(max)" />
+          <Property Name="employee_excels" Type="nvarchar(max)" />
+          <Property Name="improvement " Type="nvarchar(max)" />
+          <Property Name=" success_and_strengths" Type="nvarchar(max)" />
+          <Property Name="further_development" Type="nvarchar(max)" />
+          <Property Name="support" Type="nvarchar(max)" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="confirming" Type="nvarchar(max)" />
+          <Property Name="Line_Managers_Comments" Type="nvarchar(max)" />
+          <Property Name="Directors_Comments" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="rec_req_form">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="projobtitle" Type="nvarchar(max)" />
+          <Property Name="department" Type="nvarchar(max)" />
+          <Property Name="reporting_to" Type="nvarchar(max)" />
+          <Property Name="type_of_hire" Type="nvarchar(max)" />
+          <Property Name="new_hire" Type="bit" Nullable="false" />
+          <Property Name="justification_NH" Type="nvarchar(max)" />
+          <Property Name="proposed_salary" Type="bigint" />
+          <Property Name="replacement_name" Type="nvarchar(max)" />
+          <Property Name="gross_salary" Type="bigint" />
+          <Property Name="J_P_specification" Type="nvarchar(max)" />
+          <Property Name="age_range_from" Type="nvarchar(max)" />
+          <Property Name="edu_qua_and_ex_required" Type="nvarchar(max)" />
+          <Property Name="add_req_job_resp" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Table">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="gender" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Training_Effectiveness">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="traning_prog" Type="nvarchar(max)" />
+          <Property Name="traning_date" Type="nvarchar(max)" />
+          <Property Name="line_manager" Type="nvarchar(max)" />
+          <Property Name="prog_objective" Type="nvarchar(max)" />
+          <Property Name="emp_work_per" Type="nvarchar(max)" />
+          <Property Name="emp_work_att" Type="nvarchar(max)" />
+          <Property Name="emp_work_team" Type="nvarchar(max)" />
+          <Property Name="RC_otheremp" Type="bit" />
+          <Property Name="RC_FDporg" Type="bit" />
+          <Property Name="comments" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Training_Evaluation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="traning_prog" Type="nvarchar(max)" />
+          <Property Name="traning_date" Type="nvarchar(max)" />
+          <Property Name="TEV_1_1" Type="int" />
+          <Property Name="TEV_1_2" Type="int" />
+          <Property Name="TEV_1_3" Type="int" />
+          <Property Name="TEV_1_4" Type="int" />
+          <Property Name="TEV_1_5" Type="int" />
+          <Property Name="TEV_2_1" Type="int" />
+          <Property Name="TEV_2_2" Type="int" />
+          <Property Name="TEV_2_3" Type="int" />
+          <Property Name="TEV_2_4" Type="int" />
+          <Property Name="TEV_2_5" Type="int" />
+          <Property Name="TEV_3_1" Type="int" />
+          <Property Name="TEV_3_2" Type="int" />
+          <Property Name="TEV_3_3" Type="int" />
+          <Property Name="TEV_3_4" Type="int" />
+          <Property Name="TEV_3_5" Type="int" />
+          <Property Name="TEV_4_1" Type="int" />
+          <Property Name="TEV_4_2" Type="int" />
+          <Property Name="TEV_4_3" Type="int" />
+          <Property Name="TEV_4_4" Type="int" />
+          <Property Name="TEV_4_5" Type="int" />
+          <Property Name="TEV_5_1" Type="nvarchar(max)" />
+          <Property Name="TEV_5_2" Type="nvarchar(max)" />
+          <Property Name="enhancements" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Training_Request">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="TR_date" Type="date" />
+          <Property Name="line_manager" Type="nvarchar(max)" />
+          <Property Name="e-mail_address" Type="nvarchar(max)" />
+          <Property Name="contact _no" Type="bigint" />
+          <Property Name="course_name" Type="nvarchar(max)" />
+          <Property Name="training_provider" Type="nvarchar(max)" />
+          <Property Name="location" Type="nvarchar(max)" />
+          <Property Name="program_type" Type="nvarchar(max)" />
+          <Property Name="duration_from" Type="date" />
+          <Property Name="duration_to" Type="date" />
+          <Property Name="C_S_description" Type="nvarchar(max)" />
+          <Property Name="TR_objactive" Type="nvarchar(max)" />
+          <Property Name="TR_competencies" Type="nvarchar(max)" />
+          <Property Name="comments" Type="nvarchar(max)" />
+          <Property Name="budget" Type="nvarchar(max)" />
+          <Property Name="TE_program_cost_desc" Type="nvarchar(max)" />
+          <Property Name="TE_program_cost_price" Type="bigint" />
+          <Property Name="TE_transportation_desc" Type="nvarchar" MaxLength="50" />
+          <Property Name="TE_transportation_price" Type="nvarchar" MaxLength="50" />
+          <Property Name="TE_accom_desc" Type="nvarchar(max)" />
+          <Property Name="TE_accom_price" Type="bigint" />
+          <Property Name="TE_diem_desc" Type="nvarchar(max)" />
+          <Property Name="TE_diem_price" Type="bigint" />
+          <Property Name="TE_total_desc" Type="nvarchar(max)" />
+          <Property Name="TE_total_price" Type="bigint" />
+          <Property Name="HR_comments" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="usernames">
           <Key>
@@ -351,6 +647,30 @@
           </Dependent>
         </ReferentialConstraint>
       </Association>
+        <Association Name="FK_BTR_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="BUSINESS_TRIP_REPORT " Type="Self.BUSINESS_TRIP_REPORT " Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="BUSINESS_TRIP_REPORT ">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_certificate_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="CERTIFICATE_REQUEST" Type="Self.CERTIFICATE_REQUEST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="CERTIFICATE_REQUEST">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -407,18 +727,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_la_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
-          <End Role="leave_absence" Type="Self.leave_absence" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="master_file">
-              <PropertyRef Name="employee_id" />
-            </Principal>
-            <Dependent Role="leave_absence">
-              <PropertyRef Name="Employee_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+      <Association Name="FK_la_To_master_file">
+        <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+        <End Role="leave_absence" Type="Self.leave_absence" Multiplicity="*" />
+        <ReferentialConstraint>
+          <Principal Role="master_file">
+            <PropertyRef Name="employee_id" />
+          </Principal>
+          <Dependent Role="leave_absence">
+            <PropertyRef Name="Employee_id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
       <Association Name="FK_em_To_master_file">
         <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
         <End Role="emirates_id" Type="Self.emirates_id" Multiplicity="*" />
@@ -455,6 +775,54 @@
           </Dependent>
         </ReferentialConstraint>
       </Association>
+        <Association Name="FK_DHO1_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="DUTY_HANDOVER" Type="Self.DUTY_HANDOVER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="DUTY_HANDOVER">
+              <PropertyRef Name="Employee_NO1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DHO2_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="DUTY_HANDOVER" Type="Self.DUTY_HANDOVER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="DUTY_HANDOVER">
+              <PropertyRef Name="Employee_NO2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_induction_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="induction_training" Type="Self.induction_training" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="induction_training">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_la_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="leave_absence" Type="Self.leave_absence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="leave_absence">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_le_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="Leave" Type="Self.Leave" Multiplicity="*" />
@@ -517,15 +885,111 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_pass_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
-          <End Role="passport" Type="Self.passport" Multiplicity="*" />
+      <Association Name="FK_pass_To_master_file">
+        <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+        <End Role="passport" Type="Self.passport" Multiplicity="*" />
+        <ReferentialConstraint>
+          <Principal Role="master_file">
+            <PropertyRef Name="employee_id" />
+          </Principal>
+          <Dependent Role="passport">
+            <PropertyRef Name="employee_no" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+        <Association Name="FK_MTR_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="MANPOWER_TRANSFER_REQUEST" Type="Self.MANPOWER_TRANSFER_REQUEST" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
               <PropertyRef Name="employee_id" />
             </Principal>
-            <Dependent Role="passport">
-              <PropertyRef Name="employee_no" />
+            <Dependent Role="MANPOWER_TRANSFER_REQUEST">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ot_list_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="OT_employee_list" Type="Self.OT_employee_list" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="OT_employee_list">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ot_list_To_OT">
+          <End Role="OVERTIME_APPROVAL" Type="Self.OVERTIME_APPROVAL" Multiplicity="0..1" />
+          <End Role="OT_employee_list" Type="Self.OT_employee_list" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OVERTIME_APPROVAL">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OT_employee_list">
+              <PropertyRef Name="OT_link" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_probation_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="PROBATION_ASSESSMENT" Type="Self.PROBATION_ASSESSMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="PROBATION_ASSESSMENT">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RFAA_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="ATTENDANCE_ADJUSTMENT" Type="Self.ATTENDANCE_ADJUSTMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="ATTENDANCE_ADJUSTMENT">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TE_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="Training_Effectiveness" Type="Self.Training_Effectiveness" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="Training_Effectiveness">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TEva_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="Training_Evaluation" Type="Self.Training_Evaluation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="Training_Evaluation">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TR_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="Training_Request" Type="Self.Training_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="Training_Request">
+              <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -543,18 +1007,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_v$l_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
-          <End Role="visa_and_labour_card" Type="Self.visa_and_labour_card" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="master_file">
-              <PropertyRef Name="employee_id" />
-            </Principal>
-            <Dependent Role="visa_and_labour_card">
-              <PropertyRef Name="emp_no" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+      <Association Name="FK_v$l_To_master_file">
+        <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+        <End Role="visa_and_labour_card" Type="Self.visa_and_labour_card" Multiplicity="*" />
+        <ReferentialConstraint>
+          <Principal Role="master_file">
+            <PropertyRef Name="employee_id" />
+          </Principal>
+          <Dependent Role="visa_and_labour_card">
+            <PropertyRef Name="emp_no" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
         <Association Name="FK_visa_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="visa" Type="Self.visa" Multiplicity="*" />
@@ -574,10 +1038,18 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ATTENDANCE_ADJUSTMENT" EntityType="Self.ATTENDANCE_ADJUSTMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="bank_details" EntityType="Self.bank_details" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BUSINESS_TRIP_REPORT " EntityType="Self.BUSINESS_TRIP_REPORT " Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CERTIFICATE_REQUEST" EntityType="Self.CERTIFICATE_REQUEST" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="contract" EntityType="Self.contract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DUTY_HANDOVER" EntityType="Self.DUTY_HANDOVER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EXIT_INTERVIEW" EntityType="Self.EXIT_INTERVIEW" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HRA_requset" EntityType="Self.HRA_requset" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="induction_training" EntityType="Self.induction_training" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="insurance" EntityType="Self.insurance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JOB_INTERVIEW_EVALUATION" EntityType="Self.JOB_INTERVIEW_EVALUATION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="labour_card" EntityType="Self.labour_card" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave" EntityType="Self.Leave" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_absence" EntityType="Self.leave_absence" Schema="dbo" store:Type="Tables" />
@@ -586,9 +1058,17 @@
           <EntitySet Name="liqiapproval" EntityType="Self.liqiapproval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation" EntityType="Self.liquidation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation_ref" EntityType="Self.liquidation_ref" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MANPOWER_TRANSFER_REQUEST" EntityType="Self.MANPOWER_TRANSFER_REQUEST" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="master_file" EntityType="Self.master_file" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OT_employee_list" EntityType="Self.OT_employee_list" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OVERTIME_APPROVAL" EntityType="Self.OVERTIME_APPROVAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="passport" EntityType="Self.passport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PROBATION_ASSESSMENT" EntityType="Self.PROBATION_ASSESSMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rec_req_form" EntityType="Self.rec_req_form" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Training_Effectiveness" EntityType="Self.Training_Effectiveness" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Training_Evaluation" EntityType="Self.Training_Evaluation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Training_Request" EntityType="Self.Training_Request" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usernames" EntityType="Self.usernames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa" EntityType="Self.visa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" Schema="dbo" store:Type="Tables" />
@@ -599,6 +1079,14 @@
           <AssociationSet Name="FK_con_To_master_file" Association="Self.FK_con_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="contract" EntitySet="contract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BTR_To_master_file" Association="Self.FK_BTR_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="BUSINESS_TRIP_REPORT " EntitySet="BUSINESS_TRIP_REPORT " />
+          </AssociationSet>
+          <AssociationSet Name="FK_certificate_To_master_file" Association="Self.FK_certificate_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="CERTIFICATE_REQUEST" EntitySet="CERTIFICATE_REQUEST" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -632,6 +1120,22 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="labour_card" EntitySet="labour_card" />
           </AssociationSet>
+          <AssociationSet Name="FK_DHO1_To_master_file" Association="Self.FK_DHO1_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="DUTY_HANDOVER" EntitySet="DUTY_HANDOVER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DHO2_To_master_file" Association="Self.FK_DHO2_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="DUTY_HANDOVER" EntitySet="DUTY_HANDOVER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_induction_To_master_file" Association="Self.FK_induction_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="induction_training" EntitySet="induction_training" />
+          </AssociationSet>
+          <AssociationSet Name="FK_la_To_master_file" Association="Self.FK_la_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="leave_absence" EntitySet="leave_absence" />
+          </AssociationSet>
           <AssociationSet Name="FK_le_To_master_file" Association="Self.FK_le_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="Leave" EntitySet="Leave" />
@@ -655,6 +1159,38 @@
           <AssociationSet Name="FK_pass_To_master_file" Association="Self.FK_pass_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="passport" EntitySet="passport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MTR_To_master_file" Association="Self.FK_MTR_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="MANPOWER_TRANSFER_REQUEST" EntitySet="MANPOWER_TRANSFER_REQUEST" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ot_list_To_master_file" Association="Self.FK_ot_list_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="OT_employee_list" EntitySet="OT_employee_list" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ot_list_To_OT" Association="Self.FK_ot_list_To_OT">
+            <End Role="OVERTIME_APPROVAL" EntitySet="OVERTIME_APPROVAL" />
+            <End Role="OT_employee_list" EntitySet="OT_employee_list" />
+          </AssociationSet>
+          <AssociationSet Name="FK_probation_To_master_file" Association="Self.FK_probation_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="PROBATION_ASSESSMENT" EntitySet="PROBATION_ASSESSMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RFAA_To_master_file" Association="Self.FK_RFAA_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="ATTENDANCE_ADJUSTMENT" EntitySet="ATTENDANCE_ADJUSTMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TE_To_master_file" Association="Self.FK_TE_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="Training_Effectiveness" EntitySet="Training_Effectiveness" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TEva_To_master_file" Association="Self.FK_TEva_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="Training_Evaluation" EntitySet="Training_Evaluation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TR_To_master_file" Association="Self.FK_TR_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="Training_Request" EntitySet="Training_Request" />
           </AssociationSet>
           <AssociationSet Name="FK_usernames_To_AspNetUsers" Association="Self.FK_usernames_To_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -915,6 +1451,18 @@
           <NavigationProperty Name="Leave_approved" Relationship="HRModel.FK_leap_To_master_file" FromRole="master_file" ToRole="Leave_approved" />
           <NavigationProperty Name="leavecals" Relationship="HRModel.FK_leave_cal_To_master_file" FromRole="master_file" ToRole="leavecal" />
           <NavigationProperty Name="leave_absence" Relationship="HRModel.FK_la_To_master_file" FromRole="master_file" ToRole="leave_absence" />
+          <NavigationProperty Name="ATTENDANCE_ADJUSTMENT" Relationship="HRModel.FK_RFAA_To_master_file" FromRole="master_file" ToRole="ATTENDANCE_ADJUSTMENT" />
+          <NavigationProperty Name="BUSINESS_TRIP_REPORT_" Relationship="HRModel.FK_BTR_To_master_file" FromRole="master_file" ToRole="BUSINESS_TRIP_REPORT_" />
+          <NavigationProperty Name="CERTIFICATE_REQUEST" Relationship="HRModel.FK_certificate_To_master_file" FromRole="master_file" ToRole="CERTIFICATE_REQUEST" />
+          <NavigationProperty Name="DUTY_HANDOVER" Relationship="HRModel.FK_DHO1_To_master_file" FromRole="master_file" ToRole="DUTY_HANDOVER" />
+          <NavigationProperty Name="DUTY_HANDOVER1" Relationship="HRModel.FK_DHO2_To_master_file" FromRole="master_file" ToRole="DUTY_HANDOVER" />
+          <NavigationProperty Name="induction_training" Relationship="HRModel.FK_induction_To_master_file" FromRole="master_file" ToRole="induction_training" />
+          <NavigationProperty Name="MANPOWER_TRANSFER_REQUEST" Relationship="HRModel.FK_MTR_To_master_file" FromRole="master_file" ToRole="MANPOWER_TRANSFER_REQUEST" />
+          <NavigationProperty Name="OT_employee_list" Relationship="HRModel.FK_ot_list_To_master_file" FromRole="master_file" ToRole="OT_employee_list" />
+          <NavigationProperty Name="PROBATION_ASSESSMENT" Relationship="HRModel.FK_probation_To_master_file" FromRole="master_file" ToRole="PROBATION_ASSESSMENT" />
+          <NavigationProperty Name="Training_Effectiveness" Relationship="HRModel.FK_TE_To_master_file" FromRole="master_file" ToRole="Training_Effectiveness" />
+          <NavigationProperty Name="Training_Evaluation" Relationship="HRModel.FK_TEva_To_master_file" FromRole="master_file" ToRole="Training_Evaluation" />
+          <NavigationProperty Name="Training_Request" Relationship="HRModel.FK_TR_To_master_file" FromRole="master_file" ToRole="Training_Request" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -1259,6 +1807,74 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="leave_absence" EntitySet="leave_absence" />
           </AssociationSet>
+          <EntitySet Name="ATTENDANCE_ADJUSTMENT" EntityType="HRModel.ATTENDANCE_ADJUSTMENT" />
+          <EntitySet Name="BUSINESS_TRIP_REPORT_" EntityType="HRModel.BUSINESS_TRIP_REPORT_" />
+          <EntitySet Name="CERTIFICATE_REQUEST" EntityType="HRModel.CERTIFICATE_REQUEST" />
+          <EntitySet Name="DUTY_HANDOVER" EntityType="HRModel.DUTY_HANDOVER" />
+          <EntitySet Name="EXIT_INTERVIEW" EntityType="HRModel.EXIT_INTERVIEW" />
+          <EntitySet Name="HRA_requset" EntityType="HRModel.HRA_requset" />
+          <EntitySet Name="induction_training" EntityType="HRModel.induction_training" />
+          <EntitySet Name="JOB_INTERVIEW_EVALUATION" EntityType="HRModel.JOB_INTERVIEW_EVALUATION" />
+          <EntitySet Name="MANPOWER_TRANSFER_REQUEST" EntityType="HRModel.MANPOWER_TRANSFER_REQUEST" />
+          <EntitySet Name="OT_employee_list" EntityType="HRModel.OT_employee_list" />
+          <EntitySet Name="OVERTIME_APPROVAL" EntityType="HRModel.OVERTIME_APPROVAL" />
+          <EntitySet Name="PROBATION_ASSESSMENT" EntityType="HRModel.PROBATION_ASSESSMENT" />
+          <EntitySet Name="rec_req_form" EntityType="HRModel.rec_req_form" />
+          <EntitySet Name="Training_Effectiveness" EntityType="HRModel.Training_Effectiveness" />
+          <EntitySet Name="Training_Evaluation" EntityType="HRModel.Training_Evaluation" />
+          <EntitySet Name="Training_Request" EntityType="HRModel.Training_Request" />
+          <AssociationSet Name="FK_RFAA_To_master_file" Association="HRModel.FK_RFAA_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="ATTENDANCE_ADJUSTMENT" EntitySet="ATTENDANCE_ADJUSTMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BTR_To_master_file" Association="HRModel.FK_BTR_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="BUSINESS_TRIP_REPORT_" EntitySet="BUSINESS_TRIP_REPORT_" />
+          </AssociationSet>
+          <AssociationSet Name="FK_certificate_To_master_file" Association="HRModel.FK_certificate_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="CERTIFICATE_REQUEST" EntitySet="CERTIFICATE_REQUEST" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DHO1_To_master_file" Association="HRModel.FK_DHO1_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="DUTY_HANDOVER" EntitySet="DUTY_HANDOVER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DHO2_To_master_file" Association="HRModel.FK_DHO2_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="DUTY_HANDOVER" EntitySet="DUTY_HANDOVER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_induction_To_master_file" Association="HRModel.FK_induction_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="induction_training" EntitySet="induction_training" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MTR_To_master_file" Association="HRModel.FK_MTR_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="MANPOWER_TRANSFER_REQUEST" EntitySet="MANPOWER_TRANSFER_REQUEST" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ot_list_To_master_file" Association="HRModel.FK_ot_list_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="OT_employee_list" EntitySet="OT_employee_list" />
+          </AssociationSet>
+          <AssociationSet Name="FK_probation_To_master_file" Association="HRModel.FK_probation_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="PROBATION_ASSESSMENT" EntitySet="PROBATION_ASSESSMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TE_To_master_file" Association="HRModel.FK_TE_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="Training_Effectiveness" EntitySet="Training_Effectiveness" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TEva_To_master_file" Association="HRModel.FK_TEva_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="Training_Evaluation" EntitySet="Training_Evaluation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TR_To_master_file" Association="HRModel.FK_TR_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="Training_Request" EntitySet="Training_Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ot_list_To_OT" Association="HRModel.FK_ot_list_To_OT">
+            <End Role="OVERTIME_APPROVAL" EntitySet="OVERTIME_APPROVAL" />
+            <End Role="OT_employee_list" EntitySet="OT_employee_list" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
           <Key>
@@ -1332,6 +1948,472 @@
             </Principal>
             <Dependent Role="leave_absence">
               <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ATTENDANCE_ADJUSTMENT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="date_prepared" Type="DateTime" Precision="0" />
+          <Property Name="DJ_date" Type="DateTime" Precision="0" />
+          <Property Name="late_in" Type="Time" Precision="7" />
+          <Property Name="early_out" Type="Time" Precision="7" />
+          <Property Name="reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_RFAA_To_master_file" FromRole="ATTENDANCE_ADJUSTMENT" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="BUSINESS_TRIP_REPORT_">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="type_of_trip" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IO_specify" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="destination" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Departure_Date" Type="DateTime" Precision="0" />
+          <Property Name="Return_Date" Type="DateTime" Precision="0" />
+          <Property Name="TRIP_OBJECTIVE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Objectives" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_BTR_To_master_file" FromRole="BUSINESS_TRIP_REPORT_" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="CERTIFICATE_REQUEST">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_id" Type="Int32" />
+          <Property Name="LETTER_TYPE" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MENTION_SALARY" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BL_bank_nane" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BL_account_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EL_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EL_purpose" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EL_DOV_from" Type="DateTime" Precision="0" />
+          <Property Name="EL_DOV_to" Type="DateTime" Precision="0" />
+          <Property Name="TD_NCARREG" Type="Boolean" />
+          <Property Name="TD_CARREGREN" Type="Boolean" />
+          <Property Name="TD_DLA" Type="Boolean" />
+          <Property Name="TDLREN" Type="Boolean" />
+          <Property Name="other" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Etisalat" Type="Boolean" />
+          <Property Name="ADWEA" Type="Boolean" />
+          <Property Name="Mawaqif" Type="Boolean" />
+          <Property Name="Immigration" Type="Boolean" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_certificate_To_master_file" FromRole="CERTIFICATE_REQUEST" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="DUTY_HANDOVER">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_NO1" Type="Int32" />
+          <Property Name="Employee_NO2" Type="Int32" />
+          <Property Name="leave_start" Type="DateTime" Precision="0" />
+          <Property Name="leave_end" Type="DateTime" Precision="0" />
+          <Property Name="reason_for_handover" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RNR_HO1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RNR_HO2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RNR_HO3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RNR_HO4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RNR_HO5" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_DHO1_To_master_file" FromRole="DUTY_HANDOVER" ToRole="master_file" />
+          <NavigationProperty Name="master_file1" Relationship="HRModel.FK_DHO2_To_master_file" FromRole="DUTY_HANDOVER" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="EXIT_INTERVIEW">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C1B" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="C2B" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="C3B" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="C4B" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="C5B" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="C6B" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="C7B" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="C8B" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="HRA_requset">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="Amonths" Type="Int32" />
+          <Property Name="OTdate" Type="DateTime" Precision="0" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BS" Type="Int64" />
+          <Property Name="house_RA" Type="Int64" />
+          <Property Name="HRA_advance_com" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="induction_training">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_id" Type="Int32" />
+          <Property Name="C1a" Type="Boolean" Nullable="false" />
+          <Property Name="C2a" Type="Boolean" Nullable="false" />
+          <Property Name="C3a" Type="Boolean" Nullable="false" />
+          <Property Name="C4a" Type="Boolean" Nullable="false" />
+          <Property Name="C5a" Type="Boolean" Nullable="false" />
+          <Property Name="C6a" Type="Boolean" Nullable="false" />
+          <Property Name="C7a" Type="Boolean" Nullable="false" />
+          <Property Name="C8a" Type="Boolean" Nullable="false" />
+          <Property Name="C9a" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_induction_To_master_file" FromRole="induction_training" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="JOB_INTERVIEW_EVALUATION">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="interviewee_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="interview_date" Type="DateTime" Precision="0" />
+          <Property Name="job_applied_for" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="education" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="experience" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="job_knoledge" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="conceptual_clarity" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="appearance" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="communication" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="confidence_level" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="attitude" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="current_salary" Type="Int64" />
+          <Property Name="expected_salary" Type="Int64" />
+          <Property Name="reason_F_L_P_C" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="overall_evaluation" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="recommented_to_be_employed" Type="Boolean" Nullable="false" />
+          <Property Name="in_position_of" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="employment_in_the_future" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="MANPOWER_TRANSFER_REQUEST">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="request_date" Type="DateTime" Precision="0" />
+          <Property Name="pro_from" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="por_to" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="effective_date" Type="DateTime" Precision="0" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_MTR_To_master_file" FromRole="MANPOWER_TRANSFER_REQUEST" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="OT_employee_list">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OT_link" Type="Int32" />
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="OT_from" Type="Time" Precision="1" />
+          <Property Name="OT_to" Type="Time" Precision="1" />
+          <Property Name="NO_OTHr" Type="Int32" />
+          <Property Name="justification" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_ot_list_To_master_file" FromRole="OT_employee_list" ToRole="master_file" />
+          <NavigationProperty Name="OVERTIME_APPROVAL" Relationship="HRModel.FK_ot_list_To_OT" FromRole="OT_employee_list" ToRole="OVERTIME_APPROVAL" />
+        </EntityType>
+        <EntityType Name="OVERTIME_APPROVAL">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date_Prepared" Type="DateTime" Precision="0" />
+          <Property Name="project" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NO_EOTH" Type="Int64" />
+          <Property Name="start_date" Type="DateTime" Precision="0" />
+          <Property Name="end_date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="OT_employee_list" Relationship="HRModel.FK_ot_list_To_OT" FromRole="OVERTIME_APPROVAL" ToRole="OT_employee_list" />
+        </EntityType>
+        <EntityType Name="PROBATION_ASSESSMENT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_id" Type="Int32" />
+          <Property Name="Knowledge_of_job" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Quality_of_work" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Achievement_Oriented" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Ability_To_Learn" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Work_Attitude_and_Co_operation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Ability_To_work_Independently" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Reliability" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Initiative" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="employee_excels" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="improvement_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="C_success_and_strengths" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="further_development" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="support" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="confirming" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Line_Managers_Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Directors_Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_probation_To_master_file" FromRole="PROBATION_ASSESSMENT" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="rec_req_form">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="projobtitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="reporting_to" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="type_of_hire" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="new_hire" Type="Boolean" Nullable="false" />
+          <Property Name="justification_NH" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="proposed_salary" Type="Int64" />
+          <Property Name="replacement_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="gross_salary" Type="Int64" />
+          <Property Name="J_P_specification" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="age_range_from" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="edu_qua_and_ex_required" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="add_req_job_resp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Training_Effectiveness">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="traning_prog" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="traning_date" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="line_manager" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="prog_objective" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="emp_work_per" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="emp_work_att" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="emp_work_team" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RC_otheremp" Type="Boolean" />
+          <Property Name="RC_FDporg" Type="Boolean" />
+          <Property Name="comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_TE_To_master_file" FromRole="Training_Effectiveness" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="Training_Evaluation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="traning_prog" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="traning_date" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TEV_1_1" Type="Int32" />
+          <Property Name="TEV_1_2" Type="Int32" />
+          <Property Name="TEV_1_3" Type="Int32" />
+          <Property Name="TEV_1_4" Type="Int32" />
+          <Property Name="TEV_1_5" Type="Int32" />
+          <Property Name="TEV_2_1" Type="Int32" />
+          <Property Name="TEV_2_2" Type="Int32" />
+          <Property Name="TEV_2_3" Type="Int32" />
+          <Property Name="TEV_2_4" Type="Int32" />
+          <Property Name="TEV_2_5" Type="Int32" />
+          <Property Name="TEV_3_1" Type="Int32" />
+          <Property Name="TEV_3_2" Type="Int32" />
+          <Property Name="TEV_3_3" Type="Int32" />
+          <Property Name="TEV_3_4" Type="Int32" />
+          <Property Name="TEV_3_5" Type="Int32" />
+          <Property Name="TEV_4_1" Type="Int32" />
+          <Property Name="TEV_4_2" Type="Int32" />
+          <Property Name="TEV_4_3" Type="Int32" />
+          <Property Name="TEV_4_4" Type="Int32" />
+          <Property Name="TEV_4_5" Type="Int32" />
+          <Property Name="TEV_5_1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TEV_5_2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="enhancements" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_TEva_To_master_file" FromRole="Training_Evaluation" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="Training_Request">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="TR_date" Type="DateTime" Precision="0" />
+          <Property Name="line_manager" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="e_mail_address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="contact__no" Type="Int64" />
+          <Property Name="course_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="training_provider" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="program_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="duration_from" Type="DateTime" Precision="0" />
+          <Property Name="duration_to" Type="DateTime" Precision="0" />
+          <Property Name="C_S_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TR_objactive" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TR_competencies" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="budget" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TE_program_cost_desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TE_program_cost_price" Type="Int64" />
+          <Property Name="TE_transportation_desc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TE_transportation_price" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TE_accom_desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TE_accom_price" Type="Int64" />
+          <Property Name="TE_diem_desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TE_diem_price" Type="Int64" />
+          <Property Name="TE_total_desc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TE_total_price" Type="Int64" />
+          <Property Name="HR_comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_TR_To_master_file" FromRole="Training_Request" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_RFAA_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.ATTENDANCE_ADJUSTMENT" Role="ATTENDANCE_ADJUSTMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="ATTENDANCE_ADJUSTMENT">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BTR_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.BUSINESS_TRIP_REPORT_" Role="BUSINESS_TRIP_REPORT_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="BUSINESS_TRIP_REPORT_">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_certificate_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.CERTIFICATE_REQUEST" Role="CERTIFICATE_REQUEST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="CERTIFICATE_REQUEST">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DHO1_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.DUTY_HANDOVER" Role="DUTY_HANDOVER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="DUTY_HANDOVER">
+              <PropertyRef Name="Employee_NO1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DHO2_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.DUTY_HANDOVER" Role="DUTY_HANDOVER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="DUTY_HANDOVER">
+              <PropertyRef Name="Employee_NO2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_induction_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.induction_training" Role="induction_training" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="induction_training">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MTR_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.MANPOWER_TRANSFER_REQUEST" Role="MANPOWER_TRANSFER_REQUEST" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="MANPOWER_TRANSFER_REQUEST">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ot_list_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.OT_employee_list" Role="OT_employee_list" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="OT_employee_list">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_probation_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.PROBATION_ASSESSMENT" Role="PROBATION_ASSESSMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="PROBATION_ASSESSMENT">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TE_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.Training_Effectiveness" Role="Training_Effectiveness" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="Training_Effectiveness">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TEva_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.Training_Evaluation" Role="Training_Evaluation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="Training_Evaluation">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TR_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.Training_Request" Role="Training_Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="Training_Request">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ot_list_To_OT">
+          <End Type="HRModel.OVERTIME_APPROVAL" Role="OVERTIME_APPROVAL" Multiplicity="0..1" />
+          <End Type="HRModel.OT_employee_list" Role="OT_employee_list" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OVERTIME_APPROVAL">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OT_employee_list">
+              <PropertyRef Name="OT_link" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1680,6 +2762,318 @@
                 <ScalarProperty Name="absence" ColumnName="absence" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ATTENDANCE_ADJUSTMENT">
+            <EntityTypeMapping TypeName="HRModel.ATTENDANCE_ADJUSTMENT">
+              <MappingFragment StoreEntitySet="ATTENDANCE_ADJUSTMENT">
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="early_out" ColumnName="early_out" />
+                <ScalarProperty Name="late_in" ColumnName="late_in" />
+                <ScalarProperty Name="DJ_date" ColumnName="DJ_date" />
+                <ScalarProperty Name="date_prepared" ColumnName="date_prepared" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BUSINESS_TRIP_REPORT_">
+            <EntityTypeMapping TypeName="HRModel.BUSINESS_TRIP_REPORT_">
+              <MappingFragment StoreEntitySet="BUSINESS_TRIP_REPORT ">
+                <ScalarProperty Name="Objectives" ColumnName="Objectives" />
+                <ScalarProperty Name="TRIP_OBJECTIVE" ColumnName="TRIP_OBJECTIVE" />
+                <ScalarProperty Name="Return_Date" ColumnName="Return_Date" />
+                <ScalarProperty Name="Departure_Date" ColumnName="Departure_Date" />
+                <ScalarProperty Name="destination" ColumnName="destination" />
+                <ScalarProperty Name="IO_specify" ColumnName="IO_specify" />
+                <ScalarProperty Name="type_of_trip" ColumnName="type_of_trip" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CERTIFICATE_REQUEST">
+            <EntityTypeMapping TypeName="HRModel.CERTIFICATE_REQUEST">
+              <MappingFragment StoreEntitySet="CERTIFICATE_REQUEST">
+                <ScalarProperty Name="Immigration" ColumnName="Immigration" />
+                <ScalarProperty Name="Mawaqif" ColumnName="Mawaqif" />
+                <ScalarProperty Name="ADWEA" ColumnName="ADWEA" />
+                <ScalarProperty Name="Etisalat" ColumnName="Etisalat" />
+                <ScalarProperty Name="other" ColumnName="other" />
+                <ScalarProperty Name="TDLREN" ColumnName="TDLREN" />
+                <ScalarProperty Name="TD_DLA" ColumnName="TD_DLA" />
+                <ScalarProperty Name="TD_CARREGREN" ColumnName="TD_CARREGREN" />
+                <ScalarProperty Name="TD_NCARREG" ColumnName="TD_NCARREG" />
+                <ScalarProperty Name="EL_DOV_to" ColumnName="EL_DOV_to" />
+                <ScalarProperty Name="EL_DOV_from" ColumnName="EL_DOV_from" />
+                <ScalarProperty Name="EL_purpose" ColumnName="EL_purpose" />
+                <ScalarProperty Name="EL_name" ColumnName="EL_name" />
+                <ScalarProperty Name="BL_account_no" ColumnName="BL_account_no" />
+                <ScalarProperty Name="BL_bank_nane" ColumnName="BL_bank_nane" />
+                <ScalarProperty Name="MENTION_SALARY" ColumnName="MENTION_SALARY" />
+                <ScalarProperty Name="LETTER_TYPE" ColumnName="LETTER_TYPE" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DUTY_HANDOVER">
+            <EntityTypeMapping TypeName="HRModel.DUTY_HANDOVER">
+              <MappingFragment StoreEntitySet="DUTY_HANDOVER">
+                <ScalarProperty Name="RNR_HO5" ColumnName="RNR_HO5" />
+                <ScalarProperty Name="RNR_HO4" ColumnName="RNR_HO4" />
+                <ScalarProperty Name="RNR_HO3" ColumnName="RNR_HO3" />
+                <ScalarProperty Name="RNR_HO2" ColumnName="RNR_HO2" />
+                <ScalarProperty Name="RNR_HO1" ColumnName="RNR_HO1" />
+                <ScalarProperty Name="reason_for_handover" ColumnName="reason_for_handover" />
+                <ScalarProperty Name="leave_end" ColumnName="leave_end" />
+                <ScalarProperty Name="leave_start" ColumnName="leave_start" />
+                <ScalarProperty Name="Employee_NO2" ColumnName="Employee_NO2" />
+                <ScalarProperty Name="Employee_NO1" ColumnName="Employee_NO1" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EXIT_INTERVIEW">
+            <EntityTypeMapping TypeName="HRModel.EXIT_INTERVIEW">
+              <MappingFragment StoreEntitySet="EXIT_INTERVIEW">
+                <ScalarProperty Name="C8B" ColumnName="8B" />
+                <ScalarProperty Name="C7B" ColumnName="7B" />
+                <ScalarProperty Name="C6B" ColumnName="6B" />
+                <ScalarProperty Name="C5B" ColumnName="5B" />
+                <ScalarProperty Name="C4B" ColumnName="4B" />
+                <ScalarProperty Name="C3B" ColumnName="3B" />
+                <ScalarProperty Name="C2B" ColumnName="2B" />
+                <ScalarProperty Name="C1B" ColumnName="1B" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HRA_requset">
+            <EntityTypeMapping TypeName="HRModel.HRA_requset">
+              <MappingFragment StoreEntitySet="HRA_requset">
+                <ScalarProperty Name="HRA_advance_com" ColumnName="HRA_advance_com" />
+                <ScalarProperty Name="house_RA" ColumnName="house_RA" />
+                <ScalarProperty Name="BS" ColumnName="BS" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="OTdate" ColumnName="OTdate" />
+                <ScalarProperty Name="Amonths" ColumnName="Amonths" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="induction_training">
+            <EntityTypeMapping TypeName="HRModel.induction_training">
+              <MappingFragment StoreEntitySet="induction_training">
+                <ScalarProperty Name="C9a" ColumnName="9a" />
+                <ScalarProperty Name="C8a" ColumnName="8a" />
+                <ScalarProperty Name="C7a" ColumnName="7a" />
+                <ScalarProperty Name="C6a" ColumnName="6a" />
+                <ScalarProperty Name="C5a" ColumnName="5a" />
+                <ScalarProperty Name="C4a" ColumnName="4a" />
+                <ScalarProperty Name="C3a" ColumnName="3a" />
+                <ScalarProperty Name="C2a" ColumnName="2a" />
+                <ScalarProperty Name="C1a" ColumnName="1a" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JOB_INTERVIEW_EVALUATION">
+            <EntityTypeMapping TypeName="HRModel.JOB_INTERVIEW_EVALUATION">
+              <MappingFragment StoreEntitySet="JOB_INTERVIEW_EVALUATION">
+                <ScalarProperty Name="employment_in_the_future" ColumnName="employment_in_the_future" />
+                <ScalarProperty Name="in_position_of" ColumnName="in_position_of" />
+                <ScalarProperty Name="recommented_to_be_employed" ColumnName="recommented_to_be_employed" />
+                <ScalarProperty Name="overall_evaluation" ColumnName="overall_evaluation" />
+                <ScalarProperty Name="reason_F_L_P_C" ColumnName="reason_F_L_P_C" />
+                <ScalarProperty Name="expected_salary" ColumnName="expected_salary" />
+                <ScalarProperty Name="current_salary" ColumnName="current_salary" />
+                <ScalarProperty Name="attitude" ColumnName="attitude" />
+                <ScalarProperty Name="confidence_level" ColumnName="confidence_level" />
+                <ScalarProperty Name="communication" ColumnName="communication" />
+                <ScalarProperty Name="appearance" ColumnName="appearance" />
+                <ScalarProperty Name="conceptual_clarity" ColumnName="conceptual_clarity" />
+                <ScalarProperty Name="job_knoledge" ColumnName="job_knoledge" />
+                <ScalarProperty Name="experience" ColumnName="experience" />
+                <ScalarProperty Name="education" ColumnName="education" />
+                <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="job_applied_for" ColumnName="job_applied_for" />
+                <ScalarProperty Name="interview_date" ColumnName="interview_date" />
+                <ScalarProperty Name="interviewee_name" ColumnName="interviewee_name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MANPOWER_TRANSFER_REQUEST">
+            <EntityTypeMapping TypeName="HRModel.MANPOWER_TRANSFER_REQUEST">
+              <MappingFragment StoreEntitySet="MANPOWER_TRANSFER_REQUEST">
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+                <ScalarProperty Name="por_to" ColumnName="por_to" />
+                <ScalarProperty Name="pro_from" ColumnName="pro_from" />
+                <ScalarProperty Name="request_date" ColumnName="request_date" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OT_employee_list">
+            <EntityTypeMapping TypeName="HRModel.OT_employee_list">
+              <MappingFragment StoreEntitySet="OT_employee_list">
+                <ScalarProperty Name="justification" ColumnName="justification" />
+                <ScalarProperty Name="NO_OTHr" ColumnName="NO_OTHr" />
+                <ScalarProperty Name="OT_to" ColumnName="OT_to" />
+                <ScalarProperty Name="OT_from" ColumnName="OT_from" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="OT_link" ColumnName="OT_link" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OVERTIME_APPROVAL">
+            <EntityTypeMapping TypeName="HRModel.OVERTIME_APPROVAL">
+              <MappingFragment StoreEntitySet="OVERTIME_APPROVAL">
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="NO_EOTH" ColumnName="NO_EOTH" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="project" ColumnName="project" />
+                <ScalarProperty Name="Date_Prepared" ColumnName="Date_Prepared" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROBATION_ASSESSMENT">
+            <EntityTypeMapping TypeName="HRModel.PROBATION_ASSESSMENT">
+              <MappingFragment StoreEntitySet="PROBATION_ASSESSMENT">
+                <ScalarProperty Name="Directors_Comments" ColumnName="Directors_Comments" />
+                <ScalarProperty Name="Line_Managers_Comments" ColumnName="Line_Managers_Comments" />
+                <ScalarProperty Name="confirming" ColumnName="confirming" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="support" ColumnName="support" />
+                <ScalarProperty Name="further_development" ColumnName="further_development" />
+                <ScalarProperty Name="C_success_and_strengths" ColumnName=" success_and_strengths" />
+                <ScalarProperty Name="improvement_" ColumnName="improvement " />
+                <ScalarProperty Name="employee_excels" ColumnName="employee_excels" />
+                <ScalarProperty Name="Initiative" ColumnName="Initiative" />
+                <ScalarProperty Name="Reliability" ColumnName="Reliability" />
+                <ScalarProperty Name="Ability_To_work_Independently" ColumnName="Ability_To_work_Independently" />
+                <ScalarProperty Name="Work_Attitude_and_Co_operation" ColumnName="Work_Attitude_and_Co_operation" />
+                <ScalarProperty Name="Ability_To_Learn" ColumnName="Ability_To_Learn" />
+                <ScalarProperty Name="Achievement_Oriented" ColumnName="Achievement_Oriented" />
+                <ScalarProperty Name="Quality_of_work" ColumnName="Quality_of_work" />
+                <ScalarProperty Name="Knowledge_of_job" ColumnName="Knowledge_of_job" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rec_req_form">
+            <EntityTypeMapping TypeName="HRModel.rec_req_form">
+              <MappingFragment StoreEntitySet="rec_req_form">
+                <ScalarProperty Name="add_req_job_resp" ColumnName="add_req_job_resp" />
+                <ScalarProperty Name="edu_qua_and_ex_required" ColumnName="edu_qua_and_ex_required" />
+                <ScalarProperty Name="age_range_from" ColumnName="age_range_from" />
+                <ScalarProperty Name="J_P_specification" ColumnName="J_P_specification" />
+                <ScalarProperty Name="gross_salary" ColumnName="gross_salary" />
+                <ScalarProperty Name="replacement_name" ColumnName="replacement_name" />
+                <ScalarProperty Name="proposed_salary" ColumnName="proposed_salary" />
+                <ScalarProperty Name="justification_NH" ColumnName="justification_NH" />
+                <ScalarProperty Name="new_hire" ColumnName="new_hire" />
+                <ScalarProperty Name="type_of_hire" ColumnName="type_of_hire" />
+                <ScalarProperty Name="reporting_to" ColumnName="reporting_to" />
+                <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="projobtitle" ColumnName="projobtitle" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Training_Effectiveness">
+            <EntityTypeMapping TypeName="HRModel.Training_Effectiveness">
+              <MappingFragment StoreEntitySet="Training_Effectiveness">
+                <ScalarProperty Name="comments" ColumnName="comments" />
+                <ScalarProperty Name="RC_FDporg" ColumnName="RC_FDporg" />
+                <ScalarProperty Name="RC_otheremp" ColumnName="RC_otheremp" />
+                <ScalarProperty Name="emp_work_team" ColumnName="emp_work_team" />
+                <ScalarProperty Name="emp_work_att" ColumnName="emp_work_att" />
+                <ScalarProperty Name="emp_work_per" ColumnName="emp_work_per" />
+                <ScalarProperty Name="prog_objective" ColumnName="prog_objective" />
+                <ScalarProperty Name="line_manager" ColumnName="line_manager" />
+                <ScalarProperty Name="traning_date" ColumnName="traning_date" />
+                <ScalarProperty Name="traning_prog" ColumnName="traning_prog" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Training_Evaluation">
+            <EntityTypeMapping TypeName="HRModel.Training_Evaluation">
+              <MappingFragment StoreEntitySet="Training_Evaluation">
+                <ScalarProperty Name="enhancements" ColumnName="enhancements" />
+                <ScalarProperty Name="TEV_5_2" ColumnName="TEV_5_2" />
+                <ScalarProperty Name="TEV_5_1" ColumnName="TEV_5_1" />
+                <ScalarProperty Name="TEV_4_5" ColumnName="TEV_4_5" />
+                <ScalarProperty Name="TEV_4_4" ColumnName="TEV_4_4" />
+                <ScalarProperty Name="TEV_4_3" ColumnName="TEV_4_3" />
+                <ScalarProperty Name="TEV_4_2" ColumnName="TEV_4_2" />
+                <ScalarProperty Name="TEV_4_1" ColumnName="TEV_4_1" />
+                <ScalarProperty Name="TEV_3_5" ColumnName="TEV_3_5" />
+                <ScalarProperty Name="TEV_3_4" ColumnName="TEV_3_4" />
+                <ScalarProperty Name="TEV_3_3" ColumnName="TEV_3_3" />
+                <ScalarProperty Name="TEV_3_2" ColumnName="TEV_3_2" />
+                <ScalarProperty Name="TEV_3_1" ColumnName="TEV_3_1" />
+                <ScalarProperty Name="TEV_2_5" ColumnName="TEV_2_5" />
+                <ScalarProperty Name="TEV_2_4" ColumnName="TEV_2_4" />
+                <ScalarProperty Name="TEV_2_3" ColumnName="TEV_2_3" />
+                <ScalarProperty Name="TEV_2_2" ColumnName="TEV_2_2" />
+                <ScalarProperty Name="TEV_2_1" ColumnName="TEV_2_1" />
+                <ScalarProperty Name="TEV_1_5" ColumnName="TEV_1_5" />
+                <ScalarProperty Name="TEV_1_4" ColumnName="TEV_1_4" />
+                <ScalarProperty Name="TEV_1_3" ColumnName="TEV_1_3" />
+                <ScalarProperty Name="TEV_1_2" ColumnName="TEV_1_2" />
+                <ScalarProperty Name="TEV_1_1" ColumnName="TEV_1_1" />
+                <ScalarProperty Name="traning_date" ColumnName="traning_date" />
+                <ScalarProperty Name="traning_prog" ColumnName="traning_prog" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Training_Request">
+            <EntityTypeMapping TypeName="HRModel.Training_Request">
+              <MappingFragment StoreEntitySet="Training_Request">
+                <ScalarProperty Name="HR_comments" ColumnName="HR_comments" />
+                <ScalarProperty Name="TE_total_price" ColumnName="TE_total_price" />
+                <ScalarProperty Name="TE_total_desc" ColumnName="TE_total_desc" />
+                <ScalarProperty Name="TE_diem_price" ColumnName="TE_diem_price" />
+                <ScalarProperty Name="TE_diem_desc" ColumnName="TE_diem_desc" />
+                <ScalarProperty Name="TE_accom_price" ColumnName="TE_accom_price" />
+                <ScalarProperty Name="TE_accom_desc" ColumnName="TE_accom_desc" />
+                <ScalarProperty Name="TE_transportation_price" ColumnName="TE_transportation_price" />
+                <ScalarProperty Name="TE_transportation_desc" ColumnName="TE_transportation_desc" />
+                <ScalarProperty Name="TE_program_cost_price" ColumnName="TE_program_cost_price" />
+                <ScalarProperty Name="TE_program_cost_desc" ColumnName="TE_program_cost_desc" />
+                <ScalarProperty Name="budget" ColumnName="budget" />
+                <ScalarProperty Name="comments" ColumnName="comments" />
+                <ScalarProperty Name="TR_competencies" ColumnName="TR_competencies" />
+                <ScalarProperty Name="TR_objactive" ColumnName="TR_objactive" />
+                <ScalarProperty Name="C_S_description" ColumnName="C_S_description" />
+                <ScalarProperty Name="duration_to" ColumnName="duration_to" />
+                <ScalarProperty Name="duration_from" ColumnName="duration_from" />
+                <ScalarProperty Name="program_type" ColumnName="program_type" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="training_provider" ColumnName="training_provider" />
+                <ScalarProperty Name="course_name" ColumnName="course_name" />
+                <ScalarProperty Name="contact__no" ColumnName="contact _no" />
+                <ScalarProperty Name="e_mail_address" ColumnName="e-mail_address" />
+                <ScalarProperty Name="line_manager" ColumnName="line_manager" />
+                <ScalarProperty Name="TR_date" ColumnName="TR_date" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

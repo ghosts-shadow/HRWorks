@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>report summary</h2>
+<h2>individual report</h2>
 <br />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -38,10 +38,18 @@
     });
 </script>
 
-<p>
-    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New" />
-    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel", "Leaves", new {  Employee_id = ViewBag.no, eddate = ViewBag.eddate })'" value="Export"/>
-</p>
+<div class="row">
+    <div class="col-md-5">
+        <p>
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New" />
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel", "Leaves", new {  Employee_id = ViewBag.no, eddate = ViewBag.eddate })'" value="Export" />
+        </p>
+    </div>
+    <div class="col-md-5" style="left:50%">
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value="back to main" />
+    </div>
+</div>
+
 @using (Html.BeginForm())
 {
     @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "empno" })
@@ -54,9 +62,49 @@
 }
 <br />
 <h3><b>employee name:- @ViewBag.name <br /> employee no:- @ViewBag.no</b></h3>
+<br />
+<br />
+<div style="font: 25px bold;">
+    <div>
+        period = @ViewBag.per days
+    </div>
+    <div>
+        unpaid = @ViewBag.ump days
+    </div>
+    <div>
+        net period = @ViewBag.netp days
+    </div>
+    <div>
+        accrued = @ViewBag.accr days
+    </div>
+    <div>
+        annual leave taken = @ViewBag.aval days
+    </div>
+    <div>
+        leave balance = @ViewBag.lbal days
+    </div>
+</div>
+<br />
+<div style="font: 25px bold;">
+    <div>
+        sick = @ViewBag.sick days
+    </div>
+    <div>
+        compassionate = @ViewBag.comp days
+    </div>
+    <div>
+        maternity = @ViewBag.mate days
+    </div>
+    <div>
+        haj = @ViewBag.haj days
+    </div>
+</div>
 <hr />
 <table class="table">
     <tr>
+        <th>
+            SN#
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
@@ -76,10 +124,18 @@
             @Html.DisplayNameFor(model => model.half)
         </th>
     </tr>
-
+    @{
+        int i = 0;
+    }
     @foreach (var item in Model)
     {
         <tr>
+            <td>
+                @{
+                    i++;
+                }
+                @i
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
@@ -199,40 +255,3 @@
     }
 
 </table>
-<div style="font: 25px bold;">
-    <div>
-        period = @ViewBag.per days
-    </div>
-    <div>
-        unpaid =  @ViewBag.ump days
-    </div>
-    <div>
-        net period =  @ViewBag.netp days
-    </div>
-    <div>
-        accrued =  @ViewBag.accr days
-    </div>
-    <div>
-        annual leave taken = @ViewBag.aval days
-    </div>
-    <div>
-        leave balance = @ViewBag.lbal days
-    </div>
-</div>
-<br />
-<br />
-<br />
-<div style="font: 25px bold;">
-    <div>
-        sick = @ViewBag.sick days
-    </div>
-    <div>
-        compassionate = @ViewBag.comp days
-    </div>
-    <div>
-        maternity = @ViewBag.mate days
-    </div>
-    <div>
-        haj = @ViewBag.haj days
-    </div>
-</div>

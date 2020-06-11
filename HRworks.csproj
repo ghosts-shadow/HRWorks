@@ -184,6 +184,7 @@
     <Compile Include="Controllers\contractsController.cs" />
     <Compile Include="Controllers\emirates_idController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HR_formsController.cs" />
     <Compile Include="Controllers\insurancesController.cs" />
     <Compile Include="Controllers\labour_cardController.cs" />
     <Compile Include="Controllers\LeavesController.cs" />
@@ -211,7 +212,16 @@
     <Compile Include="Models\AspNetUserLogin.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ATTENDANCE_ADJUSTMENT.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\bank_details.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BUSINESS_TRIP_REPORT_.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CERTIFICATE_REQUEST.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\contract.cs">
@@ -221,7 +231,16 @@
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DUTY_HANDOVER.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\emirates_id.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EXIT_INTERVIEW.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HRA_requset.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HRModel.Context.cs">
@@ -239,7 +258,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HRModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\induction_training.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\insurance.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JOB_INTERVIEW_EVALUATION.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\labour_card.cs">
@@ -269,13 +294,37 @@
     <Compile Include="Models\liquilist.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MANPOWER_TRANSFER_REQUEST.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\master_file.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OT_employee_list.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OVERTIME_APPROVAL.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\passport.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PROBATION_ASSESSMENT.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\rec_req_form.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Table.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Training_Effectiveness.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Training_Evaluation.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Training_Request.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\username.cs">
@@ -469,6 +518,7 @@
     <Content Include="Views\Leaves\Importexcel.cshtml" />
     <Content Include="Views\Leaves\leave_absence_Index.cshtml" />
     <Content Include="Views\Leaves\mrv.cshtml" />
+    <Content Include="Views\HR_forms\HR_Forms.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

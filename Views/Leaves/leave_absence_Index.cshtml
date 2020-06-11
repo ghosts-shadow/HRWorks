@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>leave absence</h2>
+<h2>Absence Report</h2>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -25,22 +25,34 @@
         $("#empno").chosen({ no_results_text: "Oops, nothing found!" });
     });
 </script>
-<br/>
-<br/>
-<br/>
+<br />
+<br />
+<br />
 @using (Html.BeginForm())
 {
-    <i>report month</i>
-    <input type="text" id="datepicker1" name="eddate" class="form-control" />
-    <br />
-    <input type="submit" value="Search" class="btn btn-default" />
-    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("ImportExcel")'" value="upload" />
+<div class="row">
+    <div class="col-md-5">
+        <i>report month</i>
+        <input type="text" id="datepicker1" name="eddate" class="form-control" />
+        <br />
+        <input type="submit" value="Search" class="btn btn-default" />
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("ImportExcel")'" value="upload" />
+    </div>
+    <div class="col-md-5" style="left: 50%">
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value="back to main" />
+    </div>
+
+</div>
+
 }
 <br />
 <br />
 <br />
 <table class="table">
     <tr>
+        <th>
+            SN#
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.absence)
         </th>
@@ -55,9 +67,18 @@
         </th>
     </tr>
 
+    @{
+        int i = 0;
+    }
     @foreach (var item in Model)
     {
         <tr>
+            <td>
+                @{
+                    i++;
+                }
+                @i
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.absence)
             </td>

@@ -31,6 +31,18 @@ namespace HRworks.Models
             this.Leave_approved = new HashSet<Leave_approved>();
             this.leavecals = new HashSet<leavecal>();
             this.leave_absence = new HashSet<leave_absence>();
+            this.ATTENDANCE_ADJUSTMENT = new HashSet<ATTENDANCE_ADJUSTMENT>();
+            this.BUSINESS_TRIP_REPORT_ = new HashSet<BUSINESS_TRIP_REPORT_>();
+            this.CERTIFICATE_REQUEST = new HashSet<CERTIFICATE_REQUEST>();
+            this.DUTY_HANDOVER = new HashSet<DUTY_HANDOVER>();
+            this.DUTY_HANDOVER1 = new HashSet<DUTY_HANDOVER>();
+            this.induction_training = new HashSet<induction_training>();
+            this.MANPOWER_TRANSFER_REQUEST = new HashSet<MANPOWER_TRANSFER_REQUEST>();
+            this.OT_employee_list = new HashSet<OT_employee_list>();
+            this.PROBATION_ASSESSMENT = new HashSet<PROBATION_ASSESSMENT>();
+            this.Training_Effectiveness = new HashSet<Training_Effectiveness>();
+            this.Training_Evaluation = new HashSet<Training_Evaluation>();
+            this.Training_Request = new HashSet<Training_Request>();
         }
 
         public int employee_id { get; set; }
@@ -97,5 +109,29 @@ namespace HRworks.Models
         public virtual ICollection<leavecal> leavecals { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<leave_absence> leave_absence { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ATTENDANCE_ADJUSTMENT> ATTENDANCE_ADJUSTMENT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BUSINESS_TRIP_REPORT_> BUSINESS_TRIP_REPORT_ { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CERTIFICATE_REQUEST> CERTIFICATE_REQUEST { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DUTY_HANDOVER> DUTY_HANDOVER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DUTY_HANDOVER> DUTY_HANDOVER1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<induction_training> induction_training { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MANPOWER_TRANSFER_REQUEST> MANPOWER_TRANSFER_REQUEST { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OT_employee_list> OT_employee_list { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PROBATION_ASSESSMENT> PROBATION_ASSESSMENT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Training_Effectiveness> Training_Effectiveness { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Training_Evaluation> Training_Evaluation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Training_Request> Training_Request { get; set; }
     }
 }

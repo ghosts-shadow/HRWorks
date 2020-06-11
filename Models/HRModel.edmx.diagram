@@ -50,6 +50,35 @@
         <AssociationConnector Association="HRModel.FK_leave_cal_To_master_file" />
         <EntityTypeShape EntityType="HRModel.leave_absence" Width="1.5" PointX="2.75" PointY="27.625" />
         <AssociationConnector Association="HRModel.FK_la_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.ATTENDANCE_ADJUSTMENT" Width="1.5" PointX="2.75" PointY="39.875" />
+        <EntityTypeShape EntityType="HRModel.BUSINESS_TRIP_REPORT_" Width="1.5" PointX="2.75" PointY="64.25" />
+        <EntityTypeShape EntityType="HRModel.CERTIFICATE_REQUEST" Width="1.5" PointX="2.75" PointY="34.25" />
+        <EntityTypeShape EntityType="HRModel.DUTY_HANDOVER" Width="1.5" PointX="2.75" PointY="43.125" />
+        <EntityTypeShape EntityType="HRModel.EXIT_INTERVIEW" Width="1.5" PointX="11.375" PointY="14.75" />
+        <EntityTypeShape EntityType="HRModel.HRA_requset" Width="1.5" PointX="13.375" PointY="14.75" />
+        <EntityTypeShape EntityType="HRModel.induction_training" Width="1.5" PointX="2.75" PointY="47.375" />
+        <EntityTypeShape EntityType="HRModel.JOB_INTERVIEW_EVALUATION" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="HRModel.MANPOWER_TRANSFER_REQUEST" Width="1.5" PointX="2.75" PointY="30.875" />
+        <EntityTypeShape EntityType="HRModel.OT_employee_list" Width="1.5" PointX="8.75" PointY="16.375" />
+        <EntityTypeShape EntityType="HRModel.OVERTIME_APPROVAL" Width="1.5" PointX="6.5" PointY="19.5" />
+        <EntityTypeShape EntityType="HRModel.PROBATION_ASSESSMENT" Width="1.5" PointX="2.75" PointY="51.5" />
+        <EntityTypeShape EntityType="HRModel.rec_req_form" Width="1.5" PointX="15.375" PointY="6.75" />
+        <EntityTypeShape EntityType="HRModel.Training_Effectiveness" Width="1.5" PointX="2.75" PointY="68.125" />
+        <EntityTypeShape EntityType="HRModel.Training_Evaluation" Width="1.5" PointX="2.75" PointY="57.125" />
+        <EntityTypeShape EntityType="HRModel.Training_Request" Width="1.5" PointX="2.75" PointY="72.375" />
+        <AssociationConnector Association="HRModel.FK_RFAA_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_BTR_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_certificate_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_DHO1_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_DHO2_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_induction_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_MTR_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_ot_list_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_probation_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_TE_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_TEva_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_TR_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_ot_list_To_OT" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
