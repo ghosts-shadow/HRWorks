@@ -1,0 +1,136 @@
+﻿@model IEnumerable<HRworks.Models.CERTIFICATE_REQUEST>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LETTER_TYPE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MENTION_SALARY)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BL_bank_nane)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BL_account_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EL_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EL_purpose)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EL_DOV_from)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EL_DOV_to)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TD_NCARREG)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TD_CARREGREN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TD_DLA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TDLREN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.other)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Etisalat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ADWEA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Mawaqif)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Immigration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LETTER_TYPE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MENTION_SALARY)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BL_bank_nane)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BL_account_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EL_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EL_purpose)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EL_DOV_from)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EL_DOV_to)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TD_NCARREG)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TD_CARREGREN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TD_DLA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TDLREN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.other)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Etisalat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ADWEA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Mawaqif)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Immigration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

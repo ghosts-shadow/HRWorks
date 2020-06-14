@@ -1,0 +1,169 @@
+﻿@model HRworks.Models.CERTIFICATE_REQUEST
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CERTIFICATE_REQUEST</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LETTER_TYPE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LETTER_TYPE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MENTION_SALARY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MENTION_SALARY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BL_bank_nane)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BL_bank_nane)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BL_account_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BL_account_no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EL_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EL_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EL_purpose)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EL_purpose)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EL_DOV_from)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EL_DOV_from)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EL_DOV_to)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EL_DOV_to)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TD_NCARREG)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TD_NCARREG)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TD_CARREGREN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TD_CARREGREN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TD_DLA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TD_DLA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TDLREN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TDLREN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.other)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.other)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Etisalat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Etisalat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ADWEA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADWEA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mawaqif)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mawaqif)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Immigration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Immigration)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

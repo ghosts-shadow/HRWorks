@@ -1,0 +1,81 @@
+﻿@model HRworks.Models.HRA_requset
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>HRA_requset</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amonths)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amonths)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OTdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OTdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.house_RA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.house_RA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HRA_advance_com)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HRA_advance_com)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

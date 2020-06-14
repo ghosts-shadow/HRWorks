@@ -1,0 +1,171 @@
+﻿@model HRworks.Models.JOB_INTERVIEW_EVALUATION
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>JOB_INTERVIEW_EVALUATION</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.interviewee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.interviewee_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.interview_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.interview_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.job_applied_for)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.job_applied_for)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.department)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.department)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.education)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.education)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.experience)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.experience)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.job_knoledge)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.job_knoledge)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.conceptual_clarity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.conceptual_clarity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.appearance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.appearance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.communication)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.communication)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.confidence_level)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.confidence_level)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.attitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.attitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.current_salary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.current_salary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.expected_salary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.expected_salary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reason_F_L_P_C)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reason_F_L_P_C)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.overall_evaluation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.overall_evaluation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.recommented_to_be_employed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.recommented_to_be_employed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.in_position_of)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.in_position_of)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employment_in_the_future)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employment_in_the_future)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

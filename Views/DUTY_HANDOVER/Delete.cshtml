@@ -1,0 +1,105 @@
+﻿@model HRworks.Models.DUTY_HANDOVER
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>DUTY_HANDOVER</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.leave_start)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.leave_start)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.leave_end)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.leave_end)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reason_for_handover)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reason_for_handover)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RNR_HO1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RNR_HO1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RNR_HO2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RNR_HO2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RNR_HO3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RNR_HO3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RNR_HO4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RNR_HO4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RNR_HO5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RNR_HO5)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file1.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file1.employee_name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

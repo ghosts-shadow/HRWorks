@@ -122,10 +122,10 @@
           <Property Name="TD_DLA" Type="bit" />
           <Property Name="TDLREN" Type="bit" />
           <Property Name="other" Type="nvarchar(max)" />
-          <Property Name="Etisalat" Type="bit" />
-          <Property Name="ADWEA" Type="bit" />
-          <Property Name="Mawaqif" Type="bit" />
-          <Property Name="Immigration" Type="bit" />
+          <Property Name="Etisalat" Type="nvarchar(max)" />
+          <Property Name="ADWEA" Type="nvarchar(max)" />
+          <Property Name="Mawaqif" Type="nvarchar(max)" />
+          <Property Name="Immigration" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="contract">
           <Key>
@@ -228,6 +228,7 @@
           </Key>
           <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="employee_no" Type="int" Nullable="false" />
+          <Property Name="client" Type="nvarchar(max)" />
           <Property Name="card_no" Type="int" />
           <Property Name="age" Type="int" />
           <Property Name="dependency" Type="varchar" MaxLength="25" />
@@ -727,18 +728,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      <Association Name="FK_la_To_master_file">
-        <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
-        <End Role="leave_absence" Type="Self.leave_absence" Multiplicity="*" />
-        <ReferentialConstraint>
-          <Principal Role="master_file">
-            <PropertyRef Name="employee_id" />
-          </Principal>
-          <Dependent Role="leave_absence">
-            <PropertyRef Name="Employee_id" />
-          </Dependent>
-        </ReferentialConstraint>
-      </Association>
       <Association Name="FK_em_To_master_file">
         <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
         <End Role="emirates_id" Type="Self.emirates_id" Multiplicity="*" />
@@ -1104,10 +1093,6 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_la_To_master_file" Association="Self.FK_la_To_master_file">
-            <End Role="master_file" EntitySet="master_file" />
-            <End Role="leave_absence" EntitySet="leave_absence" />
-          </AssociationSet>
           <AssociationSet Name="FK_em_To_master_file" Association="Self.FK_em_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emirates_id" EntitySet="emirates_id" />
@@ -1337,6 +1322,7 @@
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_changed" Type="DateTime" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_in_To_master_file" FromRole="insurance" ToRole="master_file" />
+          <Property Name="client" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="labour_card">
           <Key>
@@ -1999,10 +1985,10 @@
           <Property Name="TD_DLA" Type="Boolean" />
           <Property Name="TDLREN" Type="Boolean" />
           <Property Name="other" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Etisalat" Type="Boolean" />
-          <Property Name="ADWEA" Type="Boolean" />
-          <Property Name="Mawaqif" Type="Boolean" />
-          <Property Name="Immigration" Type="Boolean" />
+          <Property Name="Etisalat" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ADWEA" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Mawaqif" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Immigration" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_certificate_To_master_file" FromRole="CERTIFICATE_REQUEST" ToRole="master_file" />
         </EntityType>
         <EntityType Name="DUTY_HANDOVER">
@@ -2530,6 +2516,7 @@
           <EntitySetMapping Name="insurances">
             <EntityTypeMapping TypeName="HRModel.insurance">
               <MappingFragment StoreEntitySet="insurance">
+                <ScalarProperty Name="client" ColumnName="client" />
                 <ScalarProperty Name="employee_id" ColumnName="employee_id" />
                 <ScalarProperty Name="employee_no" ColumnName="employee_no" />
                 <ScalarProperty Name="card_no" ColumnName="card_no" />

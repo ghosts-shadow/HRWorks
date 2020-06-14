@@ -1,0 +1,163 @@
+﻿@model HRworks.Models.PROBATION_ASSESSMENT
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PROBATION_ASSESSMENT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Knowledge_of_job)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Knowledge_of_job)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quality_of_work)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quality_of_work)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Achievement_Oriented)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Achievement_Oriented)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ability_To_Learn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ability_To_Learn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Work_Attitude_and_Co_operation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Work_Attitude_and_Co_operation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ability_To_work_Independently)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ability_To_work_Independently)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reliability)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reliability)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Initiative)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Initiative)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employee_excels)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee_excels)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.improvement_)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.improvement_)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C_success_and_strengths)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C_success_and_strengths)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.further_development)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.further_development)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.support)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.support)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.confirming)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.confirming)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Line_Managers_Comments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Line_Managers_Comments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Directors_Comments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Directors_Comments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

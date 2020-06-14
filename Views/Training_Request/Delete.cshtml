@@ -1,0 +1,241 @@
+﻿@model HRworks.Models.Training_Request
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Training_Request</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TR_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TR_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.line_manager)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.line_manager)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.e_mail_address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.e_mail_address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.contact__no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.contact__no)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.course_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.course_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.training_provider)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.training_provider)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.program_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.program_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.duration_from)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.duration_from)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.duration_to)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.duration_to)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C_S_description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C_S_description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TR_objactive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TR_objactive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TR_competencies)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TR_competencies)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.comments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.comments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.budget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.budget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TE_program_cost_desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TE_program_cost_desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TE_program_cost_price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TE_program_cost_price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TE_transportation_desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TE_transportation_desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TE_transportation_price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TE_transportation_price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TE_accom_desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TE_accom_desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TE_accom_price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TE_accom_price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TE_diem_desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TE_diem_desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TE_diem_price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TE_diem_price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TE_total_desc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TE_total_desc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TE_total_price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TE_total_price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HR_comments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HR_comments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

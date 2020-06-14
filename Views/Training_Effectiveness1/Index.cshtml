@@ -1,0 +1,94 @@
+﻿@model IEnumerable<HRworks.Models.Training_Effectiveness>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.traning_prog)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.traning_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.line_manager)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.prog_objective)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.emp_work_per)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.emp_work_att)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.emp_work_team)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RC_otheremp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RC_FDporg)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.comments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.traning_prog)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.traning_date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.line_manager)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.prog_objective)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.emp_work_per)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.emp_work_att)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.emp_work_team)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RC_otheremp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RC_FDporg)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

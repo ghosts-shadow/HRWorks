@@ -1,0 +1,83 @@
+﻿@model HRworks.Models.EXIT_INTERVIEW
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EXIT_INTERVIEW</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.C1B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C1B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C2B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C2B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C3B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C3B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C4B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C4B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C5B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C5B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C6B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C6B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C7B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C7B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C8B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C8B)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

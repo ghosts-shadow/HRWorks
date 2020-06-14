@@ -1,0 +1,190 @@
+﻿@model IEnumerable<HRworks.Models.Training_Request>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TR_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.line_manager)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.e_mail_address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contact__no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.course_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.training_provider)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.program_type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.duration_from)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.duration_to)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.C_S_description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TR_objactive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TR_competencies)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.comments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.budget)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TE_program_cost_desc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TE_program_cost_price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TE_transportation_desc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TE_transportation_price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TE_accom_desc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TE_accom_price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TE_diem_desc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TE_diem_price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TE_total_desc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TE_total_price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HR_comments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TR_date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.line_manager)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.e_mail_address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contact__no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.course_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.training_provider)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.location)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.program_type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.duration_from)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.duration_to)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.C_S_description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TR_objactive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TR_competencies)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.budget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TE_program_cost_desc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TE_program_cost_price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TE_transportation_desc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TE_transportation_price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TE_accom_desc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TE_accom_price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TE_diem_desc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TE_diem_price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TE_total_desc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TE_total_price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HR_comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

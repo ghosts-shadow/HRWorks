@@ -1,0 +1,136 @@
+﻿@model IEnumerable<HRworks.Models.PROBATION_ASSESSMENT>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Knowledge_of_job)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quality_of_work)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Achievement_Oriented)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ability_To_Learn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Work_Attitude_and_Co_operation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ability_To_work_Independently)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Reliability)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Initiative)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.employee_excels)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.improvement_)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.C_success_and_strengths)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.further_development)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.support)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.confirming)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Line_Managers_Comments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Directors_Comments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Knowledge_of_job)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quality_of_work)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Achievement_Oriented)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ability_To_Learn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Work_Attitude_and_Co_operation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ability_To_work_Independently)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Reliability)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Initiative)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.employee_excels)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.improvement_)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.C_success_and_strengths)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.further_development)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.support)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.confirming)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Line_Managers_Comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Directors_Comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

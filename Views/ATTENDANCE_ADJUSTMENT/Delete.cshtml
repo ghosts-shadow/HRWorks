@@ -1,0 +1,73 @@
+﻿@model HRworks.Models.ATTENDANCE_ADJUSTMENT
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ATTENDANCE_ADJUSTMENT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.date_prepared)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_prepared)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DJ_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DJ_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.late_in)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.late_in)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.early_out)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.early_out)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

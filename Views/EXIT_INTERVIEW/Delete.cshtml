@@ -1,0 +1,89 @@
+﻿@model HRworks.Models.EXIT_INTERVIEW
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>EXIT_INTERVIEW</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.C1B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C1B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C2B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C2B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C3B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C3B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C4B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C4B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C5B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C5B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C6B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C6B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C7B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C7B)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.C8B)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.C8B)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

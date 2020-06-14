@@ -1,0 +1,67 @@
+﻿@model HRworks.Models.MANPOWER_TRANSFER_REQUEST
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MANPOWER_TRANSFER_REQUEST</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.request_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.request_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pro_from)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pro_from)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.por_to)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.por_to)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.effective_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.effective_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

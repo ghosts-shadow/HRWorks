@@ -1,0 +1,67 @@
+﻿@model HRworks.Models.OVERTIME_APPROVAL
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OVERTIME_APPROVAL</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date_Prepared)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date_Prepared)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.project)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.project)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NO_EOTH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NO_EOTH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.start_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.start_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.end_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.end_date)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

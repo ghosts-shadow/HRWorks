@@ -29,10 +29,10 @@ namespace HRworks.Models
         public Nullable<bool> TD_DLA { get; set; }
         public Nullable<bool> TDLREN { get; set; }
         public string other { get; set; }
-        public Nullable<bool> Etisalat { get; set; }
-        public Nullable<bool> ADWEA { get; set; }
-        public Nullable<bool> Mawaqif { get; set; }
-        public Nullable<bool> Immigration { get; set; }
+        public string Etisalat { get; set; }
+        public string ADWEA { get; set; }
+        public string Mawaqif { get; set; }
+        public string Immigration { get; set; }
     
         public virtual master_file master_file { get; set; }
     }

@@ -1,0 +1,75 @@
+﻿@model HRworks.Models.HRA_requset
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>HRA_requset</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Employee_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Amonths)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amonths)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OTdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OTdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.house_RA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.house_RA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HRA_advance_com)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HRA_advance_com)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
