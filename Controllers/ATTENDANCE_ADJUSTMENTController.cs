@@ -39,7 +39,38 @@ namespace HRworks.Controllers
         // GET: ATTENDANCE_ADJUSTMENT/Create
         public ActionResult Create()
         {
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name");
+            var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0)
+                {
+                    afinallist.Add(file);
+                }
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                {
+                    afinallist.Add(file);
+                }
+            }
+            var alistc = db.contracts.OrderBy(e => e.master_file.employee_no).ToList();
+            var afinallistc = new List<contract>();
+            foreach (var file in alistc)
+            {
+                if (afinallistc.Count == 0)
+                {
+                    afinallistc.Add(file);
+                }
+
+                if (!afinallistc.Exists(x => x.employee_no == file.employee_no))
+                {
+                    afinallistc.Add(file);
+                }
+            }
+            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
+            ViewBag.Employee_name = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_name");
+            ViewBag.dept = new SelectList(afinallistc.OrderBy(x => x.master_file.employee_no), "employee_id", "departmant_project");
+            ViewBag.pos = new SelectList(afinallistc.OrderBy(x => x.master_file.employee_no), "employee_id", "designation");
             return View();
         }
 

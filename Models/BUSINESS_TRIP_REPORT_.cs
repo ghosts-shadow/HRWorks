@@ -11,18 +11,32 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class BUSINESS_TRIP_REPORT_
     {
         public int Id { get; set; }
+
+        [Display(Name = "Employee ID")]
         public Nullable<int> Employee_id { get; set; }
         public Nullable<System.DateTime> date { get; set; }
+
+        [Display(Name = "Type of Trip")]
         public string type_of_trip { get; set; }
+
+        [Display(Name = "If other, Specify")]
         public string IO_specify { get; set; }
         public string destination { get; set; }
+
+        [Display(Name = "Departure Date")]
         public Nullable<System.DateTime> Departure_Date { get; set; }
+
+        [Display(Name = "Return Date")]
         public Nullable<System.DateTime> Return_Date { get; set; }
+        [Display(Name = "TRIP OBJECTIVE")]
         public string TRIP_OBJECTIVE { get; set; }
+
+        [Display(Name = "Were The Objectives Of the Trip Achieved")]
         public string Objectives { get; set; }
     
         public virtual master_file master_file { get; set; }

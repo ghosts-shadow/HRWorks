@@ -11,14 +11,24 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class ATTENDANCE_ADJUSTMENT
     {
         public int Id { get; set; }
+
+        [Display(Name = "Employee ID")]
         public Nullable<int> Employee_id { get; set; }
+
+        [Display(Name = "date perpared")]
         public Nullable<System.DateTime> date_prepared { get; set; }
+
+        [Display(Name = "date")]
         public Nullable<System.DateTime> DJ_date { get; set; }
+
+        [Display(Name = "late IN")]
         public Nullable<System.TimeSpan> late_in { get; set; }
+        [Display(Name = "early out")]
         public Nullable<System.TimeSpan> early_out { get; set; }
         public string reason { get; set; }
     

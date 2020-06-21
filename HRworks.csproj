@@ -363,7 +363,21 @@
     <Content Include="Content\chosen\chosen-sprite%402x.png" />
     <Content Include="Content\chosen\chosen-sprite.png" />
     <Content Include="Content\chosen\chosen.css" />
+    <Content Include="Content\chosen\chosen.jquery.js" />
+    <Content Include="Content\chosen\chosen.jquery.min.js" />
     <Content Include="Content\chosen\chosen.min.css" />
+    <Content Include="Content\chosen\chosen.proto.js" />
+    <Content Include="Content\chosen\chosen.proto.min.js" />
+    <Content Include="Content\chosen\docsupport\chosen.png" />
+    <Content Include="Content\chosen\docsupport\init.js" />
+    <Content Include="Content\chosen\docsupport\init.proto.js" />
+    <Content Include="Content\chosen\docsupport\jquery-1.12.4.min.js" />
+    <Content Include="Content\chosen\docsupport\jquery-3.2.1.min.js" />
+    <Content Include="Content\chosen\docsupport\oss-credit.png" />
+    <Content Include="Content\chosen\docsupport\prism.css" />
+    <Content Include="Content\chosen\docsupport\prism.js" />
+    <Content Include="Content\chosen\docsupport\prototype-1.7.0.0.js" />
+    <Content Include="Content\chosen\docsupport\style.css" />
     <Content Include="Content\chosen\index.html" />
     <Content Include="Content\chosen\index.proto.html" />
     <Content Include="Content\chosen\options.html" />
@@ -386,8 +400,6 @@
     <Content Include="Content\testbootstrap\bootstrap-reboot.min.css.map" />
     <Content Include="Content\testbootstrap\bootstrap.css.map" />
     <Content Include="Content\testbootstrap\bootstrap.min.css.map" />
-    <Content Include="Content\chosen\composer.json" />
-    <Content Include="Content\chosen\LICENSE.md" />
     <EntityDeploy Include="Models\HRModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
@@ -395,6 +407,8 @@
     <Content Include="Models\HRModel.edmx.diagram">
       <DependentUpon>HRModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\chosen\composer.json" />
+    <Content Include="Content\chosen\LICENSE.md" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Models\HRModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

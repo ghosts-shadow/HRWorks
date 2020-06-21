@@ -11,22 +11,48 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class CERTIFICATE_REQUEST
     {
         public int Id { get; set; }
+
+        [Display(Name = "Employee ID")]
         public Nullable<int> employee_id { get; set; }
+
+        [Display(Name = "LETTER TYPE")]
         public string LETTER_TYPE { get; set; }
+
+        [Display(Name = "MENTION SALARY")]
         public string MENTION_SALARY { get; set; }
+
+        [Display(Name = "Bank Name")]
         public string BL_bank_nane { get; set; }
+
+        [Display(Name = "Account No")]
         public string BL_account_no { get; set; }
+
+        [Display(Name = "Embassy Name")]
         public string EL_name { get; set; }
+
+        [Display(Name = "Purpose")]
         public string EL_purpose { get; set; }
+
+        [Display(Name = "Dates of Visit")]
         public Nullable<System.DateTime> EL_DOV_from { get; set; }
+
         public Nullable<System.DateTime> EL_DOV_to { get; set; }
+
+        [Display(Name = "New Car Registration")]
         public Nullable<bool> TD_NCARREG { get; set; }
+
+        [Display(Name = "Car Registration Renewal")]
         public Nullable<bool> TD_CARREGREN { get; set; }
+
+        [Display(Name = "Driving License Application")]
         public Nullable<bool> TD_DLA { get; set; }
+
+        [Display(Name = "License Renewal")]
         public Nullable<bool> TDLREN { get; set; }
         public string other { get; set; }
         public string Etisalat { get; set; }

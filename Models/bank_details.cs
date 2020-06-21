@@ -11,13 +11,20 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class bank_details
     {
         public int Employee_Id { get; set; }
+
+        [Display(Name = "Employee ID")]
         public int employee_no { get; set; }
         public string IBAN { get; set; }
+
+        [Display(Name = "account no")]
         public Nullable<long> Account_no { get; set; }
+
+        [Display(Name = "bank name")]
         public string bank_name { get; set; }
     
         public virtual master_file master_file { get; set; }

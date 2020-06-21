@@ -11,14 +11,24 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class DUTY_HANDOVER
     {
         public int Id { get; set; }
+
+        [Display(Name = "Employee ID")]
         public Nullable<int> Employee_NO1 { get; set; }
+
+        [Display(Name = "Employee ID")]
         public Nullable<int> Employee_NO2 { get; set; }
+
+        [Display(Name = "Leave Starts on")]
         public Nullable<System.DateTime> leave_start { get; set; }
+
+        [Display(Name = "Leave Ends on")]
         public Nullable<System.DateTime> leave_end { get; set; }
+        [Display(Name = "Resuming on Duty")]
         public string reason_for_handover { get; set; }
         public string RNR_HO1 { get; set; }
         public string RNR_HO2 { get; set; }

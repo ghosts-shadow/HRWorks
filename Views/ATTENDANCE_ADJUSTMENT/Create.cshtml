@@ -5,20 +5,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
-
-@using (Html.BeginForm()) 
+<h2>
+    Create
+</h2>
+<script>
+    $(document).ready(function() {
+        $(".chosen-select").chosen();
+    });
+</script>
+<script>
+    function hi(id) {
+        var a = $("#empnow option:selected").val();
+        $("#name").val(a);
+        $("#nameval").val($("#name option:selected").text());
+        $("#dept").val(a);
+        $("#deptval").val($("#dept option:selected").text());
+        $("#pos").val(a);
+        $("#posval").val($("#pos option:selected").text());
+    }
+</script>
+<script type="text/javascript">
+    $(function() {
+        $('#datetimepicker').datetimepicker();
+        $('#datetimepicker1').datetimepicker();
+    });
+</script>
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>ATTENDANCE_ADJUSTMENT</h4>
+
+    <div class="form-horizontal" >
+        <h4 onclick="hi()">ATTENDANCE ADJUSTMENT</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Employee_id, "Employee_id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("Employee_id", new List<SelectListItem>(ViewBag.Employee_id), htmlAttributes: new { @class = "form-control chosen-select", @id = "empnow" ,@onchange="hi(this.id)"})
+                @Html.DropDownList("name", new List<SelectListItem>(ViewBag.Employee_name), htmlAttributes: new { @class = "form-control", @id="name" , @style = "display:none" })
+                @Html.DropDownList("name", new List<SelectListItem>(ViewBag.dept), htmlAttributes: new { @class = "form-control", @id="dept" , @style = "display:none" })
+                @Html.DropDownList("name", new List<SelectListItem>(ViewBag.pos), htmlAttributes: new { @class = "form-control", @id="pos" , @style = "display:none" })
+                <input type="text" id="nameval" class="form-control" readonly="readonly"/>
+                <input type="text" id="deptval" class="form-control" readonly="readonly"/>
+                <input type="text" id="posval" class="form-control" readonly="readonly"/>
                 @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -26,7 +55,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.date_prepared, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.date_prepared, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.date_prepared, new { htmlAttributes = new { @class = "form-control", @Type = "date" ,@id="il"} })
                 @Html.ValidationMessageFor(model => model.date_prepared, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,7 +63,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DJ_date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DJ_date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.DJ_date, new { htmlAttributes = new { @class = "form-control", @Type = "date" } })
                 @Html.ValidationMessageFor(model => model.DJ_date, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -42,7 +71,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.late_in, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.late_in, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.late_in, new { htmlAttributes = new { @class = "form-control",@id ="datetimepicker" } })
                 @Html.ValidationMessageFor(model => model.late_in, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -50,7 +79,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.early_out, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.early_out, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.early_out, new { htmlAttributes = new { @class = "form-control", @type = "time", @id = "datetimepicker1" } })
                 @Html.ValidationMessageFor(model => model.early_out, "", new { @class = "text-danger" })
             </div>
         </div>
