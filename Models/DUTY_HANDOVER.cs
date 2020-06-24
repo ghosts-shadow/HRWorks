@@ -28,13 +28,16 @@ namespace HRworks.Models
 
         [Display(Name = "Leave Ends on")]
         public Nullable<System.DateTime> leave_end { get; set; }
-        [Display(Name = "Resuming on Duty")]
+        [Display(Name = "Reason for Handover")]
         public string reason_for_handover { get; set; }
         public string RNR_HO1 { get; set; }
         public string RNR_HO2 { get; set; }
         public string RNR_HO3 { get; set; }
         public string RNR_HO4 { get; set; }
         public string RNR_HO5 { get; set; }
+
+        [Display(Name = "Resuming on Duty")]
+        public Nullable<System.DateTime> Resuming_on_Duty { get; set; }
     
         public virtual master_file master_file { get; set; }
         public virtual master_file master_file1 { get; set; }

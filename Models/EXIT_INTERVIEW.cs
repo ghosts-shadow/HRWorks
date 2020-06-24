@@ -11,17 +11,34 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class EXIT_INTERVIEW
     {
         public int Id { get; set; }
+
+        [Display(Name = "What are your primary reasons for leaving Citiscape?")]
         public string C1B { get; set; }
+
+        [Display(Name = "What did you find most satisfying about your job at Citiscape?")]
         public string C2B { get; set; }
+
+        [Display(Name = "What did you find most frustrating about your job in Citiscape?")]
         public string C3B { get; set; }
+
+        [Display(Name = "Were there any Company policies or procedures that made your work difficult?")]
         public string C4B { get; set; }
+
+        [Display(Name = "Would you consider returning to Citiscape?")]
         public string C5B { get; set; }
+
+        [Display(Name = "Would you recommend Citiscape to a friend as a good place to work?")]
         public string C6B { get; set; }
+
+        [Display(Name = "Is there anything that Citiscape could have done to prevent you from leaving?")]
         public string C7B { get; set; }
+
+        [Display(Name = "Any comments?")]
         public string C8B { get; set; }
     }
 }

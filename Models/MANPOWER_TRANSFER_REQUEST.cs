@@ -11,14 +11,25 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class MANPOWER_TRANSFER_REQUEST
     {
         public int Id { get; set; }
+
+        [Display(Name = "Employee ID")]
         public Nullable<int> Employee_id { get; set; }
+
+        [Display(Name = "request date")]
         public Nullable<System.DateTime> request_date { get; set; }
+
+        [Display(Name = "from")]
         public string pro_from { get; set; }
+
+        [Display(Name = "to")]
         public string por_to { get; set; }
+
+        [Display(Name = "effective date")]
         public Nullable<System.DateTime> effective_date { get; set; }
         public string remarks { get; set; }
     

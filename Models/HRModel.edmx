@@ -160,6 +160,7 @@
           <Property Name="Employee_NO2" Type="int" />
           <Property Name="leave_start" Type="date" />
           <Property Name="leave_end" Type="date" />
+          <Property Name="Resuming_on_Duty" Type="date" />
           <Property Name="reason_for_handover" Type="nvarchar(max)" />
           <Property Name="RNR_HO1" Type="nvarchar(max)" />
           <Property Name="RNR_HO2" Type="nvarchar(max)" />
@@ -2008,6 +2009,7 @@
           <Property Name="RNR_HO5" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_DHO1_To_master_file" FromRole="DUTY_HANDOVER" ToRole="master_file" />
           <NavigationProperty Name="master_file1" Relationship="HRModel.FK_DHO2_To_master_file" FromRole="DUTY_HANDOVER" ToRole="master_file" />
+          <Property Name="Resuming_on_Duty" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="EXIT_INTERVIEW">
           <Key>
@@ -2809,6 +2811,7 @@
           <EntitySetMapping Name="DUTY_HANDOVER">
             <EntityTypeMapping TypeName="HRModel.DUTY_HANDOVER">
               <MappingFragment StoreEntitySet="DUTY_HANDOVER">
+                <ScalarProperty Name="Resuming_on_Duty" ColumnName="Resuming_on_Duty" />
                 <ScalarProperty Name="RNR_HO5" ColumnName="RNR_HO5" />
                 <ScalarProperty Name="RNR_HO4" ColumnName="RNR_HO4" />
                 <ScalarProperty Name="RNR_HO3" ColumnName="RNR_HO3" />

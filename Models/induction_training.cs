@@ -11,19 +11,40 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class induction_training
     {
         public int Id { get; set; }
+
+        [Display(Name = "Employee ID")]
         public Nullable<int> employee_id { get; set; }
+
+        [Display(Name = "Vision, Mission & Values")]
         public bool C1a { get; set; }
+
+        [Display(Name = "Organization Structure")]
         public bool C2a { get; set; }
+
+        [Display(Name = "Job Description")]
         public bool C3a { get; set; }
+
+        [Display(Name = "Organization Objectives")]
         public bool C4a { get; set; }
+
+        [Display(Name = "Office time & Time keeping procedure")]
         public bool C5a { get; set; }
+
+        [Display(Name = "Various leaves and its applicability")]
         public bool C6a { get; set; }
+
+        [Display(Name = "Performance Evaluation")]
         public bool C7a { get; set; }
+
+        [Display(Name = "Disciplinary Action")]
         public bool C8a { get; set; }
+
+        [Display(Name = "Policies & Procedures")]
         public bool C9a { get; set; }
     
         public virtual master_file master_file { get; set; }

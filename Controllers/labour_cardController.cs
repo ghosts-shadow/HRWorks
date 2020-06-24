@@ -213,7 +213,7 @@ namespace HRworks.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin,employee_VLC")]
-        public ActionResult Create([Bind(Include = "id,lc_no,uid_no,emp_no,passport_no,company_code,nationality,person_code,class_type,rv_expiry,lc_expiry,passport_expiry,proff_as_per_visa")] labour_card labour_card, HttpPostedFileBase fileBase)
+        public ActionResult Create( labour_card labour_card, HttpPostedFileBase fileBase)
         {
             string serverfile;
             if (fileBase != null)
@@ -281,7 +281,7 @@ namespace HRworks.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin,employee_VLC")]
-        public ActionResult Edit([Bind(Include = "id,lc_no,uid_no,emp_no,passport_no,company_code,nationality,person_code,class_type,rv_expiry,lc_expiry,passport_expiry,proff_as_per_visa")] labour_card labour_card, HttpPostedFileBase fileBase)
+        public ActionResult Edit( labour_card labour_card, HttpPostedFileBase fileBase)
         {
             string serverfile;
             if (fileBase != null)
