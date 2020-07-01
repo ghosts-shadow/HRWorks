@@ -64,5 +64,6 @@ namespace HRworks.Models
         public virtual DbSet<Training_Effectiveness> Training_Effectiveness { get; set; }
         public virtual DbSet<Training_Evaluation> Training_Evaluation { get; set; }
         public virtual DbSet<Training_Request> Training_Request { get; set; }
+        public virtual DbSet<end_of_service> end_of_service { get; set; }
     }
 }

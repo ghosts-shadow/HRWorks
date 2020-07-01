@@ -1,0 +1,249 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using HRworks.Models;
+
+namespace HRworks.Controllers
+{
+    public class end_of_serviceController : Controller
+    {
+        private HREntities db = new HREntities();
+
+        // GET: end_of_service
+        public ActionResult Index()
+        {
+            var end_of_service = db.end_of_service.Include(e => e.master_file);
+            return View(end_of_service.ToList());
+        }
+
+        // GET: end_of_service/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            end_of_service end_of_service = db.end_of_service.Find(id);
+            if (end_of_service == null)
+            {
+                return HttpNotFound();
+            }
+            return View(end_of_service);
+        }
+
+        // GET: end_of_service/Create
+        public ActionResult Create()
+        {
+            LeavesController an = new LeavesController();
+            an.cal_bal();
+            var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0)
+                {
+                    afinallist.Add(file);
+                }
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                {
+                    afinallist.Add(file);
+                }
+            }
+
+            var alistc = db.contracts.OrderBy(e => e.master_file.employee_no).ToList();
+            var afinallistc = new List<contract>();
+            foreach (var file in alistc)
+            {
+                if (afinallistc.Count == 0)
+                {
+                    afinallistc.Add(file);
+                }
+
+                if (!afinallistc.Exists(x => x.employee_no == file.employee_no))
+                {
+                    afinallistc.Add(file);
+                }
+            }
+
+            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
+            ViewBag.Employee_name = new SelectList(
+                afinallist.OrderBy(x => x.employee_no),
+                "employee_id",
+                "employee_name");
+            ViewBag.joi = new SelectList(
+                afinallist.OrderBy(x => x.employee_no),
+                "employee_id",
+                "joining_date");
+            ViewBag.dept = new SelectList(
+                afinallistc.OrderBy(x => x.master_file.employee_no),
+                "employee_id",
+                "departmant_project");
+            ViewBag.pos = new SelectList(
+                afinallistc.OrderBy(x => x.master_file.employee_no),
+                "employee_id",
+                "designation");
+            ViewBag.gra = new SelectList(
+                afinallistc.OrderBy(x => x.master_file.employee_no),
+                "employee_id",
+                "grade");
+            ViewBag.bac = new SelectList(
+                afinallistc.OrderBy(x => x.master_file.employee_no),
+                "employee_id",
+                "basic");
+            ViewBag.hou = new SelectList(
+                afinallistc.OrderBy(x => x.master_file.employee_no),
+                "employee_id",
+                "housing_allowance");
+            ViewBag.gro = new SelectList(
+                afinallistc.OrderBy(x => x.master_file.employee_no),
+                "employee_id",
+                "salary_details");
+            return View();
+        }
+
+        // POST: end_of_service/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,Employee_id,last_working_day,status")] end_of_service end_of_service)
+        {
+            if (ModelState.IsValid)
+            {
+                db.end_of_service.Add(end_of_service);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0)
+                {
+                    afinallist.Add(file);
+                }
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                {
+                    afinallist.Add(file);
+                }
+            }
+
+            var alistc = db.contracts.OrderBy(e => e.master_file.employee_no).ToList();
+            var afinallistc = new List<contract>();
+            foreach (var file in alistc)
+            {
+                if (afinallistc.Count == 0)
+                {
+                    afinallistc.Add(file);
+                }
+
+                if (!afinallistc.Exists(x => x.employee_no == file.employee_no))
+                {
+                    afinallistc.Add(file);
+                }
+            }
+
+            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
+            ViewBag.Employee_name = new SelectList(
+                afinallist.OrderBy(x => x.employee_no),
+                "employee_id",
+                "employee_name");
+            ViewBag.joi = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "joining_date");
+            ViewBag.dept = new SelectList(
+                afinallistc.OrderBy(x => x.master_file.employee_no),
+                "employee_id",
+                "departmant_project");
+            ViewBag.pos = new SelectList(
+                afinallistc.OrderBy(x => x.master_file.employee_no),
+                "employee_id",
+                "designation");
+            ViewBag.gra = new SelectList(afinallistc.OrderBy(x => x.master_file.employee_no), "employee_id", "grade");
+            ViewBag.bac = new SelectList(afinallistc.OrderBy(x => x.master_file.employee_no), "employee_id", "basic");
+            ViewBag.hou = new SelectList(
+                afinallistc.OrderBy(x => x.master_file.employee_no),
+                "employee_id",
+                "housing_allowance");
+            ViewBag.gro = new SelectList(
+                afinallistc.OrderBy(x => x.master_file.employee_no),
+                "employee_id",
+                "salary_details");
+            return View(end_of_service);
+        }
+
+        // GET: end_of_service/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            end_of_service end_of_service = db.end_of_service.Find(id);
+            if (end_of_service == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name", end_of_service.Employee_id);
+            return View(end_of_service);
+        }
+
+        // POST: end_of_service/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,Employee_id,last_working_day,status")] end_of_service end_of_service)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(end_of_service).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name", end_of_service.Employee_id);
+            return View(end_of_service);
+        }
+
+        // GET: end_of_service/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            end_of_service end_of_service = db.end_of_service.Find(id);
+            if (end_of_service == null)
+            {
+                return HttpNotFound();
+            }
+            return View(end_of_service);
+        }
+
+        // POST: end_of_service/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            end_of_service end_of_service = db.end_of_service.Find(id);
+            db.end_of_service.Remove(end_of_service);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

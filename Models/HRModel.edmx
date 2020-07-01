@@ -180,6 +180,15 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
+        <EntityType Name="end_of_service">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="last_working_day" Type="date" />
+          <Property Name="status" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="EXIT_INTERVIEW">
           <Key>
             <PropertyRef Name="Id" />
@@ -790,6 +799,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EOS_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="end_of_service" Type="Self.end_of_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="end_of_service">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_induction_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="induction_training" Type="Self.induction_training" Multiplicity="*" />
@@ -1036,6 +1057,7 @@
           <EntitySet Name="contract" EntityType="Self.contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DUTY_HANDOVER" EntityType="Self.DUTY_HANDOVER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="end_of_service" EntityType="Self.end_of_service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EXIT_INTERVIEW" EntityType="Self.EXIT_INTERVIEW" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HRA_requset" EntityType="Self.HRA_requset" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="induction_training" EntityType="Self.induction_training" Schema="dbo" store:Type="Tables" />
@@ -1114,6 +1136,10 @@
           <AssociationSet Name="FK_DHO2_To_master_file" Association="Self.FK_DHO2_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="DUTY_HANDOVER" EntitySet="DUTY_HANDOVER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EOS_To_master_file" Association="Self.FK_EOS_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="end_of_service" EntitySet="end_of_service" />
           </AssociationSet>
           <AssociationSet Name="FK_induction_To_master_file" Association="Self.FK_induction_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -1451,6 +1477,7 @@
           <NavigationProperty Name="Training_Effectiveness" Relationship="HRModel.FK_TE_To_master_file" FromRole="master_file" ToRole="Training_Effectiveness" />
           <NavigationProperty Name="Training_Evaluation" Relationship="HRModel.FK_TEva_To_master_file" FromRole="master_file" ToRole="Training_Evaluation" />
           <NavigationProperty Name="Training_Request" Relationship="HRModel.FK_TR_To_master_file" FromRole="master_file" ToRole="Training_Request" />
+          <NavigationProperty Name="end_of_service" Relationship="HRModel.FK_EOS_To_master_file" FromRole="master_file" ToRole="end_of_service" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -1862,6 +1889,11 @@
           <AssociationSet Name="FK_ot_list_To_OT" Association="HRModel.FK_ot_list_To_OT">
             <End Role="OVERTIME_APPROVAL" EntitySet="OVERTIME_APPROVAL" />
             <End Role="OT_employee_list" EntitySet="OT_employee_list" />
+          </AssociationSet>
+          <EntitySet Name="end_of_service" EntityType="HRModel.end_of_service" />
+          <AssociationSet Name="FK_EOS_To_master_file" Association="HRModel.FK_EOS_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="end_of_service" EntitySet="end_of_service" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
@@ -2403,6 +2435,28 @@
             </Principal>
             <Dependent Role="OT_employee_list">
               <PropertyRef Name="OT_link" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="end_of_service">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="last_working_day" Type="DateTime" Precision="0" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_EOS_To_master_file" FromRole="end_of_service" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_EOS_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.end_of_service" Role="end_of_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="end_of_service">
+              <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3063,6 +3117,16 @@
                 <ScalarProperty Name="e_mail_address" ColumnName="e-mail_address" />
                 <ScalarProperty Name="line_manager" ColumnName="line_manager" />
                 <ScalarProperty Name="TR_date" ColumnName="TR_date" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="end_of_service">
+            <EntityTypeMapping TypeName="HRModel.end_of_service">
+              <MappingFragment StoreEntitySet="end_of_service">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="last_working_day" ColumnName="last_working_day" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

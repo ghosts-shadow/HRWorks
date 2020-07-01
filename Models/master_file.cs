@@ -43,8 +43,9 @@ namespace HRworks.Models
             this.Training_Effectiveness = new HashSet<Training_Effectiveness>();
             this.Training_Evaluation = new HashSet<Training_Evaluation>();
             this.Training_Request = new HashSet<Training_Request>();
+            this.end_of_service = new HashSet<end_of_service>();
         }
-
+    
         public int employee_id { get; set; }
 
         [Display(Name = "Employee NO")]
@@ -133,5 +134,7 @@ namespace HRworks.Models
         public virtual ICollection<Training_Evaluation> Training_Evaluation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Training_Request> Training_Request { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<end_of_service> end_of_service { get; set; }
     }
 }

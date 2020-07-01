@@ -187,6 +187,7 @@
     <Compile Include="Controllers\contractsController.cs" />
     <Compile Include="Controllers\DUTY_HANDOVERController.cs" />
     <Compile Include="Controllers\emirates_idController.cs" />
+    <Compile Include="Controllers\end_of_serviceController.cs" />
     <Compile Include="Controllers\EXIT_INTERVIEWController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HRA_requsetController.cs" />
@@ -250,6 +251,9 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\emirates_id.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\end_of_service.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EXIT_INTERVIEW.cs">
@@ -628,6 +632,11 @@
     <Content Include="Views\CERTIFICATE_REQUEST\Details.cshtml" />
     <Content Include="Views\CERTIFICATE_REQUEST\Edit.cshtml" />
     <Content Include="Views\CERTIFICATE_REQUEST\Index.cshtml" />
+    <Content Include="Views\end_of_service\Create.cshtml" />
+    <Content Include="Views\end_of_service\Delete.cshtml" />
+    <Content Include="Views\end_of_service\Details.cshtml" />
+    <Content Include="Views\end_of_service\Edit.cshtml" />
+    <Content Include="Views\end_of_service\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
