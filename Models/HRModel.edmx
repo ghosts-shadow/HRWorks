@@ -272,8 +272,8 @@
             <PropertyRef Name="employee_id" />
           </Key>
           <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="work_permit_no" Type="int" />
-          <Property Name="personal_no" Type="int" />
+          <Property Name="work_permit_no" Type="bigint" />
+          <Property Name="personal_no" Type="bigint" />
           <Property Name="emp_no" Type="int" Nullable="false" />
           <Property Name="proffession" Type="nvarchar(max)" />
           <Property Name="lc_expiry" Type="date" />
@@ -729,6 +729,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        
       <Association Name="FK_em_To_master_file">
         <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
         <End Role="emirates_id" Type="Self.emirates_id" Multiplicity="*" />
@@ -1330,8 +1331,8 @@
             <PropertyRef Name="employee_id" />
           </Key>
           <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="work_permit_no" Type="Int32" />
-          <Property Name="personal_no" Type="Int32" />
+          <Property Name="work_permit_no" Type="Int64" />
+          <Property Name="personal_no" Type="Int64" />
           <Property Name="emp_no" Type="Int32" Nullable="false" />
           <Property Name="proffession" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="lc_expiry" Type="DateTime" Precision="0" />

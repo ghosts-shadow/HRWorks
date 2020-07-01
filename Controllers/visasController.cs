@@ -314,7 +314,12 @@ namespace HRworks.Controllers
             }
             if (ModelState.IsValid)
             {
-                var img = new visa(); 
+                var img = new visa();
+                img.file_no = visa.file_no;
+                img.place_of_issue = visa.place_of_issue;
+                img.accompanied_by = visa.accompanied_by;
+                img.rv_issue = visa.rv_issue;
+                img.sponsor = visa.sponsor;
                 img.uid_no = visa.uid_no;
                 img.emp_no = visa.emp_no;
                 img.rv_expiry = visa.rv_expiry;

@@ -4,120 +4,427 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    div.a
+    {
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        height:30px;
+        font-size: 100%;
+    }
+    div.col-md-2 {
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        height: 30px;
+        width: 20%;
+        font-size: 100%;
+    }
+    div.c {
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        height: 30px;
+        width: 25%;
+        font-size: 100%;
+    }
+    div.d {
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        height: 30px;
+        width: 33.33%;
+        font-size: 100%;
+    }
+    div.col-md-4 {
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        height: 30px;
+        width: 40%;
+        font-size: 100%;
+    }
+    div.col-md-1 {
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        height: 30px;
+        width: 15%;
+        font-size: 100%;
+    }
+    div.ab {
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        height: 30px;
+        width: 20%;
+        font-size: 100%;
+    }
+    div.col-md-3 {
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        height: 30px;
+        width: 35%;
+        font-size: 100%;
+    }
+    div {
+        font-size: 100%;
+    }
+    @@page {
+        margin: 0;
+    }
+    @@media print {
+    footer {
+        display: none;
+        position: fixed;
+        bottom: 0;
+    }
+    header {
+        display: none;
+        position: fixed;
+        top: 0;
+    }
+    }
+</style>
+<div style=" padding: 5%; width: 75%; font-size: 75%">
+    <div class="row a" style="border: none;">
 
-<h2>Details</h2>
-
-<div>
-    <h4>rec_req_form</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.projobtitle)
-        </dt>
-
-        <dd>
+    </div>
+    <div class="row a" class="row a" style="border: none; height: 100%;text-align: center">
+        <h3> RECRUITMENT REQUISITION FORM</h3>
+    </div>
+    <div class="row a" style="background-color:#27ADE3; color: black">
+        1. HIRING DETAILS
+    </div>
+    <div class="row a">
+        <div class="col-md-2 c">
+            Proposed Job Title :
+        </div>
+        <div class="col-md-2 c">
             @Html.DisplayFor(model => model.projobtitle)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.department)
-        </dt>
-
-        <dd>
+        </div>
+        <div class="col-md-2 c">
+            Department :
+        </div>
+        <div class="col-md-2 c">
             @Html.DisplayFor(model => model.department)
-        </dd>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.reporting_to)
-        </dt>
-
-        <dd>
+    </div>
+    <div class="row a">
+        <div class="col-md-2 c">
+            Reporting to :
+        </div>
+        <div class="col-md-2 c">
             @Html.DisplayFor(model => model.reporting_to)
-        </dd>
+        </div>
+        <div class="col-md-2 c">
+            Date Required :
+        </div>
+        <div class="col-md-2 c">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.type_of_hire)
-        </dt>
+        </div>
+    </div>
+    <div class="row a">
+        <div class="col-md-4" style="background-color: #27ADE3; color: black">
+            2. TYPE OF HIRE
+        </div>
+        <div class="col-md-1">
+            Permanent
+        </div>
+        <div class="col-md-1">
+            @{
+                var a5 = Model.type_of_hire;
+                if (a5 == "Permanent")
+                {
+                    <img width="30px" height="25px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPEAAADRCAMAAAAquaQNAAAAbFBMVEX///8AAADw8PDt7e3o6OhqampkZGT19fXy8vLk5OReXl5ZWVnn5+dubm4RERFXV1dxcXF6enre3t7W1tbPz8+ZmZnBwcGwsLB8fHza2tqIiIiOjo7KysqcnJzExMSioqIaGhpKSkoMDAy0tLRltE44AAACPElEQVR4nO3dyXLCMBREUSkkITNknify//+YOcEyTgyWUL1+924pu/oUC5XNghCIiIiIiIiIiIiIiIiI/m6n9oB1N55t156w3sZPMboiv4NdkT/BjsjfYDfkX7AT8vgozrVXe075muD4XHtP8RLwpPae4gFWb2cGWDt/4AhYO8DqbTTB+7X3FA+weoDVcwceARYvAeu/1AKsHmD1ErD+jw+A1QOs3iZg8byDt2rvKR5g9QCrdwBYvAR8WHtP8QCrB1i9Xefgae09xQOsHmD1AKvnHXxce0/xAKsHWL0TwOIBVi8BX9XeUzzA6gFWD7B67sDXgMUDrF4Cvqm9p3iA1XMHPgUsHmD1vINva+8pHmD13IHPAIsHWD3A6gFWzzv4vPaehR1v5LuXCfBWPMr2BxxGwDEb2Qw4F9kQOA/ZFDjG2WDynS3wcLIJ8G1j4zCyCXAIk+bMAedyAr7PtzFz+5nIZsC5yIbAecimwDnIxsDDyebAQ8kPzasfy2zM3N4Asklwizzqf6VR8Opks+BVyYbBq5FNg1chGwcvT76wDg5heymyAHg5sgR4GbIIuD9ZBtyXLATuR5YC9yGLgf8ny4Fb5M3mp4Lg5ov7lJyAL2ttzFw3WRTcTZYFd5GFwYvJ0uAW+SCEF21wizwS/4bfS8j64D/JmuAQDr2BO8m64A6yMnghWRu8gKwObpH1wSFM58Evtdespak38BzZC/iH7Af8RfYE/iD7Ar89Vng4loiIiIiIiIiIiIiI8vcK724jkLsWkMIAAAAASUVORK5CYII=" />
+                }
+            }
 
-        <dd>
-            @Html.DisplayFor(model => model.type_of_hire)
-        </dd>
+        </div>
+        <div class="col-md-1">
+            Temporary
+        </div>
+        <div class="col-md-1">
+            @{
+                var a = Model.type_of_hire;
+                if (a == "Temporary")
+                {
+                    <img width="30px" height="25px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPEAAADRCAMAAAAquaQNAAAAbFBMVEX///8AAADw8PDt7e3o6OhqampkZGT19fXy8vLk5OReXl5ZWVnn5+dubm4RERFXV1dxcXF6enre3t7W1tbPz8+ZmZnBwcGwsLB8fHza2tqIiIiOjo7KysqcnJzExMSioqIaGhpKSkoMDAy0tLRltE44AAACPElEQVR4nO3dyXLCMBREUSkkITNknify//+YOcEyTgyWUL1+924pu/oUC5XNghCIiIiIiIiIiIiIiIiI/m6n9oB1N55t156w3sZPMboiv4NdkT/BjsjfYDfkX7AT8vgozrVXe075muD4XHtP8RLwpPae4gFWb2cGWDt/4AhYO8DqbTTB+7X3FA+weoDVcwceARYvAeu/1AKsHmD1ErD+jw+A1QOs3iZg8byDt2rvKR5g9QCrdwBYvAR8WHtP8QCrB1i9Xefgae09xQOsHmD1AKvnHXxce0/xAKsHWL0TwOIBVi8BX9XeUzzA6gFWD7B67sDXgMUDrF4Cvqm9p3iA1XMHPgUsHmD1vINva+8pHmD13IHPAIsHWD3A6gFWzzv4vPaehR1v5LuXCfBWPMr2BxxGwDEb2Qw4F9kQOA/ZFDjG2WDynS3wcLIJ8G1j4zCyCXAIk+bMAedyAr7PtzFz+5nIZsC5yIbAecimwDnIxsDDyebAQ8kPzasfy2zM3N4Asklwizzqf6VR8Opks+BVyYbBq5FNg1chGwcvT76wDg5heymyAHg5sgR4GbIIuD9ZBtyXLATuR5YC9yGLgf8ny4Fb5M3mp4Lg5ov7lJyAL2ttzFw3WRTcTZYFd5GFwYvJ0uAW+SCEF21wizwS/4bfS8j64D/JmuAQDr2BO8m64A6yMnghWRu8gKwObpH1wSFM58Evtdespak38BzZC/iH7Af8RfYE/iD7Ar89Vng4loiIiIiIiIiIiIiI8vcK724jkLsWkMIAAAAASUVORK5CYII=" />
+                }
+            }
+        </div>
+    </div>
+    <div class="row a">
+        <div class="col-md-4" style="background-color: #27ADE3; color: black">
+            3. NEW HIRE (Tick as appropriate)
+        </div>
+        <div class="col-md-1">
+            yes
+        </div>
+        <div class="col-md-1">
+            @{
+                if (Model.new_hire)
+                {
+                    <img width="30px" height="25px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPEAAADRCAMAAAAquaQNAAAAbFBMVEX///8AAADw8PDt7e3o6OhqampkZGT19fXy8vLk5OReXl5ZWVnn5+dubm4RERFXV1dxcXF6enre3t7W1tbPz8+ZmZnBwcGwsLB8fHza2tqIiIiOjo7KysqcnJzExMSioqIaGhpKSkoMDAy0tLRltE44AAACPElEQVR4nO3dyXLCMBREUSkkITNknify//+YOcEyTgyWUL1+924pu/oUC5XNghCIiIiIiIiIiIiIiIiI/m6n9oB1N55t156w3sZPMboiv4NdkT/BjsjfYDfkX7AT8vgozrVXe075muD4XHtP8RLwpPae4gFWb2cGWDt/4AhYO8DqbTTB+7X3FA+weoDVcwceARYvAeu/1AKsHmD1ErD+jw+A1QOs3iZg8byDt2rvKR5g9QCrdwBYvAR8WHtP8QCrB1i9Xefgae09xQOsHmD1AKvnHXxce0/xAKsHWL0TwOIBVi8BX9XeUzzA6gFWD7B67sDXgMUDrF4Cvqm9p3iA1XMHPgUsHmD1vINva+8pHmD13IHPAIsHWD3A6gFWzzv4vPaehR1v5LuXCfBWPMr2BxxGwDEb2Qw4F9kQOA/ZFDjG2WDynS3wcLIJ8G1j4zCyCXAIk+bMAedyAr7PtzFz+5nIZsC5yIbAecimwDnIxsDDyebAQ8kPzasfy2zM3N4Asklwizzqf6VR8Opks+BVyYbBq5FNg1chGwcvT76wDg5heymyAHg5sgR4GbIIuD9ZBtyXLATuR5YC9yGLgf8ny4Fb5M3mp4Lg5ov7lJyAL2ttzFw3WRTcTZYFd5GFwYvJ0uAW+SCEF21wizwS/4bfS8j64D/JmuAQDr2BO8m64A6yMnghWRu8gKwObpH1wSFM58Evtdespak38BzZC/iH7Af8RfYE/iD7Ar89Vng4loiIiIiIiIiIiIiI8vcK724jkLsWkMIAAAAASUVORK5CYII=" />
+                }
+            }
+        </div>
+        <div class="col-md-1">
+            no
+        </div>
+        <div class="col-md-1">
+            @{
+                if (!Model.new_hire)
+                {
+                    <img width="30px" height="25px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPEAAADRCAMAAAAquaQNAAAAbFBMVEX///8AAADw8PDt7e3o6OhqampkZGT19fXy8vLk5OReXl5ZWVnn5+dubm4RERFXV1dxcXF6enre3t7W1tbPz8+ZmZnBwcGwsLB8fHza2tqIiIiOjo7KysqcnJzExMSioqIaGhpKSkoMDAy0tLRltE44AAACPElEQVR4nO3dyXLCMBREUSkkITNknify//+YOcEyTgyWUL1+924pu/oUC5XNghCIiIiIiIiIiIiIiIiI/m6n9oB1N55t156w3sZPMboiv4NdkT/BjsjfYDfkX7AT8vgozrVXe075muD4XHtP8RLwpPae4gFWb2cGWDt/4AhYO8DqbTTB+7X3FA+weoDVcwceARYvAeu/1AKsHmD1ErD+jw+A1QOs3iZg8byDt2rvKR5g9QCrdwBYvAR8WHtP8QCrB1i9Xefgae09xQOsHmD1AKvnHXxce0/xAKsHWL0TwOIBVi8BX9XeUzzA6gFWD7B67sDXgMUDrF4Cvqm9p3iA1XMHPgUsHmD1vINva+8pHmD13IHPAIsHWD3A6gFWzzv4vPaehR1v5LuXCfBWPMr2BxxGwDEb2Qw4F9kQOA/ZFDjG2WDynS3wcLIJ8G1j4zCyCXAIk+bMAedyAr7PtzFz+5nIZsC5yIbAecimwDnIxsDDyebAQ8kPzasfy2zM3N4Asklwizzqf6VR8Opks+BVyYbBq5FNg1chGwcvT76wDg5heymyAHg5sgR4GbIIuD9ZBtyXLATuR5YC9yGLgf8ny4Fb5M3mp4Lg5ov7lJyAL2ttzFw3WRTcTZYFd5GFwYvJ0uAW+SCEF21wizwS/4bfS8j64D/JmuAQDr2BO8m64A6yMnghWRu8gKwObpH1wSFM58Evtdespak38BzZC/iH7Af8RfYE/iD7Ar89Vng4loiIiIiIiIiIiIiI8vcK724jkLsWkMIAAAAASUVORK5CYII=" />
+                }
+            }
+        </div>
+    </div>
+    <div class="row a" style="background-color: #27ADE3; color: black">
+        4. JUSTIFICATION FOR NEW HIRE : (Please specify the justification)
+    </div>
+    <div class="row a">
+        @Model.justification_NH
+    </div>
+    <div class="row a">
+        <div class="col-md-1">Proposed Salary</div>
+        <div class="col-md-3">@Model.proposed_salary</div>
+        <div class="col-md-1">Remarks</div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row a">
+        <div class="col-md-1 " style="background-color: #27ADE3; color: black; font-size: 90%">5. IF REPLACEMENT :</div>
+        <div class="col-md-1">Name</div>
+        <div class="col-md-2">@Model.replacement_name</div>
+        <div class="col-md-1">Gross Salary</div>
+        <div class="col-md-3">@Model.gross_salary</div>
+    </div>
+    <div class="row a" style="background-color: #27ADE3; color: black">
+        6. JOB/PERSONNEL SPECIFICATION
+    </div>
+    <div class="row a">
+        <div class="col-md-4">@Model.J_P_specification</div>
+        <div class="col-md-2">Age range from:</div>
+        <div class="col-md-2">@Model.age_range_from</div>
+    </div>
+    <div class="row a" style="background-color: #27ADE3; color: black">
+        7. EDUCATIONAL QUALIFICATIONS & EXPERIENCE REQUIRED (MINIMUM REQUIREMENT)
+    </div>
+    <div class="row a">
+        @Model.edu_qua_and_ex_required
+    </div>
+    <div class="row a" style="background-color: #27ADE3; color: black">
+        8. ADDITIONAL REQUIREMENTS / JOB RESPONSIBILITIES
+    </div>
+    <div class="row a">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.new_hire)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.new_hire)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.justification_NH)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.justification_NH)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.proposed_salary)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.proposed_salary)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.replacement_name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.replacement_name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.gross_salary)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.gross_salary)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.J_P_specification)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.J_P_specification)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.age_range_from)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.age_range_from)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.edu_qua_and_ex_required)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.edu_qua_and_ex_required)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.add_req_job_resp)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.add_req_job_resp)
-        </dd>
-
-    </dl>
+    </div>
+<div class="row a" style="height: 200px">
+    <div class="col-md-2 c" style="height: 200px">
+        <div class="row" style="height: 125px">
+            REQUESTED BY:
+        </div>
+        <div class="row" style="height: 25px">
+            Name :
+        </div>
+        <div class="row" style="height: 25px">
+            Title:
+        </div>
+        <div class="row" style="height: 25px">
+            Date :
+        </div>
+    </div>
+    <div class="col-md-2 c" style="height: 200px">
+        <div class="row" style="height: 125px">
+            HR DEPARTMENT:
+        </div>
+        <div class="row" style="height: 25px">
+            Name :
+        </div>
+        <div class="row" style="height: 25px">
+            Title:
+        </div>
+        <div class="row" style="height: 25px">
+            Date :
+        </div>
+    </div>
+    <div class="col-md-2 c" style="height: 200px">
+        <div class="row" style="height: 125px">
+            HR DEPARTMENT:
+        </div>
+        <div class="row" style="height: 25px">
+            Name :
+        </div>
+        <div class="row" style="height: 25px">
+            Title:
+        </div>
+        <div class="row" style="height: 25px">
+            Date :
+        </div>
+    </div>
+    <div class="col-md-2 c" style="height: 200px">
+        <div class="row" style="height: 125px">
+            HR DEPARTMENT:
+        </div>
+        <div class="row" style="height: 25px">
+            Name :
+        </div>
+        <div class="row" style="height: 25px">
+            Title:
+        </div>
+        <div class="row" style="height: 25px">
+            Date :
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div class="row a" style="background-color: #27ADE3; color: black">
+    DAS APPROVAL
+</div>
+    <div class="row a" style="height: 200px">
+        <div class="col-md-2 d"style="height: 200px">
+            <div class="row" style="height: 150px">
+                ECOMMENDED BY
+            </div>
+            <div class="row" style="height: 25px">
+                Human Resources Director
+            </div>
+            <div class="row" style="height: 25px">
+                Date :
+            </div>
+        </div>
+        <div class="col-md-2 d"style="height: 200px">
+            <div class="row" style="height: 150px">
+                REVIEWED BY
+            </div>
+            <div class="row" style="height: 25px">
+                Chief Operating Officer
+            </div>
+            <div class="row" style="height: 25px">
+                Date :
+            </div>
+        </div>
+        <div class="col-md-2 d"style="height: 200px">
+            <div class="row" style="height: 150px">
+                APPROVED BY
+            </div>
+            <div class="row" style="height: 25px">
+                Chief Executive Officer
+            </div>
+            <div class="row" style="height: 25px">
+                Date:
+            </div>
+        </div>
+    </div>
+</div>
+    @*<div>
+                <h4>rec_req_form</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.projobtitle)
+                    </dt>
+
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.department)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.department)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.reporting_to)
+                    </dt>
+
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.type_of_hire)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.type_of_hire)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.new_hire)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.new_hire)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.justification_NH)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.justification_NH)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.proposed_salary)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.proposed_salary)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.replacement_name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.replacement_name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.gross_salary)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.gross_salary)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.J_P_specification)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.J_P_specification)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.age_range_from)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.age_range_from)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.edu_qua_and_ex_required)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.edu_qua_and_ex_required)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.add_req_job_resp)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.add_req_job_resp)
+                    </dd>
+
+                </dl>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+        </p>
+
+            </div>*@

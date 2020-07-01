@@ -15,8 +15,8 @@ namespace HRworks.Models
     public partial class labour_card
     {
         public int employee_id { get; set; }
-        public Nullable<int> work_permit_no { get; set; }
-        public Nullable<int> personal_no { get; set; }
+        public Nullable<long> work_permit_no { get; set; }
+        public Nullable<long> personal_no { get; set; }
         public int emp_no { get; set; }
         public string proffession { get; set; }
         public Nullable<System.DateTime> lc_expiry { get; set; }

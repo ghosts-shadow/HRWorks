@@ -21,16 +21,14 @@ namespace HRworks.Controllers
         }
 
         // GET: rec_req_form/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details()
         {
-            if (id == null)
+          
+            var rec_req_form = new rec_req_form();
+            if (db.rec_req_form.Count() != 0)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            rec_req_form rec_req_form = db.rec_req_form.Find(id);
-            if (rec_req_form == null)
-            {
-                return HttpNotFound();
+                var rrflist = db.rec_req_form.ToList();
+                rec_req_form = rrflist.Last();
             }
             return View(rec_req_form);
         }
@@ -52,7 +50,7 @@ namespace HRworks.Controllers
             {
                 db.rec_req_form.Add(rec_req_form);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details");
             }
 
             return View(rec_req_form);
