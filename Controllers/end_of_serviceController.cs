@@ -40,8 +40,9 @@ namespace HRworks.Controllers
         public ActionResult Create()
         {
             LeavesController an = new LeavesController();
-            an.cal_bal();
-            var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
+           // an.cal_bal();
+            
+            var alist = db.master_file.OrderBy(e => e.employee_no).ThenBy(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
             {
@@ -56,7 +57,7 @@ namespace HRworks.Controllers
                 }
             }
 
-            var alistc = db.contracts.OrderBy(e => e.master_file.employee_no).ToList();
+            var alistc = db.contracts.OrderBy(e => e.master_file.employee_no).ThenByDescending(x=>x.date_changed).ToList();
             var afinallistc = new List<contract>();
             foreach (var file in alistc)
             {
@@ -79,31 +80,43 @@ namespace HRworks.Controllers
             ViewBag.joi = new SelectList(
                 afinallist.OrderBy(x => x.employee_no),
                 "employee_id",
-                "joining_date");
+                "date_joined");
+            ViewBag.unp = new SelectList(
+                this.db.leavecals.OrderBy(x => x.Employee_id),
+                "employee_id",
+                "unpaid_leave");
             ViewBag.dept = new SelectList(
                 afinallistc.OrderBy(x => x.master_file.employee_no),
-                "employee_id",
+                "employee_no",
                 "departmant_project");
             ViewBag.pos = new SelectList(
                 afinallistc.OrderBy(x => x.master_file.employee_no),
-                "employee_id",
+                "employee_no",
                 "designation");
             ViewBag.gra = new SelectList(
                 afinallistc.OrderBy(x => x.master_file.employee_no),
-                "employee_id",
+                "employee_no",
                 "grade");
             ViewBag.bac = new SelectList(
                 afinallistc.OrderBy(x => x.master_file.employee_no),
-                "employee_id",
+                "employee_no",
                 "basic");
             ViewBag.hou = new SelectList(
                 afinallistc.OrderBy(x => x.master_file.employee_no),
-                "employee_id",
+                "employee_no",
                 "housing_allowance");
             ViewBag.gro = new SelectList(
                 afinallistc.OrderBy(x => x.master_file.employee_no),
-                "employee_id",
+                "employee_no",
                 "salary_details");
+            ViewBag.status = new SelectList(
+                new List<SelectListItem>
+                    {
+                        new SelectListItem { Selected = false, Text = "resign", Value = 1.ToString() },
+                        new SelectListItem { Selected = false, Text = "terminate", Value = 2.ToString() },
+                    },
+                "Value",
+                "Text");
             return View();
         }
 
@@ -121,7 +134,7 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
 
-            var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
+            var alist = db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
             {
@@ -136,7 +149,8 @@ namespace HRworks.Controllers
                 }
             }
 
-            var alistc = db.contracts.OrderBy(e => e.master_file.employee_no).ToList();
+            var alistc = db.contracts.OrderBy(e => e.master_file.employee_no).ThenByDescending(x => x.date_changed)
+                .ToList();
             var afinallistc = new List<contract>();
             foreach (var file in alistc)
             {
@@ -151,6 +165,21 @@ namespace HRworks.Controllers
                 }
             }
 
+            ViewBag.status = new SelectList(
+                new List<SelectListItem>
+                    {
+                        new SelectListItem { Selected = true, Text = string.Empty, Value = "-1" },
+                        new SelectListItem
+                            {
+                                Selected = false, Text = "resign", Value = 1.ToString()
+                            },
+                        new SelectListItem
+                            {
+                                Selected = false, Text = "terminate", Value = 2.ToString()
+                            },
+                    },
+                "Value",
+                "Text");
             ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
             ViewBag.Employee_name = new SelectList(
                 afinallist.OrderBy(x => x.employee_no),

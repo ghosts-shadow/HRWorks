@@ -7,55 +7,164 @@
 
 <h2>Create</h2>
 
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>end_of_service</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Employee_id, "Employee_id", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.last_working_day, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.last_working_day, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.last_working_day, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.status, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css"
+      rel="stylesheet">
+<link rel="stylesheet"
+      href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+      href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/Scripts/EOSB.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+@{
+    <script>
+        $(function () {
+            $("#datepicker").datepicker();
+            $("#empnow").chosen({ no_results_text: "Oops, nothing found!" });
+        });
+    </script>
 }
 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal" onclick="hi()">
+    <h4>end_of_service</h4>
+    <hr />
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>name</th>
+                    <th>position</th>
+                    <th>grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "empnow", @onchange = "hi(this.id)" })
+                        @Html.DropDownList("a", new List<SelectListItem>(ViewBag.Employee_name), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "name" })
+                        @Html.DropDownList("a", new List<SelectListItem>(ViewBag.joi), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "joi" })
+                        @Html.DropDownList("a", new List<SelectListItem>(ViewBag.unp), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "unp" })
+                        @Html.DropDownList("a", new List<SelectListItem>(ViewBag.dept), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "dept" })
+                        @Html.DropDownList("a", new List<SelectListItem>(ViewBag.pos), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "pos" })
+                        @Html.DropDownList("a", new List<SelectListItem>(ViewBag.gra), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "gra" })
+                        @Html.DropDownList("a", new List<SelectListItem>(ViewBag.bac), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "bac" })
+                        @Html.DropDownList("a", new List<SelectListItem>(ViewBag.hou), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "hou" })
+                        @Html.DropDownList("a", new List<SelectListItem>(ViewBag.gro), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "gro" })
+                        @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        <label id="nameval" class="form-control"></label>
+                    </td>
+                    <td>
+                        <label id="posval" class="form-control"></label>
+                    </td>
+                    <td>
+                        <label id="graval" class="form-control"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Joining Date</td>
+                    <td>
+                        <label id="joival" class="form-control"></label>
+                    </td>
+                    <td>Reason</td>
+                    <td>
+                        @Html.LabelFor(model => model.status, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.DropDownList("status", new List<SelectListItem>(ViewBag.status), htmlAttributes: new { @class = "form-control", @id = "status" })
+                        @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>Last Working Date</td>
+                    <td>
+                        @Html.EditorFor(model => model.last_working_day, new { htmlAttributes = new { @class = "form-control", id = "datepicker" } })
+                        @Html.ValidationMessageFor(model => model.last_working_day, "", new { @class = "text-danger" })
+                    </td>
+                    <td>Contract</td>
+                    <td>L/Unlimited</td>
+                </tr>
+                <tr>
+                    <td>Total working Days</td>
+                    <td>
+                        <label id="ldval3" class="form-control"></label>
+                    </td>
+                    <td>Basic Salary</td>
+                    <td>
+                        <label id="bacval" class="form-control"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Total Unpaid Days</td>
+                    <td>
+                        <label id="unpval" class="form-control"></label>
+                    </td>
+                    <td>Other</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Net Working Days</td>
+                    <td>
+                        <label id="ldval2" class="form-control"></label>
+                    </td>
+                    <td>Gross Salary</td>
+                    <td>
+                        <label id="groval" class="form-control"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Due EOS (Days)</td>
+                    <td>
+                        <label id="eostotal" class="form-control"></label>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Basic Salary(AED/Day)</td>
+                    <td>
+                        <label id="bacvalpd" class="form-control"></label>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Due EOS (AED)</td>
+                    <td>
+                        <label id="eostotalv" class="form-control"></label>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    <div class="row">
+        <br />
+        <div class="col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+
+}
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>

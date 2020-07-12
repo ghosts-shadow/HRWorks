@@ -184,7 +184,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Employee_id" Type="int" Nullable="false" />
           <Property Name="last_working_day" Type="date" />
           <Property Name="status" Type="nvarchar(max)" />
@@ -774,7 +774,7 @@
             <PropertyRef Name="emp_no" />
           </Dependent>
         </ReferentialConstraint>
-      </Association>
+      </Association>        
         <Association Name="FK_DHO1_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="DUTY_HANDOVER" Type="Self.DUTY_HANDOVER" Multiplicity="*" />

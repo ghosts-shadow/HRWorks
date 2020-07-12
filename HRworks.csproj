@@ -435,6 +435,7 @@
     <Content Include="Scripts\chosen\chosen.jquery.min.js" />
     <Content Include="Scripts\chosen\chosen.proto.js" />
     <Content Include="Scripts\chosen\chosen.proto.min.js" />
+    <Content Include="Scripts\EOSB.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
