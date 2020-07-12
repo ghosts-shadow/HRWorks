@@ -187,6 +187,7 @@
     <Compile Include="Controllers\contractsController.cs" />
     <Compile Include="Controllers\DUTY_HANDOVERController.cs" />
     <Compile Include="Controllers\emirates_idController.cs" />
+    <Compile Include="Controllers\emp_joi_sta_changeController.cs" />
     <Compile Include="Controllers\end_of_serviceController.cs" />
     <Compile Include="Controllers\EXIT_INTERVIEWController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -641,6 +642,11 @@
     <Content Include="Views\end_of_service\Details.cshtml" />
     <Content Include="Views\end_of_service\Edit.cshtml" />
     <Content Include="Views\end_of_service\Index.cshtml" />
+    <Content Include="Views\emp_joi_sta_change\Create.cshtml" />
+    <Content Include="Views\emp_joi_sta_change\Delete.cshtml" />
+    <Content Include="Views\emp_joi_sta_change\Details.cshtml" />
+    <Content Include="Views\emp_joi_sta_change\Edit.cshtml" />
+    <Content Include="Views\emp_joi_sta_change\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

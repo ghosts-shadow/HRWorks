@@ -11,26 +11,60 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class emp_joi_sta_change
     {
         public int Id { get; set; }
+
+        [Display(Name = "Employee ID")]
         public Nullable<int> Employee_id { get; set; }
+
+        [Display(Name = "action active")]
         public string action_active { get; set; }
+
+        [Display(Name = "New Title")]
         public string New_Title { get; set; }
+
+        [Display(Name = "Action Taken")]
         public string Action_Taken { get; set; }
+
+        [Display(Name = "")]
         public string Action_Taken2 { get; set; }
+
+        [Display(Name = "Basic Salary")]
         public Nullable<long> Basic_Salary { get; set; }
+
+        [Display(Name = "House Rent Allowance")]
         public Nullable<long> House_Rent_Allowance { get; set; }
+
+        [Display(Name = "Telephone Allowance")]
         public Nullable<long> Telephone_Allowance { get; set; }
+
+        [Display(Name = "Living Allowance")]
         public Nullable<long> Living_Allowance { get; set; }
+
+        [Display(Name = "Transportation Allowance")]
         public Nullable<long> Transportation_Allowance { get; set; }
+
+        [Display(Name = "Other Allowances")]
         public Nullable<long> Other_Allowances { get; set; }
+
+        [Display(Name = "Total Salary")]
         public Nullable<long> Total_Salary { get; set; }
+
+        [Display(Name = "Medical Insurance Policy")]
         public string Medical_Insurance_Policy { get; set; }
+
+        [Display(Name = "Annual Leave")]
         public string Annual_Leave { get; set; }
+
+        [Display(Name = "Bank Name Branch")]
         public string Bank_Name_Branch { get; set; }
+
+        [Display(Name = "Bank Account No")]
         public string Bank_Account_No { get; set; }
+
         public string Remarks { get; set; }
     
         public virtual master_file master_file { get; set; }

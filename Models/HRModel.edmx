@@ -1549,13 +1549,13 @@ warning 6002: The table/view 'HR.dbo.emp_joi_sta_change' does not have a primary
           </Key>
           <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="employee_no" Type="Int32" Nullable="false" />
-          <Property Name="company_code" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="company_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="passport_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="passport_expiry" Type="DateTime" Precision="0" />
           <Property Name="passport_issue_date" Type="DateTime" Precision="0" />
           <Property Name="passport_return_date" Type="DateTime" Precision="0" />
-          <Property Name="passport_remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="passport_remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_changed" Type="DateTime" Precision="3" />
