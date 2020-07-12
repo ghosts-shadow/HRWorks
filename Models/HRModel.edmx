@@ -180,6 +180,31 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HR.dbo.emp_joi_sta_change' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="emp_joi_sta_change">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="action_active" Type="nvarchar(max)" />
+          <Property Name="New_Title" Type="nvarchar(max)" />
+          <Property Name="Action_Taken" Type="nvarchar(max)" />
+          <Property Name="Action_Taken2" Type="nvarchar(max)" />
+          <Property Name="Basic_Salary" Type="bigint" />
+          <Property Name="House_Rent_Allowance" Type="bigint" />
+          <Property Name="Telephone_Allowance" Type="bigint" />
+          <Property Name="Living_Allowance" Type="bigint" />
+          <Property Name="Transportation_Allowance" Type="bigint" />
+          <Property Name="Other_Allowances" Type="bigint" />
+          <Property Name="Total_Salary" Type="bigint" />
+          <Property Name="Medical_Insurance_Policy" Type="nvarchar(max)" />
+          <Property Name="Annual_Leave" Type="nvarchar(max)" />
+          <Property Name="Bank_Name_Branch" Type="nvarchar(max)" />
+          <Property Name="Bank_Account_No" Type="nvarchar(max)" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="end_of_service">
           <Key>
             <PropertyRef Name="Id" />
@@ -774,7 +799,7 @@
             <PropertyRef Name="emp_no" />
           </Dependent>
         </ReferentialConstraint>
-      </Association>        
+      </Association>   
         <Association Name="FK_DHO1_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="DUTY_HANDOVER" Type="Self.DUTY_HANDOVER" Multiplicity="*" />
@@ -796,6 +821,18 @@
             </Principal>
             <Dependent Role="DUTY_HANDOVER">
               <PropertyRef Name="Employee_NO2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ejsc_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="emp_joi_sta_change" Type="Self.emp_joi_sta_change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="emp_joi_sta_change">
+              <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1085,6 +1122,28 @@
           <EntitySet Name="usernames" EntityType="Self.usernames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa" EntityType="Self.visa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="emp_joi_sta_change" EntityType="Self.emp_joi_sta_change" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [emp_joi_sta_change].[Id] AS [Id], 
+    [emp_joi_sta_change].[Employee_id] AS [Employee_id], 
+    [emp_joi_sta_change].[action_active] AS [action_active], 
+    [emp_joi_sta_change].[New_Title] AS [New_Title], 
+    [emp_joi_sta_change].[Action_Taken] AS [Action_Taken], 
+    [emp_joi_sta_change].[Action_Taken2] AS [Action_Taken2], 
+    [emp_joi_sta_change].[Basic_Salary] AS [Basic_Salary], 
+    [emp_joi_sta_change].[House_Rent_Allowance] AS [House_Rent_Allowance], 
+    [emp_joi_sta_change].[Telephone_Allowance] AS [Telephone_Allowance], 
+    [emp_joi_sta_change].[Living_Allowance] AS [Living_Allowance], 
+    [emp_joi_sta_change].[Transportation_Allowance] AS [Transportation_Allowance], 
+    [emp_joi_sta_change].[Other_Allowances] AS [Other_Allowances], 
+    [emp_joi_sta_change].[Total_Salary] AS [Total_Salary], 
+    [emp_joi_sta_change].[Medical_Insurance_Policy] AS [Medical_Insurance_Policy], 
+    [emp_joi_sta_change].[Annual_Leave] AS [Annual_Leave], 
+    [emp_joi_sta_change].[Bank_Name_Branch] AS [Bank_Name_Branch], 
+    [emp_joi_sta_change].[Bank_Account_No] AS [Bank_Account_No], 
+    [emp_joi_sta_change].[Remarks] AS [Remarks]
+    FROM [dbo].[emp_joi_sta_change] AS [emp_joi_sta_change]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_bank_To_master_file" Association="Self.FK_bank_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="bank_details" EntitySet="bank_details" />
@@ -1136,6 +1195,10 @@
           <AssociationSet Name="FK_DHO2_To_master_file" Association="Self.FK_DHO2_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="DUTY_HANDOVER" EntitySet="DUTY_HANDOVER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ejsc_To_master_file" Association="Self.FK_ejsc_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="emp_joi_sta_change" EntitySet="emp_joi_sta_change" />
           </AssociationSet>
           <AssociationSet Name="FK_EOS_To_master_file" Association="Self.FK_EOS_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -1478,6 +1541,7 @@
           <NavigationProperty Name="Training_Evaluation" Relationship="HRModel.FK_TEva_To_master_file" FromRole="master_file" ToRole="Training_Evaluation" />
           <NavigationProperty Name="Training_Request" Relationship="HRModel.FK_TR_To_master_file" FromRole="master_file" ToRole="Training_Request" />
           <NavigationProperty Name="end_of_service" Relationship="HRModel.FK_EOS_To_master_file" FromRole="master_file" ToRole="end_of_service" />
+          <NavigationProperty Name="emp_joi_sta_change" Relationship="HRModel.FK_ejsc_To_master_file" FromRole="master_file" ToRole="emp_joi_sta_change" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -1894,6 +1958,11 @@
           <AssociationSet Name="FK_EOS_To_master_file" Association="HRModel.FK_EOS_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="end_of_service" EntitySet="end_of_service" />
+          </AssociationSet>
+          <EntitySet Name="emp_joi_sta_change" EntityType="HRModel.emp_joi_sta_change" />
+          <AssociationSet Name="FK_ejsc_To_master_file" Association="HRModel.FK_ejsc_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="emp_joi_sta_change" EntitySet="emp_joi_sta_change" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
@@ -2456,6 +2525,42 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="end_of_service">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="emp_joi_sta_change">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="action_active" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="New_Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Action_Taken" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Action_Taken2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Basic_Salary" Type="Int64" />
+          <Property Name="House_Rent_Allowance" Type="Int64" />
+          <Property Name="Telephone_Allowance" Type="Int64" />
+          <Property Name="Living_Allowance" Type="Int64" />
+          <Property Name="Transportation_Allowance" Type="Int64" />
+          <Property Name="Other_Allowances" Type="Int64" />
+          <Property Name="Total_Salary" Type="Int64" />
+          <Property Name="Medical_Insurance_Policy" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Annual_Leave" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Bank_Name_Branch" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Bank_Account_No" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_ejsc_To_master_file" FromRole="emp_joi_sta_change" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_ejsc_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.emp_joi_sta_change" Role="emp_joi_sta_change" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="emp_joi_sta_change">
               <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -3127,6 +3232,30 @@
               <MappingFragment StoreEntitySet="end_of_service">
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="last_working_day" ColumnName="last_working_day" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="emp_joi_sta_change">
+            <EntityTypeMapping TypeName="HRModel.emp_joi_sta_change">
+              <MappingFragment StoreEntitySet="emp_joi_sta_change">
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Bank_Account_No" ColumnName="Bank_Account_No" />
+                <ScalarProperty Name="Bank_Name_Branch" ColumnName="Bank_Name_Branch" />
+                <ScalarProperty Name="Annual_Leave" ColumnName="Annual_Leave" />
+                <ScalarProperty Name="Medical_Insurance_Policy" ColumnName="Medical_Insurance_Policy" />
+                <ScalarProperty Name="Total_Salary" ColumnName="Total_Salary" />
+                <ScalarProperty Name="Other_Allowances" ColumnName="Other_Allowances" />
+                <ScalarProperty Name="Transportation_Allowance" ColumnName="Transportation_Allowance" />
+                <ScalarProperty Name="Living_Allowance" ColumnName="Living_Allowance" />
+                <ScalarProperty Name="Telephone_Allowance" ColumnName="Telephone_Allowance" />
+                <ScalarProperty Name="House_Rent_Allowance" ColumnName="House_Rent_Allowance" />
+                <ScalarProperty Name="Basic_Salary" ColumnName="Basic_Salary" />
+                <ScalarProperty Name="Action_Taken2" ColumnName="Action_Taken2" />
+                <ScalarProperty Name="Action_Taken" ColumnName="Action_Taken" />
+                <ScalarProperty Name="New_Title" ColumnName="New_Title" />
+                <ScalarProperty Name="action_active" ColumnName="action_active" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

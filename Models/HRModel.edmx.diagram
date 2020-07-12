@@ -81,6 +81,8 @@
         <AssociationConnector Association="HRModel.FK_ot_list_To_OT" />
         <EntityTypeShape EntityType="HRModel.end_of_service" Width="1.5" PointX="2.75" PointY="79.875" />
         <AssociationConnector Association="HRModel.FK_EOS_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.emp_joi_sta_change" Width="1.5" PointX="3" PointY="82.625" />
+        <AssociationConnector Association="HRModel.FK_ejsc_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

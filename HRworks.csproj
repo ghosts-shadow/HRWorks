@@ -253,6 +253,9 @@
     <Compile Include="Models\emirates_id.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\emp_joi_sta_change.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\end_of_service.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>

@@ -44,6 +44,7 @@ namespace HRworks.Models
             this.Training_Evaluation = new HashSet<Training_Evaluation>();
             this.Training_Request = new HashSet<Training_Request>();
             this.end_of_service = new HashSet<end_of_service>();
+            this.emp_joi_sta_change = new HashSet<emp_joi_sta_change>();
         }
     
         public int employee_id { get; set; }
@@ -136,5 +137,7 @@ namespace HRworks.Models
         public virtual ICollection<Training_Request> Training_Request { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<end_of_service> end_of_service { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<emp_joi_sta_change> emp_joi_sta_change { get; set; }
     }
 }
