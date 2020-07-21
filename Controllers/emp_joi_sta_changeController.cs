@@ -39,7 +39,19 @@ namespace HRworks.Controllers
         // GET: emp_joi_sta_change/Create
         public ActionResult Create()
         {
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name");
+            var empjsc=new List<emp_joi_sta_change>();
+            empjsc = this.db.emp_joi_sta_change.ToList();
+            ViewBag.Basic_Salarya = new SelectList(empjsc, "Employee_id", "Basic_Salary");
+            ViewBag.New_Title = new SelectList(empjsc, "Employee_id", "New_Title");
+            ViewBag.House_Rent_Allowancea = new SelectList(empjsc, "Employee_id", "House_Rent_Allowance");
+            ViewBag.Telephone_Allowancea = new SelectList(empjsc, "Employee_id", "Telephone_Allowance");
+            ViewBag.Living_Allowancea = new SelectList(empjsc, "Employee_id", "Living_Allowance");
+            ViewBag.Transportation_Allowancea = new SelectList(empjsc, "Employee_id", "Transportation_Allowance");
+            ViewBag.Other_Allowancesa = new SelectList(empjsc, "Employee_id", "Other_Allowances");
+            ViewBag.Total_Salarya = new SelectList(empjsc, "Employee_id", "Total_Salary");
+            ViewBag.Employee_name = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_no");
+            ViewBag.Employee_date = new SelectList(db.master_file, "employee_id", "date_joined");
             return View();
         }
 
@@ -48,16 +60,18 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Employee_id,action_active,New_Title,Action_Taken,Action_Taken2,Basic_Salary,House_Rent_Allowance,Telephone_Allowance,Living_Allowance,Transportation_Allowance,Other_Allowances,Total_Salary,Medical_Insurance_Policy,Annual_Leave,Bank_Name_Branch,Bank_Account_No,Remarks")] emp_joi_sta_change emp_joi_sta_change)
+        public ActionResult Create([Bind(Include = "Employee_id,action_active,New_Title,Action_Taken,Action_Taken2,Basic_Salary,House_Rent_Allowance,Telephone_Allowance,Living_Allowance,Transportation_Allowance,Other_Allowances,Total_Salary,Medical_Insurance_Policy,Annual_Leave,Bank_Name_Branch,Bank_Account_No,Remarks,Action_as_of")] emp_joi_sta_change emp_joi_sta_change)
         {
             if (ModelState.IsValid)
             {
                 db.emp_joi_sta_change.Add(emp_joi_sta_change);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("HR_Forms","HR_forms");
             }
 
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name", emp_joi_sta_change.Employee_id);
+            ViewBag.Employee_date = new SelectList(db.master_file, "employee_id", "date_joined", emp_joi_sta_change.Employee_id);
+            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_no", emp_joi_sta_change.Employee_id);
+            ViewBag.Employee_name = new SelectList(db.master_file, "employee_id", "employee_name", emp_joi_sta_change.Employee_id);
             return View(emp_joi_sta_change);
         }
 
@@ -82,7 +96,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Employee_id,action_active,New_Title,Action_Taken,Action_Taken2,Basic_Salary,House_Rent_Allowance,Telephone_Allowance,Living_Allowance,Transportation_Allowance,Other_Allowances,Total_Salary,Medical_Insurance_Policy,Annual_Leave,Bank_Name_Branch,Bank_Account_No,Remarks")] emp_joi_sta_change emp_joi_sta_change)
+        public ActionResult Edit([Bind(Include = "Id,Employee_id,action_active,New_Title,Action_Taken,Action_Taken2,Basic_Salary,House_Rent_Allowance,Telephone_Allowance,Living_Allowance,Transportation_Allowance,Other_Allowances,Total_Salary,Medical_Insurance_Policy,Annual_Leave,Bank_Name_Branch,Bank_Account_No,Remarks,Action_as_of")] emp_joi_sta_change emp_joi_sta_change)
         {
             if (ModelState.IsValid)
             {

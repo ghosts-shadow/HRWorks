@@ -5,180 +5,741 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+
     
-    <div class="form-horizontal">
-        <h4>JOB_INTERVIEW_EVALUATION</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.interviewee_name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.interviewee_name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.interviewee_name, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>JOB INTERVIEW EVALUATION FORM</title>
+        <style type="text/css">
+            * {
+                margin: 0;
+                padding: 0;
+                text-indent: 0;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.interview_date, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.interview_date, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.interview_date, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            h1 {
+                color: black;
+                font-family: Arial, sans-serif;
+                font-size: 12pt;
+                font-style: normal;
+                font-weight: bold;
+                text-decoration: none;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.job_applied_for, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.job_applied_for, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.job_applied_for, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            .s1 {
+                color: black;
+                font-family: Arial, sans-serif;
+                font-size: 11pt;
+                font-style: normal;
+                font-weight: bold;
+                text-decoration: none;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.department, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.department, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.department, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            h2 {
+                color: black;
+                font-family: Arial, sans-serif;
+                font-size: 11pt;
+                font-style: normal;
+                font-weight: bold;
+                text-decoration: none;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.education, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.education, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.education, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            .s2 {
+                color: black;
+                font-family: Arial, sans-serif;
+                font-size: 10pt;
+                font-style: normal;
+                font-weight: bold;
+                text-decoration: none;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.experience, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.experience, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.experience, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            .s3 {
+                color: black;
+                font-family: Arial, sans-serif;
+                font-size: 10pt;
+                font-style: normal;
+                font-weight: normal;
+                text-decoration: none;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.job_knoledge, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.job_knoledge, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.job_knoledge, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            .s5 {
+                color: black;
+                font-family: "Times New Roman", serif;
+                font-size: 10pt;
+                font-style: normal;
+                font-weight: normal;
+                text-decoration: none;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.conceptual_clarity, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.conceptual_clarity, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.conceptual_clarity, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            h3 {
+                color: black;
+                font-family: Arial, sans-serif;
+                font-size: 10pt;
+                font-style: normal;
+                font-weight: bold;
+                text-decoration: underline;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.appearance, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.appearance, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.appearance, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            .s6 {
+                color: black;
+                font-family: Arial, sans-serif;
+                font-size: 12pt;
+                font-style: normal;
+                font-weight: bold;
+                text-decoration: underline;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.communication, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.communication, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.communication, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            p {
+                color: black;
+                font-family: Arial, sans-serif;
+                font-size: 11pt;
+                font-style: normal;
+                font-weight: normal;
+                margin: 0pt;
+                text-decoration: none;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.confidence_level, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.confidence_level, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.confidence_level, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            .s7 {
+                color: black;
+                font-family: "Times New Roman", serif;
+                font-size: 11pt;
+                font-style: normal;
+                font-weight: normal;
+                text-decoration: none;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.attitude, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.attitude, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.attitude, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            h4 {
+                color: black;
+                font-family: Arial, sans-serif;
+                font-size: 8pt;
+                font-style: normal;
+                font-weight: bold;
+                text-decoration: none;
+            }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.current_salary, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.current_salary, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.current_salary, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            table, tbody {
+                overflow: visible;
+                vertical-align: top;
+            }
+        </style>
+        <script>
+            function ed(id) {
+                if (id == "ed_ir3") {
+                    $("#ed_ir").show(500);
+                    $("#ed_pa").hide(500);
+                    $("#ed_re").hide(500);
+                }
+                else if (id == "ed_pa3") {
+                    $("#ed_ir").hide(500);
+                    $("#ed_pa").show(500);
+                    $("#ed_re").hide(500);
+                }
+                else if (id == "ed_re3") {
+                    $("#ed_ir").hide(500);
+                    $("#ed_re").show(500);
+                    $("#ed_pa").hide(500);
+                } else {
+                    $("#ed_ir").hide(500);
+                    $("#ed_re").hide(500);
+                    $("#ed_pa").hide(500);
+                    
+                }
+            }
+            function ex(id) {
+                if (id == "ex_ir3") {
+                    $("#ex_ir").show(500);
+                    $("#ex_pa").hide(500);
+                    $("#ex_re").hide(500);
+                }
+                else if (id == "ex_pa3") {
+                    $("#ex_ir").hide(500);
+                    $("#ex_pa").show(500);
+                    $("#ex_re").hide(500);
+                }
+                else if (id == "ex_re3") {
+                    $("#ex_ir").hide(500);
+                    $("#ex_re").show(500);
+                    $("#ex_pa").hide(500);
+                } else {
+                    $("#ex_ir").hide(500);
+                    $("#ex_re").hide(500);
+                    $("#ex_pa").hide(500);
+                    
+                }
+            }
+            function jk(id) {
+                if (id == "jk_fa3") {
+                    $("#jk_fa").show(500);
+                    $("#jk_gd").hide(500);
+                    $("#jk_ex").hide(500);
+                }
+                else if (id == "jk_gd3") {
+                    $("#jk_fa").hide(500);
+                    $("#jk_gd").show(500);
+                    $("#jk_ex").hide(500);
+                }
+                else if (id == "jk_ex3") {
+                    $("#jk_fa").hide(500);
+                    $("#jk_gd").hide(500);
+                    $("#jk_ex").show(500);
+                } else {
+                    $("#jk_fa").hide(500);
+                    $("#jk_gd").hide(500);
+                    $("#jk_ex").hide(500);
+                    
+                }
+            }
+            function cc(id) {
+                if (id == "cc_fa3") {
+                    $("#cc_fa").show(500);
+                    $("#cc_gd").hide(500);
+                    $("#cc_ex").hide(500);
+                }
+                else if (id == "cc_gd3") {
+                    $("#cc_fa").hide(500);
+                    $("#cc_gd").show(500);
+                    $("#cc_ex").hide(500);
+                }
+                else if (id == "cc_ex3") {
+                    $("#cc_fa").hide(500);
+                    $("#cc_gd").hide(500);
+                    $("#cc_ex").show(500);
+                } else {
+                    $("#cc_fa").hide(500);
+                    $("#cc_gd").hide(500);
+                    $("#cc_ex").hide(500);
+                    
+                }
+            }
+            function ap(id) {
+                if (id == "ap_fa3") {
+                    $("#ap_fa").show(500);
+                    $("#ap_gd").hide(500);
+                    $("#ap_ex").hide(500);
+                }
+                else if (id == "ap_gd3") {
+                    $("#ap_fa").hide(500);
+                    $("#ap_gd").show(500);
+                    $("#ap_ex").hide(500);
+                }
+                else if (id == "ap_ex3") {
+                    $("#ap_fa").hide(500);
+                    $("#ap_gd").hide(500);
+                    $("#ap_ex").show(500);
+                } else {
+                    $("#ap_fa").hide(500);
+                    $("#ap_gd").hide(500);
+                    $("#ap_ex").hide(500);
+                    
+                }
+            }
+            function co(id) {
+                if (id == "co_fa3") {
+                    $("#co_fa").show(500);
+                    $("#co_gd").hide(500);
+                    $("#co_ex").hide(500);
+                }
+                else if (id == "co_gd3") {
+                    $("#co_fa").hide(500);
+                    $("#co_gd").show(500);
+                    $("#co_ex").hide(500);
+                }
+                else if (id == "co_ex3") {
+                    $("#co_fa").hide(500);
+                    $("#co_gd").hide(500);
+                    $("#co_ex").show(500);
+                } else {
+                    $("#co_fa").hide(500);
+                    $("#co_gd").hide(500);
+                    $("#co_ex").hide(500);
+                    
+                }
+            }
+            function cn(id) {
+                if (id == "cn_fa3") {
+                    $("#cn_fa").show(500);
+                    $("#cn_gd").hide(500);
+                    $("#cn_ex").hide(500);
+                }
+                else if (id == "cn_gd3") {
+                    $("#cn_fa").hide(500);
+                    $("#cn_gd").show(500);
+                    $("#cn_ex").hide(500);
+                }
+                else if (id == "cn_ex3") {
+                    $("#cn_fa").hide(500);
+                    $("#cn_gd").hide(500);
+                    $("#cn_ex").show(500);
+                } else {
+                    $("#cn_fa").hide(500);
+                    $("#cn_gd").hide(500);
+                    $("#cn_ex").hide(500);
+                    
+                }
+            }
+            function at(id) {
+                if (id == "at_fa3") {
+                    $("#at_fa").show(500);
+                    $("#at_gd").hide(500);
+                    $("#at_ex").hide(500);
+                }
+                else if (id == "at_gd3") {
+                    $("#at_fa").hide(500);
+                    $("#at_gd").show(500);
+                    $("#at_ex").hide(500);
+                }
+                else if (id == "at_ex3") {
+                    $("#at_fa").hide(500);
+                    $("#at_gd").hide(500);
+                    $("#at_ex").show(500);
+                } else {
+                    $("#at_fa").hide(500);
+                    $("#at_gd").hide(500);
+                    $("#at_ex").hide(500);
+                    
+                }
+            }
+        </script>
+    </head>
+    <body>
+    <p style="padding-left: 193pt; text-align: left; text-indent: 0pt;">
+        <span>
+            <img width="148" height="58" alt="image" src="/img/Image_001.png"/>
+        </span>
+    </p>
+    <p style="text-align: left; text-indent: 0pt;">
+        <br/>
+    </p>
+    <h1 style="padding-left: 138pt; padding-top: 4pt; text-align: center; text-indent: 0pt;">JOB INTERVIEW EVALUATION FORM</h1>
+    <p style="text-align: left; text-indent: 0pt;">
+        <br/>
+    </p>
+    <p style="text-align: left; text-indent: 0pt;">
+        <br/>
+    </p>
+    <table style="border-collapse: collapse; margin-left: 7.994pt" cellspacing="0">
+        <tr style="height: 19pt">
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 101pt;" bgcolor="#00AFEF">
+                <p class="s1" style="padding-left: 5pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Interviewee Name:</p>
+            </td>
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 176pt;">
+                <p style="text-align: left; text-indent: 0pt;">
+                    @Html.EditorFor(model => model.interviewee_name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.interviewee_name, string.Empty, new { @class = "text-danger" })
+                </p>
+            </td>
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 94pt;" bgcolor="#00AFEF">
+                <p class="s1" style="padding-left: 5pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Interview Date:</p>
+            </td>
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 111pt;">
+                <p style="text-align: left; text-indent: 0pt;">
+                    @Html.EditorFor(model => model.interview_date, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.interview_date, string.Empty, new { @class = "text-danger" })
+                </p>
+            </td>
+        </tr>
+        <tr style="height: 18pt">
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 101pt;" bgcolor="#00AFEF">
+                <p class="s1" style="padding-left: 5pt; padding-top: 3pt; text-align: left; text-indent: 0pt;">Job Applied For:</p>
+            </td>
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 176pt;">
+                <p style="text-align: left; text-indent: 0pt;">
+                    @Html.EditorFor(model => model.job_applied_for, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.job_applied_for, string.Empty, new { @class = "text-danger" })
+                </p>
+            </td>
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 94pt;" bgcolor="#00AFEF">
+                <p class="s1" style="padding-left: 5pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Department:</p>
+            </td>
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 111pt;">
+                <p style="text-align: left; text-indent: 0pt;">
+                    @Html.EditorFor(model => model.department, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.department, string.Empty, new { @class = "text-danger" })
+                </p>
+            </td>
+        </tr>
+    </table>
+    <h2 style="padding-left: 138pt; padding-top: 11pt; text-align: center; text-indent: 0pt;">CRITICAL ATTRIBUTES RATING SCALE</h2>
+    <p style="text-align: left; text-indent: 0pt;">
+        <br/>
+    </p>
+    <table style="border-collapse: collapse; margin-left: 8.354pt" cellspacing="0">
+    <tr style="height: 14pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 482pt;" colspan="7" bgcolor="#00AFEF">
+            <p class="s2" style="padding-left: 131pt; padding-right: 133pt; padding-top: 1pt; text-align: center; text-indent: 0pt;">ACADEMIC &amp; EXPERIENCE REQUIREMENTS</p>
+        </td>
+    </tr>
+    <tr style="height: 16pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 153pt;">
+            <p class="s2" style="padding-left: 4pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Education</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="ed(id)" id="ed_ir3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="ed_ir"/>
+                <br id="ed_ir1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Irrelevant</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="ed(id)" id="ed_pa3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="ed_pa"/>
+                <br id="ed_pa2"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Partial</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="ed(id)" id="ed_re3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="ed_re"/>
+                <br id="ed_re1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 95pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Relevant</p>
+        </td>
+    </tr>
+    <tr style="height: 16pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 153pt;">
+            <p class="s2" style="padding-left: 4pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Experience</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="ex(id)" id="ex_ir3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="ex_ir"/>
+                <br id="ex_ir1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Irrelevant</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="ex(id)" id="ex_pa3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="ex_pa"/>
+                <br id="ex_pa1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Partial</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="ex(id)" id="ex_re3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="ex_re"/>
+                <br id="ex_re1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 95pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Relevant</p>
+        </td>
+    </tr>
+    <tr style="height: 14pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 482pt;" colspan="7" bgcolor="#00AFEF">
+            <p class="s2" style="padding-left: 131pt; padding-right: 129pt; padding-top: 1pt; text-align: center; text-indent: 0pt;">JOB KNOWLEDGE</p>
+        </td>
+    </tr>
+    <tr style="height: 16pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 153pt;">
+            <p class="s2" style="padding-left: 4pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Job Knowledge</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="jk(id)" id="jk_fa3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="jk_fa"/>
+                <br id="jk_fa1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 3pt; text-align: left; text-indent: 0pt;">Fair</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="jk(id)" id="jk_gd3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="jk_gd"/>
+                <br id="jk_gd1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 3pt; text-align: left; text-indent: 0pt;">Good</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="jk(id)" id="jk_ex3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="jk_ex"/>
+                <br id="jk_ex1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 95pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 3pt; text-align: left; text-indent: 0pt;">Excellent</p>
+        </td>
+    </tr>
+    <tr style="height: 16pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 153pt;">
+            <p class="s2" style="padding-left: 4pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Conceptual Clarity</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="cc(id)" id="cc_fa3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="cc_fa"/>
+                <br id="cc_fa1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Fair</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="cc(id)" id="cc_gd3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="cc_gd"/>
+                <br id="cc_gd1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Good</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;"onclick="cc(id)" id="cc_ex3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="cc_ex"/>
+                <br id="cc_ex1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 95pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Excellent</p>
+        </td>
+    </tr>
+    <tr style="height: 14pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 482pt;" colspan="7" bgcolor="#00AFEF">
+            <p class="s2" style="padding-left: 131pt; padding-right: 133pt; padding-top: 1pt; text-align: center; text-indent: 0pt;">CHARACTERISTICS</p>
+        </td>
+    </tr>
+    <tr style="height: 16pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 153pt;">
+            <p class="s2" style="padding-left: 4pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Appearance</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="ap(id)" id="ap_fa3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none"width="25" id="ap_fa"/>
+                <br id="ap_fa1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="line-height: 11pt; padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Fair</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="ap(id)" id="ap_gd3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="ap_gd"/>
+                <br id="ap_gd1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="line-height: 11pt; padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Good</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;"onclick="ap(id)" id="ap_ex3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none"width="25" id="ap_ex"/>
+                <br id="ap_ex1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 95pt;">
+            <p class="s3" style="line-height: 11pt; padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Excellent</p>
+        </td>
+    </tr>
+    <tr style="height: 16pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 153pt;">
+            <p class="s2" style="padding-left: 4pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Communication</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="co(id)" id="co_fa3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none"width="25" id="co_fa"/>
+                <br id="co_fa1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Fair</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="co(id)" id="co_gd3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="co_gd"/>
+                <br id="co_gd1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Good</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;"onclick="co(id)" id="co_ex3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none" width="25" id="co_ex"/>
+                <br id="co_ex1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 95pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Excellent</p>
+        </td>
+    </tr>
+    <tr style="height: 16pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 153pt;">
+            <p class="s2" style="padding-left: 4pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Confidence Levels</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="cn(id)" id="cn_fa3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none"width="25" id="cn_fa" style="display: none"/>
+                <br id="cn_fa1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Fair</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="cn(id)" id="cn_gd3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none"width="25" id="cn_gd" style="display: none"/>
+                <br id="cn_gd1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Good</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;"onclick="cn(id)" id="cn_ex3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" style="display: none"width="25" id="cn_ex" style="display: none"/>
+                <br id="cn_ex1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 95pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Excellent</p>
+        </td>
+    </tr>
+    <tr style="height: 16pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 153pt;">
+            <p class="s2" style="padding-left: 4pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Attitude</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="at(id)" id="at_fa3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" width="25" id="at_fa" style="display: none"/>
+                <br id="at_fa1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Fair</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;" onclick="at(id)" id="at_gd3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" width="25" id="at_gd" style="display: none"/>
+                <br id="at_gd1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 90pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Good</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 18pt;">
+            <p style="text-align: left; text-indent: 0pt;"onclick="at(id)" id="at_ex3">
+                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fkhskatho17.files.wordpress.com%2F2013%2F02%2Fblack-check-mark-hi.png&f=1&nofb=1" width="25" id="at_ex" style="display: none"/>
+                <br id="at_ex1"/>
+            </p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 95pt;">
+            <p class="s3" style="padding-left: 7pt; padding-top: 2pt; text-align: left; text-indent: 0pt;">Excellent</p>
+        </td>
+    </tr>
+    <tr style="height: 58pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 482pt;" colspan="7">
+            <p class="s2" style="line-height: 167%; padding-left: 4pt; padding-right: 303pt; padding-top: 1pt; text-align: left; text-indent: 0pt;">Current Salary: Expected Salary: <u> </u></p>
+            <p class="s2" style="line-height: 11pt; padding-left: 4pt; text-align: left; text-indent: 0pt;">Reason for leaving the present company: <u> </u></p>
+        </td>
+    </tr>
+    <tr style="height: 69pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 482pt;" colspan="7">
+            <p class="s2" style="padding-left: 4pt; padding-top: 3pt; text-align: left; text-indent: 0pt;">General Comments:</p>
+        </td>
+    </tr>
+    <tr style="height: 20pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 130pt;" bgcolor="#00AFEF">
+            <p class="s2" style="padding-left: 4pt; padding-top: 5pt; text-align: left; text-indent: 0pt;">OVERALL EVALUATION</p>
+        </td>
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 352pt;" colspan="6" rowspan="2">
+            <p class="s5" style="padding-left: 43pt; padding-right: 29pt; padding-top: 1pt; text-align: center; text-indent: 0pt;">
+                <span>
+                    <img width="25" height="26" alt="image" src="/img/Image_002.png"/>
+                </span> <span class="s2">FAIR </span>
+                <span>
+                    <img width="25" height="26" alt="image" src="/img/Image_003.png"/>
+                </span> <span class="s2">GOOD </span>
+                <span>
+                    <img width="25" height="26" alt="image" src="/img/Image_004.png"/>
+                </span> <span class="s2">EXCELLENT</span>
+            </p>
+        </td>
+    </tr>
+    <tr style="height: 5pt">
+        <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 130pt;">
+            <p style="text-align: left; text-indent: 0pt;">
+                <br/>
+            </p>
+        </td>
+    </tr>
+    </table>
+    <p style="text-align: left; text-indent: 0pt;">
+        <br/>
+    </p>
+    <h3 style="padding-left: 7pt; text-align: left; text-indent: 0pt;">RECOMMENDATION<span class="s6">:</span></h3>
+    <p style="line-height: 149%; padding-left: 7pt; padding-top: 4pt; text-align: left; text-indent: 0pt;">
+        Recommended to be employed:
+        <span>
+            <img width="17" height="17" alt="image" src="/img/Image_005.png"/>
+        </span><span class="s7"> </span>Yes /
+        <span>
+            <img width="17" height="17" alt="image" src="/img/Image_006.png"/>
+        </span><span class="s7"> </span>No If yes, in the position of: <u> </u>
+    </p>
+    <p style="line-height: 13pt; padding-left: 7pt; text-align: left; text-indent: 0pt;">
+        If no, considered for employment in the future?
+        <span>
+            <img width="17" height="17" alt="image" src="/img/Image_007.png"/>
+        </span><span class="s7"> </span>Yes /
+        <span>
+            <img width="17" height="17" alt="image" src="/img/Image_008.png"/>
+        </span><span class="s7"> </span>No
+    </p>
+    <p style="text-align: left; text-indent: 0pt;">
+        <br/>
+    </p>
+    <table style="border-collapse: collapse; margin-left: 5.594pt" cellspacing="0">
+        <tr style="height: 16pt">
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 244pt;" bgcolor="#00AFEF">
+                <p class="s1" style="padding-left: 5pt; text-align: left; text-indent: 0pt;">Interviewer 1</p>
+            </td>
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 242pt;" bgcolor="#00AFEF">
+                <p class="s1" style="padding-left: 5pt; text-align: left; text-indent: 0pt;">Interviewer 2</p>
+            </td>
+        </tr>
+        <tr style="height: 50pt">
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 244pt;">
+                <p style="text-align: left; text-indent: 0pt;">
+                    <br/>
+                </p>
+            </td>
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 242pt;">
+                <p style="text-align: left; text-indent: 0pt;">
+                    <br/>
+                </p>
+            </td>
+        </tr>
+        <tr style="height: 17pt">
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 244pt;">
+                <p class="s2" style="padding-left: 64pt; padding-top: 1pt; text-align: left; text-indent: 0pt;">Name, Signature &amp; Date</p>
+            </td>
+            <td style="border-bottom-style: solid; border-bottom-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-top-style: solid; border-top-width: 1pt; width: 242pt;">
+                <p class="s2" style="padding-left: 64pt; padding-top: 1pt; text-align: left; text-indent: 0pt;">Name, Signature &amp; Date</p>
+            </td>
+        </tr>
+    </table>
+    <p style="text-align: left; text-indent: 0pt;">
+        <br/>
+    </p><h4 style="padding-left: 7pt; text-align: left; text-indent: 0pt;">Page 1 of 1 CSHRD02 Version-R0</h4>
+    </body>
+    </html>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.expected_salary, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.expected_salary, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.expected_salary, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    }
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.reason_F_L_P_C, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.reason_F_L_P_C, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.reason_F_L_P_C, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.overall_evaluation, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.overall_evaluation, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.overall_evaluation, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.recommented_to_be_employed, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.recommented_to_be_employed)
-                    @Html.ValidationMessageFor(model => model.recommented_to_be_employed, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.in_position_of, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.in_position_of, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.in_position_of, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.employment_in_the_future, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.employment_in_the_future)
-                    @Html.ValidationMessageFor(model => model.employment_in_the_future, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

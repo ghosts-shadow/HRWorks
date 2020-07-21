@@ -40,10 +40,81 @@ namespace HRworks.Controllers
         public ActionResult Create()
         {
             LeavesController an = new LeavesController();
-           // an.cal_bal();
+            an.cal_bal();
             
             var alist = db.master_file.OrderBy(e => e.employee_no).ThenBy(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
+            var ab = db.master_file.OrderBy(p => p.employee_no).ThenBy(x => x.date_changed).ToList();
+            var lists = new List<master_file>();
+            int j = 0;
+            int i;
+            if (ab.Count != 0)
+            {
+                for (i = 0; i < ab.Count; i++)
+                {
+                    if (++j != ab.Count())
+                    {
+                        if (ab[i].employee_no == ab[j].employee_no)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            lists.Add(ab[i]);
+                        }
+                    }
+                }
+
+                if (ab.Count != 1)
+                {
+                    if (ab[--j] != ab[i = i - 2])
+                    {
+                        lists.Add(ab[j]);
+                    }
+                }
+
+                if (lists.Count == 0)
+                {
+                    i -= 1;
+                    lists.Add(ab[i]);
+                }
+            }
+            var ab1 = db.contracts.OrderBy(p => p.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
+            var lists1 = new List<contract>();
+            int j1 = 0;
+            int i1;
+            if (ab1.Count != 0)
+            {
+                for (i1 = 0; i1 < ab1.Count; i1++)
+                {
+                    if (++j1 != ab1.Count())
+                    {
+                        if (ab1[i1].master_file.employee_no == ab1[j1].master_file.employee_no)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            lists1.Add(ab1[i1]);
+                        }
+                    }
+                }
+
+                if (ab1.Count != 1)
+                {
+                    if (ab1[--j1] != ab1[i1 = i1 - 2])
+                    {
+                        lists1.Add(ab1[j1]);
+                    }
+                }
+
+                if (lists1.Count == 0)
+                {
+                    i1 -= 1;
+                    lists1.Add(ab1[i1]);
+                }
+            }
+
             foreach (var file in alist)
             {
                 if (afinallist.Count == 0)
@@ -72,13 +143,13 @@ namespace HRworks.Controllers
                 }
             }
 
-            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
+            ViewBag.Employee_id = new SelectList(lists.OrderBy(x => x.employee_no), "employee_id", "employee_no");
             ViewBag.Employee_name = new SelectList(
-                afinallist.OrderBy(x => x.employee_no),
+                lists.OrderBy(x => x.employee_no),
                 "employee_id",
                 "employee_name");
             ViewBag.joi = new SelectList(
-                afinallist.OrderBy(x => x.employee_no),
+                lists.OrderBy(x => x.employee_no),
                 "employee_id",
                 "date_joined");
             ViewBag.unp = new SelectList(
@@ -86,27 +157,27 @@ namespace HRworks.Controllers
                 "employee_id",
                 "unpaid_leave");
             ViewBag.dept = new SelectList(
-                afinallistc.OrderBy(x => x.master_file.employee_no),
+                lists1.OrderBy(x => x.master_file.employee_no),
                 "employee_no",
                 "departmant_project");
             ViewBag.pos = new SelectList(
-                afinallistc.OrderBy(x => x.master_file.employee_no),
+                lists1.OrderBy(x => x.master_file.employee_no),
                 "employee_no",
                 "designation");
             ViewBag.gra = new SelectList(
-                afinallistc.OrderBy(x => x.master_file.employee_no),
+                lists1.OrderBy(x => x.master_file.employee_no),
                 "employee_no",
                 "grade");
             ViewBag.bac = new SelectList(
-                afinallistc.OrderBy(x => x.master_file.employee_no),
+                lists1.OrderBy(x => x.master_file.employee_no),
                 "employee_no",
                 "basic");
             ViewBag.hou = new SelectList(
-                afinallistc.OrderBy(x => x.master_file.employee_no),
+                lists1.OrderBy(x => x.master_file.employee_no),
                 "employee_no",
                 "housing_allowance");
             ViewBag.gro = new SelectList(
-                afinallistc.OrderBy(x => x.master_file.employee_no),
+                lists1.OrderBy(x => x.master_file.employee_no),
                 "employee_no",
                 "salary_details");
             ViewBag.status = new SelectList(

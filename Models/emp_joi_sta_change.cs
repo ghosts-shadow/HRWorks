@@ -12,7 +12,7 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class emp_joi_sta_change
     {
         public int Id { get; set; }
@@ -66,6 +66,9 @@ namespace HRworks.Models
         public string Bank_Account_No { get; set; }
 
         public string Remarks { get; set; }
+
+        [Display(Name = "Action as of")]
+        public Nullable<System.DateTime> Action_as_of { get; set; }
     
         public virtual master_file master_file { get; set; }
     }

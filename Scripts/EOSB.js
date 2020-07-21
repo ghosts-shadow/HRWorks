@@ -33,6 +33,9 @@
     var dajo = new Date(from);
     var dala = new Date($("#datepicker").val());
     var unpd = parseInt($("#unpval").val());
+    if (unpd == "NaN" || unpd == "undefined") {
+        unpd = 0;
+    }
     var bac = parseInt($("#bacval").val());
     var dwr = bac * 12 / 365;
     $("#bacvalpd").val(dwr.toFixed(2));

@@ -51,7 +51,7 @@
         <EntityTypeShape EntityType="HRModel.leave_absence" Width="1.5" PointX="2.75" PointY="27.625" />
         <AssociationConnector Association="HRModel.FK_la_To_master_file" />
         <EntityTypeShape EntityType="HRModel.ATTENDANCE_ADJUSTMENT" Width="1.5" PointX="2.75" PointY="39.875" />
-        <EntityTypeShape EntityType="HRModel.BUSINESS_TRIP_REPORT_" Width="1.5" PointX="2.75" PointY="64.25" />
+        <EntityTypeShape EntityType="HRModel.BUSINESS_TRIP_REPORT_" Width="1.5" PointX="2.75" PointY="64.25" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.CERTIFICATE_REQUEST" Width="1.5" PointX="2.75" PointY="34.25" />
         <EntityTypeShape EntityType="HRModel.DUTY_HANDOVER" Width="1.5" PointX="2.75" PointY="43.125" />
         <EntityTypeShape EntityType="HRModel.EXIT_INTERVIEW" Width="1.5" PointX="11.375" PointY="14.75" />
@@ -63,7 +63,7 @@
         <EntityTypeShape EntityType="HRModel.OVERTIME_APPROVAL" Width="1.5" PointX="6.5" PointY="19.5" />
         <EntityTypeShape EntityType="HRModel.PROBATION_ASSESSMENT" Width="1.5" PointX="2.75" PointY="51.5" />
         <EntityTypeShape EntityType="HRModel.rec_req_form" Width="1.5" PointX="15.375" PointY="6.75" />
-        <EntityTypeShape EntityType="HRModel.Training_Effectiveness" Width="1.5" PointX="2.75" PointY="68.125" />
+        <EntityTypeShape EntityType="HRModel.Training_Effectiveness" Width="1.5" PointX="2.75" PointY="68.125" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.Training_Evaluation" Width="1.5" PointX="2.75" PointY="57.125" />
         <EntityTypeShape EntityType="HRModel.Training_Request" Width="1.5" PointX="2.75" PointY="72.375" />
         <AssociationConnector Association="HRModel.FK_RFAA_To_master_file" />

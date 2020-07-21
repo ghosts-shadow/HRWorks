@@ -180,8 +180,6 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'HR.dbo.emp_joi_sta_change' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="emp_joi_sta_change">
           <Key>
             <PropertyRef Name="Id" />
@@ -190,6 +188,7 @@ warning 6002: The table/view 'HR.dbo.emp_joi_sta_change' does not have a primary
           <Property Name="Employee_id" Type="int" />
           <Property Name="action_active" Type="nvarchar(max)" />
           <Property Name="New_Title" Type="nvarchar(max)" />
+          <Property Name="Action_as_of" Type="date" />
           <Property Name="Action_Taken" Type="nvarchar(max)" />
           <Property Name="Action_Taken2" Type="nvarchar(max)" />
           <Property Name="Basic_Salary" Type="bigint" />
@@ -475,13 +474,13 @@ warning 6002: The table/view 'HR.dbo.emp_joi_sta_change' does not have a primary
           </Key>
           <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="employee_no" Type="int" Nullable="false" />
-          <Property Name="company_code" Type="varchar" MaxLength="25" />
+          <Property Name="company_code" Type="nvarchar(max)" />
           <Property Name="passport_no" Type="nvarchar(max)" />
           <Property Name="passport_expiry" Type="date" />
           <Property Name="passport_issue_date" Type="date" />
           <Property Name="passport_return_date" Type="date" />
-          <Property Name="passport_remarks" Type="varchar" MaxLength="50" />
-          <Property Name="status" Type="varchar" MaxLength="50" />
+          <Property Name="passport_remarks" Type="nvarchar(max)" />
+          <Property Name="status" Type="nvarchar(max)" />
           <Property Name="imgpath" Type="nvarchar(max)" />
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
@@ -799,7 +798,7 @@ warning 6002: The table/view 'HR.dbo.emp_joi_sta_change' does not have a primary
             <PropertyRef Name="emp_no" />
           </Dependent>
         </ReferentialConstraint>
-      </Association>   
+      </Association>  
         <Association Name="FK_DHO1_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="DUTY_HANDOVER" Type="Self.DUTY_HANDOVER" Multiplicity="*" />
@@ -1094,6 +1093,7 @@ warning 6002: The table/view 'HR.dbo.emp_joi_sta_change' does not have a primary
           <EntitySet Name="contract" EntityType="Self.contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DUTY_HANDOVER" EntityType="Self.DUTY_HANDOVER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="emp_joi_sta_change" EntityType="Self.emp_joi_sta_change" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="end_of_service" EntityType="Self.end_of_service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EXIT_INTERVIEW" EntityType="Self.EXIT_INTERVIEW" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HRA_requset" EntityType="Self.HRA_requset" Schema="dbo" store:Type="Tables" />
@@ -1122,28 +1122,6 @@ warning 6002: The table/view 'HR.dbo.emp_joi_sta_change' does not have a primary
           <EntitySet Name="usernames" EntityType="Self.usernames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa" EntityType="Self.visa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="emp_joi_sta_change" EntityType="Self.emp_joi_sta_change" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [emp_joi_sta_change].[Id] AS [Id], 
-    [emp_joi_sta_change].[Employee_id] AS [Employee_id], 
-    [emp_joi_sta_change].[action_active] AS [action_active], 
-    [emp_joi_sta_change].[New_Title] AS [New_Title], 
-    [emp_joi_sta_change].[Action_Taken] AS [Action_Taken], 
-    [emp_joi_sta_change].[Action_Taken2] AS [Action_Taken2], 
-    [emp_joi_sta_change].[Basic_Salary] AS [Basic_Salary], 
-    [emp_joi_sta_change].[House_Rent_Allowance] AS [House_Rent_Allowance], 
-    [emp_joi_sta_change].[Telephone_Allowance] AS [Telephone_Allowance], 
-    [emp_joi_sta_change].[Living_Allowance] AS [Living_Allowance], 
-    [emp_joi_sta_change].[Transportation_Allowance] AS [Transportation_Allowance], 
-    [emp_joi_sta_change].[Other_Allowances] AS [Other_Allowances], 
-    [emp_joi_sta_change].[Total_Salary] AS [Total_Salary], 
-    [emp_joi_sta_change].[Medical_Insurance_Policy] AS [Medical_Insurance_Policy], 
-    [emp_joi_sta_change].[Annual_Leave] AS [Annual_Leave], 
-    [emp_joi_sta_change].[Bank_Name_Branch] AS [Bank_Name_Branch], 
-    [emp_joi_sta_change].[Bank_Account_No] AS [Bank_Account_No], 
-    [emp_joi_sta_change].[Remarks] AS [Remarks]
-    FROM [dbo].[emp_joi_sta_change] AS [emp_joi_sta_change]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_bank_To_master_file" Association="Self.FK_bank_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="bank_details" EntitySet="bank_details" />
@@ -1549,13 +1527,13 @@ warning 6002: The table/view 'HR.dbo.emp_joi_sta_change' does not have a primary
           </Key>
           <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="employee_no" Type="Int32" Nullable="false" />
-          <Property Name="company_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="company_code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="passport_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="passport_expiry" Type="DateTime" Precision="0" />
           <Property Name="passport_issue_date" Type="DateTime" Precision="0" />
           <Property Name="passport_return_date" Type="DateTime" Precision="0" />
-          <Property Name="passport_remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="passport_remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_changed" Type="DateTime" Precision="3" />
@@ -2552,6 +2530,7 @@ warning 6002: The table/view 'HR.dbo.emp_joi_sta_change' does not have a primary
           <Property Name="Bank_Account_No" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_ejsc_To_master_file" FromRole="emp_joi_sta_change" ToRole="master_file" />
+          <Property Name="Action_as_of" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="FK_ejsc_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
@@ -3240,6 +3219,7 @@ warning 6002: The table/view 'HR.dbo.emp_joi_sta_change' does not have a primary
           <EntitySetMapping Name="emp_joi_sta_change">
             <EntityTypeMapping TypeName="HRModel.emp_joi_sta_change">
               <MappingFragment StoreEntitySet="emp_joi_sta_change">
+                <ScalarProperty Name="Action_as_of" ColumnName="Action_as_of" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="Bank_Account_No" ColumnName="Bank_Account_No" />
                 <ScalarProperty Name="Bank_Name_Branch" ColumnName="Bank_Name_Branch" />
