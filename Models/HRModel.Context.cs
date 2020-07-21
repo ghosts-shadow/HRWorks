@@ -66,5 +66,6 @@ namespace HRworks.Models
         public virtual DbSet<Training_Request> Training_Request { get; set; }
         public virtual DbSet<end_of_service> end_of_service { get; set; }
         public virtual DbSet<emp_joi_sta_change> emp_joi_sta_change { get; set; }
+        public virtual DbSet<encriptiontest> encriptiontests { get; set; }
     }
 }
