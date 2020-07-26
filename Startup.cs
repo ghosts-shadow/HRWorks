@@ -57,6 +57,12 @@ namespace HRworks
                 var role = new IdentityRole();
                 role.Name = "Manager";
                 roleManager.Create(role);
+            }     
+            if (!roleManager.RoleExists("payrole"))
+            {
+                var role = new IdentityRole();
+                role.Name = "payrole";
+                roleManager.Create(role);
             }
 
             if (!roleManager.RoleExists("liquidation"))
