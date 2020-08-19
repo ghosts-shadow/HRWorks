@@ -13,9 +13,11 @@
             ShowCurrentTime();
         });
         $(document).body.onclick(reset());
+
         function reset() {
             i = 0;
         }
+
         function ShowCurrentTime() {
             $('input').addClass("btn btn-default");
             var dt = new Date();
@@ -31,6 +33,14 @@
         }
 
     </script>
+
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+
+        setTimeout("preventBack()", 0);
+        window.onunload = function() { null };
+    </script>
+
     <style>
         table {
             width: 100%;
@@ -38,7 +48,7 @@
             border-collapse: collapse;
         }
 
-        th, .navbar,.nav {
+        th, .navbar, .nav {
             background-color: #2c6faa;
             color: white;
         }
@@ -47,6 +57,7 @@
             border: 1px solid black !important;
             padding: 0.3%
         }
+
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -58,64 +69,67 @@
         }
     </style>
 </head>
-    <body onload="/*ShowCurrentTime(*)/" style="text-transform: capitalize; margin-left: 1%;margin-right: 1%">
-        <div class="navbar navbar-inverse navbar-fixed-top" style="position: relative;top: -50px">
-            <div class="navbar-header">
-                <button type="button"
-                        class="navbar-toggle"
-                        data-toggle="collapse"
-                        data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>@Html.ActionLink("HRworks", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav " style="margin-left: 1%; margin-right: 2%">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    @if (Request.IsAuthenticated)
+<body onload="" style="text-transform: capitalize; margin-left: 1%; margin-right: 1%">
+
+    <div class="navbar navbar-inverse navbar-fixed-top" style="position: relative; top: -50px">
+        <div class="navbar-header">
+            <button type="button"
+                    class="navbar-toggle"
+                    data-toggle="collapse"
+                    data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>@Html.ActionLink("HRworks", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav " style="margin-left: 1%; margin-right: 2%">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("About", "About", "Home")</li>
+                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                @if (Request.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
+                    <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
+                    <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
+                    <li>@Html.ActionLink("Contract", "Index", "contracts")</li>
+                    <li>@Html.ActionLink("Employee Details", "Index", "master_file")</li>
+                    <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
+                    <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
+                    <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
+                    <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
+                    <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
+                    if (User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
-                        <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
-                        <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
-                        <li>@Html.ActionLink("Contract", "Index", "contracts")</li>
-                        <li>@Html.ActionLink("Employee Details", "Index", "master_file")</li>
-                        <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
-                        <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
-                        <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
-                        <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
-                        <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
-                        if (User.Identity.IsAuthenticated)
+                        if (User.Identity.Name == "dinizsneden@gmail.com")
                         {
-                            if (User.Identity.Name == "dinizsneden@gmail.com")
-                            {
-
-                                <li>@Html.ActionLink("HR forms", "HR_Forms", "HR_forms")</li>
-                                <li>@Html.ActionLink("end of service", "Create", "end_of_service")</li>
-                            }
-                            if (User.IsInRole("admin"))
-                            {
-                                <li>@Html.ActionLink("user name", "index", "usernames")</li>
-                            }
+                            <li>@Html.ActionLink("payrole", "Create", "payrolelogins")</li>
+                            <li>@Html.ActionLink("HR forms", "HR_Forms", "HR_forms")</li>
+                            <li>@Html.ActionLink("end of service", "Create", "end_of_service")</li>
                         }
-
+                        if (User.IsInRole("admin"))
+                        {
+                            <li>@Html.ActionLink("user name", "index", "usernames")</li>
+                        }
                     }
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+
+                }
+            </ul>
+            @Html.Partial("_LoginPartial")
         </div>
-        <div class="body-content row" style=" text-transform: capitalize; margin-left: 1%; margin-right: 1%; position: relative; top: 5% " >
-            @RenderBody()
-            <hr />
-            <footer id="foot">
-                <p>&copy; @DateTime.Now.Year - CITISCAPE L.L.C.</p>
-                @if (Request.IsAuthenticated) {<label id="lblTime" style="display: none"></label> }
-            </footer>
-        </div>
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-    </body>
+    </div>
+    <div class="body-content row" style="text-transform: capitalize; margin-left: 1%; margin-right: 1%; position: relative; top: 5%">
+        @RenderBody()
+        <hr />
+        <footer id="foot">
+            <p>&copy; @DateTime.Now.Year - CITISCAPE L.L.C.</p>
+            @if (Request.IsAuthenticated)
+            {<label id="lblTime" style="display: none"></label>
+            }
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
 </html>

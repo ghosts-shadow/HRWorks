@@ -77,131 +77,130 @@
 @using (Html.BeginForm("Create", "Leaves", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-
-    <div class="form-horizontal" onclick="dayscount()">
-        <h2>New Leave</h2>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Employee_id, "Employee_id", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "empno" })
-                @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                *@
-                <input type="text"
-                       id="datepicker"
-                       class="form-control"
-                       name="Date" />
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group" style="display:none">
-            @Html.LabelFor(model => model.Reference, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*
-                    @Html.EditorFor(model => model.Reference, new { htmlAttributes = new { @class = "form-control" } })
-                *@
-                <input type="file"
-                       id="fileBase"
-                       name="fileBase" />
-                @Html.ValidationMessageFor(model => model.Reference, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Start_leave, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*
-                    @Html.EditorFor(model => model.Start_leave, new { htmlAttributes = new { @class = "form-control" } })
-                *@
-                <input type="text"
-                       id="datepicker4"
-                       class="form-control"
-                       name="Start_leave" />
-                @Html.ValidationMessageFor(model => model.Start_leave, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.End_leave, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*
-                    @Html.EditorFor(model => model.End_leave, new { htmlAttributes = new { @class = "form-control" } })
-                *@
-                <input type="text"
-                       id="datepicker3"
-                       class="form-control"
-                       name="End_leave" />
-                @Html.ValidationMessageFor(model => model.End_leave, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.days, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.days, new { htmlAttributes = new { @class = "form-control", @id = "days" } })
-                @Html.ValidationMessageFor(model => model.days, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group" style="display: none">
-            @Html.LabelFor(model => model.Return_leave, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*
-                    @Html.EditorFor(model => model.Return_leave, new { htmlAttributes = new { @class = "form-control" } })
-                *@
-                <input type="text"
-                       id="datepicker2"
-                       class="form-control"
-                       name="Return_leave" />
-                @Html.ValidationMessageFor(model => model.Return_leave, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.leave_type, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*
-                    @Html.EditorFor(model => model.leave_type, new { htmlAttributes = new { @class = "form-control" } })
-                *@
-                @Html.DropDownList("leave_type", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.leave_type, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group" style="display: none">
-            @Html.LabelFor(model => model.actual_return_date, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*
-                    @Html.EditorFor(model => model.actual_return_date, new { htmlAttributes = new {  @id="datepicker",@class = "form-control"} })
-                *@
-                <input type="text"
-                       id="datepicker1"
-                       class="form-control"
-                       name="actual_return_date" />
-                @Html.ValidationMessageFor(model => model.actual_return_date, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.half, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.CheckBoxFor(m => m.half)
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10" onclick="dayscount()">
-                <input type="submit" value="Save" class="btn btn-default" onclick="dayscount()"/>
-            </div>
+<div class="form-horizontal" onclick="dayscount()">
+    <h2>New Leave</h2>
+    <hr /><p style="font-size: 110%; color: red">@ViewBag.exhist</p>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Employee_id, "Employee_id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "empno" })
+            @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+            *@
+            <input type="text"
+                   id="datepicker"
+                   class="form-control"
+                   name="Date" />
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none">
+        @Html.LabelFor(model => model.Reference, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*
+                @Html.EditorFor(model => model.Reference, new { htmlAttributes = new { @class = "form-control" } })
+            *@
+            <input type="file"
+                   id="fileBase"
+                   name="fileBase" />
+            @Html.ValidationMessageFor(model => model.Reference, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Start_leave, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*
+                @Html.EditorFor(model => model.Start_leave, new { htmlAttributes = new { @class = "form-control" } })
+            *@
+            <input type="text"
+                   id="datepicker4"
+                   class="form-control"
+                   name="Start_leave"  />
+            @Html.ValidationMessageFor(model => model.Start_leave, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.End_leave, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*
+                @Html.EditorFor(model => model.End_leave, new { htmlAttributes = new { @class = "form-control" } })
+            *@
+            <input type="text"
+                   id="datepicker3"
+                   class="form-control"
+                   name="End_leave" />
+            @Html.ValidationMessageFor(model => model.End_leave, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.days, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.days, new { htmlAttributes = new { @class = "form-control", @id = "days" } })
+            @Html.ValidationMessageFor(model => model.days, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display: none">
+        @Html.LabelFor(model => model.Return_leave, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*
+                @Html.EditorFor(model => model.Return_leave, new { htmlAttributes = new { @class = "form-control" } })
+            *@
+            <input type="text"
+                   id="datepicker2"
+                   class="form-control"
+                   name="Return_leave" />
+            @Html.ValidationMessageFor(model => model.Return_leave, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.leave_type, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*
+                @Html.EditorFor(model => model.leave_type, new { htmlAttributes = new { @class = "form-control" } })
+            *@
+            @Html.DropDownList("leave_type", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.leave_type, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display: none">
+        @Html.LabelFor(model => model.actual_return_date, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*
+                @Html.EditorFor(model => model.actual_return_date, new { htmlAttributes = new {  @id="datepicker",@class = "form-control"} })
+            *@
+            <input type="text"
+                   id="datepicker1"
+                   class="form-control"
+                   name="actual_return_date" />
+            @Html.ValidationMessageFor(model => model.actual_return_date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.half, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.CheckBoxFor(m => m.half)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10" onclick="dayscount()">
+            <input type="submit" value="Save" class="btn btn-default" onclick="dayscount()" />
+        </div>
+    </div>
+</div>
 }
 
 <div>

@@ -518,6 +518,29 @@
             Leave leave,
             HttpPostedFileBase fileBase)
         {
+
+            var listItems = new List<ListItem>
+                                {
+                                    new ListItem { Text = "Annual", Value = "1" },
+                                    new ListItem { Text = "Sick", Value = "2" },
+                                    new ListItem { Text = "Compassionate", Value = "3" },
+                                    new ListItem { Text = "Maternity", Value = "4" },
+                                    new ListItem { Text = "Haj", Value = "5" },
+                                    new ListItem { Text = "Unpaid", Value = "6" },
+                                    new ListItem { Text = "others", Value = "7" }
+                                };
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+
+            this.ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
+
+            this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             string serverfile;
             if (fileBase != null)
             {
@@ -545,7 +568,14 @@
             var leavelist = this.db.Leaves.ToList();
             if (leavelist.Exists(
                 x => x.Employee_id == leave.Employee_id && x.Start_leave == leave.Start_leave
-                                                        && x.End_leave == leave.End_leave)) return this.View(leave);
+                                                        && x.End_leave == leave.End_leave))
+            {
+                ViewBag.exhist = "the entry already exists";
+                return this.View(leave);
+
+            }
+
+            ViewBag.exhist = "";
             if (this.ModelState.IsValid)
             {
                 var file1 = new Leave();
@@ -568,28 +598,6 @@
                 return this.RedirectToAction("Index");
             }
 
-            var listItems = new List<ListItem>
-                                {
-                                    new ListItem { Text = "Annual", Value = "1" },
-                                    new ListItem { Text = "Sick", Value = "2" },
-                                    new ListItem { Text = "Compassionate", Value = "3" },
-                                    new ListItem { Text = "Maternity", Value = "4" },
-                                    new ListItem { Text = "Haj", Value = "5" },
-                                    new ListItem { Text = "Unpaid", Value = "6" },
-                                    new ListItem { Text = "others", Value = "7" }
-                                };
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
-            var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
-
-            this.ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
-
-            this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             return this.View(leave);
         }
 

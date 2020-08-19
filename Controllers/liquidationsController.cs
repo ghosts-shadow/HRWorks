@@ -86,11 +86,18 @@
             return this.View(liquilist);
         }
 
-        public ActionResult index()
+        public ActionResult index(int? empno)
         {
             var lii = this.db.liquidations.ToList().OrderBy(x => x.master_file.employee_no);
             var lalist = this.db.liqiapprovals.ToList();
             List<liquidation> lii2 = new List<liquidation>();
+            var eel = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var liste = new List<master_file>();
+            foreach (var file in eel)
+                if (!liste.Exists(x => x.employee_no == file.employee_no))
+                    liste.Add(file);
+            this.ViewBag.empno = new SelectList(liste, "employee_id", "employee_no");
+            
             foreach (var lii1 in lii)
             {
                 if (lalist.Exists(x => x.pid == lii1.Id))
@@ -112,7 +119,80 @@
                     }
                 }
             }
-            return this.View(lii2);
+            if (empno != null)
+            {
+                var lii3 = lii2.FindAll(x=>x.employee_no == empno);
+                return this.View(lii3.OrderBy(x=>x.invoice_date));
+            }
+            else
+            {
+                return this.View(lii2.OrderBy(x => x.invoice_date));
+            }
+        }
+
+        [Authorize(Roles = "admin")]
+        public ActionResult subindex(DateTime? from ,DateTime? to)
+        {
+            var lii = this.db.liquidations.ToList().OrderBy(x => x.master_file.employee_no);
+            var lalist = this.db.liqiapprovals.ToList();
+            List<liquidation> lii2 = new List<liquidation>();
+            var eel = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var liste = new List<master_file>();
+            foreach (var file in eel)
+                if (!liste.Exists(x => x.employee_no == file.employee_no))
+                    liste.Add(file);
+            this.ViewBag.empno = new SelectList(liste, "employee_id", "employee_no");
+            
+            foreach (var lii1 in lii)
+            {
+                if (lalist.Exists(x => x.pid == lii1.Id))
+                {
+                    var il1 = lalist.Find(x => x.pid == lii1.Id);
+                    if (il1.status == "submitted")
+                    {
+                        lii2.Add(lii1);
+                    }
+                    else if (il1.status.Contains("rejected"))
+                    {
+                        lii1.discription =  lii1.discription + " (" + il1.status + ")";
+                        lii2.Add(lii1);
+                    }
+                    else
+                    {
+                        lii1.discription =  lii1.discription + " (" + il1.status + ")";
+                        lii2.Add(lii1);
+                    }
+                }
+            }
+            var sumlq = new List<liquisum>();
+            List<liquidation> zzzz = new List<liquidation>();
+            if (from.HasValue && to.HasValue)
+            {
+                 zzzz = lii2.FindAll(x => x.invoice_date >= from && x.invoice_date <= to);
+            }
+            foreach (var lq in zzzz)
+            {
+                var wtf = new liquisum();
+                wtf.ldate = lq.invoice_date;
+                wtf.description = lq.expenses;
+                wtf.quantity = 1;
+                if (lq.invoice_amount != null) wtf.amount = (float)lq.invoice_amount.Value;
+                if (!sumlq.Exists(x=> x.description == wtf.description))
+                {
+                    sumlq.Add(wtf);
+                }
+                else
+                {
+                    var aq = sumlq.Find(x => x.description == wtf.description);
+                    sumlq.Remove(aq);
+                    aq.amount = aq.amount + wtf.amount;
+                    aq.quantity = aq.quantity + wtf.quantity;
+                    sumlq.Add(aq);
+
+                }
+            }
+
+            return this.View(sumlq.OrderBy(x => x.ldate));
         }
 
         public ActionResult print(DateTime? pdate, int? prefr)

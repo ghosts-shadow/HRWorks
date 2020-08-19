@@ -10,7 +10,7 @@
     using System.Text;
     using System.Web.Mvc;
     using System.Web.Security;
-
+    using System.Web.Routing;
     using HRworks.Models;
 
     // public static class HtmlHelperExtensions
@@ -23,7 +23,7 @@
     //         return new MvcHtmlString(result);
     //     }
     // }
-
+    [NoDirectAccess]
     public class encriptiontestsController : Controller
     {
         private readonly HREntities db = new HREntities();
@@ -33,6 +33,8 @@
         {
             return this.View();
         }
+
+        
 
         // POST: encriptiontests/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -244,6 +246,21 @@
 
             // Return the encrypted bytes from the memory stream.
             return encrypted;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+
+    public class NoDirectAccessAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (filterContext.HttpContext.Request.UrlReferrer == null || filterContext.HttpContext.Request.Url.Host
+                != filterContext.HttpContext.Request.UrlReferrer.Host)
+            {
+                filterContext.Result = new RedirectToRouteResult(
+                    new RouteValueDictionary(new { controller = "Home", action = "Logout", area = "Main" }));
+            }
         }
     }
 }

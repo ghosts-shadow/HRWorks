@@ -215,6 +215,7 @@
     <Compile Include="Controllers\master_fileController.cs" />
     <Compile Include="Controllers\OVERTIME_APPROVALController.cs" />
     <Compile Include="Controllers\passportsController.cs" />
+    <Compile Include="Controllers\payroleloginsController.cs" />
     <Compile Include="Controllers\PROBATION_ASSESSMENTController.cs" />
     <Compile Include="Controllers\rec_req_formController.cs" />
     <Compile Include="Controllers\Training_EffectivenessController.cs" />
@@ -330,6 +331,7 @@
     </Compile>
     <Compile Include="Models\liquilist.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\liquisum.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MANPOWER_TRANSFER_REQUEST.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -344,6 +346,9 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\passport.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payrolelogin.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PROBATION_ASSESSMENT.cs">
@@ -674,6 +679,8 @@
     <Content Include="Views\encriptiontests\Details.cshtml" />
     <Content Include="Views\encriptiontests\Edit.cshtml" />
     <Content Include="Views\encriptiontests\Index.cshtml" />
+    <Content Include="Views\payrolelogins\Create.cshtml" />
+    <Content Include="Views\liquidations\subindex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -84,6 +84,7 @@
         <EntityTypeShape EntityType="HRModel.emp_joi_sta_change" Width="1.5" PointX="3" PointY="82.625" />
         <AssociationConnector Association="HRModel.FK_ejsc_To_master_file" />
         <EntityTypeShape EntityType="HRModel.encriptiontest" Width="1.5" PointX="15.5" PointY="11.75" />
+        <EntityTypeShape EntityType="HRModel.payrolelogin" Width="1.5" PointX="15.375" PointY="14.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

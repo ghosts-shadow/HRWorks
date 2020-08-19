@@ -494,6 +494,14 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
+        <EntityType Name="payrolelogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pro_username" Type="nvarchar(max)" />
+          <Property Name="pro_password" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="PROBATION_ASSESSMENT">
           <Key>
             <PropertyRef Name="Id" />
@@ -1050,6 +1058,7 @@
           <EntitySet Name="OT_employee_list" EntityType="Self.OT_employee_list" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OVERTIME_APPROVAL" EntityType="Self.OVERTIME_APPROVAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="passport" EntityType="Self.passport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="payrolelogin" EntityType="Self.payrolelogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROBATION_ASSESSMENT" EntityType="Self.PROBATION_ASSESSMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rec_req_form" EntityType="Self.rec_req_form" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
@@ -1855,6 +1864,7 @@
             <End Role="emp_joi_sta_change" EntitySet="emp_joi_sta_change" />
           </AssociationSet>
           <EntitySet Name="encriptiontests" EntityType="HRModel.encriptiontest" />
+          <EntitySet Name="payrolelogins" EntityType="HRModel.payrolelogin" />
         </EntityContainer>
         <EntityType Name="Leave_approved">
           <Key>
@@ -2465,6 +2475,14 @@
           <Property Name="name_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="age_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="phone_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="payrolelogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pro_username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="pro_password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3169,6 +3187,15 @@
                 <ScalarProperty Name="phone_no" ColumnName="phone_no" />
                 <ScalarProperty Name="age_" ColumnName="age " />
                 <ScalarProperty Name="name_" ColumnName="name " />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payrolelogins">
+            <EntityTypeMapping TypeName="HRModel.payrolelogin">
+              <MappingFragment StoreEntitySet="payrolelogin">
+                <ScalarProperty Name="pro_password" ColumnName="pro_password" />
+                <ScalarProperty Name="pro_username" ColumnName="pro_username" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

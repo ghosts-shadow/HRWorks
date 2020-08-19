@@ -9,6 +9,13 @@
 
 <h2>Index</h2>
 
+<script type="text/javascript">
+    function preventBack() { window.history.forward(); }
+
+    setTimeout("preventBack()", 0);
+    window.onunload = function() { null };
+</script>
+
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -26,23 +33,24 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.name_)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.age_)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.phone_no)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name_)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.age_)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phone_no)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
