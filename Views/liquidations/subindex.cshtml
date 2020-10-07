@@ -59,6 +59,7 @@
     </tr>
     @{
         var total = 0f;
+        var Qtotal = 0;
     }
     @foreach (var item in Model)
     {
@@ -75,11 +76,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.amount)
             </td>
-            @{ total += item.amount;}
+            @{
+                total += item.amount;
+                Qtotal += item.quantity;
+            }
         </tr>
     }
     <tr>
-        <td colspan="3">total:</td>
+        <td colspan="2">total:</td>
+        <td>@Qtotal</td>
         <td>@total</td>
     </tr>
 </table>

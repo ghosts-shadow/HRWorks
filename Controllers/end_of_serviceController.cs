@@ -13,6 +13,7 @@ namespace HRworks.Controllers
     public class end_of_serviceController : Controller
     {
         private HREntities db = new HREntities();
+        private LogisticsSoftEntities db2 = new LogisticsSoftEntities();
 
         // GET: end_of_service
         public ActionResult Index()
@@ -41,7 +42,6 @@ namespace HRworks.Controllers
         {
             LeavesController an = new LeavesController();
             an.cal_bal();
-            
             var alist = db.master_file.OrderBy(e => e.employee_no).ThenBy(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             var ab = db.master_file.OrderBy(p => p.employee_no).ThenBy(x => x.date_changed).ToList();
@@ -79,8 +79,39 @@ namespace HRworks.Controllers
                     lists.Add(ab[i]);
                 }
             }
+            var lab = this.db2.LabourMasters.Where(x => x.ManPowerSupply == 1).ToList();
+            var labv = new List<LabourMaster>();
+            foreach (var lM in lab.OrderBy(x=>x.EMPNO))
+            {
+                if (lists.Exists(x => x.employee_no == lM.EMPNO))
+                {
+                    var epid = lists.Find(x => x.employee_no == lM.EMPNO).employee_id;
+                     lM.ManPowerSupply = 0;
+                     foreach (var lma in lM.Attendances)
+                     {
+                         if (lma.TotalAbsent.HasValue)
+                         {
+                             lM.ManPowerSupply += (int)lma.TotalAbsent.Value;
+                         }
+                         var a = lM.ManPowerSupply;
+                     }
+                     lM.ID = epid;
+                    labv.Add(lM);
+                }
+            }
+            ViewBag.absencel = new SelectList(labv.OrderBy(x=>x.EMPNO), "id", "ManPowerSupply");
+            
             var ab1 = db.contracts.OrderBy(p => p.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
             var lists1 = new List<contract>();
+            foreach (var aq in ab1)
+            {
+                var asif = lists.Find(x => x.employee_id == aq.employee_no);
+                if (asif == null)
+                {
+                    var x = 0;
+                }
+                aq.master_file = asif;
+            }
             int j1 = 0;
             int i1;
             if (ab1.Count != 0)

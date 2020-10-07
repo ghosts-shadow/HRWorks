@@ -236,6 +236,20 @@
           <Property Name="7B" Type="nvarchar(max)" />
           <Property Name="8B" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="hik">
+          <Key>
+            <PropertyRef Name="SID" />
+          </Key>
+          <Property Name="ID" Type="varchar(max)" />
+          <Property Name="datetime" Type="datetime" />
+          <Property Name="date" Type="date" />
+          <Property Name="time" Type="time" Precision="7" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="Device" Type="varchar(max)" />
+          <Property Name="DeviceNo" Type="varchar(max)" />
+          <Property Name="Person" Type="varchar(max)" />
+          <Property Name="SID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="HRA_requset">
           <Key>
             <PropertyRef Name="Id" />
@@ -402,12 +416,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="bill_no" Type="bigint" />
+          <Property Name="bill_no" Type="nvarchar(max)" />
           <Property Name="expenses" Type="nvarchar(max)" />
           <Property Name="invoice_date" Type="date" />
           <Property Name="discription" Type="nvarchar(max)" />
           <Property Name="employee_no" Type="int" />
-          <Property Name="MBNo" Type="bigint" />
+          <Property Name="MBNo" Type="nvarchar(max)" />
           <Property Name="invoice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="VAT" Type="decimal" Precision="18" Scale="2" />
           <Property Name="invoice_amount" Type="decimal" Precision="18" Scale="2" />
@@ -1041,6 +1055,7 @@
           <EntitySet Name="encriptiontest" EntityType="Self.encriptiontest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="end_of_service" EntityType="Self.end_of_service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EXIT_INTERVIEW" EntityType="Self.EXIT_INTERVIEW" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="hik" EntityType="Self.hik" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HRA_requset" EntityType="Self.HRA_requset" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="induction_training" EntityType="Self.induction_training" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="insurance" EntityType="Self.insurance" Schema="dbo" store:Type="Tables" />
@@ -1373,12 +1388,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="bill_no" Type="Int64" />
+          <Property Name="bill_no" Type="String" />
           <Property Name="expenses" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="invoice_date" Type="DateTime" Precision="0" />
           <Property Name="discription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="employee_no" Type="Int32" />
-          <Property Name="MBNo" Type="Int64" />
+          <Property Name="MBNo" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="invoice" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="VAT" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="invoice_amount" Type="Decimal" Precision="18" Scale="2" />
@@ -1865,6 +1880,7 @@
           </AssociationSet>
           <EntitySet Name="encriptiontests" EntityType="HRModel.encriptiontest" />
           <EntitySet Name="payrolelogins" EntityType="HRModel.payrolelogin" />
+          <EntitySet Name="hiks" EntityType="HRModel.hik" />
         </EntityContainer>
         <EntityType Name="Leave_approved">
           <Key>
@@ -2483,6 +2499,20 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="pro_username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="pro_password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="hik">
+          <Key>
+            <PropertyRef Name="SID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="datetime" Type="DateTime" Precision="3" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="time" Type="Time" Precision="7" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Device" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DeviceNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Person" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3197,6 +3227,21 @@
                 <ScalarProperty Name="pro_password" ColumnName="pro_password" />
                 <ScalarProperty Name="pro_username" ColumnName="pro_username" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hiks">
+            <EntityTypeMapping TypeName="HRModel.hik">
+              <MappingFragment StoreEntitySet="hik">
+                <ScalarProperty Name="SID" ColumnName="SID" />
+                <ScalarProperty Name="Person" ColumnName="Person" />
+                <ScalarProperty Name="DeviceNo" ColumnName="DeviceNo" />
+                <ScalarProperty Name="Device" ColumnName="Device" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="datetime" ColumnName="datetime" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

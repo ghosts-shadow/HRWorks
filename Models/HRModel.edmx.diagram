@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d587a3b1ebb54aeca10ea2a7eedf8bc7" Name="Diagram1">
+      <Diagram DiagramId="d587a3b1ebb54aeca10ea2a7eedf8bc7" Name="Diagram1" ZoomLevel="72">
         <EntityTypeShape EntityType="HRModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.AspNetRole" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.AspNetUserClaim" Width="1.5" PointX="13.25" PointY="1.125" IsExpanded="true" />
@@ -85,6 +85,7 @@
         <AssociationConnector Association="HRModel.FK_ejsc_To_master_file" />
         <EntityTypeShape EntityType="HRModel.encriptiontest" Width="1.5" PointX="15.5" PointY="11.75" />
         <EntityTypeShape EntityType="HRModel.payrolelogin" Width="1.5" PointX="15.375" PointY="14.75" />
+        <EntityTypeShape EntityType="HRModel.hik" Width="1.5" PointX="17.625" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

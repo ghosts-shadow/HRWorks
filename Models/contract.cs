@@ -25,7 +25,7 @@ namespace HRworks.Models
         public string grade { get; set; }
         [Display(Name = "Departmant Project")]
         public string departmant_project { get; set; }
-        [Display(Name = "Salary Details")]
+        [Display(Name = "Gross Salary")]
         public Nullable<int> salary_details { get; set; }
         [Display(Name = "Basic")]
         public Nullable<int> basic { get; set; }

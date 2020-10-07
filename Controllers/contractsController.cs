@@ -13,6 +13,8 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    using Microsoft.Ajax.Utilities;
+
     public class contractsController : Controller
     {
         private HREntities db = new HREntities();
@@ -106,11 +108,7 @@ namespace HRworks.Controllers
                 {
                     if (++j != ab.Count())
                     {
-                        if (ab[i].employee_no == ab[j].employee_no)
-                        {
-                            continue;
-                        }
-                        else
+                        if (ab[i].employee_no != ab[j].employee_no)
                         {
                             lists.Add(ab[i]);
                         }
@@ -131,7 +129,7 @@ namespace HRworks.Controllers
                 }
             }
             passlist = db.contracts.Include(p=>p.master_file).OrderBy(x => x.employee_id).ToPagedList(pageIndex, defaSize);
-            if (search != null)
+            if (!search.IsNullOrWhiteSpace())
             {
                 
                 lists.RemoveRange(0, lists.Count);
@@ -151,11 +149,7 @@ namespace HRworks.Controllers
                     {
                         if (++j != ab.Count())
                         {
-                            if (ab[i].employee_no == ab[j].employee_no)
-                            {
-                                continue;
-                            }
-                            else
+                            if (ab[i].employee_no != ab[j].employee_no)
                             {
                                 lists.Add(ab[i]);
                             }

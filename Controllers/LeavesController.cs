@@ -486,8 +486,7 @@
                                     new ListItem { Text = "Compassionate", Value = "3" },
                                     new ListItem { Text = "Maternity", Value = "4" },
                                     new ListItem { Text = "Haj", Value = "5" },
-                                    new ListItem { Text = "Unpaid", Value = "6" },
-                                    new ListItem { Text = "others", Value = "7" }
+                                    new ListItem { Text = "Unpaid", Value = "6" }
                                 };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
@@ -526,8 +525,7 @@
                                     new ListItem { Text = "Compassionate", Value = "3" },
                                     new ListItem { Text = "Maternity", Value = "4" },
                                     new ListItem { Text = "Haj", Value = "5" },
-                                    new ListItem { Text = "Unpaid", Value = "6" },
-                                    new ListItem { Text = "others", Value = "7" }
+                                    new ListItem { Text = "Unpaid", Value = "6" }
                                 };
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
             var afinallist = new List<master_file>();
@@ -539,9 +537,38 @@
             }
 
             this.ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
-
+            var leaveid = afinallist.Find(x => x.employee_id == leave.Employee_id);
+            var jd = leaveid.date_joined;
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             string serverfile;
+            var leavelistc = this.db.Leaves.ToList();
+            if (leavelistc.Exists(x=>x.Start_leave<=leave.Start_leave && x.End_leave >= leave.End_leave && x.Employee_id == leave.Employee_id))
+            {
+                ModelState.AddModelError("Start_leave", "already exists");
+
+                goto jderr;
+            }
+            if (leavelistc.Exists(x=>x.End_leave >= leave.Start_leave && x.Employee_id == leave.Employee_id))
+            {
+                ModelState.AddModelError("Start_leave", leave.Start_leave+" already exists");
+
+                goto jderr;
+            }
+            if (leave.Start_leave < jd && leave.Start_leave != default)
+            {
+                ModelState.AddModelError("Start_leave", "selected date is before " +jd);
+                goto jderr;
+            }
+            if (leave.End_leave < jd && leave.End_leave != default)
+            {
+                ModelState.AddModelError("Start_leave", "selected date is before " + jd);
+                goto jderr;
+            }
+            if (leave.End_leave < leave.Start_leave)
+            {
+                ModelState.AddModelError("Start_leave", "cannot add date in reverse");
+                goto jderr;
+            }
             if (fileBase != null)
             {
                 var i = 0;
@@ -597,7 +624,7 @@
                 this.db.SaveChanges();
                 return this.RedirectToAction("Index");
             }
-
+            jderr: ;
             return this.View(leave);
         }
 

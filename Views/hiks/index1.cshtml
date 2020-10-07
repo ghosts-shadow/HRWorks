@@ -1,0 +1,102 @@
+﻿@model IEnumerable<HRworks.Models.hik>
+
+@{
+    ViewBag.Title = "index1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>attendance</h2>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#getdate").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy"
+        });
+    });
+
+
+</script>
+@using (Html.BeginForm("Index1", "hiks"))
+{
+    <div class="row">
+        <div class=" col-md-2">
+            <input type="text" name="getdate" id="getdate" class="form-control" />
+        </div>
+        <div class=" col-md-1">
+            <input type="submit" value="search" class="btn btn-default" />
+        </div>
+        <div class="col-md-5">
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel1", "hiks", new { getdate = ViewBag.eddate })'" value="Export" />
+        </div>
+    </div>
+    <br />
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.datetime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Device)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeviceNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Person)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.datetime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Device)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeviceNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person)
+            </td>
+        </tr>
+    }
+
+</table>

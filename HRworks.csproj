@@ -194,12 +194,14 @@
     <Compile Include="Controllers\BUSINESS_TRIP_REPORT_Controller.cs" />
     <Compile Include="Controllers\CERTIFICATE_REQUESTController.cs" />
     <Compile Include="Controllers\contractsController.cs" />
+    <Compile Include="Controllers\datacorrectionController.cs" />
     <Compile Include="Controllers\DUTY_HANDOVERController.cs" />
     <Compile Include="Controllers\emirates_idController.cs" />
     <Compile Include="Controllers\emp_joi_sta_changeController.cs" />
     <Compile Include="Controllers\encriptiontestsController.cs" />
     <Compile Include="Controllers\end_of_serviceController.cs" />
     <Compile Include="Controllers\EXIT_INTERVIEWController.cs" />
+    <Compile Include="Controllers\hiksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HRA_requsetController.cs" />
     <Compile Include="Controllers\HR_formsController.cs" />
@@ -240,6 +242,9 @@
     <Compile Include="Models\AspNetUserLogin.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Attendance.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ATTENDANCE_ADJUSTMENT.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -278,6 +283,10 @@
     <Compile Include="Models\EXIT_INTERVIEW.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\hik.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\hikshrs.cs" />
     <Compile Include="Models\HRA_requset.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -304,6 +313,9 @@
     </Compile>
     <Compile Include="Models\JOB_INTERVIEW_EVALUATION.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LabourMaster.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\labour_card.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -332,6 +344,9 @@
     <Compile Include="Models\liquilist.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\liquisum.cs" />
+    <Compile Include="Models\MainTimeSheet.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MANPOWER_TRANSFER_REQUEST.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -359,6 +374,21 @@
     </Compile>
     <Compile Include="Models\Table.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\timesheet.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>timesheet.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\timesheet.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\timesheet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>timesheet.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Training_Effectiveness.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -444,6 +474,13 @@
     </Content>
     <Content Include="Content\chosen\composer.json" />
     <Content Include="Content\chosen\LICENSE.md" />
+    <EntityDeploy Include="Models\timesheet.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>timesheet.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\timesheet.edmx.diagram">
+      <DependentUpon>timesheet.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Models\HRModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -454,6 +491,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HRModel.edmx</DependentUpon>
       <LastGenOutput>HRModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\timesheet.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>timesheet.edmx</DependentUpon>
+      <LastGenOutput>timesheet.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\timesheet.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>timesheet.edmx</DependentUpon>
+      <LastGenOutput>timesheet.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\ajaxjquery.min.js" />
     <Content Include="Scripts\bootstrap scripts\bootstrap.bundle.js" />
@@ -482,6 +529,7 @@
     <Content Include="Scripts\jqueryui.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Scripts\momentjs.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -681,6 +729,13 @@
     <Content Include="Views\encriptiontests\Index.cshtml" />
     <Content Include="Views\payrolelogins\Create.cshtml" />
     <Content Include="Views\liquidations\subindex.cshtml" />
+    <Content Include="Views\hiks\Create.cshtml" />
+    <Content Include="Views\hiks\Delete.cshtml" />
+    <Content Include="Views\hiks\Details.cshtml" />
+    <Content Include="Views\hiks\Edit.cshtml" />
+    <Content Include="Views\hiks\Index.cshtml" />
+    <Content Include="Views\hiks\index1.cshtml" />
+    <Content Include="Views\datacorrection\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

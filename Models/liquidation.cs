@@ -17,14 +17,14 @@ namespace HRworks.Models
     {
         public int Id { get; set; }
         [Display(Name = "bill no")]
-        public Nullable<long> bill_no { get; set; }
+        public string bill_no { get; set; }
         public string expenses { get; set; }
         public Nullable<System.DateTime> invoice_date { get; set; }
         [DataType(DataType.MultilineText)]
         public string discription { get; set; }
         [Display(Name = "Employee NO")]
         public Nullable<int> employee_no { get; set; }
-        public Nullable<long> MBNo { get; set; }
+        public string MBNo { get; set; }
         [Display(Name = "invoice (vat exclusive)")]
         public Nullable<decimal> invoice { get; set; }
         [Display(Name = "VAT charge")]

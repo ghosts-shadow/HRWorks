@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LogisticsSoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpID" Type="bigint" Nullable="false" />
+          <Property Name="SubMain" Type="bigint" Nullable="false" />
+          <Property Name="1" Type="nvarchar" MaxLength="50" />
+          <Property Name="2" Type="nvarchar" MaxLength="50" />
+          <Property Name="3" Type="nvarchar" MaxLength="50" />
+          <Property Name="4" Type="nvarchar" MaxLength="50" />
+          <Property Name="5" Type="nvarchar" MaxLength="50" />
+          <Property Name="6" Type="nvarchar" MaxLength="50" />
+          <Property Name="7" Type="nvarchar" MaxLength="50" />
+          <Property Name="8" Type="nvarchar" MaxLength="50" />
+          <Property Name="9" Type="nvarchar" MaxLength="50" />
+          <Property Name="10" Type="nvarchar" MaxLength="50" />
+          <Property Name="11" Type="nvarchar" MaxLength="50" />
+          <Property Name="12" Type="nvarchar" MaxLength="50" />
+          <Property Name="13" Type="nvarchar" MaxLength="50" />
+          <Property Name="14" Type="nvarchar" MaxLength="50" />
+          <Property Name="15" Type="nvarchar" MaxLength="50" />
+          <Property Name="16" Type="nvarchar" MaxLength="50" />
+          <Property Name="17" Type="nvarchar" MaxLength="50" />
+          <Property Name="18" Type="nvarchar" MaxLength="50" />
+          <Property Name="19" Type="nvarchar" MaxLength="50" />
+          <Property Name="20" Type="nvarchar" MaxLength="50" />
+          <Property Name="21" Type="nvarchar" MaxLength="50" />
+          <Property Name="22" Type="nvarchar" MaxLength="50" />
+          <Property Name="23" Type="nvarchar" MaxLength="50" />
+          <Property Name="24" Type="nvarchar" MaxLength="50" />
+          <Property Name="25" Type="nvarchar" MaxLength="50" />
+          <Property Name="26" Type="nvarchar" MaxLength="50" />
+          <Property Name="27" Type="nvarchar" MaxLength="50" />
+          <Property Name="28" Type="nvarchar" MaxLength="50" />
+          <Property Name="29" Type="nvarchar" MaxLength="50" />
+          <Property Name="30" Type="nvarchar" MaxLength="50" />
+          <Property Name="31" Type="nvarchar" MaxLength="50" />
+          <Property Name="TotalHours" Type="bigint" />
+          <Property Name="TotalOverTime" Type="bigint" />
+          <Property Name="TotalAbsent" Type="bigint" />
+          <Property Name="AccommodationDeduction" Type="bigint" />
+          <Property Name="FoodDeduction" Type="bigint" />
+          <Property Name="TotalWorkingDays" Type="bigint" />
+          <Property Name="TotalVL" Type="bigint" />
+          <Property Name="TotalTransefer" Type="bigint" />
+          <Property Name="TotalSickLeave" Type="bigint" />
+          <Property Name="FridayHours" Type="bigint" />
+          <Property Name="Holidays" Type="bigint" />
+          <Property Name="ManPowerSupply" Type="nvarchar" MaxLength="255" />
+          <Property Name="CompID" Type="bigint" />
+          <Property Name="Encoded Absolute URL" Type="nvarchar" MaxLength="255" />
+          <Property Name="Item Type" Type="nvarchar" MaxLength="255" />
+          <Property Name="Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="URL Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="Workflow Instance ID" Type="nvarchar" MaxLength="255" />
+          <Property Name="File Type" Type="nvarchar" MaxLength="255" />
+          <Property Name="xABST" Type="bigint" />
+          <Property Name="nABST" Type="bigint" />
+          <Property Name="xOT" Type="bigint" />
+          <Property Name="nnOT" Type="bigint" />
+          <Property Name="status" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="LabourMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="EMPNO" Type="bigint" Nullable="false" />
+          <Property Name="ManPowerSupply" Type="int" Nullable="false" />
+          <Property Name="VisaSponser" Type="nvarchar" MaxLength="255" />
+          <Property Name="Person Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Position" Type="nvarchar" MaxLength="255" />
+          <Property Name="Nationality" Type="nvarchar" MaxLength="255" />
+          <Property Name="UID No" Type="bigint" />
+          <Property Name="ResidenceVisaExpiry" Type="datetime" />
+          <Property Name="LaborCardNumber" Type="bigint" />
+          <Property Name="LaborCardExpiry" Type="datetime" />
+          <Property Name="PassportNo" Type="nvarchar" MaxLength="255" />
+          <Property Name="Passportexpiry" Type="datetime" />
+          <Property Name="EID" Type="nvarchar" MaxLength="255" />
+          <Property Name="EIDExpiry" Type="datetime" />
+          <Property Name="Status" Type="nvarchar" MaxLength="255" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="255" />
+          <Property Name="Encoded Absolute URL" Type="nvarchar" MaxLength="255" />
+          <Property Name="Item Type" Type="float" />
+          <Property Name="Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="URL Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="Workflow Instance ID" Type="nvarchar" MaxLength="255" />
+          <Property Name="File Type" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="MainTimeSheet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TMonth" Type="date" Nullable="false" />
+          <Property Name="ManPowerSupplier" Type="bigint" Nullable="false" />
+          <Property Name="Project" Type="bigint" Nullable="false" />
+          <Property Name="Ref" Type="nvarchar" MaxLength="255" />
+          <Property Name="RefNo" Type="float" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="255" />
+          <Property Name="PCName" Type="nvarchar" MaxLength="255" />
+          <Property Name="SAV" Type="bit" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="255" />
+          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="Startit" Type="bit" Nullable="false" />
+          <Property Name="Encoded Absolute URL" Type="nvarchar" MaxLength="255" />
+          <Property Name="Item Type" Type="nvarchar" MaxLength="255" />
+          <Property Name="Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="URL Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="Workflow Instance ID" Type="nvarchar" MaxLength="255" />
+          <Property Name="File Type" Type="nvarchar" MaxLength="255" />
+          <Property Name="TMnth" Type="int" />
+        </EntityType>
+        <Association Name="FK_Attendance_ToLabourMaster">
+          <End Role="LabourMaster" Type="Self.LabourMaster" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LabourMaster">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="EmpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Attendance_ToMainTimeSheet">
+          <End Role="MainTimeSheet" Type="Self.MainTimeSheet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MainTimeSheet">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="SubMain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LogisticsSoftModelStoreContainer">
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LabourMaster" EntityType="Self.LabourMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MainTimeSheet" EntityType="Self.MainTimeSheet" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Attendance_ToLabourMaster" Association="Self.FK_Attendance_ToLabourMaster">
+            <End Role="LabourMaster" EntitySet="LabourMaster" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Attendance_ToMainTimeSheet" Association="Self.FK_Attendance_ToMainTimeSheet">
+            <End Role="MainTimeSheet" EntitySet="MainTimeSheet" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LogisticsSoftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpID" Type="Int64" Nullable="false" />
+          <Property Name="SubMain" Type="Int64" Nullable="false" />
+          <Property Name="C1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C5" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C6" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C7" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C8" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C11" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C12" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C13" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C14" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C15" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C16" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C17" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C18" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C19" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C20" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C21" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C22" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C23" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C24" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C25" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C26" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C27" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C28" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C29" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C30" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C31" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TotalHours" Type="Int64" />
+          <Property Name="TotalOverTime" Type="Int64" />
+          <Property Name="TotalAbsent" Type="Int64" />
+          <Property Name="AccommodationDeduction" Type="Int64" />
+          <Property Name="FoodDeduction" Type="Int64" />
+          <Property Name="TotalWorkingDays" Type="Int64" />
+          <Property Name="TotalVL" Type="Int64" />
+          <Property Name="TotalTransefer" Type="Int64" />
+          <Property Name="TotalSickLeave" Type="Int64" />
+          <Property Name="FridayHours" Type="Int64" />
+          <Property Name="Holidays" Type="Int64" />
+          <Property Name="ManPowerSupply" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CompID" Type="Int64" />
+          <Property Name="Encoded_Absolute_URL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Item_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="URL_Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Workflow_Instance_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="File_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="xABST" Type="Int64" />
+          <Property Name="nABST" Type="Int64" />
+          <Property Name="xOT" Type="Int64" />
+          <Property Name="nnOT" Type="Int64" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MainTimeSheet" Relationship="Self.FK_Attendance_ToMainTimeSheet" FromRole="Attendance" ToRole="MainTimeSheet" />
+          <NavigationProperty Name="LabourMaster" Relationship="LogisticsSoftModel.FK_Attendance_ToLabourMaster" FromRole="Attendance" ToRole="LabourMaster" />
+        </EntityType>
+        <EntityType Name="MainTimeSheet">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TMonth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ManPowerSupplier" Type="Int64" Nullable="false" />
+          <Property Name="Project" Type="Int64" Nullable="false" />
+          <Property Name="Ref" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RefNo" Type="Double" />
+          <Property Name="UserName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PCName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SAV" Type="Boolean" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Startit" Type="Boolean" Nullable="false" />
+          <Property Name="Encoded_Absolute_URL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Item_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="URL_Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Workflow_Instance_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="File_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="TMnth" Type="Int32" />
+          <NavigationProperty Name="Attendances" Relationship="Self.FK_Attendance_ToMainTimeSheet" FromRole="MainTimeSheet" ToRole="Attendance" />
+        </EntityType>
+        <Association Name="FK_Attendance_ToMainTimeSheet">
+          <End Role="MainTimeSheet" Type="Self.MainTimeSheet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MainTimeSheet">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="SubMain" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LogisticsSoftEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attendances" EntityType="Self.Attendance" />
+          <EntitySet Name="MainTimeSheets" EntityType="Self.MainTimeSheet" />
+          <AssociationSet Name="FK_Attendance_ToMainTimeSheet" Association="Self.FK_Attendance_ToMainTimeSheet">
+            <End Role="MainTimeSheet" EntitySet="MainTimeSheets" />
+            <End Role="Attendance" EntitySet="Attendances" />
+          </AssociationSet>
+          <EntitySet Name="LabourMasters" EntityType="LogisticsSoftModel.LabourMaster" />
+          <AssociationSet Name="FK_Attendance_ToLabourMaster" Association="LogisticsSoftModel.FK_Attendance_ToLabourMaster">
+            <End Role="LabourMaster" EntitySet="LabourMasters" />
+            <End Role="Attendance" EntitySet="Attendances" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="LabourMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="EMPNO" Type="Int64" Nullable="false" />
+          <Property Name="ManPowerSupply" Type="Int32" Nullable="false" />
+          <Property Name="VisaSponser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Person_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Nationality" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UID_No" Type="Int64" />
+          <Property Name="ResidenceVisaExpiry" Type="DateTime" Precision="3" />
+          <Property Name="LaborCardNumber" Type="Int64" />
+          <Property Name="LaborCardExpiry" Type="DateTime" Precision="3" />
+          <Property Name="PassportNo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Passportexpiry" Type="DateTime" Precision="3" />
+          <Property Name="EID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="EIDExpiry" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Encoded_Absolute_URL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Item_Type" Type="Double" />
+          <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="URL_Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Workflow_Instance_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="File_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Attendances" Relationship="LogisticsSoftModel.FK_Attendance_ToLabourMaster" FromRole="LabourMaster" ToRole="Attendance" />
+        </EntityType>
+        <Association Name="FK_Attendance_ToLabourMaster">
+          <End Type="LogisticsSoftModel.LabourMaster" Role="LabourMaster" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LogisticsSoftModel.Attendance" Role="Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LabourMaster">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="EmpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LogisticsSoftModelStoreContainer" CdmEntityContainer="LogisticsSoftEntities">
+          <EntitySetMapping Name="Attendances">
+            <EntityTypeMapping TypeName="LogisticsSoftModel.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="SubMain" ColumnName="SubMain" />
+                <ScalarProperty Name="C1" ColumnName="1" />
+                <ScalarProperty Name="C2" ColumnName="2" />
+                <ScalarProperty Name="C3" ColumnName="3" />
+                <ScalarProperty Name="C4" ColumnName="4" />
+                <ScalarProperty Name="C5" ColumnName="5" />
+                <ScalarProperty Name="C6" ColumnName="6" />
+                <ScalarProperty Name="C7" ColumnName="7" />
+                <ScalarProperty Name="C8" ColumnName="8" />
+                <ScalarProperty Name="C9" ColumnName="9" />
+                <ScalarProperty Name="C10" ColumnName="10" />
+                <ScalarProperty Name="C11" ColumnName="11" />
+                <ScalarProperty Name="C12" ColumnName="12" />
+                <ScalarProperty Name="C13" ColumnName="13" />
+                <ScalarProperty Name="C14" ColumnName="14" />
+                <ScalarProperty Name="C15" ColumnName="15" />
+                <ScalarProperty Name="C16" ColumnName="16" />
+                <ScalarProperty Name="C17" ColumnName="17" />
+                <ScalarProperty Name="C18" ColumnName="18" />
+                <ScalarProperty Name="C19" ColumnName="19" />
+                <ScalarProperty Name="C20" ColumnName="20" />
+                <ScalarProperty Name="C21" ColumnName="21" />
+                <ScalarProperty Name="C22" ColumnName="22" />
+                <ScalarProperty Name="C23" ColumnName="23" />
+                <ScalarProperty Name="C24" ColumnName="24" />
+                <ScalarProperty Name="C25" ColumnName="25" />
+                <ScalarProperty Name="C26" ColumnName="26" />
+                <ScalarProperty Name="C27" ColumnName="27" />
+                <ScalarProperty Name="C28" ColumnName="28" />
+                <ScalarProperty Name="C29" ColumnName="29" />
+                <ScalarProperty Name="C30" ColumnName="30" />
+                <ScalarProperty Name="C31" ColumnName="31" />
+                <ScalarProperty Name="TotalHours" ColumnName="TotalHours" />
+                <ScalarProperty Name="TotalOverTime" ColumnName="TotalOverTime" />
+                <ScalarProperty Name="TotalAbsent" ColumnName="TotalAbsent" />
+                <ScalarProperty Name="AccommodationDeduction" ColumnName="AccommodationDeduction" />
+                <ScalarProperty Name="FoodDeduction" ColumnName="FoodDeduction" />
+                <ScalarProperty Name="TotalWorkingDays" ColumnName="TotalWorkingDays" />
+                <ScalarProperty Name="TotalVL" ColumnName="TotalVL" />
+                <ScalarProperty Name="TotalTransefer" ColumnName="TotalTransefer" />
+                <ScalarProperty Name="TotalSickLeave" ColumnName="TotalSickLeave" />
+                <ScalarProperty Name="FridayHours" ColumnName="FridayHours" />
+                <ScalarProperty Name="Holidays" ColumnName="Holidays" />
+                <ScalarProperty Name="ManPowerSupply" ColumnName="ManPowerSupply" />
+                <ScalarProperty Name="CompID" ColumnName="CompID" />
+                <ScalarProperty Name="Encoded_Absolute_URL" ColumnName="Encoded Absolute URL" />
+                <ScalarProperty Name="Item_Type" ColumnName="Item Type" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="URL_Path" ColumnName="URL Path" />
+                <ScalarProperty Name="Workflow_Instance_ID" ColumnName="Workflow Instance ID" />
+                <ScalarProperty Name="File_Type" ColumnName="File Type" />
+                <ScalarProperty Name="xABST" ColumnName="xABST" />
+                <ScalarProperty Name="nABST" ColumnName="nABST" />
+                <ScalarProperty Name="xOT" ColumnName="xOT" />
+                <ScalarProperty Name="nnOT" ColumnName="nnOT" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MainTimeSheets">
+            <EntityTypeMapping TypeName="LogisticsSoftModel.MainTimeSheet">
+              <MappingFragment StoreEntitySet="MainTimeSheet">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TMonth" ColumnName="TMonth" />
+                <ScalarProperty Name="ManPowerSupplier" ColumnName="ManPowerSupplier" />
+                <ScalarProperty Name="Project" ColumnName="Project" />
+                <ScalarProperty Name="Ref" ColumnName="Ref" />
+                <ScalarProperty Name="RefNo" ColumnName="RefNo" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="PCName" ColumnName="PCName" />
+                <ScalarProperty Name="SAV" ColumnName="SAV" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="Startit" ColumnName="Startit" />
+                <ScalarProperty Name="Encoded_Absolute_URL" ColumnName="Encoded Absolute URL" />
+                <ScalarProperty Name="Item_Type" ColumnName="Item Type" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="URL_Path" ColumnName="URL Path" />
+                <ScalarProperty Name="Workflow_Instance_ID" ColumnName="Workflow Instance ID" />
+                <ScalarProperty Name="File_Type" ColumnName="File Type" />
+                <ScalarProperty Name="TMnth" ColumnName="TMnth" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LabourMasters">
+            <EntityTypeMapping TypeName="LogisticsSoftModel.LabourMaster">
+              <MappingFragment StoreEntitySet="LabourMaster">
+                <ScalarProperty Name="File_Type" ColumnName="File Type" />
+                <ScalarProperty Name="Workflow_Instance_ID" ColumnName="Workflow Instance ID" />
+                <ScalarProperty Name="URL_Path" ColumnName="URL Path" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Item_Type" ColumnName="Item Type" />
+                <ScalarProperty Name="Encoded_Absolute_URL" ColumnName="Encoded Absolute URL" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EIDExpiry" ColumnName="EIDExpiry" />
+                <ScalarProperty Name="EID" ColumnName="EID" />
+                <ScalarProperty Name="Passportexpiry" ColumnName="Passportexpiry" />
+                <ScalarProperty Name="PassportNo" ColumnName="PassportNo" />
+                <ScalarProperty Name="LaborCardExpiry" ColumnName="LaborCardExpiry" />
+                <ScalarProperty Name="LaborCardNumber" ColumnName="LaborCardNumber" />
+                <ScalarProperty Name="ResidenceVisaExpiry" ColumnName="ResidenceVisaExpiry" />
+                <ScalarProperty Name="UID_No" ColumnName="UID No" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Person_Name" ColumnName="Person Name" />
+                <ScalarProperty Name="VisaSponser" ColumnName="VisaSponser" />
+                <ScalarProperty Name="ManPowerSupply" ColumnName="ManPowerSupply" />
+                <ScalarProperty Name="EMPNO" ColumnName="EMPNO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

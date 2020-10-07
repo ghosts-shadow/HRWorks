@@ -1,4 +1,5 @@
-﻿function hi(id) {
+﻿importScripts('~/Scripts/momentjs.js');
+function hi(id) {
     var a = $("#empnow option:selected").val();
     $("#name").val(a);
     $("#nameval").val($("#name option:selected").text());
@@ -22,6 +23,9 @@
     $("#unpval").val($("#unp option:selected").text());
     $("#unpval").html($("#unp option:selected").text());
     $("#joi").val(a);
+    $("#abs").val(a);
+    $("#absval").val($("#abs option:selected").text());
+    $("#absval").html($("#abs option:selected").text());
     var sno1 = parseInt($("#status option:selected").val());
     var from = $("#joi option:selected").text();
     var n = from.indexOf(" ");
@@ -32,16 +36,21 @@
     $("#joival2").html(from);
     var dajo = new Date(from);
     var dala = new Date($("#datepicker").val());
-    var unpd = parseInt($("#unpval").val());
-    if (unpd == "NaN" || unpd == "undefined") {
-        unpd = 0;
+    var unpd = 0;
+    if ($("#unpval").val() != "") {
+        unpd = parseInt($("#unpval").val());
+    }
+    var abs = 0;
+    if ($("#absval").val() != "") {
+        abs = parseInt($("#absval").val());
     }
     var bac = parseInt($("#bacval").val());
     var dwr = bac * 12 / 365;
     $("#bacvalpd").val(dwr.toFixed(2));
     $("#bacvalpd").html(dwr.toFixed(2));
-    var untw = (dala - dajo) / 1000 / 60 / 60 / 24 + 1;
-    var tw = (dala - dajo) / 1000 / 60 / 60 / 24 - unpd + 1;
+    var ddd = dala.getTime() - dajo.getTime();
+    var untw = (ddd / 1000 / 60 / 60 / 24) + 1;
+    var tw = (((ddd / 1000 / 60 / 60 / 24) - unpd) - abs) + 1;
     var twmonth = (tw / (365 / 12)).toFixed(2);
     var twyrs = (twmonth / 12).toFixed(2);
     var untwmonth = (untw / (365 / 12)).toFixed(2);
@@ -49,9 +58,9 @@
     if (sno1 == 2) {
         if (tw > 364) {
             $("#ldval2").val(tw + " days " + twmonth + " months " + twyrs + " years");
-            $("#ldval2").html(tw + " days " + twmonth + " months " + twyrs + " years");
+            $("#ldval2").html(humanise(tw));
             $("#ldval3").val(untw + " days " + untwmonth + " months " + untwyrs + " years");
-            $("#ldval3").html(untw + " days " + untwmonth + " months " + untwyrs + " years");
+            $("#ldval3").html(humanise(untw));
             var eossum = 0;
             if (tw > 1824) {
                 $("#eospwval").val(((tw) * 30 / 365 / 30).toFixed(2));
@@ -121,18 +130,18 @@
                 $("#after5eosv").val(0);
                 $("#after5eosv").html(0);
                 eossum = ((tw * 21) / 365);
-                $("#eostotal").val(eossum);
-                $("#eostotal").html(eossum);
-                $("#eostotalv").val(eossum * dwr);
-                $("#eostotalv").html(eossum * dwr);
+                $("#eostotal").val(eossum.toFixed(2));
+                $("#eostotal").html(eossum.toFixed(2));
+                $("#eostotalv").val((eossum * dwr).toFixed(2));
+                $("#eostotalv").html((eossum * dwr).toFixed(2));
             }
         } else {
             $("#eospwval").val(0);
             $("#eospwval").html(0);
             $("#ldval2").val(tw + " days " + twmonth + " months " + twyrs + " years");
-            $("#ldval2").html(tw + " days " + twmonth + " months " + twyrs + " years");
+            $("#ldval2").html(humanise(tw) );
             $("#ldval3").val(untw + " days " + untwmonth + " months " + untwyrs + " years");
-            $("#ldval3").html(untw + " days " + untwmonth + " months " + untwyrs + " years");
+            $("#ldval3").html(humanise(untw) );
             $("#td5val").val(0);
             $("#td5val").html(0);
             $("#tda5val").val(0);
@@ -152,11 +161,9 @@
         $("#eospwval").val(0);
         $("#eospwval").html(0);
         $("#ldval2").val(tw + " days " + twmonth + " months " + twyrs + " years");
-        $("#ldval2").html(tw + " days " + twmonth + " months " + twyrs + " years");
+        $("#ldval2").html(humanise(tw) );
         $("#ldval3").val(untw + " days " + untwmonth + " months " + untwyrs + " years");
-        $("#ldval3").html(untw + " days " + untwmonth + " months " + untwyrs + " years");
-        $("#ldval3").val(untw + " days " + untwmonth + " months " + untwyrs + " years");
-        $("#ldval3").html(untw + " days " + untwmonth + " months " + untwyrs + " years");
+        $("#ldval3").html(humanise(untw) );
         $("#td5val").val(0);
         $("#td5val").html(0);
         $("#tda5val").val(0);
@@ -189,10 +196,10 @@
             $("#eosl3").html((tw) * 7 / 365);
             $("#eosl3v").val((tw) * 7 / 365 * dwr);
             $("#eosl3v").html((tw) * 7 / 365 * dwr);
-            $("#eostotal").val(((tw * 7) / 365).toFixed(2) + " days " + (((tw * 7) / 365) / 12).toFixed(2) + " months ");
-            $("#eostotal").html(((tw * 7) / 365).toFixed(2) + " days " + (((tw * 7) / 365) / 12).toFixed(2) + " months ");
-            $("#eostotalv").val((tw) * 7 / 365 * dwr);
-            $("#eostotalv").html((tw) * 7 / 365 * dwr);
+            $("#eostotal").val(((tw * 7) / 365).toFixed(2));
+            $("#eostotal").html(((tw * 7) / 365).toFixed(2));
+            $("#eostotalv").val(((tw) * 7 / 365 * dwr).toFixed(2));
+            $("#eostotalv").html(((tw) * 7 / 365 * dwr).toFixed(2));
         } else if (tw >= 1094 && tw <= 1824) {
             $("#eosl3").val(1095 * 7 / 365);
             $("#eosl3").html(1095 * 7 / 365);
@@ -202,10 +209,10 @@
             $("#eos3_5").html((tw) * 14 / 365 * dwr);
             $("#eos3_5d").val((tw) * 14 / 365);
             $("#eos3_5d").html((tw) * 14 / 365);
-            $("#eostotalv").val((tw) * 14 / 365 * dwr);
-            $("#eostotalv").html((tw) * 14 / 365 * dwr);
-            $("#eostotal").val((tw) * 14 / 365);
-            $("#eostotal").html((tw) * 14 / 365);
+            $("#eostotalv").val(((tw) * 14 / 365 * dwr).toFixed(2));
+            $("#eostotalv").html(((tw) * 14 / 365 * dwr).toFixed(2));
+            $("#eostotal").val(((tw) * 14 / 365).toFixed(2));
+            $("#eostotal").html(((tw) * 14 / 365).toFixed(2));
         } else if (tw > 1824) {
             $("#eosl3").val(1095 * 7 / 365);
             $("#eosl3").html(1095 * 7 / 365);
@@ -219,18 +226,18 @@
             $("#eos5").html((tw) * 21 / 365);
             $("#eos5v").val((tw) * 21 / 365 * dwr);
             $("#eos5v").html((tw) * 21 / 365 * dwr);
-            $("#eostotal").val((tw) * 21 / 365);
-            $("#eostotal").html((tw) * 21 / 365);
-            $("#eostotalv").val((tw) * 21 / 365 * dwr);
-            $("#eostotalv").html((tw) * 21 / 365 * dwr);
+            $("#eostotal").val(((tw) * 21 / 365).toFixed(2));
+            $("#eostotal").html(((tw) * 21 / 365).toFixed(2));
+            $("#eostotalv").val(((tw) * 21 / 365 * dwr).toFixed(2));
+            $("#eostotalv").html(((tw) * 21 / 365 * dwr).toFixed(2));
         } else {
 
             $("#eospwval").val(0);
             $("#eospwval").html(0);
             $("#ldval2").val(tw + " days " + twmonth + " months " + twyrs + " years");
-            $("#ldval2").html(tw + " days " + twmonth + " months " + twyrs + " years");
+            $("#ldval2").html(humanise(tw) );
             $("#ldval3").val(untw + " days " + untwmonth + " months " + untwyrs + " years");
-            $("#ldval3").html(untw + " days " + untwmonth + " months " + untwyrs + " years");
+            $("#ldval3").html(humanise(untw) );
             $("#td5val").val(0);
             $("#td5val").html(0);
             $("#tda5val").val(0);
@@ -259,4 +266,24 @@
             $("#eos5v").html(0);
         }
     }
+}
+
+function humanise(diff) {
+    // The string we're working with to create the representation
+    var str = '';
+    // Map lengths of `diff` to different time periods
+    var values = [[' year', 365], [' month', 30], [' day', 1]];
+    // Iterate over the values...
+    for (var i = 0; i < values.length; i++) {
+        var amount = Math.floor(diff / values[i][1]);
+        // ... and find the largest time value that fits into the diff
+        if (amount >= 1) {
+            // If we match, add to the string ('s' is for pluralization)
+            str += amount + values[i][0] + (amount > 1 ? 's' : '') + ' ';
+
+            // and subtract from the diff
+            diff -= amount * values[i][1];
+        }
+    }
+    return str;
 }

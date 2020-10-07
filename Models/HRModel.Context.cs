@@ -68,7 +68,6 @@ namespace HRworks.Models
         public virtual DbSet<emp_joi_sta_change> emp_joi_sta_change { get; set; }
         public virtual DbSet<encriptiontest> encriptiontests { get; set; }
         public virtual DbSet<payrolelogin> payrolelogins { get; set; }
-
-        public System.Data.Entity.DbSet<HRworks.Models.liquisum> liquisums { get; set; }
+        public virtual DbSet<hik> hiks { get; set; }
     }
 }

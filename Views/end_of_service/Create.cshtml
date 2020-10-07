@@ -61,6 +61,7 @@
                         @Html.DropDownList("a", new List<SelectListItem>(ViewBag.bac), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "bac" })
                         @Html.DropDownList("a", new List<SelectListItem>(ViewBag.hou), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "hou" })
                         @Html.DropDownList("a", new List<SelectListItem>(ViewBag.gro), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "gro" })
+                        @Html.DropDownList("a", new List<SelectListItem>(ViewBag.absencel), htmlAttributes: new { @class = "form-control", @style = "display:none", id = "abs" })
                         @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
                     </td>
                     <td>
@@ -147,8 +148,8 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <td>total absent</td>
+                    <td> <label id="absval" class="form-control"></label></td>
                     <td></td>
                     <td></td>
                 </tr>
