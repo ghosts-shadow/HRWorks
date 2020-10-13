@@ -86,6 +86,8 @@
         <EntityTypeShape EntityType="HRModel.encriptiontest" Width="1.5" PointX="15.5" PointY="11.75" />
         <EntityTypeShape EntityType="HRModel.payrolelogin" Width="1.5" PointX="15.375" PointY="14.75" />
         <EntityTypeShape EntityType="HRModel.hik" Width="1.5" PointX="17.625" PointY="0.75" />
+        <EntityTypeShape EntityType="HRModel.absencelist" Width="1.5" PointX="17.375" PointY="4.75" />
+        <EntityTypeShape EntityType="HRModel.contractlogin" Width="1.5" PointX="17.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

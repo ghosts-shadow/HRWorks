@@ -15,6 +15,14 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
+        <EntityType Name="absencelist">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="emp_id" Type="int" />
+          <Property Name="abs_date" Type="datetime" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -150,6 +158,14 @@
           <Property Name="imgpath" Type="nvarchar(max)" />
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
+        </EntityType>
+        <EntityType Name="contractlogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pro_username" Type="nvarchar(max)" />
+          <Property Name="pro_password" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="DUTY_HANDOVER">
           <Key>
@@ -878,7 +894,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_leave_cal_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="leavecal" Type="Self.leavecal" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1039,6 +1057,7 @@
         </Association>
         <EntityContainer Name="HRModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="absencelist" EntityType="Self.absencelist" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -1049,6 +1068,7 @@
           <EntitySet Name="BUSINESS_TRIP_REPORT " EntityType="Self.BUSINESS_TRIP_REPORT " Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CERTIFICATE_REQUEST" EntityType="Self.CERTIFICATE_REQUEST" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="contract" EntityType="Self.contract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="contractlogin" EntityType="Self.contractlogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DUTY_HANDOVER" EntityType="Self.DUTY_HANDOVER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emp_joi_sta_change" EntityType="Self.emp_joi_sta_change" Schema="dbo" store:Type="Tables" />
@@ -1388,7 +1408,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="bill_no" Type="String" />
+          <Property Name="bill_no" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="expenses" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="invoice_date" Type="DateTime" Precision="0" />
           <Property Name="discription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -1881,6 +1901,8 @@
           <EntitySet Name="encriptiontests" EntityType="HRModel.encriptiontest" />
           <EntitySet Name="payrolelogins" EntityType="HRModel.payrolelogin" />
           <EntitySet Name="hiks" EntityType="HRModel.hik" />
+          <EntitySet Name="absencelists" EntityType="HRModel.absencelist" />
+          <EntitySet Name="contractlogins" EntityType="HRModel.contractlogin" />
         </EntityContainer>
         <EntityType Name="Leave_approved">
           <Key>
@@ -2513,6 +2535,22 @@
           <Property Name="DeviceNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Person" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="SID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="absencelist">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="emp_id" Type="Int32" />
+          <Property Name="abs_date" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="contractlogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pro_username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="pro_password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3242,6 +3280,24 @@
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="datetime" ColumnName="datetime" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="absencelists">
+            <EntityTypeMapping TypeName="HRModel.absencelist">
+              <MappingFragment StoreEntitySet="absencelist">
+                <ScalarProperty Name="abs_date" ColumnName="abs_date" />
+                <ScalarProperty Name="emp_id" ColumnName="emp_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="contractlogins">
+            <EntityTypeMapping TypeName="HRModel.contractlogin">
+              <MappingFragment StoreEntitySet="contractlogin">
+                <ScalarProperty Name="pro_password" ColumnName="pro_password" />
+                <ScalarProperty Name="pro_username" ColumnName="pro_username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

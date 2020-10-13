@@ -193,7 +193,7 @@
     <Compile Include="Controllers\bank_detailsController.cs" />
     <Compile Include="Controllers\BUSINESS_TRIP_REPORT_Controller.cs" />
     <Compile Include="Controllers\CERTIFICATE_REQUESTController.cs" />
-    <Compile Include="Controllers\contractsController.cs" />
+    <Compile Include="Controllers\contractloginsController.cs" />
     <Compile Include="Controllers\datacorrectionController.cs" />
     <Compile Include="Controllers\DUTY_HANDOVERController.cs" />
     <Compile Include="Controllers\emirates_idController.cs" />
@@ -229,6 +229,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\absencelist.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetRole.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -258,6 +261,9 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\contract.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\contractlogin.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\con_leavemodel.cs" />
@@ -736,6 +742,7 @@
     <Content Include="Views\hiks\Index.cshtml" />
     <Content Include="Views\hiks\index1.cshtml" />
     <Content Include="Views\datacorrection\Index.cshtml" />
+    <Content Include="Views\contractlogins\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -738,15 +738,21 @@
 
             var empjd = emp_listfinal.Find(x => x.employee_no == Employee_id);
             Employee_id = empjd.employee_id;
+            if (Employee_id == null && eddate == null)
+            {
+                passexel = this.db.Leaves.ToList();
+                goto all;
+            }
+
             if (Employee_id != null && eddate != null)
             {
-                
+
                 var asf = empjd.date_joined;
                 var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
                     x => x.Employee_id == Employee_id && x.Start_leave >= asf && x.End_leave <= eddate);
                 var times = eddate - asf;
                 if (times != null)
-                { 
+                {
                     period = times.Value.TotalDays + 1;
                     var ump = leaves.ToList();
                     foreach (var leaf in ump)
@@ -866,7 +872,7 @@
                                 }
                             }
                         }
-                        
+
                         if (leaf.leave_type == "1")
                         {
                             if (leaf.days != null)
@@ -896,7 +902,7 @@
                     passexel = ump;
                 }
             }
-            var Ep = new ExcelPackage();
+            all: var Ep = new ExcelPackage();
             var Sheet = Ep.Workbook.Worksheets.Add("leaves_report".ToUpper());
             Sheet.Cells["A1"].Value = "employee no";
             Sheet.Cells["B1"].Value = "employee name";

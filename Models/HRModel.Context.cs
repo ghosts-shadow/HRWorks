@@ -69,5 +69,7 @@ namespace HRworks.Models
         public virtual DbSet<encriptiontest> encriptiontests { get; set; }
         public virtual DbSet<payrolelogin> payrolelogins { get; set; }
         public virtual DbSet<hik> hiks { get; set; }
+        public virtual DbSet<absencelist> absencelists { get; set; }
+        public virtual DbSet<contractlogin> contractlogins { get; set; }
     }
 }
