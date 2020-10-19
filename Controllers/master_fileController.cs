@@ -193,7 +193,7 @@ namespace HRworks.Controllers
         }
 
         // GET: master_file/Create
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "super_admin,admin")]
         public ActionResult Create()
         {
 
@@ -206,7 +206,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "super_admin,admin")]
         public ActionResult Create([Bind(Include = "employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id")] master_file master_file, HttpPostedFileBase fileBase)
         {
 
@@ -263,7 +263,7 @@ namespace HRworks.Controllers
         }
 
         // GET: master_file/Edit/5
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "super_admin,admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -284,7 +284,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "super_admin,admin")]
         public ActionResult Edit([Bind(Include = "employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id,status")] master_file master_file,HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -383,7 +383,7 @@ namespace HRworks.Controllers
         }
 
         // GET: master_file/Delete/5
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "super_admin,admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -401,7 +401,7 @@ namespace HRworks.Controllers
         // POST: master_file/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "super_admin,admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             master_file master_file = db.master_file.Find(id);

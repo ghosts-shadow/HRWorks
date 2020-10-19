@@ -144,16 +144,16 @@
           <Property Name="designation" Type="nvarchar" MaxLength="50" />
           <Property Name="grade" Type="nvarchar" MaxLength="50" />
           <Property Name="departmant/project" Type="nvarchar" MaxLength="50" />
-          <Property Name="salary_details" Type="int" />
-          <Property Name="basic" Type="int" />
-          <Property Name="housing_allowance" Type="int" />
-          <Property Name="transportation_allowance" Type="int" />
-          <Property Name="FOT" Type="int" />
-          <Property Name="food_allowance" Type="int" />
-          <Property Name="living_allowance" Type="int" />
-          <Property Name="ticket_allowance" Type="int" />
-          <Property Name="others" Type="int" />
-          <Property Name="arrears" Type="int" />
+          <Property Name="salary_details" Type="nvarchar(max)" />
+          <Property Name="basic" Type="nvarchar(max)" />
+          <Property Name="housing_allowance" Type="nvarchar(max)" />
+          <Property Name="transportation_allowance" Type="nvarchar(max)" />
+          <Property Name="FOT" Type="nvarchar(max)" />
+          <Property Name="food_allowance" Type="nvarchar(max)" />
+          <Property Name="living_allowance" Type="nvarchar(max)" />
+          <Property Name="ticket_allowance" Type="nvarchar(max)" />
+          <Property Name="others" Type="nvarchar(max)" />
+          <Property Name="arrears" Type="nvarchar(max)" />
           <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="imgpath" Type="nvarchar(max)" />
           <Property Name="changed_by" Type="nvarchar(max)" />
@@ -741,6 +741,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_con_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="contract" Type="Self.contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="contract">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1115,6 +1127,10 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="CERTIFICATE_REQUEST" EntitySet="CERTIFICATE_REQUEST" />
           </AssociationSet>
+          <AssociationSet Name="FK_con_To_master_file" Association="Self.FK_con_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="contract" EntitySet="contract" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -1300,16 +1316,16 @@
           <Property Name="designation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="grade" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="departmant_project" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="salary_details" Type="Int32" />
-          <Property Name="basic" Type="Int32" />
-          <Property Name="housing_allowance" Type="Int32" />
-          <Property Name="transportation_allowance" Type="Int32" />
-          <Property Name="FOT" Type="Int32" />
-          <Property Name="food_allowance" Type="Int32" />
-          <Property Name="living_allowance" Type="Int32" />
-          <Property Name="ticket_allowance" Type="Int32" />
-          <Property Name="others" Type="Int32" />
-          <Property Name="arrears" Type="Int32" />
+          <Property Name="salary_details" Type="String" MaxLength="Max" Unicode="true" />
+          <Property Name="basic" Type="String" MaxLength="Max" Unicode="true" />
+          <Property Name="housing_allowance" Type="String" MaxLength="Max" Unicode="true" />
+          <Property Name="transportation_allowance" Type="String" MaxLength="Max" Unicode="true" />
+          <Property Name="FOT" Type="String" MaxLength="Max" Unicode="true" />
+          <Property Name="food_allowance" Type="String" MaxLength="Max" Unicode="true" />
+          <Property Name="living_allowance" Type="String" MaxLength="Max" Unicode="true" />
+          <Property Name="ticket_allowance" Type="String" MaxLength="Max" Unicode="true" />
+          <Property Name="others" Type="String" MaxLength="Max" Unicode="true" />
+          <Property Name="arrears" Type="String" MaxLength="Max" Unicode="true" />
           <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />

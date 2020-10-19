@@ -200,7 +200,7 @@ namespace HRworks.Controllers
         }
 
         // GET: visas/Create
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
@@ -214,7 +214,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Create( visa visa, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -265,7 +265,7 @@ namespace HRworks.Controllers
         }
 
         // GET: visas/Edit/5
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -288,7 +288,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Edit( visa visa, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -338,7 +338,7 @@ namespace HRworks.Controllers
         }
 
         // GET: visas/Delete/5
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -356,7 +356,7 @@ namespace HRworks.Controllers
         // POST: visas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult DeleteConfirmed(int id)
         {
             visa visa = db.visas.Find(id);

@@ -22,7 +22,20 @@ namespace HRworks.Controllers
             List<labour_card> passexel;
             if (search != null)
             {
-                passexel = db.labour_card.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                if (int.TryParse(search, out var idk))
+                {
+                    passexel = db.labour_card
+                        .Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/)
+                        .OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
+                }
+                else
+                {
+                    passexel = db.labour_card
+                        .Where(
+                            x => x.master_file.employee_name
+                                .Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
+                        .OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
+                }
             }
             else
             {
@@ -34,9 +47,9 @@ namespace HRworks.Controllers
             Sheet.Cells["B1"].Value = "employee name";
             Sheet.Cells["C1"].Value = "work permit no";
             Sheet.Cells["D1"].Value = "personal no";
-            Sheet.Cells["E1"].Value = "class_type";
+            Sheet.Cells["E1"].Value = "class type";
             Sheet.Cells["F1"].Value = "establishment";
-            Sheet.Cells["G1"].Value = "lc_expiry";
+            Sheet.Cells["G1"].Value = "lc expiry";
             Sheet.Cells["H1"].Value = "changed by";
             Sheet.Cells["I1"].Value = "imgpath";
             Sheet.Cells["J1"].Value = "date_changed";
@@ -198,7 +211,7 @@ namespace HRworks.Controllers
 
         // GET: labour_card/Create
 
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
@@ -212,7 +225,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Create( labour_card labour_card, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -280,7 +293,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Edit( labour_card labour_card, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -344,7 +357,7 @@ namespace HRworks.Controllers
         // POST: labour_card/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult DeleteConfirmed(int id)
         {
             labour_card labour_card = db.labour_card.Find(id);

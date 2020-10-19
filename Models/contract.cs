@@ -13,7 +13,7 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class contract
     {
         [Display(Name = "Contract ID")]
@@ -26,24 +26,24 @@ namespace HRworks.Models
         [Display(Name = "Departmant Project")]
         public string departmant_project { get; set; }
         [Display(Name = "Gross Salary")]
-        public Nullable<int> salary_details { get; set; }
+        public string salary_details { get; set; }
         [Display(Name = "Basic")]
-        public Nullable<int> basic { get; set; }
+        public string basic { get; set; }
         [Display(Name = "Housing Allowance")]
-        public Nullable<int> housing_allowance { get; set; }
+        public string housing_allowance { get; set; }
         [Display(Name = "Transportation Allowance")]
-        public Nullable<int> transportation_allowance { get; set; }
-        public Nullable<int> FOT { get; set; }
+        public string transportation_allowance { get; set; }
+        public string FOT { get; set; }
         [Display(Name = "Food Allowance")]
-        public Nullable<int> food_allowance { get; set; }
+        public string food_allowance { get; set; }
         [Display(Name = "Living Allowance")]
-        public Nullable<int> living_allowance { get; set; }
+        public string living_allowance { get; set; }
         [Display(Name = "Ticket Allowance")]
-        public Nullable<int> ticket_allowance { get; set; }
+        public string ticket_allowance { get; set; }
         [Display(Name = "Other")]
-        public Nullable<int> others { get; set; }
+        public string others { get; set; }
         [Display(Name = "Arrears")]
-        public Nullable<int> arrears { get; set; }
+        public string arrears { get; set; }
         public int employee_id { get; set; }
         [Display(Name = "Photo")]
         public string imgpath { get; set; }
@@ -51,7 +51,7 @@ namespace HRworks.Models
         public string changed_by { get; set; }
         [Display(Name = "Date changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
-
+    
         public virtual master_file master_file { get; set; }
     }
 }

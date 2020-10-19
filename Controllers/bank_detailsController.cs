@@ -11,6 +11,8 @@ using PagedList;
 
 namespace HRworks.Controllers
 {
+    using OfficeOpenXml;
+
     public class bank_detailsController : Controller
     {
         private HREntities db = new HREntities();
@@ -33,7 +35,9 @@ namespace HRworks.Controllers
                     }
                 }
                 defaSize = a;
-            } ViewBag.pagesize = defaSize;
+            }
+            ViewBag.pagesize = defaSize;
+            ViewBag.search = search;
             IPagedList<bank_details> passlist = null;
             var ab = db.bank_details.OrderBy(p => p.employee_no).ToList();
             var lists = new List<bank_details>();
@@ -232,6 +236,55 @@ namespace HRworks.Controllers
             return View(bank_details);
         }
 
+        public void DownloadExcel(string search)
+        {
+            List<bank_details> passexel;
+            if (search != null)
+            {
+                if (int.TryParse(search, out var idk))
+                {
+                    passexel = db.bank_details
+                        .Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/)
+                        .OrderBy(x => x.master_file.employee_no).ToList();
+                }
+                else
+                {
+                    passexel = db.bank_details
+                        .Where(
+                            x => x.master_file.employee_name
+                                .Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
+                        .OrderBy(x => x.master_file.employee_no).ToList();
+                }
+            }
+            else
+            {
+                passexel = db.bank_details.Include(p => p.master_file).ToList();
+            }
+            ExcelPackage Ep = new ExcelPackage();
+            ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("labour_card".ToUpper());
+            Sheet.Cells["A1"].Value = "employee no";
+            Sheet.Cells["B1"].Value = "employee name";
+            Sheet.Cells["C1"].Value = "IBAN";
+            Sheet.Cells["D1"].Value = "Account no";
+            Sheet.Cells["E1"].Value = "bank name";
+            int row = 2;
+            foreach (var item in passexel)
+            {
+
+                Sheet.Cells[string.Format("A{0}", row)].Value = item.master_file.employee_no;
+                Sheet.Cells[string.Format("B{0}", row)].Value = item.master_file.employee_name;
+                Sheet.Cells[string.Format("C{0}", row)].Value = item.IBAN;
+                Sheet.Cells[string.Format("D{0}", row)].Value = item.Account_no;
+                Sheet.Cells[string.Format("E{0}", row)].Value = item.bank_name;
+                row++;
+            }
+            Sheet.Cells["A:AZ"].AutoFitColumns();
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("content-disposition", "filename =bank_details.xlsx");
+            Response.BinaryWrite(Ep.GetAsByteArray());
+            Response.End();
+        }
         // GET: bank_details/Delete/5
         public ActionResult Delete(int? id)
         {

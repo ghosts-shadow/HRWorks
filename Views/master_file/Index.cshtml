@@ -86,7 +86,7 @@
             </th>
             @if (User.Identity.IsAuthenticated)
             {
-                if (User.IsInRole("admin"))
+                if (User.IsInRole("super_admin,admin"))
                 {
                     <th>
                         @Html.DisplayNameFor(model => model.changed_by)
@@ -141,7 +141,7 @@
                 </td>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    if (User.IsInRole("admin"))
+                    if (User.IsInRole("super_admin,admin"))
                     {
                         <td>
                             @Html.DisplayFor(modelItem => item.changed_by)

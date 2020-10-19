@@ -37,7 +37,7 @@
         {
             <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create", "liquidation_ref")'" value="Create New" />
         }
-        if (User.IsInRole("admin"))
+        if (User.IsInRole("super_admin,admin"))
         {
             <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("subindex", "liquidations")'" value="report" />
         }

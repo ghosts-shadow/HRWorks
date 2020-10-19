@@ -136,7 +136,7 @@ namespace HRworks.Controllers
 
         //
         // GET: /Account/Register
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult Register()
         {
             return View();
@@ -146,7 +146,7 @@ namespace HRworks.Controllers
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "super_admin")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)

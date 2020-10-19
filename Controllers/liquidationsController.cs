@@ -130,7 +130,7 @@
             }
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "super_admin,admin")]
         public ActionResult subindex(DateTime? from ,DateTime? to)
         {
             var lii = this.db.liquidations.ToList().OrderBy(x => x.master_file.employee_no);

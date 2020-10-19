@@ -198,7 +198,7 @@ namespace TEST2.Controllers
 
         // GET: visa_and_labour_card/Create
 
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
@@ -222,7 +222,7 @@ namespace TEST2.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Create([Bind(Include = "id,lc_no,uid_no,emp_no,passport_no,company_code,nationality,person_code,class_type,rv_expiry,lc_expiry,passport_expiry,proff_as_per_visa")] visa_and_labour_card visa_and_labour_card, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -280,7 +280,7 @@ namespace TEST2.Controllers
         }
 
         // GET: visa_and_labour_card/Edit/5
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -312,7 +312,7 @@ namespace TEST2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Edit([Bind(Include = "id,lc_no,uid_no,emp_no,passport_no,company_code,nationality,person_code,class_type,rv_expiry,lc_expiry,passport_expiry,proff_as_per_visa")] visa_and_labour_card visa_and_labour_card, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -369,7 +369,7 @@ namespace TEST2.Controllers
         }
 
         // GET: visa_and_labour_card/Delete/5
-        [Authorize(Roles = "admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,employee_VLC")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

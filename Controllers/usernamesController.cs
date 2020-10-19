@@ -10,7 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
-    [Authorize(Roles ="admin")]
+    [Authorize(Roles ="super_admin,admin")]
     public class usernamesController : Controller
     {
         private HREntities db = new HREntities();

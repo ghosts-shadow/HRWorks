@@ -1,9 +1,11 @@
 ﻿@using PagedList.Mvc
+@using HRworks.Controllers
 @model IEnumerable<HRworks.Models.contract>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
@@ -35,9 +37,9 @@
                 base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) },
                 format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
             return function (table, name) {
-                if (!table.nodeType) table = document.getElementById(table)
+                if (!table.nodeType) table = document.getElementById(table);
                 var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
-                window.location.href = uri + base64(format(template, ctx))
+                window.location.href = uri + base64(format(template, ctx));
             }
         })()
         function norc(parameters) {
@@ -66,7 +68,10 @@
                 @Html.PagedListPager((PagedList.IPagedList) Model, page => Url.Action("Index",new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter,pagesize=ViewBag.pagesize }))
             </div>
             <div>
-                <a href="@Url.Action("DownloadExcel","contracts",new{search=ViewBag.search})">Download Excel</a>
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel", "contracts")'" value="Download Excel" />
+            </div>
+            <div>
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("ImportExcel", "contracts")'" value="Upload"/>
             </div>
         </div>}
 
@@ -129,7 +134,7 @@
             </th>
             @if (User.Identity.IsAuthenticated)
             {
-                if (User.IsInRole("admin"))
+                if (User.IsInRole("super_admin,admin"))
                 {
                     <th>
                         @Html.DisplayNameFor(model => model.changed_by)
@@ -202,7 +207,7 @@
         </td>
         @if (User.Identity.IsAuthenticated)
         {
-            if (User.IsInRole("admin"))
+            if (User.IsInRole("super_admin,admin"))
             {
                 <td>
                     @Html.DisplayFor(modelItem => item.changed_by)

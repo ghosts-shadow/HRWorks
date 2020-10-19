@@ -1089,7 +1089,7 @@
         // GET: Leaves
         public ActionResult Index()
         {
-            var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).ToList();
+               var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).ToList();
             return this.View(leaves);
         }
 

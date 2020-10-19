@@ -34,12 +34,6 @@
 
     </script>
 
-    <script type="text/javascript">
-        function preventBack() { window.history.forward(); }
-
-        setTimeout("preventBack()", 0);
-        window.onunload = function() { null };
-    </script>
 
     <style>
         table {
@@ -84,9 +78,6 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav " style="margin-left: 1%; margin-right: 2%">
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("About", "About", "Home")</li>
-                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 @if (Request.IsAuthenticated)
                 {
                     <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
@@ -100,15 +91,15 @@
                     <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
                     <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
                     <li>@Html.ActionLink("attendance", "Index1", "hiks")</li>
+                    <li>@Html.ActionLink("end of service", "Create", "end_of_service")</li>
                     if (User.Identity.IsAuthenticated)
                     {
                         if (User.Identity.Name == "dinizsneden@gmail.com")
                         {
                             <li>@Html.ActionLink("payrole", "Create", "payrolelogins")</li>
                             <li>@Html.ActionLink("HR forms", "HR_Forms", "HR_forms")</li>
-                            <li>@Html.ActionLink("end of service", "Create", "end_of_service")</li>
                         }
-                        if (User.IsInRole("admin"))
+                        if (User.IsInRole("super_admin,admin"))
                         {
                             <li>@Html.ActionLink("user name", "index", "usernames")</li>
                         }

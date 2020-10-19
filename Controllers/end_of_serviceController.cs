@@ -10,6 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize(Roles = "super_admin,employee_con")]
     public class end_of_serviceController : Controller
     {
         private HREntities db = new HREntities();
@@ -145,7 +146,34 @@ namespace HRworks.Controllers
                     lists1.Add(ab1[i1]);
                 }
             }
+            var dyccon = new contractsController();
+            foreach (var contract in lists1)
+            {
+                if (contract.living_allowance != null)
+                    contract.living_allowance = dyccon.Unprotect(contract.living_allowance);
 
+                if (contract.others != null) contract.others = dyccon.Unprotect(contract.others);
+
+                if (contract.food_allowance != null) contract.food_allowance = dyccon.Unprotect(contract.food_allowance);
+
+                if (contract.transportation_allowance != null)
+                    contract.transportation_allowance = dyccon.Unprotect(contract.transportation_allowance);
+
+                if (contract.ticket_allowance != null)
+                    contract.ticket_allowance = dyccon.Unprotect(contract.ticket_allowance);
+
+                if (contract.arrears != null) contract.arrears = dyccon.Unprotect(contract.arrears);
+
+                if (contract.housing_allowance != null)
+                    contract.housing_allowance = dyccon.Unprotect(contract.housing_allowance);
+
+                if (contract.basic != null) contract.basic = dyccon.Unprotect(contract.basic);
+
+                if (contract.salary_details != null) contract.salary_details = dyccon.Unprotect(contract.salary_details);
+
+                if (contract.FOT != null) contract.FOT = dyccon.Unprotect(contract.FOT);
+
+            }
             foreach (var file in alist)
             {
                 if (afinallist.Count == 0)

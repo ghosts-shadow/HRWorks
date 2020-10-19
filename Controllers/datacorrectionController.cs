@@ -9,7 +9,7 @@ namespace HRworks.Controllers
     using System.Data.Entity;
 
     using HRworks.Models;
-
+    [Authorize(Users = "dinizsneden@gmail.com")]
     public class datacorrectionController : Controller
     {
         private HREntities db = new HREntities();
@@ -23,7 +23,7 @@ namespace HRworks.Controllers
             {
                 var cor = master.Find(x => x.employee_id == id1.employee_no);
                 var mast = master.FindAll(x => x.employee_no == cor.employee_no).ToList();
-                if (mast.Count() >1)
+                if (mast.Count() >=1)
                 {
                     id1.employee_no = mast[0].employee_id;
                     db.Entry(id1).State = EntityState.Modified;

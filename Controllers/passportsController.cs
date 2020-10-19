@@ -220,7 +220,7 @@ namespace HRworks.Controllers
         }
 
         // GET: passports/Create
-        [Authorize(Roles = "admin,employee_PASS")]
+        [Authorize(Roles = "super_admin,admin,employee_PASS")]
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
@@ -243,7 +243,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_PASS")]
+        [Authorize(Roles = "super_admin,admin,employee_PASS")]
         public ActionResult Create([Bind(Include = "employee_no,company_code,passport_no,passport_expiry,passport_issue_date,passport_return_date,passport_remarks,status,rv_expiry,vl_start,vl_end,imgpath")] passport passport, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -303,7 +303,7 @@ namespace HRworks.Controllers
         }
 
         // GET: passports/Edit/5
-        [Authorize(Roles = "admin,employee_PASS")]
+        [Authorize(Roles = "super_admin,admin,employee_PASS")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -335,7 +335,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_PASS")]
+        [Authorize(Roles = "super_admin,admin,employee_PASS")]
         public ActionResult Edit([Bind(Include = "employee_id,employee_no,company_code,passport_no,passport_expiry,passport_issue_date,passport_return_date,passport_remarks,status,rv_expiry,vl_start,vl_end,imgpath")] passport passport, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -398,7 +398,7 @@ namespace HRworks.Controllers
         }
 
         // GET: passports/Delete/5
-        [Authorize(Roles = "admin,employee_PASS")]
+        [Authorize(Roles = "super_admin,admin,employee_PASS")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -416,7 +416,7 @@ namespace HRworks.Controllers
         // POST: passports/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_PASS")]
+        [Authorize(Roles = "super_admin,admin,employee_PASS")]
         public ActionResult DeleteConfirmed(int id)
         {
             passport passport = db.passports.Find(id);

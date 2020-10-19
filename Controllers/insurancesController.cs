@@ -185,7 +185,7 @@ namespace HRworks.Controllers
         }
 
         // GET: insurances/Create
-        [Authorize(Roles = "admin,employee_INC")]
+        [Authorize(Roles = "super_admin,admin,employee_INC")]
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
@@ -208,7 +208,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_INC")]
+        [Authorize(Roles = "super_admin,admin,employee_INC")]
         public ActionResult Create([Bind(Include = "employee_id,employee_no,card_no,dob,age,gender,dependency,marital_status,nationality,eid_no,pasport_no,uid_no,emitae_visa_issue,annual_primium,deletion_date,invoice_no,credit_amt")] insurance insurance, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -267,7 +267,7 @@ namespace HRworks.Controllers
         }
 
         // GET: insurances/Edit/5
-        [Authorize(Roles = "admin,employee_INC")]
+        [Authorize(Roles = "super_admin,admin,employee_INC")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -299,7 +299,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_INC")]
+        [Authorize(Roles = "super_admin,admin,employee_INC")]
         public ActionResult Edit([Bind(Include = "id,employee_no,card_no,dob,age,gender,dependency,marital_status,nationality,eid_no,pasport_no,uid_no,emitae_visa_issue,annual_primium,deletion_date,invoice_no,credit_amt")] insurance insurance, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -358,7 +358,7 @@ namespace HRworks.Controllers
         }
 
         // GET: insurances/Delete/5
-        [Authorize(Roles = "admin,employee_INC")]
+        [Authorize(Roles = "super_admin,admin,employee_INC")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -376,7 +376,7 @@ namespace HRworks.Controllers
         // POST: insurances/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "admin,employee_INC")]
+        [Authorize(Roles = "super_admin,admin,employee_INC")]
         public ActionResult DeleteConfirmed(int id)
         {
             insurance insurance = db.insurances.Find(id);

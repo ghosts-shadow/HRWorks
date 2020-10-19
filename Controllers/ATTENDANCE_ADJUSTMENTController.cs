@@ -39,7 +39,7 @@ namespace HRworks.Controllers
         // GET: ATTENDANCE_ADJUSTMENT/Create
         public ActionResult Create()
         {
-            var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
+            var alist = db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x=>x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
             {
@@ -69,8 +69,8 @@ namespace HRworks.Controllers
             }
             ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
             ViewBag.Employee_name = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_name");
-            ViewBag.dept = new SelectList(afinallistc.OrderBy(x => x.master_file.employee_no), "employee_id", "departmant_project");
-            ViewBag.pos = new SelectList(afinallistc.OrderBy(x => x.master_file.employee_no), "employee_id", "designation");
+            ViewBag.dept = new SelectList(afinallistc.OrderBy(x => x.master_file.employee_no), "employee_no", "departmant_project");
+            ViewBag.pos = new SelectList(afinallistc.OrderBy(x => x.master_file.employee_no), "employee_no", "designation");
             return View();
         }
 

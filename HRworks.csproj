@@ -194,6 +194,7 @@
     <Compile Include="Controllers\BUSINESS_TRIP_REPORT_Controller.cs" />
     <Compile Include="Controllers\CERTIFICATE_REQUESTController.cs" />
     <Compile Include="Controllers\contractloginsController.cs" />
+    <Compile Include="Controllers\contractsController.cs" />
     <Compile Include="Controllers\datacorrectionController.cs" />
     <Compile Include="Controllers\DUTY_HANDOVERController.cs" />
     <Compile Include="Controllers\emirates_idController.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\decrycontracts.cs" />
     <Compile Include="Models\decrymodel.cs" />
     <Compile Include="Models\DUTY_HANDOVER.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -743,9 +745,11 @@
     <Content Include="Views\hiks\index1.cshtml" />
     <Content Include="Views\datacorrection\Index.cshtml" />
     <Content Include="Views\contractlogins\Create.cshtml" />
+    <Content Include="Views\contracts\ImportExcel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Uploads\" />
     <Folder Include="Views\upload\" />
   </ItemGroup>
   <ItemGroup>
