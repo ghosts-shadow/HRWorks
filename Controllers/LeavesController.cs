@@ -736,8 +736,6 @@
                 if (emp_unfilted != null) emp_listfinal.Add(emp_unfilted.First());
             }
 
-            var empjd = emp_listfinal.Find(x => x.employee_no == Employee_id);
-            Employee_id = empjd.employee_id;
             if (Employee_id == null && eddate == null)
             {
                 passexel = this.db.Leaves.ToList();
@@ -746,7 +744,8 @@
 
             if (Employee_id != null && eddate != null)
             {
-
+                var empjd = emp_listfinal.Find(x => x.employee_no == Employee_id);
+                Employee_id = empjd.employee_id;
                 var asf = empjd.date_joined;
                 var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
                     x => x.Employee_id == Employee_id && x.Start_leave >= asf && x.End_leave <= eddate);
