@@ -143,7 +143,7 @@ namespace HRworks.Controllers
         // GET: bank_details/Create
         public ActionResult Create()
         {
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x=>x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
             {
@@ -265,8 +265,7 @@ namespace HRworks.Controllers
             Sheet.Cells["A1"].Value = "employee no";
             Sheet.Cells["B1"].Value = "employee name";
             Sheet.Cells["C1"].Value = "IBAN";
-            Sheet.Cells["D1"].Value = "Account no";
-            Sheet.Cells["E1"].Value = "bank name";
+            Sheet.Cells["D1"].Value = "bank name";
             int row = 2;
             foreach (var item in passexel)
             {
@@ -274,8 +273,7 @@ namespace HRworks.Controllers
                 Sheet.Cells[string.Format("A{0}", row)].Value = item.master_file.employee_no;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.master_file.employee_name;
                 Sheet.Cells[string.Format("C{0}", row)].Value = item.IBAN;
-                Sheet.Cells[string.Format("D{0}", row)].Value = item.Account_no;
-                Sheet.Cells[string.Format("E{0}", row)].Value = item.bank_name;
+                Sheet.Cells[string.Format("D{0}", row)].Value = item.bank_name;
                 row++;
             }
             Sheet.Cells["A:AZ"].AutoFitColumns();

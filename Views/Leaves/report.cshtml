@@ -36,6 +36,26 @@
         });
         $("#empno").chosen({ no_results_text: "Oops, nothing found!" });
     });
+
+    function humanise(diff) {
+        // The string we're working with to create the representation
+        var str = '';
+        // Map lengths of `diff` to different time periods
+        var values = [[' year', 365], [' month', 30], [' day', 1]];
+        // Iterate over the values...
+        for (var i = 0; i < values.length; i++) {
+            var amount = Math.floor(diff / values[i][1]);
+            // ... and find the largest time value that fits into the diff
+            if (amount >= 1) {
+                // If we match, add to the string ('s' is for pluralization)
+                str += amount + values[i][0] + (amount > 1 ? 's' : '') + ' ';
+
+                // and subtract from the diff
+                diff -= amount * values[i][1];
+            }
+        }
+        return str;
+    }
 </script>
 
 <div class="row">
@@ -66,37 +86,37 @@
 <br />
 <div style="font: 25px bold;">
     <div>
-        period = @ViewBag.per days
+        period = @ViewBag.per 
     </div>
     <div>
-        unpaid = @ViewBag.ump days
+        unpaid = @ViewBag.ump 
     </div>
     <div>
-        net period = @ViewBag.netp days
+        net period = @ViewBag.netp 
     </div>
     <div>
-        accrued = @ViewBag.accr days
+        accrued = @ViewBag.accr 
     </div>
     <div>
-        annual leave taken = @ViewBag.aval days
+        annual leave taken = @ViewBag.aval 
     </div>
     <div>
-        leave balance = @ViewBag.lbal days
+        leave balance = @ViewBag.lbal 
     </div>
 </div>
 <br />
 <div style="font: 25px bold;">
     <div>
-        sick = @ViewBag.sick days
+        sick = @ViewBag.sick 
     </div>
     <div>
-        compassionate = @ViewBag.comp days
+        compassionate = @ViewBag.comp 
     </div>
     <div>
-        maternity = @ViewBag.mate days
+        maternity = @ViewBag.mate 
     </div>
     <div>
-        haj = @ViewBag.haj days
+        haj = @ViewBag.haj 
     </div>
 </div>
 <hr />

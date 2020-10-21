@@ -104,6 +104,9 @@
         <th>
             @Html.DisplayNameFor(model => model.End_leave)
         </th>
+        <th>
+            @Html.DisplayName("Days")
+        </th>
     </tr>
     @{ var dp = "";}
     @{
@@ -115,15 +118,15 @@
         {
             dp = item.departmant_project;
             <tr>
-                <td colspan="6"></td>
+                <td colspan="7"></td>
             </tr>
             <tr>
-                <td colspan="6">
+                <td colspan="7">
                     <b>@Html.DisplayFor(modelItem => item.departmant_project)</b>
                 </td>
             </tr>
             <tr>
-                <td colspan="6"></td>
+                <td colspan="7"></td>
             </tr>
             <tr>
                 <td>
@@ -146,34 +149,47 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.End_leave)
+                </td>
+                <td>
+                    @{
+                        var daysins = item.End_leave - item.Start_leave;
+                        var days = daysins.Value.TotalDays +1;
+                    }@days
                 </td>
             </tr>
         }
         else
         {
-            <tr>
-                <td>
-                    @{
-                        i++;
-                    }
-                    @i
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.employee_no)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.employee_name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.designation)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Start_leave)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.End_leave)
-                </td>
-            </tr>
+<tr>
+    <td>
+        @{
+            i++;
+        }
+        @i
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.employee_no)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.employee_name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.designation)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Start_leave)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.End_leave)
+    </td>
+    <td>
+        @{
+            var daysins = item.End_leave - item.Start_leave;
+            var days = daysins.Value.TotalDays+1;
+        }
+        @days
+    </td>
+</tr>
         }
 
     }

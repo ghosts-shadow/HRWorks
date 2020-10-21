@@ -11,7 +11,12 @@
     using System.Web.UI.WebControls;
     using System.Data;
     using HRworks.Models;
+
+    using Microsoft.Ajax.Utilities;
+
     using OfficeOpenXml;
+
+    using PagedList;
 
     using TEST2.Controllers;
 
@@ -21,14 +26,17 @@
 
         public void cal_bal()
         {
-            var emp_list = this.db.master_file.ToList();
+            var emp_list = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var emp_listfinal = new List<master_file>();
-            foreach (var empid in emp_list)
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
             {
-                var emp_unfilted = emp_list.FindAll(x => x.employee_no == empid.employee_no)
-                    .OrderBy(x => x.employee_id);
-                if (emp_unfilted != null) emp_listfinal.Add(emp_unfilted.First());
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
+            emp_listfinal = afinallist;
 
             /*
               if (check.Count != 0)
@@ -250,14 +258,16 @@
 
         public void cal_bal(DateTime eddate)
         {
-            var emp_list = this.db.master_file.ToList();
             var emp_listfinal = new List<master_file>();
-            foreach (var empid in emp_list)
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
             {
-                var emp_unfilted = emp_list.FindAll(x => x.employee_no == empid.employee_no)
-                    .OrderBy(x => x.employee_id);
-                if (emp_unfilted != null) emp_listfinal.Add(emp_unfilted.First());
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
+            emp_listfinal = afinallist;
 
             /*
               if (check.Count != 0)
@@ -489,7 +499,7 @@
                                     new ListItem { Text = "Unpaid", Value = "6" }
                                 };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
             {
@@ -664,10 +674,18 @@
         {
             List<Leave> passexel = new List<Leave>();
             var leaves = new List<Leave>();
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
             if (days.HasValue)
             {
-                var leaveballist = this.db.leavecals.Where(x => x.leave_balance >= days.Value).ToList();
                 this.cal_bal();
+                var leaveballist = this.db.leavecals.Where(x => x.leave_balance >= days.Value).ToList();
                 foreach (var leavecal in leaveballist)
                 {
                     var leaveempid = this.db.Leaves.Where(x => x.Employee_id == leavecal.Employee_id)
@@ -679,6 +697,22 @@
                     }
                 }
 
+                foreach (var emp in afinallist)
+                {
+                    if (emp.date_joined != null)
+                    {
+                        var leaf = new Leave();
+                        if (leaveballist.Exists(x => x.Employee_id == emp.employee_id))
+                        {
+                        var lb = leaveballist.Find(x => x.Employee_id == emp.employee_id).leave_balance;
+                        leaf.leave_bal = lb;
+                        leaf.Employee_id = emp.employee_id;
+                        leaf.master_file = emp;
+                        if (!leaves.Exists(x => x.Employee_id == leaf.Employee_id)) leaves.Add(leaf);
+                            
+                        }
+                    }
+                }
                 passexel = leaves;
             }
 
@@ -695,6 +729,18 @@
                     if (!leaveslist.Exists(x => x.Employee_id == leaf.Employee_id)) leaveslist.Add(leaf);
                 }
 
+                foreach (var emp in afinallist)
+                {
+                    if (emp.date_joined != null)
+                    {
+                        var leaf = new Leave();
+                        var lb = leaveballist.Find(x => x.Employee_id == emp.employee_id).leave_balance;
+                        leaf.leave_bal = lb;
+                        leaf.Employee_id = emp.employee_id;
+                        leaf.master_file = emp;
+                        if (!leaveslist.Exists(x => x.Employee_id == leaf.Employee_id)) leaveslist.Add(leaf);
+                    }
+                }
                 passexel = leaveslist;
             }
             var Ep = new ExcelPackage();
@@ -703,7 +749,7 @@
             Sheet.Cells["B1"].Value = "employee name";
             Sheet.Cells["C1"].Value = "leave bal ";
             var row = 2;
-            foreach (var item in passexel)
+            foreach (var item in passexel.OrderBy(x => x.leave_bal))
             {
                 Sheet.Cells[string.Format("A{0}", row)].Value = item.master_file.employee_no;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.master_file.employee_name;
@@ -750,6 +796,10 @@
                 var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
                     x => x.Employee_id == Employee_id && x.Start_leave >= asf && x.End_leave <= eddate);
                 var times = eddate - asf;
+                double haj = 0;
+                double mate = 0;
+                double comp = 0;
+                double sick = 0;
                 if (times != null)
                 {
                     period = times.Value.TotalDays + 1;
@@ -779,7 +829,6 @@
                             }
                         }
 
-                        double sick = 0;
                         if (leaf.leave_type == "2")
                         {
                             if (leaf.days != null)
@@ -803,7 +852,6 @@
                             }
                         }
 
-                        double comp = 0;
                         if (leaf.leave_type == "3")
                         {
                             if (leaf.days != null)
@@ -826,7 +874,6 @@
                             }
                         }
 
-                        double mate = 0;
                         if (leaf.leave_type == "4")
                         {
                             if (leaf.days != null)
@@ -849,7 +896,6 @@
                             }
                         }
 
-                        double haj = 0;
                         if (leaf.leave_type == "5")
                         {
                             if (leaf.days != null)
@@ -971,7 +1017,7 @@
             Sheet.Cells["A:AZ"].AutoFitColumns();
             this.Response.Clear();
             this.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            this.Response.AddHeader("content-disposition", "filename =leaves_report_summery.xlsx");
+            this.Response.AddHeader("content-disposition", "filename = leaves_report_summery_till_" + eddate.ToString() + ".xlsx");
             this.Response.BinaryWrite(Ep.GetAsByteArray());
             this.Response.End();
         }
@@ -993,7 +1039,7 @@
                                     new ListItem { Text = "Other", Value = "Other" }
                                 };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
             {
@@ -1002,7 +1048,7 @@
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
 
-            this.ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
+            ViewBag.leavety = leave.leave_type;
             return this.View(leave);
         }
 
@@ -1092,6 +1138,47 @@
             return this.View(leaves);
         }
 
+        public ActionResult getallorone(string search, int? page, int? pagesize, int? idsearch)
+        {
+            int pageIndex = 1;
+            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            int defaSize = 100;
+            List<Leave> leaves = new List<Leave>();
+            if (pagesize != 0)
+            {
+                int a = 10;
+                if (pagesize != null)
+                {
+                    if (pagesize != 0)
+                    {
+                        a = (int)pagesize;
+                    }
+                }
+
+                defaSize = a;
+            }
+            ViewBag.search = search;
+            ViewBag.pagesize = defaSize;
+            if (!string.IsNullOrEmpty(search))
+            {
+                if (int.TryParse(search, out var idk))
+                {
+                    leaves = db.Leaves
+                        .Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/)
+                        .OrderBy(x => x.master_file.employee_no).ThenBy(x => x.Date).ToList();
+                }
+                else
+                {
+                    leaves = db.Leaves
+                        .Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
+                        .OrderBy(x => x.master_file.employee_no).ThenBy(x => x.Date).ToList();
+                }
+            }
+            
+           // leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Date).ThenBy(x=>x.master_file.employee_no).ToList();
+            return this.View(leaves.ToPagedList(page ?? 1, defaSize));
+        }
+
         public ActionResult leave_absence_Index(DateTime? eddate)
         {
             var leaves = new List<leave_absence>();
@@ -1102,22 +1189,56 @@
 
             return this.View(leaves.OrderBy(x=>x.master_file.employee_no));
         }
+
+        public string humanize(double days)
+        {
+                // The string we're working with to create the representation
+                string str = "";
+            // Map lengths of `diff` to different time periods
+            var values = new List<Tuple<string, double>>();
+            values.Add(new Tuple<string, double>("year",365 ));
+            values.Add(new Tuple<string, double>("month", 30));
+            values.Add(new Tuple<string, double>("day",1 ));
+            // Iterate over the values...
+            for (var i = 0; i < values.Count; i++)
+                {
+                    var amount = Math.Floor(days / values[i].Item2);
+                    // ... and find the largest time value that fits into the diff
+                    if (amount >= 1)
+                    {
+                        // If we match, add to the string ('s' is for pluralization)
+                        str += amount +" "+ values[i].Item1 + (amount > 1 ? "s" : " ") + " ";
+
+                        // and subtract from the diff
+                        days -= amount * values[i].Item2;
+                    }
+                }
+
+            if (string.IsNullOrEmpty(str))
+            {
+                str = "0 days";
+            }
+            return str;
+        }
+
         public ActionResult report(long? Employee_id, DateTime? eddate)
         {
             ViewBag.Employee_id = Employee_id;
             ViewBag.eddate = eddate;
-            var emp_list = this.db.master_file.ToList();
             var emp_listfinal = new List<master_file>();
-            foreach (var empid in emp_list)
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
             {
-                var emp_unfilted = emp_list.FindAll(x => x.employee_no == empid.employee_no)
-                    .OrderBy(x => x.employee_id);
-                if (emp_unfilted != null) emp_listfinal.Add(emp_unfilted.First());
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
 
-            var empjd = emp_listfinal.Find(x => x.employee_id == Employee_id);
+            emp_listfinal = afinallist;
+            var empjd = afinallist.Find(x => x.employee_id == Employee_id);
             this.ViewBag.employee_id = new SelectList(
-                emp_listfinal.OrderBy(x => x.employee_no),
+                afinallist,
                 "employee_id",
                 "employee_no");
 
@@ -1128,6 +1249,10 @@
                 double accrued = 0;
                 double avalied = 0;
                 double lbal = 0;
+                double sick = 0;
+                double comp = 0;
+                double mate = 0;
+                double haj = 0;
                 var asf = empjd.date_joined;
                 var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
                     x => x.Employee_id == Employee_id && x.Start_leave >= asf && x.End_leave <= eddate);
@@ -1161,7 +1286,6 @@
                             }
                         }
 
-                        double sick = 0;
                         if (leaf.leave_type == "2")
                         {
                             if (leaf.days != null)
@@ -1185,9 +1309,6 @@
                             }
                         }
 
-                        this.ViewBag.sick = sick;
-
-                        double comp = 0;
                         if (leaf.leave_type == "3")
                         {
                             if (leaf.days != null)
@@ -1210,9 +1331,6 @@
                             }
                         }
 
-                        this.ViewBag.comp = comp;
-
-                        double mate = 0;
                         if (leaf.leave_type == "4")
                         {
                             if (leaf.days != null)
@@ -1235,8 +1353,6 @@
                             }
                         }
 
-                        this.ViewBag.mate = mate;
-                        double haj = 0;
                         if (leaf.leave_type == "5")
                         {
                             if (leaf.days != null)
@@ -1259,7 +1375,6 @@
                             }
                         }
 
-                        this.ViewBag.haj = haj;
 
                         if (leaf.leave_type == "1")
                         {
@@ -1287,6 +1402,10 @@
                     netperiod = period - unpaid;
                     accrued = Math.Round(netperiod * 30 / 360);
                     lbal = accrued - avalied;
+                    this.ViewBag.mate = mate;
+                    this.ViewBag.haj = haj;
+                    this.ViewBag.sick = sick;
+                    this.ViewBag.comp = comp;
                     this.ViewBag.lbal = lbal;
                     this.ViewBag.per = period;
                     this.ViewBag.aval = avalied;
@@ -1311,6 +1430,14 @@
 
         public ActionResult reportserch(int? days, DateTime? leave_bal_till)
         {
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
             ViewBag.days = days;
             ViewBag.leave_bal_till = leave_bal_till; 
             var leaves = new List<Leave>();
@@ -1329,6 +1456,22 @@
                     }
                 }
 
+
+                foreach (var emp in afinallist)
+                {
+                    if (emp.date_joined != null)
+                    {
+                        var leaf = new Leave();
+                        if (leaveballist.Exists(x => x.Employee_id == emp.employee_id))
+                        {
+                        var lb = leaveballist.Find(x => x.Employee_id == emp.employee_id).leave_balance;
+                        leaf.leave_bal = lb;
+                        leaf.Employee_id = emp.employee_id;
+                        leaf.master_file = emp;
+                        if (!leaves.Exists(x => x.Employee_id == leaf.Employee_id)) leaves.Add(leaf);
+                        }
+                    }
+                }
                 var leavesnew = new List<Leave>();
                 foreach (var leaf in leaves)
                 {
@@ -1356,6 +1499,18 @@
                     if (!leaveslist.Exists(x => x.Employee_id == leaf.Employee_id)) leaveslist.Add(leaf);
                 }
 
+                foreach (var emp in afinallist)
+                {
+                    if (emp.date_joined !=null)
+                    {
+                        var leaf = new Leave();
+                        var lb = leaveballist.Find(x => x.Employee_id == emp.employee_id).leave_balance;
+                        leaf.leave_bal = lb;
+                        leaf.Employee_id = emp.employee_id;
+                        leaf.master_file = emp;
+                        if (!leaveslist.Exists(x => x.Employee_id == leaf.Employee_id)) leaveslist.Add(leaf);
+                    }
+                }
                 return this.View(leaveslist.OrderBy(x => x.leave_bal).ThenBy(x => x.Employee_id));
             }
 
@@ -1464,7 +1619,7 @@
         public ActionResult mrv(DateTime? eddate,DateTime? eddate1)
         {
             var con_leave = from l in this.db.Leaves
-                            join con in this.db.contracts on l.Employee_id equals con.employee_id
+                            join con in this.db.contracts on l.Employee_id equals con.employee_no
                             select new
                                        {
                                            l.master_file.employee_no,
@@ -1474,6 +1629,7 @@
                                            l.Start_leave,
                                            l.End_leave
                                        };
+            var leavelist = this.db.Leaves.ToList();
             var listconleave = con_leave.OrderBy(x=>x.departmant_project).ToList();
             var cllist = new List<con_leavemodel>();
             int i = 0;

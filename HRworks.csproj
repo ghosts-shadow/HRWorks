@@ -746,6 +746,7 @@
     <Content Include="Views\datacorrection\Index.cshtml" />
     <Content Include="Views\contractlogins\Create.cshtml" />
     <Content Include="Views\contracts\ImportExcel.cshtml" />
+    <Content Include="Views\Leaves\getallorone.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
