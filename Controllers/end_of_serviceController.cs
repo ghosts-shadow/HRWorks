@@ -261,7 +261,7 @@ namespace HRworks.Controllers
             {
                 db.end_of_service.Add(end_of_service);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create");
             }
 
             var alist = db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();

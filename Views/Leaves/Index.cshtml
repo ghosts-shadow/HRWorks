@@ -7,30 +7,31 @@
 
 <h2>Index</h2>
 <div class="row">
-    <div class="col-lg-5">
+    <div class="col-lg-3">
         <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New" />
-        @if (User.Identity.Name == "dinizsneden@gmail.com")
-        {
-            <br />
-            <br />
-            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("getallorone")'" value="list" />
-        }
+        
     </div>
-    <div class="col-lg-5">
+    <div class="col-lg-7">
         <div class="row">
-            <div class="col-lg-5">
+            <div class="col-lg-3">
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("report")'" value="Individual Report " />
                 <br />
                 <br />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reportserch")'" value=" balance inquiry" />
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reportserch")'" value=" Balance inquiry" />
                 <br />
                 <br />
             </div>
-            <div class="col-lg-5">
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leave_absence_Index")'" value=" Absence Report" />
+            <div class="col-lg-4">
+                @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+                {
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("getallorone")'" value="Change/Enter actual return date" />
+                }
                 <br />
                 <br />
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("mrv")'" value="Monthly Report" />
+            </div>
+            <div class="col-lg-3">
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leave_absence_Index")'" value=" Absence Report" />
                 <br />
                 <br />
             </div>

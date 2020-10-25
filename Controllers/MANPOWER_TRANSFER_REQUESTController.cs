@@ -95,6 +95,7 @@ namespace HRworks.Controllers
         }
 
         // GET: MANPOWER_TRANSFER_REQUEST/Delete/5
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -112,6 +113,7 @@ namespace HRworks.Controllers
         // POST: MANPOWER_TRANSFER_REQUEST/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "super_admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             MANPOWER_TRANSFER_REQUEST mANPOWER_TRANSFER_REQUEST = db.MANPOWER_TRANSFER_REQUEST.Find(id);

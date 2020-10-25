@@ -338,7 +338,7 @@ namespace HRworks.Controllers
         }
 
         // GET: visas/Delete/5
-        [Authorize(Roles = "super_admin,admin,employee_VLC")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -356,7 +356,7 @@ namespace HRworks.Controllers
         // POST: visas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,employee_VLC")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             visa visa = db.visas.Find(id);

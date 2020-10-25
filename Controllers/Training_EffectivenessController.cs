@@ -94,6 +94,7 @@ namespace HRworks.Controllers
             return View(training_Effectiveness);
         }
 
+        [Authorize(Roles = "super_admin")]
         // GET: Training_Effectiveness/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -110,6 +111,7 @@ namespace HRworks.Controllers
         }
 
         // POST: Training_Effectiveness/Delete/5
+        [Authorize(Roles = "super_admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

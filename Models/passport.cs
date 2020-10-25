@@ -24,13 +24,13 @@ namespace HRworks.Models
         [Display(Name = "Passport No")]
         public string passport_no { get; set; }
         [Display(Name = "Passport Expiry")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> passport_expiry { get; set; }
         [Display(Name = "Passport Issue Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> passport_issue_date { get; set; }
         [Display(Name = "Passport Return Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> passport_return_date { get; set; }
         [Display(Name = "Passport Remarks")]
         public string passport_remarks { get; set; }

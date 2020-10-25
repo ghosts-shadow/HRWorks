@@ -2,11 +2,11 @@
     @using PagedList.Mvc
 
 @{
-    ViewBag.Title = "list";
+    ViewBag.Title = "Change/Enter actual return date";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>list</h2>
+<h2>Change / Enter actual return date</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -37,6 +37,9 @@
         {
             <th>
                 @Html.DisplayNameFor(model => model.Employee_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
             </th>
         }
         <th>
@@ -84,6 +87,9 @@
         {
             <td>
                 @Html.DisplayFor(modelItem => item.Employee_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
             </td>
         }
         <td>

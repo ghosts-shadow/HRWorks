@@ -551,7 +551,7 @@
             var jd = leaveid.date_joined;
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             string serverfile;
-            var leavelistc = this.db.Leaves.ToList();
+            var leavelistc = this.db.Leaves.ToList();/*
             if (leavelistc.Exists(x=>x.Start_leave<=leave.Start_leave && x.End_leave >= leave.End_leave && x.Employee_id == leave.Employee_id))
             {
                 ModelState.AddModelError("Start_leave", "already exists");
@@ -568,7 +568,7 @@
             {
                 ModelState.AddModelError("Start_leave", "selected date is before " +jd);
                 goto jderr;
-            }
+            }*/
             if (leave.End_leave < jd && leave.End_leave != default)
             {
                 ModelState.AddModelError("Start_leave", "selected date is before " + jd);
@@ -1030,15 +1030,15 @@
             if (leave == null) return this.HttpNotFound();
             var listItems = new List<ListItem>
                                 {
-                                    new ListItem { Text = "Annual", Value = "Annual" },
-                                    new ListItem { Text = "Sick", Value = "Sick" },
-                                    new ListItem { Text = "Compassionate", Value = "Compassionate" },
-                                    new ListItem { Text = "Maternity", Value = "Maternity" },
-                                    new ListItem { Text = "Haj", Value = "Haj" },
-                                    new ListItem { Text = "Unpaid", Value = "Unpaid" },
-                                    new ListItem { Text = "Other", Value = "Other" }
+                                    new ListItem { Text = "Annual", Value = "1" },
+                                    new ListItem { Text = "Sick", Value = "2" },
+                                    new ListItem { Text = "Compassionate", Value = "3" },
+                                    new ListItem { Text = "Maternity", Value = "4" },
+                                    new ListItem { Text = "Haj", Value = "5" },
+                                    new ListItem { Text = "Unpaid", Value = "6" },
+                                    new ListItem { Text = "Other", Value = "7" }
                                 };
-            this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
+            this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text",leave.leave_type);
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
@@ -1144,9 +1144,12 @@
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             int defaSize = 100;
             List<Leave> leaves = new List<Leave>();
+            leaves = this.db.Leaves.Include(l => l.master_file).OrderBy(x => x.master_file.employee_no)
+                .ThenByDescending(x => x.Start_leave)
+                .ThenByDescending(x => x.master_file.employee_no).ToList();
             if (pagesize != 0)
             {
-                int a = 10;
+                int a = 100;
                 if (pagesize != null)
                 {
                     if (pagesize != 0)
@@ -1165,18 +1168,17 @@
                 {
                     leaves = db.Leaves
                         .Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/)
-                        .OrderBy(x => x.master_file.employee_no).ThenBy(x => x.Date).ToList();
+                        .OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.Start_leave).ToList();
                 }
                 else
                 {
                     leaves = db.Leaves
                         .Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
-                        .OrderBy(x => x.master_file.employee_no).ThenBy(x => x.Date).ToList();
+                        .OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.Start_leave).ToList();
                 }
             }
             
-           // leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Date).ThenBy(x=>x.master_file.employee_no).ToList();
-            return this.View(leaves.ToPagedList(page ?? 1, defaSize));
+            return this.View(leaves.OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.Start_leave).ToPagedList(page ?? 1, defaSize));
         }
 
         public ActionResult leave_absence_Index(DateTime? eddate)
@@ -1415,7 +1417,7 @@
                     this.ViewBag.name = empjd.employee_name;
                     this.ViewBag.no = empjd.employee_no;
 
-                    return this.View(leaves.ToList());
+                    return this.View(leaves.OrderBy(x=>x.Start_leave).ToList());
                 }
             }
 

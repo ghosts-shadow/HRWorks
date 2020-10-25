@@ -60,6 +60,7 @@
         }
 
         // GET: encriptiontests/Delete/5
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -88,6 +89,7 @@
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "super_admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             var encriptiontest = this.db.encriptiontests.Find(id);

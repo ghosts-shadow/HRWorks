@@ -94,6 +94,7 @@ namespace HRworks.Controllers
             return View(training_Evaluation);
         }
 
+        [Authorize(Roles = "super_admin")]
         // GET: Training_Evaluation/Delete/5
         public ActionResult Delete(int? id)
         {

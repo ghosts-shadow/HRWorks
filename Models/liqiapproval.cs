@@ -11,10 +11,13 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class liqiapproval
     {
         public int Id { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> date { get; set; }
         public Nullable<long> refre { get; set; }
         public string sumited_by { get; set; }

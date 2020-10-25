@@ -11,7 +11,8 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Leave_approved
     {
         public int Employee_id { get; set; }
@@ -19,9 +20,15 @@ namespace HRworks.Models
         public System.DateTime Date { get; set; }
         public string Reference { get; set; }
         public System.DateTime Start_leave { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> End_leave { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> Return_leave { get; set; }
         public string leave_type { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> actual_return_date { get; set; }
     
         public virtual master_file master_file { get; set; }

@@ -87,6 +87,7 @@ namespace HRworks.Controllers
             return View(rec_req_form);
         }
 
+        [Authorize(Roles = "super_admin")]
         // GET: rec_req_form/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -103,6 +104,7 @@ namespace HRworks.Controllers
         }
 
         // POST: rec_req_form/Delete/5
+        [Authorize(Roles = "super_admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

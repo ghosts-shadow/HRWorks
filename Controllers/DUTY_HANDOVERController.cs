@@ -98,6 +98,7 @@ namespace HRworks.Controllers
             return View(dUTY_HANDOVER);
         }
 
+        [Authorize(Roles = "super_admin")]
         // GET: DUTY_HANDOVER/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -115,6 +116,7 @@ namespace HRworks.Controllers
 
         // POST: DUTY_HANDOVER/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "super_admin")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {

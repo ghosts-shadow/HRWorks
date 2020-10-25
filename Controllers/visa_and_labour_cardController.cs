@@ -369,7 +369,7 @@ namespace TEST2.Controllers
         }
 
         // GET: visa_and_labour_card/Delete/5
-        [Authorize(Roles = "super_admin,admin,employee_VLC")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -384,8 +384,9 @@ namespace TEST2.Controllers
             return View(visa_and_labour_card);
         }
 
+        [Authorize(Roles = "super_admin")]
         // POST: visa_and_labour_card/Deledir
-     
+
         public ActionResult DeleteConfirmed(int id)
         {
             visa_and_labour_card visa_and_labour_card = db.visa_and_labour_card.Find(id);

@@ -109,6 +109,7 @@ namespace HRworks.Controllers
         }
 
         // GET: emp_joi_sta_change/Delete/5
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -125,6 +126,7 @@ namespace HRworks.Controllers
 
         // POST: emp_joi_sta_change/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "super_admin")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {

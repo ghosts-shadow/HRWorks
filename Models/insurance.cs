@@ -36,7 +36,7 @@ namespace HRworks.Models
         public Nullable<int> annual_primium { get; set; }
 
         [Display(Name = "Deletion Date")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> deletion_date { get; set; }
 
         [Display(Name = "Invoice No")]
@@ -52,6 +52,7 @@ namespace HRworks.Models
         public string changed_by { get; set; }
 
         [Display(Name = "Date Changed")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> date_changed { get; set; }
         public string client { get; set; }
     

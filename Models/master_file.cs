@@ -58,15 +58,15 @@ namespace HRworks.Models
         public string nationality { get; set; }
 
         [Display(Name = "DOB")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> dob { get; set; }
 
         [Display(Name = "Date Joined")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> date_joined { get; set; }
 
         [Display(Name = "Last Working Day")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> last_working_day { get; set; }
 
         public string gender { get; set; }

@@ -19,7 +19,7 @@ namespace HRworks.Models
         public int Id { get; set; }
         public Nullable<double> absence { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MMM yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> month { get; set; }
     
         public virtual master_file master_file { get; set; }

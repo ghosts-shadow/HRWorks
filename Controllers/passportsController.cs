@@ -398,7 +398,7 @@ namespace HRworks.Controllers
         }
 
         // GET: passports/Delete/5
-        [Authorize(Roles = "super_admin,admin,employee_PASS")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -416,7 +416,7 @@ namespace HRworks.Controllers
         // POST: passports/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,employee_PASS")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             passport passport = db.passports.Find(id);

@@ -21,6 +21,7 @@ namespace HRworks.Models
         public Nullable<int> Employee_id { get; set; }
 
         [Display(Name = "request date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> request_date { get; set; }
 
         [Display(Name = "from")]
@@ -30,6 +31,7 @@ namespace HRworks.Models
         public string por_to { get; set; }
 
         [Display(Name = "effective date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> effective_date { get; set; }
         public string remarks { get; set; }
     

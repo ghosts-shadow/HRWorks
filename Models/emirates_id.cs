@@ -21,7 +21,7 @@ namespace HRworks.Models
         [Display(Name = "EID no")]
         public long eid_no { get; set; }
         [Display(Name = " EID expiry")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public System.DateTime eid_expiry { get; set; }
         [Display(Name = "Photo")]
         public string imgpath { get; set; }

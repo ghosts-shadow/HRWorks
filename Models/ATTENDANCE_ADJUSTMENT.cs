@@ -21,9 +21,11 @@ namespace HRworks.Models
         public Nullable<int> Employee_id { get; set; }
 
         [Display(Name = "date perpared")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> date_prepared { get; set; }
 
         [Display(Name = "date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> DJ_date { get; set; }
 
         [Display(Name = "late IN")]

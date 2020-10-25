@@ -29,9 +29,12 @@ namespace HRworks.Models
         public string destination { get; set; }
 
         [Display(Name = "Departure Date")]
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> Departure_Date { get; set; }
 
         [Display(Name = "Return Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> Return_Date { get; set; }
         [Display(Name = "TRIP OBJECTIVE")]
         public string TRIP_OBJECTIVE { get; set; }

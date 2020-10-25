@@ -90,6 +90,7 @@ namespace HRworks.Controllers
         }
 
         // GET: EXIT_INTERVIEW/Delete/5
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -105,6 +106,7 @@ namespace HRworks.Controllers
         }
 
         // POST: EXIT_INTERVIEW/Delete/5
+        [Authorize(Roles = "super_admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

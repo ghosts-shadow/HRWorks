@@ -19,6 +19,8 @@ namespace HRworks.Models
         [Display(Name = "bill no")]
         public string bill_no { get; set; }
         public string expenses { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> invoice_date { get; set; }
         [DataType(DataType.MultilineText)]
         public string discription { get; set; }

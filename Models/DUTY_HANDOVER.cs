@@ -24,9 +24,11 @@ namespace HRworks.Models
         public Nullable<int> Employee_NO2 { get; set; }
 
         [Display(Name = "Leave Starts on")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> leave_start { get; set; }
 
         [Display(Name = "Leave Ends on")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> leave_end { get; set; }
         [Display(Name = "Reason for Handover")]
         public string reason_for_handover { get; set; }
@@ -37,6 +39,7 @@ namespace HRworks.Models
         public string RNR_HO5 { get; set; }
 
         [Display(Name = "Resuming on Duty")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> Resuming_on_Duty { get; set; }
     
         public virtual master_file master_file { get; set; }

@@ -11,7 +11,8 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class labour_card
     {
         public int employee_id { get; set; }
@@ -19,10 +20,14 @@ namespace HRworks.Models
         public Nullable<long> personal_no { get; set; }
         public int emp_no { get; set; }
         public string proffession { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> lc_expiry { get; set; }
         public string establishment { get; set; }
         public string imgpath { get; set; }
         public string changed_by { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> date_changed { get; set; }
     
         public virtual master_file master_file { get; set; }

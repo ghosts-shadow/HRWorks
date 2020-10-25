@@ -26,10 +26,10 @@ namespace HRworks.Models
         public int emp_no { get; set; }
         public string class_type { get; set; }
         [Display(Name = "RV expiry")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> rv_expiry { get; set; }
         [Display(Name = "LC expiry")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> lc_expiry { get; set; }
         [Display(Name = "Proffession As Per Visa")]
         public string proff_as_per_visa { get; set; }

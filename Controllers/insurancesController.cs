@@ -358,7 +358,7 @@ namespace HRworks.Controllers
         }
 
         // GET: insurances/Delete/5
-        [Authorize(Roles = "super_admin,admin,employee_INC")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -376,7 +376,7 @@ namespace HRworks.Controllers
         // POST: insurances/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,employee_INC")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             insurance insurance = db.insurances.Find(id);

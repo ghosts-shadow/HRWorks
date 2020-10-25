@@ -383,7 +383,7 @@ namespace HRworks.Controllers
         }
 
         // GET: master_file/Delete/5
-        [Authorize(Roles = "super_admin,admin")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -401,7 +401,7 @@ namespace HRworks.Controllers
         // POST: master_file/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             master_file master_file = db.master_file.Find(id);

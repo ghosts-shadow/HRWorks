@@ -39,8 +39,10 @@ namespace HRworks.Models
         public string EL_purpose { get; set; }
 
         [Display(Name = "Dates of Visit")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> EL_DOV_from { get; set; }
 
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> EL_DOV_to { get; set; }
 
         [Display(Name = "New Car Registration")]
