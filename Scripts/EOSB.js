@@ -58,9 +58,9 @@ function hi(id) {
     if (sno1 == 2) {
         if (tw > 364) {
             $("#ldval2").val(tw + " days " + twmonth + " months " + twyrs + " years");
-            $("#ldval2").html(humanise(tw));
+            $("#ldval2").html((tw));
             $("#ldval3").val(untw + " days " + untwmonth + " months " + untwyrs + " years");
-            $("#ldval3").html(humanise(untw));
+            $("#ldval3").html((untw));
             var eossum = 0;
             if (tw > 1824) {
                 $("#eospwval").val(((tw) * 30 / 365 / 30).toFixed(2));
@@ -139,9 +139,9 @@ function hi(id) {
             $("#eospwval").val(0);
             $("#eospwval").html(0);
             $("#ldval2").val(tw + " days " + twmonth + " months " + twyrs + " years");
-            $("#ldval2").html(humanise(tw) );
+            $("#ldval2").html((tw) );
             $("#ldval3").val(untw + " days " + untwmonth + " months " + untwyrs + " years");
-            $("#ldval3").html(humanise(untw) );
+            $("#ldval3").html((untw) );
             $("#td5val").val(0);
             $("#td5val").html(0);
             $("#tda5val").val(0);
@@ -161,9 +161,9 @@ function hi(id) {
         $("#eospwval").val(0);
         $("#eospwval").html(0);
         $("#ldval2").val(tw + " days " + twmonth + " months " + twyrs + " years");
-        $("#ldval2").html(humanise(tw) );
+        $("#ldval2").html((tw) );
         $("#ldval3").val(untw + " days " + untwmonth + " months " + untwyrs + " years");
-        $("#ldval3").html(humanise(untw) );
+        $("#ldval3").html((untw) );
         $("#td5val").val(0);
         $("#td5val").html(0);
         $("#tda5val").val(0);
@@ -235,9 +235,9 @@ function hi(id) {
             $("#eospwval").val(0);
             $("#eospwval").html(0);
             $("#ldval2").val(tw + " days " + twmonth + " months " + twyrs + " years");
-            $("#ldval2").html(humanise(tw) );
+            $("#ldval2").html((tw) );
             $("#ldval3").val(untw + " days " + untwmonth + " months " + untwyrs + " years");
-            $("#ldval3").html(humanise(untw) );
+            $("#ldval3").html((untw) );
             $("#td5val").val(0);
             $("#td5val").html(0);
             $("#tda5val").val(0);

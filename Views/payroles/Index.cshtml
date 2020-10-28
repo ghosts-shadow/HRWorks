@@ -1,0 +1,174 @@
+﻿@model IEnumerable<HRworks.Models.payrole>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("Index", "payroles", FormMethod.Get, new { id = "form1" }))
+{
+<div>
+    month:-
+    @Html.TextBox("month")
+    <input type="submit"
+           name="submit"
+           value="Get records" ondblclick="norc()" />
+
+</div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contract.basic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contract.salary_details)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contract.ticket_allowance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contract.arrears)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.totalpayable)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OTRegular)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OTFriday)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OTNight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HolidayOT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fot)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalOT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cashAdvances)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HouseAllow)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contract.transportation_allowance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FoodAllow)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Timekeeping)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Communication)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TrafficFines)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalDedution)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NetPay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.remarks)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.master_file.employee_no)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.master_file.employee_name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.contract.basic)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.contract.salary_details)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.contract.ticket_allowance)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.contract.arrears)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.totalpayable)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OTRegular)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OTFriday)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OTNight)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HolidayOT)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Fot)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TotalOT)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.cashAdvances)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.HouseAllow)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.contract.transportation_allowance)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.FoodAllow)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Timekeeping)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Communication)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TrafficFines)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TotalDedution)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NetPay)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.remarks)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>
+</tr>
+}
+
+</table>

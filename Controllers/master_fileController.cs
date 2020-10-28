@@ -16,6 +16,22 @@ using Microsoft.Ajax.Utilities;
 
 namespace HRworks.Controllers
 {
+    using System.Web.Routing;
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+
+    public class NoDirectAccessAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (filterContext.HttpContext.Request.UrlReferrer == null || filterContext.HttpContext.Request.Url.Host
+                != filterContext.HttpContext.Request.UrlReferrer.Host)
+            {
+                filterContext.Result = new RedirectToRouteResult(
+                    new RouteValueDictionary(new { controller = "Home", action = "Logout", area = "Main" }));
+            }
+        }
+    }
     public class master_fileController : Controller
     {
         private HREntities db = new HREntities();

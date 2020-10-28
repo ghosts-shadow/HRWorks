@@ -66,10 +66,10 @@ namespace HRworks.Models
         public virtual DbSet<Training_Request> Training_Request { get; set; }
         public virtual DbSet<end_of_service> end_of_service { get; set; }
         public virtual DbSet<emp_joi_sta_change> emp_joi_sta_change { get; set; }
-        public virtual DbSet<encriptiontest> encriptiontests { get; set; }
         public virtual DbSet<payrolelogin> payrolelogins { get; set; }
         public virtual DbSet<hik> hiks { get; set; }
         public virtual DbSet<absencelist> absencelists { get; set; }
         public virtual DbSet<contractlogin> contractlogins { get; set; }
+        public virtual DbSet<payrole> payroles { get; set; }
     }
 }

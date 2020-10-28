@@ -11,7 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     $(function () {
-        $("#datepicker").datepicker({
+        $("#Return_leave").datepicker({
             altField: "#alternate",
             altFormat: "MM,yy",
             changeMonth: true,
@@ -42,6 +42,16 @@
             dateFormat: "dd M yy"
         });
         $("#End_leave").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy"
+        });
+        $("#actual_return_date").datepicker({
             altField: "#alternate",
             altFormat: "MM,yy",
             changeMonth: true,
@@ -120,7 +130,7 @@
         else
         {
 
-            <div class="form-group" >
+            <div class="form-group" style="display: none">
                 @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
@@ -128,7 +138,7 @@
                 </div>
             </div>
 
-            <div class="form-group" >
+            <div class="form-group" style="display: none">
                 @Html.LabelFor(model => model.Start_leave, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Start_leave, new { htmlAttributes = new { @class = "form-control" } })
@@ -136,7 +146,7 @@
                 </div>
             </div>
 
-            <div class="form-group" >
+            <div class="form-group" style="display: none">
                 @Html.LabelFor(model => model.End_leave, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.End_leave, new { htmlAttributes = new { @class = "form-control" } })
@@ -144,7 +154,7 @@
                 </div>
             </div>
 
-            <div class="form-group" >
+            <div class="form-group" style="display: none">
                 @Html.LabelFor(model => model.leave_type, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @*
@@ -170,12 +180,14 @@
         @Html.LabelFor(model => model.actual_return_date, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @*
-                @Html.EditorFor(model => model.actual_return_date, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.actual_return_date, new { htmlAttributes = new { @class = "form-control" } })
+        <input type="text"
+               id="datepicker"
+               class="form-control"
+               name="actual_return_date" value ="@Model.actual_return_date"/>
             *@
-            <input type="text"
-                   id="datepicker"
-                   class="form-control"
-                   name="actual_return_date" />
+
+            @Html.EditorFor(model => model.actual_return_date, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.actual_return_date, "", new { @class = "text-danger" })
         </div>
     </div>

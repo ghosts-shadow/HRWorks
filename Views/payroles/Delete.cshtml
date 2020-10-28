@@ -1,0 +1,177 @@
+﻿@model HRworks.Models.payrole
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>payrole</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.totalpayable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.totalpayable)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OTRegular)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OTRegular)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OTFriday)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OTFriday)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OTNight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OTNight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HolidayOT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HolidayOT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fot)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fot)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalOT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalOT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cashAdvances)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cashAdvances)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HouseAllow)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HouseAllow)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FoodAllow)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FoodAllow)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Timekeeping)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Timekeeping)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Communication)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Communication)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TrafficFines)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrafficFines)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalDedution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalDedution)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NetPay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NetPay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.contract.designation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.contract.designation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Leave.Reference)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Leave.Reference)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

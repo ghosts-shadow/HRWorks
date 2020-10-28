@@ -220,9 +220,13 @@
         </td>
         @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
         {
-            <td>
-                @Html.ActionLink("change/enter actual return date", "Edit", new { id = item.Id })
-            </td>
+    <td>
+        @Html.ActionLink("change/enter actual return date", "Edit", new { id = item.Id })
+        @if (User.IsInRole("super_admin"))
+        {
+            <b>| @Html.ActionLink("delete", "Delete", new { id = item.Id })</b>
+        }
+    </td>
         }
     </tr>
 }

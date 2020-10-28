@@ -12,9 +12,15 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Leave
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Leave()
+        {
+            this.payroles = new HashSet<payrole>();
+        }
+
         [Display(Name = "Employee ID")]
         public int Employee_id { get; set; }
 
@@ -45,19 +51,30 @@ namespace HRworks.Models
         public Nullable<System.DateTime> actual_return_date { get; set; }
 
         public Nullable<double> toltal_requested_days { get; set; }
+
         public Nullable<bool> leave_salary { get; set; }
+
         public Nullable<long> mobile_no { get; set; }
+
         public string email { get; set; }
+
         public Nullable<double> leave_bal { get; set; }
+
         public string submitted_by { get; set; }
+
         public string approved_by { get; set; }
+
         public Nullable<System.DateTime> time { get; set; }
+
         public Nullable<int> days { get; set; }
+
         public string data_o_n { get; set; }
 
         [Display(Name = "is half-day included")]
         public bool half { get; set; }
     
         public virtual master_file master_file { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<payrole> payroles { get; set; }
     }
 }

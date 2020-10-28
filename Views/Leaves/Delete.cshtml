@@ -21,14 +21,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Reference)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Reference)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Start_leave)
         </dt>
 
@@ -57,7 +49,39 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.leave_type)
+
+            @if (Model.leave_type == "1")
+            {
+                <i>Annual</i>
+            }
+            @if (Model.leave_type == "2")
+            {
+                <i>Sick</i>
+            }
+            @if (Model.leave_type == "3")
+            {
+                <i>Compassionate</i>
+            }
+            @if (Model.leave_type == "4")
+            {
+                <i>Maternity </i>
+            }
+            @if (Model.leave_type == "5")
+            {
+                <i>Haj</i>
+            }
+            @if (Model.leave_type == "6")
+            {
+                <i>Unpaid </i>
+            }
+            @if (Model.leave_type == "7")
+            {
+                <i> others</i>
+            }
+            @if (Model.leave_type == "8")
+            {
+                <i>half - day</i>
+            }
         </dd>
 
         <dt>

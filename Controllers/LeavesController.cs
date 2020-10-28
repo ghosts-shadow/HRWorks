@@ -1225,6 +1225,7 @@
 
         public ActionResult report(long? Employee_id, DateTime? eddate)
         {
+            eddate = new DateTime(2020,12,31);
             ViewBag.Employee_id = Employee_id;
             ViewBag.eddate = eddate;
             var emp_listfinal = new List<master_file>();

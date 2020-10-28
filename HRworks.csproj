@@ -199,7 +199,6 @@
     <Compile Include="Controllers\DUTY_HANDOVERController.cs" />
     <Compile Include="Controllers\emirates_idController.cs" />
     <Compile Include="Controllers\emp_joi_sta_changeController.cs" />
-    <Compile Include="Controllers\encriptiontestsController.cs" />
     <Compile Include="Controllers\end_of_serviceController.cs" />
     <Compile Include="Controllers\EXIT_INTERVIEWController.cs" />
     <Compile Include="Controllers\hiksController.cs" />
@@ -219,6 +218,7 @@
     <Compile Include="Controllers\OVERTIME_APPROVALController.cs" />
     <Compile Include="Controllers\passportsController.cs" />
     <Compile Include="Controllers\payroleloginsController.cs" />
+    <Compile Include="Controllers\payrolesController.cs" />
     <Compile Include="Controllers\PROBATION_ASSESSMENTController.cs" />
     <Compile Include="Controllers\rec_req_formController.cs" />
     <Compile Include="Controllers\Training_EffectivenessController.cs" />
@@ -280,9 +280,6 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\emp_joi_sta_change.cs">
-      <DependentUpon>HRModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\encriptiontest.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\end_of_service.cs">
@@ -369,6 +366,9 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\passport.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payrole.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\payrolelogin.cs">
@@ -473,6 +473,8 @@
     <Content Include="Content\testbootstrap\bootstrap-reboot.min.css.map" />
     <Content Include="Content\testbootstrap\bootstrap.css.map" />
     <Content Include="Content\testbootstrap\bootstrap.min.css.map" />
+    <Content Include="Content\chosen\composer.json" />
+    <Content Include="Content\chosen\LICENSE.md" />
     <EntityDeploy Include="Models\HRModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
@@ -480,8 +482,6 @@
     <Content Include="Models\HRModel.edmx.diagram">
       <DependentUpon>HRModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Content\chosen\composer.json" />
-    <Content Include="Content\chosen\LICENSE.md" />
     <EntityDeploy Include="Models\timesheet.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>timesheet.Designer.cs</LastGenOutput>
@@ -747,6 +747,11 @@
     <Content Include="Views\contractlogins\Create.cshtml" />
     <Content Include="Views\contracts\ImportExcel.cshtml" />
     <Content Include="Views\Leaves\getallorone.cshtml" />
+    <Content Include="Views\payroles\Create.cshtml" />
+    <Content Include="Views\payroles\Delete.cshtml" />
+    <Content Include="Views\payroles\Details.cshtml" />
+    <Content Include="Views\payroles\Edit.cshtml" />
+    <Content Include="Views\payroles\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

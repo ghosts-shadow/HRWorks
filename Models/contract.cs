@@ -16,42 +16,68 @@ namespace HRworks.Models
     
     public partial class contract
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public contract()
+        {
+            this.payroles = new HashSet<payrole>();
+        }
+    
         [Display(Name = "Contract ID")]
         public Nullable<int> con_id { get; set; }
+
         [Display(Name = "Employee ID")]
         public int employee_no { get; set; }
+
         [Display(Name = "Designation")]
         public string designation { get; set; }
+
         public string grade { get; set; }
+
         [Display(Name = "Departmant Project")]
         public string departmant_project { get; set; }
+
         [Display(Name = "Gross Salary")]
         public string salary_details { get; set; }
+
         [Display(Name = "Basic")]
         public string basic { get; set; }
+
         [Display(Name = "Housing Allowance")]
         public string housing_allowance { get; set; }
+
         [Display(Name = "Transportation Allowance")]
         public string transportation_allowance { get; set; }
+
         public string FOT { get; set; }
+
         [Display(Name = "Food Allowance")]
         public string food_allowance { get; set; }
+
         [Display(Name = "Living Allowance")]
         public string living_allowance { get; set; }
+
         [Display(Name = "Ticket Allowance")]
         public string ticket_allowance { get; set; }
+
         [Display(Name = "Other")]
         public string others { get; set; }
+
         [Display(Name = "Arrears")]
         public string arrears { get; set; }
+
         public int employee_id { get; set; }
+
         [Display(Name = "Photo")]
         public string imgpath { get; set; }
+
         [Display(Name = "Changed by")]
         public string changed_by { get; set; }
+
         [Display(Name = "Date changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
     
         public virtual master_file master_file { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<payrole> payroles { get; set; }
     }
 }

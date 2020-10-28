@@ -83,11 +83,14 @@
         <AssociationConnector Association="HRModel.FK_EOS_To_master_file" />
         <EntityTypeShape EntityType="HRModel.emp_joi_sta_change" Width="1.5" PointX="3" PointY="82.625" />
         <AssociationConnector Association="HRModel.FK_ejsc_To_master_file" />
-        <EntityTypeShape EntityType="HRModel.encriptiontest" Width="1.5" PointX="15.5" PointY="11.75" />
         <EntityTypeShape EntityType="HRModel.payrolelogin" Width="1.5" PointX="15.375" PointY="14.75" />
         <EntityTypeShape EntityType="HRModel.hik" Width="1.5" PointX="17.625" PointY="0.75" />
         <EntityTypeShape EntityType="HRModel.absencelist" Width="1.5" PointX="17.375" PointY="4.75" />
         <EntityTypeShape EntityType="HRModel.contractlogin" Width="1.5" PointX="17.375" PointY="7.75" />
+        <EntityTypeShape EntityType="HRModel.payrole" Width="1.5" PointX="15.375" PointY="10.75" />
+        <AssociationConnector Association="HRModel.FK_pay_To_con" />
+        <AssociationConnector Association="HRModel.FK_pay_To_leave" />
+        <AssociationConnector Association="HRModel.FK_pay_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

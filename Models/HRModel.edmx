@@ -220,15 +220,6 @@
           <Property Name="Bank_Account_No" Type="nvarchar(max)" />
           <Property Name="Remarks" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="encriptiontest">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="name " Type="nvarchar(max)" />
-          <Property Name="age " Type="nvarchar(max)" />
-          <Property Name="phone_no" Type="nvarchar(max)" />
-        </EntityType>
         <EntityType Name="end_of_service">
           <Key>
             <PropertyRef Name="Id" />
@@ -523,6 +514,31 @@
           <Property Name="imgpath" Type="nvarchar(max)" />
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
+        </EntityType>
+        <EntityType Name="payrole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_no" Type="int" Nullable="false" />
+          <Property Name="con_id" Type="int" Nullable="false" />
+          <Property Name="totalpayable" Type="nvarchar(max)" />
+          <Property Name="OTRegular" Type="nvarchar(max)" />
+          <Property Name="OTFriday" Type="nvarchar(max)" />
+          <Property Name="OTNight" Type="nvarchar(max)" />
+          <Property Name="HolidayOT" Type="nvarchar(max)" />
+          <Property Name="Fot" Type="nvarchar(max)" />
+          <Property Name="TotalOT" Type="nvarchar(max)" />
+          <Property Name="cashAdvances" Type="nvarchar(max)" />
+          <Property Name="HouseAllow" Type="nvarchar(max)" />
+          <Property Name="FoodAllow" Type="nvarchar(max)" />
+          <Property Name="Timekeeping" Type="nvarchar(max)" />
+          <Property Name="Communication" Type="nvarchar(max)" />
+          <Property Name="TrafficFines" Type="nvarchar(max)" />
+          <Property Name="LWOP" Type="int" />
+          <Property Name="TotalDedution" Type="nvarchar(max)" />
+          <Property Name="NetPay" Type="nvarchar(max)" />
+          <Property Name="remarks" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="payrolelogin">
           <Key>
@@ -981,6 +997,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_pay_To_con">
+          <End Role="contract" Type="Self.contract" Multiplicity="1" />
+          <End Role="payrole" Type="Self.payrole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contract">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="payrole">
+              <PropertyRef Name="con_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pay_To_leave">
+          <End Role="Leave" Type="Self.Leave" Multiplicity="0..1" />
+          <End Role="payrole" Type="Self.payrole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Leave">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="payrole">
+              <PropertyRef Name="LWOP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pay_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="payrole" Type="Self.payrole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="payrole">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_probation_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="PROBATION_ASSESSMENT" Type="Self.PROBATION_ASSESSMENT" Multiplicity="*" />
@@ -1084,7 +1136,6 @@
           <EntitySet Name="DUTY_HANDOVER" EntityType="Self.DUTY_HANDOVER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emp_joi_sta_change" EntityType="Self.emp_joi_sta_change" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="encriptiontest" EntityType="Self.encriptiontest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="end_of_service" EntityType="Self.end_of_service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EXIT_INTERVIEW" EntityType="Self.EXIT_INTERVIEW" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hik" EntityType="Self.hik" Schema="dbo" store:Type="Tables" />
@@ -1105,6 +1156,7 @@
           <EntitySet Name="OT_employee_list" EntityType="Self.OT_employee_list" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OVERTIME_APPROVAL" EntityType="Self.OVERTIME_APPROVAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="passport" EntityType="Self.passport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="payrole" EntityType="Self.payrole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrolelogin" EntityType="Self.payrolelogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROBATION_ASSESSMENT" EntityType="Self.PROBATION_ASSESSMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rec_req_form" EntityType="Self.rec_req_form" Schema="dbo" store:Type="Tables" />
@@ -1202,6 +1254,18 @@
           <AssociationSet Name="FK_ot_list_To_OT" Association="Self.FK_ot_list_To_OT">
             <End Role="OVERTIME_APPROVAL" EntitySet="OVERTIME_APPROVAL" />
             <End Role="OT_employee_list" EntitySet="OT_employee_list" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pay_To_con" Association="Self.FK_pay_To_con">
+            <End Role="contract" EntitySet="contract" />
+            <End Role="payrole" EntitySet="payrole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pay_To_leave" Association="Self.FK_pay_To_leave">
+            <End Role="Leave" EntitySet="Leave" />
+            <End Role="payrole" EntitySet="payrole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pay_To_master_file" Association="Self.FK_pay_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="payrole" EntitySet="payrole" />
           </AssociationSet>
           <AssociationSet Name="FK_probation_To_master_file" Association="Self.FK_probation_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -1316,21 +1380,22 @@
           <Property Name="designation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="grade" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="departmant_project" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="salary_details" Type="String" MaxLength="Max" Unicode="true" />
-          <Property Name="basic" Type="String" MaxLength="Max" Unicode="true" />
-          <Property Name="housing_allowance" Type="String" MaxLength="Max" Unicode="true" />
-          <Property Name="transportation_allowance" Type="String" MaxLength="Max" Unicode="true" />
-          <Property Name="FOT" Type="String" MaxLength="Max" Unicode="true" />
-          <Property Name="food_allowance" Type="String" MaxLength="Max" Unicode="true" />
-          <Property Name="living_allowance" Type="String" MaxLength="Max" Unicode="true" />
-          <Property Name="ticket_allowance" Type="String" MaxLength="Max" Unicode="true" />
-          <Property Name="others" Type="String" MaxLength="Max" Unicode="true" />
-          <Property Name="arrears" Type="String" MaxLength="Max" Unicode="true" />
+          <Property Name="salary_details" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="basic" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="housing_allowance" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="transportation_allowance" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="FOT" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="food_allowance" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="living_allowance" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ticket_allowance" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="others" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="arrears" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_changed" Type="DateTime" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_con_To_master_file" FromRole="contract" ToRole="master_file" />
+          <NavigationProperty Name="payroles" Relationship="HRModel.FK_pay_To_con" FromRole="contract" ToRole="payrole" />
         </EntityType>
         <EntityType Name="emirates_id">
           <Key>
@@ -1406,6 +1471,7 @@
           <Property Name="days" Type="Int32" />
           <Property Name="data_o_n" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="half" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="payroles" Relationship="HRModel.FK_pay_To_leave" FromRole="Leave" ToRole="payrole" />
         </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
@@ -1492,6 +1558,7 @@
           <NavigationProperty Name="Training_Request" Relationship="HRModel.FK_TR_To_master_file" FromRole="master_file" ToRole="Training_Request" />
           <NavigationProperty Name="end_of_service" Relationship="HRModel.FK_EOS_To_master_file" FromRole="master_file" ToRole="end_of_service" />
           <NavigationProperty Name="emp_joi_sta_change" Relationship="HRModel.FK_ejsc_To_master_file" FromRole="master_file" ToRole="emp_joi_sta_change" />
+          <NavigationProperty Name="payroles" Relationship="HRModel.FK_pay_To_master_file" FromRole="master_file" ToRole="payrole" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -1914,11 +1981,23 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emp_joi_sta_change" EntitySet="emp_joi_sta_change" />
           </AssociationSet>
-          <EntitySet Name="encriptiontests" EntityType="HRModel.encriptiontest" />
           <EntitySet Name="payrolelogins" EntityType="HRModel.payrolelogin" />
           <EntitySet Name="hiks" EntityType="HRModel.hik" />
           <EntitySet Name="absencelists" EntityType="HRModel.absencelist" />
           <EntitySet Name="contractlogins" EntityType="HRModel.contractlogin" />
+          <EntitySet Name="payroles" EntityType="HRModel.payrole" />
+          <AssociationSet Name="FK_pay_To_con" Association="HRModel.FK_pay_To_con">
+            <End Role="contract" EntitySet="contracts" />
+            <End Role="payrole" EntitySet="payroles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pay_To_leave" Association="HRModel.FK_pay_To_leave">
+            <End Role="Leave" EntitySet="Leaves" />
+            <End Role="payrole" EntitySet="payroles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pay_To_master_file" Association="HRModel.FK_pay_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="payrole" EntitySet="payroles" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
           <Key>
@@ -2521,15 +2600,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="encriptiontest">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="name_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="age_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="phone_no" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="payrolelogin">
           <Key>
             <PropertyRef Name="Id" />
@@ -2568,6 +2638,70 @@
           <Property Name="pro_username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="pro_password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="payrole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_no" Type="Int32" Nullable="false" />
+          <Property Name="con_id" Type="Int32" Nullable="false" />
+          <Property Name="totalpayable" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTRegular" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTFriday" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTNight" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HolidayOT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fot" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalOT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="cashAdvances" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HouseAllow" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FoodAllow" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Timekeeping" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Communication" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TrafficFines" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LWOP" Type="Int32" />
+          <Property Name="TotalDedution" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NetPay" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="contract" Relationship="HRModel.FK_pay_To_con" FromRole="payrole" ToRole="contract" />
+          <NavigationProperty Name="Leave" Relationship="HRModel.FK_pay_To_leave" FromRole="payrole" ToRole="Leave" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_pay_To_master_file" FromRole="payrole" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_pay_To_con">
+          <End Type="HRModel.contract" Role="contract" Multiplicity="1" />
+          <End Type="HRModel.payrole" Role="payrole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contract">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="payrole">
+              <PropertyRef Name="con_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pay_To_leave">
+          <End Type="HRModel.Leave" Role="Leave" Multiplicity="0..1" />
+          <End Type="HRModel.payrole" Role="payrole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Leave">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="payrole">
+              <PropertyRef Name="LWOP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pay_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.payrole" Role="payrole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="payrole">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3265,16 +3399,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="encriptiontests">
-            <EntityTypeMapping TypeName="HRModel.encriptiontest">
-              <MappingFragment StoreEntitySet="encriptiontest">
-                <ScalarProperty Name="phone_no" ColumnName="phone_no" />
-                <ScalarProperty Name="age_" ColumnName="age " />
-                <ScalarProperty Name="name_" ColumnName="name " />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="payrolelogins">
             <EntityTypeMapping TypeName="HRModel.payrolelogin">
               <MappingFragment StoreEntitySet="payrolelogin">
@@ -3313,6 +3437,32 @@
               <MappingFragment StoreEntitySet="contractlogin">
                 <ScalarProperty Name="pro_password" ColumnName="pro_password" />
                 <ScalarProperty Name="pro_username" ColumnName="pro_username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payroles">
+            <EntityTypeMapping TypeName="HRModel.payrole">
+              <MappingFragment StoreEntitySet="payrole">
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="NetPay" ColumnName="NetPay" />
+                <ScalarProperty Name="TotalDedution" ColumnName="TotalDedution" />
+                <ScalarProperty Name="LWOP" ColumnName="LWOP" />
+                <ScalarProperty Name="TrafficFines" ColumnName="TrafficFines" />
+                <ScalarProperty Name="Communication" ColumnName="Communication" />
+                <ScalarProperty Name="Timekeeping" ColumnName="Timekeeping" />
+                <ScalarProperty Name="FoodAllow" ColumnName="FoodAllow" />
+                <ScalarProperty Name="HouseAllow" ColumnName="HouseAllow" />
+                <ScalarProperty Name="cashAdvances" ColumnName="cashAdvances" />
+                <ScalarProperty Name="TotalOT" ColumnName="TotalOT" />
+                <ScalarProperty Name="Fot" ColumnName="Fot" />
+                <ScalarProperty Name="HolidayOT" ColumnName="HolidayOT" />
+                <ScalarProperty Name="OTNight" ColumnName="OTNight" />
+                <ScalarProperty Name="OTFriday" ColumnName="OTFriday" />
+                <ScalarProperty Name="OTRegular" ColumnName="OTRegular" />
+                <ScalarProperty Name="totalpayable" ColumnName="totalpayable" />
+                <ScalarProperty Name="con_id" ColumnName="con_id" />
+                <ScalarProperty Name="employee_no" ColumnName="employee_no" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

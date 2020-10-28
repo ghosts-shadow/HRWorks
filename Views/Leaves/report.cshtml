@@ -62,7 +62,7 @@
     <div class="col-md-5">
         <p>
             <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New" />
-            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel", "Leaves", new {  Employee_id = ViewBag.no, eddate = ViewBag.eddate })'" value="Export" />
+            <input type="button"  class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel", "Leaves", new {  Employee_id = ViewBag.no, eddate = ViewBag.eddate })'" value="Export" />
         </p>
     </div>
     <div class="col-md-5" style="left:50%">
@@ -75,8 +75,8 @@
     @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "empno" })
     <br />
     <br />
-    <i>report Date</i>
-    <input type="text" id="datepicker1" name="eddate" class="form-control" />
+    <i style="display: none">report Date</i>
+    <input type="text" style="display: none" id="datepicker1" name="eddate" class="form-control" />
     <br />
     <input type="submit" value="Search" class="btn btn-default" />
 }
