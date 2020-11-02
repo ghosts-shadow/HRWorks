@@ -37,6 +37,7 @@
         <br />
         <input type="submit" value="Search" class="btn btn-default" />
         <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("ImportExcel")'" value="upload" />
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create","leave_absence")'" value="Create new" />
     </div>
     <div class="col-md-5" style="left: 50%">
         <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value="back to main" />
@@ -54,16 +55,22 @@
             SN#
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.absence)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.month)
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.master_file.employee_name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.master_file.employee_no)
+            @Html.DisplayNameFor(model => model.month)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fromd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tod)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.absence)
         </th>
     </tr>
 
@@ -72,26 +79,32 @@
     }
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @{
-                    i++;
-                }
-                @i
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.absence)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.month)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.master_file.employee_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.master_file.employee_no)
-            </td>
-        </tr>
+<tr>
+    <td>
+        @{
+            i++;
+        }
+        @i
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.master_file.employee_no)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.master_file.employee_name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.month)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.fromd)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.tod)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.absence)
+    </td>
+</tr>
     }
 
 </table>

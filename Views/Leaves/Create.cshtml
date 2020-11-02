@@ -60,7 +60,7 @@
             showButtonPanel: true,
             dateFormat: "dd M yy"
         });
-        $("#empno").chosen({ no_results_text: "Oops, nothing found!" });
+        $("#employee_no").chosen({ no_results_text: "Oops, nothing found!" });
     });
 
     function dayscount() {
@@ -73,6 +73,55 @@
         }
     }
 </script>
+<script>
+    function byidfill(parameters) {
+        var filled = document.getElementById('fill');
+        document.getElementById('hide2').style.display = "none";
+        var x = document.getElementById("employee_no1");
+        var y = document.getElementById("employee_no");
+        y.value = x.value;
+        document.getElementById('hide').style.display = "";
+        var z = document.getElementById("demo");
+        var w = document.getElementById("demo1");
+        z.style.display = "";
+        w.style.display = "none";
+        myFunction();
+    };
+
+    function bynamefill(parameters) {
+        document.getElementById('hide2').style.display = "";
+        var x = document.getElementById("employee_no1");
+        var y = document.getElementById("employee_no");
+        x.value = y.value;
+        document.getElementById('hide').style.display = "none";
+        var z = document.getElementById("demo");
+        var w = document.getElementById("demo1");
+        w.style.display = "";
+        z.style.display = "none";
+        myFunction1();
+    };
+
+//        var loadfile = function (event) {
+//            var reader = new FileReader();
+//            reader.onload = function () {
+//                var output = document.getElementById('output');
+//                output.src = reader.result;
+//            };
+//            reader.readAsDataURL(event.target.files[0]);
+//        };
+
+    function myFunction() {
+        var x = document.getElementById("employee_no").value;
+        document.getElementById("demo").innerHTML = "employee_id :" + x;
+
+    };
+
+    function myFunction1() {
+        var x = document.getElementById("employee_no1").value;
+        document.getElementById("demo1").innerHTML = "employee_id :" + x;
+
+    };
+</script>
 
 @using (Html.BeginForm("Create", "Leaves", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -82,13 +131,39 @@
     <hr /><p style="font-size: 110%; color: red">@ViewBag.exhist</p>
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(model => model.Employee_id, "Employee_id", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "empno" })
+        @Html.LabelFor(model => model.Employee_id, "employee_no", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6"
+             id="hide">
+            @*
+                        @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})*@
+            @Html.DropDownList("Employee_id", null, new { @class = "form-control", @id = "employee_no" })
             @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
+
+        </div>
+        <div class="col-md-6"
+             id="hide2"
+             style="display: none">
+            @*
+                        @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})*@
+            @Html.DropDownList("employee_id1", null, new { @class = "form-control", @id = "employee_no1" })
+            @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="col-md-4">
+            <input type="button"
+                   onclick="bynamefill()" @*ondblclick="byidfill()"*@
+                   value="change to name"
+                   id="demo"/>
+        </div>
+        <div class="col-md-4">
+            <input type="button"
+                   onclick="byidfill()"
+                   value="change to id"
+                   style="display: none"
+                   id="demo1"/>
         </div>
     </div>
-
     <div class="form-group">
         @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">

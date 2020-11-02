@@ -21,7 +21,7 @@
     using PagedList;
 
     [NoDirectAccess]
-    [Authorize(Roles = "super_admin,employee_con")]
+    [Authorize(Roles = "super_admin,payrole,employee_con")]
     public class contractsController : Controller
     {
         private const string Purpose = "equalizer";
@@ -54,7 +54,7 @@
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,employee_con")]
+        [Authorize(Roles = "super_admin,admin,payrole,employee_con")]
         public ActionResult Create(
             [Bind(
                 Include =
@@ -132,7 +132,7 @@
         }
 
         // GET: contracts/Delete/5
-        [Authorize(Roles = "super_admin,admin,employee_con")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -169,7 +169,7 @@
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,employee_con")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             var contract = this.db.contracts.Find(id);
@@ -269,7 +269,7 @@
         }
 
         // GET: contracts/Edit/5
-        [Authorize(Roles = "super_admin,admin,employee_con")]
+        [Authorize(Roles = "super_admin,admin,payrole,employee_con")]
         public ActionResult Edit(int? id)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -322,7 +322,7 @@
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,employee_con")]
+        [Authorize(Roles = "super_admin,admin,payrole,employee_con")]
         public ActionResult Edit(
             [Bind(
                 Include =

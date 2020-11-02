@@ -1,0 +1,58 @@
+﻿@model IEnumerable<HRworks.Models.leave_absence>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.absence)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.month)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fromd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tod)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.absence)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.month)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fromd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tod)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

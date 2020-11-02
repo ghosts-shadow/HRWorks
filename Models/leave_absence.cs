@@ -12,16 +12,32 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class leave_absence
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public leave_absence()
+        {
+            this.payroles = new HashSet<payrole>();
+        }
+    
         public Nullable<int> Employee_id { get; set; }
         public int Id { get; set; }
         public Nullable<double> absence { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM}")]
         public Nullable<System.DateTime> month { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
+        [Display(Name = "From")]
+        public Nullable<System.DateTime> fromd { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
+        [Display(Name = "to")]
+        public Nullable<System.DateTime> tod { get; set; }
     
         public virtual master_file master_file { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<payrole> payroles { get; set; }
     }
 }

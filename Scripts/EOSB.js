@@ -214,6 +214,7 @@ function hi(id) {
             $("#eostotal").val(((tw) * 14 / 365).toFixed(2));
             $("#eostotal").html(((tw) * 14 / 365).toFixed(2));
         } else if (tw > 1824) {
+            /*
             $("#eosl3").val(1095 * 7 / 365);
             $("#eosl3").html(1095 * 7 / 365);
             $("#eosl3v").val(1095 * 7 / 365 * dwr);
@@ -229,7 +230,19 @@ function hi(id) {
             $("#eostotal").val(((tw) * 21 / 365).toFixed(2));
             $("#eostotal").html(((tw) * 21 / 365).toFixed(2));
             $("#eostotalv").val(((tw) * 21 / 365 * dwr).toFixed(2));
-            $("#eostotalv").html(((tw) * 21 / 365 * dwr).toFixed(2));
+            $("#eostotalv").html(((tw) * 21 / 365 * dwr).toFixed(2));*/
+
+            $("#value5").val((105 * dwr).toFixed(2));
+            $("#value5").html((105 * dwr).toFixed(2));
+            $("#after5eos").val(((tw - 1825) * 30 / 365).toFixed(2));
+            $("#after5eos").html(((tw - 1825) * 30 / 365).toFixed(2));
+            $("#after5eosv").val(((tw - 1825) * 30 / 365 * dwr).toFixed(2));
+            $("#after5eosv").html(((tw - 1825) * 30 / 365 * dwr).toFixed(2));
+            eossum = 105 + (((tw - 1825) * 30) / 365);
+            $("#eostotal").val(eossum.toFixed(2));
+            $("#eostotal").html(eossum.toFixed(2));
+            $("#eostotalv").val((eossum * dwr).toFixed(2));
+            $("#eostotalv").html((eossum * dwr).toFixed(2));
         } else {
 
             $("#eospwval").val(0);

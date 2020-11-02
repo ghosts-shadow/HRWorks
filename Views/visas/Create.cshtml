@@ -70,7 +70,7 @@
     });
 </script>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "visas", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 

@@ -1,0 +1,59 @@
+﻿@model HRworks.Models.leave_absence
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>leave_absence</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.absence)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.absence)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.month)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.month)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fromd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fromd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

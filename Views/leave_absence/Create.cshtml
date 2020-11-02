@@ -1,0 +1,195 @@
+﻿@model HRworks.Models.leave_absence
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css"
+      rel="stylesheet">
+<link rel="stylesheet"
+      href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+      href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    function byidfill(parameters) {
+        var filled = document.getElementById('fill');
+        document.getElementById('hide2').style.display = "none";
+        var x = document.getElementById("employee_no1");
+        var y = document.getElementById("employee_no");
+        y.value = x.value;
+        document.getElementById('hide').style.display = "";
+        var z = document.getElementById("demo");
+        var w = document.getElementById("demo1");
+        z.style.display = "";
+        w.style.display = "none";
+        myFunction();
+    };
+
+    function bynamefill(parameters) {
+        document.getElementById('hide2').style.display = "";
+        var x = document.getElementById("employee_no1");
+        var y = document.getElementById("employee_no");
+        x.value = y.value;
+        document.getElementById('hide').style.display = "none";
+        var z = document.getElementById("demo");
+        var w = document.getElementById("demo1");
+        w.style.display = "";
+        z.style.display = "none";
+        myFunction1();
+    };
+
+//        var loadfile = function (event) {
+//            var reader = new FileReader();
+//            reader.onload = function () {
+//                var output = document.getElementById('output');
+//                output.src = reader.result;
+//            };
+//            reader.readAsDataURL(event.target.files[0]);
+//        };
+
+    function myFunction() {
+        var x = document.getElementById("employee_no").value;
+        document.getElementById("demo").innerHTML = "employee_id :" + x;
+
+    };
+
+    function myFunction1() {
+        var x = document.getElementById("employee_no1").value;
+        document.getElementById("demo1").innerHTML = "employee_id :" + x;
+
+    };
+</script>
+
+<script>
+    $(function () {
+        $("#month").datepicker();
+        var dateFormat = "mm/dd/yy",
+            from = $("#fromd")
+                .datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true
+                })
+                .on("change",
+                    function() {
+                        to.datepicker("option", "minDate", getDate(this));
+                    }),
+            to = $("#tod").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true
+                })
+                .on("change",
+                    function() {
+                        from.datepicker("option", "maxDate", getDate(this));
+                    });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+
+            return date;
+        }
+    });
+    function absdays() {
+        var da1 = new Date($("#fromd").val());
+        var da2 = new Date($("#tod").val());
+        var dif = ((da2 - da1) / 1000 / 60 / 60 / 24)+ 1;
+        $("#absence").val(dif);
+    }
+</script>
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal" onclick="absdays()">
+        <h4>leave_absence</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Employee_id, "employee_no", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4"
+                 id="hide">
+                @*
+                        @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})*@
+                @Html.DropDownList("employee_id", null, new { @class = "form-control", @id = "employee_no" })
+                @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-4"
+                 id="hide2"
+                 style="display: none">
+                @*
+                        @Html.DropDownList("employee_no", null, htmlAttributes: new { @class = "form-control", @onchange="myfunction();" ,@id="employee_no"})*@
+                @Html.DropDownList("employee_no1", null, new { @class = "form-control", @id = "employee_no1" })
+                @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
+
+            </div>
+
+            <div class="col-md-6">
+                <input type="button"
+                       onclick="bynamefill()" @*ondblclick="byidfill()"*@
+                       value="change to name"
+                       id="demo"/>
+            </div>
+            <div class="col-md-6">
+                <input type="button"
+                       onclick="byidfill()"
+                       value="change to id"
+                       style="display: none"
+                       id="demo1"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.absence, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.absence, new { htmlAttributes = new { @class = "form-control" ,@readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.absence, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.month, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.month, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.month, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fromd, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fromd, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.fromd, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tod, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.tod, new { htmlAttributes = new { @class = "form-control" ,@onchange = "absdays()" } })
+                @Html.ValidationMessageFor(model => model.tod, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

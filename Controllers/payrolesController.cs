@@ -35,7 +35,7 @@ namespace HRworks.Controllers
             var att= new List<Attendance>();
             if (month.HasValue)
             {
-                mts = this.db1.MainTimeSheets.Where(x => x.TMonth.Month == month.Value.Month && x.TMonth.Year == month.Value.Year && x.ManPowerSupplier == 0).ToList();
+                mts = this.db1.MainTimeSheets.Where(x => x.TMonth.Month == month.Value.Month && x.TMonth.Year == month.Value.Year && x.ManPowerSupplier == 1).ToList();
                 foreach (var mt in mts)
                 {
                     if (mt.Attendances.Count != 0)
@@ -74,23 +74,40 @@ namespace HRworks.Controllers
                     }
 
                     var lab1 = lab.Find(x => x.EMPNO == masterFile.employee_no);
+                    if (lab1 == null)
+                    {
+                        goto tos;
+                    }
                     var attd = att.FindAll(x => x.EmpID == lab1.ID).ToList();
                     var aqt = 0l;
+                    var aqf = 0l;
+                    var aqh = 0l;
                     foreach (var aq in attd)
                     {
                         if (aq.TotalOverTime.HasValue)
                         {
                             aqt += aq.TotalOverTime.Value;
                         }
+                        if (aq.FridayHours.HasValue)
+                        {
+                            aqf += aq.FridayHours.Value;
+                        }
+                        if (aq.Holidays.HasValue)
+                        {
+                            aqh += aq.Holidays.Value;
+                        }
                     }
 
-                    payr.OTRegular = aqt.ToString();
+                    payr.OTRegular = (aqt).ToString();
+                    payr.OTFriday = (aqf).ToString();
+                    payr.HolidayOT = (aqh).ToString();
                     payr.LWOP = lowp;
                     /*payr.master_file.contracts.First().basic = Unprotect(payr.master_file.contracts.First().basic);
-                    payr.master_file.contracts.First().salary_details = Unprotect(payr.master_file.contracts.First().basic);
+                    payr.master_file.contracts.First().salary_details = Unprotect(payr.master_file.contracts.First().);
                     payr.master_file.contracts.First().ticket_allowance = Unprotect(payr.master_file.contracts.First().basic);
                     payr.master_file.contracts.First().arrears = Unprotect(payr.master_file.contracts.First().basic);*/
                 paylist.Add(payr);
+                tos: ;
                 }
             }
             return View(paylist);
@@ -158,6 +175,7 @@ namespace HRworks.Controllers
         }
 
         // GET: payroles/Edit/5
+        [Authorize(Roles = "super_admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -180,6 +198,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "super_admin")]
         public ActionResult Edit([Bind(Include = "Id,employee_no,con_id,totalpayable,OTRegular,OTFriday,OTNight,HolidayOT,Fot,TotalOT,cashAdvances,HouseAllow,FoodAllow,Timekeeping,Communication,TrafficFines,LWOP,TotalDedution,NetPay,remarks")] payrole payrole)
         {
             if (ModelState.IsValid)
@@ -195,6 +214,7 @@ namespace HRworks.Controllers
         }
 
         // GET: payroles/Delete/5
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -210,6 +230,7 @@ namespace HRworks.Controllers
         }
 
         // POST: payroles/Delete/5
+        [Authorize(Roles = "super_admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

@@ -211,7 +211,7 @@ namespace HRworks.Controllers
 
         // GET: labour_card/Create
 
-        [Authorize(Roles = "super_admin,admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,payrole,employee_VLC")]
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
@@ -225,7 +225,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,payrole,employee_VLC")]
         public ActionResult Create( labour_card labour_card, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -273,6 +273,7 @@ namespace HRworks.Controllers
         }
 
         // GET: labour_card/Edit/5
+        [Authorize(Roles = "super_admin,admin,payrole,employee_VLC")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -293,7 +294,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,payrole,employee_VLC")]
         public ActionResult Edit( labour_card labour_card, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -340,6 +341,7 @@ namespace HRworks.Controllers
         }
 
         // GET: labour_card/Delete/5
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -357,7 +359,7 @@ namespace HRworks.Controllers
         // POST: labour_card/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,employee_VLC")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             labour_card labour_card = db.labour_card.Find(id);

@@ -116,16 +116,28 @@
         @Html.DisplayFor(modelItem => item.totalpayable)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.OTRegular)
+        @{
+            double.TryParse(item.OTRegular, out var a);
+            a = a * 1.25;
+        }
+        @a
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.OTFriday)
+        @{
+            double.TryParse(item.OTFriday, out var c);
+            c= c* 1.5;
+        }
+        @c
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.OTNight)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.HolidayOT)
+        @{
+            double.TryParse(item.HolidayOT, out var b);
+            b = b * 2.5;
+        }
+        @b
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Fot)

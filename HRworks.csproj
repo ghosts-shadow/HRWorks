@@ -210,6 +210,7 @@
     <Compile Include="Controllers\JOB_INTERVIEW_EVALUATIONController.cs" />
     <Compile Include="Controllers\labour_cardController.cs" />
     <Compile Include="Controllers\LeavesController.cs" />
+    <Compile Include="Controllers\leave_absenceController.cs" />
     <Compile Include="Controllers\liquidationsController.cs" />
     <Compile Include="Controllers\liquidation_refController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -752,6 +753,11 @@
     <Content Include="Views\payroles\Details.cshtml" />
     <Content Include="Views\payroles\Edit.cshtml" />
     <Content Include="Views\payroles\Index.cshtml" />
+    <Content Include="Views\leave_absence\Create.cshtml" />
+    <Content Include="Views\leave_absence\Delete.cshtml" />
+    <Content Include="Views\leave_absence\Details.cshtml" />
+    <Content Include="Views\leave_absence\Edit.cshtml" />
+    <Content Include="Views\leave_absence\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

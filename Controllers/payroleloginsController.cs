@@ -16,7 +16,7 @@ namespace HRworks.Controllers
     using System.Text;
 
     using Microsoft.AspNet.Identity;
-    [Authorize(Roles = "payrole,admin")]
+    [Authorize(Roles = "payrole,super_admin")]
     public class payroleloginsController : Controller
     {
         private HREntities db = new HREntities();
@@ -62,7 +62,7 @@ namespace HRworks.Controllers
                         var prpass = (prlist.Find(x => x.pro_username == payrolelogin.pro_username));
                         if (prpass.pro_password == payrolelogin.pro_password)
                         {
-                            return RedirectToAction("Index","encriptiontests");
+                            return RedirectToAction("Index","payroles");
                         }
                         else
                         {
@@ -75,7 +75,7 @@ namespace HRworks.Controllers
                         payrolelogin.pro_username = User.Identity.GetUserName();
                         db.payrolelogins.Add(payrolelogin);
                         db.SaveChanges();
-                        return RedirectToAction("Index","encriptiontests");
+                        return RedirectToAction("Index", "payroles");
                     }
                 }
                 else
@@ -90,7 +90,7 @@ namespace HRworks.Controllers
                     payrolelogin.pro_username = User.Identity.GetUserName();
                     db.payrolelogins.Add(payrolelogin);
                     db.SaveChanges();
-                    return RedirectToAction("Index", "encriptiontests");
+                    return RedirectToAction("Index", "payroles");
                 }
             }
 

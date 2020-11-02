@@ -317,7 +317,6 @@ namespace HRworks.Controllers
         }
 
         // GET: emirates_id/Edit/5
-        [Authorize(Roles = "super_adminadmin,employee_EID")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -340,7 +339,6 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_adminadmin,employee_EID")]
         public ActionResult Edit([Bind(Include = "employee_id,employee_no,eid_no,eid_expiry")] emirates_id emirates_id, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -393,7 +391,7 @@ namespace HRworks.Controllers
         }
 
         // GET: emirates_id/Delete/5
-        [Authorize(Roles = "super_adminadmin,employee_EID")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -411,7 +409,7 @@ namespace HRworks.Controllers
         // POST: emirates_id/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_adminadmin,employee_EID")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             emirates_id emirates_id = db.emirates_id.Find(id);

@@ -378,6 +378,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="absence" Type="float" />
           <Property Name="month" Type="date" />
+          <Property Name="fromd" Type="date" />
+          <Property Name="tod" Type="date" />
         </EntityType>
         <EntityType Name="Leave_approved">
           <Key>
@@ -536,6 +538,7 @@
           <Property Name="Communication" Type="nvarchar(max)" />
           <Property Name="TrafficFines" Type="nvarchar(max)" />
           <Property Name="LWOP" Type="int" />
+          <Property Name="Absents" Type="int" />
           <Property Name="TotalDedution" Type="nvarchar(max)" />
           <Property Name="NetPay" Type="nvarchar(max)" />
           <Property Name="remarks" Type="nvarchar(max)" />
@@ -1033,6 +1036,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_payrole_Toleaveab">
+          <End Role="leave_absence" Type="Self.leave_absence" Multiplicity="0..1" />
+          <End Role="payrole" Type="Self.payrole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="leave_absence">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="payrole">
+              <PropertyRef Name="Absents" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_probation_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="PROBATION_ASSESSMENT" Type="Self.PROBATION_ASSESSMENT" Multiplicity="*" />
@@ -1265,6 +1280,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_pay_To_master_file" Association="Self.FK_pay_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
+            <End Role="payrole" EntitySet="payrole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_payrole_Toleaveab" Association="Self.FK_payrole_Toleaveab">
+            <End Role="leave_absence" EntitySet="leave_absence" />
             <End Role="payrole" EntitySet="payrole" />
           </AssociationSet>
           <AssociationSet Name="FK_probation_To_master_file" Association="Self.FK_probation_To_master_file">
@@ -1998,6 +2017,10 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="payrole" EntitySet="payroles" />
           </AssociationSet>
+          <AssociationSet Name="FK_payrole_Toleaveab" Association="HRModel.FK_payrole_Toleaveab">
+            <End Role="leave_absence" EntitySet="leave_absence" />
+            <End Role="payrole" EntitySet="payroles" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
           <Key>
@@ -2061,6 +2084,9 @@
           <Property Name="absence" Type="Double" />
           <Property Name="month" Type="DateTime" Precision="0" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_la_To_master_file" FromRole="leave_absence" ToRole="master_file" />
+          <Property Name="fromd" Type="DateTime" Precision="0" />
+          <Property Name="tod" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="payroles" Relationship="HRModel.FK_payrole_Toleaveab" FromRole="leave_absence" ToRole="payrole" />
         </EntityType>
         <Association Name="FK_la_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
@@ -2665,6 +2691,8 @@
           <NavigationProperty Name="contract" Relationship="HRModel.FK_pay_To_con" FromRole="payrole" ToRole="contract" />
           <NavigationProperty Name="Leave" Relationship="HRModel.FK_pay_To_leave" FromRole="payrole" ToRole="Leave" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_pay_To_master_file" FromRole="payrole" ToRole="master_file" />
+          <Property Name="Absents" Type="Int32" />
+          <NavigationProperty Name="leave_absence" Relationship="HRModel.FK_payrole_Toleaveab" FromRole="payrole" ToRole="leave_absence" />
         </EntityType>
         <Association Name="FK_pay_To_con">
           <End Type="HRModel.contract" Role="contract" Multiplicity="1" />
@@ -2699,6 +2727,18 @@
             </Principal>
             <Dependent Role="payrole">
               <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_payrole_Toleaveab">
+          <End Type="HRModel.leave_absence" Role="leave_absence" Multiplicity="0..1" />
+          <End Type="HRModel.payrole" Role="payrole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="leave_absence">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="payrole">
+              <PropertyRef Name="Absents" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3044,6 +3084,8 @@
           <EntitySetMapping Name="leave_absence">
             <EntityTypeMapping TypeName="HRModel.leave_absence">
               <MappingFragment StoreEntitySet="leave_absence">
+                <ScalarProperty Name="tod" ColumnName="tod" />
+                <ScalarProperty Name="fromd" ColumnName="fromd" />
                 <ScalarProperty Name="month" ColumnName="month" />
                 <ScalarProperty Name="absence" ColumnName="absence" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -3444,6 +3486,7 @@
           <EntitySetMapping Name="payroles">
             <EntityTypeMapping TypeName="HRModel.payrole">
               <MappingFragment StoreEntitySet="payrole">
+                <ScalarProperty Name="Absents" ColumnName="Absents" />
                 <ScalarProperty Name="remarks" ColumnName="remarks" />
                 <ScalarProperty Name="NetPay" ColumnName="NetPay" />
                 <ScalarProperty Name="TotalDedution" ColumnName="TotalDedution" />

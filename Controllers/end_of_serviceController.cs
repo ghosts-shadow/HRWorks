@@ -10,7 +10,9 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
-    [Authorize(Roles = "super_admin,employee_con")]
+    using System.Web.WebSockets;
+    
+    [Authorize(Roles = "super_admin,payrole,employee_con")]
     public class end_of_serviceController : Controller
     {
         private HREntities db = new HREntities();
@@ -80,27 +82,24 @@ namespace HRworks.Controllers
                     lists.Add(ab[i]);
                 }
             }
-            var lab = this.db2.LabourMasters.Where(x => x.ManPowerSupply == 1).ToList();
-            var labv = new List<LabourMaster>();
-            foreach (var lM in lab.OrderBy(x=>x.EMPNO))
+            var absentlist = new List<leave_absence>();
+            var absent = this.db.leave_absence.ToList();
+            foreach (var absence in absent.OrderBy(x => x.Employee_id))
             {
-                if (lists.Exists(x => x.employee_no == lM.EMPNO))
+                if (!absentlist.Exists(x=>x.Employee_id == absence.Employee_id))
                 {
-                    var epid = lists.Find(x => x.employee_no == lM.EMPNO).employee_id;
-                     lM.ManPowerSupply = 0;
-                     foreach (var lma in lM.Attendances)
-                     {
-                         if (lma.TotalAbsent.HasValue)
-                         {
-                             lM.ManPowerSupply += (int)lma.TotalAbsent.Value;
-                         }
-                         var a = lM.ManPowerSupply;
-                     }
-                     lM.ID = epid;
-                    labv.Add(lM);
+                    var b = absent.FindAll(x => x.Employee_id == absence.Employee_id);
+                    var abs = 0d;
+                    foreach (var c in b)
+                    {
+                        abs = abs + c.absence.Value;
+                    }
+
+                    absence.absence = abs;
+                    absentlist.Add(absence);
                 }
             }
-            ViewBag.absencel = new SelectList(labv.OrderBy(x=>x.EMPNO), "id", "ManPowerSupply");
+            ViewBag.absencel = new SelectList(absentlist.OrderBy(x=>x.Employee_id), "Employee_id", "absence");
             
             var ab1 = db.contracts.OrderBy(p => p.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
             var lists1 = new List<contract>();
@@ -147,6 +146,7 @@ namespace HRworks.Controllers
                 }
             }
             var dyccon = new contractsController();
+            
             foreach (var contract in lists1)
             {
                 if (contract.living_allowance != null)
@@ -154,7 +154,8 @@ namespace HRworks.Controllers
 
                 if (contract.others != null) contract.others = dyccon.Unprotect(contract.others);
 
-                if (contract.food_allowance != null) contract.food_allowance = dyccon.Unprotect(contract.food_allowance);
+                if (contract.food_allowance != null)
+                    contract.food_allowance = dyccon.Unprotect(contract.food_allowance);
 
                 if (contract.transportation_allowance != null)
                     contract.transportation_allowance = dyccon.Unprotect(contract.transportation_allowance);
@@ -169,11 +170,13 @@ namespace HRworks.Controllers
 
                 if (contract.basic != null) contract.basic = dyccon.Unprotect(contract.basic);
 
-                if (contract.salary_details != null) contract.salary_details = dyccon.Unprotect(contract.salary_details);
+                if (contract.salary_details != null)
+                    contract.salary_details = dyccon.Unprotect(contract.salary_details);
 
                 if (contract.FOT != null) contract.FOT = dyccon.Unprotect(contract.FOT);
-
             }
+
+
             foreach (var file in alist)
             {
                 if (afinallist.Count == 0)

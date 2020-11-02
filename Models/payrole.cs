@@ -34,9 +34,11 @@ namespace HRworks.Models
         public string TotalDedution { get; set; }
         public string NetPay { get; set; }
         public string remarks { get; set; }
+        public Nullable<int> Absents { get; set; }
     
         public virtual contract contract { get; set; }
         public virtual Leave Leave { get; set; }
         public virtual master_file master_file { get; set; }
+        public virtual leave_absence leave_absence { get; set; }
     }
 }

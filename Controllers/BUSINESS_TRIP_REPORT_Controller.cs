@@ -39,7 +39,16 @@ namespace HRworks.Controllers
         // GET: BUSINESS_TRIP_REPORT_/Create
         public ActionResult Create()
         {
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name");
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+            ViewBag.Employee_id = new SelectList(afinallist, "employee_id", "employee_no");
+            ViewBag.Employee_id1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View();
         }
 
@@ -95,6 +104,7 @@ namespace HRworks.Controllers
         }
 
         // GET: BUSINESS_TRIP_REPORT_/Delete/5
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -112,6 +122,7 @@ namespace HRworks.Controllers
         // POST: BUSINESS_TRIP_REPORT_/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "super_admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             BUSINESS_TRIP_REPORT_ bUSINESS_TRIP_REPORT_ = db.BUSINESS_TRIP_REPORT_.Find(id);

@@ -512,6 +512,10 @@
                 afinallist.OrderBy(x => x.employee_no),
                 "employee_id",
                 "employee_no");
+            ViewBag.employee_id1 = new SelectList(
+                afinallist.OrderBy(e => e.employee_name),
+                "employee_id",
+                "employee_name");
             return this.View();
         }
 
@@ -547,6 +551,7 @@
             }
 
             this.ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
+            ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             var leaveid = afinallist.Find(x => x.employee_id == leave.Employee_id);
             var jd = leaveid.date_joined;
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
@@ -1198,9 +1203,9 @@
                 string str = "";
             // Map lengths of `diff` to different time periods
             var values = new List<Tuple<string, double>>();
-            values.Add(new Tuple<string, double>("year",365 ));
-            values.Add(new Tuple<string, double>("month", 30));
-            values.Add(new Tuple<string, double>("day",1 ));
+            values.Add(new Tuple<string, double>("year",365));
+            values.Add(new Tuple<string, double>("month",30));
+            values.Add(new Tuple<string, double>("day",1));
             // Iterate over the values...
             for (var i = 0; i < values.Count; i++)
                 {
@@ -1568,6 +1573,18 @@
                                     {
                                         DateTime.TryParse(dr[column].ToString(), out var dtt);
                                         pro.month = dtt;
+                                    }
+
+                                    if (column.ColumnName == "from")
+                                    {
+                                        DateTime.TryParse(dr[column].ToString(), out var dtt);
+                                        pro.fromd = dtt;
+                                    }
+
+                                    if (column.ColumnName == "to")
+                                    {
+                                        DateTime.TryParse(dr[column].ToString(), out var dtt);
+                                        pro.tod = dtt;
                                     }
 
                                     if (column.ColumnName == "Absents")
