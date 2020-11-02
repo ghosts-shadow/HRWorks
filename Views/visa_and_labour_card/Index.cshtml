@@ -55,54 +55,58 @@
     <table class="table"
            id="visa_and_labour_card"
            runat="server">
-        <tr>@*
-            <th>
-                @Html.DisplayNameFor(model => model.emp_no)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.master_file.employee_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.master_file.employee_name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.lc_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.uid_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.master_file.nationality)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.class_type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.rv_expiry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.lc_expiry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.proff_as_per_visa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.imgpath)
-            </th>
-            @if (User.Identity.IsAuthenticated)
-            {
-                if (User.IsInRole("super_admin,admin"))
+        <tr>
+            @*
+        <th>
+            @Html.DisplayNameFor(model => model.emp_no)
+        </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.master_file.employee_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.master_file.employee_no)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.master_file.employee_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.lc_no)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.uid_no)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.master_file.nationality)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.class_type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.rv_expiry)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.lc_expiry)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.proff_as_per_visa)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.imgpath)
+                </th>
+                @if (User.Identity.IsAuthenticated)
                 {
-                    <th>
-                        @Html.DisplayNameFor(model => model.date_changed)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.changed_by)
-                    </th>
+                    if (User.IsInRole("super_admin") || User.IsInRole("admin"))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.date_changed)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.changed_by)
+                        </th>
+                    }
                 }
-            }
-        <th></th>
-        </tr>
+                <th></th>
+            </tr>
 
         @foreach (var item in Model)
         {
@@ -154,7 +158,7 @@
                 </td>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    if (User.IsInRole("super_admin,admin"))
+                    if (User.IsInRole("super_admin") || User.IsInRole("admin"))
                     {
                         <td>
                             @Html.DisplayFor(modelItem => item.date_changed)

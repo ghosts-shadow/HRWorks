@@ -99,7 +99,7 @@
                             <li>@Html.ActionLink("payrole", "Create", "payrolelogins")</li>
                             <li>@Html.ActionLink("HR forms", "HR_Forms", "HR_forms")</li>
                         }
-                        if (User.IsInRole("super_admin,admin"))
+                        if (User.IsInRole("super_admin") || User.IsInRole("admin"))
                         {
                             <li>@Html.ActionLink("user name", "index", "usernames")</li>
                         }
