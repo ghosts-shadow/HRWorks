@@ -64,7 +64,8 @@ namespace HRworks.Controllers
                 payr.master_file = masterFile;
                 if (masterFile.contracts.Count !=0 )
                 {
-                    payr.contract = masterFile.contracts.First();
+                    var conlist = this.db.contracts.ToList();
+                    payr.contract = conlist.Find(c=>c.employee_no == masterFile.employee_id);
                     var leave1 =this.db.Leaves.Where(x => x.Employee_id == masterFile.employee_id && x.leave_type == "6").ToList();
                     var lowp = 0;
                     foreach (var leaf in leave1)
@@ -101,11 +102,15 @@ namespace HRworks.Controllers
                     payr.OTRegular = (aqt).ToString();
                     payr.OTFriday = (aqf).ToString();
                     payr.HolidayOT = (aqh).ToString();
-                    payr.LWOP = lowp;
-                    /*payr.master_file.contracts.First().basic = Unprotect(payr.master_file.contracts.First().basic);
-                    payr.master_file.contracts.First().salary_details = Unprotect(payr.master_file.contracts.First().);
-                    payr.master_file.contracts.First().ticket_allowance = Unprotect(payr.master_file.contracts.First().basic);
-                    payr.master_file.contracts.First().arrears = Unprotect(payr.master_file.contracts.First().basic);*/
+                    payr.LWOP = lowp; 
+                    payr.contract.basic = Unprotect(payr.contract.basic);
+                    payr.contract.salary_details = Unprotect(payr.contract.salary_details);
+                    payr.contract.ticket_allowance = Unprotect(payr.contract.ticket_allowance);
+                    payr.contract.arrears = Unprotect(payr.contract.arrears);
+                    payr.totalpayable = Unprotect(payr.contract.basic) + Unprotect(
+                                            payr.contract.salary_details)+ Unprotect(
+                                            payr.contract.ticket_allowance) + Unprotect(
+                                            payr.contract.arrears);
                 paylist.Add(payr);
                 tos: ;
                 }
