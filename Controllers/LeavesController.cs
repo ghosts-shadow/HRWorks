@@ -541,7 +541,7 @@
                                     new ListItem { Text = "Haj", Value = "5" },
                                     new ListItem { Text = "Unpaid", Value = "6" }
                                 };
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
             {
@@ -550,8 +550,14 @@
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
 
-            this.ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
-            ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
+            this.ViewBag.employee_id = new SelectList(
+                afinallist.OrderBy(x => x.employee_no),
+                "employee_id",
+                "employee_no");
+            ViewBag.employee_id1 = new SelectList(
+                afinallist.OrderBy(e => e.employee_name),
+                "employee_id",
+                "employee_name");
             var leaveid = afinallist.Find(x => x.employee_id == leave.Employee_id);
             var jd = leaveid.date_joined;
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");

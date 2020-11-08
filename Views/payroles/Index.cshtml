@@ -1,4 +1,5 @@
-﻿@model IEnumerable<HRworks.Models.payrole>
+﻿@using HRworks.Controllers
+@model IEnumerable<HRworks.Models.payrole>
 
 @{
     ViewBag.Title = "Index";
@@ -7,11 +8,19 @@
 
 <h2>Index</h2>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function() {
+        $("#datepicker").datepicker();
+    });
+</script>
 @using (Html.BeginForm("Index", "payroles", FormMethod.Get, new { id = "form1" }))
 {
 <div>
     month:-
-    @Html.TextBox("month")
+    <input type="text" name="month" id="datepicker"/>
     <input type="submit"
            name="submit"
            value="Get records" ondblclick="norc()" />
@@ -81,6 +90,13 @@
             @Html.DisplayNameFor(model => model.TrafficFines)
         </th>
         <th>
+            absence(days)
+        </th>
+        <th>
+            LWOP(days)
+        </th>
+        <th>total LWOP</th>
+        <th>
             @Html.DisplayNameFor(model => model.TotalDedution)
         </th>
         <th>
@@ -101,19 +117,34 @@
         @Html.DisplayFor(modelItem => item.master_file.employee_name)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.contract.basic)
+        @{
+            var bas = payrolesController.Unprotect(item.contract.basic);
+        }
+        @bas
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.contract.salary_details)
+        @{
+            var sal = payrolesController.Unprotect(item.contract.salary_details);
+        }
+        @sal
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.contract.ticket_allowance)
+        @{
+            var tic = payrolesController.Unprotect(item.contract.ticket_allowance);
+        }
+        @tic
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.contract.arrears)
+        @{
+            var arr = payrolesController.Unprotect(item.contract.arrears);
+        }
+        @arr
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.totalpayable)
+        @{
+            var ttp = payrolesController.Unprotect(item.totalpayable);
+        }
+        @ttp
     </td>
     <td>
         @{
@@ -125,12 +156,20 @@
     <td>
         @{
             double.TryParse(item.OTFriday, out var c);
-            c= c* 1.5;
+            c = c * 1.5;
         }
         @c
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.OTNight)
+        @{
+            var d = 0d;
+            if (item.OTNight != null && item.OTNight.Contains("=="))
+            {
+                double.TryParse(payrolesController.Unprotect(item.OTNight), out d);
+
+            }
+        }
+        @d
     </td>
     <td>
         @{
@@ -141,44 +180,126 @@
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Fot)
+        @{
+            double.TryParse(payrolesController.Unprotect(item.contract.FOT), out var e);
+        }
+        @e
+    </td>
+    <td>@{
+        var tot = a + b + c + d + e;
+        }
+        @tot
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.TotalOT)
+        @{
+            var ca = 0d;
+            if (item.cashAdvances != null && !item.cashAdvances.Contains(" "))
+            {
+                double.TryParse(payrolesController.Unprotect(item.cashAdvances), out ca);
+
+            }
+        }@ca
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.cashAdvances)
+        @{
+            var ha = 0d;
+            if (item.HouseAllow != null && !item.HouseAllow.Contains(" "))
+            {
+                double.TryParse(payrolesController.Unprotect(item.HouseAllow), out ha);
+
+            }
+        }@ha
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.HouseAllow)
+        @{
+            var tra = payrolesController.Unprotect(item.contract.transportation_allowance);
+        }
+        @tra
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.contract.transportation_allowance)
+        @{
+            var fa = 0d;
+            if (item.FoodAllow != null && !item.FoodAllow.Contains(" "))
+            {
+                double.TryParse(payrolesController.Unprotect(item.FoodAllow), out fa);
+
+            }
+        }
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.FoodAllow)
+        @{
+            var tk = 0d;
+            if (item.Timekeeping != null && !item.Timekeeping.Contains(" "))
+            {
+                double.TryParse(payrolesController.Unprotect(item.Timekeeping), out tk);
+
+            }
+        }
+        @tk
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.Timekeeping)
+        @{
+            var con = 0d;
+            if (item.Communication != null && !item.Communication.Contains(" "))
+            {
+                double.TryParse(payrolesController.Unprotect(item.Communication), out con);
+
+            }
+        }@con
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.Communication)
+        @{
+            var traf = 0d;
+            if (item.TrafficFines != null && !item.TrafficFines.Contains(" "))
+            {
+                double.TryParse(payrolesController.Unprotect(item.TrafficFines), out traf);
+
+            }
+        }@traf
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.TrafficFines)
+        @Html.DisplayFor(modelItem => item.leave_absence.absence)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.TotalDedution)
+        @Html.DisplayFor(modelItem => item.Leave.days)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.NetPay)
+        @{
+            double.TryParse(sal, out var gross);
+            var TLWOP = (item.leave_absence.absence + item.Leave.days)*(gross * 12 / 365);
+        }
+        @TLWOP;
+        
+    </td>
+    <td>
+        @{
+            var tod = 0d;
+            if (item.TotalDedution != null)
+            {
+                double.TryParse(payrolesController.Unprotect(item.TotalDedution), out tod);
+
+            }
+        }
+        @tod
+    </td>
+    <td>
+        @{
+            var net = 0d;
+            if (item.NetPay != null && !item.NetPay.Contains(" "))
+            {
+                double.TryParse(payrolesController.Unprotect(item.NetPay), out net);
+
+            }
+        }@net
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.remarks)
     </td>
     <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        @if (item.Id != 0)
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) 
+        }
     </td>
 </tr>
 }

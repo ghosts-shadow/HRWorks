@@ -542,6 +542,7 @@
           <Property Name="TotalDedution" Type="nvarchar(max)" />
           <Property Name="NetPay" Type="nvarchar(max)" />
           <Property Name="remarks" Type="nvarchar(max)" />
+          <Property Name="forthemonth" Type="date" />
         </EntityType>
         <EntityType Name="payrolelogin">
           <Key>
@@ -2693,6 +2694,7 @@
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_pay_To_master_file" FromRole="payrole" ToRole="master_file" />
           <Property Name="Absents" Type="Int32" />
           <NavigationProperty Name="leave_absence" Relationship="HRModel.FK_payrole_Toleaveab" FromRole="payrole" ToRole="leave_absence" />
+          <Property Name="forthemonth" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="FK_pay_To_con">
           <End Type="HRModel.contract" Role="contract" Multiplicity="1" />
@@ -3486,6 +3488,7 @@
           <EntitySetMapping Name="payroles">
             <EntityTypeMapping TypeName="HRModel.payrole">
               <MappingFragment StoreEntitySet="payrole">
+                <ScalarProperty Name="forthemonth" ColumnName="forthemonth" />
                 <ScalarProperty Name="Absents" ColumnName="Absents" />
                 <ScalarProperty Name="remarks" ColumnName="remarks" />
                 <ScalarProperty Name="NetPay" ColumnName="NetPay" />
