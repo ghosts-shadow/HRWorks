@@ -543,6 +543,9 @@
           <Property Name="NetPay" Type="nvarchar(max)" />
           <Property Name="remarks" Type="nvarchar(max)" />
           <Property Name="forthemonth" Type="date" />
+          <Property Name="TicketAllowance " Type="nvarchar(max)" />
+          <Property Name="Arrears" Type="nvarchar(max)" />
+          <Property Name="TransportationAllowance " Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="payrolelogin">
           <Key>
@@ -1002,7 +1005,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_pay_To_con">
-          <End Role="contract" Type="Self.contract" Multiplicity="1" />
+          <End Role="contract" Type="Self.contract" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="payrole" Type="Self.payrole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="contract">
@@ -1026,7 +1031,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_pay_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="payrole" Type="Self.payrole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -2695,6 +2702,9 @@
           <Property Name="Absents" Type="Int32" />
           <NavigationProperty Name="leave_absence" Relationship="HRModel.FK_payrole_Toleaveab" FromRole="payrole" ToRole="leave_absence" />
           <Property Name="forthemonth" Type="DateTime" Precision="0" />
+          <Property Name="TicketAllowance_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Arrears" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TransportationAllowance_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_pay_To_con">
           <End Type="HRModel.contract" Role="contract" Multiplicity="1" />
@@ -3488,6 +3498,9 @@
           <EntitySetMapping Name="payroles">
             <EntityTypeMapping TypeName="HRModel.payrole">
               <MappingFragment StoreEntitySet="payrole">
+                <ScalarProperty Name="TransportationAllowance_" ColumnName="TransportationAllowance " />
+                <ScalarProperty Name="Arrears" ColumnName="Arrears" />
+                <ScalarProperty Name="TicketAllowance_" ColumnName="TicketAllowance " />
                 <ScalarProperty Name="forthemonth" ColumnName="forthemonth" />
                 <ScalarProperty Name="Absents" ColumnName="Absents" />
                 <ScalarProperty Name="remarks" ColumnName="remarks" />

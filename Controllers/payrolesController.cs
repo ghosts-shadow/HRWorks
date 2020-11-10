@@ -6,11 +6,14 @@
     using System.Linq;
     using System.Net;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Web.Mvc;
     using System.Web.Security;
 
     using HRworks.Models;
 
+    [NoDirectAccess]
+    [Authorize(Roles = "super_admin,payrole,employee_con")]
     public class payrolesController : Controller
     {
         private const string Purpose = "equalizer";
@@ -27,6 +30,26 @@
             return protectedText;
         }
 
+        public static bool IsBase64Encoded(string str)
+        {
+            if (str.Replace(" ", "").Length % 4 != 0)
+            {
+                return false;
+            }
+
+            try
+            {
+                var str1 = Convert.FromBase64String(str);
+                MachineKey.Unprotect(str1, Purpose);
+                return true;
+            }
+            catch (Exception exception)
+            {
+                // Handle the exception
+            }
+
+            return false;
+        }
         public static string Unprotect(string protectedText)
         {
             var protectedBytes = Convert.FromBase64String(protectedText);
@@ -120,55 +143,79 @@
                 "employee_name",
                 payrole.employee_no);
 
-            if (payrole.totalpayable.Contains("=="))
+            if (!payrole.totalpayable.Contains(" ")  && IsBase64Encoded(payrole.totalpayable))
             {
                 payrole.totalpayable = Unprotect(payrole.totalpayable);
             }
 
-            if (payrole.OTRegular.Contains("=="))
+            if (!payrole.OTRegular.Contains(" ")  && IsBase64Encoded(payrole.OTRegular))
             {
                 payrole.OTRegular = Unprotect(payrole.OTRegular);
             }
 
-            if (payrole.OTFriday.Contains("=="))
+            if(!payrole.OTFriday.Contains(" ")  && IsBase64Encoded(payrole.OTFriday))
             {
                 payrole.OTFriday = Unprotect(payrole.OTFriday);
             }
 
-            if (payrole.OTNight.Contains("=="))
+            if(!payrole.OTNight.Contains(" ")  && IsBase64Encoded(payrole.OTNight))
             {
                 payrole.OTNight = Unprotect(payrole.OTNight);
             }
 
-            if (payrole.HolidayOT.Contains("=="))
+            if(!payrole.HolidayOT.Contains(" ")  && IsBase64Encoded(payrole.HolidayOT))
             {
                 payrole.HolidayOT = Unprotect(payrole.HolidayOT);
             }
 
-            if (payrole.TotalOT.Contains("=="))
+            if(!payrole.TotalOT.Contains(" ")  && IsBase64Encoded(payrole.TotalOT))
             {
                 payrole.TotalOT = Unprotect(payrole.TotalOT);
             }
 
-            if (!String.IsNullOrWhiteSpace(payrole.cashAdvances))
+            if (!String.IsNullOrWhiteSpace(payrole.TransportationAllowance_))
             {
-                if (payrole.cashAdvances.Contains("=="))
+                if(!payrole.TransportationAllowance_.Contains(" ")  && IsBase64Encoded(payrole.TransportationAllowance_))
                 {
-                    payrole.cashAdvances = Unprotect(payrole.cashAdvances);
+                    payrole.TransportationAllowance_ = Unprotect(payrole.TransportationAllowance_);
+                }
+            }
+
+            if (!String.IsNullOrWhiteSpace(payrole.TicketAllowance_))
+            {
+                if(!payrole.TicketAllowance_.Contains(" ")  && IsBase64Encoded(payrole.TicketAllowance_))
+                {
+                    payrole.TicketAllowance_ = Unprotect(payrole.TicketAllowance_);
+                }
+            }
+
+            if (!String.IsNullOrWhiteSpace(payrole.Arrears))
+            {
+                if(!payrole.Arrears.Contains(" ")  && IsBase64Encoded(payrole.Arrears))
+                {
+                    payrole.Arrears = Unprotect(payrole.Arrears);
                 }
             }
 
             if (!String.IsNullOrWhiteSpace(payrole.cashAdvances))
             {
-                if (payrole.cashAdvances.Contains("=="))
+                if(!payrole.cashAdvances.Contains(" ")  && IsBase64Encoded(payrole.cashAdvances))
                 {
                     payrole.cashAdvances = Unprotect(payrole.cashAdvances);
+                }
+            }
+
+            if (!String.IsNullOrWhiteSpace(payrole.HouseAllow))
+            {
+                if(!payrole.HouseAllow.Contains(" ")  && IsBase64Encoded(payrole.HouseAllow))
+                {
+                    payrole.HouseAllow = Unprotect(payrole.HouseAllow);
                 }
             }
 
             if (!String.IsNullOrWhiteSpace(payrole.FoodAllow))
             {
-                if (payrole.FoodAllow.Contains("=="))
+                if(!payrole.FoodAllow.Contains(" ")  && IsBase64Encoded(payrole.FoodAllow))
                 {
                     payrole.FoodAllow = Unprotect(payrole.FoodAllow);
                 }
@@ -176,7 +223,7 @@
 
             if (!String.IsNullOrWhiteSpace(payrole.Timekeeping))
             {
-                if (payrole.Timekeeping.Contains("=="))
+                if(!payrole.Timekeeping.Contains(" ")  && IsBase64Encoded(payrole.Timekeeping))
                 {
                     payrole.Timekeeping = Unprotect(payrole.Timekeeping);
                 }
@@ -184,7 +231,7 @@
 
             if (!String.IsNullOrWhiteSpace(payrole.Communication))
             {
-                if (payrole.Communication.Contains("=="))
+                if(!payrole.Communication.Contains(" ")  && IsBase64Encoded(payrole.Communication))
                 {
                     payrole.Communication = Unprotect(payrole.Communication);
                 }
@@ -192,7 +239,7 @@
 
             if (!String.IsNullOrWhiteSpace(payrole.TrafficFines))
             {
-                if (payrole.TrafficFines.Contains("=="))
+                if(!payrole.TrafficFines.Contains(" ")  && IsBase64Encoded(payrole.TrafficFines))
                 {
                     payrole.TrafficFines = Unprotect(payrole.TrafficFines);
                 }
@@ -200,7 +247,7 @@
 
             if (!String.IsNullOrWhiteSpace(payrole.TotalDedution))
             {
-                if (payrole.TotalDedution.Contains("=="))
+                if(!payrole.TotalDedution.Contains(" ")  && IsBase64Encoded(payrole.TotalDedution))
                 {
                     payrole.TotalDedution = Unprotect(payrole.TotalDedution);
                 }
@@ -208,7 +255,7 @@
 
             if (!String.IsNullOrWhiteSpace(payrole.NetPay))
             {
-                if (payrole.NetPay.Contains("=="))
+                if(!payrole.NetPay.Contains(" ")  && IsBase64Encoded(payrole.NetPay))
                 {
                     payrole.NetPay = Unprotect(payrole.NetPay);
                 }
@@ -228,27 +275,27 @@
             if (this.ModelState.IsValid)
             {
 
-                if (payrole.totalpayable.Contains("=="))
+                if(!payrole.totalpayable.Contains(" ") && IsBase64Encoded(payrole.totalpayable))
                 {
                     payrole.totalpayable = Unprotect(payrole.totalpayable);                    
                 }
-                if (payrole.OTRegular.Contains("=="))
+                if(!payrole.OTRegular.Contains(" ")  && IsBase64Encoded(payrole.OTRegular))
                 {
                     payrole.OTRegular = Unprotect(payrole.OTRegular);                    
                 }
-                if (payrole.OTFriday.Contains("=="))
+                if(!payrole.OTFriday.Contains(" ")  && IsBase64Encoded(payrole.OTFriday))
                 {
                     payrole.OTFriday = Unprotect(payrole.OTFriday);                    
                 }
-                if (payrole.OTNight.Contains("=="))
+                if(!payrole.OTNight.Contains(" ")  && IsBase64Encoded(payrole.OTNight))
                 {
                     payrole.OTNight = Unprotect(payrole.OTNight);                    
                 }
-                if (payrole.HolidayOT.Contains("=="))
+                if(!payrole.HolidayOT.Contains(" ")  && IsBase64Encoded(payrole.HolidayOT))
                 {
                     payrole.HolidayOT = Unprotect(payrole.HolidayOT);                    
                 }
-                if (payrole.TotalOT.Contains("=="))
+                if(!payrole.TotalOT.Contains(" ")  && IsBase64Encoded(payrole.TotalOT))
                 {
                     payrole.TotalOT = Unprotect(payrole.TotalOT);
                 }
@@ -268,36 +315,48 @@
                 payrole.OTNight = Protect(payrole.OTNight);
                 payrole.HolidayOT = Protect(payrole.HolidayOT);
                 payrole.TotalOT = Protect(payrole.TotalOT);
-                if (payrole.cashAdvances != null)
+                if (payrole.TransportationAllowance_ != null && !IsBase64Encoded(payrole.TransportationAllowance_))
+                {
+                    payrole.TransportationAllowance_ = Protect(payrole.TransportationAllowance_);
+                }
+                if (payrole.TicketAllowance_ != null && !IsBase64Encoded(payrole.TicketAllowance_))
+                {
+                    payrole.TicketAllowance_ = Protect(payrole.TicketAllowance_);
+                }
+                if (payrole.Arrears != null && !IsBase64Encoded(payrole.Arrears))
+                {
+                    payrole.Arrears = Protect(payrole.Arrears);
+                }
+                if (payrole.cashAdvances != null && !IsBase64Encoded(payrole.cashAdvances))
                 {
                     payrole.cashAdvances = Protect(payrole.cashAdvances);
                 }
-                if (payrole.HouseAllow != null)
+                if (payrole.HouseAllow != null && !IsBase64Encoded(payrole.HouseAllow))
                 {
                     payrole.HouseAllow = Protect(payrole.HouseAllow);
 
                 }
-                if (payrole.FoodAllow != null)
+                if (payrole.FoodAllow != null && !IsBase64Encoded(payrole.FoodAllow))
                 {
                     payrole.FoodAllow = Protect(payrole.FoodAllow);
 
                 }
-                if (payrole.Timekeeping != null)
+                if (payrole.Timekeeping != null && !IsBase64Encoded(payrole.Timekeeping))
                 {
                     payrole.Timekeeping = Protect(payrole.Timekeeping);
 
                 }
-                if (payrole.Communication != null)
+                if (payrole.Communication != null && !IsBase64Encoded(payrole.Communication))
                 {
                 payrole.Communication = Protect(payrole.Communication);
 
                 }
-                if (payrole.TrafficFines != null)
+                if (payrole.TrafficFines != null && !IsBase64Encoded(payrole.TrafficFines))
                 {
                     payrole.TrafficFines = Protect(payrole.TrafficFines);
 
                 }
-                if (payrole.TotalDedution != null)
+                if (payrole.TotalDedution != null && !IsBase64Encoded(payrole.TotalDedution))
                 {
                     payrole.TotalDedution = Protect(payrole.TotalDedution);
                 }
@@ -350,7 +409,6 @@
                         att.AddRange(mt.Attendances);
                 foreach (var masterFile in afinallist)
                 {
-
                     if (paylisteisting.Exists(
                         x => x.forthemonth == new DateTime(month.Value.Year, month.Value.Month, 1)
                              && x.employee_no == masterFile.employee_id))
@@ -402,11 +460,12 @@
                         payr.HolidayOT = aqh.ToString();
                         var aft = 0d;
                         var ant = 0d;
-                        if (payr.contract.FOT != null && payr.contract.FOT.Contains("=="))
+                        var m = 0d;
+                        if (payr.contract.FOT != null && !payr.contract.FOT.Contains(" ")  && IsBase64Encoded(payr.contract.FOT))
                         {
                             double.TryParse(Unprotect(payr.contract.FOT), out  aft);
                         }
-                        if (payr.OTNight != null && payr.OTNight.Contains("=="))
+                        if (payr.OTNight != null && !payr.OTNight.Contains(" ")  && IsBase64Encoded(payr.OTNight) )
                         {
                             double.TryParse(Unprotect(payr.OTNight), out ant);
                         }
@@ -432,9 +491,9 @@
                              double.TryParse(Unprotect(payr.TrafficFines),out comrat);
                              totded += comrat;
                         }
-                        if (payr.contract.transportation_allowance != null )
+                        if (payr.TransportationAllowance_ != null )
                         {
-                             double.TryParse(Unprotect(payr.contract.transportation_allowance),out comrat);
+                             double.TryParse(Unprotect(payr.TransportationAllowance_),out comrat);
                              totded += comrat;
                         }
                         if (payr.FoodAllow != null )
@@ -458,14 +517,44 @@
 
                             double.TryParse(Unprotect(payr.contract.salary_details), out var gross);
                             var TLWOP = (payr.leave_absence.absence + payr.Leave.days) * (gross / (DateTime.DaysInMonth(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month)));
-                            totded += comrat + TLWOP.Value;
+                            if (TLWOP != null)
+                            {
+                                totded += comrat + TLWOP.Value;
+                            }
+                            else
+                            {
+                                totded += comrat;
+                            }
                         }
 
                         payr.TotalDedution = totded.ToString();
                         payr.TotalOT = ((aqf *1.5 ) + (aqh * 2.5) + (aqt*1.25) + (aft) + (ant)).ToString();
-                        payr.leave_absence.absence = absd;
-                        payr.Leave.days = lowp;
-                        payr.totalpayable = Unprotect(payr.totalpayable);
+                        if (payr.leave_absence != null)
+                        {
+                            payr.leave_absence.absence = absd;
+                        }
+
+                        if (payr.Leave != null)
+                        {
+                            payr.Leave.days = lowp;
+                        }
+
+                        var conlist = this.db.contracts.ToList();
+                        var con = conlist.Find(c1 => c1.employee_no == masterFile.employee_id);
+                        double.TryParse(Unprotect(con.basic), out var bac);
+                        double.TryParse(Unprotect(con.salary_details), out var sal);
+                        var tac = 0d;
+                        var arr = 0d;
+                        if (payr.TicketAllowance_ != null && IsBase64Encoded(payr.TicketAllowance_))
+                        {
+                            double.TryParse(Unprotect(payr.TicketAllowance_), out tac);
+                        }
+
+                        if (payr.Arrears != null && IsBase64Encoded(payr.Arrears))
+                        {
+                            double.TryParse(Unprotect(payr.Arrears), out arr);
+                        }
+                        payr.totalpayable = (sal + tac + arr).ToString();
                         double.TryParse(payr.totalpayable, out var a);
                         double.TryParse(payr.TotalOT, out var b);
                         double.TryParse(payr.TotalDedution, out var c);
@@ -553,8 +642,16 @@
                             }
                             double.TryParse(Unprotect(con.basic), out var bac);
                             double.TryParse(Unprotect(con.salary_details), out var sal);
-                            double.TryParse(Unprotect(con.ticket_allowance), out var tac);
-                            double.TryParse(Unprotect(con.arrears), out var arr);
+                            var tac = 0d;
+                            var arr = 0d;
+                            if (payr.TicketAllowance_ != null && IsBase64Encoded(payr.TicketAllowance_))
+                            {
+                                double.TryParse(Unprotect(payr.TicketAllowance_), out tac);
+                            }
+                            if (payr.Arrears != null && IsBase64Encoded(payr.Arrears))
+                            {
+                                double.TryParse(Unprotect(payr.Arrears), out arr);
+                            }
                             payr.totalpayable = (sal + tac + arr).ToString();
                             paylist.Add(payr);
                             this.Create(payr);

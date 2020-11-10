@@ -1508,10 +1508,13 @@
                 this.cal_bal(leave_bal_till.Value);
                 foreach (var leaf in leaves)
                 {
-                    var lb = leaveballist.Find(x => x.Employee_id == leaf.Employee_id).leave_balance;
-                    leaf.leave_bal = lb;
-                    if (!leaveslist.Exists(x => x.Employee_id == leaf.Employee_id)) leaveslist.Add(leaf);
+                    if (leaf.master_file.date_joined != null)
+                    {
+                        var lb = leaveballist.Find(x => x.Employee_id == leaf.Employee_id).leave_balance;
+                        leaf.leave_bal = lb;
+                        if (!leaveslist.Exists(x => x.Employee_id == leaf.Employee_id)) leaveslist.Add(leaf);
                 }
+            }
 
                 foreach (var emp in afinallist)
                 {
@@ -1645,7 +1648,7 @@
         public ActionResult mrv(DateTime? eddate,DateTime? eddate1)
         {
             var con_leave = from l in this.db.Leaves
-                            join con in this.db.contracts on l.Employee_id equals con.employee_no
+                            join con in this.db.contracts on l.master_file.employee_no equals con.master_file.employee_no
                             select new
                                        {
                                            l.master_file.employee_no,

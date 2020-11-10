@@ -96,11 +96,11 @@
                     {
                         if (User.Identity.Name == "dinizsneden@gmail.com")
                         {
-                            <li>@Html.ActionLink("payrole", "Create", "payrolelogins")</li>
                             <li>@Html.ActionLink("HR forms", "HR_Forms", "HR_forms")</li>
                         }
-                        if (User.IsInRole("super_admin") || User.IsInRole("admin"))
+                        if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
                         {
+                            <li>@Html.ActionLink("payrole", "Create", "payrolelogins")</li>
                             <li>@Html.ActionLink("user name", "index", "usernames")</li>
                         }
                     }

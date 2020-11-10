@@ -20,14 +20,23 @@ namespace HRworks.Controllers
         // GET: emirates_id
         public void DownloadExcel(string search)
         {
-            List<emirates_id> passexel;
+            List<emirates_id> passexel1;
+            List<emirates_id> passexel = new List<emirates_id>();
             if (search != null)
             {
-                passexel = db.emirates_id.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                passexel1 = db.emirates_id.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
             }
             else
             {
-                passexel = db.emirates_id.Include(p => p.master_file).ToList();
+                passexel1 = db.emirates_id.Include(p => p.master_file).ToList();
+            }
+
+            foreach (var a in passexel1.OrderBy(x=>x.master_file.employee_no).ThenByDescending(y=>y.date_changed))
+            {
+                if (!passexel.Exists(x=>x.master_file.employee_no == a.master_file.employee_no))
+                {
+                    passexel.Add(a);
+                }
             }
             ExcelPackage Ep = new ExcelPackage();
             ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("passport");

@@ -303,7 +303,9 @@ namespace HRworks.Controllers
         [Authorize(Roles = "super_admin,admin,payrole")]
         public ActionResult Edit([Bind(Include = "employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id,status")] master_file master_file,HttpPostedFileBase fileBase)
         {
+            var imglist = this.db.master_file.ToList();
             string serverfile;
+            var img = imglist.Find(x => x.employee_no == master_file.employee_no);
             if (fileBase != null)
             {
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
@@ -322,7 +324,14 @@ namespace HRworks.Controllers
             }
             else
             {
-                serverfile = null;
+                if (img.img != null)
+                {
+                    serverfile = img.img;
+                }
+                else
+                {
+                    serverfile = null;
+                }
             }
             if (ModelState.IsValid)
             {
@@ -343,7 +352,6 @@ namespace HRworks.Controllers
                     master_file.date_changed = DateTime.Now;
                     db.master_file.Add(master_file);*/
                     var current = DateTime.Now;
-                    var img = new master_file();
                     img.employee_no = master_file.employee_no;
                     img.employee_name = master_file.employee_name;
                     img.nationality = master_file.nationality;
@@ -359,12 +367,16 @@ namespace HRworks.Controllers
                     }
                     else
                     {
-                         img.status = "in process";
+                         img.status = "active";
                     }
                    
                     img.img = serverfile;
+
+                    this.db.Entry(img).State = EntityState.Modified;
+                    this.db.SaveChanges();
+                    /*
                     db.master_file.Add(img);
-                    db.SaveChanges();
+                    db.SaveChanges();*/
                     return RedirectToAction("Index");
                 }/*
                 catch (Exception e)

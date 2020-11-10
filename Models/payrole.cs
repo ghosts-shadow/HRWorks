@@ -36,6 +36,9 @@ namespace HRworks.Models
         public string remarks { get; set; }
         public Nullable<int> Absents { get; set; }
         public Nullable<System.DateTime> forthemonth { get; set; }
+        public string TicketAllowance_ { get; set; }
+        public string Arrears { get; set; }
+        public string TransportationAllowance_ { get; set; }
     
         public virtual contract contract { get; set; }
         public virtual Leave Leave { get; set; }

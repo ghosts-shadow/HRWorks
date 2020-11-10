@@ -130,13 +130,23 @@
     </td>
     <td>
         @{
-            var tic = payrolesController.Unprotect(item.contract.ticket_allowance);
+            var tic = 0d;
+            if (item.TicketAllowance_ != null && !item.TicketAllowance_.Contains(" "))
+            {
+                double.TryParse(payrolesController.Unprotect(item.TicketAllowance_), out tic);
+
+            }
         }
         @tic
     </td>
     <td>
         @{
-            var arr = payrolesController.Unprotect(item.contract.arrears);
+            var arr = 0d;
+            if (item.Arrears != null && !item.Arrears.Contains(" "))
+            {
+                double.TryParse(payrolesController.Unprotect(item.Arrears), out arr);
+
+            }
         }
         @arr
     </td>
@@ -163,7 +173,7 @@
     <td>
         @{
             var d = 0d;
-            if (item.OTNight != null && item.OTNight.Contains("=="))
+            if (item.OTNight != null && item.OTNight.Contains(" "))
             {
                 double.TryParse(payrolesController.Unprotect(item.OTNight), out d);
 
@@ -212,7 +222,11 @@
     </td>
     <td>
         @{
-            var tra = payrolesController.Unprotect(item.contract.transportation_allowance);
+            var tra = 0d;
+            if (item.TransportationAllowance_ != null && !item.TransportationAllowance_.Contains(" "))
+            {
+                double.TryParse(payrolesController.Unprotect(item.TransportationAllowance_), out tra);
+            }
         }
         @tra
     </td>
@@ -224,7 +238,7 @@
                 double.TryParse(payrolesController.Unprotect(item.FoodAllow), out fa);
 
             }
-        }
+        }@fa
     </td>
     <td>
         @{
@@ -265,10 +279,20 @@
     </td>
     <td>
         @{
+            var labs = 0d;
+            var ldays = 0d;
             double.TryParse(sal, out var gross);
-            var TLWOP = (item.leave_absence.absence + item.Leave.days)*(gross * 12 / 365);
+            if (item.leave_absence != null)
+            {
+               labs = item.leave_absence.absence.Value;
+            }
+            if (item.Leave != null)
+            {
+                 ldays = item.Leave.days.Value;
+            }
+            var TLWOP = (labs + ldays)*(gross * 12 / 365);
         }
-        @TLWOP;
+        @TLWOP
         
     </td>
     <td>
