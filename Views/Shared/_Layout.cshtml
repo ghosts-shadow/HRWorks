@@ -83,7 +83,6 @@
                     <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
                     <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
                     <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
-                    <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
                     <li>@Html.ActionLink("Employee Details", "Index", "master_file")</li>
                     <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
                     <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
@@ -91,7 +90,6 @@
                     <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
                     <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
                     <li>@Html.ActionLink("attendance", "Index1", "hiks")</li>
-                    <li>@Html.ActionLink("end of service", "Create", "end_of_service")</li>
                     if (User.Identity.IsAuthenticated)
                     {
                         if (User.Identity.Name == "dinizsneden@gmail.com")
@@ -102,6 +100,8 @@
                         {
                             <li>@Html.ActionLink("payrole", "Create", "payrolelogins")</li>
                             <li>@Html.ActionLink("user name", "index", "usernames")</li>
+                            <li>@Html.ActionLink("end of service", "EOSB", "end_of_service")</li>
+                            <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
                         }
                     }
 

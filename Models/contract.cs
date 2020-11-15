@@ -20,8 +20,9 @@ namespace HRworks.Models
         public contract()
         {
             this.payroles = new HashSet<payrole>();
+            this.end_of_service = new HashSet<end_of_service>();
         }
-    
+
         [Display(Name = "Contract ID")]
         public Nullable<int> con_id { get; set; }
 
@@ -75,9 +76,11 @@ namespace HRworks.Models
 
         [Display(Name = "Date changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
-    
+
         public virtual master_file master_file { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<payrole> payroles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<end_of_service> end_of_service { get; set; }
     }
 }

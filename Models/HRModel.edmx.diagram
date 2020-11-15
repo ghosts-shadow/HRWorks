@@ -92,6 +92,8 @@
         <AssociationConnector Association="HRModel.FK_pay_To_leave" />
         <AssociationConnector Association="HRModel.FK_pay_To_master_file" />
         <AssociationConnector Association="HRModel.FK_payrole_Toleaveab" />
+        <AssociationConnector Association="HRModel.FK_end_of_service_To_contract" />
+        <AssociationConnector Association="HRModel.FK_end_of_service_To_leavecal" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

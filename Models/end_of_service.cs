@@ -18,7 +18,24 @@ namespace HRworks.Models
         public int Employee_id { get; set; }
         public Nullable<System.DateTime> last_working_day { get; set; }
         public string status { get; set; }
-    
+        public Nullable<int> con_id { get; set; }
+        public Nullable<int> leavedetails { get; set; }
+        public Nullable<double> pendingSalary { get; set; }
+        public Nullable<double> noticePeriod { get; set; }
+        public Nullable<double> nagativeBalance { get; set; }
+        public Nullable<double> others { get; set; }
+        public Nullable<double> cashAdvance { get; set; }
+        public Nullable<double> pettyCash { get; set; }
+        public Nullable<double> HRAdvances { get; set; }
+        public Nullable<double> telecomDeductions { get; set; }
+        public Nullable<double> trafficeFines { get; set; }
+        public string remarks1 { get; set; }
+        public string remarks2 { get; set; }
+        public string remarks3 { get; set; }
+        public Nullable<double> abstotal { get; set; }
         public virtual master_file master_file { get; set; }
+        public virtual contract contract { get; set; }
+        public virtual leavecal leavecal { get; set; }
+        public bool save { get; set; }
     }
 }

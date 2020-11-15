@@ -228,6 +228,20 @@
           <Property Name="Employee_id" Type="int" Nullable="false" />
           <Property Name="last_working_day" Type="date" />
           <Property Name="status" Type="nvarchar(max)" />
+          <Property Name="con_id" Type="int" />
+          <Property Name="leavedetails" Type="int" />
+          <Property Name="pendingSalary" Type="float" />
+          <Property Name="noticePeriod" Type="float" />
+          <Property Name="nagativeBalance" Type="float" />
+          <Property Name="others" Type="float" />
+          <Property Name="cashAdvance" Type="float" />
+          <Property Name="pettyCash" Type="float" />
+          <Property Name="HRAdvances" Type="float" />
+          <Property Name="telecomDeductions" Type="float" />
+          <Property Name="trafficeFines" Type="float" />
+          <Property Name="remarks1" Type="nvarchar(max)" />
+          <Property Name="remarks2" Type="nvarchar(max)" />
+          <Property Name="remarks3" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="EXIT_INTERVIEW">
           <Key>
@@ -868,6 +882,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_end_of_service_To_contract">
+          <End Role="contract" Type="Self.contract" Multiplicity="0..1" />
+          <End Role="end_of_service" Type="Self.end_of_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contract">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="end_of_service">
+              <PropertyRef Name="con_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_end_of_service_To_leavecal">
+          <End Role="leavecal" Type="Self.leavecal" Multiplicity="0..1" />
+          <End Role="end_of_service" Type="Self.end_of_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="leavecal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="end_of_service">
+              <PropertyRef Name="leavedetails" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_EOS_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="end_of_service" Type="Self.end_of_service" Multiplicity="*" />
@@ -1234,6 +1272,14 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emp_joi_sta_change" EntitySet="emp_joi_sta_change" />
           </AssociationSet>
+          <AssociationSet Name="FK_end_of_service_To_contract" Association="Self.FK_end_of_service_To_contract">
+            <End Role="contract" EntitySet="contract" />
+            <End Role="end_of_service" EntitySet="end_of_service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_end_of_service_To_leavecal" Association="Self.FK_end_of_service_To_leavecal">
+            <End Role="leavecal" EntitySet="leavecal" />
+            <End Role="end_of_service" EntitySet="end_of_service" />
+          </AssociationSet>
           <AssociationSet Name="FK_EOS_To_master_file" Association="Self.FK_EOS_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="end_of_service" EntitySet="end_of_service" />
@@ -1423,6 +1469,7 @@
           <Property Name="date_changed" Type="DateTime" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_con_To_master_file" FromRole="contract" ToRole="master_file" />
           <NavigationProperty Name="payroles" Relationship="HRModel.FK_pay_To_con" FromRole="contract" ToRole="payrole" />
+          <NavigationProperty Name="end_of_service" Relationship="HRModel.FK_end_of_service_To_contract" FromRole="contract" ToRole="end_of_service" />
         </EntityType>
         <EntityType Name="emirates_id">
           <Key>
@@ -2029,6 +2076,14 @@
             <End Role="leave_absence" EntitySet="leave_absence" />
             <End Role="payrole" EntitySet="payroles" />
           </AssociationSet>
+          <AssociationSet Name="FK_end_of_service_To_contract" Association="HRModel.FK_end_of_service_To_contract">
+            <End Role="contract" EntitySet="contracts" />
+            <End Role="end_of_service" EntitySet="end_of_service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_end_of_service_To_leavecal" Association="HRModel.FK_end_of_service_To_leavecal">
+            <End Role="leavecal" EntitySet="leavecals" />
+            <End Role="end_of_service" EntitySet="end_of_service" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
           <Key>
@@ -2070,6 +2125,7 @@
           <Property Name="net_period" Type="Double" />
           <Property Name="accrued" Type="Double" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_leave_cal_To_master_file" FromRole="leavecal" ToRole="master_file" />
+          <NavigationProperty Name="end_of_service" Relationship="HRModel.FK_end_of_service_To_leavecal" FromRole="leavecal" ToRole="end_of_service" />
         </EntityType>
         <Association Name="FK_leave_cal_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
@@ -2584,6 +2640,22 @@
           <Property Name="last_working_day" Type="DateTime" Precision="0" />
           <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_EOS_To_master_file" FromRole="end_of_service" ToRole="master_file" />
+          <Property Name="con_id" Type="Int32" />
+          <Property Name="leavedetails" Type="Int32" />
+          <Property Name="pendingSalary" Type="Double" />
+          <Property Name="noticePeriod" Type="Double" />
+          <Property Name="nagativeBalance" Type="Double" />
+          <Property Name="others" Type="Double" />
+          <Property Name="cashAdvance" Type="Double" />
+          <Property Name="pettyCash" Type="Double" />
+          <Property Name="HRAdvances" Type="Double" />
+          <Property Name="telecomDeductions" Type="Double" />
+          <Property Name="trafficeFines" Type="Double" />
+          <Property Name="remarks1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="remarks2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="remarks3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="contract" Relationship="HRModel.FK_end_of_service_To_contract" FromRole="end_of_service" ToRole="contract" />
+          <NavigationProperty Name="leavecal" Relationship="HRModel.FK_end_of_service_To_leavecal" FromRole="end_of_service" ToRole="leavecal" />
         </EntityType>
         <Association Name="FK_EOS_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -2751,6 +2823,30 @@
             </Principal>
             <Dependent Role="payrole">
               <PropertyRef Name="Absents" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_end_of_service_To_contract">
+          <End Type="HRModel.contract" Role="contract" Multiplicity="0..1" />
+          <End Type="HRModel.end_of_service" Role="end_of_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contract">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="end_of_service">
+              <PropertyRef Name="con_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_end_of_service_To_leavecal">
+          <End Type="HRModel.leavecal" Role="leavecal" Multiplicity="0..1" />
+          <End Type="HRModel.end_of_service" Role="end_of_service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="leavecal">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="end_of_service">
+              <PropertyRef Name="leavedetails" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3421,6 +3517,20 @@
           <EntitySetMapping Name="end_of_service">
             <EntityTypeMapping TypeName="HRModel.end_of_service">
               <MappingFragment StoreEntitySet="end_of_service">
+                <ScalarProperty Name="remarks3" ColumnName="remarks3" />
+                <ScalarProperty Name="remarks2" ColumnName="remarks2" />
+                <ScalarProperty Name="remarks1" ColumnName="remarks1" />
+                <ScalarProperty Name="trafficeFines" ColumnName="trafficeFines" />
+                <ScalarProperty Name="telecomDeductions" ColumnName="telecomDeductions" />
+                <ScalarProperty Name="HRAdvances" ColumnName="HRAdvances" />
+                <ScalarProperty Name="pettyCash" ColumnName="pettyCash" />
+                <ScalarProperty Name="cashAdvance" ColumnName="cashAdvance" />
+                <ScalarProperty Name="others" ColumnName="others" />
+                <ScalarProperty Name="nagativeBalance" ColumnName="nagativeBalance" />
+                <ScalarProperty Name="noticePeriod" ColumnName="noticePeriod" />
+                <ScalarProperty Name="pendingSalary" ColumnName="pendingSalary" />
+                <ScalarProperty Name="leavedetails" ColumnName="leavedetails" />
+                <ScalarProperty Name="con_id" ColumnName="con_id" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="last_working_day" ColumnName="last_working_day" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />

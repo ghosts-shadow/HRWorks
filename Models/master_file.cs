@@ -47,7 +47,7 @@ namespace HRworks.Models
             this.emp_joi_sta_change = new HashSet<emp_joi_sta_change>();
             this.payroles = new HashSet<payrole>();
         }
-
+    
         public int employee_id { get; set; }
 
         [Display(Name = "Employee NO")]
@@ -85,7 +85,7 @@ namespace HRworks.Models
 
         [Display(Name = "Date Changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<bank_details> bank_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

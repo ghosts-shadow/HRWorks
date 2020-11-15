@@ -14,6 +14,12 @@ namespace HRworks.Models
     
     public partial class leavecal
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public leavecal()
+        {
+            this.end_of_service = new HashSet<end_of_service>();
+        }
+    
         public int Id { get; set; }
         public Nullable<int> Employee_id { get; set; }
         public Nullable<double> leave_balance { get; set; }
@@ -24,5 +30,7 @@ namespace HRworks.Models
         public Nullable<double> accrued { get; set; }
     
         public virtual master_file master_file { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<end_of_service> end_of_service { get; set; }
     }
 }

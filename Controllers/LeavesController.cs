@@ -485,6 +485,210 @@
                 }
             }
         }
+        public void cal_bal(DateTime eddate, master_file master)
+        {
+                var leaveballist = this.db.leavecals.ToList();
+                var leavebal = new leavecal();
+                var Employee_id = master.employee_id;
+                if (Employee_id != null && eddate != null)
+                {
+                    double unpaid = 0;
+                    double netperiod = 0;
+                    double accrued = 0;
+                    double avalied = 0;
+                    double lbal = 0;
+                    var asf = master.date_joined;
+                    var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
+                        x => x.Employee_id == Employee_id && x.Start_leave >= asf && x.End_leave <= eddate);
+                    var times = eddate - asf;
+                    if (times != null)
+                    {
+                        var period = times.Value.TotalDays + 1;
+                        var ump = leaves.ToList();
+                        foreach (var leaf in ump)
+                        {
+                            if (leaf.leave_type == "6")
+                            {
+                                if (leaf.days != null)
+                                {
+                                    if (leaf.half) unpaid += leaf.days.Value - 0.5;
+                                    else
+                                        unpaid += leaf.days.Value;
+                                }
+                                else
+                                {
+                                    if (leaf.half)
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) unpaid += times.Value.TotalDays + 1 - 0.5;
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) unpaid += times.Value.TotalDays + 1;
+                                    }
+                                }
+                            }
+
+                            double sick = 0;
+                            if (leaf.leave_type == "2")
+                            {
+                                if (leaf.days != null)
+                                {
+                                    if (leaf.half) sick += leaf.days.Value - 0.5;
+                                    else
+                                        sick += leaf.days.Value;
+                                }
+                                else
+                                {
+                                    if (leaf.half)
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) sick += times.Value.TotalDays + 1;
+                                    }
+                                }
+                            }
+
+                            this.ViewBag.sick = sick;
+
+                            double comp = 0;
+                            if (leaf.leave_type == "3")
+                            {
+                                if (leaf.days != null)
+                                {
+                                    if (leaf.half) comp += leaf.days.Value - 0.5;
+                                    else comp += leaf.days.Value;
+                                }
+                                else
+                                {
+                                    if (leaf.half)
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) comp += times.Value.TotalDays + 1;
+                                    }
+                                }
+                            }
+
+                            this.ViewBag.comp = comp;
+
+                            double mate = 0;
+                            if (leaf.leave_type == "4")
+                            {
+                                if (leaf.days != null)
+                                {
+                                    if (leaf.half) mate += leaf.days.Value - 0.5;
+                                    else mate += leaf.days.Value;
+                                }
+                                else
+                                {
+                                    if (leaf.half)
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) mate += times.Value.TotalDays + 1;
+                                    }
+                                }
+                            }
+
+                            this.ViewBag.mate = mate;
+                            double haj = 0;
+                            if (leaf.leave_type == "5")
+                            {
+                                if (leaf.days != null)
+                                {
+                                    if (leaf.half) haj += leaf.days.Value - 0.5;
+                                    else haj += leaf.days.Value;
+                                }
+                                else
+                                {
+                                    if (leaf.half)
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) haj += times.Value.TotalDays + 1;
+                                    }
+                                }
+                            }
+
+                            this.ViewBag.haj = haj;
+
+                            if (leaf.leave_type == "1")
+                            {
+                                if (leaf.days != null)
+                                {
+                                    if (leaf.half) avalied += leaf.days.Value - 0.5;
+                                    else avalied += leaf.days.Value;
+                                }
+                                else
+                                {
+                                    if (leaf.half)
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) avalied += times.Value.TotalDays + 1;
+                                    }
+                                }
+                            }
+                        }
+
+                        netperiod = period - unpaid;
+                        accrued = Math.Round(netperiod * 30 / 360);
+                        lbal = accrued - avalied;
+                        leavebal.leave_balance = lbal;
+                        leavebal.period = period;
+                        leavebal.anual_leave_taken = avalied;
+                        leavebal.net_period = netperiod;
+                        leavebal.unpaid_leave = unpaid;
+                        leavebal.accrued = accrued;
+                        leavebal.Employee_id = master.employee_id;
+                        if (leaveballist.Exists(x => x.Employee_id == leavebal.Employee_id))
+                        {
+                            var check = leaveballist.Find(x => x.Employee_id == master.employee_id);
+                            leavebal = check;
+                            lbal = accrued - avalied;
+                            leavebal.leave_balance = lbal;
+                            leavebal.period = period;
+                            leavebal.anual_leave_taken = avalied;
+                            leavebal.net_period = netperiod;
+                            leavebal.unpaid_leave = unpaid;
+                            leavebal.accrued = accrued;
+                            if (check != leavebal)
+                            {
+                                this.db.Entry(leavebal).State = EntityState.Modified;
+                                this.db.SaveChanges();
+                            }
+                        }
+                        else
+                        {
+                            this.db.leavecals.Add(leavebal);
+                            this.db.SaveChanges();
+                        }
+                    }
+                }
+            
+        }
 
         // GET: Leaves/Create               
         public ActionResult Create()
