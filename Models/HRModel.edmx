@@ -228,12 +228,14 @@
           <Property Name="Employee_id" Type="int" Nullable="false" />
           <Property Name="last_working_day" Type="date" />
           <Property Name="status" Type="nvarchar(max)" />
+          <Property Name="cstatus" Type="nvarchar(max)" />
           <Property Name="con_id" Type="int" />
           <Property Name="leavedetails" Type="int" />
           <Property Name="pendingSalary" Type="float" />
           <Property Name="noticePeriod" Type="float" />
           <Property Name="nagativeBalance" Type="float" />
           <Property Name="others" Type="float" />
+          <Property Name="others1" Type="float" />
           <Property Name="cashAdvance" Type="float" />
           <Property Name="pettyCash" Type="float" />
           <Property Name="HRAdvances" Type="float" />
@@ -560,6 +562,7 @@
           <Property Name="TicketAllowance " Type="nvarchar(max)" />
           <Property Name="Arrears" Type="nvarchar(max)" />
           <Property Name="TransportationAllowance " Type="nvarchar(max)" />
+          <Property Name="others" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="payrolelogin">
           <Key>
@@ -2656,6 +2659,8 @@
           <Property Name="remarks3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="contract" Relationship="HRModel.FK_end_of_service_To_contract" FromRole="end_of_service" ToRole="contract" />
           <NavigationProperty Name="leavecal" Relationship="HRModel.FK_end_of_service_To_leavecal" FromRole="end_of_service" ToRole="leavecal" />
+          <Property Name="cstatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="others1" Type="Double" />
         </EntityType>
         <Association Name="FK_EOS_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -2777,6 +2782,7 @@
           <Property Name="TicketAllowance_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Arrears" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TransportationAllowance_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="others" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_pay_To_con">
           <End Type="HRModel.contract" Role="contract" Multiplicity="1" />
@@ -3517,6 +3523,8 @@
           <EntitySetMapping Name="end_of_service">
             <EntityTypeMapping TypeName="HRModel.end_of_service">
               <MappingFragment StoreEntitySet="end_of_service">
+                <ScalarProperty Name="others1" ColumnName="others1" />
+                <ScalarProperty Name="cstatus" ColumnName="cstatus" />
                 <ScalarProperty Name="remarks3" ColumnName="remarks3" />
                 <ScalarProperty Name="remarks2" ColumnName="remarks2" />
                 <ScalarProperty Name="remarks1" ColumnName="remarks1" />
@@ -3608,6 +3616,7 @@
           <EntitySetMapping Name="payroles">
             <EntityTypeMapping TypeName="HRModel.payrole">
               <MappingFragment StoreEntitySet="payrole">
+                <ScalarProperty Name="others" ColumnName="others" />
                 <ScalarProperty Name="TransportationAllowance_" ColumnName="TransportationAllowance " />
                 <ScalarProperty Name="Arrears" ColumnName="Arrears" />
                 <ScalarProperty Name="TicketAllowance_" ColumnName="TicketAllowance " />

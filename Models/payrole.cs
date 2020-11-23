@@ -39,6 +39,7 @@ namespace HRworks.Models
         public string TicketAllowance_ { get; set; }
         public string Arrears { get; set; }
         public string TransportationAllowance_ { get; set; }
+        public string others { get; set; }
     
         public virtual contract contract { get; set; }
         public virtual Leave Leave { get; set; }

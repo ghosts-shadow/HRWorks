@@ -33,6 +33,9 @@ namespace HRworks.Models
         public string remarks2 { get; set; }
         public string remarks3 { get; set; }
         public Nullable<double> abstotal { get; set; }
+        public string cstatus { get; set; }
+        public Nullable<double> others1 { get; set; }
+    
         public virtual master_file master_file { get; set; }
         public virtual contract contract { get; set; }
         public virtual leavecal leavecal { get; set; }
