@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reports</h2>
+
+<div class="row">
+    <div class="col-md-5">
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index","payroles")'" value="Payrole"/>
+    </div>
+    <div class="col-md-5">
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","Attendances", new{month = DateTime.Now})'" value="NULL Report "/>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","Attendances",new{variable = "S", month = DateTime.Now})'" value="Sick Report "/>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","Attendances",new{variable = "A",month = DateTime.Now})'" value="Absence Report "/>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","Attendances",new{variable = "V",month = DateTime.Now})'" value="Vacation Report "/>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","Attendances",new{variable = "T",month = DateTime.Now})'" value="Transfer Report "/>
+        </div>
+</div>
+

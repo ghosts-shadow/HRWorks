@@ -13,7 +13,7 @@
     using HRworks.Models;
 
     [NoDirectAccess]
-    [Authorize(Roles = "super_admin,payrole,employee_con")]
+    //[Authorize(Roles = "super_admin,payrole,employee_con")]
     public class payrolesController : Controller
     {
         private const string Purpose = "equalizer";
@@ -400,13 +400,17 @@
                 mts = this.db1.MainTimeSheets.Where(
                     x => x.TMonth.Month == month.Value.Month && x.TMonth.Year == month.Value.Year
                                                              && x.ManPowerSupplier == 1).ToList();
+                var atlist = this.db1.Attendances.ToList();
                 var endmo = new DateTime(
                     month.Value.Year,
                     month.Value.Month,
                     DateTime.DaysInMonth(month.Value.Year, month.Value.Month));
                 foreach (var mt in mts)
-                    if (mt.Attendances.Count != 0)
-                        att.AddRange(mt.Attendances);
+                {
+                    var temp = atlist.FindAll(x => x.MainTimeSheet == mt);
+                    att.AddRange(temp);
+                }
+                
                 foreach (var masterFile in afinallist)
                 {
                     if (paylisteisting.Exists(
@@ -449,6 +453,10 @@
                         var attd = att.FindAll(x => x.EmpID == lab1.ID).ToList();
                         foreach (var aq in attd)
                         {
+                            if (aq.LabourMaster.EMPNO == 197)
+                            {
+                                var am = 0;
+                            }
                             if (aq.TotalOverTime.HasValue) aqt += aq.TotalOverTime.Value;
                             if (aq.FridayHours.HasValue) aqf += aq.FridayHours.Value;
                             if (aq.Holidays.HasValue) aqh += aq.Holidays.Value;

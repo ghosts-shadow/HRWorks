@@ -1,1453 +1,1226 @@
-﻿@using System.Globalization
-@using HRworks.Controllers
+﻿@using HRworks.Controllers
 @model HRworks.Models.end_of_service
 
 @{
-    ViewBag.Title = "EOSB";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (ViewBag.hasdata)
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css"
+      rel="stylesheet" />
+<link rel="stylesheet"
+      href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+<link rel="stylesheet"
+      href="/resources/demos/style.css" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="~/Scripts/EOSB.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="~/Content/eos.css" />
+@if (!ViewBag.hasdata)
 {
-    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("EOSB")'" value="New EOS" />
-    Model.save = true;
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
-    </div>
-}
+    <script>
+        $(function () {
+            $("#last_working_day").datepicker();
+            /**/
 
+            $("#Employee_id").chosen({ no_results_text: "Oops, nothing found!" });
+            /**/
+        });
+    </script>
+}
 @using (Html.BeginForm())
 {
+    if (ViewBag.hasdata)
+    {
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("EOSB")'" value="New EOS" />
+        <input type="submit" value="Save" class="btn btn-default" />
+    }
+
     @Html.AntiForgeryToken()
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" onclick="others()">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>EOSB Format</title>
-        <style type="text/css">
-            * {
-                margin: 0;
-                padding: 0;
-                text-indent: 0;
-            }
-
-            p {
-                color: black;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: normal;
-                text-decoration: none;
-                margin: 0pt;
-            }
-
-            .s1 {
-                color: black;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s2 {
-                color: black;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s3 {
-                color: black;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s4 {
-                color: black;
-                font-family: Arial, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s5 {
-                color: #00F;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: normal;
-                text-decoration: none;
-            }
-
-            .s6 {
-                color: black;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: normal;
-                text-decoration: none;
-            }
-
-            .s7 {
-                color: #00F;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s8 {
-                color: #3F54FF;
-                font-family: Arial, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s9 {
-                color: #000091;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s10 {
-                color: black;
-                font-family: "Times New Roman", serif;
-                font-style: normal;
-                font-weight: normal;
-                text-decoration: none;
-            }
-
-            .s11 {
-                color: black;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s12 {
-                color: #FFF;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s13 {
-                color: #F0F;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: underline;
-            }
-
-            .s14 {
-                color: #F0F;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s15 {
-                color: #008000;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: underline;
-            }
-
-            .s16 {
-                color: black;
-                font-family: Arial, sans-serif;
-                font-style: normal;
-                font-weight: normal;
-                text-decoration: none;
-            }
-
-            .s17 {
-                color: #008000;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s18 {
-                color: #308241;
-                font-family: Arial, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s19 {
-                color: #F00;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: underline;
-            }
-
-            .s20 {
-                color: #F00;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s21 {
-                color: #930;
-                font-family: Arial, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s22 {
-                color: black;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-                vertical-align: -1pt;
-            }
-
-            .s23 {
-                color: #FFF;
-                font-family: Calibri, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s24 {
-                color: #FFF;
-                font-family: Arial, sans-serif;
-                font-style: normal;
-                font-weight: bold;
-                text-decoration: none;
-            }
-
-            .s25 {
-                color: black;
-                font-family: Arial, sans-serif;
-                font-style: normal;
-                font-weight: normal;
-                text-decoration: none;
-            }
-
-            table, tbody {
-                vertical-align: top;
-                overflow: visible;
-            }
-
-            select, #Employee_id {
-                border: 0px;
-                outline: 0px;
-                background-color: white;
-                background: none;
-                -webkit-appearance: none;
-                box-shadow: none;
-            }
-        </style>
     </head>
-    <body>
-        <p style="text-align: center;">
-            <span>
-                <img width="250px" height="150px" src="~/img/CITI SCAPE LOGO.png" />
-            </span>
-        </p>
-        <p style="text-indent: 0pt; text-align: left;">
-            <br />
-        </p>
-        <table style="border-collapse: collapse; margin-left: 6.847pt" cellspacing="0">
-            <tr style="height: 17pt">
-                <td style="width: 545pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 2pt" colspan="5">
-                    <p class="s1" style="padding-left: 137pt; padding-right: 147pt; text-indent: 0pt; line-height: 16pt; text-align: center;">EOSB Final Settlement - Calculation</p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 81pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s2" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Employee Name:</p>
-                </td>
-                <td style="width: 215pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="padding-left: 130pt; text-indent: 0pt; line-height: 2pt; text-align: left;">
-                        <span>
-                            <img width="1" height="2" alt="image" src="~/img/EOSB Format/Image_006.png" />
-                        </span>
-                    </p>
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            var name = "";
-                            var lwd5year = new DateTime();
-                            var lwdstryear = new DateTime();
-                            var lwdate =new DateTime();
-                            var totalworkingdays = 0d;
-                            var diff =new TimeSpan();
-                            var eos = 0d;
-                            var dwr = 0d;
-                        }
-                        @if (ViewBag.hasdata)
-                        {
-                            lwdate = Model.last_working_day.Value;
-                            diff = Model.last_working_day.Value - Model.master_file.date_joined.Value;
-                            var totaldays = diff.Days + 1;
-                            totalworkingdays = totaldays - Model.leavecal.unpaid_leave.Value - Model.abstotal.Value;
-                            double.TryParse(end_of_serviceController.Unprotect(Model.contract.basic), out var bas);
-                            dwr = (bas * 12) / 365;
-                            if (totalworkingdays >= 365)
+    @if (!ViewBag.hasdata)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.master_file.employee_no, "employee no", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Employee_id, string.Empty, new { @class = "text-danger" })
+                @Html.DropDownList("Employee_id1", null, htmlAttributes: new { @class = "form-control", @style = "display: none" })
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.status, "Service Completion", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("status", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.status, string.Empty, new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.last_working_day, "last working day", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.last_working_day, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Get Data" class="btn btn-default" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <body>
+            <p style="text-align: center;">
+                <span>
+                    <img width="125px" height="75px" src="~/img/CITI SCAPE LOGO.png" />
+                </span>
+            </p>
+            <p style="text-indent: 0pt; text-align: left;">
+                <br />
+            </p>
+            <table style="border-collapse: collapse; margin-left: 6.847pt" cellspacing="0">
+                <tr style="height: 17pt">
+                    <td style="width: 545pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 2pt" colspan="5">
+                        <p class="s1" style="padding-left: 137pt; padding-right: 147pt; text-indent: 0pt; line-height: 16pt; text-align: center;">EOSB Final Settlement - Calculation</p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 81pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s2" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Employee Name:</p>
+                    </td>
+                    <td style="width: 215pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="padding-left: 130pt; text-indent: 0pt; line-height: 2pt; text-align: left;">
+                            <span>
+                                <img width="1" height="2" alt="image" src="~/img/EOSB Format/Image_006.png" />
+                            </span>
+                        </p>
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @{
+                                var name = string.Empty;
+                                var lwd5year = new DateTime();
+                                var lwdstryear = new DateTime();
+                                var lwdate = new DateTime();
+                                var totalworkingdays = 0d;
+                                var diff = new TimeSpan();
+                                var eos = 0d;
+                                var dwr = 0d;
+                            }
+                            @if (ViewBag.hasdata)
                             {
-                                if (Model.status == "2" || Model.status == "3")
+                                lwdate = Model.last_working_day.Value;
+                                diff = Model.last_working_day.Value - Model.master_file.date_joined.Value;
+                                var totaldays = diff.Days + 1;
+                                totalworkingdays = totaldays - Model.leavecal.unpaid_leave.Value - Model.abstotal.Value + 1;
+                                double.TryParse(end_of_serviceController.Unprotect(Model.contract.basic), out var bas);
+                                dwr = (bas * 12) / 365;
+                                if (totalworkingdays >= 365)
                                 {
-                                    if (totalworkingdays > 1825)
+                                    if (Model.status == "2" || Model.status == "3")
                                     {
-                                        lwd5year = Model.master_file.date_joined.Value.AddDays(1825);
-                                        lwdstryear = lwd5year.AddDays(1);
-                                        eos = (105 + ((totalworkingdays - 1825) * 30) / 365);
+                                        if (totalworkingdays > 1825)
+                                        {
+                                            lwd5year = Model.master_file.date_joined.Value.AddDays(1825);
+                                            lwdstryear = lwd5year.AddDays(1);
+                                            eos = (105 + ((totalworkingdays - 1825) * 30) / 365);
+                                        }
+                                        else
+                                        {
+                                            lwd5year = Model.last_working_day.Value;
+                                            eos = (totalworkingdays * 21) / 365;
+                                        }
                                     }
-                                    else
+                                    else if (Model.status == "1")
                                     {
                                         lwd5year = Model.last_working_day.Value;
-                                        eos = (totalworkingdays * 21) / 365;
+                                        if (totalworkingdays < 1095)
+                                        {
+                                            eos = (totalworkingdays * 7) / 365;
+                                        }
+                                        else if (totalworkingdays >= 1095 && totalworkingdays < 1825)
+                                        {
+                                            var eos_3 = (1095 * 7) / 365;
+                                            var eos3_5 = ((totalworkingdays - 1095) * 14) / 365;
+                                            eos = eos3_5 + eos_3;
+                                        }
+                                        else
+                                        {
+                                            lwd5year = Model.master_file.date_joined.Value.AddDays(1825);
+                                            lwdstryear = lwd5year.AddDays(1);
+                                            eos = (105 + ((totalworkingdays - 1825) * 30) / 365);
+                                        }
                                     }
                                 }
-                                else if (Model.status == "1")
-                                {
-                                    if (totalworkingdays < 1095)
-                                    {
-                                        eos = (totalworkingdays * 7) / 365;
-                                    }
-                                    else if (totalworkingdays >= 1095 && totalworkingdays < 1825)
-                                    {
-                                        var eos_3 = (1095 * 7) / 365;
-                                        var eos3_5 = ((totalworkingdays - 1095) * 14) / 365;
-                                        eos = eos3_5 + eos_3;
-                                    }
-                                    else
-                                    {
-                                        eos = (105 + ((totalworkingdays - 1825) * 30) / 365);
-                                    }
-                                }
-                            }
-                            name = Model.master_file.employee_name;
-                        }
-                        @name
-                        <br />
-                    </p>
-                    <p style="padding-left: 129pt; text-indent: 0pt; line-height: 1pt; text-align: left;">
-                        <span>
-                            <img width="1" height="1" alt="image" src="~/img/EOSB Format/Image_007.png" />
-                        </span>
-                    </p>
-                </td>
-                <td style="width: 120pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s2" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Date:</p>
-                </td>
-                <td style="width: 129pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" colspan="2">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 81pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s2" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Employee ID:</p>
-                </td>
-                <td style="width: 215pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left">
-                        @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
-                        @Html.DropDownList("Employee_id1", null, htmlAttributes: new { @class = "form-control", @style = "display: none" })
-                        @if (!ViewBag.hasdata)
-                        {
 
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Get Data" class="btn btn-default" />
+                                name = Model.master_file.employee_name;
+                            }
+                            @name
+                            <br />
+                        </p>
+                        <p style="padding-left: 129pt; text-indent: 0pt; line-height: 1pt; text-align: left;">
+                            <span>
+                                <img width="1" height="1" alt="image" src="~/img/EOSB Format/Image_007.png" />
+                            </span>
+                        </p>
+                    </td>
+                    <td style="width: 120pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s2" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Date:</p>
+                    </td>
+                    <td style="width: 129pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" colspan="2">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
+                            {
+                                var tday = DateTime.Now;
+                                @tday.ToString("dd MMM yyyy")
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 81pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s2" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Employee ID:</p>
+                    </td>
+                    <td style="width: 215pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left">
+                            @if (!ViewBag.hasdata)
+                            {
+                                @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Employee_id, string.Empty, new { @class = "text-danger" })
+                                @Html.DropDownList("Employee_id1", null, htmlAttributes: new { @class = "form-control", @style = "display: none" })
+                                @Html.DropDownList("status", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.status, string.Empty, new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.last_working_day, new { htmlAttributes = new { @class = "form-control" } })
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Get Data" class="btn btn-default" />
+                                    </div>
                                 </div>
-                            </div>
-                        }
-                    </p>
-                </td>
-                <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s2" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Service Completion</p>
-                </td>
-                <td style="width: 129pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" colspan="2">
-                    <p class="s3" style="padding-top: 1pt; padding-left: 6pt; text-indent: 0pt; text-align: left;">
-                        @Html.DropDownList("status", null, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 15pt">
-                <td style="width: 81pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s2" style="padding-top: 1pt; padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Designation:</p>
-                </td>
-                <td style="width: 215pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="padding-left: 129pt; text-indent: 0pt; line-height: 1pt; text-align: left;">
-                        <span>
-                            <img width="1" height="2" alt="image" src="~/img/EOSB Format/Image_008.png" />
-                        </span>
-                    </p>
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.DisplayFor(model => model.contract.designation, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.contract.date_changed, "", new { @class = "text-danger" })
-                        }
-                    </p>
-                    <p style="padding-left: 129pt; text-indent: 0pt; line-height: 1pt; text-align: left;">
-                        <span>
-                            <img width="1" height="1" alt="image" src="~/img/EOSB Format/Image_009.png" />
-                        </span>
-                    </p>
-                </td>
-                <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s2" style="padding-top: 1pt; padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Date Joined :</p>
-                </td>
-                <td style="width: 129pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" colspan="2">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.DisplayFor(model => model.master_file.date_joined, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.master_file.date_joined, "", new { @class = "text-danger" })
-                        }
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 15pt">
-                <td style="width: 81pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s2" style="padding-left: 2pt; text-indent: 0pt; text-align: left;">Company :</p>
-                </td>
-                <td style="width: 215pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s4" style="padding-top: 1pt; padding-left: 5pt; text-indent: 0pt; text-align: left;">Citiscape/Grove</p>
-                </td>
-                <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s2" style="padding-top: 1pt; padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Date of completion :</p>
-                </td>
-                <td style="width: 129pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 2pt" colspan="2">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 13pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s5" style="padding-left: 2pt; text-indent: 0pt; line-height: 11pt; text-align: left;">Basic Salary</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                       
-                        @if (ViewBag.hasdata)
-                        {
-                            //@Html.DisplayFor(model => model.contract.basic, new { htmlAttributes = new { @class = "form-control" } })
-                            var bas = end_of_serviceController.Unprotect(Model.contract.basic);
-                            @bas
-                            @Html.ValidationMessageFor(model => model.contract.basic, "", new { @class = "text-danger" })
-                        }
-                    </p>
-                </td>
-                <td style="width: 184pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
-                    <p class="s6" style="padding-left: 4pt; text-indent: 0pt; line-height: 11pt; text-align: left;">Living</p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
+                            }
+                            @if (ViewBag.hasdata)
+                            {
+                                @Model.master_file.employee_no
+                                @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @style = "display: none" })
+                                @Html.ValidationMessageFor(model => model.Employee_id, string.Empty, new { @class = "text-danger" })
+                                @Html.DropDownList("Employee_id1", null, htmlAttributes: new { @class = "form-control", @style = "display: none" })
+                                @Html.DropDownList("status", null, htmlAttributes: new { @class = "form-control", @style = "display: none" })
+                                @Html.ValidationMessageFor(model => model.status, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s2" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Service Completion</p>
+                    </td>
+                    <td style="width: 129pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" colspan="2">
+                        <p class="s3" style="padding-top: 1pt; padding-left: 6pt; text-indent: 0pt; text-align: left;">
+                            @{
+                                var sta = Model.status;
+                                var stadis = string.Empty;
+                                if (sta == "1")
+                                {
+                                    stadis = "resign";
+                                }
 
-                        @if (ViewBag.hasdata)
-                        {
-                           // @Html.DisplayFor(model => model.contract.living_allowance, new { htmlAttributes = new { @class = "form-control" } })
-                            var bas = end_of_serviceController.Unprotect(Model.contract.living_allowance);
-                            @bas
-                            @Html.ValidationMessageFor(model => model.contract.living_allowance, "", new { @class = "text-danger" })
-                        }
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Housing</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @if (ViewBag.hasdata)
-                        {
-                            //@Html.DisplayFor(model => model.contract.housing_allowance, new { htmlAttributes = new { @class = "form-control" } })
-                            var bas = end_of_serviceController.Unprotect(Model.contract.housing_allowance);
-                            @bas
-                            @Html.ValidationMessageFor(model => model.contract.housing_allowance, "", new { @class = "text-danger" })
-                        }
-                    </p>
-                </td>
-                <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
-                    <p class="s6" style="padding-left: 4pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Others</p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
+                                if (sta == "2")
+                                {
+                                    stadis = "terminated";
+                                }
 
-                        @if (ViewBag.hasdata)
-                        {
-                           // @Html.DisplayFor(model => model.contract.others, new { htmlAttributes = new { @class = "form-control" } })
-                            var bas = end_of_serviceController.Unprotect(Model.contract.others);
-                            @bas
-                            @Html.ValidationMessageFor(model => model.contract.others, "", new { @class = "text-danger" })
-                        }
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 15pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 13pt; text-align: left;">Transportation</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
+                                if (sta == "3")
+                                {
+                                    stadis = "transfer";
+                                }
 
-                        @if (ViewBag.hasdata)
-                        {
-                            //@Html.DisplayFor(model => model.contract.transportation_allowance, new { htmlAttributes = new { @class = "form-control" } })
-                            var bas = end_of_serviceController.Unprotect(Model.contract.transportation_allowance);
-                            @bas
-                            @Html.ValidationMessageFor(model => model.contract.transportation_allowance, "", new { @class = "text-danger" })
-                        }
-                    </p>
-                </td>
-                <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2" rowspan="2">
-                    <p class="s7" style="padding-top: 4pt; padding-left: 4pt; text-indent: 0pt; text-align: left;">Gross Salary</p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" rowspan="2">
-                    <p class="s8" style="padding-top: 3pt; padding-left: 25pt; text-indent: 0pt; text-align: left;">
-                        @if (ViewBag.hasdata)
-                        {
-                            //@Html.DisplayFor(model => model.contract.salary_details, new { htmlAttributes = new { @class = "form-control" } })
+                                @stadis
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 15pt">
+                    <td style="width: 81pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s2" style="padding-top: 1pt; padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Designation:</p>
+                    </td>
+                    <td style="width: 215pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="padding-left: 129pt; text-indent: 0pt; line-height: 1pt; text-align: left;">
+                            <span>
+                                <img width="1" height="2" alt="image" src="~/img/EOSB Format/Image_008.png" />
+                            </span>
+                        </p>
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.DisplayFor(model => model.contract.designation, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.contract.date_changed, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                        <p style="padding-left: 129pt; text-indent: 0pt; line-height: 1pt; text-align: left;">
+                            <span>
+                                <img width="1" height="1" alt="image" src="~/img/EOSB Format/Image_009.png" />
+                            </span>
+                        </p>
+                    </td>
+                    <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s2" style="padding-top: 1pt; padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Date Joined :</p>
+                    </td>
+                    <td style="width: 129pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" colspan="2">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.DisplayFor(model => model.master_file.date_joined, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.master_file.date_joined, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 15pt">
+                    <td style="width: 81pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s2" style="padding-left: 2pt; text-indent: 0pt; text-align: left;">Company :</p>
+                    </td>
+                    <td style="width: 215pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s4" style="padding-top: 1pt; padding-left: 5pt; text-indent: 0pt; text-align: left;">Citiscape/Grove</p>
+                    </td>
+                    <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s2" style="padding-top: 1pt; padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Date of completion :</p>
+                    </td>
+                    <td style="width: 129pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 2pt" colspan="2">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Model.last_working_day
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 13pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s5" style="padding-left: 2pt; text-indent: 0pt; line-height: 11pt; text-align: left;">Basic Salary</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
 
-                            var bas = end_of_serviceController.Unprotect(Model.contract.salary_details);
-                            @bas
-                        }
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 8pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 19pt">
-                <td style="width: 296pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
-                    <p class="s9" style="padding-top: 3pt; padding-left: 2pt; text-indent: 0pt; text-align: left;">EOS Calculation</p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                    <p class="s10" style="padding-left: 119pt; text-indent: 0pt; line-height: 2pt; text-align: left;">
-                        <span>
-                            <img width="1" height="1" alt="image" src="~/img/EOSB Format/Image_010.png" />
-                        </span>
-                        <span>
-                            <img width="1" height="1" alt="image" src="~/img/EOSB Format/Image_011.png" />
-                        </span>
-                        <span>
-                            <img width="0" height="3" alt="image" src="~/img/EOSB Format/Image_012.png" />
-                        </span>
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Date Joined</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.DisplayFor(model => model.master_file.date_joined, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.master_file.date_joined, "", new { @class = "text-danger" })
-                        }
-                    </p>
-                </td>
-                <td style="width: 184pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
-                    <p class="s6" style="padding-left: 3pt; text-indent: 0pt; line-height: 12pt; text-align: left;">After 5 Years(Starts)</p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
+                            @if (ViewBag.hasdata)
                             {
-                                if (totalworkingdays > 1825)
-                                {
-                                    @lwdstryear.ToString("dd MMM yyyy")
-                                }
+                                // @Html.DisplayFor(model => model.contract.basic, new { htmlAttributes = new { @class = "form-control" } })
+                                var bas = end_of_serviceController.Unprotect(Model.contract.basic);
+                                @bas
+                                @Html.ValidationMessageFor(model => model.contract.basic, string.Empty, new { @class = "text-danger" })
                             }
-                        }
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 4pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Last Working day/5 yrs Completion</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
-                            {
-                                if (totalworkingdays < 1825)
-                                {
-                                    lwdate = Model.last_working_day.Value;
-                                    @lwdate.ToString("dd MMM yyyy")
-                                }
-                                else
-                                {
-                                    @lwd5year.ToString("dd MMM yyyy")
-                                }
-                            }
-                        }
-                        @Html.ValidationMessageFor(model => model.last_working_day, "", new { @class = "text-danger" })
-                       
-                    </p>
-                </td>
-                <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Last Working day</p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
+                        </p>
+                    </td>
+                    <td style="width: 184pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
+                        <p class="s6" style="padding-left: 4pt; text-indent: 0pt; line-height: 11pt; text-align: left;">Living</p>
+                    </td>
+                    <td style="width: 65pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
+                        <p style="text-indent: 0pt; text-align: left;">
 
-                        @{
-                            if (!ViewBag.hasdata)
+                            @if (ViewBag.hasdata)
                             {
-                                @Html.EditorFor(model => model.last_working_day, new { htmlAttributes = new { @class = "form-control"} })
+                                // @Html.DisplayFor(model => model.contract.living_allowance, new { htmlAttributes = new { @class = "form-control" } })
+                                var bas = end_of_serviceController.Unprotect(Model.contract.living_allowance);
+                                @bas
+                                @Html.ValidationMessageFor(model => model.contract.living_allowance, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Housing</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
+                            {
+                                // @Html.DisplayFor(model => model.contract.housing_allowance, new { htmlAttributes = new { @class = "form-control" } })
+                                var bas = end_of_serviceController.Unprotect(Model.contract.housing_allowance);
+                                @bas
+                                @Html.ValidationMessageFor(model => model.contract.housing_allowance, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
+                        <p class="s6" style="padding-left: 4pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Others</p>
+                    </td>
+                    <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
+                        <p style="text-indent: 0pt; text-align: left;">
 
-                            }
-                            else
+                            @if (ViewBag.hasdata)
                             {
-                                @Html.EditorFor(model => model.last_working_day, new { htmlAttributes = new { @class = "form-control", @style = "Display:none" } })
-                                if (totalworkingdays > 1825)
-                                {
-                                    lwdate = Model.last_working_day.Value;
-                                    @lwdate.ToString("dd MMM yyyy")
-                                }
+                                // @Html.DisplayFor(model => model.contract.others, new { htmlAttributes = new { @class = "form-control" } })
+                                var bas = end_of_serviceController.Unprotect(Model.contract.others);
+                                @bas
+                                @Html.ValidationMessageFor(model => model.contract.others, string.Empty, new { @class = "text-danger" })
                             }
-                        }
-                        @Html.ValidationMessageFor(model => model.last_working_day, "", new { @class = "text-danger" })
-                        
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Total Days for 1st 5 yrs</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
-                            {
-                                if (totalworkingdays > 1825)
-                                {
-                                    var days = 1085;
-                                    @days
-                                }
-                                else
-                                {
-                                    @diff.Days
-                                }
-                            }
-                        }
-                    </p>
-                </td>
-                <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Total Days after 5 yrs</p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
-                            {
-                                if (totalworkingdays > 1825)
-                                {
-                                    var days = 1085;
-                                    var tday = diff.Days - days;
-                                    @tday
-                                }
-                            }
-                        }
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 3pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Worked Days in 1st 5 yrs</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
-                            {
-                                if (totalworkingdays > 1825)
-                                {
-                                    var days = 1085;
-                                    @days
-                                }
-                                else
-                                {
-                                    @totalworkingdays
-                                }
-                            }
-                        }
-                    </p>
-                </td>
-                <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Worked Days after 5 years</p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
-                            {
-                                if (totalworkingdays > 1825)
-                                {
-                                    var days = 1085;
-                                    var tday = totalworkingdays - days;
-                                    @tday
-                                }
-                            }
-                        }
-                    </p>
-                </td>
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 15pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 13pt; text-align: left;">Transportation</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
 
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">EOS (<b>Days</b>) for 5 Years</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
+                            @if (ViewBag.hasdata)
                             {
-                                if(Model.status != "1")
+                                // @Html.DisplayFor(model => model.contract.transportation_allowance, new { htmlAttributes = new { @class = "form-control" } })
+                                var bas = end_of_serviceController.Unprotect(Model.contract.transportation_allowance);
+                                @bas
+                                @Html.ValidationMessageFor(model => model.contract.transportation_allowance, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
+                        <p class="s7" style="padding-top: 4pt; padding-left: 4pt; text-indent: 0pt; text-align: left;">Gross Salary</p>
+                    </td>
+                    <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
+                        <p class="s8" style="padding-top: 3pt; text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
+                            {
+                                // @Html.DisplayFor(model => model.contract.salary_details, new { htmlAttributes = new { @class = "form-control" } })
+                                double.TryParse(end_of_serviceController.Unprotect(Model.contract.salary_details), out var bas);
+                                @bas.ToString("f")
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 19pt">
+                    <td style="width: 296pt; border-color: #ff0000 !important; border-width: 5px !important; border-style: solid !important;" colspan="5">
+                        <p class="s9" style="padding-top: 3pt; padding-left: 2pt; text-indent: 0pt; text-align: left;">EOS Calculation</p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Date Joined</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.DisplayFor(model => model.master_file.date_joined, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.master_file.date_joined, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 184pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
+                        <p class="s6" style="padding-left: 3pt; text-indent: 0pt; line-height: 12pt; text-align: left;">After 5 Years(Starts)</p>
+                    </td>
+                    <td style="width: 65pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @{
+                                if (ViewBag.hasdata)
                                 {
                                     if (totalworkingdays > 1825)
                                     {
-                                        var days = 105;
+                                        @lwdstryear.ToString("dd MMM yyyy")
+                                    }
+                                }
+
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 4pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Last Working day/5 yrs Completion</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @{
+                                if (ViewBag.hasdata)
+                                {
+                                    if (totalworkingdays < 1825)
+                                    {
+                                        lwdate = Model.last_working_day.Value;
+                                        @lwdate.ToString("dd MMM yyyy")
+                                    }
+                                    else
+                                    {
+                                        @lwd5year.ToString("dd MMM yyyy")
+                                    }
+                                }
+
+                            }
+                            @Html.ValidationMessageFor(model => model.last_working_day, string.Empty, new { @class = "text-danger" })
+
+                        </p>
+                    </td>
+                    <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Last Working day</p>
+                    </td>
+                    <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+
+                            @{
+                                if (ViewBag.hasdata)
+                                {
+                                    @Html.EditorFor(model => model.last_working_day, new { htmlAttributes = new { @class = "form-control", @style = "Display:none" } })
+                                    if (totalworkingdays > 1825)
+                                    {
+                                        lwdate = Model.last_working_day.Value;
+                                        @lwdate.ToString("dd MMM yyyy")
+                                    }
+                                }
+
+                            }
+                            @Html.ValidationMessageFor(model => model.last_working_day, string.Empty, new { @class = "text-danger" })
+
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Total Days for 1st 5 yrs</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @{
+                                if (ViewBag.hasdata)
+                                {
+                                    if (totalworkingdays > 1825)
+                                    {
+                                        var days = 1825;
                                         @days
                                     }
                                     else
                                     {
-                                        @eos.ToString("F")
+                                        @diff.Days
                                     }
                                 }
+
                             }
-                        }
-                    </p>
-                </td>
-                <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
-                    <p class="s6" style="padding-left: 1pt; text-indent: 0pt; line-height: 12pt; text-align: left;">EOS (<b>Days</b>) after 5 years</p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
-                            {
-                                if (totalworkingdays > 1825)
-                                {
-                                    @eos.ToString("F")
-                                }
-                            }
-                        }
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">EOS (<b>Value</b>) for First 5 Years or Termination</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
-                            {
-                                if (Model.status != "1")
+                        </p>
+                    </td>
+                    <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Total Days after 5 yrs</p>
+                    </td>
+                    <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @{
+                                if (ViewBag.hasdata)
                                 {
                                     if (totalworkingdays > 1825)
                                     {
-                                        var days = 105 * dwr;
-                                        @days.ToString("C")
+                                        var days = 1825;
+                                        var tday = diff.Days - days;
+                                        @tday
+                                    }
+                                }
+
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 3pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Worked Days in 1st 5 yrs</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @{
+                                if (ViewBag.hasdata)
+                                {
+                                    if (totalworkingdays > 1825)
+                                    {
+                                        var days = 1825;
+                                        @days
                                     }
                                     else
                                     {
-                                        var days = eos * dwr;
-                                        @days.ToString("C")
+                                        @totalworkingdays
                                     }
                                 }
+
                             }
-                        }
-                    </p>
-                </td>
-                <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">EOSB (<b>Value</b>) after 5 years</p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
-                            {
-                                if (totalworkingdays > 1825)
+                        </p>
+                    </td>
+                    <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Worked Days after 5 years</p>
+                    </td>
+                    <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @{
+                                if (ViewBag.hasdata)
                                 {
-                                    var days = eos * dwr;
-                                    @days.ToString("C")
+                                    if (totalworkingdays > 1825)
+                                    {
+                                        var days = 1825;
+                                        var tday = totalworkingdays - days;
+                                        @tday
+                                    }
                                 }
+
                             }
-                        }
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 1pt; text-indent: 0pt; line-height: 13pt; text-align: left;">EOS (<b>Days</b>) for Less than 3 Years (Resignation)</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
-                            {
-                                if (Model.status == "1")
+                        </p>
+                    </td>
+
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">EOS (<b>Days</b>) for 5 Years</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @{
+                                if (ViewBag.hasdata)
                                 {
-                                    if (totalworkingdays < 1095)
+                                    if (Model.status != "1")
+                                    {
+                                        if (totalworkingdays > 1825)
+                                        {
+                                            var days = 105;
+                                            @days
+                                        }
+                                        else
+                                        {
+                                            @eos.ToString("f")
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (totalworkingdays > 1825)
+                                        {
+                                            var days = 105;
+                                            @days
+                                        }
+                                    }
+                                }
+
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
+                        <p class="s6" style="padding-left: 1pt; text-indent: 0pt; line-height: 12pt; text-align: left;">EOS (<b>Days</b>) after 5 years</p>
+                    </td>
+                    <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @{
+                                if (ViewBag.hasdata)
+                                {
+                                    if (totalworkingdays > 1825)
                                     {
                                         @eos.ToString("f")
                                     }
                                 }
+
                             }
-                        }
-                    </p>
-                </td>
-                <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 64pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-top: 1pt; padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">EOS (<b>Value</b>) for less than 3 Years (Resignation)</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
-                            {
-                                if (Model.status == "1")
-                                {
-                                    if (totalworkingdays < 1095)
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">EOS (<b>Value</b>) for First 5 Years or Termination</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <b>
+                                AED@{
+                                    if (ViewBag.hasdata)
                                     {
-                                        var eosval = eos * dwr;
-                                        @eosval.ToString("f")
+                                        if (Model.status != "1")
+                                        {
+                                            if (totalworkingdays > 1825)
+                                            {
+                                                var days = 105 * dwr;
+                                                @days.ToString("f")
+                                            }
+                                            else
+                                            {
+                                                var days = eos * dwr;
+                                                @days.ToString("f")
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (totalworkingdays > 1825)
+                                            {
+                                                var days = 105 * dwr;
+                                                @days.ToString("f")
+                                            }
+                                        }
+                                    }
+
+                                }
+                            </b>
+                        </p>
+                    </td>
+                    <td style="width: 184pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" colspan="2">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">EOSB (<b>Value</b>) after 5 years</p>
+                    </td>
+                    <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
+
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <b>
+                                AED
+                                @{
+                                    if (ViewBag.hasdata)
+                                    {
+                                        if (totalworkingdays > 1825)
+                                        {
+                                            var days = eos * dwr;
+                                            @days.ToString("f")
+                                        }
+                                    }
+
+                                }
+                            </b>
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 1pt; text-indent: 0pt; line-height: 13pt; text-align: left;">EOS (<b>Days</b>) for Less than 3 Years (Resignation)</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @{
+                                if (ViewBag.hasdata)
+                                {
+                                    if (Model.status == "1")
+                                    {
+                                        if (totalworkingdays < 1095)
+                                        {
+                                            @eos.ToString("f")
+                                        }
                                     }
                                 }
+
                             }
-                        }
-                    </p>
-                </td>
-                <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" rowspan="2">
-                    <p class="s11" style="padding-top: 7pt; padding-left: 13pt; text-indent: 0pt; text-align: left;">Total Payable Value</p>
-                </td>
-                <td style="width: 64pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" rowspan="2">
-                    <p class="s12" style="padding-top: 6pt; padding-left: 8pt; text-indent: 0pt; text-align: left; color: #000000;">@{ var totalpable = eos * dwr;
-                                                                                                                        @totalpable
-                                                                                                                    }</p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">EOSB (Value) - More than 3 &amp; less than 5 Years</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            if (ViewBag.hasdata)
-                            {
-                                if (Model.status == "1")
-                                {
-                                    if (totalworkingdays > 1095 && totalworkingdays < 1825)
+                        </p>
+                    </td>
+                    <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" rowspan="3" colspan="2">
+                        <p class="s11" style="padding-top: 7pt; padding-left: 13pt; text-indent: 0pt; text-align: left;">Total Payable Value</p>
+                    </td>
+                    <td style="width: 64pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt" rowspan="3">
+                        <p class="s12" style="padding-top: 6pt; padding-left: 8pt; text-indent: 0pt; text-align: left; color: #000000;">
+
+                            AED
+                            @{
+                                var totalpable = eos * dwr;
+                                @totalpable.ToString("f")
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-top: 1pt; padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">EOS (<b>Value</b>) for less than 3 Years (Resignation)</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <b>
+                                AED
+                                @{
+                                    if (ViewBag.hasdata)
                                     {
-                                        @eos.ToString("f")
+                                        if (Model.status == "1")
+                                        {
+                                            if (totalworkingdays < 1095)
+                                            {
+                                                var eosval = eos * dwr;
+                                                @eosval.ToString("f")
+                                            }
+                                        }
                                     }
+
                                 }
-                            }
-                        }
-                    </p>
-                </td>
-                <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 64pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 64pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 2pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s13" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Leave Details</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s13" style="padding-right: 2pt; text-indent: 0pt; line-height: 12pt; text-align: right;">As Per Labour law</p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 3pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p class="s2" style="padding-left: 105pt; padding-right: 102pt; text-indent: 0pt; line-height: 12pt; text-align: center;">Remarks</p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;"><br /></p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.EditorFor(model => model.remarks1, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.remarks1, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Accrued Leave Days</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.DisplayFor(model => model.leavecal.accrued, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.leavecal.accrued, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Leave Taken</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.DisplayFor(model => model.leavecal.anual_leave_taken, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.leavecal.anual_leave_taken, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Net Balance</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.DisplayFor(model => model.leavecal.leave_balance, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.leavecal.leave_balance, "", new { @class = "text-danger" })
-                        }
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 13pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s14" style="padding-left: 2pt; text-indent: 0pt; line-height: 11pt; text-align: left;">Value (AED)</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @{
-                            var sum = 0d;
-                            if (ViewBag.hasdata)
+                            </b>
+                        </p>
+                    </td>
+
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">EOSB (Value) - More than 3 &amp; less than 5 Years</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <b>
+                                AED
+                                @{
+                                    if (ViewBag.hasdata)
+                                    {
+                                        if (Model.status == "1")
+                                        {
+                                            if (totalworkingdays > 1095 && totalworkingdays < 1825)
+                                            {
+                                                @eos.ToString("f")
+                                            }
+                                        }
+                                    }
+
+                                }
+                            </b>
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s13" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Leave Details</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s13" style="padding-right: 2pt; text-indent: 0pt; line-height: 12pt; text-align: right;">As Per Labour law</p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 3pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p class="s2" style="padding-left: 105pt; padding-right: 102pt; text-indent: 0pt; line-height: 12pt; text-align: center;">Remarks</p>
+                    </td>
+                </tr>
+                <tr style="height: 12pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Accrued Leave Days</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
                             {
-                                var a = Model.leavecal.leave_balance.Value;
-                                double.TryParse(Model.contract.basic, out var b);
-                                sum = a * ((b * 12) / 365);
+                                @Html.DisplayFor(model => model.leavecal.accrued, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.leavecal.accrued, string.Empty, new { @class = "text-danger" })
                             }
-                        }
-                        @sum.ToString("C")
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 3pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s15" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Others(Additional)</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 3pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p class="s2" style="padding-left: 105pt; padding-right: 102pt; text-indent: 0pt; line-height: 12pt; text-align: center;">Remarks</p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Pending Salary</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s16" style="padding-top: 1pt; padding-right: 5pt; text-indent: 0pt; text-align: right;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.EditorFor(model => model.pendingSalary, new { htmlAttributes = new { @class = "form-control", @onchange = "others()" } })
-                            @Html.ValidationMessageFor(model => model.pendingSalary, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="padding-left: 183pt; text-indent: 0pt; line-height: 1pt; text-align: left;">
-                        <span>
-                            <img width="1" height="2" alt="image" src="~/img/EOSB Format/Image_013.png" />
-                        </span>
-                    </p>
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.EditorFor(model => model.remarks2, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.remarks2, "", new { @class = "text-danger" })}
-                    </p>
-                    <p style="padding-left: 183pt; text-indent: 0pt; line-height: 1pt; text-align: left;">
-                        <span>
-                            <img width="1" height="1" alt="image" src="~/img/EOSB Format/Image_014.png" />
-                        </span>
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Notice Period</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s16" style="padding-top: 1pt; padding-right: 5pt; text-indent: 0pt; text-align: right;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.EditorFor(model => model.noticePeriod, new { htmlAttributes = new { @class = "form-control", @onchange = "others()" } })
-                            @Html.ValidationMessageFor(model => model.noticePeriod, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Negative Balance as per SOA</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s16" style="padding-top: 1pt; padding-right: 5pt; text-indent: 0pt; text-align: right;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.EditorFor(model => model.nagativeBalance, new { htmlAttributes = new { @class = "form-control", @onchange = "others()" } })
-                            @Html.ValidationMessageFor(model => model.nagativeBalance, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 11pt; text-align: left;">Others</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s16" style="padding-top: 1pt; padding-right: 5pt; text-indent: 0pt; text-align: right;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.EditorFor(model => model.others, new { htmlAttributes = new { @class = "form-control", @onchange = "others()" } })
-                            @Html.ValidationMessageFor(model => model.others, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s17" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Total(AED)</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <script>
-                        function others() {
-                            var ps = parseFloat($("#pendingSalary").val());
-                            var np = parseFloat($("#noticePeriod").val());
-                            var nb = parseFloat($("#nagativeBalance").val());
-                            var ot = parseFloat($("#others").val());
-                            var sumoa = ps + np + nb + ot;
-                            $(".s18").html((sumoa).toFixed(2));
-                            ps = parseFloat($("#cashAdvance").val());
-                            np = parseFloat($("#pettyCash").val());
-                            nb = parseFloat($("#HRAdvances").val());
-                            ot = parseFloat($("#telecomDeductions").val());
-                            ot += parseFloat($("#trafficeFines").val());
-                            sumoa = ps + np + nb + ot;
-                            $(".s21").html((sumoa).toFixed(2));
-                            var netpayment = parseFloat($(".s12").val()) + parseFloat($(".s18").val())  - parseFloat($(".s21").val()) ;
-                        }
-                    </script>
-                    <p class="s18" style="padding-right: 6pt; text-indent: 0pt; text-align: right;"></p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 3pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s19" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Deduction</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 3pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p class="s2" style="padding-left: 105pt; padding-right: 102pt; text-indent: 0pt; line-height: 12pt; text-align: center;">Remarks</p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Cash Advances</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s16" style="padding-top: 2pt; padding-right: 6pt; text-indent: 0pt; text-align: right;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.EditorFor(model => model.cashAdvance, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.cashAdvance, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.EditorFor(model => model.remarks3, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.remarks3, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Petty Cash</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s16" style="padding-top: 1pt; padding-right: 6pt; text-indent: 0pt; text-align: right;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.EditorFor(model => model.pettyCash, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.pettyCash, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">HR Advance</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s16" style="padding-top: 2pt; padding-right: 6pt; text-indent: 0pt; text-align: right;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.EditorFor(model => model.HRAdvances, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.HRAdvances, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Telcom. Deduction</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s16" style="padding-top: 1pt; padding-right: 6pt; text-indent: 0pt; text-align: right;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.EditorFor(model => model.telecomDeductions, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.telecomDeductions, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 12pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 11pt; text-align: left;">Traffice Fines</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s16" style="padding-top: 1pt; padding-right: 6pt; text-indent: 0pt; text-align: right;">
-                        @if (ViewBag.hasdata)
-                        {
-                            @Html.EditorFor(model => model.trafficeFines, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.trafficeFines, "", new { @class = "text-danger" })}
-                    </p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 13pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s20" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Total (AED)</p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt">
-                    <p class="s21" style="padding-top: 1pt; padding-right: 6pt; text-indent: 0pt; text-align: right;"></p>
-                </td>
-                <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 2pt" colspan="3">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 14pt">
-                <td style="width: 545pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 2pt" colspan="5">
-                    <p style="padding-left: 153pt; text-indent: 0pt; line-height: 12pt; text-align: left;">
-                        <span class="s22">Net Payment</span><span class="s23" style="background-color: #000;"> </span><span class="s24" style="background-color: #000;">00,000.00 </span>
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 45pt">
-                <td style="width: 545pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="5">
-                    <p class="s25" style="padding-top: 5pt; padding-left: 7pt; padding-right: 30pt; text-indent: 0pt; text-align: left;">I,@name , hereby confirm that the above details includes my leave balance, Repatriation notice, End of Serives benefits from the company, my signature on this indemnity is considered as release of my liability on part of the company and in future I should not raise any claim/dues from the company</p>
-                </td>
-            </tr>
-            <tr style="height: 30pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 205pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="2">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 129pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="2">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 13pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p class="s6" style="padding-left: 22pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Prepared By (HRO)</p>
-                </td>
-                <td style="width: 205pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="2">
-                    <p class="s6" style="padding-left: 11pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Verified By (HRM)</p>
-                </td>
-                <td style="width: 129pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="2">
-                    <p class="s6" style="padding-left: 19pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Signature of Employee</p>
-                </td>
-            </tr>
-            <tr style="height: 13pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 64pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 21pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 64pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-                <td style="width: 65pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                </td>
-            </tr>
-            <tr style="height: 11pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p class="s6" style="padding-left: 36pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Endorsed By</p>
-                </td>
-                <td style="width: 334pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="4">
-                    <p class="s6" style="padding-left: 108pt; padding-right: 92pt; text-indent: 0pt; line-height: 10pt; text-align: center;">Approved By</p>
-                </td>
-            </tr>
-            <tr style="height: 17pt">
-                <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
-                    <p class="s2" style="padding-top: 2pt; padding-left: 20pt; text-indent: 0pt; text-align: left;">Finance Department</p>
-                </td>
-                <td style="width: 334pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="4">
-                    <p class="s2" style="padding-top: 1pt; padding-left: 108pt; padding-right: 106pt; text-indent: 0pt; text-align: center;">Human Resources Director</p>
-                    <p style="text-indent: 0pt; text-align: left;">
-                        <br />
-                    </p>
-                    <p class="s10" style="padding-left: 85pt; text-indent: 0pt; line-height: 1pt; text-align: left;">
-                        <span>
-                            <img width="1" height="1" alt="image" src="~/img/EOSB Format/Image_015.png" />
-                        </span>
-                        <span>
-                            <img width="1" height="1" alt="image" src="~/img/EOSB Format/Image_016.png" />
-                        </span>
-                        <span>
-                            <img width="1" height="1" alt="image" src="~/img/EOSB Format/Image_017.png" />
-                        </span>
-                    </p>
-                </td>
-            </tr>
-        </table>
-    </body>
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.EditorFor(model => model.remarks1, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.remarks1, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 12pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Leave Taken</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.DisplayFor(model => model.leavecal.anual_leave_taken, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.leavecal.anual_leave_taken, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            unpaid leave :-
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.DisplayFor(model => model.leavecal.unpaid_leave, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.leavecal.anual_leave_taken, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 12pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Net Balance</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.DisplayFor(model => model.leavecal.leave_balance, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.leavecal.leave_balance, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            absent :-
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.DisplayFor(model => model.abstotal, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.abstotal, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 13pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s14" style="padding-left: 2pt; text-indent: 0pt; line-height: 11pt; text-align: left;">Value (AED)</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <b>
+                                @{
+                                    var sum = 0d;
+                                    if (ViewBag.hasdata)
+                                    {
+                                        var a = Model.leavecal.leave_balance.Value;
+                                        double.TryParse(end_of_serviceController.Unprotect(Model.contract.salary_details), out var b);
+                                        sum = a * ((b * 12) / 365);
+                                    }
+
+                                }AED
+                                @sum.ToString("f")
+
+                            </b>
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 3pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s15" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Others(Additional)</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 3pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p class="s2" style="padding-left: 105pt; padding-right: 102pt; text-indent: 0pt; line-height: 12pt; text-align: center;">Remarks</p>
+                    </td>
+                </tr>
+                <tr style="height: 12pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Pending Salary</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s16" style="padding-top: 1pt; padding-right: 5pt; text-indent: 0pt; text-align: right;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.EditorFor(model => model.pendingSalary, new { htmlAttributes = new { @class = "form-control", @onchange = "others()" } })
+                                @Html.ValidationMessageFor(model => model.pendingSalary, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="padding-left: 183pt; text-indent: 0pt; line-height: 1pt; text-align: left;">
+                            <span>
+                                <img width="1" height="2" alt="image" src="~/img/EOSB Format/Image_013.png" />
+                            </span>
+                        </p>
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.EditorFor(model => model.remarks2, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.remarks2, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                        <p style="padding-left: 183pt; text-indent: 0pt; line-height: 1pt; text-align: left;">
+                            <span>
+                                <img width="1" height="1" alt="image" src="~/img/EOSB Format/Image_014.png" />
+                            </span>
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 12pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Notice Period</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s16" style="padding-top: 1pt; padding-right: 5pt; text-indent: 0pt; text-align: right;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.EditorFor(model => model.noticePeriod, new { htmlAttributes = new { @class = "form-control", @onchange = "others()" } })
+                                @Html.ValidationMessageFor(model => model.noticePeriod, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 12pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Negative Balance as per SOA</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s16" style="padding-top: 1pt; padding-right: 5pt; text-indent: 0pt; text-align: right;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.EditorFor(model => model.nagativeBalance, new { htmlAttributes = new { @class = "form-control", @onchange = "others()" } })
+                                @Html.ValidationMessageFor(model => model.nagativeBalance, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 12pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 11pt; text-align: left;">Others</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s16" style="padding-top: 1pt; padding-right: 5pt; text-indent: 0pt; text-align: right;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.EditorFor(model => model.others, new { htmlAttributes = new { @class = "form-control", @onchange = "others()" } })
+                                @Html.ValidationMessageFor(model => model.others, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s17" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Total(AED)</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <script>
+                    function others() {
+                        var ps = parseFloat($("#pendingSalary").val());
+                        var np = parseFloat($("#noticePeriod").val());
+                        var nb = parseFloat($("#nagativeBalance").val());
+                        var ot = parseFloat($("#others").val());
+                        var sumoa = ps + np + nb + ot;
+                        $(".s18").html("<b>AED" + (sumoa).toFixed(2) + "</b>");
+                        ps = parseFloat($("#cashAdvance").val());
+                        np = parseFloat($("#pettyCash").val());
+                        nb = parseFloat($("#HRAdvances").val());
+                        ot = parseFloat($("#telecomDeductions").val());
+                        ot += parseFloat($("#trafficeFines").val());
+                        var sumoa1 = ps + np + nb + ot;
+                        $(".s21").html("<b>AED" + (sumoa1).toFixed(2) + "</b>");
+                        var netpayment = @totalpable + @sum + sumoa - sumoa1;
+                        $(".s24").html("<b>AED" + netpayment.toFixed(2) + "</b>");
+                    }
+                        </script>
+                        <p class="s18" style="padding-right: 6pt; text-indent: 0pt; text-align: right;"></p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 3pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s19" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Deduction</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 3pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p class="s2" style="padding-left: 105pt; padding-right: 102pt; text-indent: 0pt; line-height: 12pt; text-align: center;">Remarks</p>
+                    </td>
+                </tr>
+                <tr style="height: 12pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Cash Advances</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s16" style="padding-top: 2pt; padding-right: 6pt; text-indent: 0pt; text-align: right;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.EditorFor(model => model.cashAdvance, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.cashAdvance, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.EditorFor(model => model.remarks3, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.remarks3, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 12pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Petty Cash</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s16" style="padding-top: 1pt; padding-right: 6pt; text-indent: 0pt; text-align: right;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.EditorFor(model => model.pettyCash, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.pettyCash, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 12pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">HR Advance</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s16" style="padding-top: 2pt; padding-right: 6pt; text-indent: 0pt; text-align: right;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.EditorFor(model => model.HRAdvances, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.HRAdvances, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 12pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Telcom. Deduction</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s16" style="padding-top: 1pt; padding-right: 6pt; text-indent: 0pt; text-align: right;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.EditorFor(model => model.telecomDeductions, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.telecomDeductions, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 12pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s6" style="padding-left: 2pt; text-indent: 0pt; line-height: 11pt; text-align: left;">Traffice Fines</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s16" style="padding-top: 1pt; padding-right: 6pt; text-indent: 0pt; text-align: right;">
+                            @if (ViewBag.hasdata)
+                            {
+                                @Html.EditorFor(model => model.trafficeFines, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.trafficeFines, string.Empty, new { @class = "text-danger" })
+                            }
+                        </p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 13pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s20" style="padding-left: 2pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Total (AED)</p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt">
+                        <p class="s21" style="padding-top: 1pt; padding-right: 6pt; text-indent: 0pt; text-align: right;"></p>
+                    </td>
+                    <td style="width: 249pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 2pt" colspan="3">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 14pt">
+                    <td style="width: 545pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 2pt; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 2pt" colspan="5">
+                        <p style="padding-left: 153pt; text-indent: 0pt; line-height: 12pt; text-align: left;">
+                            <span class="s22">Net Payment</span><span class="s23" style="background-color: #000;"> </span><span class="s24" style="background-color: #000;"></span>
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 45pt">
+                    <td style="width: 545pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="5">
+                        <p class="s25" style="padding-top: 5pt; padding-left: 7pt; padding-right: 30pt; text-indent: 0pt; text-align: left;">I,<b>@name</b> , hereby confirm that the above details includes my leave balance, Repatriation notice, End of Serives benefits from the company, my signature on this indemnity is considered as release of my liability on part of the company and in future I should not raise any claim/dues from the company</p>
+                    </td>
+                </tr>
+                <tr style="height: 30pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 2pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                    <td style="width: 205pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="2">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                    <td style="width: 129pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="2">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 13pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 2pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
+                        <p class="s6" style="padding-left: 22pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Prepared By (HRO)</p>
+                    </td>
+                    <td style="width: 205pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="2">
+                        <p class="s6" style="padding-left: 11pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Verified By (HRM)</p>
+                    </td>
+                    <td style="width: 129pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="2">
+                        <p class="s6" style="padding-left: 19pt; text-indent: 0pt; line-height: 12pt; text-align: left;">Signature of Employee</p>
+                    </td>
+                </tr>
+                <tr style="height: 13pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                            <br />
+                        </p>
+                    </td>
+                    <td style="width: 85pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="2">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                            <br />
+                        </p>
+                    </td>
+                    <td style="width: 120pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="2">
+                        <p style="text-indent: 0pt; text-align: left;">
+                            <br />
+                            <br />
+                        </p>
+                    </td>
+                </tr>
+                <tr style="height: 11pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
+                        <p class="s6" style="padding-left: 36pt; text-indent: 0pt; line-height: 10pt; text-align: left;">Endorsed By</p>
+                    </td>
+                    <td style="width: 334pt; border-top-style: solid; border-top-width: 1pt; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="4">
+                        <p class="s6" style="padding-left: 108pt; padding-right: 92pt; text-indent: 0pt; line-height: 10pt; text-align: center;">Approved By</p>
+                    </td>
+                </tr>
+                <tr style="height: 17pt">
+                    <td style="width: 211pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD">
+                        <p class="s2" style="padding-top: 2pt; padding-left: 20pt; text-indent: 0pt; text-align: left;">Finance Department</p>
+                    </td>
+                    <td style="width: 334pt; border-top-style: solid; border-top-width: 1pt; border-top-color: #DADCDD; border-left-style: solid; border-left-width: 1pt; border-left-color: #DADCDD; border-bottom-style: solid; border-bottom-width: 1pt; border-bottom-color: #DADCDD; border-right-style: solid; border-right-width: 1pt; border-right-color: #DADCDD" colspan="4">
+                        <p class="s2" style="padding-top: 1pt; padding-left: 108pt; padding-right: 106pt; text-indent: 0pt; text-align: center;">Human Resources Director</p>
+
+                    </td>
+                </tr>
+            </table>
+        </body>
+    }
 </html>
 
 }

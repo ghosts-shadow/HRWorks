@@ -6,7 +6,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/favicon.ico");
+    @Scripts.Render("~/favicon.ico")
     <script type="text/javascript">
         var i = 0;
         $(document).ready(function () {
@@ -34,7 +34,20 @@
 
     </script>
 
-
+    <script>
+        document.onkeydown = function (e) {
+            
+            if (e.ctrlKey && e.keyCode == 'P'.charCodeAt(0)) {
+                $('.btn ').hide();
+                $(':submit').hide();
+                return true;
+            } else {
+                $('.btn ').show();
+                $(':submit').show();
+            }
+            return true;
+        }
+    </script>
     <style>
         table {
             width: 100%;
@@ -98,7 +111,7 @@
                         }
                         if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
                         {
-                            <li>@Html.ActionLink("payrole", "Create", "payrolelogins")</li>
+                            <li>@Html.ActionLink("payrole", "Report", "Attendances")</li>
                             <li>@Html.ActionLink("user name", "index", "usernames")</li>
                             <li>@Html.ActionLink("end of service", "EOSB", "end_of_service")</li>
                             <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>

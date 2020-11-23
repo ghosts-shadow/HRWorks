@@ -20,8 +20,8 @@
 
     using PagedList;
 
-    [NoDirectAccess]
-    [Authorize(Roles = "super_admin,payrole,employee_con")]
+   // [NoDirectAccess]
+   // [Authorize(Roles = "super_admin,payrole,employee_con")]
     public class contractsController : Controller
     {
         private const string Purpose = "equalizer";

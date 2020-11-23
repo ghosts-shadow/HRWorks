@@ -43,6 +43,7 @@
         public ActionResult Create(liquilist liquilist)
         {
             var la = new liqiapproval();
+            var errorlist = new List<string>();
             var refrlist = this.db.liquidation_ref.ToList();
             this.ViewBag.employee_no = new SelectList(
                 this.db.master_file.OrderBy(e => e.employee_no),
@@ -62,6 +63,8 @@
                     var lilist = this.db.liquidations.ToList();
                     if (liqui.bill_no != null && liqui.employee_no != null)
                     {
+                        if (!lilist.Exists(x=>x.bill_no == liqui.bill_no))
+                        {
                         liqui.refr = refrlist.Last().Id;
                         liqui.changed_by = User.Identity.Name;;
                         liqui.date_changed = DateTime.Now;
@@ -75,12 +78,29 @@
                         la.status = "submitted";
                         this.db.liqiapprovals.Add(la);
                         this.db.SaveChanges();
+                        }
+                    else
+                    {
+                        if (errorlist.Count == 0)
+                        { 
+                            var errorstring = "the following bill no exists ";
+                            errorlist.Add(errorstring);
+                        }
+
+                        var errorstring1 = " bill no:- "+liqui.bill_no+" exists ";
+                        errorlist.Add(errorstring1);
+                    }
                     }
                 }
 
+                if (errorlist.Count !=0)
+                {
+                    goto error1;
+                }
                 return this.RedirectToAction("Create", "liquidation_ref");
             }
-
+            error1: ;
+            ViewBag.error = errorlist;
             this.ViewBag.refr = refrlist.Last().refr;
             this.ViewBag.date = refrlist.Last().date.Value.ToShortDateString();
             return this.View(liquilist);

@@ -48,6 +48,7 @@ namespace HRworks.Models
         public string C29 { get; set; }
         public string C30 { get; set; }
         public string C31 { get; set; }
+        public Nullable<long> Totalnull { get; set; }
         public Nullable<long> TotalHours { get; set; }
         public Nullable<long> TotalOverTime { get; set; }
         public Nullable<long> TotalAbsent { get; set; }

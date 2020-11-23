@@ -7,60 +7,67 @@
 
 @using (Html.BeginForm())
 {
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet"/>
+    if (ViewBag.error != null)
+    {
+        foreach (var er in ViewBag.error)
+        {
+            <b style="color:red ">@er</b>
+        }
+    }
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" type="text/css" href="~/Content/Style.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/Style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-    var counter = 1;
-    var number = 0;
-    $(function() {
-        $('#employee_no' + 0).chosen({ no_results_text: "Oops, nothing found!" });
-        $('#add').click(() => {
-            chosendestroy();
-            number = counter++;
-            container = $('#tablerow1');
-            template = $('#tr0');
-            var clone = template.clone(true);
-            clone.attr('id', "tr" + number);
-            clone.find('#expenses' + 0).attr('name', 'Liquidations1[' + number + '].expenses');
-            clone.find('#bill_no' + 0).attr('name', 'Liquidations1[' + number + '].bill_no');
-            clone.find('#invoice_date' + 0).attr('name', 'Liquidations1[' + number + '].invoice_date');
-            clone.find('#discription' + 0).attr('name', 'Liquidations1[' + number + '].discription');
-            clone.find('#employee_no' + 0).attr('name', 'Liquidations1[' + number + '].employee_no');
-            clone.find('#MBNo' + 0).attr('name', 'Liquidations1[' + number + '].MBNo');
-            clone.find('#invoice' + 0).attr('name', 'Liquidations1[' + number + '].invoice');
-            clone.find('#VAT' + 0).attr('name', 'Liquidations1[' + number + '].VAT');
-            clone.find('#invoice_amount' + 0).attr('name', 'Liquidations1[' + number + '].invoice_amount');
-            clone.find('#expenses' + 0).attr('id', 'expenses' + number);
-            clone.find('#bill_no' + 0).attr('id', 'bill_no' + number);
-            clone.find('#invoice_date' + 0).attr('id', 'invoice_date' + number);
-            clone.find('#discription' + 0).attr('id', 'discription' + number);
-            clone.find('#employee_no' + 0).attr('id', 'employee_no' + number);
-            clone.find('#MBNo' + 0).attr('id', 'MBNo' + number);
-            clone.find('#invoice' + 0).attr('id', 'invoice' + number);
-            clone.find('#VAT' + 0).attr('id', 'VAT' + number);
-            clone.find('#tdel' + 1).attr('id', 'tdel' + 1 + number);
-            clone.find('#tdel' + 2).attr('id', 'tdel' + 2 + number);
-            clone.find('#invoice_amount' + 0).attr('id', 'invoice_amount' + number);
-            clone.find('#employee_no' + 0).attr('id', 'employee_no' + number);
-            clone.find('.form-control').val('');
-            $('#discription' + number).val(' ');
-            clone.find('#re').append(' <input type = "button" value = "Remove" onclick = "remove(this.id)"  id="' +number +'"/>');
-                    container.append(clone).before(clone);
-                    createchosen();
+        var counter = 1;
+        var number = 0;
+        $(function () {
+            $('#employee_no' + 0).chosen({ no_results_text: "Oops, nothing found!" });
+            $('#add').click(() => {
+                chosendestroy();
+                number = counter++;
+                container = $('#tablerow1');
+                template = $('#tr0');
+                var clone = template.clone(true);
+                clone.attr('id', "tr" + number);
+                clone.find('#expenses' + 0).attr('name', 'Liquidations1[' + number + '].expenses');
+                clone.find('#bill_no' + 0).attr('name', 'Liquidations1[' + number + '].bill_no');
+                clone.find('#invoice_date' + 0).attr('name', 'Liquidations1[' + number + '].invoice_date');
+                clone.find('#discription' + 0).attr('name', 'Liquidations1[' + number + '].discription');
+                clone.find('#employee_no' + 0).attr('name', 'Liquidations1[' + number + '].employee_no');
+                clone.find('#MBNo' + 0).attr('name', 'Liquidations1[' + number + '].MBNo');
+                clone.find('#invoice' + 0).attr('name', 'Liquidations1[' + number + '].invoice');
+                clone.find('#VAT' + 0).attr('name', 'Liquidations1[' + number + '].VAT');
+                clone.find('#invoice_amount' + 0).attr('name', 'Liquidations1[' + number + '].invoice_amount');
+                clone.find('#expenses' + 0).attr('id', 'expenses' + number);
+                clone.find('#bill_no' + 0).attr('id', 'bill_no' + number);
+                clone.find('#invoice_date' + 0).attr('id', 'invoice_date' + number);
+                clone.find('#discription' + 0).attr('id', 'discription' + number);
+                clone.find('#employee_no' + 0).attr('id', 'employee_no' + number);
+                clone.find('#MBNo' + 0).attr('id', 'MBNo' + number);
+                clone.find('#invoice' + 0).attr('id', 'invoice' + number);
+                clone.find('#VAT' + 0).attr('id', 'VAT' + number);
+                clone.find('#tdel' + 1).attr('id', 'tdel' + 1 + number);
+                clone.find('#tdel' + 2).attr('id', 'tdel' + 2 + number);
+                clone.find('#invoice_amount' + 0).attr('id', 'invoice_amount' + number);
+                clone.find('#employee_no' + 0).attr('id', 'employee_no' + number);
+                clone.find('.form-control').val('');
+                $('#discription' + number).val(' ');
+                clone.find('#re').append(' <input type = "button" value = "Remove" onclick = "remove(this.id)"  id="' + number + '"/>');
+                container.append(clone).before(clone);
+                createchosen();
 
             });
         });
         var total1 = 0;
 
-    function remove(id) {
-        $("#tr" + id).remove();
-        check();
-    }
+        function remove(id) {
+            $("#tr" + id).remove();
+            check();
+        }
 
         function chosendestroy() {
             $('#employee_no0').chosen("destroy");
@@ -91,14 +98,14 @@
                 var a = $("#invoice_amount" + i).val() == '' ? 0 : $("#invoice_amount" + i).val();
                 total1 = total1 + parseFloat(a);
             }
-                $("#totalq").html(total1);
-                $("#tt").html("<br/>" + total1);
-                total1 = 0;
-            
+            $("#totalq").html(total1);
+            $("#tt").html("<br/>" + total1);
+            total1 = 0;
+
         };
     </script>
     <script>
-        document.onkeydown = function(e) {
+        document.onkeydown = function (e) {
             if (event.keyCode == 123) {
                 return false;
             }
@@ -131,31 +138,35 @@
         }
     </script>
     @*<script>
-        function check() {
-            for (var i = 0; i < counter; i++) {
-                var val = $('#employee_no' + i).val();
-                var obj = $("#ll").find("option[value='" + val + "']");
+            function check() {
+                for (var i = 0; i < counter; i++) {
+                    var val = $('#employee_no' + i).val();
+                    var obj = $("#ll").find("option[value='" + val + "']");
 
-                if (obj != null && obj.length > 0) {
-                    $(':button').prop('disabled', false);
-                    $(':submit').prop('disabled', false);
-                } 
-                else
-                {
-                    alert(val + " invalid");
-                    $(':button').prop('disabled', true);
-                    $(':submit').prop('disabled', true);
-                    break;;
+                    if (obj != null && obj.length > 0) {
+                        $(':button').prop('disabled', false);
+                        $(':submit').prop('disabled', false);
+                    }
+                    else
+                    {
+                        alert(val + " invalid");
+                        $(':button').prop('disabled', true);
+                        $(':submit').prop('disabled', true);
+                        break;;
+                    }
                 }
-            }
 
-        }
-    </script>*@
+            }
+        </script>*@
     @Html.AntiForgeryToken()
     <style>
-        table { text-align: center; }
+        table {
+            text-align: center;
+        }
 
-        th, td { text-align: center; }
+        th, td {
+            text-align: center;
+        }
 
         .row {
             -ms-flex-wrap: wrap;
@@ -166,21 +177,21 @@
             margin-right: -15px;
         }
     </style>
-    <div class="form-horizontal" onclick="total()" >
-        <p id="del">save bill elements<input type="submit" value="save" class="btn btn-default" id="save"/></p>
-    <hr/>
+    <div class="form-horizontal" onclick="total()">
+        <p id="del">save bill elements<input type="submit" value="save" class="btn btn-default" id="save" /></p>
+        <hr />
 
         <div class="row" style="left: 45%; position: relative; top: 0%">
-            <img src="~/img/logo.png" height="50" width="100"/>
-            <br/>
+            <img src="~/img/logo.png" height="50" width="100" />
+            <br />
         </div>
-        <br/>
+        <br />
         <div class="row" style="background-color: black !important;  color: white; text-align: center;">
             <h2 style="margin-left: 25%; text-align: center; text-transform: uppercase; -webkit-print-color-adjust: exact;">petty cash imprest sheet </h2>
         </div>
         <div class="row">
             <div style="left: 5%; position: relative;">
-                @Html.LabelFor(model => model.Liquidations1[0].refr, "ref :", new { @class = "control-label " })
+                @Html.LabelFor(model => model.Liquidations1[0].refr, "sheet NO. :", new { @class = "control-label " })
                 @ViewBag.refr
             </div>
             <div style="left: 75%; position: relative;">
@@ -189,30 +200,30 @@
             </div>
             @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
         </div>
-        <br/>
+        <br />
         <div class="row" onclick="check()">
             <table style="text-align: center;" onclick="total()">
                 <col>
                 <thead onclick="check()">
-                <tr>
-                    <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].bill_no, new { @class = "control-label " })</th>
-                    <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].expenses, new { @class = "control-label " })</th>
-                    <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].invoice_date, new { @class = "control-label " })</th>
-                    <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].discription, new { @class = "control-label " })</th>
-                    <th rowspan="2" scope="rowgroup" id="thdel1"> @Html.LabelFor(model => model.Liquidations1[0].employee_no, new { @class = "control-label " })</th>
-                    <th rowspan="2" scope="rowgroup" id="thdel2"> @Html.LabelFor(model => model.Liquidations1[0].MBNo, new { @class = "control-label " })</th>
-                    <th colspan="3">debit amount</th>
-                </tr>
-                <tr>
-                    <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].invoice, new { @class = "control-label " })</th>
-                    <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].VAT, new { @class = "control-label " })</th>
-                    <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].invoice_amount, new { @class = "control-label " })</th>
-                </tr>
+                    <tr>
+                        <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].bill_no, new { @class = "control-label " })</th>
+                        <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].expenses, new { @class = "control-label " })</th>
+                        <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].invoice_date, new { @class = "control-label " })</th>
+                        <th rowspan="2" scope="rowgroup" style="display: none"> @Html.LabelFor(model => model.Liquidations1[0].discription, new { @class = "control-label " })</th>
+                        <th rowspan="2" scope="rowgroup" id="thdel1"> @Html.LabelFor(model => model.Liquidations1[0].employee_no, new { @class = "control-label " })</th>
+                        <th rowspan="2" scope="rowgroup" id="thdel2"> @Html.LabelFor(model => model.Liquidations1[0].MBNo, new { @class = "control-label " })</th>
+                        <th colspan="3">debit amount</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].invoice, new { @class = "control-label " })</th>
+                        <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].VAT, new { @class = "control-label " })</th>
+                        <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].invoice_amount, new { @class = "control-label " })</th>
+                    </tr>
                 </thead>
                 <tr id="tr0">
                     <td>
                         @*
-            @Html.EditorFor(model => model.Liquidations1[0].bill_no, new { htmlAttributes = new { @class = "form-control", id = "bill_no0" } })
+                            @Html.EditorFor(model => model.Liquidations1[0].bill_no, new { htmlAttributes = new { @class = "form-control", id = "bill_no0" } })
                         *@
                         <input class="form-control text-box single-line" data-val="true" data-val-number="The field bill_no must be a number." id="bill_no0" name="Liquidations1[0].bill_no" type="text" value="">
                         @Html.ValidationMessageFor(model => model.Liquidations1[0].bill_no, string.Empty, new { @class = "text-danger" })
@@ -228,26 +239,26 @@
                     </td>
                     <td>
                         @*
-            @Html.EditorFor(model => model.Liquidations1[0].invoice_date, new { htmlAttributes = new { @class = "form-control", id = "invoice_date0" } })*@
-                        <input type="date" name="Liquidations1[0].invoice_date" class="form-control" , id="invoice_date0" required="true"/>
+                            @Html.EditorFor(model => model.Liquidations1[0].invoice_date, new { htmlAttributes = new { @class = "form-control", id = "invoice_date0" } })*@
+                        <input type="date" name="Liquidations1[0].invoice_date" class="form-control" , id="invoice_date0" required="true" />
                         @Html.ValidationMessageFor(model => model.Liquidations1[0].invoice_date, string.Empty, new { @class = "text-danger" })
                     </td>
-                    <td>
+                    <td style="display: none">
                         @Html.EditorFor(model => model.Liquidations1[0].discription, new { htmlAttributes = new { @class = "form-control", id = "discription0" } })
                         @Html.ValidationMessageFor(model => model.Liquidations1[0].discription, string.Empty, new { @class = "text-danger" })
                     </td>
 
                     <td id="tdel1">
                         @*@Html.EditorFor(model => model.Liquidations1[0].employee_no, new { htmlAttributes = new { @class = "form-control", id = "employee_no0" } })*@
-                        @Html.DropDownList("Liquidations1[0].employee_no", new List<SelectListItem>(ViewBag.ee), new { @class = "form-control chosen-select", @id = "employee_no0",@required="true" })
+                        @Html.DropDownList("Liquidations1[0].employee_no", new List<SelectListItem>(ViewBag.ee), new { @class = "form-control chosen-select", @id = "employee_no0", @required = "true" })
                         @*<input type="text" class="form-control" id="employee_no0" list="ll" name="Liquidations1[0].employee_no"/>
-            <datalist id="ll">
-                <option value=""> </option>
-                @foreach (var i in ViewBag.ee)
-                {
-                    <option value="@i.Text">@i.Text</option>
-                }
-            </datalist>*@
+                            <datalist id="ll">
+                                <option value=""> </option>
+                                @foreach (var i in ViewBag.ee)
+                                {
+                                    <option value="@i.Text">@i.Text</option>
+                                }
+                            </datalist>*@
 
                         @Html.ValidationMessageFor(model => model.Liquidations1[0].employee_no, string.Empty, new { @class = "text-danger" })
                     </td>
@@ -281,28 +292,28 @@
             </table>
         </div>
         <div class="col-sm-2">
-            <input type="button" class="btn btn-default" value="add" id="add" name="add" onclick="total()"/>
+            <input type="button" class="btn btn-default" value="add" id="add" name="add" onclick="total()" />
         </div>
-        <br/>
-        <br/>
+        <br />
+        <br />
         <div class="row" style="border: 1px solid black; text-align: left;">
-            <br/>
+            <br />
             <div class="col-sm-7" style="border: 1px solid black;">
                 <div class="row">
-                    <p>we certify that above mantioned material consumed and / or expenditures incurred for<br/><input type="text" style="border: none; font-weight: bold; height: 25px; width: 100%;" placeholder="purpose"/></p>
+                    <p>we certify that above mantioned material consumed and / or expenditures incurred for<br /><input type="text" style="border: none; font-weight: bold; height: 25px; width: 100%;" placeholder="purpose" /></p>
                 </div>
-                <br/>
+                <br />
                 <div class="row" style="text-transform: capitalize">
                     <div class="col-md-3" style="text-align: center">
-                        <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;"/>
+                        <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
                         <b>imperst holder</b>
                     </div>
                     <div class="col-md-3" style="text-align: center">
-                        <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;"/>
+                        <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
                         <b style="text-transform: uppercase">pm/hod</b>
                     </div>
                     <div class="col-md-3" style="text-align: center">
-                        <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;"/>
+                        <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
                         <b>OD/Head of projects</b>
                     </div>
                 </div>
@@ -319,7 +330,7 @@
                 </b>
                 <br />
                 <b>
-                    <br/>
+                    <br />
                     remaining balance:
                 </b>
             </div>
@@ -339,29 +350,29 @@
         <div class="row" style="border: 1px solid black; text-align: center">
             <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
                 <br />
-                <br/>
+                <br />
                 <b>
-                    <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;"/>
+                    <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
                     checked by
                 </b>
-                
+
             </div>
             <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
                 <br />
-                <br/>
+                <br />
                 <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
                 reviewed by
             </div>
             <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
                 <br />
-                <br/>
+                <br />
                 <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
                 approved by
             </div>
         </div>
         <div class="row" style="border: 1px solid black;">
             .<br />
-            <br/>
+            <br />
             encoded in the system by:_____________________
             <br />.
         </div>
@@ -378,8 +389,8 @@
             </div>
         </div>
     </div>
-    <br/>
-    <br/>
+    <br />
+    <br />
 }
 
 @section Scripts {

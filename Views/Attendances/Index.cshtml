@@ -1,0 +1,317 @@
+﻿@model IEnumerable<HRworks.Models.Attendance>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.variable == null)
+{
+    <h2> null report</h2>
+}
+
+@if (ViewBag.variable == "S")
+{
+    <h2> sick report</h2>
+}
+
+@if (ViewBag.variable == "V")
+{
+    <h2> Vacation report</h2>
+}
+
+@if (ViewBag.variable == "T")
+{
+    <h2> transfer report</h2>
+}
+
+@if (ViewBag.variable == "A")
+{
+    <h2> absence report</h2>
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+@using (Html.BeginForm("Index", "Attendances", FormMethod.Get, new { id = "form1" }))
+{
+<div>
+    month:-
+    <input type="text" name="month" id="datepicker" value="@ViewBag.month" class="form-control" />
+    <input type="text" name="variable" value="@ViewBag.variable" style="display: none" />
+    <input type="submit"
+           name="submit"
+           value="Get records" ondblclick="norc()" class="btn btn-default"/>
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Report")'" value="back to main" />
+    <br />
+    <br />
+</div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LabourMaster.EMPNO)
+        </th>
+        <th> name</th>
+        <th>
+            1
+        </th>
+        <th>
+            2
+        </th>
+        <th>
+            3
+        </th>
+        <th>
+            4
+        </th>
+        <th>
+            5
+        </th>
+        <th>
+            6
+        </th>
+        <th>
+            7
+        </th>
+        <th>
+            8
+        </th>
+        <th>
+            9
+        </th>
+        <th>
+            10
+        </th>
+        <th>
+            11
+        </th>
+        <th>
+            12
+        </th>
+        <th>
+            13
+        </th>
+        <th>
+            14
+        </th>
+        <th>
+            15
+        </th>
+        <th>
+            16
+        </th>
+        <th>
+            17
+        </th>
+        <th>
+            18
+        </th>
+        <th>
+            19
+        </th>
+        <th>
+            20
+        </th>
+        <th>
+            21
+        </th>
+        <th>
+            22
+        </th>
+        <th>
+            23
+        </th>
+        <th>
+            24
+        </th>
+        <th>
+            25
+        </th>
+        <th>
+            26
+        </th>
+        <th>
+            27
+        </th>
+        <th>
+            28
+        </th>
+        <th>
+            29
+        </th>
+        <th>
+            30
+        </th>
+        <th>
+            31
+        </th>
+        <th>
+
+            @if (ViewBag.variable == null)
+            {
+                @Html.DisplayNameFor(model => model.Totalnull)
+            }
+
+            @if (ViewBag.variable == "S")
+            {
+                @Html.DisplayNameFor(model => model.TotalSickLeave)
+            }
+
+            @if (ViewBag.variable == "V")
+            {
+                @Html.DisplayNameFor(model => model.TotalVL)
+            }
+
+            @if (ViewBag.variable == "T")
+            {
+                @Html.DisplayNameFor(model => model.TotalTransefer)
+            }
+
+            @if (ViewBag.variable == "A")
+            {
+                @Html.DisplayNameFor(model => model.TotalAbsent)
+            }
+
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LabourMaster.EMPNO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LabourMaster.Person_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C4)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C5)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C6)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C7)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C8)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C9)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C10)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C11)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C12)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C13)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C14)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C15)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C16)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C17)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C18)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C19)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C20)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C21)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C22)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C23)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C24)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C25)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C26)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C27)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C28)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C29)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C30)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.C31)
+            </td>
+            <td>
+
+                @if (ViewBag.variable == null)
+                {
+                    @Html.DisplayFor(modelItem => item.Totalnull)
+                }
+
+                @if (ViewBag.variable == "S")
+                {
+                    @Html.DisplayFor(modelItem => item.TotalSickLeave)
+                }
+
+                @if (ViewBag.variable == "V")
+                {
+                    @Html.DisplayFor(modelItem => item.TotalVL)
+                }
+
+                @if (ViewBag.variable == "T")
+                {
+                    @Html.DisplayFor(modelItem => item.TotalTransefer)
+                }
+
+                @if (ViewBag.variable == "A")
+                {
+                    @Html.DisplayFor(modelItem => item.TotalAbsent)
+                }
+
+            </td>
+        </tr>
+    }
+
+</table>

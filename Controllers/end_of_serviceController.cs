@@ -14,7 +14,7 @@ namespace HRworks.Controllers
     using System.Web.Security;
     using System.Web.WebSockets;
     
-    [Authorize(Roles = "super_admin,payrole,employee_con")]
+   // [Authorize(Roles = "super_admin,payrole,employee_con")]
     public class end_of_serviceController : Controller
     {
         private const string Purpose = "equalizer";
@@ -98,16 +98,16 @@ namespace HRworks.Controllers
             ViewBag.status = new SelectList(
                 new List<SelectListItem>
                     {
-                        new SelectListItem { Selected = true, Text = string.Empty, Value = "-1" },
                         new SelectListItem { Selected = false, Text = "resign", Value = 1.ToString() },
                         new SelectListItem { Selected = false, Text = "terminate", Value = 2.ToString() },
                         new SelectListItem { Selected = false, Text = "transfer", Value = 3.ToString() },
                     },
                 "Value",
                 "Text");
+            afinallist = afinallist.FindAll(x => x.contracts.Count != 0);
             ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
             ViewBag.Employee_id1 = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_name");
-            if (endOfService.Employee_id != null && endOfService.last_working_day.HasValue)
+            if (endOfService.Employee_id != null && endOfService.last_working_day.HasValue && endOfService.status != null)
             {
                 ViewBag.hasdata = true;
                 var emp = emplist.Find(x => x.employee_id == endOfService.Employee_id);
@@ -144,6 +144,19 @@ namespace HRworks.Controllers
                         db.SaveChanges();
                         return RedirectToAction("EOSB");
                     }  
+                }
+                else
+                {
+                    EOSBvar.pendingSalary = 0d;
+                    EOSBvar.noticePeriod = 0d;
+                    EOSBvar.nagativeBalance = 0d;
+                    EOSBvar.others = 0d;
+                    EOSBvar.cashAdvance = 0d;
+                    EOSBvar.pettyCash = 0d;
+                    EOSBvar.HRAdvances = 0d;
+                    EOSBvar.telecomDeductions = 0d;
+                    EOSBvar.trafficeFines = 0d;
+                    EOSBvar.save = true;
                 }
             }
             return this.View(EOSBvar);

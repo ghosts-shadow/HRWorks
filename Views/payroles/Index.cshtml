@@ -20,11 +20,12 @@
 {
 <div>
     month:-
-    <input type="text" name="month" id="datepicker"/>
+    <input type="text" name="month" id="datepicker" class="form-control"/>
     <input type="submit"
            name="submit"
-           value="Get records" ondblclick="norc()" />
+           value="Get records" ondblclick="norc()" class="btn btn-default"/>
 
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Report","Attendances")'" value="back to main"/>
 </div>
 }
 <table class="table">
@@ -158,14 +159,14 @@
     </td>
     <td>
         @{
-            double.TryParse(item.OTRegular, out var a);
+            double.TryParse(payrolesController.Unprotect(item.OTRegular), out var a);
             a = a * 1.25;
         }
         @a
     </td>
     <td>
         @{
-            double.TryParse(item.OTFriday, out var c);
+            double.TryParse(payrolesController.Unprotect(item.OTFriday), out var c);
             c = c * 1.5;
         }
         @c
@@ -183,7 +184,7 @@
     </td>
     <td>
         @{
-            double.TryParse(item.HolidayOT, out var b);
+            double.TryParse(payrolesController.Unprotect(item.HolidayOT), out var b);
             b = b * 2.5;
         }
         @b

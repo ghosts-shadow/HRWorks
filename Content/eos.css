@@ -1,0 +1,255 @@
+﻿
+
+* {
+    margin: 0;
+    padding: 0;
+    text-indent: 0;
+}
+
+p {
+    color: black;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 115%;
+    margin: 0pt;
+}
+
+.s1 {
+    color: black;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s2 {
+    color: black;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s3 {
+    color: black;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s4 {
+    color: black;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s5 {
+    color: #00F;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.s6 {
+    color: black;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.s7 {
+    color: #00F;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s8 {
+    color: #3F54FF;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s9 {
+    color: #000091;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s10 {
+    color: black;
+    font-family: "Times New Roman", serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.s11 {
+    color: black;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s12 {
+    color: #FFF;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s13 {
+    color: #F0F;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.s14 {
+    color: #F0F;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s15 {
+    color: #008000;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.s16 {
+    color: black;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.s17 {
+    color: #008000;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s18 {
+    color: #308241;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s19 {
+    color: #F00;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.s20 {
+    color: #F00;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s21 {
+    color: #930;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s22 {
+    color: black;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    vertical-align: -1pt;
+}
+
+.s23 {
+    color: #FFF;
+    font-family: Calibri, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s24 {
+    color: #FFF;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.s25 {
+    color: black;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+table, tbody {
+    vertical-align: top;
+    overflow: visible;
+}
+@page {
+    size: 210mm 297mm;
+    margin: 5mm 5mm 5mm 5mm;
+}
+
+@media print and ( color) {
+    * {
+        -webkit-print-color-adjust: exact;
+    }
+
+    input {
+        border: 0px !important;
+        outline: 0px !important;
+        background: none !important;
+        -webkit-appearance: none !important;
+        box-shadow: none !important;
+    }
+    button {
+        display: none;
+    }
+    .btn {
+        display: none;
+    }
+     
+    .navbar{
+        display: none;
+    }
+    #foot {
+        display: none;
+    }
+}
+
