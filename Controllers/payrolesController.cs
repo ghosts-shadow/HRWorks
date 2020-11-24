@@ -13,7 +13,7 @@
     using HRworks.Models;
 
     [NoDirectAccess]
-    //[Authorize(Roles = "super_admin,payrole,employee_con")]
+    [Authorize(Roles = "super_admin,payrole,employee_con")]
     public class payrolesController : Controller
     {
         private const string Purpose = "equalizer";
@@ -245,6 +245,13 @@
                 }
             }
 
+            if (!String.IsNullOrWhiteSpace(payrole.others))
+            {
+                if(!payrole.others.Contains(" ")  && IsBase64Encoded(payrole.others))
+                {
+                    payrole.others = Unprotect(payrole.others);
+                }
+            }
             if (!String.IsNullOrWhiteSpace(payrole.TotalDedution))
             {
                 if(!payrole.TotalDedution.Contains(" ")  && IsBase64Encoded(payrole.TotalDedution))
@@ -359,6 +366,10 @@
                 if (payrole.TotalDedution != null && !IsBase64Encoded(payrole.TotalDedution))
                 {
                     payrole.TotalDedution = Protect(payrole.TotalDedution);
+                }
+                if (payrole.others != null && !IsBase64Encoded(payrole.others))
+                {
+                    payrole.others = Protect(payrole.others);
                 }
                 this.db.Entry(payrole).State = EntityState.Modified;
                 this.db.SaveChanges();
@@ -517,6 +528,11 @@
                         if (payr.Communication != null )
                         {
                              double.TryParse(Unprotect(payr.Communication),out comrat);
+                             totded += comrat;
+                        }
+                        if (payr.others != null )
+                        {
+                             double.TryParse(Unprotect(payr.others),out comrat);
                              totded += comrat;
                         }
                         if (payr.TrafficFines != null )

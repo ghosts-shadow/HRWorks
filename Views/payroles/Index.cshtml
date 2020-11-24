@@ -98,6 +98,9 @@
         </th>
         <th>total LWOP</th>
         <th>
+            @Html.DisplayNameFor(model => model.others)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.TotalDedution)
         </th>
         <th>
@@ -295,6 +298,17 @@
         }
         @TLWOP
         
+    </td>
+    <td>
+        @{
+            var oth = 0d;
+            if (item.others != null)
+            {
+                double.TryParse(payrolesController.Unprotect(item.others), out oth);
+
+            }
+            @oth
+        }
     </td>
     <td>
         @{
