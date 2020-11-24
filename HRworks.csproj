@@ -780,6 +780,7 @@
     <Content Include="Views\end_of_service\EOSB.cshtml" />
     <Content Include="Views\Attendances\Index.cshtml" />
     <Content Include="Views\Attendances\Report.cshtml" />
+    <Content Include="Views\hiks\Absent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

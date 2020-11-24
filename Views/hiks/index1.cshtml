@@ -36,7 +36,11 @@
             <input type="submit" value="search" class="btn btn-default" />
         </div>
         <div class="col-md-5">
-            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel1", "hiks", new { getdate = ViewBag.eddate })'" value="Export" />
+        @if (ViewBag.eddate != null)
+        {
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel1", "hiks", new { getdate = ViewBag.eddate })'" value="Export"/>
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Absent", "hiks", new { getdate = ViewBag.eddate })'" value="Absences Report"/>
+        }
         </div>
     </div>
     <br />
