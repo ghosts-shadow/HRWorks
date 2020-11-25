@@ -156,12 +156,12 @@
             return this.RedirectToAction("Index");
         }
 
-        public ActionResult DownloadExcel1(DateTime? getdate)
+        public ActionResult DownloadExcel1(DateTime? getdate, DateTime? todate)
         {
             List<hik> passexel = new List<hik>();
             var msname = this.db.master_file.ToList();
-            var tmlist = this.db.hiks.OrderBy(x => x.ID).ThenBy(x => x.datetime).ToList();
-            foreach (var hik in tmlist.FindAll(x => x.date == getdate))
+            var tmlist = this.db.hiks.OrderBy(x => x.datetime).ToList();
+            foreach (var hik in tmlist.FindAll(x => x.date >= getdate && x.date <= todate))
             {
                 var qwEmployeeId = 0;
                 int.TryParse(hik.ID, out qwEmployeeId);
@@ -435,13 +435,14 @@
             return this.View(hiklist.OrderBy(x => x.Employee_id).ThenBy(x => x.datetime1));
         }
 
-        public ActionResult index1(DateTime? getdate)
+        public ActionResult index1(DateTime? getdate, DateTime? todate)
         {
             this.ViewBag.eddate = getdate;
+            this.ViewBag.eddate2 = todate;
             List<hik> passexel = new List<hik>();
             var msname = this.db.master_file.ToList();
-            var tmlist = this.db.hiks.OrderBy(x => x.ID).ThenBy(x => x.datetime).ToList();
-            foreach (var hik in tmlist.FindAll(x => x.date == getdate))
+            var tmlist = this.db.hiks.OrderBy(x => x.datetime).ToList();
+            foreach (var hik in tmlist.FindAll(x => x.date >= getdate && x.date <= todate))
             {
                 var qwEmployeeId = 0;
                 int.TryParse(hik.ID, out qwEmployeeId);

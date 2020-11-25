@@ -7,30 +7,48 @@
 
 <h2>attendance</h2>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    $(function () {
-        $("#getdate").datepicker({
-            altField: "#alternate",
-            altFormat: "MM,yy",
-            changeMonth: true,
-            changeYear: true,
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            showButtonPanel: true,
-            dateFormat: "dd M yy"
-        });
+    $(function() {
+        var dateFormat = "mm/dd/yy",
+            from = $("#from")
+                .datepicker({
+                    changeMonth: true
+                })
+                .on("change",
+                    function() {
+                        to.datepicker("option", "minDate", getDate(this));
+                    }),
+            to = $("#to").datepicker({
+                    changeMonth: true
+                })
+                .on("change",
+                    function() {
+                        from.datepicker("option", "maxDate", getDate(this));
+                    });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+
+            return date;
+        }
     });
-
-
 </script>
 @using (Html.BeginForm("Index1", "hiks"))
 {
     <div class="row">
         <div class=" col-md-2">
-            <input type="text" name="getdate" id="getdate" class="form-control" />
+            <input type="text" name="getdate" id="from" class="form-control" />
+        </div>
+        <div class=" col-md-2">
+            <input type="text" name="todate" id="to" class="form-control" />
         </div>
         <div class=" col-md-1">
             <input type="submit" value="search" class="btn btn-default" />
@@ -38,7 +56,7 @@
         <div class="col-md-5">
         @if (ViewBag.eddate != null)
         {
-            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel1", "hiks", new { getdate = ViewBag.eddate })'" value="Export"/>
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel1", "hiks", new { getdate = ViewBag.eddate ,todate =  ViewBag.eddate2})'" value="Export"/>
             <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Absent", "hiks", new { getdate = ViewBag.eddate })'" value="Absences Report"/>
         }
         </div>
