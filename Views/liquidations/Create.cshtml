@@ -180,7 +180,7 @@
     <div class="form-horizontal" onclick="total()">
         <p id="del">save bill elements<input type="submit" value="save" class="btn btn-default" id="save" /></p>
         <hr />
-
+        <div style="border: 1px solid black; padding: 3%">
         <div class="row" style="left: 45%; position: relative; top: 0%">
             <img src="~/img/logo.png" height="50" width="100" />
             <br />
@@ -191,7 +191,9 @@
         </div>
         <div class="row">
             <div style="left: 5%; position: relative;">
-                @Html.LabelFor(model => model.Liquidations1[0].refr, "sheet NO. :", new { @class = "control-label " })
+                @Html.LabelFor(model => model.Liquidations1[0].refr, "liq.", new { @class = "control-label " })
+                @ViewBag.liq
+                @Html.LabelFor(model => model.Liquidations1[0].refr, "sheet: ", new { @class = "control-label " })
                 @ViewBag.refr
             </div>
             <div style="left: 75%; position: relative;">
@@ -387,6 +389,7 @@
             <div class="col-sm-3" style="left: 10%; position: relative;">
                 <b> Version R4</b>
             </div>
+        </div>
         </div>
     </div>
     <br />

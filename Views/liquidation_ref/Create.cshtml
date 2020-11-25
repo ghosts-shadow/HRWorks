@@ -42,6 +42,11 @@
             @Html.EditorFor(model => model.refr, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.refr, "", new { @class = "text-danger" })
         </div>
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.liq, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.EditorFor(model => model.liq, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.liq, "", new { @class = "text-danger" })
+        </div>
         <div class="col-md-2">
             <input type="submit" value="Create" class="btn btn-default"/>
         </div>

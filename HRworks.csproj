@@ -499,6 +499,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="img\pettycashbar.jpg" />
     <Content Include="Models\HRModel.edmx.diagram">
       <DependentUpon>HRModel.edmx</DependentUpon>
     </Content>

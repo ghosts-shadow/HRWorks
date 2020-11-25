@@ -14,7 +14,7 @@ namespace HRworks.Controllers
     using System.Web.Security;
     using System.Web.WebSockets;
     
-   // [Authorize(Roles = "super_admin,payrole,employee_con")]
+    // [Authorize(Roles = "super_admin,payrole,employee_con")]
     public class end_of_serviceController : Controller
     {
         private const string Purpose = "equalizer";

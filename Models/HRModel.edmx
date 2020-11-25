@@ -461,6 +461,7 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="date" Type="date" />
           <Property Name="refr" Type="bigint" />
+          <Property Name="liq" Type="bigint" />
         </EntityType>
         <EntityType Name="MANPOWER_TRANSFER_REQUEST">
           <Key>
@@ -1590,6 +1591,7 @@
           <Property Name="date" Type="DateTime" Precision="0" />
           <Property Name="refr" Type="Int64" />
           <NavigationProperty Name="liquidations" Relationship="Self.FK_liquidation_To_lref" FromRole="liquidation_ref" ToRole="liquidation" />
+          <Property Name="liq" Type="Int64" />
         </EntityType>
         <EntityType Name="master_file">
           <Key>
@@ -3063,6 +3065,7 @@
           <EntitySetMapping Name="liquidation_ref">
             <EntityTypeMapping TypeName="HRModel.liquidation_ref">
               <MappingFragment StoreEntitySet="liquidation_ref">
+                <ScalarProperty Name="liq" ColumnName="liq" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="refr" ColumnName="refr" />

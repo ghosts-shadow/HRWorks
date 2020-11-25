@@ -19,6 +19,7 @@
             var refrlist = this.db.liquidation_ref.ToList();
             this.ViewBag.refr = refrlist.Last().refr;
             this.ViewBag.date = refrlist.Last().date.Value.ToShortDateString();
+            this.ViewBag.liq = refrlist.Last().liq;
             this.ViewBag.employee_no = new SelectList(
                 this.db.master_file.OrderBy(e => e.employee_no),
                 "employee_id",
@@ -215,28 +216,34 @@
             return this.View(sumlq.OrderBy(x => x.ldate));
         }
 
-        public ActionResult print(DateTime? pdate, int? prefr)
+        public ActionResult print(DateTime? pdate, int? prefr , int? preli)
         {
             var printlist1 = new List<liquidation>();
             var printlist = new List<liquidation>();
             var printlist2 = new List<liquidation>();
             if (pdate.HasValue && prefr.HasValue)
             {
-                var liqireflist = this.db.liquidation_ref.Where(x => x.date == pdate && x.refr == prefr).ToList();
+                var liqireflist = this.db.liquidation_ref.Where(x => x.date == pdate && x.refr == prefr && x.liq == preli).ToList();
                 var liqilist = this.db.liquidations.ToList();
                 foreach (var liid in liqireflist)
                 {
                     printlist1 = this.db.liquidations.Where(x => x.refr == liid.Id).ToList();
                     this.ViewBag.prefr = prefr;
-                    this.ViewBag.pdate = pdate.Value.ToShortDateString();
+                    this.ViewBag.preli = preli;
+                    this.ViewBag.pdate = pdate.Value;
                 }
+                decimal ttinsum = 0;
 
                 foreach (var pl in printlist1)
+                {
+                    if (pl.invoice_amount.HasValue) ttinsum += pl.invoice_amount.Value;
+                    pl.discription = "EMP#" + pl.master_file.employee_no;
                     if (!printlist2.Exists(x => x.expenses == pl.expenses))
                         printlist2.Add(pl);
+                }
+                    this.ViewBag.ttinsum = ttinsum;
 
-                decimal ttinsum = 0;
-                foreach (var pl1 in printlist2)
+                /*foreach (var pl1 in printlist2)
                 {
                     decimal insum = 0;
                     decimal vsum = 0;
@@ -250,17 +257,16 @@
                     }
 
                     ttinsum += tinsum;
-                    this.ViewBag.ttinsum = ttinsum;
                     var count = pll.Count();
                     pl1.discription = $"{pl1.expenses} for {count} employees";
                     pl1.invoice_date = null;
                     pl1.VAT = vsum;
                     pl1.invoice = insum;
                     pl1.invoice_amount = tinsum;
-                }
+                }*/
             }
 
-            return this.View(printlist2);
+            return this.View(printlist1);
         }
 
         [Authorize(Roles = "Manager")]

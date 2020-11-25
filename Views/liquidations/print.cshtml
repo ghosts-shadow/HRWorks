@@ -11,18 +11,27 @@
         }
         if (e.ctrlKey && e.keyCode === 'P'.charCodeAt(0)) {
             $('#foot').hide();
-            $('#pdate').hide();
+            $('#hide').hide();
             $('#prefr').hide();
             $('#foot').hide();
             $('#search').hide();
             return true;
         } else {
             $('#foot').show();
-            $('#pdate').show();
+            $('#hide').show();
             $('#prefr').show();
             $('#search').show();
         }
     }
+</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function() {
+        $("#pdate").datepicker();
+    });
 </script>
 <style>
     table { text-align: center; }
@@ -41,177 +50,210 @@
         margin-left: -15px;
         margin-right: -15px;
     }
+      .body1 {
+        width: 210mm;
+        height: 297mm;
+    }
+    @@page {
+        size: A4;
+        margin: 0;
+    }
+
+    @@media print {
+
+        table { text-align: center; }
+
+        th, td, tr { text-align: center;
+            background-color: white;
+            color: black;
+            border: 1px solid black;
+        }
+
+        .row {
+            -ms-flex-wrap: wrap;
+            display: -ms-flexbox;
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+    }
 </style>
-<div class="form-horizontal" onclick="total()">
+<div class="body1" onclick="total()" style="width: 100%">
     @using (Html.BeginForm("print", "liquidations", FormMethod.Get, new { id = "form1" }))
     {
-        <div>
-            <input type="date" name="pdate" id="pdate" />
+        <div id="hide">date:
+            <input type="text" name="pdate" id="pdate" />
+            sheet:
             <input type="number" name="prefr" id="prefr" />
+            liq.:
+            <input type="number" name="preli" id="preli" />
             <input type="submit" value="search" class="btn btn-default" id="search" />
         </div>
     }
     <hr />
-
-    <div class="row" style="left: 45%; position: relative; top: 0%">
-        <img src="~/img/logo.png" height="50" width="100" />
-    </div>
-    <br />
-    <div class="row" style="background-color: black !important; color: white; text-align: center;">
-        <h2 style="-webkit-print-color-adjust: exact; margin-left: 25%; text-align: center; text-transform: uppercase;">petty cash imprest sheet </h2>
-    </div>
-    <div class="row" style="border: 1px solid black;">
-        <div style="left: 5%; position: relative;">
-           ref : @ViewBag.refr
+    <div  style="border: 1px solid black;
+        padding: 3%;">
+        <div class="row" style="left: 40%; position: relative; top: 0%">
+            <img src="~/img/logo.png" height="100" width="150" />
         </div>
-        <div style="left: 75%; position: relative;">
-            date :@ViewBag.pdate
+        <br />
+        <div class="row">
+            <img src="~/img/pettycashbar.jpg" width="100%"/>
         </div>
-        @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
-    </div>
-    <div class="row">
-        <table class="table" style="margin-bottom: 0;">
-            <col>
-            <thead onclick="check()">
-                <tr>
-                    <th rowspan="2" scope="rowgroup"> @Html.DisplayNameFor(model => model.bill_no)</th>
-                    <th rowspan="2" scope="rowgroup"> @Html.DisplayNameFor(model => model.expenses)</th>
-                    <th rowspan="2" scope="rowgroup"> @Html.DisplayNameFor(model => model.invoice_date)</th>
-                    <th rowspan="2" scope="rowgroup"> @Html.DisplayNameFor(model => model.discription)</th>
-                    <th colspan="3">debit amount</th>
-                </tr>
-                <tr>
-                    <th scope="col">@Html.DisplayNameFor(model => model.invoice)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.VAT)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.invoice_amount)</th>
-                </tr>
-            </thead>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.Label("as per attached")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.expenses)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.invoice_date)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.discription)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.invoice)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.VAT)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.invoice_amount)
-                    </td>
-                </tr>
-            }
-            <tr>
-                <td colspan="4" style="text-align: right">total</td>
-                <td colspan="3" style="text-align: left" id="totalq">@ViewBag.ttinsum</td>
-            </tr>
-
-        </table>
-    </div>
-    <div class="row" style="border: 1px solid black; text-align: left;">
-        <div class="col-sm-7" style="border: 1px solid black;">
-            <br />
-            <div class="row">
-                <p>we certify that above mantioned material consumed and / or expenditures incurred for<br /><input type="text" style="border: none; font-weight: bold; height: 25px; width: 100%;" placeholder="enter purpose" /></p>
+        <div class="row" style="border: 1px solid black;">
+            <div style="left: 0%; position: relative;font-size: 110%">
+                <b>liq.@ViewBag.preli sheet: @ViewBag.prefr</b>
             </div>
-            <br />
-            <div class="row" style="text-transform: capitalize">
-                <div class="col-md-3" style="text-align: center">
-                    <hr style="background-color: #333;border: none;color: #333;height: 3px;" />
-                    <b>imperst holder</b>
+            <div style="left: 65%; position: relative;font-size: 110%">
+                <b>date :@if(ViewBag.pdate != null)
+                         {@ViewBag.pdate.ToString("dd MMMM yyyy")}</b>
+                          </div>
+                          @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+                          </div>
+        <div class="row" >
+            <table class="table" style="margin-bottom: 0; height: 50% !important; text-wrap: normal">
+                <col>
+                <thead onclick="check()">
+                    <tr>
+                        <th rowspan="2" scope="rowgroup"> @Html.DisplayNameFor(model => model.bill_no)</th>
+                        <th rowspan="2" scope="rowgroup"> @Html.DisplayNameFor(model => model.expenses)</th>
+                        <th rowspan="2" scope="rowgroup"> @Html.DisplayNameFor(model => model.invoice_date)</th>
+                        <th rowspan="2" scope="rowgroup"> @Html.DisplayNameFor(model => model.discription)</th>
+                        <th colspan="3">debit amount</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">@Html.DisplayNameFor(model => model.invoice)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.VAT)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.invoice_amount)</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.bill_no)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.expenses)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.invoice_date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.discription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.invoice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VAT)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.invoice_amount)
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="4" style="text-align: right"><b>total</b></td>
+                    <td colspan="3" style="text-align: left" id="totalq"><b>@ViewBag.ttinsum</b></td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="row" style="border: 1px solid black; text-align: left;">
+            <div class="col-sm-7" style="border: 1px solid black;">
+                <br />
+                <div class="row">
+                    <p>we certify that above mantioned material consumed and / or expenditures incurred for<br /><input type="text" style="border: none; font-weight: bold; height: 25px; width: 100%;" placeholder="enter purpose" /></p>
                 </div>
-                <div class="col-md-3" style="text-align: center">
-                    <hr style="/* old IE */background-color: black; /* Modern Browsers */border: none; /* Set the hr color */color: black; height: 3px;" />
-                    <b style="text-transform: uppercase">pm/hod</b>
-                </div>
-                <div class="col-md-3" style="text-align: center">
-                    <hr style="/* old IE */background-color: black; /* Modern Browsers */border: none; /* Set the hr color */color: black; height: 3px;" />
-                    <b>OD/Head of projects</b>
+                <br />
+                <br />
+                <br />
+                <div class="row" style="text-transform: capitalize ">
+                    <div class="col-md-3" style="text-align: center; border-top: 2px solid black">
+                        <b>imperst holder</b>
+                    </div>
+                    <div class="col-md-3" style="text-align: center">
+                        <br/>
+                    </div>
+                    <div class="col-md-3" style="text-align: center;border-top: 2px solid black">
+                        <b style="text-transform: uppercase">hod</b>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-2" style="border: 1px solid black;">
-            <b>
+            <div class="col-sm-2" style="border: 1px solid black;">
+                <b>
+                    <br />
+                    float amount:
+                </b>
                 <br />
-                float amount:
-            </b>
-            <br />
-            <b>
+                <b>
+                    <br />
+                    expenses:
+                </b>
                 <br />
-                expenses:
-            </b>
-            <br />
-            <b>
+                <b>
+                    <br />
+                    remaining balance:
+                </b>
+            </div>
+            <div class="col-sm-2" style="text-align: center;">
                 <br />
-                remaining balance:
+                <br />
+                <br />
+                <br />
+                <b id="tt">
+                    @ViewBag.ttinsum AED
+                </b>
+            </div>
+        </div>
+        <div class="row" style="border: 1px solid black;">
+            <b>
+                <b>
+                    for the use of accounts department only
+                </b>
             </b>
         </div>
-        <div class="col-sm-2" style="text-align: center;">
-            <br />
-            <br />
-            <br />
-            <br />
-            <b id="tt" >
-                @ViewBag.ttinsum AED
-            </b>
-        </div>
-    </div>
-    <div class="row" style="border: 1px solid black;">
-        <b>
-            <b>
-                for the use of accounts department only
-            </b>
-        </b>
-    </div>
-    <div class="row" style="border: 1px solid black; text-align: center">
-        <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
-            <br />
-            <br />
-            <b>
+        <div class="row" style="border: 1px solid black; text-align: center">
+            <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
+                <br />
+                <br />
+                <b>
+                    <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
+                    checked by
+                </b>
+
+            </div>
+            <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
+                <br />
+                <br />
                 <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
-                checked by
-            </b>
+                reviewed by
+            </div>
+            <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
+                <br />
+                <br />
+                <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
+                approved by
+            </div>
+        </div>
+        <div class="row" style="border: 1px solid black; padding: 1%">
+            encoded in the system by:<u> @User.Identity.Name</u>
+        </div>
+        <div class="row" style="margin-left: 20%">
 
-        </div>
-        <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
-            <br />
-            <br />
-            <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
-            reviewed by
-        </div>
-        <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
-            <br />
-            <br />
-            <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
-            approved by
-        </div>
-    </div>
-    <div class="row" style="border: 1px solid black; padding: 1%">
-        encoded in the system by:<u> @User.Identity.Name</u>
-    </div>
-    <div class="row" style="margin-left: 20%">
-
-        <div class="col-sm-4" style="left: 0%; position: relative;">
-            <b></b>
-        </div>
-        <div class="col-sm-5" style="left: 0%; position: relative;">
-            <b> CSFIN04 </b>
-        </div>
-        <div class="col-sm-3" style="left: 10%; position: relative;">
-            <b> Version R4</b>
+            <div class="col-sm-4" style="left: 0%; position: relative;">
+                <b></b>
+            </div>
+            <div class="col-sm-5" style="left: 0%; position: relative;">
+                <b> CSFIN04 </b>
+            </div>
+            <div class="col-sm-3" style="left: 10%; position: relative;">
+                <b> Version R4</b>
+            </div>
         </div>
     </div>
 </div>
 <br/>
-<br/>
+<br class=""/>
