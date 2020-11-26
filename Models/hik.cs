@@ -16,6 +16,7 @@ namespace HRworks.Models
     public partial class hik
     {
         public string ID { get; set; }
+        public int EMPID { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> datetime { get; set; }

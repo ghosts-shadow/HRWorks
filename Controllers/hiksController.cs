@@ -32,6 +32,7 @@
                         int.TryParse(hik.ID, out qwEmployeeId);
                         if (msname.Exists(x => x.employee_no == qwEmployeeId))
                             hik.Person = msname.Find(x => x.employee_no == qwEmployeeId).employee_name;
+                        hik.EMPID = qwEmployeeId;
                     }
                 }
             }
@@ -61,6 +62,7 @@
                                     var emp = new hik();
                                     var newdate = new DateTime(startdate.Year, startdate.Month, startdate.Day);
                                     emp.ID = hik.ID;
+                                    emp.EMPID = hik.EMPID;
                                     emp.Person = hik.Person;
                                     emp.date = newdate;
                                     var qwEmployeeId = 0;
@@ -79,7 +81,7 @@
                 }
             }
 
-            return this.View(abslist.OrderBy(x => x.date));
+            return this.View(abslist.OrderBy(x => x.date).ThenBy(x=>x.EMPID));
         }
 
         public ActionResult DownloadExcel(DateTime? getdate)
@@ -158,18 +160,39 @@
 
         public ActionResult DownloadExcel1(DateTime? getdate, DateTime? todate)
         {
+
+            if (!todate.HasValue && getdate.HasValue)
+            {
+                getdate = new DateTime(getdate.Value.Year, getdate.Value.Month, 1);
+                todate = new DateTime(
+                    getdate.Value.Year,
+                    getdate.Value.Month,
+                    DateTime.DaysInMonth(getdate.Value.Year, getdate.Value.Month));
+            }
+            var chin = new List<hik>();
+            var chout = new List<hik>();
+            var schin = new List<hik>();
+            var schout = new List<hik>();
             List<hik> passexel = new List<hik>();
             var msname = this.db.master_file.ToList();
             var tmlist = this.db.hiks.OrderBy(x => x.datetime).ToList();
             foreach (var hik in tmlist.FindAll(x => x.date >= getdate && x.date <= todate))
             {
-                var qwEmployeeId = 0;
-                int.TryParse(hik.ID, out qwEmployeeId);
+                int.TryParse(hik.ID, out var qwEmployeeId);
+                hik.EMPID = qwEmployeeId;
                 if (msname.Exists(x => x.employee_no == qwEmployeeId))
                     hik.Person = msname.Find(x => x.employee_no == qwEmployeeId).employee_name;
-                passexel.Add(hik);
+                if (hik.Status == "CheckOut" && hik.date >= getdate && hik.date <= todate) chout.Add(hik);
+                if (hik.Status == "CheckIN" && hik.date >= getdate && hik.date <= todate) chin.Add(hik);
             }
 
+            foreach (var w1 in chin.OrderBy(x => x.EMPID).ThenBy(x => x.datetime))
+                if (!schin.Exists(x => x.date == w1.date && x.EMPID == w1.EMPID))
+                    schin.Add(w1);
+            foreach (var w1 in chout.OrderBy(x => x.EMPID).ThenByDescending(x => x.datetime))
+                if (!schout.Exists(x => x.date == w1.date && x.EMPID == w1.EMPID))
+            passexel.AddRange(schin);
+                    passexel.AddRange(schout);
             var Ep = new ExcelPackage();
             var Sheet = Ep.Workbook.Worksheets.Add(getdate.ToString());
             Sheet.Cells["A1"].Value = "employee no";
@@ -178,10 +201,8 @@
             Sheet.Cells["D1"].Value = "date ";
             Sheet.Cells["E1"].Value = "time";
             Sheet.Cells["F1"].Value = "status";
-            Sheet.Cells["G1"].Value = "device ";
-            Sheet.Cells["H1"].Value = "device no. ";
             var row = 2;
-            foreach (var item in passexel.OrderBy(x => x.ID))
+            foreach (var item in passexel.OrderBy(x => x.date).ThenBy(x => x.EMPID))
             {
                 Sheet.Cells[string.Format("A{0}", row)].Value = item.ID;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.Person;
@@ -189,8 +210,6 @@
                 Sheet.Cells[string.Format("D{0}", row)].Value = item.date;
                 Sheet.Cells[string.Format("E{0}", row)].Value = item.time;
                 Sheet.Cells[string.Format("F{0}", row)].Value = item.Status;
-                Sheet.Cells[string.Format("G{0}", row)].Value = item.Device;
-                Sheet.Cells[string.Format("H{0}", row)].Value = item.DeviceNo;
                 row++;
             }
 
@@ -251,6 +270,7 @@
                                     var emp = new hik();
                                     var newdate = new DateTime(startdate.Year, startdate.Month, startdate.Day);
                                     emp.ID = hik.ID;
+                                    emp.EMPID = hik.EMPID;
                                     emp.Person = hik.Person;
                                     emp.date = newdate;
                                     var qwEmployeeId = 0;
@@ -279,7 +299,7 @@
             Sheet.Cells["B1"].Value = "employee name";
             Sheet.Cells["C1"].Value = "date ";
             var row = 2;
-            foreach (var item in passexel.OrderBy(x => x.date))
+            foreach (var item in passexel.OrderBy(x => x.date).ThenBy(x=>x.EMPID))
             {
                 Sheet.Cells[string.Format("A{0}", row)].Value = item.ID;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.Person;
@@ -437,21 +457,43 @@
 
         public ActionResult index1(DateTime? getdate, DateTime? todate)
         {
+            if (!todate.HasValue && getdate.HasValue)
+            {
+                getdate = new DateTime(getdate.Value.Year, getdate.Value.Month, 1);
+                todate = new DateTime(
+                    getdate.Value.Year,
+                    getdate.Value.Month,
+                    DateTime.DaysInMonth(getdate.Value.Year, getdate.Value.Month));
+            }
             this.ViewBag.eddate = getdate;
             this.ViewBag.eddate2 = todate;
+            var chin = new List<hik>();
+            var chout = new List<hik>();
+            var schin = new List<hik>();
+            var schout = new List<hik>();
             List<hik> passexel = new List<hik>();
             var msname = this.db.master_file.ToList();
             var tmlist = this.db.hiks.OrderBy(x => x.datetime).ToList();
             foreach (var hik in tmlist.FindAll(x => x.date >= getdate && x.date <= todate))
             {
-                var qwEmployeeId = 0;
-                int.TryParse(hik.ID, out qwEmployeeId);
-                if (msname.Exists(x => x.employee_no == qwEmployeeId))
+                int.TryParse(hik.ID, out var  qwEmployeeId);
+                hik.EMPID = qwEmployeeId;
+                if (msname.Exists(x => x.employee_no == qwEmployeeId)) { 
                     hik.Person = msname.Find(x => x.employee_no == qwEmployeeId).employee_name;
-                passexel.Add(hik);
+                }
+                if (hik.Status == "CheckOut" && hik.date >= getdate && hik.date <= todate) chout.Add(hik);
+                if (hik.Status == "CheckIN" && hik.date >= getdate && hik.date <= todate) chin.Add(hik);
             }
 
-            return this.View(passexel);
+            foreach (var w1 in chin.OrderBy(x => x.EMPID).ThenBy(x => x.datetime))
+                if (!schin.Exists(x => x.date == w1.date && x.EMPID == w1.EMPID))
+                    schin.Add(w1);
+            foreach (var w1 in chout.OrderBy(x => x.EMPID).ThenByDescending(x => x.datetime))
+                if (!schout.Exists(x => x.date == w1.date && x.EMPID == w1.EMPID))
+                    schout.Add(w1);
+            passexel.AddRange(schin);
+            passexel.AddRange(schout);
+            return this.View(passexel.OrderBy(x => x.date).ThenBy(x => x.EMPID));
         }
 
         protected override void Dispose(bool disposing)
