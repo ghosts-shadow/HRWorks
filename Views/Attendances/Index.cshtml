@@ -59,6 +59,9 @@
         </th>
         <th> name</th>
         <th>
+            @Html.DisplayNameFor(model => model.MainTimeSheet.ProjectList.PROJECT_NAME)
+        </th>
+        <th>
             1
         </th>
         <th>
@@ -189,6 +192,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LabourMaster.Person_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MainTimeSheet.ProjectList.PROJECT_NAME)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.C1)

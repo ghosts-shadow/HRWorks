@@ -73,6 +73,19 @@ namespace HRworks.Models
         public Nullable<long> xOT { get; set; }
         public Nullable<long> nnOT { get; set; }
         public string status { get; set; }
+        public Nullable<int> Skilled { get; set; }
+        public Nullable<int> Unskilled { get; set; }
+        public Nullable<int> Skilledhours { get; set; }
+        public Nullable<int> Unskilledhours { get; set; }
+        public Nullable<int> Skilledrothours { get; set; }
+        public Nullable<int> Unskilledrothours { get; set; }
+        public Nullable<int> Skilledfothours { get; set; }
+        public Nullable<int> Unskilledfothours { get; set; }
+        public Nullable<int> Skilledhothours { get; set; }
+        public Nullable<int> Unskilledhothours { get; set; }
+        public Nullable<int> Skilledthours { get; set; }
+        public Nullable<int> Unskilledthours { get; set; }
+        public Nullable<int> TotalWorkers { get; set; }
     
         public virtual MainTimeSheet MainTimeSheet { get; set; }
         public virtual LabourMaster LabourMaster { get; set; }

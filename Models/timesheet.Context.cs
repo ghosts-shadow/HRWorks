@@ -28,5 +28,7 @@ namespace HRworks.Models
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<MainTimeSheet> MainTimeSheets { get; set; }
         public virtual DbSet<LabourMaster> LabourMasters { get; set; }
+        public virtual DbSet<ManPowerSupplier> ManPowerSuppliers { get; set; }
+        public virtual DbSet<ProjectList> ProjectLists { get; set; }
     }
 }

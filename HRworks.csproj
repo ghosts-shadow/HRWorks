@@ -355,6 +355,9 @@
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ManPowerSupplier.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MANPOWER_TRANSFER_REQUEST.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -378,6 +381,9 @@
     </Compile>
     <Compile Include="Models\PROBATION_ASSESSMENT.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectList.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\rec_req_form.cs">
       <DependentUpon>HRModel.tt</DependentUpon>

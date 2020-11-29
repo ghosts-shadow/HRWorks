@@ -12,37 +12,29 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MainTimeSheet
+    public partial class ManPowerSupplier
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public MainTimeSheet()
+        public ManPowerSupplier()
         {
-            this.Attendances = new HashSet<Attendance>();
+            this.MainTimeSheets = new HashSet<MainTimeSheet>();
         }
     
         public long ID { get; set; }
-        public System.DateTime TMonth { get; set; }
-        public long ManPowerSupplier { get; set; }
-        public long Project { get; set; }
-        public string Ref { get; set; }
-        public Nullable<double> RefNo { get; set; }
-        public string UserName { get; set; }
-        public string PCName { get; set; }
-        public bool SAV { get; set; }
-        public string Location { get; set; }
-        public string Note { get; set; }
-        public bool Startit { get; set; }
+        public string ShortName { get; set; }
+        public string Supplier { get; set; }
+        public Nullable<double> SkilledRat { get; set; }
+        public Nullable<double> NonSkilledRate { get; set; }
+        public Nullable<double> NormalTimeUpto { get; set; }
+        public Nullable<double> Crtl { get; set; }
         public string Encoded_Absolute_URL { get; set; }
         public string Item_Type { get; set; }
         public string Path { get; set; }
         public string URL_Path { get; set; }
         public string Workflow_Instance_ID { get; set; }
         public string File_Type { get; set; }
-        public Nullable<int> TMnth { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Attendance> Attendances { get; set; }
-        public virtual ManPowerSupplier ManPowerSupplier1 { get; set; }
-        public virtual ProjectList ProjectList { get; set; }
+        public virtual ICollection<MainTimeSheet> MainTimeSheets { get; set; }
     }
 }

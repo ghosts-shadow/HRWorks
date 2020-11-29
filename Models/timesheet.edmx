@@ -67,6 +67,19 @@
           <Property Name="xOT" Type="bigint" />
           <Property Name="nnOT" Type="bigint" />
           <Property Name="status" Type="nvarchar(max)" />
+          <Property Name="Skilled" Type="int" />
+          <Property Name="Unskilled" Type="int" />
+          <Property Name="Skilledhours" Type="int" />
+          <Property Name="Unskilledhours" Type="int" />
+          <Property Name="Skilledrothours" Type="int" />
+          <Property Name="Unskilledrothours" Type="int" />
+          <Property Name="Skilledfothours" Type="int" />
+          <Property Name="Unskilledfothours" Type="int" />
+          <Property Name="Skilledhothours" Type="int" />
+          <Property Name="Unskilledhothours" Type="int" />
+          <Property Name="Skilledthours" Type="int" />
+          <Property Name="Unskilledthours" Type="int" />
+          <Property Name="TotalWorkers" Type="int" />
         </EntityType>
         <EntityType Name="LabourMaster">
           <Key>
@@ -120,6 +133,61 @@
           <Property Name="File Type" Type="nvarchar" MaxLength="255" />
           <Property Name="TMnth" Type="int" />
         </EntityType>
+        <EntityType Name="ManPowerSupplier">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="255" />
+          <Property Name="Supplier" Type="nvarchar" MaxLength="255" />
+          <Property Name="SkilledRat" Type="float" />
+          <Property Name="NonSkilledRate" Type="float" />
+          <Property Name="NormalTimeUpto" Type="float" />
+          <Property Name="Crtl" Type="float" />
+          <Property Name="Encoded Absolute URL" Type="nvarchar" MaxLength="255" />
+          <Property Name="Item Type" Type="nvarchar" MaxLength="255" />
+          <Property Name="Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="URL Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="Workflow Instance ID" Type="nvarchar" MaxLength="255" />
+          <Property Name="File Type" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ProjectList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectCode" Type="nvarchar" MaxLength="255" />
+          <Property Name="STAMP CODE" Type="nvarchar" MaxLength="255" />
+          <Property Name="INQUIRY" Type="nvarchar" MaxLength="255" />
+          <Property Name="PROJECT NAME" Type="nvarchar" MaxLength="255" />
+          <Property Name="CLIENT/MC" Type="nvarchar" MaxLength="255" />
+          <Property Name="Notice-01" Type="nvarchar" MaxLength="255" />
+          <Property Name="Notice-02" Type="nvarchar" MaxLength="255" />
+          <Property Name="SCOPE OF WORK" Type="nvarchar" MaxLength="255" />
+          <Property Name="START DATE" Type="datetime" />
+          <Property Name="END DATE" Type="datetime" />
+          <Property Name="STATUS" Type="nvarchar" MaxLength="255" />
+          <Property Name="INSURANCE STATUS" Type="datetime" />
+          <Property Name="LOCATION" Type="nvarchar" MaxLength="255" />
+          <Property Name="PM" Type="nvarchar" MaxLength="255" />
+          <Property Name="PM CONTACT" Type="nvarchar" MaxLength="255" />
+          <Property Name="Completion Certificate" Type="nvarchar" MaxLength="255" />
+          <Property Name="REMARKS" Type="nvarchar" MaxLength="255" />
+          <Property Name="Notice" Type="float" />
+          <Property Name="Source" Type="nvarchar" MaxLength="255" />
+          <Property Name="Closed" Type="bit" Nullable="false" />
+          <Property Name="Encoded Absolute URL" Type="nvarchar" MaxLength="255" />
+          <Property Name="Item Type" Type="nvarchar" MaxLength="255" />
+          <Property Name="Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="URL Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="Workflow Instance ID" Type="nvarchar" MaxLength="255" />
+          <Property Name="File Type" Type="nvarchar" MaxLength="255" />
+          <Property Name="excute_by" Type="nvarchar(max)" />
+          <Property Name="project_period" Type="nvarchar(max)" />
+          <Property Name="equipment_budget" Type="money" />
+          <Property Name="man_power_budget" Type="money" />
+          <Property Name="rate_w_wo_at" Type="bit" />
+        </EntityType>
         <Association Name="FK_Attendance_ToLabourMaster">
           <End Role="LabourMaster" Type="Self.LabourMaster" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -148,10 +216,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MainTimeSheet_ToTable">
+          <End Role="ManPowerSupplier" Type="Self.ManPowerSupplier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MainTimeSheet" Type="Self.MainTimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ManPowerSupplier">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MainTimeSheet">
+              <PropertyRef Name="ManPowerSupplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MainTimeSheet_ToTable_1">
+          <End Role="ProjectList" Type="Self.ProjectList" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MainTimeSheet" Type="Self.MainTimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MainTimeSheet">
+              <PropertyRef Name="Project" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="LogisticsSoftModelStoreContainer">
           <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LabourMaster" EntityType="Self.LabourMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MainTimeSheet" EntityType="Self.MainTimeSheet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ManPowerSupplier" EntityType="Self.ManPowerSupplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectList" EntityType="Self.ProjectList" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Attendance_ToLabourMaster" Association="Self.FK_Attendance_ToLabourMaster">
             <End Role="LabourMaster" EntitySet="LabourMaster" />
             <End Role="Attendance" EntitySet="Attendance" />
@@ -159,6 +257,14 @@
           <AssociationSet Name="FK_Attendance_ToMainTimeSheet" Association="Self.FK_Attendance_ToMainTimeSheet">
             <End Role="MainTimeSheet" EntitySet="MainTimeSheet" />
             <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MainTimeSheet_ToTable" Association="Self.FK_MainTimeSheet_ToTable">
+            <End Role="ManPowerSupplier" EntitySet="ManPowerSupplier" />
+            <End Role="MainTimeSheet" EntitySet="MainTimeSheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MainTimeSheet_ToTable_1" Association="Self.FK_MainTimeSheet_ToTable_1">
+            <End Role="ProjectList" EntitySet="ProjectList" />
+            <End Role="MainTimeSheet" EntitySet="MainTimeSheet" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -229,6 +335,19 @@
           <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MainTimeSheet" Relationship="Self.FK_Attendance_ToMainTimeSheet" FromRole="Attendance" ToRole="MainTimeSheet" />
           <NavigationProperty Name="LabourMaster" Relationship="LogisticsSoftModel.FK_Attendance_ToLabourMaster" FromRole="Attendance" ToRole="LabourMaster" />
+          <Property Name="Skilled" Type="Int32" />
+          <Property Name="Unskilled" Type="Int32" />
+          <Property Name="Skilledhours" Type="Int32" />
+          <Property Name="Unskilledhours" Type="Int32" />
+          <Property Name="Skilledrothours" Type="Int32" />
+          <Property Name="Unskilledrothours" Type="Int32" />
+          <Property Name="Skilledfothours" Type="Int32" />
+          <Property Name="Unskilledfothours" Type="Int32" />
+          <Property Name="Skilledhothours" Type="Int32" />
+          <Property Name="Unskilledhothours" Type="Int32" />
+          <Property Name="Skilledthours" Type="Int32" />
+          <Property Name="Unskilledthours" Type="Int32" />
+          <Property Name="TotalWorkers" Type="Int32" />
         </EntityType>
         <EntityType Name="MainTimeSheet">
           <Key>
@@ -254,6 +373,8 @@
           <Property Name="File_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="TMnth" Type="Int32" />
           <NavigationProperty Name="Attendances" Relationship="Self.FK_Attendance_ToMainTimeSheet" FromRole="MainTimeSheet" ToRole="Attendance" />
+          <NavigationProperty Name="ManPowerSupplier1" Relationship="LogisticsSoftModel.FK_MainTimeSheet_ToTable" FromRole="MainTimeSheet" ToRole="ManPowerSupplier" />
+          <NavigationProperty Name="ProjectList" Relationship="LogisticsSoftModel.FK_MainTimeSheet_ToTable_1" FromRole="MainTimeSheet" ToRole="ProjectList" />
         </EntityType>
         <Association Name="FK_Attendance_ToMainTimeSheet">
           <End Role="MainTimeSheet" Type="Self.MainTimeSheet" Multiplicity="1">
@@ -280,6 +401,16 @@
           <AssociationSet Name="FK_Attendance_ToLabourMaster" Association="LogisticsSoftModel.FK_Attendance_ToLabourMaster">
             <End Role="LabourMaster" EntitySet="LabourMasters" />
             <End Role="Attendance" EntitySet="Attendances" />
+          </AssociationSet>
+          <EntitySet Name="ManPowerSuppliers" EntityType="LogisticsSoftModel.ManPowerSupplier" />
+          <EntitySet Name="ProjectLists" EntityType="LogisticsSoftModel.ProjectList" />
+          <AssociationSet Name="FK_MainTimeSheet_ToTable" Association="LogisticsSoftModel.FK_MainTimeSheet_ToTable">
+            <End Role="ManPowerSupplier" EntitySet="ManPowerSuppliers" />
+            <End Role="MainTimeSheet" EntitySet="MainTimeSheets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MainTimeSheet_ToTable_1" Association="LogisticsSoftModel.FK_MainTimeSheet_ToTable_1">
+            <End Role="ProjectList" EntitySet="ProjectLists" />
+            <End Role="MainTimeSheet" EntitySet="MainTimeSheets" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="LabourMaster">
@@ -325,6 +456,91 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ManPowerSupplier">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="ShortName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Supplier" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SkilledRat" Type="Double" />
+          <Property Name="NonSkilledRate" Type="Double" />
+          <Property Name="NormalTimeUpto" Type="Double" />
+          <Property Name="Crtl" Type="Double" />
+          <Property Name="Encoded_Absolute_URL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Item_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="URL_Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Workflow_Instance_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="File_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MainTimeSheets" Relationship="LogisticsSoftModel.FK_MainTimeSheet_ToTable" FromRole="ManPowerSupplier" ToRole="MainTimeSheet" />
+        </EntityType>
+        <EntityType Name="ProjectList">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="STAMP_CODE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="INQUIRY" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PROJECT_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CLIENT_MC" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Notice_01" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Notice_02" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SCOPE_OF_WORK" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="START_DATE" Type="DateTime" Precision="3" />
+          <Property Name="END_DATE" Type="DateTime" Precision="3" />
+          <Property Name="STATUS" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="INSURANCE_STATUS" Type="DateTime" Precision="3" />
+          <Property Name="LOCATION" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PM_CONTACT" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Completion_Certificate" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="REMARKS" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Notice" Type="Double" />
+          <Property Name="Source" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Closed" Type="Boolean" Nullable="false" />
+          <Property Name="Encoded_Absolute_URL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Item_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="URL_Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Workflow_Instance_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="File_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="excute_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="project_period" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="equipment_budget" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="man_power_budget" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="rate_w_wo_at" Type="Boolean" />
+          <NavigationProperty Name="MainTimeSheets" Relationship="LogisticsSoftModel.FK_MainTimeSheet_ToTable_1" FromRole="ProjectList" ToRole="MainTimeSheet" />
+        </EntityType>
+        <Association Name="FK_MainTimeSheet_ToTable">
+          <End Type="LogisticsSoftModel.ManPowerSupplier" Role="ManPowerSupplier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LogisticsSoftModel.MainTimeSheet" Role="MainTimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ManPowerSupplier">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MainTimeSheet">
+              <PropertyRef Name="ManPowerSupplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MainTimeSheet_ToTable_1">
+          <End Type="LogisticsSoftModel.ProjectList" Role="ProjectList" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LogisticsSoftModel.MainTimeSheet" Role="MainTimeSheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MainTimeSheet">
+              <PropertyRef Name="Project" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -334,6 +550,19 @@
           <EntitySetMapping Name="Attendances">
             <EntityTypeMapping TypeName="LogisticsSoftModel.Attendance">
               <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="TotalWorkers" ColumnName="TotalWorkers" />
+                <ScalarProperty Name="Unskilledthours" ColumnName="Unskilledthours" />
+                <ScalarProperty Name="Skilledthours" ColumnName="Skilledthours" />
+                <ScalarProperty Name="Unskilledhothours" ColumnName="Unskilledhothours" />
+                <ScalarProperty Name="Skilledhothours" ColumnName="Skilledhothours" />
+                <ScalarProperty Name="Unskilledfothours" ColumnName="Unskilledfothours" />
+                <ScalarProperty Name="Skilledfothours" ColumnName="Skilledfothours" />
+                <ScalarProperty Name="Unskilledrothours" ColumnName="Unskilledrothours" />
+                <ScalarProperty Name="Skilledrothours" ColumnName="Skilledrothours" />
+                <ScalarProperty Name="Unskilledhours" ColumnName="Unskilledhours" />
+                <ScalarProperty Name="Skilledhours" ColumnName="Skilledhours" />
+                <ScalarProperty Name="Unskilled" ColumnName="Unskilled" />
+                <ScalarProperty Name="Skilled" ColumnName="Skilled" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="EmpID" ColumnName="EmpID" />
                 <ScalarProperty Name="SubMain" ColumnName="SubMain" />
@@ -445,6 +674,63 @@
                 <ScalarProperty Name="VisaSponser" ColumnName="VisaSponser" />
                 <ScalarProperty Name="ManPowerSupply" ColumnName="ManPowerSupply" />
                 <ScalarProperty Name="EMPNO" ColumnName="EMPNO" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ManPowerSuppliers">
+            <EntityTypeMapping TypeName="LogisticsSoftModel.ManPowerSupplier">
+              <MappingFragment StoreEntitySet="ManPowerSupplier">
+                <ScalarProperty Name="File_Type" ColumnName="File Type" />
+                <ScalarProperty Name="Workflow_Instance_ID" ColumnName="Workflow Instance ID" />
+                <ScalarProperty Name="URL_Path" ColumnName="URL Path" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Item_Type" ColumnName="Item Type" />
+                <ScalarProperty Name="Encoded_Absolute_URL" ColumnName="Encoded Absolute URL" />
+                <ScalarProperty Name="Crtl" ColumnName="Crtl" />
+                <ScalarProperty Name="NormalTimeUpto" ColumnName="NormalTimeUpto" />
+                <ScalarProperty Name="NonSkilledRate" ColumnName="NonSkilledRate" />
+                <ScalarProperty Name="SkilledRat" ColumnName="SkilledRat" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectLists">
+            <EntityTypeMapping TypeName="LogisticsSoftModel.ProjectList">
+              <MappingFragment StoreEntitySet="ProjectList">
+                <ScalarProperty Name="rate_w_wo_at" ColumnName="rate_w_wo_at" />
+                <ScalarProperty Name="man_power_budget" ColumnName="man_power_budget" />
+                <ScalarProperty Name="equipment_budget" ColumnName="equipment_budget" />
+                <ScalarProperty Name="project_period" ColumnName="project_period" />
+                <ScalarProperty Name="excute_by" ColumnName="excute_by" />
+                <ScalarProperty Name="File_Type" ColumnName="File Type" />
+                <ScalarProperty Name="Workflow_Instance_ID" ColumnName="Workflow Instance ID" />
+                <ScalarProperty Name="URL_Path" ColumnName="URL Path" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Item_Type" ColumnName="Item Type" />
+                <ScalarProperty Name="Encoded_Absolute_URL" ColumnName="Encoded Absolute URL" />
+                <ScalarProperty Name="Closed" ColumnName="Closed" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="Notice" ColumnName="Notice" />
+                <ScalarProperty Name="REMARKS" ColumnName="REMARKS" />
+                <ScalarProperty Name="Completion_Certificate" ColumnName="Completion Certificate" />
+                <ScalarProperty Name="PM_CONTACT" ColumnName="PM CONTACT" />
+                <ScalarProperty Name="PM" ColumnName="PM" />
+                <ScalarProperty Name="LOCATION" ColumnName="LOCATION" />
+                <ScalarProperty Name="INSURANCE_STATUS" ColumnName="INSURANCE STATUS" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="END_DATE" ColumnName="END DATE" />
+                <ScalarProperty Name="START_DATE" ColumnName="START DATE" />
+                <ScalarProperty Name="SCOPE_OF_WORK" ColumnName="SCOPE OF WORK" />
+                <ScalarProperty Name="Notice_02" ColumnName="Notice-02" />
+                <ScalarProperty Name="Notice_01" ColumnName="Notice-01" />
+                <ScalarProperty Name="CLIENT_MC" ColumnName="CLIENT/MC" />
+                <ScalarProperty Name="PROJECT_NAME" ColumnName="PROJECT NAME" />
+                <ScalarProperty Name="INQUIRY" ColumnName="INQUIRY" />
+                <ScalarProperty Name="STAMP_CODE" ColumnName="STAMP CODE" />
+                <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -10,6 +10,10 @@
         <AssociationConnector Association="LogisticsSoftModel.FK_Attendance_ToMainTimeSheet" ManuallyRouted="false" />
         <EntityTypeShape EntityType="LogisticsSoftModel.LabourMaster" Width="1.5" PointX="0.75" PointY="11" />
         <AssociationConnector Association="LogisticsSoftModel.FK_Attendance_ToLabourMaster" />
+        <EntityTypeShape EntityType="LogisticsSoftModel.ManPowerSupplier" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="LogisticsSoftModel.ProjectList" Width="1.5" PointX="0.75" PointY="19.25" />
+        <AssociationConnector Association="LogisticsSoftModel.FK_MainTimeSheet_ToTable" />
+        <AssociationConnector Association="LogisticsSoftModel.FK_MainTimeSheet_ToTable_1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
