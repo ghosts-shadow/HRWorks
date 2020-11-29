@@ -130,6 +130,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.master_file.employee_no)
             </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
         </tr>
     }
 

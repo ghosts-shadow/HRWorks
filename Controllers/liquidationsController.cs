@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
+    using System.Net;
     using System.Web.Mvc;
 
     using HRworks.Models;
@@ -327,6 +328,86 @@
             }
             return RedirectToAction("liquiapprove");
         }
+
+        // GET: liquidations1/Edit/5
+        [Authorize(Roles = "super_admin")]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            liquidation liquidation = db.liquidations.Find(id);
+            if (liquidation == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.employee_no = new SelectList(
+                db.master_file,
+                "employee_id",
+                "employee_name",
+                liquidation.employee_no);
+            ViewBag.refr = new SelectList(db.liquidation_ref, "Id", "Id", liquidation.refr);
+            return View(liquidation);
+        }
+        // POST: liquidations1/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "super_admin")]
+        public ActionResult Edit(
+            [Bind(
+                Include =
+                    "Id,bill_no,expenses,invoice_date,discription,employee_no,MBNo,invoice,VAT,invoice_amount,refr,changed_by,date_changed")]
+            liquidation liquidation)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(liquidation).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.employee_no = new SelectList(
+                db.master_file,
+                "employee_id",
+                "employee_name",
+                liquidation.employee_no);
+            ViewBag.refr = new SelectList(db.liquidation_ref, "Id", "Id", liquidation.refr);
+            return View(liquidation);
+        }
+
+        // GET: liquidations1/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            liquidation liquidation = db.liquidations.Find(id);
+            if (liquidation == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(liquidation);
+        }
+
+        // POST: liquidations1/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            liquidation liquidation = db.liquidations.Find(id);
+            db.liquidations.Remove(liquidation);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
 
         protected override void Dispose(bool disposing)
         {
