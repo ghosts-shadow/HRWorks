@@ -90,6 +90,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.master_file.employee_no)
             </th>
+            @if (User.IsInRole("super_admin"))
+            {
+                <th></th>
+            }
         </tr>
     </thead>
     @foreach (var item in Model)
@@ -134,10 +138,13 @@
     <td>
         @Html.DisplayFor(modelItem => item.master_file.employee_no)
     </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-    </td>
+    @if(User.IsInRole("super_admin"))
+    {
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
+    }
 </tr>
     }
 

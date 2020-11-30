@@ -464,11 +464,522 @@
                         var attd = att.FindAll(x => x.EmpID == lab1.ID).ToList();
                         foreach (var aq in attd)
                         {
-                            if (aq.LabourMaster.EMPNO == 197)
+                            var aft1 = 0d;
+                            var x = 0l;
+                            if (IsBase64Encoded(payr.contract.FOT))
                             {
-                                var am = 0;
+                                double.TryParse(Unprotect(payr.contract.FOT), out aft1);
                             }
-                            if (aq.TotalOverTime.HasValue) aqt += aq.TotalOverTime.Value;
+
+                            if (aft1 != 0)
+                            {
+                                var y = 0l;
+                                if (aq.C1 != null)
+                                {
+                                    long.TryParse(aq.C1, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C2 != null)
+                                {
+                                    long.TryParse(aq.C2, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C3 != null)
+                                {
+                                    long.TryParse(aq.C3, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C4 != null)
+                                {
+                                    long.TryParse(aq.C4, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C5 != null)
+                                {
+                                    long.TryParse(aq.C5, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C6 != null)
+                                {
+                                    long.TryParse(aq.C6, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C7 != null)
+                                {
+                                    long.TryParse(aq.C7, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C8 != null)
+                                {
+                                    long.TryParse(aq.C8, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C9 != null)
+                                {
+                                    long.TryParse(aq.C9, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C10 != null)
+                                {
+                                    long.TryParse(aq.C10, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C11 != null)
+                                {
+                                    long.TryParse(aq.C11, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C12 != null)
+                                {
+                                    long.TryParse(aq.C12, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C13 != null)
+                                {
+                                    long.TryParse(aq.C13, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C14 != null)
+                                {
+                                    long.TryParse(aq.C14, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C15 != null)
+                                {
+                                    long.TryParse(aq.C15, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C16 != null)
+                                {
+                                    long.TryParse(aq.C16, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C17 != null)
+                                {
+                                    long.TryParse(aq.C17, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C18 != null)
+                                {
+                                    long.TryParse(aq.C18, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C19 != null)
+                                {
+                                    long.TryParse(aq.C19, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C20 != null)
+                                {
+                                    long.TryParse(aq.C21, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+
+                                if (aq.C21 != null)
+                                {
+                                    long.TryParse(aq.C31, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C22 != null)
+                                {
+                                    long.TryParse(aq.C22, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C23 != null)
+                                {
+                                    long.TryParse(aq.C23, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C24 != null)
+                                {
+                                    long.TryParse(aq.C24, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C25 != null)
+                                {
+                                    long.TryParse(aq.C25, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C26 != null)
+                                {
+                                    long.TryParse(aq.C26, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C27 != null)
+                                {
+                                    long.TryParse(aq.C28, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C28 != null)
+                                {
+                                    long.TryParse(aq.C28, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C29 != null)
+                                {
+                                    long.TryParse(aq.C29, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C30 != null)
+                                {
+                                    long.TryParse(aq.C30, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                                if (aq.C31 != null)
+                                {
+                                    long.TryParse(aq.C31, out y);
+                                    if (y > 9)
+                                    {
+                                        x += y - 9;
+                                    }
+                                }
+                            }
+                            else if(aft1 == 0)
+                            {
+
+                                var y = 0l;
+                                if (aq.C1 != null)
+                                {
+                                    long.TryParse(aq.C1, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C2 != null)
+                                {
+                                    long.TryParse(aq.C2, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C3 != null)
+                                {
+                                    long.TryParse(aq.C3, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C4 != null)
+                                {
+                                    long.TryParse(aq.C4, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C5 != null)
+                                {
+                                    long.TryParse(aq.C5, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C6 != null)
+                                {
+                                    long.TryParse(aq.C6, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C7 != null)
+                                {
+                                    long.TryParse(aq.C7, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C8 != null)
+                                {
+                                    long.TryParse(aq.C8, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C9 != null)
+                                {
+                                    long.TryParse(aq.C9, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C10 != null)
+                                {
+                                    long.TryParse(aq.C10, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C11 != null)
+                                {
+                                    long.TryParse(aq.C11, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C12 != null)
+                                {
+                                    long.TryParse(aq.C12, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C13 != null)
+                                {
+                                    long.TryParse(aq.C13, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C14 != null)
+                                {
+                                    long.TryParse(aq.C14, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C15 != null)
+                                {
+                                    long.TryParse(aq.C15, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C16 != null)
+                                {
+                                    long.TryParse(aq.C16, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C17 != null)
+                                {
+                                    long.TryParse(aq.C17, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C18 != null)
+                                {
+                                    long.TryParse(aq.C18, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C19 != null)
+                                {
+                                    long.TryParse(aq.C19, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C20 != null)
+                                {
+                                    long.TryParse(aq.C21, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+
+                                if (aq.C21 != null)
+                                {
+                                    long.TryParse(aq.C31, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C22 != null)
+                                {
+                                    long.TryParse(aq.C22, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C23 != null)
+                                {
+                                    long.TryParse(aq.C23, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C24 != null)
+                                {
+                                    long.TryParse(aq.C24, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C25 != null)
+                                {
+                                    long.TryParse(aq.C25, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C26 != null)
+                                {
+                                    long.TryParse(aq.C26, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C27 != null)
+                                {
+                                    long.TryParse(aq.C28, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C28 != null)
+                                {
+                                    long.TryParse(aq.C28, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C29 != null)
+                                {
+                                    long.TryParse(aq.C29, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C30 != null)
+                                {
+                                    long.TryParse(aq.C30, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                                if (aq.C31 != null)
+                                {
+                                    long.TryParse(aq.C31, out y);
+                                    if (y >8)
+                                    {
+                                        x += y - 8;
+                                    }
+                                }
+                            }
+
+                            aqt += x;
                             if (aq.FridayHours.HasValue) aqf += aq.FridayHours.Value;
                             if (aq.Holidays.HasValue) aqh += aq.Holidays.Value;
                         }
@@ -625,7 +1136,522 @@
                             var attd = att.FindAll(x => x.EmpID == lab1.ID).ToList();
                             foreach (var aq in attd)
                             {
-                                if (aq.TotalOverTime.HasValue) aqt += aq.TotalOverTime.Value;
+                                var aft1 = 0d;
+                                var x = 0l;
+                                if (IsBase64Encoded(payr.contract.FOT))
+                                {
+                                    double.TryParse(Unprotect(payr.contract.FOT), out aft1);
+                                }
+
+                                if (aft1 != 0)
+                                {
+                                    var y = 0l;
+                                    if (aq.C1 != null)
+                                    {
+                                        long.TryParse(aq.C1, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C2 != null)
+                                    {
+                                        long.TryParse(aq.C2, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C3 != null)
+                                    {
+                                        long.TryParse(aq.C3, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C4 != null)
+                                    {
+                                        long.TryParse(aq.C4, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C5 != null)
+                                    {
+                                        long.TryParse(aq.C5, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C6 != null)
+                                    {
+                                        long.TryParse(aq.C6, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C7 != null)
+                                    {
+                                        long.TryParse(aq.C7, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C8 != null)
+                                    {
+                                        long.TryParse(aq.C8, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C9 != null)
+                                    {
+                                        long.TryParse(aq.C9, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C10 != null)
+                                    {
+                                        long.TryParse(aq.C10, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C11 != null)
+                                    {
+                                        long.TryParse(aq.C11, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C12 != null)
+                                    {
+                                        long.TryParse(aq.C12, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C13 != null)
+                                    {
+                                        long.TryParse(aq.C13, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C14 != null)
+                                    {
+                                        long.TryParse(aq.C14, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C15 != null)
+                                    {
+                                        long.TryParse(aq.C15, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C16 != null)
+                                    {
+                                        long.TryParse(aq.C16, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C17 != null)
+                                    {
+                                        long.TryParse(aq.C17, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C18 != null)
+                                    {
+                                        long.TryParse(aq.C18, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C19 != null)
+                                    {
+                                        long.TryParse(aq.C19, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C20 != null)
+                                    {
+                                        long.TryParse(aq.C21, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+
+                                    if (aq.C21 != null)
+                                    {
+                                        long.TryParse(aq.C31, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C22 != null)
+                                    {
+                                        long.TryParse(aq.C22, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C23 != null)
+                                    {
+                                        long.TryParse(aq.C23, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C24 != null)
+                                    {
+                                        long.TryParse(aq.C24, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C25 != null)
+                                    {
+                                        long.TryParse(aq.C25, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C26 != null)
+                                    {
+                                        long.TryParse(aq.C26, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C27 != null)
+                                    {
+                                        long.TryParse(aq.C28, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C28 != null)
+                                    {
+                                        long.TryParse(aq.C28, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C29 != null)
+                                    {
+                                        long.TryParse(aq.C29, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C30 != null)
+                                    {
+                                        long.TryParse(aq.C30, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                    if (aq.C31 != null)
+                                    {
+                                        long.TryParse(aq.C31, out y);
+                                        if (y > 9)
+                                        {
+                                            x += y - 9;
+                                        }
+                                    }
+                                }
+                                else if (aft1 == 0)
+                                {
+
+                                    var y = 0l;
+                                    if (aq.C1 != null)
+                                    {
+                                        long.TryParse(aq.C1, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C2 != null)
+                                    {
+                                        long.TryParse(aq.C2, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C3 != null)
+                                    {
+                                        long.TryParse(aq.C3, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C4 != null)
+                                    {
+                                        long.TryParse(aq.C4, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C5 != null)
+                                    {
+                                        long.TryParse(aq.C5, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C6 != null)
+                                    {
+                                        long.TryParse(aq.C6, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C7 != null)
+                                    {
+                                        long.TryParse(aq.C7, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C8 != null)
+                                    {
+                                        long.TryParse(aq.C8, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C9 != null)
+                                    {
+                                        long.TryParse(aq.C9, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C10 != null)
+                                    {
+                                        long.TryParse(aq.C10, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C11 != null)
+                                    {
+                                        long.TryParse(aq.C11, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C12 != null)
+                                    {
+                                        long.TryParse(aq.C12, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C13 != null)
+                                    {
+                                        long.TryParse(aq.C13, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C14 != null)
+                                    {
+                                        long.TryParse(aq.C14, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C15 != null)
+                                    {
+                                        long.TryParse(aq.C15, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C16 != null)
+                                    {
+                                        long.TryParse(aq.C16, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C17 != null)
+                                    {
+                                        long.TryParse(aq.C17, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C18 != null)
+                                    {
+                                        long.TryParse(aq.C18, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C19 != null)
+                                    {
+                                        long.TryParse(aq.C19, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C20 != null)
+                                    {
+                                        long.TryParse(aq.C21, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+
+                                    if (aq.C21 != null)
+                                    {
+                                        long.TryParse(aq.C31, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C22 != null)
+                                    {
+                                        long.TryParse(aq.C22, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C23 != null)
+                                    {
+                                        long.TryParse(aq.C23, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C24 != null)
+                                    {
+                                        long.TryParse(aq.C24, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C25 != null)
+                                    {
+                                        long.TryParse(aq.C25, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C26 != null)
+                                    {
+                                        long.TryParse(aq.C26, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C27 != null)
+                                    {
+                                        long.TryParse(aq.C28, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C28 != null)
+                                    {
+                                        long.TryParse(aq.C28, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C29 != null)
+                                    {
+                                        long.TryParse(aq.C29, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C30 != null)
+                                    {
+                                        long.TryParse(aq.C30, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                    if (aq.C31 != null)
+                                    {
+                                        long.TryParse(aq.C31, out y);
+                                        if (y > 8)
+                                        {
+                                            x += y - 8;
+                                        }
+                                    }
+                                }
+
+                                aqt += x;
                                 if (aq.FridayHours.HasValue) aqf += aq.FridayHours.Value;
                                 if (aq.Holidays.HasValue) aqh += aq.Holidays.Value;
                             }

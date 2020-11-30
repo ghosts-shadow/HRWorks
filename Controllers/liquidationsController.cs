@@ -381,6 +381,7 @@
         }
 
         // GET: liquidations1/Delete/5
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -400,6 +401,7 @@
         // POST: liquidations1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "super_admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             liquidation liquidation = db.liquidations.Find(id);
