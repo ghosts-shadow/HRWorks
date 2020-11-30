@@ -62,6 +62,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.bill_no)
             </th>
+            <th>@Html.DisplayNameFor(model => model.liquidation_ref.liq)</th>
             <th>
                 @Html.DisplayNameFor(model => model.expenses)
             </th>
@@ -93,48 +94,51 @@
     </thead>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.liquidation_ref.date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.liquidation_ref.refr)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.bill_no)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.expenses)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.invoice_date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.discription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MBNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.invoice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VAT)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.invoice_amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.master_file.employee_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.master_file.employee_no)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.liquidation_ref.date)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.liquidation_ref.refr)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.bill_no)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.liquidation_ref.liq)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.expenses)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.invoice_date)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.discription)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.MBNo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.invoice)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.VAT)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.invoice_amount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.master_file.employee_name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.master_file.employee_no)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>
+</tr>
     }
 
 </table>
