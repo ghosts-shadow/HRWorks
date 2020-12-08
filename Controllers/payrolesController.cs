@@ -13,7 +13,7 @@
     using HRworks.Models;
 
     [NoDirectAccess]
-    [Authorize(Roles = "super_admin,payrole,employee_con")]
+   // [Authorize(Roles = "super_admin,payrole,employee_con")]
     public class payrolesController : Controller
     {
         private const string Purpose = "equalizer";
@@ -403,6 +403,7 @@
             var paylist = new List<payrole>();
             var lab = this.db1.LabourMasters.ToList();
             var mts = new List<MainTimeSheet>();
+            var att1 = new List<Attendance>();
             var att = new List<Attendance>();
 
             if (month.HasValue)
@@ -416,12 +417,33 @@
                     month.Value.Year,
                     month.Value.Month,
                     DateTime.DaysInMonth(month.Value.Year, month.Value.Month));
-                foreach (var mt in mts)
+                var Msum = this.db1.MainTimeSheets.Where(
+                        y => y.ManPowerSupplier == 1 && y.TMonth.Month == month.Value.Month && y.TMonth.Year == month
+                                 .Value.Year)
+                    .ToList();
+                var cony = 0;
+                var passexel = new List<Attendance>();
+                foreach (var sum in Msum)
                 {
-                    var temp = atlist.FindAll(x => x.MainTimeSheet == mt);
-                    att.AddRange(temp);
+                   var listat = this.db1.Attendances.Where(x => x.SubMain.Equals(sum.ID)).OrderByDescending(x => x.ID)
+                        .ToList();
+
+                    foreach (var VA in listat.OrderBy(x => x.ID))
+                    {
+                        if (!passexel.Exists(
+                                x => x.MainTimeSheet.ProjectList.ID == VA.MainTimeSheet.ProjectList.ID
+                                     && x.EmpID == VA.EmpID))
+                        {
+                            passexel.Add(VA);
+                        }
+                        else
+                        {
+                            cony++;
+                        }
+                    }
                 }
-                
+
+                att = passexel;
                 foreach (var masterFile in afinallist)
                 {
                     if (paylisteisting.Exists(
@@ -480,6 +502,7 @@
                                     if (y > 9)
                                     {
                                         x += y - 9;
+
                                     }
                                 }
                                 if (aq.C2 != null)
@@ -628,7 +651,7 @@
                                 }
                                 if (aq.C20 != null)
                                 {
-                                    long.TryParse(aq.C21, out y);
+                                    long.TryParse(aq.C20, out y);
                                     if (y > 9)
                                     {
                                         x += y - 9;
@@ -637,7 +660,7 @@
 
                                 if (aq.C21 != null)
                                 {
-                                    long.TryParse(aq.C31, out y);
+                                    long.TryParse(aq.C21, out y);
                                     if (y > 9)
                                     {
                                         x += y - 9;
@@ -685,7 +708,7 @@
                                 }
                                 if (aq.C27 != null)
                                 {
-                                    long.TryParse(aq.C28, out y);
+                                    long.TryParse(aq.C27, out y);
                                     if (y > 9)
                                     {
                                         x += y - 9;
@@ -724,14 +747,14 @@
                                     }
                                 }
                             }
-                            else if(aft1 == 0)
+                            else if (aft1 == 0)
                             {
 
                                 var y = 0l;
                                 if (aq.C1 != null)
                                 {
                                     long.TryParse(aq.C1, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -739,7 +762,7 @@
                                 if (aq.C2 != null)
                                 {
                                     long.TryParse(aq.C2, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -747,7 +770,7 @@
                                 if (aq.C3 != null)
                                 {
                                     long.TryParse(aq.C3, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -755,7 +778,7 @@
                                 if (aq.C4 != null)
                                 {
                                     long.TryParse(aq.C4, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -763,7 +786,7 @@
                                 if (aq.C5 != null)
                                 {
                                     long.TryParse(aq.C5, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -771,7 +794,7 @@
                                 if (aq.C6 != null)
                                 {
                                     long.TryParse(aq.C6, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -779,7 +802,7 @@
                                 if (aq.C7 != null)
                                 {
                                     long.TryParse(aq.C7, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -787,7 +810,7 @@
                                 if (aq.C8 != null)
                                 {
                                     long.TryParse(aq.C8, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -795,7 +818,7 @@
                                 if (aq.C9 != null)
                                 {
                                     long.TryParse(aq.C9, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -803,7 +826,7 @@
                                 if (aq.C10 != null)
                                 {
                                     long.TryParse(aq.C10, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -811,7 +834,7 @@
                                 if (aq.C11 != null)
                                 {
                                     long.TryParse(aq.C11, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -819,7 +842,7 @@
                                 if (aq.C12 != null)
                                 {
                                     long.TryParse(aq.C12, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -827,7 +850,7 @@
                                 if (aq.C13 != null)
                                 {
                                     long.TryParse(aq.C13, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -835,7 +858,7 @@
                                 if (aq.C14 != null)
                                 {
                                     long.TryParse(aq.C14, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -843,7 +866,7 @@
                                 if (aq.C15 != null)
                                 {
                                     long.TryParse(aq.C15, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -851,7 +874,7 @@
                                 if (aq.C16 != null)
                                 {
                                     long.TryParse(aq.C16, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -859,7 +882,7 @@
                                 if (aq.C17 != null)
                                 {
                                     long.TryParse(aq.C17, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -867,7 +890,7 @@
                                 if (aq.C18 != null)
                                 {
                                     long.TryParse(aq.C18, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -875,15 +898,15 @@
                                 if (aq.C19 != null)
                                 {
                                     long.TryParse(aq.C19, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
                                 }
                                 if (aq.C20 != null)
                                 {
-                                    long.TryParse(aq.C21, out y);
-                                    if (y >8)
+                                    long.TryParse(aq.C20, out y);
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -891,8 +914,8 @@
 
                                 if (aq.C21 != null)
                                 {
-                                    long.TryParse(aq.C31, out y);
-                                    if (y >8)
+                                    long.TryParse(aq.C21, out y);
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -900,7 +923,7 @@
                                 if (aq.C22 != null)
                                 {
                                     long.TryParse(aq.C22, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -908,7 +931,7 @@
                                 if (aq.C23 != null)
                                 {
                                     long.TryParse(aq.C23, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -916,7 +939,7 @@
                                 if (aq.C24 != null)
                                 {
                                     long.TryParse(aq.C24, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -924,7 +947,7 @@
                                 if (aq.C25 != null)
                                 {
                                     long.TryParse(aq.C25, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -932,15 +955,15 @@
                                 if (aq.C26 != null)
                                 {
                                     long.TryParse(aq.C26, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
                                 }
                                 if (aq.C27 != null)
                                 {
-                                    long.TryParse(aq.C28, out y);
-                                    if (y >8)
+                                    long.TryParse(aq.C27, out y);
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -948,7 +971,7 @@
                                 if (aq.C28 != null)
                                 {
                                     long.TryParse(aq.C28, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -956,7 +979,7 @@
                                 if (aq.C29 != null)
                                 {
                                     long.TryParse(aq.C29, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -964,7 +987,7 @@
                                 if (aq.C30 != null)
                                 {
                                     long.TryParse(aq.C30, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -972,7 +995,7 @@
                                 if (aq.C31 != null)
                                 {
                                     long.TryParse(aq.C31, out y);
-                                    if (y >8)
+                                    if (y > 8)
                                     {
                                         x += y - 8;
                                     }
@@ -1063,7 +1086,6 @@
                         }
 
                         payr.TotalDedution = totded.ToString();
-                        payr.TotalOT = ((aqf *1.5 ) + (aqh * 2.5) + (aqt*1.25) + (aft) + (ant)).ToString();
                         if (payr.leave_absence != null)
                         {
                             payr.leave_absence.absence = absd;
@@ -1077,6 +1099,10 @@
                         var conlist = this.db.contracts.ToList();
                         var con = conlist.Find(c1 => c1.employee_no == masterFile.employee_id);
                         double.TryParse(Unprotect(con.basic), out var bac);
+                        var basperh = ((bac * 12) / 365) / 8;
+                        payr.TotalOT =
+                            ((aqf * 1.5 * basperh) + (aqh * 2.5 * basperh) + (aqt * 1.25 * basperh) + aft + ant)
+                            .ToString();
                         double.TryParse(Unprotect(con.salary_details), out var sal);
                         var tac = 0d;
                         var arr = 0d;
@@ -1152,6 +1178,7 @@
                                         if (y > 9)
                                         {
                                             x += y - 9;
+
                                         }
                                     }
                                     if (aq.C2 != null)
@@ -1300,7 +1327,7 @@
                                     }
                                     if (aq.C20 != null)
                                     {
-                                        long.TryParse(aq.C21, out y);
+                                        long.TryParse(aq.C20, out y);
                                         if (y > 9)
                                         {
                                             x += y - 9;
@@ -1309,7 +1336,7 @@
 
                                     if (aq.C21 != null)
                                     {
-                                        long.TryParse(aq.C31, out y);
+                                        long.TryParse(aq.C21, out y);
                                         if (y > 9)
                                         {
                                             x += y - 9;
@@ -1357,7 +1384,7 @@
                                     }
                                     if (aq.C27 != null)
                                     {
-                                        long.TryParse(aq.C28, out y);
+                                        long.TryParse(aq.C27, out y);
                                         if (y > 9)
                                         {
                                             x += y - 9;
@@ -1554,7 +1581,7 @@
                                     }
                                     if (aq.C20 != null)
                                     {
-                                        long.TryParse(aq.C21, out y);
+                                        long.TryParse(aq.C20, out y);
                                         if (y > 8)
                                         {
                                             x += y - 8;
@@ -1563,7 +1590,7 @@
 
                                     if (aq.C21 != null)
                                     {
-                                        long.TryParse(aq.C31, out y);
+                                        long.TryParse(aq.C21, out y);
                                         if (y > 8)
                                         {
                                             x += y - 8;
@@ -1611,7 +1638,7 @@
                                     }
                                     if (aq.C27 != null)
                                     {
-                                        long.TryParse(aq.C28, out y);
+                                        long.TryParse(aq.C27, out y);
                                         if (y > 8)
                                         {
                                             x += y - 8;
@@ -1676,7 +1703,6 @@
                                 payr.OTNight = "0";
                             }
 
-                            payr.TotalOT = (aqf + aqh + aqt + aft + ant).ToString();
                             if (abslist1.Count != 0)
                             {
                                     payr.Absents = abslist1.OrderByDescending(x => x.month).First().Id;
@@ -1691,6 +1717,8 @@
                                     payr.Leave.days = lowp;
                             }
                             double.TryParse(Unprotect(con.basic), out var bac);
+                            var basperh = ((bac * 12) / 365) / 8;
+                            payr.TotalOT = ((aqf * 1.5 * basperh) + (aqh * 2.5 * basperh) + (aqt * 1.25 * basperh) + aft + ant).ToString();
                             double.TryParse(Unprotect(con.salary_details), out var sal);
                             var tac = 0d;
                             var arr = 0d;
@@ -1715,6 +1743,95 @@
             return this.View(paylist);
         }
 
+        public ActionResult payslip(int? Employee_id, DateTime? eddate)
+        {
+            ViewBag.Employee_id = Employee_id;
+            ViewBag.eddate = eddate;
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+            var pay = this.db.payroles.ToList();
+            afinallist = afinallist.FindAll(x => x.contracts.Count != 0);
+            this.ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
+            var payslip = new payrole();
+            if (eddate.HasValue && Employee_id.HasValue)
+            {
+                eddate = new DateTime(eddate.Value.Year,eddate.Value.Month,1);
+                var endmo = new DateTime(
+                    eddate.Value.Year,
+                    eddate.Value.Month,
+                    DateTime.DaysInMonth(eddate.Value.Year, eddate.Value.Month));
+                payslip = pay.Find(x => x.employee_no == Employee_id && x.forthemonth == eddate);
+                var leave1 = this.db.Leaves.Where(
+                    x => x.Employee_id == payslip.employee_no && x.leave_type == "6"
+                                                                 && x.Start_leave >= payslip.forthemonth
+                                                                 && x.Start_leave <= endmo
+                                                                 && x.End_leave >= payslip.forthemonth
+                                                                 && x.End_leave <= endmo).ToList();
+                var leave2 = this.db.Leaves.Where(
+                    x => x.Employee_id == payslip.employee_no && x.leave_type == "1"
+                                                                 && x.Start_leave >= payslip.forthemonth
+                                                                 && x.Start_leave <= endmo
+                                                                 && x.End_leave >= payslip.forthemonth
+                                                                 && x.End_leave <= endmo).ToList();
+                var leave3 = this.db.Leaves.Where(
+                    x => x.Employee_id == payslip.employee_no && x.leave_type == "2"
+                                                                 && x.Start_leave >= payslip.forthemonth
+                                                                 && x.Start_leave <= endmo
+                                                                 && x.End_leave >= payslip.forthemonth
+                                                                 && x.End_leave <= endmo).ToList();
+                var lowp = 0;
+                foreach (var leaf in leave1)
+                {
+                    var dif = leaf.End_leave - leaf.Start_leave;
+                    lowp += dif.Value.Days + 1;
+                }
+                var al = 0;
+                foreach (var leaf in leave2)
+                {
+                    var dif = leaf.End_leave - leaf.Start_leave;
+                    al += dif.Value.Days + 1;
+                }
+                var sl = 0;
+                foreach (var leaf in leave3)
+                {
+                    var dif = leaf.End_leave - leaf.Start_leave;
+                    sl += dif.Value.Days + 1;
+                }
+
+                ViewBag.al = al;
+                ViewBag.sl = sl;
+                var abslist1 = this.db.leave_absence.Where(
+                    x => x.month.Value.Month == eddate.Value.Month && x.month.Value.Year == eddate.Value.Year
+                                                                  && x.Employee_id == payslip.master_file.employee_id).ToList();
+                var absd = 0;
+                foreach (var leaf in abslist1)
+                {
+                    var dif = leaf.tod - leaf.fromd;
+                    absd += dif.Value.Days + 1;
+                }
+
+                if (abslist1.Count != 0)
+                {
+                    payslip.Absents = abslist1.OrderByDescending(x => x.month).First().Id;
+                    payslip.leave_absence = abslist1.OrderByDescending(x => x.month).First();
+                    payslip.leave_absence.absence = absd;
+                }
+
+                if (leave1.Count != 0)
+                {
+                    payslip.LWOP = leave1.OrderByDescending(x => x.Start_leave).First().Id;
+                    payslip.Leave = leave1.OrderByDescending(x => x.Start_leave).First();
+                    payslip.Leave.days = lowp;
+                }
+            }
+            return this.View(payslip);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing) this.db.Dispose();

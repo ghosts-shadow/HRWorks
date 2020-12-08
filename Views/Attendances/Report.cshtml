@@ -8,7 +8,8 @@
 
 <div class="row">
     <div class="col-md-5">
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index","payroles")'" value="Payrole"/>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index","payroles")'" value="Payroll"/>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("payslip","payroles")'" value="Payslip"/>
     </div>
     <div class="col-md-5">
         <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","Attendances", new{month = DateTime.Now})'" value="NULL Report "/>

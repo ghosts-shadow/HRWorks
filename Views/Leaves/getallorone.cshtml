@@ -69,10 +69,7 @@
         <th>
             @Html.DisplayNameFor(model => model.actual_return_date)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.half)
-        </th>
-        @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+        @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
         {
             <th></th>
         }
@@ -204,21 +201,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.actual_return_date)
         </td>
-        <td>
-            @{
-
-                if (item.half)
-                {
-                    <p>YES</p>
-                }
-                else
-                {
-                    <p>no</p>
-                }
-
-            }
-        </td>
-        @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+        @if (User.IsInRole("admin") || User.IsInRole("super_admin")|| User.IsInRole("payrole"))
         {
     <td>
         @Html.ActionLink("change/enter actual return date", "Edit", new { id = item.Id })

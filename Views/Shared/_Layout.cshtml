@@ -40,10 +40,12 @@
             if (e.ctrlKey && e.keyCode == 'P'.charCodeAt(0)) {
                 $('.btn ').hide();
                 $(':submit').hide();
+                $('#foot').hide();
                 return true;
             } else {
                 $('.btn ').show();
                 $(':submit').show();
+                $('#foot').show();
             }
             return true;
         }

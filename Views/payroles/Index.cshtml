@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>payroll</h2>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -18,102 +18,112 @@
 </script>
 @using (Html.BeginForm("Index", "payroles", FormMethod.Get, new { id = "form1" }))
 {
-<div>
-    month:-
-    <input type="text" name="month" id="datepicker" class="form-control"/>
-    <input type="submit"
-           name="submit"
-           value="Get records" ondblclick="norc()" class="btn btn-default"/>
+    <div>
+        month:-
+        <input type="text" name="month" id="datepicker" class="form-control"/>
+        <input type="submit"
+               name="submit"
+               value="Get records" ondblclick="norc()" class="btn btn-default"/>
 
-    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Report","Attendances")'" value="back to main"/>
-</div>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Report", "Attendances")'" value="back to main"/>
+    </div>
 }
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.master_file.employee_no)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.master_file.employee_name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.contract.basic)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.contract.salary_details)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.contract.ticket_allowance)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.contract.arrears)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.totalpayable)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OTRegular)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OTFriday)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OTNight)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HolidayOT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fot)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalOT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.cashAdvances)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HouseAllow)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.contract.transportation_allowance)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FoodAllow)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Timekeeping)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Communication)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TrafficFines)
-        </th>
-        <th>
-            absence(days)
-        </th>
-        <th>
-            LWOP(days)
-        </th>
-        <th>total LWOP</th>
-        <th>
-            @Html.DisplayNameFor(model => model.others)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalDedution)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NetPay)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.remarks)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
 <tr>
+    <th>
+        @Html.DisplayNameFor(model => model.master_file.employee_no)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.master_file.employee_name)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.contract.basic)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.contract.salary_details)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.contract.ticket_allowance)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.contract.arrears)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.totalpayable)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.OTRegular) (amt)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.OTRegular) (hrs)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.OTFriday) (amt)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.OTFriday) (hrs)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.OTNight)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.HolidayOT) (amt)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.HolidayOT) (hrs)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Fot)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.TotalOT)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.cashAdvances)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.HouseAllow)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.contract.transportation_allowance)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.FoodAllow)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Timekeeping)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Communication)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.TrafficFines)
+    </th>
+    <th>
+        absence(days)
+    </th>
+    <th>
+        LWOP(days)
+    </th>
+    <th>total LWOP</th>
+    <th>
+        @Html.DisplayNameFor(model => model.others)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.TotalDedution)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.NetPay)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.remarks)
+    </th>
+    <th></th>
+</tr>
+
+@foreach (var item in Model)
+{
+    <tr>
     <td>
         @Html.DisplayFor(modelItem => item.master_file.employee_no)
     </td>
@@ -123,6 +133,8 @@
     <td>
         @{
             var bas = payrolesController.Unprotect(item.contract.basic);
+            double.TryParse(bas, out var bas1);
+            var basperh = ((bas1 * 12) / 365) / 8;
         }
         @bas
     </td>
@@ -138,8 +150,8 @@
             if (item.TicketAllowance_ != null && !item.TicketAllowance_.Contains(" "))
             {
                 double.TryParse(payrolesController.Unprotect(item.TicketAllowance_), out tic);
-
             }
+
         }
         @tic
     </td>
@@ -149,8 +161,8 @@
             if (item.Arrears != null && !item.Arrears.Contains(" "))
             {
                 double.TryParse(payrolesController.Unprotect(item.Arrears), out arr);
-
             }
+
         }
         @arr
     </td>
@@ -163,16 +175,24 @@
     <td>
         @{
             double.TryParse(payrolesController.Unprotect(item.OTRegular), out var a);
-            a = a * 1.25;
+            var adays = a;
+            a = a * 1.25 * basperh;
         }
-        @a
+        @a.ToString("F")
+    </td>
+    <td>
+        @adays
     </td>
     <td>
         @{
             double.TryParse(payrolesController.Unprotect(item.OTFriday), out var c);
-            c = c * 1.5;
+            var cdays = c;
+            c = c * 1.5 * basperh;
         }
-        @c
+        @c.ToString("F")
+    </td>
+    <td>
+        @cdays
     </td>
     <td>
         @{
@@ -180,29 +200,34 @@
             if (item.OTNight != null && item.OTNight.Contains(" "))
             {
                 double.TryParse(payrolesController.Unprotect(item.OTNight), out d);
-
             }
+
         }
-        @d
+        @d.ToString("F")
     </td>
     <td>
         @{
             double.TryParse(payrolesController.Unprotect(item.HolidayOT), out var b);
-            b = b * 2.5;
+            var bdays = b;
+            b = b * 2.5 * basperh;
         }
-        @b
+        @b.ToString("F")
+    </td>
+    <td>
+        @bdays
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Fot)
         @{
             double.TryParse(payrolesController.Unprotect(item.contract.FOT), out var e);
         }
-        @e
+        @e.ToString("F")
     </td>
-    <td>@{
-        var tot = a + b + c + d + e;
+    <td>
+        @{
+            var tot = a + b + c + d + e;
         }
-        @tot
+        @tot.ToString("F")
     </td>
     <td>
         @{
@@ -210,9 +235,10 @@
             if (item.cashAdvances != null && !item.cashAdvances.Contains(" "))
             {
                 double.TryParse(payrolesController.Unprotect(item.cashAdvances), out ca);
-
             }
-        }@ca
+
+        }
+        @ca
     </td>
     <td>
         @{
@@ -220,9 +246,10 @@
             if (item.HouseAllow != null && !item.HouseAllow.Contains(" "))
             {
                 double.TryParse(payrolesController.Unprotect(item.HouseAllow), out ha);
-
             }
-        }@ha
+
+        }
+        @ha
     </td>
     <td>
         @{
@@ -231,6 +258,7 @@
             {
                 double.TryParse(payrolesController.Unprotect(item.TransportationAllowance_), out tra);
             }
+
         }
         @tra
     </td>
@@ -240,9 +268,10 @@
             if (item.FoodAllow != null && !item.FoodAllow.Contains(" "))
             {
                 double.TryParse(payrolesController.Unprotect(item.FoodAllow), out fa);
-
             }
-        }@fa
+
+        }
+        @fa
     </td>
     <td>
         @{
@@ -250,8 +279,8 @@
             if (item.Timekeeping != null && !item.Timekeeping.Contains(" "))
             {
                 double.TryParse(payrolesController.Unprotect(item.Timekeeping), out tk);
-
             }
+
         }
         @tk
     </td>
@@ -261,9 +290,10 @@
             if (item.Communication != null && !item.Communication.Contains(" "))
             {
                 double.TryParse(payrolesController.Unprotect(item.Communication), out con);
-
             }
-        }@con
+
+        }
+        @con
     </td>
     <td>
         @{
@@ -271,9 +301,10 @@
             if (item.TrafficFines != null && !item.TrafficFines.Contains(" "))
             {
                 double.TryParse(payrolesController.Unprotect(item.TrafficFines), out traf);
-
             }
-        }@traf
+
+        }
+        @traf
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.leave_absence.absence)
@@ -288,16 +319,18 @@
             double.TryParse(sal, out var gross);
             if (item.leave_absence != null)
             {
-               labs = item.leave_absence.absence.Value;
+                labs = item.leave_absence.absence.Value;
             }
+
             if (item.Leave != null)
             {
-                 ldays = item.Leave.days.Value;
+                ldays = item.Leave.days.Value;
             }
-            var TLWOP = (labs + ldays)*(gross * 12 / 365);
+
+            var TLWOP = (labs + ldays) * (gross * 12 / 365);
         }
         @TLWOP
-        
+
     </td>
     <td>
         @{
@@ -305,8 +338,8 @@
             if (item.others != null)
             {
                 double.TryParse(payrolesController.Unprotect(item.others), out oth);
-
             }
+
             @oth
         }
     </td>
@@ -316,8 +349,8 @@
             if (item.TotalDedution != null)
             {
                 double.TryParse(payrolesController.Unprotect(item.TotalDedution), out tod);
-
             }
+
         }
         @tod
     </td>
@@ -327,9 +360,10 @@
             if (item.NetPay != null && !item.NetPay.Contains(" "))
             {
                 double.TryParse(payrolesController.Unprotect(item.NetPay), out net);
-
             }
-        }@net
+
+        }
+        @net
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.remarks)
@@ -337,10 +371,10 @@
     <td>
         @if (item.Id != 0)
         {
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) 
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
         }
     </td>
-</tr>
+    </tr>
 }
 
 </table>

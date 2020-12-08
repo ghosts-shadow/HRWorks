@@ -1,0 +1,504 @@
+﻿@using HRworks.Controllers
+@model HRworks.Models.payrole
+
+@{
+    ViewBag.Title = "payslip";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .a {
+        padding: 0px !important;
+    }
+
+    page {
+        background: white;
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 0.5cm;
+        box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+    }
+
+        page[size="A4"] {
+            width: 21cm;
+            height: 29.7cm;
+        }
+
+            page[size="A4"][layout="landscape"] {
+                width: 29.7cm;
+                height: 21cm;
+            }
+
+        page[size="A3"] {
+            width: 29.7cm;
+            height: 42cm;
+        }
+
+            page[size="A3"][layout="landscape"] {
+                width: 42cm;
+                height: 29.7cm;
+            }
+
+        page[size="A5"] {
+            width: 14.8cm;
+            height: 21cm;
+        }
+
+            page[size="A5"][layout="landscape"] {
+                width: 21cm;
+                height: 14.8cm;
+            }
+
+    @@media print {
+        body, page {
+            margin: 0;
+            box-shadow: 0;
+        }
+    }
+</style>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#datepicker1").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy"
+        });
+        $("#empno").chosen({ no_results_text: "Oops, nothing found!" });
+    });
+
+    document.onkeydown = function (e) {
+
+        if (e.ctrlKey && e.keyCode == 'P'.charCodeAt(0)) {
+            $('.btn ').hide();
+            $(':submit').hide();
+            $('#foot').hide();
+            $('#empno').hide();
+            $('#datepicker1').hide();
+            return true;
+        } else {
+            $('.btn ').show();
+            $(':submit').show();
+            $('#foot').show();
+            $('#empno').show();
+            $('#datepicker1').show();
+        }
+        return true;
+    }
+</script>
+@*<page size="A4" layout="landscape">*@
+    @using (Html.BeginForm())
+    {
+        @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "empno" })
+        <br />
+        <br />
+        <input type="text" id="datepicker1" name="eddate" class="form-control" />
+        <br />
+        <input type="submit" value="Search" class="btn btn-default" />
+    }
+    @if (ViewBag.Employee_id != null && ViewBag.eddate != null)
+    {
+        <div style="border: 3px solid black; padding-left: 10.469291339px; width: 277mm; padding-right: 0px !important; ">
+            <div class="row">
+                <div class="col-md-4">
+                    Pay Slip - <b>
+                        @if (ViewBag.eddate != null)
+                        {@ViewBag.eddate.ToString("MMMM yyyy")}
+                    </b>
+                </div>
+                <div class="col-md-3"><b>CITISCAPE LLC</b> </div>
+                <div class="col-md-3">Project: <b>@Html.DisplayFor(modelItem => modelItem.contract.departmant_project)</b></div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">Employee #:<b>@Html.DisplayFor(model => model.master_file.employee_no) @Html.DisplayFor(modelItem => modelItem.master_file.employee_name)</b></div>
+                <div class="col-md-3">position:<b>@Html.DisplayFor(modelItem => modelItem.contract.designation)</b></div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">DateJoin:<b>@Html.DisplayFor(modelItem => modelItem.master_file.date_joined)</b></div>
+                <div class="col-md-3">Grade:<b>@Html.DisplayFor(modelItem => modelItem.contract.grade)</b></div>
+            </div>
+            <div class="row" style="border-left: 1px solid black; font-size: 80%">
+                <div class="col-md-4" style="text-align: center; border-top: 1px solid black; border-right: 1px solid black; width: 418.77165354px !important"><b><u>SALARY</u></b></div>
+                <div class="col-md-1" style="text-align: center; border-top: 1px solid black; border-right: 1px solid black; width: 167.50866142px !important"><b><u>WORKING DAYS</u></b></div>
+                <div class="col-md-3" style="text-align: center; border-top: 1px solid black; border-right: 1px solid black; width: 303.60944882px !important"><b><u>DEDUCTIONS </u></b></div>
+                <div class="col-md-1" style="text-align: center; border-top: 1px solid black; border-right: 1px solid black; width: 143.42929134px !important"><b><u>Remarks</u></b></div>
+
+            </div>
+            <div class="row" style="font-size: 70%">
+                <div class="col-md-4" style="border-right: 1px solid black; width: px !important">
+                    <div class="row" style=" margin-left: 4px">
+                        <div class="col-md-3" style="width: 107.244px !important">
+                            <div class="row">
+                                <div class="col-md-6 a" style="text-align: left">basic:</div>
+                                <div class="col-md-4 a" style="text-align: right">
+                                    <b>
+                                        @{
+                                            var a = 0d;
+                                            var basperh = 0d;
+                                            if (Model.contract != null)
+                                            {
+                                                var bas = payrolesController.Unprotect(Model.contract.basic);
+                                                double.TryParse(bas, out var bas1);
+                                                basperh = ((bas1 * 12) / 365) / 8;
+                                                @bas1.ToString("F")
+                                            }
+                                        }
+                                    </b>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3" style="width: 107.244px !important">
+                            <div class="row">
+                                <div class="col-md-6 a" style="text-align: left">FAllow:</div>
+                                <div class="col-md-4 a" style="text-align: right">
+                                    <b>
+                                        @if (Model.contract != null)
+                                        {
+                                            double.TryParse(payrolesController.Unprotect(Model.contract.food_allowance), out a);@a
+                                        }
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="width:107.244px !important">
+                            <div class="row">
+                                <div class="col-md-6 a" style="text-align: left">Arrears:</div>
+                                <div class="col-md-4 a" style="text-align: right">
+                                    <b>
+                                        @if (Model.contract != null)
+                                        {
+                                            double.TryParse(payrolesController.Unprotect(Model.contract.arrears), out a);@a
+                                        }
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left: 4px;">
+                        <div class="col-md-3" style="width: 107.244px !important">
+                            <div class="row">
+                                <div class="col-md-6 a" style="text-align: left">Housing:</div>
+                                <div class="col-md-4 a" style="text-align: right">
+                                    <b>
+                                        @if (Model.contract != null)
+                                        {
+                                            double.TryParse(payrolesController.Unprotect(Model.contract.housing_allowance), out a);@a
+                                        }
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="width: 107.244px !important">
+                            <div class="row">
+                                <div class="col-md-6 a" style="text-align: left">FOT:</div>
+                                <div class="col-md-4 a" style="text-align: right">
+                                    <b>
+                                        @if (Model.contract != null)
+                                        {
+                                            double.TryParse(payrolesController.Unprotect(Model.contract.FOT), out a);@a
+                                        }
+                                        else
+                                        {
+                                            var z = 0;
+                                            @z
+                                        }
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="width: 107.244px !important">
+                            <div class="row">
+                                <div class="col-md-6 a" style="text-align: left">Ticket Allow:</div>
+                                <div class="col-md-4 a" style="text-align: right">
+                                    <b>
+                                        @if (Model.TicketAllowance_ != null)
+                                        {
+                                            double.TryParse(payrolesController.Unprotect(Model.TicketAllowance_), out a);@a
+                                        }
+                                        else
+                                        {
+                                            var z = 0;
+                                            @z
+                                        }
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left: 4px;">
+                        <div class="col-md-3" style="width: 107.244px !important">
+                            <div class="row">
+                                <div class="col-md-6 a" style="text-align: left">transportation:</div>
+                                <div class="col-md-4 a" style="text-align: right">
+                                    <b>
+                                        @if (Model.contract != null)
+                                        {
+                                            double.TryParse(payrolesController.Unprotect(Model.contract.transportation_allowance), out a);@a
+                                        }
+                                        else
+                                        {
+                                            var z = 0;
+                                            @z
+                                        }
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="width: 107.244px !important">
+                            <div class="row">
+                                <div class="col-md-6 a" style="text-align: left">L. Allow:</div>
+                                <div class="col-md-4 a" style="text-align: right">
+                                    <b>
+                                        @if (Model.contract != null)
+                                        {
+                                            double.TryParse(payrolesController.Unprotect(Model.contract.living_allowance), out a);@a
+                                        }
+                                        else
+                                        {
+                                            var z = 0;
+                                            @z
+                                        }
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="width: 107.244px !important"><br /></div>
+                    </div>
+                    <div class="row" style="margin-left: 4px;">
+                        <div class="col-md-3" style="width: 107.244px !important">
+                            <div class="row">
+                                <div class="col-md-6 a" style="text-align: left">OT:</div>
+                                <div class="col-md-4 a" style="text-align: right">
+                                    <b>
+                                        @if (Model.contract != null)
+                                        {
+                                            double.TryParse(payrolesController.Unprotect(Model.TotalOT), out var a1);
+                                            @a1
+                                        }
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3"><br /></div>
+                        <div class="col-md-3"><br /></div>
+                    </div><br />
+                    <div class="row" style="margin-left: 4px;">
+                        <div class="col-md-7" style="text-align: right"><b>Gross Salary:</b></div>
+                        <div class="col-md-3" style="text-align: right">
+                            @{
+                                double.TryParse(payrolesController.Unprotect(Model.TotalOT), out var a2);
+                                var ttp = payrolesController.Unprotect(Model.totalpayable);
+                                double.TryParse(ttp, out var a3);
+                                var gro = a3 + a2;
+                                @gro
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1" style="border-right: 1px solid black; width: 167.50866142px !important; padding-left: 20.938582677px">
+                    <div class="row">
+                        <div class="col-md-6 a" style="text-align: left">AnnualLeave:</div>
+                        <div class="col-md-4 a" style="text-align: right"><b>@ViewBag.al</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 a" style="text-align: left">Absent:</div>
+                        <div class="col-md-4 a" style="text-align: right"><b>@Html.DisplayFor(modelItem => modelItem.leave_absence.absence)</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 a" style="text-align: left">LWOP:</div>
+                        <div class="col-md-4 a" style="text-align: right"><b>@Html.DisplayFor(modelItem => modelItem.Leave.days)</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 a" style="text-align: left">SL:</div>
+                        <div class="col-md-4 a" style="text-align: right">
+                            <b>
+                                @ViewBag.sl
+                            </b>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 a" style="text-align: left">Holiday:</div>
+                        <div class="col-md-4 a" style="text-align: right"><b>0</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 a" style="text-align: left">days:</div>
+                        <div class="col-md-4 a" style="text-align: right">
+                            <b>
+                                @{
+                                    var leave = 0d;
+                                    if (Model.Leave != null)
+                                    {
+                                        leave = Model.Leave.days.Value;
+                                    }
+                                    var abs = 0d;
+                                    if (Model.Leave != null)
+                                    {
+                                        abs = Model.leave_absence.absence.Value;
+                                    }
+                                    var daysleft = 31 - leave - abs - ViewBag.al - ViewBag.sl;
+                                }@daysleft
+                            </b>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3" style="border-right: 1px solid black; width: 303.60944882px !important; padding-left: 20.938582677px">
+                    <div class="row">
+                        <div class="col-md-3 a" style="width: 78.5197px !important ">Absent:</div>
+                        <div class="col-md-3 a" style="width: 52.3465px!important">
+                            @{
+                                var labs = 0d;
+                                var ldays = 0d;
+                                double.TryParse(payrolesController.Unprotect(Model.contract.salary_details), out var gross);
+                                if (Model.leave_absence != null)
+                                {
+                                    labs = Model.leave_absence.absence.Value;
+                                }
+                                if (Model.Leave != null)
+                                {
+                                    ldays = Model.Leave.days.Value;
+                                }
+                                var absamt = (labs) * (gross * 12 / 365);
+                                var ldaysamt = (ldays) * (gross * 12 / 365);}@absamt
+                            </div>
+                            <div class="col-md-3 a" style="width: 78.5197px !important">HADeduct:</div>
+                            <div class="col-md-3 a" style="width: 52.3465px!important">
+                                @{
+                                    if (Model.HouseAllow != null)
+                                    {
+                                        double.TryParse(payrolesController.Unprotect(Model.HouseAllow), out var ha);
+                                        @ha
+                                    }
+                                    else
+                                    {
+                                        var z = 0;
+                                        @z
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 a" style="width: 78.5197px !important ">Late:</div>
+                            <div class="col-md-3 a" style="width: 52.3465px!important">
+                                @{
+                                    if (Model.Timekeeping != null)
+                                    {
+                                        double.TryParse(payrolesController.Unprotect(Model.Timekeeping), out var tk);@tk
+                                    }
+                                    else
+                                    {
+                                        var z = 0;
+                                        @z
+                                    }
+                                }
+                            </div>
+                            <div class="col-md-3 a" style="width: 78.5197px !important">traffic:</div>
+                            <div class="col-md-3 a" style="width: 52.3465px!important">
+                                @{
+                                    if (Model.TrafficFines != null)
+                                    {
+                                        double.TryParse(payrolesController.Unprotect(Model.TrafficFines), out var tf);@tf
+                                    }
+                                    else
+                                    {
+                                        var z = 0;
+                                        @z
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 a" style="width: 78.5197px !important ">LWOP Amt</div>
+                            <div class="col-md-3 a" style="width: 52.3465px!important">@ldaysamt</div>
+                            <div class="col-md-3 a" style="width: 78.5197px !important">communication</div>
+                            <div class="col-md-3 a" style="width: 52.3465px!important">
+                                @{
+                                    if (Model.Communication != null)
+                                    {
+                                        double.TryParse(payrolesController.Unprotect(Model.Communication), out var co);@co
+                                    }
+                                    else
+                                    {
+                                        var z = 0;
+                                        @z
+                                    }
+
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 a" style="width: 78.5197px !important ">Cash Advanc</div>
+                            <div class="col-md-3 a" style="width: 52.3465px!important">
+                                @{
+                                    if (Model.cashAdvances != null)
+                                    {
+                                        double.TryParse(payrolesController.Unprotect(Model.cashAdvances), out var ca);@ca
+                                    }
+                                    else
+                                    {
+                                        var z = 0;
+                                        @z
+                                    }
+                                }
+                            </div>
+                            <div class="col-md-3 a" style="width: 78.5197px !important ">Adjustments</div>
+                            <div class="col-md-3 a" style="width: 52.3465px!important">
+                                @{
+                                    if (Model.others != null)
+                                    {
+                                        double.TryParse(payrolesController.Unprotect(Model.others), out var ot);@ot
+                                    }
+                                    else
+                                    {
+                                        var z = 0;
+                                        @z
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-5">Total Deduction:</div>
+                            <div class="col-md-5">
+                                @{
+                                    if (Model.TotalDedution != null)
+                                    {
+                                        double.TryParse(payrolesController.Unprotect(Model.TotalDedution), out var tot);@tot
+                                    }
+                                    else
+                                    {
+                                        var z = 0;
+                                        @z
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1" style="border-right: 1px solid black; width: 143.42929134px !important;text-align: center">
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <div class="row">
+                            <b><u>NET SALARY</u></b>
+                        </div>
+                        <div class="row">
+                            <b>
+                                @{
+                                    double.TryParse(payrolesController.Unprotect(Model.NetPay), out var np);@np
+                                }
+                            </b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+@*</page>*@

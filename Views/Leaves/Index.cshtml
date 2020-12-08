@@ -22,7 +22,7 @@
                 <br />
             </div>
             <div class="col-lg-4">
-                @if (User.IsInRole("admin") || User.IsInRole("super_admin"))
+                @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
                 {
                     <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("getallorone")'" value="Change/Enter actual return date" />
                 }

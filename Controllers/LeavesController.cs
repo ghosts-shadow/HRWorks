@@ -1440,7 +1440,7 @@
 
         public ActionResult report(long? Employee_id, DateTime? eddate)
         {
-            eddate = new DateTime(2020,12,31);
+            eddate = new DateTime(2021,6, DateTime.DaysInMonth(2021,6));
             ViewBag.Employee_id = Employee_id;
             ViewBag.eddate = eddate;
             var emp_listfinal = new List<master_file>();

@@ -505,6 +505,8 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="img\payslip-1\Image_001.png" />
+    <Content Include="img\payslip-1\Image_002.png" />
     <Content Include="img\pettycashbar.jpg" />
     <Content Include="Models\HRModel.edmx.diagram">
       <DependentUpon>HRModel.edmx</DependentUpon>
@@ -790,6 +792,7 @@
     <Content Include="Views\hiks\Absent.cshtml" />
     <Content Include="Views\liquidations\Edit.cshtml" />
     <Content Include="Views\liquidations\Delete.cshtml" />
+    <Content Include="Views\payroles\payslip.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
