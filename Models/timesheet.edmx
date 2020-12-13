@@ -81,6 +81,23 @@
           <Property Name="Unskilledthours" Type="int" />
           <Property Name="TotalWorkers" Type="int" />
         </EntityType>
+        <EntityType Name="Holidays">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="year" Type="float" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="255" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="Hejri" Type="nvarchar" MaxLength="255" />
+          <Property Name="Holiday" Type="nvarchar" MaxLength="255" />
+          <Property Name="Encoded Absolute URL" Type="nvarchar" MaxLength="255" />
+          <Property Name="Item Type" Type="nvarchar" MaxLength="255" />
+          <Property Name="Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="URL Path" Type="nvarchar" MaxLength="255" />
+          <Property Name="Workflow Instance ID" Type="nvarchar" MaxLength="255" />
+          <Property Name="File Type" Type="nvarchar" MaxLength="255" />
+        </EntityType>
         <EntityType Name="LabourMaster">
           <Key>
             <PropertyRef Name="ID" />
@@ -246,6 +263,7 @@
         </Association>
         <EntityContainer Name="LogisticsSoftModelStoreContainer">
           <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Holidays" EntityType="Self.Holidays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LabourMaster" EntityType="Self.LabourMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MainTimeSheet" EntityType="Self.MainTimeSheet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ManPowerSupplier" EntityType="Self.ManPowerSupplier" Schema="dbo" store:Type="Tables" />
@@ -412,6 +430,7 @@
             <End Role="ProjectList" EntitySet="ProjectLists" />
             <End Role="MainTimeSheet" EntitySet="MainTimeSheets" />
           </AssociationSet>
+          <EntitySet Name="Holidays" EntityType="LogisticsSoftModel.Holiday" />
         </EntityContainer>
         <EntityType Name="LabourMaster">
           <Key>
@@ -541,6 +560,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Holiday">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="year" Type="Double" />
+          <Property Name="Comment" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Hejri" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Holiday1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Encoded_Absolute_URL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Item_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="URL_Path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Workflow_Instance_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="File_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -731,6 +767,24 @@
                 <ScalarProperty Name="INQUIRY" ColumnName="INQUIRY" />
                 <ScalarProperty Name="STAMP_CODE" ColumnName="STAMP CODE" />
                 <ScalarProperty Name="ProjectCode" ColumnName="ProjectCode" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Holidays">
+            <EntityTypeMapping TypeName="LogisticsSoftModel.Holiday">
+              <MappingFragment StoreEntitySet="Holidays">
+                <ScalarProperty Name="File_Type" ColumnName="File Type" />
+                <ScalarProperty Name="Workflow_Instance_ID" ColumnName="Workflow Instance ID" />
+                <ScalarProperty Name="URL_Path" ColumnName="URL Path" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="Item_Type" ColumnName="Item Type" />
+                <ScalarProperty Name="Encoded_Absolute_URL" ColumnName="Encoded Absolute URL" />
+                <ScalarProperty Name="Holiday1" ColumnName="Holiday" />
+                <ScalarProperty Name="Hejri" ColumnName="Hejri" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="year" ColumnName="year" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

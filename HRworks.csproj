@@ -294,6 +294,9 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\hikshrs.cs" />
+    <Compile Include="Models\Holiday.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\HRA_requset.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -505,8 +508,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="img\payslip-1\Image_001.png" />
-    <Content Include="img\payslip-1\Image_002.png" />
+    <Content Include="img\payslip-1\payslip.jpg" />
     <Content Include="img\pettycashbar.jpg" />
     <Content Include="Models\HRModel.edmx.diagram">
       <DependentUpon>HRModel.edmx</DependentUpon>

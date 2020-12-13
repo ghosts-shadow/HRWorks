@@ -67,7 +67,10 @@
             @Html.DisplayNameFor(model => model.Return_leave)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.actual_return_date)
+            unpaid days(after return date)
+        </th>
+        <th>
+            actual return date
         </th>
         @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
         {
@@ -197,6 +200,43 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Return_leave)
+        </td>
+        <td>
+            @if (!item.actual_return_date.HasValue)
+            {
+                if (item.Return_leave != null)
+                {
+                    if (item.End_leave < DateTime.Now)
+                    {
+                        if (item.Return_leave.Value.Date != DateTime.Now.Date)
+                        {
+                            var radiff = DateTime.Now - item.Return_leave.Value;
+                            @radiff.Days
+                        }
+                        else
+                        {
+                            var ra = 0;
+                            @ra
+                        }
+                    }
+                    else
+                    {
+                        var ra = 0;
+                        @ra
+                    }
+
+                }
+                else
+                {
+                    var ra = 0;
+                    @ra
+                }
+            }
+            else
+            {
+                var ra = 0;
+                @ra
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.actual_return_date)

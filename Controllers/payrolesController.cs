@@ -387,6 +387,38 @@
             return this.View(payrole);
         }
 
+        public List<int> GetAll(DateTime date)
+        {
+            var month = date.Month;
+            var lastDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            var lastDay = DateTime.DaysInMonth(date.Year, date.Month);
+            var array = new List<int>(); // dd/mm/yy
+            var count = -1;
+            for (var i = 1; i <= lastDay; i++)
+            {
+                var temp = new DateTime(date.Year, month, i);
+                var day = temp.DayOfWeek;
+                if (day == DayOfWeek.Friday)
+                {
+                    count++;
+                    var dd = temp.Day;
+                    array.Add(dd);
+                }
+            }
+
+            return array;
+        }
+
+        public List<int> GetAllholi(DateTime date)
+        {
+            var holilist = this.db1.Holidays
+                .Where(x => x.Date.Value.Month == date.Month && x.Date.Value.Year == date.Year).ToList();
+            var array = new List<int>();
+            foreach (var ho in holilist) array.Add(ho.Date.Value.Day);
+
+            return array;
+        }
+
         // GET: payroles
         public ActionResult Index(DateTime? month)
         {
@@ -459,6 +491,11 @@
                                                                          && x.Start_leave <= endmo
                                                                          && x.End_leave >= payr.forthemonth
                                                                          && x.End_leave <= endmo).ToList();
+                        var leave2 = this.db.Leaves.Where(
+                            x => x.Employee_id == masterFile.employee_id && x.Start_leave >= payr.forthemonth
+                                                                         && x.Start_leave <= endmo
+                                                                         && x.End_leave >= payr.forthemonth
+                                                                         && x.End_leave <= endmo).ToList();
                         var lowp = 0;
                         foreach (var leaf in leave1)
                         {
@@ -484,20 +521,26 @@
                         var aqh = 0l;
                         if (lab1 == null) goto tos1;
                         var attd = att.FindAll(x => x.EmpID == lab1.ID).ToList();
+                        var fdaylist = this.GetAll(month.Value);
+                        var hlistday = this.GetAllholi(month.Value);
                         foreach (var aq in attd)
                         {
                             var aft1 = 0d;
                             var x = 0l;
+                            var x1 = 0l;
                             if (IsBase64Encoded(payr.contract.FOT))
                             {
                                 double.TryParse(Unprotect(payr.contract.FOT), out aft1);
                             }
 
+                            var leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
                             if (aft1 != 0)
                             {
                                 var y = 0l;
-                                if (aq.C1 != null)
+                                leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
+                                if (aq.C1 != null && !fdaylist.Exists(g => g.Equals(1)) && !hlistday.Exists(f => f.Equals(1)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
+                                    
                                     long.TryParse(aq.C1, out y);
                                     if (y > 9)
                                     {
@@ -505,7 +548,9 @@
 
                                     }
                                 }
-                                if (aq.C2 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C2 != null && !fdaylist.Exists(g => g.Equals(2)) && !hlistday.Exists(f => f.Equals(2)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C2, out y);
                                     if (y > 9)
@@ -513,7 +558,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C3 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C3 != null && !fdaylist.Exists(g => g.Equals(3)) && !hlistday.Exists(f => f.Equals(3)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C3, out y);
                                     if (y > 9)
@@ -521,7 +568,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C4 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C4 != null && !fdaylist.Exists(g => g.Equals(4)) && !hlistday.Exists(f => f.Equals(4)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C4, out y);
                                     if (y > 9)
@@ -529,7 +578,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C5 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C5 != null && !fdaylist.Exists(g => g.Equals(5)) && !hlistday.Exists(f => f.Equals(5)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C5, out y);
                                     if (y > 9)
@@ -537,7 +588,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C6 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C6 != null && !fdaylist.Exists(g => g.Equals(6)) && !hlistday.Exists(f => f.Equals(6)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C6, out y);
                                     if (y > 9)
@@ -545,7 +598,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C7 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C7 != null && !fdaylist.Exists(g => g.Equals(7)) && !hlistday.Exists(f => f.Equals(7)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C7, out y);
                                     if (y > 9)
@@ -553,7 +608,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C8 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C8 != null && !fdaylist.Exists(g => g.Equals(8)) && !hlistday.Exists(f => f.Equals(8)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C8, out y);
                                     if (y > 9)
@@ -561,7 +618,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C9 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C9 != null && !fdaylist.Exists(g => g.Equals(9)) && !hlistday.Exists(f => f.Equals(9)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C9, out y);
                                     if (y > 9)
@@ -569,7 +628,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C10 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C10 != null && !fdaylist.Exists(g => g.Equals(10)) && !hlistday.Exists(f => f.Equals(10)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C10, out y);
                                     if (y > 9)
@@ -577,7 +638,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C11 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C11 != null && !fdaylist.Exists(g => g.Equals(11)) && !hlistday.Exists(f => f.Equals(11)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C11, out y);
                                     if (y > 9)
@@ -585,7 +648,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C12 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C12 != null && !fdaylist.Exists(g => g.Equals(12)) && !hlistday.Exists(f => f.Equals(12)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C12, out y);
                                     if (y > 9)
@@ -593,7 +658,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C13 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C13 != null && !fdaylist.Exists(g => g.Equals(13)) && !hlistday.Exists(f => f.Equals(13)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C13, out y);
                                     if (y > 9)
@@ -601,7 +668,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C14 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C14 != null && !fdaylist.Exists(g => g.Equals(14)) && !hlistday.Exists(f => f.Equals(14)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C14, out y);
                                     if (y > 9)
@@ -609,7 +678,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C15 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C15 != null && !fdaylist.Exists(g => g.Equals(15)) && !hlistday.Exists(f => f.Equals(15)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C15, out y);
                                     if (y > 9)
@@ -617,7 +688,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C16 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C16 != null && !fdaylist.Exists(g => g.Equals(16)) && !hlistday.Exists(f => f.Equals(16)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C16, out y);
                                     if (y > 9)
@@ -625,7 +698,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C17 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C17 != null && !fdaylist.Exists(g => g.Equals(17)) && !hlistday.Exists(f => f.Equals(17)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C17, out y);
                                     if (y > 9)
@@ -633,7 +708,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C18 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C18 != null && !fdaylist.Exists(g => g.Equals(18)) && !hlistday.Exists(f => f.Equals(18)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C18, out y);
                                     if (y > 9)
@@ -641,7 +718,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C19 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C19 != null && !fdaylist.Exists(g => g.Equals(19)) && !hlistday.Exists(f => f.Equals(19)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C19, out y);
                                     if (y > 9)
@@ -649,7 +728,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C20 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C20 != null && !fdaylist.Exists(g => g.Equals(20)) && !hlistday.Exists(f => f.Equals(20)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C20, out y);
                                     if (y > 9)
@@ -658,7 +739,8 @@
                                     }
                                 }
 
-                                if (aq.C21 != null)
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C21 != null && !fdaylist.Exists(g => g.Equals(21)) && !hlistday.Exists(f => f.Equals(21)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C21, out y);
                                     if (y > 9)
@@ -666,7 +748,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C22 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C22 != null && !fdaylist.Exists(g => g.Equals(22)) && !hlistday.Exists(f => f.Equals(22)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C22, out y);
                                     if (y > 9)
@@ -674,7 +758,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C23 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C23 != null && !fdaylist.Exists(g => g.Equals(23)) && !hlistday.Exists(f => f.Equals(23)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C23, out y);
                                     if (y > 9)
@@ -682,7 +768,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C24 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C24 != null && !fdaylist.Exists(g => g.Equals(24)) && !hlistday.Exists(f => f.Equals(24)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C24, out y);
                                     if (y > 9)
@@ -690,7 +778,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C25 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C25 != null && !fdaylist.Exists(g => g.Equals(25)) && !hlistday.Exists(f => f.Equals(25)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C25, out y);
                                     if (y > 9)
@@ -698,7 +788,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C26 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C26 != null && !fdaylist.Exists(g => g.Equals(26)) && !hlistday.Exists(f => f.Equals(26)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C26, out y);
                                     if (y > 9)
@@ -706,7 +798,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C27 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C27 != null && !fdaylist.Exists(g => g.Equals(27)) && !hlistday.Exists(f => f.Equals(27)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C27, out y);
                                     if (y > 9)
@@ -714,15 +808,20 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C28 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C28 != null && !fdaylist.Exists(g => g.Equals(28)) && !hlistday.Exists(f => f.Equals(28)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C28, out y);
                                     if (y > 9)
                                     {
                                         x += y - 9;
                                     }
+
                                 }
-                                if (aq.C29 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C29 != null && !fdaylist.Exists(g => g.Equals(29)) && !hlistday.Exists(f => f.Equals(29)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C29, out y);
                                     if (y > 9)
@@ -730,7 +829,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C30 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C30 != null && !fdaylist.Exists(g => g.Equals(30)) && !hlistday.Exists(f => f.Equals(30)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C30, out y);
                                     if (y > 9)
@@ -738,7 +839,9 @@
                                         x += y - 9;
                                     }
                                 }
-                                if (aq.C31 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C31 != null && !fdaylist.Exists(g => g.Equals(31)) && !hlistday.Exists(f => f.Equals(31)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C31, out y);
                                     if (y > 9)
@@ -746,12 +849,14 @@
                                         x += y - 9;
                                     }
                                 }
+
+                                leavedate = leavedate.AddDays(1);
                             }
                             else if (aft1 == 0)
                             {
-
+                                leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
                                 var y = 0l;
-                                if (aq.C1 != null)
+                                if (aq.C1 != null && !fdaylist.Exists(g => g.Equals(1)) && !hlistday.Exists(f => f.Equals(1)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C1, out y);
                                     if (y > 8)
@@ -759,7 +864,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C2 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C2 != null && !fdaylist.Exists(g => g.Equals(2)) && !hlistday.Exists(f => f.Equals(2)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C2, out y);
                                     if (y > 8)
@@ -767,7 +874,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C3 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C3 != null && !fdaylist.Exists(g => g.Equals(3)) && !hlistday.Exists(f => f.Equals(3)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C3, out y);
                                     if (y > 8)
@@ -775,7 +884,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C4 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C4 != null && !fdaylist.Exists(g => g.Equals(4)) && !hlistday.Exists(f => f.Equals(4)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C4, out y);
                                     if (y > 8)
@@ -783,7 +894,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C5 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C5 != null && !fdaylist.Exists(g => g.Equals(5)) && !hlistday.Exists(f => f.Equals(5)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C5, out y);
                                     if (y > 8)
@@ -791,7 +904,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C6 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C6 != null && !fdaylist.Exists(g => g.Equals(6)) && !hlistday.Exists(f => f.Equals(6)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C6, out y);
                                     if (y > 8)
@@ -799,7 +914,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C7 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C7 != null && !fdaylist.Exists(g => g.Equals(7)) && !hlistday.Exists(f => f.Equals(7)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C7, out y);
                                     if (y > 8)
@@ -807,7 +924,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C8 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C8 != null && !fdaylist.Exists(g => g.Equals(8)) && !hlistday.Exists(f => f.Equals(8)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C8, out y);
                                     if (y > 8)
@@ -815,7 +934,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C9 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C9 != null && !fdaylist.Exists(g => g.Equals(9)) && !hlistday.Exists(f => f.Equals(9)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C9, out y);
                                     if (y > 8)
@@ -823,7 +944,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C10 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C10 != null && !fdaylist.Exists(g => g.Equals(10)) && !hlistday.Exists(f => f.Equals(10)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C10, out y);
                                     if (y > 8)
@@ -831,7 +954,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C11 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C11 != null && !fdaylist.Exists(g => g.Equals(11)) && !hlistday.Exists(f => f.Equals(11)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C11, out y);
                                     if (y > 8)
@@ -839,7 +964,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C12 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C12 != null && !fdaylist.Exists(g => g.Equals(12)) && !hlistday.Exists(f => f.Equals(12)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C12, out y);
                                     if (y > 8)
@@ -847,7 +974,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C13 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C13 != null && !fdaylist.Exists(g => g.Equals(13)) && !hlistday.Exists(f => f.Equals(13)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C13, out y);
                                     if (y > 8)
@@ -855,7 +984,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C14 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C14 != null && !fdaylist.Exists(g => g.Equals(14)) && !hlistday.Exists(f => f.Equals(14)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C14, out y);
                                     if (y > 8)
@@ -863,7 +994,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C15 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C15 != null && !fdaylist.Exists(g => g.Equals(15)) && !hlistday.Exists(f => f.Equals(15)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C15, out y);
                                     if (y > 8)
@@ -871,7 +1004,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C16 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C16 != null && !fdaylist.Exists(g => g.Equals(16)) && !hlistday.Exists(f => f.Equals(16)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C16, out y);
                                     if (y > 8)
@@ -879,7 +1014,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C17 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C17 != null && !fdaylist.Exists(g => g.Equals(17)) && !hlistday.Exists(f => f.Equals(17)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C17, out y);
                                     if (y > 8)
@@ -887,7 +1024,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C18 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C18 != null && !fdaylist.Exists(g => g.Equals(18)) && !hlistday.Exists(f => f.Equals(18)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C18, out y);
                                     if (y > 8)
@@ -895,7 +1034,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C19 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C19 != null && !fdaylist.Exists(g => g.Equals(19)) && !hlistday.Exists(f => f.Equals(19)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C19, out y);
                                     if (y > 8)
@@ -903,7 +1044,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C20 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C20 != null && !fdaylist.Exists(g => g.Equals(20)) && !hlistday.Exists(f => f.Equals(20)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C20, out y);
                                     if (y > 8)
@@ -912,7 +1055,9 @@
                                     }
                                 }
 
-                                if (aq.C21 != null)
+                                leavedate = leavedate.AddDays(1);
+
+                                if (aq.C21 != null && !fdaylist.Exists(g => g.Equals(21)) && !hlistday.Exists(f => f.Equals(21)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C21, out y);
                                     if (y > 8)
@@ -920,7 +1065,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C22 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C22 != null && !fdaylist.Exists(g => g.Equals(22)) && !hlistday.Exists(f => f.Equals(22)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C22, out y);
                                     if (y > 8)
@@ -928,7 +1075,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C23 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C23 != null && !fdaylist.Exists(g => g.Equals(23)) && !hlistday.Exists(f => f.Equals(23)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C23, out y);
                                     if (y > 8)
@@ -936,7 +1085,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C24 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C24 != null && !fdaylist.Exists(g => g.Equals(24)) && !hlistday.Exists(f => f.Equals(24)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C24, out y);
                                     if (y > 8)
@@ -944,7 +1095,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C25 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C25 != null && !fdaylist.Exists(g => g.Equals(25)) && !hlistday.Exists(f => f.Equals(25)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C25, out y);
                                     if (y > 8)
@@ -952,7 +1105,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C26 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C26 != null && !fdaylist.Exists(g => g.Equals(26)) && !hlistday.Exists(f => f.Equals(26)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C26, out y);
                                     if (y > 8)
@@ -960,7 +1115,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C27 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C27 != null && !fdaylist.Exists(g => g.Equals(27)) && !hlistday.Exists(f => f.Equals(27)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C27, out y);
                                     if (y > 8)
@@ -968,7 +1125,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C28 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C28 != null && !fdaylist.Exists(g => g.Equals(28)) && !hlistday.Exists(f => f.Equals(28)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C28, out y);
                                     if (y > 8)
@@ -976,7 +1135,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C29 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C29 != null && !fdaylist.Exists(g => g.Equals(29)) && !hlistday.Exists(f => f.Equals(29)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C29, out y);
                                     if (y > 8)
@@ -984,7 +1145,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C30 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C30 != null && !fdaylist.Exists(g => g.Equals(30)) && !hlistday.Exists(f => f.Equals(30)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C30, out y);
                                     if (y > 8)
@@ -992,7 +1155,9 @@
                                         x += y - 8;
                                     }
                                 }
-                                if (aq.C31 != null)
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C31 != null && !fdaylist.Exists(g => g.Equals(31)) && !hlistday.Exists(f => f.Equals(31)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                 {
                                     long.TryParse(aq.C31, out y);
                                     if (y > 8)
@@ -1000,11 +1165,637 @@
                                         x += y - 8;
                                     }
                                 }
+
+                                leavedate = leavedate.AddDays(1);
                             }
 
+                            leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
+                            var y1 = 0l;
+                            if (aq.C1 != null && fdaylist.Exists(g => g.Equals(1)) && !hlistday.Exists(f => f.Equals(1)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C1, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C2 != null && fdaylist.Exists(g => g.Equals(2)) && !hlistday.Exists(f => f.Equals(2)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C2, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C3 != null && fdaylist.Exists(g => g.Equals(3)) && !hlistday.Exists(f => f.Equals(3)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C3, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C4 != null && fdaylist.Exists(g => g.Equals(4)) && !hlistday.Exists(f => f.Equals(4)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C4, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C5 != null && fdaylist.Exists(g => g.Equals(5)) && !hlistday.Exists(f => f.Equals(5)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C5, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C6 != null && fdaylist.Exists(g => g.Equals(6)) && !hlistday.Exists(f => f.Equals(6)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C6, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C7 != null && fdaylist.Exists(g => g.Equals(7)) && !hlistday.Exists(f => f.Equals(7)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C7, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C8 != null && fdaylist.Exists(g => g.Equals(8)) && !hlistday.Exists(f => f.Equals(8)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C8, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C9 != null && fdaylist.Exists(g => g.Equals(9)) && !hlistday.Exists(f => f.Equals(9)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C9, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C10 != null && fdaylist.Exists(g => g.Equals(10)) && !hlistday.Exists(f => f.Equals(10)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C10, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C11 != null && fdaylist.Exists(g => g.Equals(11)) && !hlistday.Exists(f => f.Equals(11)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C11, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C12 != null && fdaylist.Exists(g => g.Equals(12)) && !hlistday.Exists(f => f.Equals(12)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C12, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C13 != null && fdaylist.Exists(g => g.Equals(13)) && !hlistday.Exists(f => f.Equals(13)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C13, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C14 != null && fdaylist.Exists(g => g.Equals(14)) && !hlistday.Exists(f => f.Equals(14)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C14, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C15 != null && fdaylist.Exists(g => g.Equals(15)) && !hlistday.Exists(f => f.Equals(15)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C15, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C16 != null && fdaylist.Exists(g => g.Equals(16)) && !hlistday.Exists(f => f.Equals(16)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C16, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C17 != null && fdaylist.Exists(g => g.Equals(17)) && !hlistday.Exists(f => f.Equals(17)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C17, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C18 != null && fdaylist.Exists(g => g.Equals(18)) && !hlistday.Exists(f => f.Equals(18)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C18, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C19 != null && fdaylist.Exists(g => g.Equals(19)) && !hlistday.Exists(f => f.Equals(19)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C19, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C20 != null && fdaylist.Exists(g => g.Equals(20)) && !hlistday.Exists(f => f.Equals(20)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C20, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+
+                            if (aq.C21 != null && fdaylist.Exists(g => g.Equals(21)) && !hlistday.Exists(f => f.Equals(21)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C21, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C22 != null && fdaylist.Exists(g => g.Equals(22)) && !hlistday.Exists(f => f.Equals(22)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C22, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C23 != null && fdaylist.Exists(g => g.Equals(23)) && !hlistday.Exists(f => f.Equals(23)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C23, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C24 != null && fdaylist.Exists(g => g.Equals(24)) && !hlistday.Exists(f => f.Equals(24)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C24, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C25 != null && fdaylist.Exists(g => g.Equals(25)) && !hlistday.Exists(f => f.Equals(25)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C25, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C26 != null && fdaylist.Exists(g => g.Equals(26)) && !hlistday.Exists(f => f.Equals(26)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C26, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C27 != null && fdaylist.Exists(g => g.Equals(27)) && !hlistday.Exists(f => f.Equals(27)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C27, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C28 != null && fdaylist.Exists(g => g.Equals(28)) && !hlistday.Exists(f => f.Equals(28)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C28, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C29 != null && fdaylist.Exists(g => g.Equals(29)) && !hlistday.Exists(f => f.Equals(29)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C29, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C30 != null && fdaylist.Exists(g => g.Equals(30)) && !hlistday.Exists(f => f.Equals(30)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C30, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C31 != null && fdaylist.Exists(g => g.Equals(31)) && !hlistday.Exists(f => f.Equals(31)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C31, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+                            leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
+                            aqf += x1;
+                            y1 = 0l;
+                            if (aq.C1 != null && !fdaylist.Exists(g => g.Equals(1)) && hlistday.Exists(f => f.Equals(1)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C1, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C2 != null && !fdaylist.Exists(g => g.Equals(2)) && hlistday.Exists(f => f.Equals(2)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C2, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C3 != null && !fdaylist.Exists(g => g.Equals(3)) && hlistday.Exists(f => f.Equals(3)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C3, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C4 != null && !fdaylist.Exists(g => g.Equals(4)) && hlistday.Exists(f => f.Equals(4)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C4, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C5 != null && !fdaylist.Exists(g => g.Equals(5)) && hlistday.Exists(f => f.Equals(5)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C5, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C6 != null && !fdaylist.Exists(g => g.Equals(6)) && hlistday.Exists(f => f.Equals(6)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C6, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C7 != null && !fdaylist.Exists(g => g.Equals(7)) && hlistday.Exists(f => f.Equals(7)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C7, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C8 != null && !fdaylist.Exists(g => g.Equals(8)) && hlistday.Exists(f => f.Equals(8)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C8, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C9 != null && !fdaylist.Exists(g => g.Equals(9)) && hlistday.Exists(f => f.Equals(9)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C9, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C10 != null && !fdaylist.Exists(g => g.Equals(10)) && hlistday.Exists(f => f.Equals(10)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C10, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C11 != null && !fdaylist.Exists(g => g.Equals(11)) && hlistday.Exists(f => f.Equals(11)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C11, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C12 != null && !fdaylist.Exists(g => g.Equals(12)) && hlistday.Exists(f => f.Equals(12)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C12, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C13 != null && !fdaylist.Exists(g => g.Equals(13)) && hlistday.Exists(f => f.Equals(13)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C13, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C14 != null && !fdaylist.Exists(g => g.Equals(14)) && hlistday.Exists(f => f.Equals(14)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C14, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C15 != null && !fdaylist.Exists(g => g.Equals(15)) && hlistday.Exists(f => f.Equals(15)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C15, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C16 != null && !fdaylist.Exists(g => g.Equals(16)) && hlistday.Exists(f => f.Equals(16)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C16, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C17 != null && !fdaylist.Exists(g => g.Equals(17)) && hlistday.Exists(f => f.Equals(17)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C17, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C18 != null && !fdaylist.Exists(g => g.Equals(18)) && hlistday.Exists(f => f.Equals(18)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C18, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C19 != null && !fdaylist.Exists(g => g.Equals(19)) && hlistday.Exists(f => f.Equals(19)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C19, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C20 != null && !fdaylist.Exists(g => g.Equals(20)) && hlistday.Exists(f => f.Equals(20)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C20, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+
+                            if (aq.C21 != null && !fdaylist.Exists(g => g.Equals(21)) && hlistday.Exists(f => f.Equals(21)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C21, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C22 != null && !fdaylist.Exists(g => g.Equals(22)) && hlistday.Exists(f => f.Equals(22)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C22, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C23 != null && !fdaylist.Exists(g => g.Equals(23)) && hlistday.Exists(f => f.Equals(23)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C23, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C24 != null && !fdaylist.Exists(g => g.Equals(24)) && hlistday.Exists(f => f.Equals(24)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C24, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C25 != null && !fdaylist.Exists(g => g.Equals(25)) && hlistday.Exists(f => f.Equals(25)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C25, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C26 != null && !fdaylist.Exists(g => g.Equals(26)) && hlistday.Exists(f => f.Equals(26)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C26, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C27 != null && !fdaylist.Exists(g => g.Equals(27)) && hlistday.Exists(f => f.Equals(27)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C27, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C28 != null && !fdaylist.Exists(g => g.Equals(28)) && hlistday.Exists(f => f.Equals(28)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C28, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C29 != null && !fdaylist.Exists(g => g.Equals(29)) && hlistday.Exists(f => f.Equals(29)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C29, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C30 != null && !fdaylist.Exists(g => g.Equals(30)) && hlistday.Exists(f => f.Equals(30)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C30, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            if (aq.C31 != null && !fdaylist.Exists(g => g.Equals(31)) && hlistday.Exists(f => f.Equals(31)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                            {
+                                long.TryParse(aq.C31, out y1);
+                                
+                                {
+                                    x1 += y1;
+                                }
+                            }
+
+                            leavedate = leavedate.AddDays(1);
+                            aqh += x1;
                             aqt += x;
-                            if (aq.FridayHours.HasValue) aqf += aq.FridayHours.Value;
-                            if (aq.Holidays.HasValue) aqh += aq.Holidays.Value;
                         }
 
                         tos1:
@@ -1136,6 +1927,9 @@
                             var con = conlist.Find(c => c.employee_no == masterFile.employee_id);
                             var leave1 = this.db.Leaves.Where(
                                 x => x.Employee_id == masterFile.employee_id && x.leave_type == "6" && x.Start_leave >= payr.forthemonth && x.Start_leave <= endmo && x.End_leave >= payr.forthemonth && x.End_leave <= endmo).ToList();
+                            
+                            var leave2 = this.db.Leaves.Where(
+                                x => x.Employee_id == masterFile.employee_id && x.Start_leave >= payr.forthemonth && x.Start_leave <= endmo && x.End_leave >= payr.forthemonth && x.End_leave <= endmo).ToList();
                             var lowp = 0;
                             foreach (var leaf in leave1)
                             {
@@ -1160,19 +1954,24 @@
                             var aqh = 0l;
                             if (lab1 == null) goto tos;
                             var attd = att.FindAll(x => x.EmpID == lab1.ID).ToList();
+                            var fdaylist = this.GetAll(month.Value);
+                            var hlistday = this.GetAllholi(month.Value);
                             foreach (var aq in attd)
                             {
                                 var aft1 = 0d;
                                 var x = 0l;
+                                var x1 = 0l;
                                 if (IsBase64Encoded(payr.contract.FOT))
                                 {
                                     double.TryParse(Unprotect(payr.contract.FOT), out aft1);
                                 }
 
+                                var leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
                                 if (aft1 != 0)
                                 {
                                     var y = 0l;
-                                    if (aq.C1 != null)
+                                    leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
+                                    if (aq.C1 != null && !fdaylist.Exists(g => g.Equals(1)) && !hlistday.Exists(f => f.Equals(1)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C1, out y);
                                         if (y > 9)
@@ -1181,7 +1980,9 @@
 
                                         }
                                     }
-                                    if (aq.C2 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C2 != null && !fdaylist.Exists(g => g.Equals(2)) && !hlistday.Exists(f => f.Equals(2)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C2, out y);
                                         if (y > 9)
@@ -1189,7 +1990,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C3 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C3 != null && !fdaylist.Exists(g => g.Equals(3)) && !hlistday.Exists(f => f.Equals(3)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C3, out y);
                                         if (y > 9)
@@ -1197,7 +2000,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C4 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C4 != null && !fdaylist.Exists(g => g.Equals(4)) && !hlistday.Exists(f => f.Equals(4)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C4, out y);
                                         if (y > 9)
@@ -1205,7 +2010,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C5 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C5 != null && !fdaylist.Exists(g => g.Equals(5)) && !hlistday.Exists(f => f.Equals(5)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C5, out y);
                                         if (y > 9)
@@ -1213,7 +2020,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C6 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C6 != null && !fdaylist.Exists(g => g.Equals(6)) && !hlistday.Exists(f => f.Equals(6)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C6, out y);
                                         if (y > 9)
@@ -1221,7 +2030,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C7 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C7 != null && !fdaylist.Exists(g => g.Equals(7)) && !hlistday.Exists(f => f.Equals(7)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C7, out y);
                                         if (y > 9)
@@ -1229,7 +2040,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C8 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C8 != null && !fdaylist.Exists(g => g.Equals(8)) && !hlistday.Exists(f => f.Equals(8)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C8, out y);
                                         if (y > 9)
@@ -1237,7 +2050,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C9 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C9 != null && !fdaylist.Exists(g => g.Equals(9)) && !hlistday.Exists(f => f.Equals(9)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C9, out y);
                                         if (y > 9)
@@ -1245,7 +2060,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C10 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C10 != null && !fdaylist.Exists(g => g.Equals(10)) && !hlistday.Exists(f => f.Equals(10)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C10, out y);
                                         if (y > 9)
@@ -1253,7 +2070,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C11 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C11 != null && !fdaylist.Exists(g => g.Equals(11)) && !hlistday.Exists(f => f.Equals(11)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C11, out y);
                                         if (y > 9)
@@ -1261,7 +2080,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C12 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C12 != null && !fdaylist.Exists(g => g.Equals(12)) && !hlistday.Exists(f => f.Equals(12)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C12, out y);
                                         if (y > 9)
@@ -1269,7 +2090,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C13 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C13 != null && !fdaylist.Exists(g => g.Equals(13)) && !hlistday.Exists(f => f.Equals(13)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C13, out y);
                                         if (y > 9)
@@ -1277,7 +2100,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C14 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C14 != null && !fdaylist.Exists(g => g.Equals(14)) && !hlistday.Exists(f => f.Equals(14)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C14, out y);
                                         if (y > 9)
@@ -1285,7 +2110,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C15 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C15 != null && !fdaylist.Exists(g => g.Equals(15)) && !hlistday.Exists(f => f.Equals(15)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C15, out y);
                                         if (y > 9)
@@ -1293,7 +2120,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C16 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C16 != null && !fdaylist.Exists(g => g.Equals(16)) && !hlistday.Exists(f => f.Equals(16)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C16, out y);
                                         if (y > 9)
@@ -1301,7 +2130,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C17 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C17 != null && !fdaylist.Exists(g => g.Equals(17)) && !hlistday.Exists(f => f.Equals(17)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C17, out y);
                                         if (y > 9)
@@ -1309,7 +2140,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C18 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C18 != null && !fdaylist.Exists(g => g.Equals(18)) && !hlistday.Exists(f => f.Equals(18)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C18, out y);
                                         if (y > 9)
@@ -1317,7 +2150,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C19 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C19 != null && !fdaylist.Exists(g => g.Equals(19)) && !hlistday.Exists(f => f.Equals(19)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C19, out y);
                                         if (y > 9)
@@ -1325,7 +2160,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C20 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C20 != null && !fdaylist.Exists(g => g.Equals(20)) && !hlistday.Exists(f => f.Equals(20)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C20, out y);
                                         if (y > 9)
@@ -1334,7 +2171,8 @@
                                         }
                                     }
 
-                                    if (aq.C21 != null)
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C21 != null && !fdaylist.Exists(g => g.Equals(21)) && !hlistday.Exists(f => f.Equals(21)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C21, out y);
                                         if (y > 9)
@@ -1342,7 +2180,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C22 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C22 != null && !fdaylist.Exists(g => g.Equals(22)) && !hlistday.Exists(f => f.Equals(22)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C22, out y);
                                         if (y > 9)
@@ -1350,7 +2190,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C23 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C23 != null && !fdaylist.Exists(g => g.Equals(23)) && !hlistday.Exists(f => f.Equals(23)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C23, out y);
                                         if (y > 9)
@@ -1358,7 +2200,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C24 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C24 != null && !fdaylist.Exists(g => g.Equals(24)) && !hlistday.Exists(f => f.Equals(24)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C24, out y);
                                         if (y > 9)
@@ -1366,7 +2210,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C25 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C25 != null && !fdaylist.Exists(g => g.Equals(25)) && !hlistday.Exists(f => f.Equals(25)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C25, out y);
                                         if (y > 9)
@@ -1374,7 +2220,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C26 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C26 != null && !fdaylist.Exists(g => g.Equals(26)) && !hlistday.Exists(f => f.Equals(26)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C26, out y);
                                         if (y > 9)
@@ -1382,7 +2230,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C27 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C27 != null && !fdaylist.Exists(g => g.Equals(27)) && !hlistday.Exists(f => f.Equals(27)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C27, out y);
                                         if (y > 9)
@@ -1390,15 +2240,20 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C28 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C28 != null && !fdaylist.Exists(g => g.Equals(28)) && !hlistday.Exists(f => f.Equals(28)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C28, out y);
                                         if (y > 9)
                                         {
                                             x += y - 9;
                                         }
+
                                     }
-                                    if (aq.C29 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C29 != null && !fdaylist.Exists(g => g.Equals(29)) && !hlistday.Exists(f => f.Equals(29)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C29, out y);
                                         if (y > 9)
@@ -1406,7 +2261,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C30 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C30 != null && !fdaylist.Exists(g => g.Equals(30)) && !hlistday.Exists(f => f.Equals(30)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C30, out y);
                                         if (y > 9)
@@ -1414,7 +2271,9 @@
                                             x += y - 9;
                                         }
                                     }
-                                    if (aq.C31 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C31 != null && !fdaylist.Exists(g => g.Equals(31)) && !hlistday.Exists(f => f.Equals(31)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C31, out y);
                                         if (y > 9)
@@ -1422,12 +2281,14 @@
                                             x += y - 9;
                                         }
                                     }
+
+                                    leavedate = leavedate.AddDays(1);
                                 }
                                 else if (aft1 == 0)
                                 {
-
+                                    leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
                                     var y = 0l;
-                                    if (aq.C1 != null)
+                                    if (aq.C1 != null && !fdaylist.Exists(g => g.Equals(1)) && !hlistday.Exists(f => f.Equals(1)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C1, out y);
                                         if (y > 8)
@@ -1435,7 +2296,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C2 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C2 != null && !fdaylist.Exists(g => g.Equals(2)) && !hlistday.Exists(f => f.Equals(2)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C2, out y);
                                         if (y > 8)
@@ -1443,7 +2306,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C3 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C3 != null && !fdaylist.Exists(g => g.Equals(3)) && !hlistday.Exists(f => f.Equals(3)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C3, out y);
                                         if (y > 8)
@@ -1451,7 +2316,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C4 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C4 != null && !fdaylist.Exists(g => g.Equals(4)) && !hlistday.Exists(f => f.Equals(4)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C4, out y);
                                         if (y > 8)
@@ -1459,7 +2326,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C5 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C5 != null && !fdaylist.Exists(g => g.Equals(5)) && !hlistday.Exists(f => f.Equals(5)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C5, out y);
                                         if (y > 8)
@@ -1467,7 +2336,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C6 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C6 != null && !fdaylist.Exists(g => g.Equals(6)) && !hlistday.Exists(f => f.Equals(6)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C6, out y);
                                         if (y > 8)
@@ -1475,7 +2346,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C7 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C7 != null && !fdaylist.Exists(g => g.Equals(7)) && !hlistday.Exists(f => f.Equals(7)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C7, out y);
                                         if (y > 8)
@@ -1483,7 +2356,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C8 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C8 != null && !fdaylist.Exists(g => g.Equals(8)) && !hlistday.Exists(f => f.Equals(8)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C8, out y);
                                         if (y > 8)
@@ -1491,7 +2366,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C9 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C9 != null && !fdaylist.Exists(g => g.Equals(9)) && !hlistday.Exists(f => f.Equals(9)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C9, out y);
                                         if (y > 8)
@@ -1499,7 +2376,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C10 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C10 != null && !fdaylist.Exists(g => g.Equals(10)) && !hlistday.Exists(f => f.Equals(10)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C10, out y);
                                         if (y > 8)
@@ -1507,7 +2386,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C11 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C11 != null && !fdaylist.Exists(g => g.Equals(11)) && !hlistday.Exists(f => f.Equals(11)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C11, out y);
                                         if (y > 8)
@@ -1515,7 +2396,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C12 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C12 != null && !fdaylist.Exists(g => g.Equals(12)) && !hlistday.Exists(f => f.Equals(12)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C12, out y);
                                         if (y > 8)
@@ -1523,7 +2406,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C13 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C13 != null && !fdaylist.Exists(g => g.Equals(13)) && !hlistday.Exists(f => f.Equals(13)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C13, out y);
                                         if (y > 8)
@@ -1531,7 +2416,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C14 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C14 != null && !fdaylist.Exists(g => g.Equals(14)) && !hlistday.Exists(f => f.Equals(14)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C14, out y);
                                         if (y > 8)
@@ -1539,7 +2426,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C15 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C15 != null && !fdaylist.Exists(g => g.Equals(15)) && !hlistday.Exists(f => f.Equals(15)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C15, out y);
                                         if (y > 8)
@@ -1547,7 +2436,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C16 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C16 != null && !fdaylist.Exists(g => g.Equals(16)) && !hlistday.Exists(f => f.Equals(16)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C16, out y);
                                         if (y > 8)
@@ -1555,7 +2446,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C17 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C17 != null && !fdaylist.Exists(g => g.Equals(17)) && !hlistday.Exists(f => f.Equals(17)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C17, out y);
                                         if (y > 8)
@@ -1563,7 +2456,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C18 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C18 != null && !fdaylist.Exists(g => g.Equals(18)) && !hlistday.Exists(f => f.Equals(18)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C18, out y);
                                         if (y > 8)
@@ -1571,7 +2466,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C19 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C19 != null && !fdaylist.Exists(g => g.Equals(19)) && !hlistday.Exists(f => f.Equals(19)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C19, out y);
                                         if (y > 8)
@@ -1579,7 +2476,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C20 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C20 != null && !fdaylist.Exists(g => g.Equals(20)) && !hlistday.Exists(f => f.Equals(20)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C20, out y);
                                         if (y > 8)
@@ -1588,7 +2487,9 @@
                                         }
                                     }
 
-                                    if (aq.C21 != null)
+                                    leavedate = leavedate.AddDays(1);
+
+                                    if (aq.C21 != null && !fdaylist.Exists(g => g.Equals(21)) && !hlistday.Exists(f => f.Equals(21)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C21, out y);
                                         if (y > 8)
@@ -1596,7 +2497,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C22 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C22 != null && !fdaylist.Exists(g => g.Equals(22)) && !hlistday.Exists(f => f.Equals(22)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C22, out y);
                                         if (y > 8)
@@ -1604,7 +2507,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C23 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C23 != null && !fdaylist.Exists(g => g.Equals(23)) && !hlistday.Exists(f => f.Equals(23)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C23, out y);
                                         if (y > 8)
@@ -1612,7 +2517,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C24 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C24 != null && !fdaylist.Exists(g => g.Equals(24)) && !hlistday.Exists(f => f.Equals(24)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C24, out y);
                                         if (y > 8)
@@ -1620,7 +2527,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C25 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C25 != null && !fdaylist.Exists(g => g.Equals(25)) && !hlistday.Exists(f => f.Equals(25)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C25, out y);
                                         if (y > 8)
@@ -1628,7 +2537,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C26 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C26 != null && !fdaylist.Exists(g => g.Equals(26)) && !hlistday.Exists(f => f.Equals(26)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C26, out y);
                                         if (y > 8)
@@ -1636,7 +2547,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C27 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C27 != null && !fdaylist.Exists(g => g.Equals(27)) && !hlistday.Exists(f => f.Equals(27)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C27, out y);
                                         if (y > 8)
@@ -1644,7 +2557,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C28 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C28 != null && !fdaylist.Exists(g => g.Equals(28)) && !hlistday.Exists(f => f.Equals(28)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C28, out y);
                                         if (y > 8)
@@ -1652,7 +2567,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C29 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C29 != null && !fdaylist.Exists(g => g.Equals(29)) && !hlistday.Exists(f => f.Equals(29)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C29, out y);
                                         if (y > 8)
@@ -1660,7 +2577,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C30 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C30 != null && !fdaylist.Exists(g => g.Equals(30)) && !hlistday.Exists(f => f.Equals(30)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C30, out y);
                                         if (y > 8)
@@ -1668,7 +2587,9 @@
                                             x += y - 8;
                                         }
                                     }
-                                    if (aq.C31 != null)
+
+                                    leavedate = leavedate.AddDays(1);
+                                    if (aq.C31 != null && !fdaylist.Exists(g => g.Equals(31)) && !hlistday.Exists(f => f.Equals(31)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
                                     {
                                         long.TryParse(aq.C31, out y);
                                         if (y > 8)
@@ -1676,11 +2597,637 @@
                                             x += y - 8;
                                         }
                                     }
+
+                                    leavedate = leavedate.AddDays(1);
                                 }
 
+                                leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
+                                var y1 = 0l;
+                                if (aq.C1 != null && fdaylist.Exists(g => g.Equals(1)) && !hlistday.Exists(f => f.Equals(1)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C1, out y1);
+                                    
+                                    {
+                                        x1 +=y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C2 != null && fdaylist.Exists(g => g.Equals(2)) && !hlistday.Exists(f => f.Equals(2)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C2, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C3 != null && fdaylist.Exists(g => g.Equals(3)) && !hlistday.Exists(f => f.Equals(3)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C3, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C4 != null && fdaylist.Exists(g => g.Equals(4)) && !hlistday.Exists(f => f.Equals(4)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C4, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C5 != null && fdaylist.Exists(g => g.Equals(5)) && !hlistday.Exists(f => f.Equals(5)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C5, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C6 != null && fdaylist.Exists(g => g.Equals(6)) && !hlistday.Exists(f => f.Equals(6)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C6, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C7 != null && fdaylist.Exists(g => g.Equals(7)) && !hlistday.Exists(f => f.Equals(7)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C7, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C8 != null && fdaylist.Exists(g => g.Equals(8)) && !hlistday.Exists(f => f.Equals(8)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C8, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C9 != null && fdaylist.Exists(g => g.Equals(9)) && !hlistday.Exists(f => f.Equals(9)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C9, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C10 != null && fdaylist.Exists(g => g.Equals(10)) && !hlistday.Exists(f => f.Equals(10)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C10, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C11 != null && fdaylist.Exists(g => g.Equals(11)) && !hlistday.Exists(f => f.Equals(11)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C11, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C12 != null && fdaylist.Exists(g => g.Equals(12)) && !hlistday.Exists(f => f.Equals(12)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C12, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C13 != null && fdaylist.Exists(g => g.Equals(13)) && !hlistday.Exists(f => f.Equals(13)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C13, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C14 != null && fdaylist.Exists(g => g.Equals(14)) && !hlistday.Exists(f => f.Equals(14)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C14, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C15 != null && fdaylist.Exists(g => g.Equals(15)) && !hlistday.Exists(f => f.Equals(15)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C15, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C16 != null && fdaylist.Exists(g => g.Equals(16)) && !hlistday.Exists(f => f.Equals(16)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C16, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C17 != null && fdaylist.Exists(g => g.Equals(17)) && !hlistday.Exists(f => f.Equals(17)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C17, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C18 != null && fdaylist.Exists(g => g.Equals(18)) && !hlistday.Exists(f => f.Equals(18)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C18, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C19 != null && fdaylist.Exists(g => g.Equals(19)) && !hlistday.Exists(f => f.Equals(19)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C19, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C20 != null && fdaylist.Exists(g => g.Equals(20)) && !hlistday.Exists(f => f.Equals(20)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C20, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+
+                                if (aq.C21 != null && fdaylist.Exists(g => g.Equals(21)) && !hlistday.Exists(f => f.Equals(21)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C21, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C22 != null && fdaylist.Exists(g => g.Equals(22)) && !hlistday.Exists(f => f.Equals(22)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C22, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C23 != null && fdaylist.Exists(g => g.Equals(23)) && !hlistday.Exists(f => f.Equals(23)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C23, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C24 != null && fdaylist.Exists(g => g.Equals(24)) && !hlistday.Exists(f => f.Equals(24)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C24, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C25 != null && fdaylist.Exists(g => g.Equals(25)) && !hlistday.Exists(f => f.Equals(25)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C25, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C26 != null && fdaylist.Exists(g => g.Equals(26)) && !hlistday.Exists(f => f.Equals(26)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C26, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C27 != null && fdaylist.Exists(g => g.Equals(27)) && !hlistday.Exists(f => f.Equals(27)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C27, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C28 != null && fdaylist.Exists(g => g.Equals(28)) && !hlistday.Exists(f => f.Equals(28)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C28, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C29 != null && fdaylist.Exists(g => g.Equals(29)) && !hlistday.Exists(f => f.Equals(29)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C29, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C30 != null && fdaylist.Exists(g => g.Equals(30)) && !hlistday.Exists(f => f.Equals(30)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C30, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C31 != null && fdaylist.Exists(g => g.Equals(31)) && !hlistday.Exists(f => f.Equals(31)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C31, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+                                leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
+                                if (aq.FridayHours.HasValue) aqf += x1;
+                                y1 = 0l;
+                                if (aq.C1 != null && !fdaylist.Exists(g => g.Equals(1)) && hlistday.Exists(f => f.Equals(1)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C1, out y1);
+                                    
+                                    {
+                                        x1 +=y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C2 != null && !fdaylist.Exists(g => g.Equals(2)) && hlistday.Exists(f => f.Equals(2)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C2, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C3 != null && !fdaylist.Exists(g => g.Equals(3)) && hlistday.Exists(f => f.Equals(3)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C3, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C4 != null && !fdaylist.Exists(g => g.Equals(4)) && hlistday.Exists(f => f.Equals(4)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C4, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C5 != null && !fdaylist.Exists(g => g.Equals(5)) && hlistday.Exists(f => f.Equals(5)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C5, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C6 != null && !fdaylist.Exists(g => g.Equals(6)) && hlistday.Exists(f => f.Equals(6)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C6, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C7 != null && !fdaylist.Exists(g => g.Equals(7)) && hlistday.Exists(f => f.Equals(7)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C7, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C8 != null && !fdaylist.Exists(g => g.Equals(8)) && hlistday.Exists(f => f.Equals(8)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C8, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C9 != null && !fdaylist.Exists(g => g.Equals(9)) && hlistday.Exists(f => f.Equals(9)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C9, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C10 != null && !fdaylist.Exists(g => g.Equals(10)) && hlistday.Exists(f => f.Equals(10)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C10, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C11 != null && !fdaylist.Exists(g => g.Equals(11)) && hlistday.Exists(f => f.Equals(11)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C11, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C12 != null && !fdaylist.Exists(g => g.Equals(12)) && hlistday.Exists(f => f.Equals(12)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C12, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C13 != null && !fdaylist.Exists(g => g.Equals(13)) && hlistday.Exists(f => f.Equals(13)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C13, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C14 != null && !fdaylist.Exists(g => g.Equals(14)) && hlistday.Exists(f => f.Equals(14)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C14, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C15 != null && !fdaylist.Exists(g => g.Equals(15)) && hlistday.Exists(f => f.Equals(15)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C15, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C16 != null && !fdaylist.Exists(g => g.Equals(16)) && hlistday.Exists(f => f.Equals(16)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C16, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C17 != null && !fdaylist.Exists(g => g.Equals(17)) && hlistday.Exists(f => f.Equals(17)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C17, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C18 != null && !fdaylist.Exists(g => g.Equals(18)) && hlistday.Exists(f => f.Equals(18)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C18, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C19 != null && !fdaylist.Exists(g => g.Equals(19)) && hlistday.Exists(f => f.Equals(19)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C19, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C20 != null && !fdaylist.Exists(g => g.Equals(20)) && hlistday.Exists(f => f.Equals(20)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C20, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+
+                                if (aq.C21 != null && !fdaylist.Exists(g => g.Equals(21)) && hlistday.Exists(f => f.Equals(21)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C21, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C22 != null && !fdaylist.Exists(g => g.Equals(22)) && hlistday.Exists(f => f.Equals(22)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C22, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C23 != null && !fdaylist.Exists(g => g.Equals(23)) && hlistday.Exists(f => f.Equals(23)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C23, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C24 != null && !fdaylist.Exists(g => g.Equals(24)) && hlistday.Exists(f => f.Equals(24)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C24, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C25 != null && !fdaylist.Exists(g => g.Equals(25)) && hlistday.Exists(f => f.Equals(25)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C25, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C26 != null && !fdaylist.Exists(g => g.Equals(26)) && hlistday.Exists(f => f.Equals(26)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C26, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C27 != null && !fdaylist.Exists(g => g.Equals(27)) && hlistday.Exists(f => f.Equals(27)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C27, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C28 != null && !fdaylist.Exists(g => g.Equals(28)) && hlistday.Exists(f => f.Equals(28)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C28, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C29 != null && !fdaylist.Exists(g => g.Equals(29)) && hlistday.Exists(f => f.Equals(29)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C29, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C30 != null && !fdaylist.Exists(g => g.Equals(30)) && hlistday.Exists(f => f.Equals(30)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C30, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.C31 != null && !fdaylist.Exists(g => g.Equals(31)) && hlistday.Exists(f => f.Equals(31)) && !leave2.Exists(z =>z.Start_leave.Value <= leavedate && z.End_leave >= leavedate) && !leave2.Exists(z => z.actual_return_date == null))
+                                {
+                                    long.TryParse(aq.C31, out y1);
+                                    
+                                    {
+                                        x1 += y1;
+                                    }
+                                }
+
+                                leavedate = leavedate.AddDays(1);
+                                if (aq.Holidays.HasValue) aqh += x1;
                                 aqt += x;
-                                if (aq.FridayHours.HasValue) aqf += aq.FridayHours.Value;
-                                if (aq.Holidays.HasValue) aqh += aq.Holidays.Value;
                             }
 
                             tos:
@@ -1806,6 +3353,7 @@
 
                 ViewBag.al = al;
                 ViewBag.sl = sl;
+                ViewBag.holi = GetAllholi(eddate.Value).Count;
                 var abslist1 = this.db.leave_absence.Where(
                     x => x.month.Value.Month == eddate.Value.Month && x.month.Value.Year == eddate.Value.Year
                                                                   && x.Employee_id == payslip.master_file.employee_id).ToList();

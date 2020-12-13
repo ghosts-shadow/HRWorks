@@ -838,7 +838,14 @@
                 file1.half = leave.half;
                 file1.Start_leave = leave.Start_leave;
                 file1.End_leave = leave.End_leave;
-                file1.Return_leave = leave.Return_leave;
+                if (leave.Return_leave == null)
+                {
+                    file1.Return_leave = file1.End_leave;
+                }
+                else
+                {
+                    file1.Return_leave = leave.Return_leave;
+                }
                 file1.leave_type = leave.leave_type;
                 file1.days = leave.days;
                 file1.data_o_n = "New";
@@ -1330,6 +1337,21 @@
                 else masterstatus.status = "active";
                 this.db.Entry(leave).State = EntityState.Modified;
                 this.db.SaveChanges();
+                if (leave.actual_return_date != leave.Return_leave)
+                {
+                    file1.actual_return_date = leave.Return_leave;
+                    this.db.Entry(leave).State = EntityState.Modified;
+                    this.db.SaveChanges();
+                    var unpaidauto = new Leave();
+                    unpaidauto = file1;
+                    unpaidauto.Start_leave = leave.Return_leave;
+                    unpaidauto.End_leave = leave.actual_return_date;
+                    unpaidauto.Return_leave = leave.actual_return_date;
+                    unpaidauto.actual_return_date = leave.actual_return_date;
+                    masterstatus.status = "active";
+                    this.db.Leaves.Add(file1);
+                    this.db.SaveChanges();
+                }
                 return this.RedirectToAction("Index");
             }
 
