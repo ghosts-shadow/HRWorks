@@ -22,6 +22,7 @@ namespace HRworks.Models
         }
     
         public long Id { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> date { get; set; }
         [Display(Name = "Sheet NO.")]
         public Nullable<long> refr { get; set; }

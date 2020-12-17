@@ -20,7 +20,7 @@
 {
     <div>
         month:-
-        <input type="text" name="month" id="datepicker" class="form-control"/>
+        <input type="text" name="month" id="datepicker" class="form-control" value="@if(ViewBag.payday != null){@ViewBag.payday.ToString("d")}"/>
         <input type="submit"
                name="submit"
                value="Get records" ondblclick="norc()" class="btn btn-default"/>
@@ -135,14 +135,16 @@
             var bas = payrolesController.Unprotect(item.contract.basic);
             double.TryParse(bas, out var bas1);
             var basperh = ((bas1 * 12) / 365) / 8;
+
         }
-        @bas
+        @bas1.ToString("#,##0.00")
     </td>
     <td>
         @{
             var sal = payrolesController.Unprotect(item.contract.salary_details);
+            double.TryParse(sal, out var sal1);
         }
-        @sal
+        @sal1.ToString("#,##0.00")
     </td>
     <td>
         @{
@@ -153,7 +155,7 @@
             }
 
         }
-        @tic
+        @tic.ToString("#,##0.00")
     </td>
     <td>
         @{
@@ -164,13 +166,14 @@
             }
 
         }
-        @arr
+        @arr.ToString("#,##0.00")
     </td>
     <td>
         @{
             var ttp = payrolesController.Unprotect(item.totalpayable);
+            double.TryParse(ttp, out var ttp1);
         }
-        @ttp
+        @ttp1.ToString("#,##0.00")
     </td>
     <td>
         @{
@@ -178,7 +181,7 @@
             var adays = a;
             a = a * 1.25 * basperh;
         }
-        @a.ToString("F")
+        @a.ToString("#,##0.00")
     </td>
     <td>
         @adays
@@ -189,7 +192,7 @@
             var cdays = c;
             c = c * 1.5 * basperh;
         }
-        @c.ToString("F")
+        @c.ToString("#,##0.00")
     </td>
     <td>
         @cdays
@@ -203,7 +206,7 @@
             }
 
         }
-        @d.ToString("F")
+        @d.ToString("#,##0.00")
     </td>
     <td>
         @{
@@ -211,7 +214,7 @@
             var bdays = b;
             b = b * 2.5 * basperh;
         }
-        @b.ToString("F")
+        @b.ToString("#,##0.00")
     </td>
     <td>
         @bdays
@@ -221,13 +224,13 @@
         @{
             double.TryParse(payrolesController.Unprotect(item.contract.FOT), out var e);
         }
-        @e.ToString("F")
+        @e.ToString("#,##0.00")
     </td>
     <td>
         @{
             var tot = a + b + c + d + e;
         }
-        @tot.ToString("F")
+        @tot.ToString("#,##0.00")
     </td>
     <td>
         @{
@@ -238,7 +241,7 @@
             }
 
         }
-        @ca
+        @ca.ToString("#,##0.00")
     </td>
     <td>
         @{
@@ -249,7 +252,7 @@
             }
 
         }
-        @ha
+        @ha.ToString("#,##0.00")
     </td>
     <td>
         @{
@@ -260,7 +263,7 @@
             }
 
         }
-        @tra
+        @tra.ToString("#,##0.00")
     </td>
     <td>
         @{
@@ -271,7 +274,7 @@
             }
 
         }
-        @fa
+        @fa.ToString("#,##0.00")
     </td>
     <td>
         @{
@@ -282,7 +285,7 @@
             }
 
         }
-        @tk
+        @tk.ToString("#,##0.00")
     </td>
     <td>
         @{
@@ -293,7 +296,7 @@
             }
 
         }
-        @con
+        @con.ToString("#,##0.00")
     </td>
     <td>
         @{
@@ -304,7 +307,7 @@
             }
 
         }
-        @traf
+        @traf.ToString("#,##0.00")
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.leave_absence.absence)
@@ -329,7 +332,7 @@
 
             var TLWOP = (labs + ldays) * (gross * 12 / 365);
         }
-        @TLWOP
+        @TLWOP.ToString("#,##0.00")
 
     </td>
     <td>
@@ -340,7 +343,7 @@
                 double.TryParse(payrolesController.Unprotect(item.others), out oth);
             }
 
-            @oth
+            @oth.ToString("#,##0.00")
         }
     </td>
     <td>
@@ -352,7 +355,7 @@
             }
 
         }
-        @tod
+        @tod.ToString("#,##0.00")
     </td>
     <td>
         @{
@@ -363,7 +366,7 @@
             }
 
         }
-        @net
+        @net.ToString("#,##0.00")
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.remarks)

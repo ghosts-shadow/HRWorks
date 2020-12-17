@@ -766,7 +766,7 @@
             var jd = leaveid.date_joined;
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             string serverfile;
-            var leavelistc = this.db.Leaves.ToList();/*
+            var leavelistc = this.db.Leaves.ToList();
             if (leavelistc.Exists(x=>x.Start_leave<=leave.Start_leave && x.End_leave >= leave.End_leave && x.Employee_id == leave.Employee_id))
             {
                 ModelState.AddModelError("Start_leave", "already exists");
@@ -783,7 +783,7 @@
             {
                 ModelState.AddModelError("Start_leave", "selected date is before " +jd);
                 goto jderr;
-            }*/
+            }
             if (leave.End_leave < jd && leave.End_leave != default)
             {
                 ModelState.AddModelError("Start_leave", "selected date is before " + jd);
@@ -1323,31 +1323,53 @@
 
             if (this.ModelState.IsValid)
             {
+                var actdate = new DateTime();
                 var file1 = new Leave();
                 file1.Employee_id = leave.Employee_id;
                 var masterstatus = this.db.master_file.Find(leave.Employee_id);
-                file1.Date = leave.Date;
-                file1.Reference = serverfile;
-                file1.Start_leave = leave.Start_leave;
-                file1.End_leave = leave.End_leave;
-                file1.Return_leave = leave.Return_leave;
-                file1.leave_type = leave.leave_type;
-                file1.actual_return_date = leave.actual_return_date;
-                if (leave.actual_return_date == null) masterstatus.status = "on leave";
-                else masterstatus.status = "active";
-                this.db.Entry(leave).State = EntityState.Modified;
-                this.db.SaveChanges();
-                if (leave.actual_return_date != leave.Return_leave)
+                if (leave.actual_return_date < leave.Return_leave)
+                {
+                    file1 = leave;
+                    file1.Date = leave.Date;
+                    file1.Reference = serverfile;
+                    file1.Start_leave = leave.Start_leave;
+                    file1.End_leave = leave.actual_return_date;
+                    file1.Return_leave = leave.actual_return_date;
+                    file1.leave_type = leave.leave_type;
+                    file1.actual_return_date = leave.actual_return_date;
+                    if (leave.actual_return_date == null) masterstatus.status = "on leave";
+                    else masterstatus.status = "active";
+                    this.db.Entry(file1).State = EntityState.Modified;
+                    this.db.SaveChanges();
+                }
+                else
+                {
+                    file1 = leave;
+                    file1.Date = leave.Date;
+                    file1.Reference = serverfile;
+                    file1.Start_leave = leave.Start_leave;
+                    file1.End_leave = leave.End_leave;
+                    file1.Return_leave = leave.Return_leave;
+                    file1.leave_type = leave.leave_type;
+                    file1.actual_return_date = leave.actual_return_date;
+                    actdate = leave.actual_return_date.Value;
+                    if (leave.actual_return_date == null) masterstatus.status = "on leave";
+                    else masterstatus.status = "active";
+                    this.db.Entry(file1).State = EntityState.Modified;
+                    this.db.SaveChanges();
+                }
+                if (leave.actual_return_date > leave.Return_leave)
                 {
                     file1.actual_return_date = leave.Return_leave;
-                    this.db.Entry(leave).State = EntityState.Modified;
+                    this.db.Entry(file1).State = EntityState.Modified;
                     this.db.SaveChanges();
                     var unpaidauto = new Leave();
                     unpaidauto = file1;
+                    unpaidauto.leave_type = "6";
                     unpaidauto.Start_leave = leave.Return_leave;
-                    unpaidauto.End_leave = leave.actual_return_date;
-                    unpaidauto.Return_leave = leave.actual_return_date;
-                    unpaidauto.actual_return_date = leave.actual_return_date;
+                    unpaidauto.End_leave = actdate;
+                    unpaidauto.Return_leave = actdate;
+                    unpaidauto.actual_return_date = actdate;
                     masterstatus.status = "active";
                     this.db.Leaves.Add(file1);
                     this.db.SaveChanges();
@@ -1505,13 +1527,6 @@
                     {
                         if (leaf.leave_type == "6")
                         {
-                            if (leaf.days != null)
-                            {
-                                if (leaf.half) unpaid += leaf.days.Value - 0.5;
-                                else
-                                    unpaid += leaf.days.Value;
-                            }
-                            else
                             {
                                 if (leaf.half)
                                 {
@@ -1528,13 +1543,6 @@
 
                         if (leaf.leave_type == "2")
                         {
-                            if (leaf.days != null)
-                            {
-                                if (leaf.half) sick += leaf.days.Value - 0.5;
-                                else
-                                    sick += leaf.days.Value;
-                            }
-                            else
                             {
                                 if (leaf.half)
                                 {
@@ -1551,12 +1559,6 @@
 
                         if (leaf.leave_type == "3")
                         {
-                            if (leaf.days != null)
-                            {
-                                if (leaf.half) comp += leaf.days.Value - 0.5;
-                                else comp += leaf.days.Value;
-                            }
-                            else
                             {
                                 if (leaf.half)
                                 {
@@ -1573,12 +1575,6 @@
 
                         if (leaf.leave_type == "4")
                         {
-                            if (leaf.days != null)
-                            {
-                                if (leaf.half) mate += leaf.days.Value - 0.5;
-                                else mate += leaf.days.Value;
-                            }
-                            else
                             {
                                 if (leaf.half)
                                 {
@@ -1595,12 +1591,7 @@
 
                         if (leaf.leave_type == "5")
                         {
-                            if (leaf.days != null)
-                            {
-                                if (leaf.half) haj += leaf.days.Value - 0.5;
-                                else haj += leaf.days.Value;
-                            }
-                            else
+                           
                             {
                                 if (leaf.half)
                                 {
@@ -1618,12 +1609,7 @@
 
                         if (leaf.leave_type == "1")
                         {
-                            if (leaf.days != null)
-                            {
-                                if (leaf.half) avalied += leaf.days.Value - 0.5;
-                                else avalied += leaf.days.Value;
-                            }
-                            else
+                            
                             {
                                 if (leaf.half)
                                 {

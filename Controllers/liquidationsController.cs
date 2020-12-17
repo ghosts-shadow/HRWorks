@@ -14,7 +14,7 @@
         private readonly HREntities db = new HREntities();
 
         // GET: liquidations/Create
-        [Authorize(Roles = "liquidation")]
+        //[Authorize(Roles = "liquidation")]
         public ActionResult Create()
         {
             var refrlist = this.db.liquidation_ref.ToList();
@@ -144,11 +144,11 @@
             if (empno != null)
             {
                 var lii3 = lii2.FindAll(x=>x.employee_no == empno);
-                return this.View(lii3.OrderBy(x=>x.invoice_date));
+                return this.View(lii3.OrderByDescending(x=>x.liquidation_ref.refr));
             }
             else
             {
-                return this.View(lii2.OrderBy(x => x.invoice_date));
+                return this.View(lii2.OrderByDescending(x => x.liquidation_ref.refr));
             }
         }
 

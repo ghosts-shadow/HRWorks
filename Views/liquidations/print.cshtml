@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
-    document.onkeydown = function(e) {
+    document.onkeydown = function (e) {
         if (event.keyCode === 123) {
             return false;
         }
@@ -29,19 +29,33 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-    $(function() {
+    $(function () {
         $("#pdate").datepicker();
     });
 </script>
-<style>
-    table { text-align: center; }
 
-    th, td,tr { text-align: center;
+<script src="~/Scripts/html2canvas/html2canvas.min.js"></script>
+<script>
+    function print() {
+        html2canvas(document.getElementById('liqui')).then(function (canvas) {
+            var base64image = canvas.toDataURL("image/png");
+            var newWindow = window.open(base64image, "_blank");
+            newWindow.print();
+        });
+    }
+</script>
+<style>
+    table {
+        text-align: center;
+    }
+
+    th, td, tr {
+        text-align: center;
         background-color: white;
         color: black;
         border: 1px solid black;
     }
-    
+
     .row {
         -ms-flex-wrap: wrap;
         display: -ms-flexbox;
@@ -50,10 +64,12 @@
         margin-left: -15px;
         margin-right: -15px;
     }
-      .body1 {
+
+    .body1 {
         width: 210mm;
         height: 297mm;
     }
+
     @@page {
         size: A4;
         margin: 0;
@@ -61,9 +77,12 @@
 
     @@media print {
 
-        table { text-align: center; }
+        table {
+            text-align: center;
+        }
 
-        th, td, tr { text-align: center;
+        th, td, tr {
+            text-align: center;
             background-color: white;
             color: black;
             border: 1px solid black;
@@ -82,36 +101,38 @@
 <div class="body1" onclick="total()" style="width: 100%">
     @using (Html.BeginForm("print", "liquidations", FormMethod.Get, new { id = "form1" }))
     {
-        <div id="hide">date:
+        <div id="hide">
+            date:
             <input type="text" name="pdate" id="pdate" />
             sheet:
             <input type="number" name="prefr" id="prefr" />
             liq.:
             <input type="number" name="preli" id="preli" />
             <input type="submit" value="search" class="btn btn-default" id="search" />
+            <input type="button" value="print" class="btn btn-default"  onclick="print();"/>
         </div>
     }
-    <hr />
-    <div  style="border: 1px solid black;
-        padding: 3%;">
+    <div style="border: 1px solid black; padding: 3%;" id="liqui">
         <div class="row" style="left: 40%; position: relative; top: 0%">
             <img src="~/img/logo.png" height="100" width="150" />
         </div>
         <br />
         <div class="row">
-            <img src="~/img/pettycashbar.jpg" width="100%"/>
+            <img src="~/img/pettycashbar.jpg" width="100%" />
         </div>
         <div class="row" style="border: 1px solid black;">
             <div style="left: 0%; position: relative;font-size: 110%">
                 <b>liq.@ViewBag.preli sheet: @ViewBag.prefr</b>
             </div>
             <div style="left: 65%; position: relative;font-size: 110%">
-                <b>date :@if(ViewBag.pdate != null)
-                         {@ViewBag.pdate.ToString("dd MMMM yyyy")}</b>
-                          </div>
-                          @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
-                          </div>
-        <div class="row" >
+                <b>
+                    date :@if (ViewBag.pdate != null)
+                    {@ViewBag.pdate.ToString("dd MMMM yyyy")}
+                </b>
+            </div>
+            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+        </div>
+        <div class="row">
             <table class="table" style="margin-bottom: 0; height: 50% !important; text-wrap: normal">
                 <col>
                 <thead onclick="check()">
@@ -175,7 +196,7 @@
                         <b>imperst holder</b>
                     </div>
                     <div class="col-md-3" style="text-align: center">
-                        <br/>
+                        <br />
                     </div>
                     <div class="col-md-3" style="text-align: center;border-top: 2px solid black">
                         <b style="text-transform: uppercase">hod</b>
@@ -255,5 +276,5 @@
         </div>
     </div>
 </div>
-<br/>
-<br class=""/>
+<br />
+<br class="" />
