@@ -773,12 +773,12 @@
 
                 goto jderr;
             }
-            if (leavelistc.Exists(x=>x.End_leave >= leave.Start_leave && x.Employee_id == leave.Employee_id))
-            {
-                ModelState.AddModelError("Start_leave", leave.Start_leave+" already exists");
-
-                goto jderr;
-            }
+//            if (leavelistc.Exists(x=>x.End_leave >= leave.Start_leave && x.Employee_id == leave.Employee_id))
+//            {
+//                ModelState.AddModelError("Start_leave", leave.Start_leave+" already exists");
+//
+//                goto jderr;
+//            }
             if (leave.Start_leave < jd && leave.Start_leave != default)
             {
                 ModelState.AddModelError("Start_leave", "selected date is before " +jd);
@@ -1337,12 +1337,17 @@
                     file1.Return_leave = leave.actual_return_date;
                     file1.leave_type = leave.leave_type;
                     file1.actual_return_date = leave.actual_return_date;
-                    if (leave.actual_return_date == null) masterstatus.status = "on leave";
+                    if (leave.actual_return_date == null)
+                    {
+                        masterstatus.status = "on leave";
+                    }
                     else masterstatus.status = "active";
+                    file1.actualchangedby = User.Identity.Name;
+                    file1.actualchangeddateby = DateTime.Now;
                     this.db.Entry(file1).State = EntityState.Modified;
                     this.db.SaveChanges();
                 }
-                else
+                else if(leave.actual_return_date == leave.Return_leave || leave.actual_return_date == null)
                 {
                     file1 = leave;
                     file1.Date = leave.Date;
@@ -1352,14 +1357,19 @@
                     file1.Return_leave = leave.Return_leave;
                     file1.leave_type = leave.leave_type;
                     file1.actual_return_date = leave.actual_return_date;
-                    actdate = leave.actual_return_date.Value;
                     if (leave.actual_return_date == null) masterstatus.status = "on leave";
-                    else masterstatus.status = "active";
+                    else
+                    {
+                        masterstatus.status = "active";
+                    }
+                    file1.actualchangedby = User.Identity.Name;
+                    file1.actualchangeddateby = DateTime.Now;
                     this.db.Entry(file1).State = EntityState.Modified;
                     this.db.SaveChanges();
-                }
-                if (leave.actual_return_date > leave.Return_leave)
+                }else if (leave.actual_return_date > leave.Return_leave)
                 {
+                    actdate = leave.actual_return_date.Value;
+                    file1 = leave;
                     file1.actual_return_date = leave.Return_leave;
                     this.db.Entry(file1).State = EntityState.Modified;
                     this.db.SaveChanges();
@@ -1371,10 +1381,12 @@
                     unpaidauto.Return_leave = actdate;
                     unpaidauto.actual_return_date = actdate;
                     masterstatus.status = "active";
-                    this.db.Leaves.Add(file1);
+                    unpaidauto.actualchangedby = "system";
+                    unpaidauto.actualchangeddateby = DateTime.Now;
+                    this.db.Leaves.Add(unpaidauto);
                     this.db.SaveChanges();
                 }
-                return this.RedirectToAction("Index");
+                return this.RedirectToAction("getallorone");
             }
 
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
@@ -1484,7 +1496,7 @@
 
         public ActionResult report(long? Employee_id, DateTime? eddate)
         {
-            eddate = new DateTime(2021,6, DateTime.DaysInMonth(2021,6));
+            eddate = new DateTime(2020,12, DateTime.DaysInMonth(2020,12));
             ViewBag.Employee_id = Employee_id;
             ViewBag.eddate = eddate;
             var emp_listfinal = new List<master_file>();
@@ -1517,7 +1529,7 @@
                 double haj = 0;
                 var asf = empjd.date_joined;
                 var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
-                    x => x.Employee_id == Employee_id && x.Start_leave >= asf && x.End_leave <= eddate);
+                    x => x.Employee_id == Employee_id && x.Start_leave >= asf );
                 var times = eddate - asf;
                 if (times != null)
                 {
@@ -1641,7 +1653,7 @@
                     this.ViewBag.name = empjd.employee_name;
                     this.ViewBag.no = empjd.employee_no;
 
-                    return this.View(leaves.OrderBy(x=>x.Start_leave).ToList());
+                    return this.View(leaves.OrderByDescending(x=>x.Start_leave).ToList());
                 }
             }
 
@@ -1889,11 +1901,11 @@
 
             if (eddate.HasValue && !eddate1.HasValue)
             {
-                return this.View(cllist.Where(x => x.Start_leave >= eddate).OrderBy(x => x.departmant_project).ThenBy(x => x.Start_leave));
+                return this.View(cllist.Where(x => x.Start_leave >= eddate).OrderBy(x => x.departmant_project).ThenByDescending(x => x.Start_leave));
             }
             if (eddate.HasValue && eddate1.HasValue)
             {
-                return this.View(cllist.Where(x => x.Start_leave >= eddate && x.Start_leave <= eddate1).OrderBy(x => x.departmant_project).ThenBy(x => x.Start_leave));
+                return this.View(cllist.Where(x => x.Start_leave >= eddate && x.Start_leave <= eddate1).OrderBy(x => x.departmant_project).ThenByDescending(x => x.Start_leave));
             }
             
             return this.View(new List<con_leavemodel>());

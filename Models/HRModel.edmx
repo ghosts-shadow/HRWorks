@@ -385,6 +385,8 @@
           <Property Name="days" Type="int" />
           <Property Name="data_o_n" Type="nchar" MaxLength="10" />
           <Property Name="half" Type="bit" Nullable="false" />
+          <Property Name="actualchangedby" Type="nvarchar(max)" />
+          <Property Name="actualchangeddateby" Type="date" />
         </EntityType>
         <EntityType Name="leave_absence">
           <Key>
@@ -1550,6 +1552,8 @@
           <Property Name="data_o_n" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="half" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="payroles" Relationship="HRModel.FK_pay_To_leave" FromRole="Leave" ToRole="payrole" />
+          <Property Name="actualchangedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="actualchangeddateby" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
@@ -3007,6 +3011,8 @@
           <EntitySetMapping Name="Leaves">
             <EntityTypeMapping TypeName="HRModel.Leave">
               <MappingFragment StoreEntitySet="Leave">
+                <ScalarProperty Name="actualchangeddateby" ColumnName="actualchangeddateby" />
+                <ScalarProperty Name="actualchangedby" ColumnName="actualchangedby" />
                 <ScalarProperty Name="half" ColumnName="half" />
                 <ScalarProperty Name="data_o_n" ColumnName="data_o_n" />
                 <ScalarProperty Name="days" ColumnName="days" />

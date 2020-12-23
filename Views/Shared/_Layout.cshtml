@@ -76,11 +76,14 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
+        .navbar-right {
+            margin-right: 0px
+        }
     </style>
 </head>
 <body onload="" style="text-transform: capitalize; margin-left: 1%; margin-right: 1%">
 
-    <div class="navbar navbar-inverse navbar-fixed-top" style="position: relative; top: -50px">
+    <div class="navbar navbar-inverse navbar-fixed-top" style="position: relative; top: -50px;padding: 0px !important">
         <div class="navbar-header">
             <button type="button"
                     class="navbar-toggle"
@@ -92,7 +95,7 @@
             </button>@Html.ActionLink("HRworks", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav " style="margin-left: 1%; margin-right: 2%">
+            <ul class="nav navbar-nav " style="font-size: 11px;">
                 @if (Request.IsAuthenticated)
                 {
                     <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>

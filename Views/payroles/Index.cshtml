@@ -16,6 +16,11 @@
         $("#datepicker").datepicker();
     });
 </script>
+<style>
+    b {
+        font-weight: 900;
+    }
+</style>
 @using (Html.BeginForm("Index", "payroles", FormMethod.Get, new { id = "form1" }))
 {
     <div>
@@ -28,102 +33,104 @@
         <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Report", "Attendances")'" value="back to main"/>
     </div>
 }
-<table class="table">
-<tr>
-    <th>
-        @Html.DisplayNameFor(model => model.master_file.employee_no)
+<table class="table" >
+<tr style="font-size: 12px">
+    <th style=" position: sticky;top: 0; width: 82px;">
+        ID
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.master_file.employee_name)
+    <th style=" position: sticky;top: 0; width: 82px;">
+        Name
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.contract.basic)
+    <th style=" position: sticky;top: 0; width: 65px;">
+        Basic
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.contract.salary_details)
+    <th style=" position: sticky;top: 0; width: 66px;">
+        Gross
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.contract.ticket_allowance)
+    <th style=" position: sticky;top: 0; width: 64px;">
+        Ticket.A	
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.contract.arrears)
+    <th style=" position: sticky;top: 0; width: 58px;">
+        Arrears
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.totalpayable)
+    <th style=" position: sticky;top: 0; width: 65px;">
+        <b>
+            Total.PB	
+        </b>
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.OTRegular) (amt)
+    <th style=" position: sticky;top: 0; width: 51px;">
+        OTR AMT	
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.OTRegular) (hrs)
+    <th style=" position: sticky;top: 0; width: 51px;">
+        OTR Hrs	
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.OTFriday) (amt)
+    <th style=" position: sticky;top: 0; width: 51px;">
+        OTF AMT	
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.OTFriday) (hrs)
+    <th style=" position: sticky;top: 0; width: 51px;">
+        OTF Hrs	
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.OTNight)
+    <th style=" position: sticky;top: 0; width: 51px;">
+        OTN	
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.HolidayOT) (amt)
+    <th style=" position: sticky;top: 0; width: 51px;">
+        OTH AMT	
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.HolidayOT) (hrs)
+    <th style=" position: sticky;top: 0; width: 51px;">
+        OTH Hrs	
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.Fot)
+    <th style=" position: sticky;top: 0; width: 51px;">
+        FOT
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.TotalOT)
+    <th style=" position: sticky;top: 0; width: 55px;">
+        <b>	TotalOT</b>
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.cashAdvances)
+    <th style=" position: sticky;top: 0; width: 55px;">
+        Cash.A
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.HouseAllow)
+    <th style=" position: sticky;top: 0; width: 59px;">
+        House.A
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.contract.transportation_allowance)
+    <th style=" position: sticky;top: 0; width: 54px;">
+        Trans.A
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.FoodAllow)
+    <th style=" position: sticky;top: 0; width: 51px;">
+        Food.A
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.Timekeeping)
+    <th style=" position: sticky;top: 0; width: 78px;">
+        Timekeeping
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.Communication)
+    <th style=" position: sticky;top: 0; width: 94px;">
+        Communication
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.TrafficFines)
+    <th style=" position: sticky;top: 0; width: 59px;">
+        Traffic.F										
     </th>
-    <th>
-        absence(days)
+    <th style=" position: sticky;top: 0; width: 53px;">
+        Absent
     </th>
-    <th>
-        LWOP(days)
+    <th style=" position: sticky;top: 0; width: 46px;">
+        LWOP
     </th>
-    <th>total LWOP</th>
-    <th>
-        @Html.DisplayNameFor(model => model.others)
+    <th style=" position: sticky;top: 0; width: 54px;"><b>total LWOP</b></th>
+    <th style=" position: sticky;top: 0; width: 51px;">
+        Others
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.TotalDedution)
+    <th style=" position: sticky;top: 0; width: 89px;">
+        <b>Total Dedution</b>
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.NetPay)
+    <th style=" position: sticky;top: 0; width: 75px;">
+        <b style="color: #e64f4f">NetPay</b>
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.remarks)
+    <th style=" position: sticky;top: 0; width: 67px;">
+        Remarks
     </th>
-    <th></th>
+    <th style=" position: sticky;top: 0; width: 48px;"></th>
 </tr>
 
 @foreach (var item in Model)
 {
-    <tr>
+    <tr style="font-size: 11px">
     <td>
         @Html.DisplayFor(modelItem => item.master_file.employee_no)
     </td>
@@ -222,7 +229,24 @@
     <td>
         @Html.DisplayFor(modelItem => item.Fot)
         @{
+            var labs = 0d;
+            var ldays = 0d;
+            double.TryParse(sal, out var gross);
+            if (item.leave_absence != null)
+            {
+                labs = item.leave_absence.absence.Value;
+            }
+
+            if (item.Leave != null)
+            {
+                ldays = item.Leave.days.Value;
+            }
+
             double.TryParse(payrolesController.Unprotect(item.contract.FOT), out var e);
+            if ((labs + ldays) != 0)
+            {
+                e = (e * 12 / 365) * (DateTime.DaysInMonth(item.forthemonth.Value.Year, item.forthemonth.Value.Month) -(labs + ldays));
+            }
         }
         @e.ToString("#,##0.00")
     </td>
@@ -317,19 +341,6 @@
     </td>
     <td>
         @{
-            var labs = 0d;
-            var ldays = 0d;
-            double.TryParse(sal, out var gross);
-            if (item.leave_absence != null)
-            {
-                labs = item.leave_absence.absence.Value;
-            }
-
-            if (item.Leave != null)
-            {
-                ldays = item.Leave.days.Value;
-            }
-
             var TLWOP = (labs + ldays) * (gross * 12 / 365);
         }
         @TLWOP.ToString("#,##0.00")
@@ -360,11 +371,10 @@
     <td>
         @{
             var net = 0d;
-            if (item.NetPay != null && !item.NetPay.Contains(" "))
+            if (item.NetPay != null && payrolesController.IsBase64Encoded(item.NetPay))
             {
                 double.TryParse(payrolesController.Unprotect(item.NetPay), out net);
             }
-
         }
         @net.ToString("#,##0.00")
     </td>

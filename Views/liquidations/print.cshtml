@@ -38,7 +38,7 @@
 <script>
     function print() {
         html2canvas(document.getElementById('liqui')).then(function (canvas) {
-            var base64image = canvas.toDataURL("image/png");
+            var base64image = canvas.toDataURL("image/jpg");
             var newWindow = window.open(base64image, "_blank");
             newWindow.print();
         });
@@ -113,7 +113,7 @@
         </div>
     }
     <div style="border: 1px solid black; padding: 3%;" id="liqui">
-        <div class="row" style="left: 40%; position: relative; top: 0%">
+        <div class="row" style="left: 45%; position: relative; top: 0%">
             <img src="~/img/logo.png" height="100" width="150" />
         </div>
         <br />
@@ -121,10 +121,10 @@
             <img src="~/img/pettycashbar.jpg" width="100%" />
         </div>
         <div class="row" style="border: 1px solid black;">
-            <div style="left: 0%; position: relative;font-size: 110%">
+            <div style="left: 1%; position: relative;font-size: 110%">
                 <b>liq.@ViewBag.preli sheet: @ViewBag.prefr</b>
             </div>
-            <div style="left: 65%; position: relative;font-size: 110%">
+            <div style="left: 76%; position: relative;font-size: 110%">
                 <b>
                     date :@if (ViewBag.pdate != null)
                     {@ViewBag.pdate.ToString("dd MMMM yyyy")}
@@ -137,10 +137,10 @@
                 <col>
                 <thead onclick="check()">
                     <tr>
-                        <th rowspan="2" scope="rowgroup"> @Html.DisplayNameFor(model => model.bill_no)</th>
-                        <th rowspan="2" scope="rowgroup"> @Html.DisplayNameFor(model => model.expenses)</th>
-                        <th rowspan="2" scope="rowgroup"> @Html.DisplayNameFor(model => model.invoice_date)</th>
-                        <th rowspan="2" scope="rowgroup"> @Html.DisplayNameFor(model => model.discription)</th>
+                        <th rowspan="2" scope="rowgroup" style="vertical-align: top"> @Html.DisplayNameFor(model => model.bill_no)</th>
+                        <th rowspan="2" scope="rowgroup"style="vertical-align: top"> @Html.DisplayNameFor(model => model.expenses)</th>
+                        <th rowspan="2" scope="rowgroup"style="vertical-align: top"> @Html.DisplayNameFor(model => model.invoice_date)</th>
+                        <th rowspan="2" scope="rowgroup"style="vertical-align: top"> @Html.DisplayNameFor(model => model.discription)</th>
                         <th colspan="3">debit amount</th>
                     </tr>
                     <tr>
@@ -192,14 +192,14 @@
                 <br />
                 <br />
                 <div class="row" style="text-transform: capitalize ">
-                    <div class="col-md-3" style="text-align: center; border-top: 2px solid black">
+                    <div class="col-md-3" style="text-align: center; border-top: 2px solid black;margin-right: 50px;margin-left: 16px;">
                         <b>imperst holder</b>
                     </div>
-                    <div class="col-md-3" style="text-align: center">
-                        <br />
-                    </div>
-                    <div class="col-md-3" style="text-align: center;border-top: 2px solid black">
+                    <div class="col-md-3" style="text-align: center;border-top: 2px solid black;margin-right: 50px;margin-left: 10px;">
                         <b style="text-transform: uppercase">hod</b>
+                    </div>
+                    <div class="col-md-3" style="text-align: center;border-top: 2px solid black;margin-right: 50px;margin-left: 10px;">
+                        <b style="text-transform: uppercase">od</b>
                     </div>
                 </div>
             </div>

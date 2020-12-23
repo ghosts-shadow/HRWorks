@@ -72,6 +72,9 @@ namespace HRworks.Models
 
         [Display(Name = "is half-day included")]
         public bool half { get; set; }
+        public string actualchangedby { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
+        public Nullable<System.DateTime> actualchangeddateby { get; set; }
     
         public virtual master_file master_file { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

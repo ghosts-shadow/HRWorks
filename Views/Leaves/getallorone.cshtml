@@ -7,13 +7,11 @@
 }
 
 <h2>Change / Enter actual return date</h2>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<script>
 
-</script>
 @using (Html.BeginForm("getallorone", "Leaves", FormMethod.Get, new { id = "form1" }))
 {
 <div>
@@ -30,53 +28,58 @@
     @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("getallorone", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pagesize = ViewBag.pagesize ,search = ViewBag.search }))
 </div>
 }
-<table class="table">
-    <tr>
-        <th>#SN</th>
+<table class="table" style="border-collapse: separate;">
+    <tr >
+        <th style="position: sticky;top: 0;">#SN</th>
         @if (User.Identity.Name == "dinizsneden@gmail.com")
         {
-            <th>
+            <th style="position: sticky;top: 0;">
                 @Html.DisplayNameFor(model => model.Employee_id)
             </th>
-            <th>
+            <th style="position: sticky;top: 0;">
                 @Html.DisplayNameFor(model => model.Id)
             </th>
         }
-        <th>
+        <th style="position: sticky;top: 0;">
             @Html.DisplayNameFor(model => model.master_file.employee_no)
         </th>
-        <th>
+        <th style="position: sticky;top: 0;">
             @Html.DisplayNameFor(model => model.master_file.employee_name)
         </th>
-        <th>
+        <th style="position: sticky;top: 0;">
             @Html.DisplayNameFor(model => model.leave_type)
         </th>
-        <th>
+        <th style="position: sticky;top: 0;">
             @Html.DisplayNameFor(model => model.Date)
         </th>
-        <th>
+        <th style="position: sticky;top: 0;">
             @Html.DisplayNameFor(model => model.Start_leave)
         </th>
-        <th>
+        <th style="position: sticky;top: 0;">
             @Html.DisplayNameFor(model => model.End_leave)
         </th>
-        <th>
+        <th style="position: sticky;top: 0;">
             @Html.DisplayNameFor(model => model.days)
         </th>
-        <th>
+        <th style="position: sticky;top: 0;">
             @Html.DisplayNameFor(model => model.Return_leave)
         </th>
-        <th>
+        <th style="position: sticky;top: 0;">
             unpaid days(after return date)
         </th>
-        <th>
+        <th style="position: sticky;top: 0;">
             actual return date
         </th>
-        @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
+        @if (User.IsInRole("super_admin"))
         {
-            <th></th>
+           <th style="position: sticky;top: 0;">changed by</th><th style="position: sticky;top: 0;">changed date</th>
         }
-    </tr>
+
+            @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
+            {
+                <th style="position: sticky;top: 0;"></th>
+            }
+        </tr>
     @{ var i = 0;
     }
 @foreach (var item in Model) {
@@ -235,6 +238,15 @@
         <td>
             @Html.DisplayFor(modelItem => item.actual_return_date)
         </td>
+        @if (User.IsInRole("super_admin"))
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.actualchangedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.actualchangeddateby)
+            </td>
+        }
         @if (User.IsInRole("admin") || User.IsInRole("super_admin")|| User.IsInRole("payrole"))
         {
     <td>
