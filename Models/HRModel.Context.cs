@@ -71,5 +71,6 @@ namespace HRworks.Models
         public virtual DbSet<absencelist> absencelists { get; set; }
         public virtual DbSet<contractlogin> contractlogins { get; set; }
         public virtual DbSet<payrole> payroles { get; set; }
+        public virtual DbSet<payrollsaved> payrollsaveds { get; set; }
     }
 }

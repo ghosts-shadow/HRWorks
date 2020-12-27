@@ -1337,6 +1337,7 @@
                     file1.Return_leave = leave.actual_return_date;
                     file1.leave_type = leave.leave_type;
                     file1.actual_return_date = leave.actual_return_date;
+                    file1.half = leave.half;
                     if (leave.actual_return_date == null)
                     {
                         masterstatus.status = "on leave";
@@ -1357,6 +1358,7 @@
                     file1.Return_leave = leave.Return_leave;
                     file1.leave_type = leave.leave_type;
                     file1.actual_return_date = leave.actual_return_date;
+                    file1.half = leave.half;
                     if (leave.actual_return_date == null) masterstatus.status = "on leave";
                     else
                     {
@@ -1380,6 +1382,7 @@
                     unpaidauto.End_leave = actdate;
                     unpaidauto.Return_leave = actdate;
                     unpaidauto.actual_return_date = actdate;
+                    file1.half = leave.half;
                     masterstatus.status = "active";
                     unpaidauto.actualchangedby = "system";
                     unpaidauto.actualchangeddateby = DateTime.Now;
@@ -1449,7 +1452,50 @@
                 }
             }
             
-            return this.View(leaves.OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.Start_leave).ToPagedList(page ?? 1, defaSize));
+            return this.View(leaves.OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.End_leave).ToPagedList(page ?? 1, defaSize));
+        }
+        
+        public ActionResult getallonleave(string search, int? page, int? pagesize, int? idsearch)
+        {
+            int pageIndex = 1;
+            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            int defaSize = 100;
+            List<Leave> leaves = new List<Leave>();
+            leaves = this.db.Leaves.Where(x=>x.actual_return_date ==null).Include(l => l.master_file).OrderBy(x => x.master_file.employee_no)
+                .ThenByDescending(x => x.Start_leave)
+                .ThenByDescending(x => x.master_file.employee_no).ToList();
+            if (pagesize != 0)
+            {
+                int a = 100;
+                if (pagesize != null)
+                {
+                    if (pagesize != 0)
+                    {
+                        a = (int)pagesize;
+                    }
+                }
+
+                defaSize = a;
+            }
+            ViewBag.search = search;
+            ViewBag.pagesize = defaSize;
+            if (!string.IsNullOrEmpty(search))
+            {
+                if (int.TryParse(search, out var idk))
+                {
+                    leaves = db.Leaves
+                        .Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/)
+                        .OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.Start_leave).ToList();
+                }
+                else
+                {
+                    leaves = db.Leaves
+                        .Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
+                        .OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.Start_leave).ToList();
+                }
+            }
+            
+            return this.View(leaves.OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.End_leave).ToPagedList(page ?? 1, defaSize));
         }
 
         public ActionResult leave_absence_Index(DateTime? eddate)

@@ -1,4 +1,6 @@
-﻿namespace HRworks.Controllers
+﻿using Microsoft.Ajax.Utilities;
+
+namespace HRworks.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -441,8 +443,9 @@
         }
 
         // GET: payroles
-        public ActionResult Index(DateTime? month)
+        public ActionResult Index(DateTime? month ,string save)
         {
+            
             var payroles = this.db.payroles.Include(p => p.contract).Include(p => p.Leave).Include(p => p.master_file);
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
             var afinallist = new List<master_file>();
@@ -507,6 +510,10 @@
                         var payr = paylisteisting.Find(
                             x => x.forthemonth == new DateTime(month.Value.Year, month.Value.Month, 1)
                                  && x.employee_no == masterFile.employee_id);
+                        if (payr.save == true)
+                        {
+                            goto sav;
+                        }
 ////                        var leave1 = this.db.Leaves.Where(
 ////                            x => x.Employee_id == masterFile.employee_id && x.leave_type == "6"
 ////                                                                         && x.Start_leave >= payr.forthemonth
@@ -1964,9 +1971,38 @@
                         var conlist = this.db.contracts.ToList();
                         var con = conlist.Find(c1 => c1.employee_no == masterFile.employee_id);
                         double.TryParse(Unprotect(con.basic), out var bac);
-                        var basperh = ((bac * 12) / 365) / 8;
+                        var basperh = ((bac * 12) / 365) / 8;var leave21 = leave2.FindAll(
+                            x => x.leave_type == "1").ToList();
+                        var al = 0;
+                        foreach (var leaf in leave21)
+                        {
+                            //var dif = leaf.End_leave - leaf.Start_leave;
+                            //al += dif.Value.Days + 1;
+                            var date1 = leaf.Start_leave;
+                            var date2 = leaf.End_leave;
+                            while (date1 != date2)
+                            {
+                                if (date1.Value.Month == payr.forthemonth.Value.Month)
+                                {
+                                    al += 1;
+                                }
+                                date1 = date1.Value.AddDays(1);
+                            }
+                            al += 1;
+                        }
+                        var fotded = (aft * 12 / 365) * (absd + lowp +  al);
+                        if ((absd + lowp +  al) != 0 )
+                        {
+                            payr.Fot = (((aft * 12 / 365) * (DateTime.DaysInMonth(payr.forthemonth.Value.Year,payr.forthemonth.Value.Month) - lowp - al - absd))).ToString();
+                        }
+                        else
+                        {
+                            payr.Fot = aft.ToString();
+                        }
+
+                        double.TryParse(payr.Fot, out var ffot);
                         payr.TotalOT =
-                            ((aqf * 1.5 * basperh) + (aqh * 2.5 * basperh) + (aqt * 1.25 * basperh) + aft + ant)
+                            ((aqf * 1.5 * basperh) + (aqh * 2.5 * basperh) + (aqt * 1.25 * basperh) + ant + ffot)
                             .ToString();
                         double.TryParse(Unprotect(con.salary_details), out var sal);
                         var tac = 0d;
@@ -1984,7 +2020,11 @@
                         double.TryParse(payr.totalpayable, out var a);
                         double.TryParse(payr.TotalOT, out var b);
                         double.TryParse(payr.TotalDedution, out var c);
-                        var fotded = (aft * 12 / 365) * (lowp);
+                        var endday = new DateTime( payr.forthemonth.Value.Year,payr.forthemonth.Value.Month,DateTime.DaysInMonth(payr.forthemonth.Value.Year,payr.forthemonth.Value.Month));
+                        var stday = new DateTime( payr.forthemonth.Value.Year,payr.forthemonth.Value.Month,1);
+                        
+                        
+                        
                         if ((absd + lowp) >= DateTime.DaysInMonth(payr.forthemonth.Value.Year,payr.forthemonth.Value.Month))
                         {
                             payr.NetPay = 0.ToString();
@@ -1993,12 +2033,96 @@
                         {
                             payr.NetPay = (a + b - c - fotded).ToString();
                         }
+
+                        if (save.IsNullOrWhiteSpace())
+                        {
+                            payr.save = false;
+                        }
+                        else
+                        {
+                            payr.save = true;
+                        }
                         Edit(payr);
                         paylist.Add(payr);
+                        sav: ;
+                        if (!save.IsNullOrWhiteSpace())
+                        {
+                            var paysavedlist = db.payrollsaveds.ToList();
+                            if (paysavedlist.Exists(x=>x.forthemonth == payr.forthemonth && x.employee_no == payr.master_file.employee_no))
+                            {
+                                goto save_end;
+                            }
+                            var paysave = new payrollsaved();
+                            double.TryParse(payrolesController.Unprotect(payr.HolidayOT), out var b1);
+                            var bas = payrolesController.Unprotect(payr.contract.basic);
+                            double.TryParse(bas, out var bas1);
+                            var basperh1 = ((bas1 * 12) / 365) / 8;
+                            var bdays = b1;
+                            b1 = b1 * 2.5 * basperh1;
+                            double.TryParse(payrolesController.Unprotect(payr.OTFriday), out var c1);
+                            var cdays1 = c1;
+                            c1 = c1 * 1.5 * basperh1;
+                            double.TryParse(payrolesController.Unprotect(payr.OTRegular), out var a1);
+                            var adays1 = a1;
+                            a1 = a1 * 1.25 * basperh1;
+                            paysave.employee_no = payr.master_file.employee_no;
+                            paysave.employee_name = payr.master_file.employee_name;
+                            paysave.Basic = payr.contract.basic;
+                            paysave.Gross = payr.contract.salary_details;
+                            paysave.TicketAllowance_ = payr.TicketAllowance_;
+                            paysave.Arrears = payr.Arrears;
+                            paysave.totalpayable = payr.totalpayable;
+                            paysave.OTRegular = payr.OTRegular;
+                            paysave.OTRegularamt = a1.ToString();
+                            paysave.OTFriday = payr.OTFriday;
+                            paysave.OTFridayamt = c1.ToString();
+                            paysave.OTNight = payr.OTNight;
+                            paysave.HolidayOT = payr.HolidayOT;
+                            paysave.HolidayOTamt = b1.ToString();
+                            paysave.Fot = payr.contract.FOT;
+                            paysave.TotalOT = payr.TotalOT;
+                            paysave.cashAdvances = payr.cashAdvances;
+                            paysave.HouseAllow = payr.HouseAllow;
+                            paysave.TransportationAllowance_ = payr.TransportationAllowance_;
+                            paysave.FoodAllow = payr.FoodAllow;
+                            paysave.Timekeeping = payr.Timekeeping;
+                            paysave.Communication = payr.Communication;
+                            paysave.TrafficFines = payr.TrafficFines;
+                            if (payr.leave_absence != null)
+                            {
+                                paysave.Absents = (int?) payr.leave_absence.absence;
+                            }
+                            else
+                            {
+                                paysave.Absents = 0;
+                            }
+
+                            if (payr.Leave != null)
+                            {
+                                paysave.LWOP = payr.Leave.days;
+                            }
+                            else
+                            {
+                                paysave.LWOP = 0;
+                            }
+
+                            double.TryParse(Unprotect(payr.contract.salary_details), out var gross);
+                            var TLWOP = (paysave.Absents + paysave.LWOP) * (gross * 12 / 365);
+                            paysave.TotalLWOP = TLWOP.ToString();
+                            paysave.others = payr.others;
+                            paysave.TotalDedution = payr.TotalDedution;
+                            paysave.NetPay = payr.NetPay;
+                            paysave.remarks = payr.remarks;
+                            paysave.forthemonth = payr.forthemonth;
+                            db.payrollsaveds.Add(paysave);
+                            db.SaveChanges();
+                            save_end: ;
+                        }
                     }
                     else
                     {
                         var payr = new payrole();
+                        payr.save = false;
                         payr.master_file = masterFile;
                         payr.employee_no = masterFile.employee_id;
                         payr.forthemonth = new DateTime(month.Value.Year, month.Value.Month, 1);
@@ -3411,7 +3535,38 @@
                             
                             double.TryParse(Unprotect(con.basic), out var bac);
                             var basperh = ((bac * 12) / 365) / 8;
-                            payr.TotalOT = ((aqf * 1.5 * basperh) + (aqh * 2.5 * basperh) + (aqt * 1.25 * basperh) + aft + ant).ToString();
+                            var leave21 = leave2.FindAll(
+                                x => x.leave_type == "1").ToList();
+                            var al = 0;
+                            foreach (var leaf in leave21)
+                            {
+                                //var dif = leaf.End_leave - leaf.Start_leave;
+                                //al += dif.Value.Days + 1;
+                                var date1 = leaf.Start_leave;
+                                var date2 = leaf.End_leave;
+                                while (date1 != date2)
+                                {
+                                    if (date1.Value.Month == payr.forthemonth.Value.Month)
+                                    {
+                                        al += 1;
+                                    }
+                                    date1 = date1.Value.AddDays(1);
+                                }
+                                al += 1;
+                            }
+
+                            var fotded = (aft * 12 / 365) * (lowp +al +absd);
+                            
+                            if ((absd + lowp +  al) != 0 )
+                            {
+                                payr.Fot = (((aft * 12 / 365) * (DateTime.DaysInMonth(payr.forthemonth.Value.Year,payr.forthemonth.Value.Month) - lowp - al - absd))).ToString();
+                            }
+                            else
+                            {
+                                payr.Fot = aft.ToString();
+                            }
+                            double.TryParse(payr.Fot, out var ffot);
+                            payr.TotalOT = ((aqf * 1.5 * basperh) + (aqh * 2.5 * basperh) + (aqt * 1.25 * basperh) + ffot + ant).ToString();
                             double.TryParse(Unprotect(con.salary_details), out var sal);
                             var labs = 0d;
                             var ldays = 0d;
@@ -3441,7 +3596,6 @@
                             double.TryParse(payr.TotalOT, out var b);
                             payr.TotalDedution = TLWOP.ToString();
                             double.TryParse(payr.TotalDedution, out var c10);
-                            var fotded = (aft * 12 / 365) * (lowp);
                             if ((labs + ldays) >= DateTime.DaysInMonth(payr.forthemonth.Value.Year,payr.forthemonth.Value.Month))
                             {
                                 payr.NetPay = 0.ToString();
@@ -3456,11 +3610,32 @@
                         }
                     }
                 }
-
-                return this.View(paylist);
+                var model12 = new paysavedlist();
+                var savedlist1 = db.payrollsaveds.ToList();
+                var savedlist = savedlist1
+                    .FindAll(x => x.forthemonth == new DateTime(month.Value.Year, month.Value.Month, 1)).ToList();
+                if (savedlist.Count !=0)
+                {
+                    model12 = new paysavedlist
+                    {
+                        Payrollsaved = savedlist, Payroll = paylist
+                    };
+                }
+                else
+                {
+                    model12 = new paysavedlist
+                    {
+                        Payroll = paylist,Payrollsaved = savedlist
+                    };
+                }
+                return this.View(model12);
             }
-
-            return this.View(paylist);
+            
+            var model11 = new paysavedlist
+            {
+                Payroll = new List<payrole>(),Payrollsaved = new List<payrollsaved>()
+            };
+            return this.View(model11);
         }
 
         public ActionResult payslip(int? Employee_id, DateTime? eddate)
@@ -3475,10 +3650,14 @@
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
-            var pay = this.db.payroles.ToList();
+            var pay = this.db.payrollsaveds.ToList();
             afinallist = afinallist.FindAll(x => x.contracts.Count != 0);
             this.ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
-            var payslip = new payrole();
+            var payslip = new payrollsaved();
+                var model111 = new payslipmodel
+                {
+                    contract = new contract(),master_file = new master_file(),paysaved = new payrollsaved()
+                };
             if (eddate.HasValue && Employee_id.HasValue)
             {
                 eddate = new DateTime(eddate.Value.Year,eddate.Value.Month,1);
@@ -3486,34 +3665,35 @@
                     eddate.Value.Year,
                     eddate.Value.Month,
                     DateTime.DaysInMonth(eddate.Value.Year, eddate.Value.Month));
-                payslip = pay.Find(x => x.employee_no == Employee_id && x.forthemonth == eddate);
+                var empname10 = afinallist.Find(x=>x.employee_id == Employee_id);
+                payslip = pay.Find(x => x.employee_no == empname10.employee_no && x.forthemonth == eddate);
                 if (payslip == null)
                 {
                     ViewBag.eddate = null;
                     goto xe;
                 }
                 var leave1 = this.db.Leaves.Where(
-                    x => x.Employee_id == payslip.employee_no && x.leave_type == "6"
+                    x => x.master_file.employee_no == payslip.employee_no && x.leave_type == "6"
                                                                  && x.Start_leave <= payslip.forthemonth
                                                                  && x.End_leave >= payslip.forthemonth).ToList();
                 var leave2 = this.db.Leaves.Where(
-                    x => x.Employee_id == payslip.employee_no && x.leave_type == "1"
+                    x => x.master_file.employee_no == payslip.employee_no && x.leave_type == "1"
                                                               && x.Start_leave <= payslip.forthemonth
                                                               && x.End_leave >= payslip.forthemonth).ToList();
                 var leave3 = this.db.Leaves.Where(
-                    x => x.Employee_id == payslip.employee_no && x.leave_type == "2"
+                    x => x.master_file.employee_no == payslip.employee_no && x.leave_type == "2"
                                                               && x.Start_leave <= payslip.forthemonth
                                                               && x.End_leave >= payslip.forthemonth).ToList();
                 var leave4 = this.db.Leaves.Where(
-                    x => x.Employee_id == payslip.employee_no && x.leave_type == "3"
+                    x => x.master_file.employee_no == payslip.employee_no && x.leave_type == "3"
                                                               && x.Start_leave <= payslip.forthemonth
                                                               && x.End_leave >= payslip.forthemonth).ToList();
                 var leave5 = this.db.Leaves.Where(
-                    x => x.Employee_id == payslip.employee_no && x.leave_type == "4"
+                    x => x.master_file.employee_no == payslip.employee_no && x.leave_type == "4"
                                                               && x.Start_leave <= payslip.forthemonth
                                                               && x.End_leave >= payslip.forthemonth).ToList();
                 var leave6 = this.db.Leaves.Where(
-                    x => x.Employee_id == payslip.employee_no && x.leave_type == "5"
+                    x => x.master_file.employee_no == payslip.employee_no && x.leave_type == "5"
                                                               && x.Start_leave <= payslip.forthemonth
                                                               && x.End_leave >= payslip.forthemonth).ToList();
                 var lowp = 0;
@@ -3629,7 +3809,8 @@
                     double accrued = 0;
                     double avalied = 0;
                     double lbal = 0;
-                    var asf = payslip.master_file.date_joined;
+                    var empname1 = afinallist.Find(x=>x.employee_no == payslip.employee_no);
+                    var asf = empname1.date_joined;
                     var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
                         x => x.Employee_id == Employee_id && x.Start_leave >= asf );
                     var tempdate = new DateTime(2020,12,31);
@@ -3684,9 +3865,11 @@
                 ViewBag.mat = mat;
                 ViewBag.haj = haj;
                 ViewBag.holi = GetAllholi(eddate.Value).Count;
+                
+                var empname = afinallist.Find(x=>x.employee_no == payslip.employee_no);
                 var abslist1 = this.db.leave_absence.Where(
                     x => x.month.Value.Month == eddate.Value.Month && x.month.Value.Year == eddate.Value.Year
-                                                                  && x.Employee_id == payslip.master_file.employee_id).ToList();
+                                                                  && x.Employee_id == empname.employee_id).ToList();
                 var absd = 0;
                 foreach (var leaf in abslist1)
                 {
@@ -3694,22 +3877,14 @@
                     absd += dif.Value.Days + 1;
                 }
 
-                if (abslist1.Count != 0)
-                {
-                    payslip.Absents = abslist1.OrderByDescending(x => x.month).First().Id;
-                    payslip.leave_absence = abslist1.OrderByDescending(x => x.month).First();
-                    payslip.leave_absence.absence = absd;
-                }
-
-                if (leave1.Count != 0)
-                {
-                    payslip.LWOP = leave1.OrderByDescending(x => x.Start_leave).First().Id;
-                    payslip.Leave = leave1.OrderByDescending(x => x.Start_leave).First();
-                    payslip.Leave.days = lowp;
-                }
+                var con = db.contracts.OrderByDescending(x=>x.date_changed).ToList();
+                var conemp = con.Find(x => x.employee_no == empname.employee_id);
+                model111.master_file = empname;
+                model111.paysaved = payslip;
+                model111.contract = conemp;
             }
             xe: ;
-            return this.View(payslip);
+            return this.View(model111);
         }
         protected override void Dispose(bool disposing)
         {

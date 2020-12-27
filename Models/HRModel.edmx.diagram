@@ -94,6 +94,7 @@
         <AssociationConnector Association="HRModel.FK_payrole_Toleaveab" />
         <AssociationConnector Association="HRModel.FK_end_of_service_To_contract" />
         <AssociationConnector Association="HRModel.FK_end_of_service_To_leavecal" />
+        <EntityTypeShape EntityType="HRModel.payrollsaved" Width="1.5" PointX="17.625" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

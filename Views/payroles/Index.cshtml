@@ -1,5 +1,5 @@
 ﻿@using HRworks.Controllers
-@model IEnumerable<HRworks.Models.payrole>
+@model HRworks.Models.paysavedlist
 
 @{
     ViewBag.Title = "Index";
@@ -20,374 +20,627 @@
     b {
         font-weight: 900;
     }
+
+
 </style>
 @using (Html.BeginForm("Index", "payroles", FormMethod.Get, new { id = "form1" }))
 {
-    <div>
-        month:-
-        <input type="text" name="month" id="datepicker" class="form-control" value="@if(ViewBag.payday != null){@ViewBag.payday.ToString("d")}"/>
-        <input type="submit"
-               name="submit"
-               value="Get records" ondblclick="norc()" class="btn btn-default"/>
+<div>
+    month:-
+    <input type="text" name="month" id="datepicker" class="form-control" value="@if(ViewBag.payday != null){@ViewBag.payday.ToString("d")}" />
+    <input type="submit"
+           name="submit"
+           value="Get records" ondblclick="norc()" class="btn btn-default" />
 
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Report", "Attendances")'" value="back to main"/>
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Report", "Attendances")'" value="back to main" />
+    @if (ViewBag.payday != null && User.IsInRole("super_admin"))
+    {
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "payroles", new {month = @ViewBag.payday, save = "save"})'" value="save"/>
+    }
     </div>
 }
-<table class="table" >
-<tr style="font-size: 12px">
-    <th style=" position: sticky;top: 0; width: 82px;">
-        ID
-    </th>
-    <th style=" position: sticky;top: 0; width: 82px;">
-        Name
-    </th>
-    <th style=" position: sticky;top: 0; width: 65px;">
-        Basic
-    </th>
-    <th style=" position: sticky;top: 0; width: 66px;">
-        Gross
-    </th>
-    <th style=" position: sticky;top: 0; width: 64px;">
-        Ticket.A	
-    </th>
-    <th style=" position: sticky;top: 0; width: 58px;">
-        Arrears
-    </th>
-    <th style=" position: sticky;top: 0; width: 65px;">
-        <b>
-            Total.PB	
-        </b>
-    </th>
-    <th style=" position: sticky;top: 0; width: 51px;">
-        OTR AMT	
-    </th>
-    <th style=" position: sticky;top: 0; width: 51px;">
-        OTR Hrs	
-    </th>
-    <th style=" position: sticky;top: 0; width: 51px;">
-        OTF AMT	
-    </th>
-    <th style=" position: sticky;top: 0; width: 51px;">
-        OTF Hrs	
-    </th>
-    <th style=" position: sticky;top: 0; width: 51px;">
-        OTN	
-    </th>
-    <th style=" position: sticky;top: 0; width: 51px;">
-        OTH AMT	
-    </th>
-    <th style=" position: sticky;top: 0; width: 51px;">
-        OTH Hrs	
-    </th>
-    <th style=" position: sticky;top: 0; width: 51px;">
-        FOT
-    </th>
-    <th style=" position: sticky;top: 0; width: 55px;">
-        <b>	TotalOT</b>
-    </th>
-    <th style=" position: sticky;top: 0; width: 55px;">
-        Cash.A
-    </th>
-    <th style=" position: sticky;top: 0; width: 59px;">
-        House.A
-    </th>
-    <th style=" position: sticky;top: 0; width: 54px;">
-        Trans.A
-    </th>
-    <th style=" position: sticky;top: 0; width: 51px;">
-        Food.A
-    </th>
-    <th style=" position: sticky;top: 0; width: 78px;">
-        Timekeeping
-    </th>
-    <th style=" position: sticky;top: 0; width: 94px;">
-        Communication
-    </th>
-    <th style=" position: sticky;top: 0; width: 59px;">
-        Traffic.F										
-    </th>
-    <th style=" position: sticky;top: 0; width: 53px;">
-        Absent
-    </th>
-    <th style=" position: sticky;top: 0; width: 46px;">
-        LWOP
-    </th>
-    <th style=" position: sticky;top: 0; width: 54px;"><b>total LWOP</b></th>
-    <th style=" position: sticky;top: 0; width: 51px;">
-        Others
-    </th>
-    <th style=" position: sticky;top: 0; width: 89px;">
-        <b>Total Dedution</b>
-    </th>
-    <th style=" position: sticky;top: 0; width: 75px;">
-        <b style="color: #e64f4f">NetPay</b>
-    </th>
-    <th style=" position: sticky;top: 0; width: 67px;">
-        Remarks
-    </th>
-    <th style=" position: sticky;top: 0; width: 48px;"></th>
-</tr>
-
-@foreach (var item in Model)
-{
-    <tr style="font-size: 11px">
-    <td>
-        @Html.DisplayFor(modelItem => item.master_file.employee_no)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.master_file.employee_name)
-    </td>
-    <td>
-        @{
-            var bas = payrolesController.Unprotect(item.contract.basic);
-            double.TryParse(bas, out var bas1);
-            var basperh = ((bas1 * 12) / 365) / 8;
-
-        }
-        @bas1.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var sal = payrolesController.Unprotect(item.contract.salary_details);
-            double.TryParse(sal, out var sal1);
-        }
-        @sal1.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var tic = 0d;
-            if (item.TicketAllowance_ != null && !item.TicketAllowance_.Contains(" "))
-            {
-                double.TryParse(payrolesController.Unprotect(item.TicketAllowance_), out tic);
-            }
-
-        }
-        @tic.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var arr = 0d;
-            if (item.Arrears != null && !item.Arrears.Contains(" "))
-            {
-                double.TryParse(payrolesController.Unprotect(item.Arrears), out arr);
-            }
-
-        }
-        @arr.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var ttp = payrolesController.Unprotect(item.totalpayable);
-            double.TryParse(ttp, out var ttp1);
-        }
-        @ttp1.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            double.TryParse(payrolesController.Unprotect(item.OTRegular), out var a);
-            var adays = a;
-            a = a * 1.25 * basperh;
-        }
-        @a.ToString("#,##0.00")
-    </td>
-    <td>
-        @adays
-    </td>
-    <td>
-        @{
-            double.TryParse(payrolesController.Unprotect(item.OTFriday), out var c);
-            var cdays = c;
-            c = c * 1.5 * basperh;
-        }
-        @c.ToString("#,##0.00")
-    </td>
-    <td>
-        @cdays
-    </td>
-    <td>
-        @{
-            var d = 0d;
-            if (item.OTNight != null && item.OTNight.Contains(" "))
-            {
-                double.TryParse(payrolesController.Unprotect(item.OTNight), out d);
-            }
-
-        }
-        @d.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            double.TryParse(payrolesController.Unprotect(item.HolidayOT), out var b);
-            var bdays = b;
-            b = b * 2.5 * basperh;
-        }
-        @b.ToString("#,##0.00")
-    </td>
-    <td>
-        @bdays
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Fot)
-        @{
-            var labs = 0d;
-            var ldays = 0d;
-            double.TryParse(sal, out var gross);
-            if (item.leave_absence != null)
-            {
-                labs = item.leave_absence.absence.Value;
-            }
-
-            if (item.Leave != null)
-            {
-                ldays = item.Leave.days.Value;
-            }
-
-            double.TryParse(payrolesController.Unprotect(item.contract.FOT), out var e);
-            if ((labs + ldays) != 0)
-            {
-                e = (e * 12 / 365) * (DateTime.DaysInMonth(item.forthemonth.Value.Year, item.forthemonth.Value.Month) -(labs + ldays));
-            }
-        }
-        @e.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var tot = a + b + c + d + e;
-        }
-        @tot.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var ca = 0d;
-            if (item.cashAdvances != null && !item.cashAdvances.Contains(" "))
-            {
-                double.TryParse(payrolesController.Unprotect(item.cashAdvances), out ca);
-            }
-
-        }
-        @ca.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var ha = 0d;
-            if (item.HouseAllow != null && !item.HouseAllow.Contains(" "))
-            {
-                double.TryParse(payrolesController.Unprotect(item.HouseAllow), out ha);
-            }
-
-        }
-        @ha.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var tra = 0d;
-            if (item.TransportationAllowance_ != null && !item.TransportationAllowance_.Contains(" "))
-            {
-                double.TryParse(payrolesController.Unprotect(item.TransportationAllowance_), out tra);
-            }
-
-        }
-        @tra.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var fa = 0d;
-            if (item.FoodAllow != null && !item.FoodAllow.Contains(" "))
-            {
-                double.TryParse(payrolesController.Unprotect(item.FoodAllow), out fa);
-            }
-
-        }
-        @fa.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var tk = 0d;
-            if (item.Timekeeping != null && !item.Timekeeping.Contains(" "))
-            {
-                double.TryParse(payrolesController.Unprotect(item.Timekeeping), out tk);
-            }
-
-        }
-        @tk.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var con = 0d;
-            if (item.Communication != null && !item.Communication.Contains(" "))
-            {
-                double.TryParse(payrolesController.Unprotect(item.Communication), out con);
-            }
-
-        }
-        @con.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var traf = 0d;
-            if (item.TrafficFines != null && !item.TrafficFines.Contains(" "))
-            {
-                double.TryParse(payrolesController.Unprotect(item.TrafficFines), out traf);
-            }
-
-        }
-        @traf.ToString("#,##0.00")
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.leave_absence.absence)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Leave.days)
-    </td>
-    <td>
-        @{
-            var TLWOP = (labs + ldays) * (gross * 12 / 365);
-        }
-        @TLWOP.ToString("#,##0.00")
-
-    </td>
-    <td>
-        @{
-            var oth = 0d;
-            if (item.others != null)
-            {
-                double.TryParse(payrolesController.Unprotect(item.others), out oth);
-            }
-
-            @oth.ToString("#,##0.00")
-        }
-    </td>
-    <td>
-        @{
-            var tod = 0d;
-            if (item.TotalDedution != null)
-            {
-                double.TryParse(payrolesController.Unprotect(item.TotalDedution), out tod);
-            }
-
-        }
-        @tod.ToString("#,##0.00")
-    </td>
-    <td>
-        @{
-            var net = 0d;
-            if (item.NetPay != null && payrolesController.IsBase64Encoded(item.NetPay))
-            {
-                double.TryParse(payrolesController.Unprotect(item.NetPay), out net);
-            }
-        }
-        @net.ToString("#,##0.00")
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.remarks)
-    </td>
-    <td>
-        @if (item.Id != 0)
-        {
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-        }
-    </td>
+<table class="table">
+    <tr style="font-size: 12px">
+        <th style=" position: sticky;top: 0; width: 82px;">
+            ID
+        </th>
+        <th style=" position: sticky;top: 0; width: 82px;">
+            Name
+        </th>
+        <th style=" position: sticky;top: 0; width: 65px;">
+            Basic
+        </th>
+        <th style=" position: sticky;top: 0; width: 66px;">
+            Gross
+        </th>
+        <th style=" position: sticky;top: 0; width: 64px;">
+            Ticket.A
+        </th>
+        <th style=" position: sticky;top: 0; width: 58px;">
+            Arrears
+        </th>
+        <th style=" position: sticky;top: 0; width: 65px;">
+            <b>
+                Total.PB
+            </b>
+        </th>
+        <th style=" position: sticky;top: 0; width: 51px;">
+            OTR AMT
+        </th>
+        <th style=" position: sticky;top: 0; width: 51px;">
+            OTR Hrs
+        </th>
+        <th style=" position: sticky;top: 0; width: 51px;">
+            OTF AMT
+        </th>
+        <th style=" position: sticky;top: 0; width: 51px;">
+            OTF Hrs
+        </th>
+        <th style=" position: sticky;top: 0; width: 51px;">
+            OTN
+        </th>
+        <th style=" position: sticky;top: 0; width: 51px;">
+            OTH AMT
+        </th>
+        <th style=" position: sticky;top: 0; width: 51px;">
+            OTH Hrs
+        </th>
+        <th style=" position: sticky;top: 0; width: 51px;">
+            FOT
+        </th>
+        <th style=" position: sticky;top: 0; width: 55px;">
+            <b>	TotalOT</b>
+        </th>
+        <th style=" position: sticky;top: 0; width: 55px;">
+            Cash.A
+        </th>
+        <th style=" position: sticky;top: 0; width: 59px;">
+            House.A
+        </th>
+        <th style=" position: sticky;top: 0; width: 54px;">
+            Trans.A
+        </th>
+        <th style=" position: sticky;top: 0; width: 51px;">
+            Food.A
+        </th>
+        <th style=" position: sticky;top: 0; width: 78px;">
+            Timekeeping
+        </th>
+        <th style=" position: sticky;top: 0; width: 94px;">
+            Communication
+        </th>
+        <th style=" position: sticky;top: 0; width: 59px;">
+            Traffic.F
+        </th>
+        <th style=" position: sticky;top: 0; width: 53px;">
+            Absent
+        </th>
+        <th style=" position: sticky;top: 0; width: 46px;">
+            LWOP
+        </th>
+        <th style=" position: sticky;top: 0; width: 54px;"><b>total LWOP</b></th>
+        <th style=" position: sticky;top: 0; width: 51px;">
+            Others
+        </th>
+        <th style=" position: sticky;top: 0; width: 89px;">
+            <b>Total Dedution</b>
+        </th>
+        <th style=" position: sticky;top: 0; width: 75px;">
+            <b style="color: #e64f4f">NetPay</b>
+        </th>
+        <th style=" position: sticky;top: 0; width: 67px;">
+            Remarks
+        </th>
+        <th style=" position: sticky;top: 0; width: 48px;"></th>
     </tr>
-}
 
+    @foreach (var item in Model.Payroll)
+    {
+        <tr style="font-size: 11px">
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_name)
+            </td>
+            <td>
+                @{
+                    var bas = payrolesController.Unprotect(item.contract.basic);
+                    double.TryParse(bas, out var bas1);
+                    var basperh = ((bas1 * 12) / 365) / 8;
+
+                }
+                @bas1.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var sal = payrolesController.Unprotect(item.contract.salary_details);
+                    double.TryParse(sal, out var sal1);
+                }
+                @sal1.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var tic = 0d;
+                    if (item.TicketAllowance_ != null && !item.TicketAllowance_.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.TicketAllowance_), out tic);
+                    }
+
+                }
+                @tic.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var arr = 0d;
+                    if (item.Arrears != null && !item.Arrears.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.Arrears), out arr);
+                    }
+
+                }
+                @arr.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var ttp = payrolesController.Unprotect(item.totalpayable);
+                    double.TryParse(ttp, out var ttp1);
+                }
+                @ttp1.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    double.TryParse(payrolesController.Unprotect(item.OTRegular), out var a);
+                    var adays = a;
+                    a = a * 1.25 * basperh;
+                }
+                @a.ToString("#,##0.00")
+            </td>
+            <td>
+                @adays
+            </td>
+            <td>
+                @{
+                    double.TryParse(payrolesController.Unprotect(item.OTFriday), out var c);
+                    var cdays = c;
+                    c = c * 1.5 * basperh;
+                }
+                @c.ToString("#,##0.00")
+            </td>
+            <td>
+                @cdays
+            </td>
+            <td>
+                @{
+                    var d = 0d;
+                    if (item.OTNight != null && item.OTNight.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.OTNight), out d);
+                    }
+
+                }
+                @d.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    double.TryParse(payrolesController.Unprotect(item.HolidayOT), out var b);
+                    var bdays = b;
+                    b = b * 2.5 * basperh;
+                }
+                @b.ToString("#,##0.00")
+            </td>
+            <td>
+                @bdays
+            </td>
+            <td>
+                @{
+                    var labs = 0d;
+                    var ldays = 0d;
+                    double.TryParse(sal, out var gross);
+                    if (item.leave_absence != null)
+                    {
+                        labs = item.leave_absence.absence.Value;
+                    }
+
+                    if (item.Leave != null)
+                    {
+                        ldays = item.Leave.days.Value;
+                    }
+
+                    double.TryParse(item.Fot, out var e);
+                }
+                @e.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var tot = a + b + c + d + e;
+                }
+                @tot.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var ca = 0d;
+                    if (item.cashAdvances != null && !item.cashAdvances.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.cashAdvances), out ca);
+                    }
+
+                }
+                @ca.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var ha = 0d;
+                    if (item.HouseAllow != null && !item.HouseAllow.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.HouseAllow), out ha);
+                    }
+
+                }
+                @ha.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var tra = 0d;
+                    if (item.TransportationAllowance_ != null && !item.TransportationAllowance_.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.TransportationAllowance_), out tra);
+                    }
+
+                }
+                @tra.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var fa = 0d;
+                    if (item.FoodAllow != null && !item.FoodAllow.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.FoodAllow), out fa);
+                    }
+
+                }
+                @fa.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var tk = 0d;
+                    if (item.Timekeeping != null && !item.Timekeeping.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.Timekeeping), out tk);
+                    }
+
+                }
+                @tk.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var con = 0d;
+                    if (item.Communication != null && !item.Communication.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.Communication), out con);
+                    }
+
+                }
+                @con.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var traf = 0d;
+                    if (item.TrafficFines != null && !item.TrafficFines.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.TrafficFines), out traf);
+                    }
+
+                }
+                @traf.ToString("#,##0.00")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.leave_absence.absence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Leave.days)
+            </td>
+            <td>
+                @{
+                    var TLWOP = (labs + ldays) * (gross * 12 / 365);
+                }
+                @TLWOP.ToString("#,##0.00")
+
+            </td>
+            <td>
+                @{
+                    var oth = 0d;
+                    if (item.others != null)
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.others), out oth);
+                    }
+
+                    @oth.ToString("#,##0.00")
+                }
+            </td>
+            <td>
+                @{
+                    var tod = 0d;
+                    if (item.TotalDedution != null)
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.TotalDedution), out tod);
+                    }
+
+                }
+                @tod.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var net = 0d;
+                    if (item.NetPay != null && payrolesController.IsBase64Encoded(item.NetPay))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.NetPay), out net);
+                    }
+                }
+                @net.ToString("#,##0.00")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.remarks)
+            </td>
+            <td>
+                @if (item.Id != 0)
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                }
+            </td>
+        </tr>
+    }
+
+    @foreach (var item in Model.Payrollsaved)
+    {
+        <tr style="font-size: 11px">
+            <td>
+                @Html.DisplayFor(modelItem => item.employee_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.employee_name)
+            </td>
+            <td>
+                @{
+                    var bas = payrolesController.Unprotect(item.Basic);
+                    double.TryParse(bas, out var bas1);
+                    var basperh = ((bas1 * 12) / 365) / 8;
+
+                }
+                @bas1.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var sal = payrolesController.Unprotect(item.Gross);
+                    double.TryParse(sal, out var sal1);
+                }
+                @sal1.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var tic = 0d;
+                    if (item.TicketAllowance_ != null && !item.TicketAllowance_.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.TicketAllowance_), out tic);
+                    }
+
+                }
+                @tic.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var arr = 0d;
+                    if (item.Arrears != null && !item.Arrears.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.Arrears), out arr);
+                    }
+
+                }
+                @arr.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var ttp = payrolesController.Unprotect(item.totalpayable);
+                    double.TryParse(ttp, out var ttp1);
+                }
+                @ttp1.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    double.TryParse(payrolesController.Unprotect(item.OTRegular), out var a);
+                    var adays = a;
+                    a = a * 1.25 * basperh;
+                }
+                @a.ToString("#,##0.00")
+            </td>
+            <td>
+                @adays
+            </td>
+            <td>
+                @{
+                    double.TryParse(payrolesController.Unprotect(item.OTFriday), out var c);
+                    var cdays = c;
+                    c = c * 1.5 * basperh;
+                }
+                @c.ToString("#,##0.00")
+            </td>
+            <td>
+                @cdays
+            </td>
+            <td>
+                @{
+                    var d = 0d;
+                    if (item.OTNight != null && item.OTNight.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.OTNight), out d);
+                    }
+
+                }
+                @d.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    double.TryParse(payrolesController.Unprotect(item.HolidayOT), out var b);
+                    var bdays = b;
+                    b = b * 2.5 * basperh;
+                }
+                @b.ToString("#,##0.00")
+            </td>
+            <td>
+                @bdays
+            </td>
+            <td>
+                @{
+                    var labs = 0d;
+                    var ldays = 0d;
+                    double.TryParse(sal, out var gross);
+                    if (item.Absents != null)
+                    {
+                        labs = (double) item.Absents;
+                    }
+
+                    if (item.LWOP != null)
+                    {
+                        ldays = (double)item.LWOP;
+                    }
+
+                    double.TryParse(payrolesController.Unprotect(item.Fot), out var e);
+                    
+                }
+                @e.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var tot = a + b + c + d + e;
+                }
+                @tot.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var ca = 0d;
+                    if (item.cashAdvances != null && !item.cashAdvances.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.cashAdvances), out ca);
+                    }
+
+                }
+                @ca.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var ha = 0d;
+                    if (item.HouseAllow != null && !item.HouseAllow.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.HouseAllow), out ha);
+                    }
+
+                }
+                @ha.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var tra = 0d;
+                    if (item.TransportationAllowance_ != null && !item.TransportationAllowance_.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.TransportationAllowance_), out tra);
+                    }
+
+                }
+                @tra.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var fa = 0d;
+                    if (item.FoodAllow != null && !item.FoodAllow.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.FoodAllow), out fa);
+                    }
+
+                }
+                @fa.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var tk = 0d;
+                    if (item.Timekeeping != null && !item.Timekeeping.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.Timekeeping), out tk);
+                    }
+
+                }
+                @tk.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var con = 0d;
+                    if (item.Communication != null && !item.Communication.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.Communication), out con);
+                    }
+
+                }
+                @con.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var traf = 0d;
+                    if (item.TrafficFines != null && !item.TrafficFines.Contains(" "))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.TrafficFines), out traf);
+                    }
+
+                }
+                @traf.ToString("#,##0.00")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Absents)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LWOP)
+            </td>
+            <td>
+                @{
+                    var TLWOP = (labs + ldays) * (gross * 12 / 365);
+                }
+                @TLWOP.ToString("#,##0.00")
+
+            </td>
+            <td>
+                @{
+                    var oth = 0d;
+                    if (item.others != null)
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.others), out oth);
+                    }
+
+                    @oth.ToString("#,##0.00")
+                }
+            </td>
+            <td>
+                @{
+                    var tod = 0d;
+                    if (item.TotalDedution != null)
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.TotalDedution), out tod);
+                    }
+
+                }
+                @tod.ToString("#,##0.00")
+            </td>
+            <td>
+                @{
+                    var net = 0d;
+                    if (item.NetPay != null && payrolesController.IsBase64Encoded(item.NetPay))
+                    {
+                        double.TryParse(payrolesController.Unprotect(item.NetPay), out net);
+                    }
+                }
+                @net.ToString("#,##0.00")
+            </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.remarks)
+        </td>
+        <td></td>
+        </tr>
+    }
 </table>

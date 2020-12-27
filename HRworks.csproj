@@ -382,6 +382,10 @@
     <Compile Include="Models\payrolelogin.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\payrollsaved.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\paysavedlist.cs" />
     <Compile Include="Models\PROBATION_ASSESSMENT.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -796,6 +800,7 @@
     <Content Include="Views\liquidations\Edit.cshtml" />
     <Content Include="Views\liquidations\Delete.cshtml" />
     <Content Include="Views\payroles\payslip.cshtml" />
+    <Content Include="Views\Leaves\getallonleave.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

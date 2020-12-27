@@ -12,39 +12,39 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class payrole
+    public partial class payrollsaved
     {
         public int Id { get; set; }
         public int employee_no { get; set; }
-        public int con_id { get; set; }
+        public string employee_name { get; set; }
+        public string Basic { get; set; }
+        public string Gross { get; set; }
+        public string TicketAllowance_ { get; set; }
+        public string Arrears { get; set; }
         public string totalpayable { get; set; }
         public string OTRegular { get; set; }
+        public string OTRegularamt { get; set; }
         public string OTFriday { get; set; }
+        public string OTFridayamt { get; set; }
         public string OTNight { get; set; }
         public string HolidayOT { get; set; }
+        public string HolidayOTamt { get; set; }
         public string Fot { get; set; }
         public string TotalOT { get; set; }
         public string cashAdvances { get; set; }
         public string HouseAllow { get; set; }
+        public string TransportationAllowance_ { get; set; }
         public string FoodAllow { get; set; }
         public string Timekeeping { get; set; }
         public string Communication { get; set; }
         public string TrafficFines { get; set; }
+        public Nullable<int> Absents { get; set; }
         public Nullable<int> LWOP { get; set; }
+        public string TotalLWOP { get; set; }
+        public string others { get; set; }
         public string TotalDedution { get; set; }
         public string NetPay { get; set; }
         public string remarks { get; set; }
-        public Nullable<int> Absents { get; set; }
         public Nullable<System.DateTime> forthemonth { get; set; }
-        public string TicketAllowance_ { get; set; }
-        public string Arrears { get; set; }
-        public string TransportationAllowance_ { get; set; }
-        public string others { get; set; }
-        public bool save { get; set; }
-    
-        public virtual contract contract { get; set; }
-        public virtual Leave Leave { get; set; }
-        public virtual master_file master_file { get; set; }
-        public virtual leave_absence leave_absence { get; set; }
     }
 }

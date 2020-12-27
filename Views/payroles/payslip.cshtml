@@ -1,5 +1,5 @@
 ﻿@using HRworks.Controllers
-@model HRworks.Models.payrole
+@model HRworks.Models.payslipmodel
 
 @{
     ViewBag.Title = "payslip";
@@ -456,17 +456,17 @@
             
             @{
                 var leave = 0d;
-                if (Model.Leave != null)
+                if (Model.paysaved.LWOP != null)
                 {
-                    leave = Model.Leave.days.Value;
+                    leave = (double) Model.paysaved.LWOP;
                 }
                 var abs = 0d;
-                if (Model.leave_absence != null)
+                if (Model.paysaved.Absents != null)
                 {
-                    abs = Model.leave_absence.absence.Value;
+                    abs = (double) Model.paysaved.Absents;
                 }
-                var ldaysf = leave + abs + ViewBag.al;
-                var daysleft = DateTime.DaysInMonth(Model.forthemonth.Value.Year, Model.forthemonth.Value.Month) - leave - abs - ViewBag.al;
+                var ldaysf = leave + abs;
+                var daysleft = DateTime.DaysInMonth(Model.paysaved.forthemonth.Value.Year, Model.paysaved.forthemonth.Value.Month) - leave - abs - ViewBag.al;
             }
             @if (Model.contract != null)
                 {
@@ -486,9 +486,9 @@
         </div>
         <div class="Ticket">
             
-                @if (Model.TicketAllowance_ != null)
+                @if (Model.paysaved.TicketAllowance_ != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.TicketAllowance_), out a);@a.ToString("#,##0.00")
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.TicketAllowance_), out a);@a.ToString("#,##0.00")
                 }
                 else
                 {
@@ -527,7 +527,7 @@
             
                 @if (Model.contract != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.TotalOT), out var a1);
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.TotalOT), out var a1);
                     @a1.ToString("#,##0.00")
                 }
             
@@ -536,7 +536,7 @@
             
                 @if (Model.contract != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.OTRegular), out var a1);
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.OTRegular), out var a1);
                     @a1
                 }
             
@@ -545,7 +545,7 @@
             
                 @if (Model.contract != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.OTFriday), out var a1);
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.OTFriday), out var a1);
                     @a1
                 }
             
@@ -554,7 +554,7 @@
             
                 @if (Model.contract != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.HolidayOT), out var a1);
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.HolidayOT), out var a1);
                     @a1
                 }
             
@@ -563,7 +563,7 @@
             
                 @if (Model.contract != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.OTRegular), out var z);
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.OTRegular), out var z);
                     var adays = z;
                     z = z * 1.25 * basperh;@z.ToString("#,##0.00")
                 }
@@ -573,7 +573,7 @@
             
                 @if (Model.contract != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.OTFriday), out var c);
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.OTFriday), out var c);
                     var cdays = c;
                     c = c * 1.5 * basperh;@c.ToString("#,##0.00")
                 }
@@ -583,7 +583,7 @@
             
                 @if (Model.contract != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.HolidayOT), out var b);
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.HolidayOT), out var b);
                     var bdays = b;
                     b = b * 2.5 * basperh;@b.ToString("#,##0.00")
                 }
@@ -592,8 +592,8 @@
         <div class="Gross">
             
                 @{
-                    double.TryParse(payrolesController.Unprotect(Model.TotalOT), out var a2);
-                    var ttp = payrolesController.Unprotect(Model.totalpayable);
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.TotalOT), out var a2);
+                    var ttp = payrolesController.Unprotect(Model.paysaved.totalpayable);
                     double.TryParse(ttp, out var a3);
                     var gro = a3 + a2;
                     @gro.ToString("#,##0.00")
@@ -601,18 +601,18 @@
             
         </div>
         <div class="AnnualLeave">@ViewBag.al</div><div class="AnnualLeave1">@ViewBag.lbal</div>
-        <div class="Absent">@if(Model.leave_absence != null){@Html.DisplayFor(modelItem => modelItem.leave_absence.absence)}
+        <div class="Absent">@if(Model.paysaved.Absents != null){@Html.DisplayFor(modelItem => modelItem.paysaved.Absents)}
                             else
                             {
                                 var z = 0d;@z
                             }</div>
-        <div class="LWOP">@if (Model.Leave == null)
+        <div class="LWOP">@if (Model.paysaved.LWOP== null)
                              {
                                  var z = 0d;@z
                              }
                              else
                              {
-                                 @Html.DisplayFor(modelItem => modelItem.Leave.days)
+                                 @Html.DisplayFor(modelItem => modelItem.paysaved.LWOP)
                              } </div>
         <div class="SL">
             
@@ -651,13 +651,13 @@
                 if (Model.contract != null)
                 {
                     double.TryParse(payrolesController.Unprotect(Model.contract.salary_details), out var gross);
-                    if (Model.leave_absence != null)
+                    if (Model.paysaved.Absents != null)
                     {
-                        labs = Model.leave_absence.absence.Value;
+                        labs = (double) Model.paysaved.Absents;
                     }
-                    if (Model.Leave != null)
+                    if (Model.paysaved.LWOP != null)
                     {
-                        ldays = Model.Leave.days.Value;
+                        ldays = (double) Model.paysaved.LWOP;
                     }
                     var absamt = (labs) * (gross * 12 / 365);
                     ldaysamt = (ldays) * (gross * 12 / 365);
@@ -667,9 +667,9 @@
         </div>
         <div class="Late">
             @{
-                if (Model.Timekeeping != null)
+                if (Model.paysaved.Timekeeping != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.Timekeeping), out var tk);@tk.ToString("#,##0.00")
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.Timekeeping), out var tk);@tk.ToString("#,##0.00")
                 }
                 else
                 {
@@ -680,9 +680,9 @@
         </div>
         <div class="traffic">
             @{
-                if (Model.TrafficFines != null)
+                if (Model.paysaved.TrafficFines != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.TrafficFines), out var tf);@tf.ToString("#,##0.00")
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.TrafficFines), out var tf);@tf.ToString("#,##0.00")
                 }
                 else
                 {
@@ -693,9 +693,9 @@
         </div>
         <div class="Housing1">
             @{
-                if (Model.TrafficFines != null)
+                if (Model.paysaved.TrafficFines != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.HouseAllow), out var tf);@tf.ToString("#,##0.00")
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.HouseAllow), out var tf);@tf.ToString("#,##0.00")
                 }
                 else
                 {
@@ -707,9 +707,9 @@
         <div class="LWOPamt">@ldaysamt.ToString("#,##0.00")</div>
         <div class="communication">
             @{
-                if (Model.Communication != null)
+                if (Model.paysaved.Communication != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.Communication), out var co);@co.ToString("#,##0.00")
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.Communication), out var co);@co.ToString("#,##0.00")
                 }
                 else
                 {
@@ -721,9 +721,9 @@
         </div>
         <div class="CashAdvanc">
             @{
-                if (Model.cashAdvances != null)
+                if (Model.paysaved.cashAdvances != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.cashAdvances), out var ca);@ca.ToString("#,##0.00")
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.cashAdvances), out var ca);@ca.ToString("#,##0.00")
                 }
                 else
                 {
@@ -734,9 +734,9 @@
         </div>
         <div class="Adjustments">
             @{
-                if (Model.others != null)
+                if (Model.paysaved.others != null)
                 {
-                    double.TryParse(payrolesController.Unprotect(Model.others), out var ot);@ot.ToString("#,##0.00")
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.others), out var ot);@ot.ToString("#,##0.00")
                 }
                 else
                 {
@@ -747,9 +747,9 @@
         </div>
         <div class="TotalDeduction">
     @{
-        if (Model.TotalDedution != null)
+        if (Model.paysaved.TotalDedution != null)
         {
-            double.TryParse(payrolesController.Unprotect(Model.TotalDedution), out var tot);@tot.ToString("#,##0.00")
+            double.TryParse(payrolesController.Unprotect(Model.paysaved.TotalDedution), out var tot);@tot.ToString("#,##0.00")
         }
         else
         {
@@ -762,7 +762,7 @@
         <div class="NET">
             
                 @{
-                    double.TryParse(payrolesController.Unprotect(Model.NetPay), out var np);@np.ToString("AED #,##0.00")
+                    double.TryParse(payrolesController.Unprotect(Model.paysaved.NetPay), out var np);@np.ToString("AED #,##0.00")
                 }
             
         </div>

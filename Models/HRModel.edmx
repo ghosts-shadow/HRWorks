@@ -566,6 +566,7 @@
           <Property Name="Arrears" Type="nvarchar(max)" />
           <Property Name="TransportationAllowance " Type="nvarchar(max)" />
           <Property Name="others" Type="nvarchar(max)" />
+          <Property Name="save" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="payrolelogin">
           <Key>
@@ -574,6 +575,43 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="pro_username" Type="nvarchar(max)" />
           <Property Name="pro_password" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="payrollsaved">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_no" Type="int" Nullable="false" />
+          <Property Name="employee_name" Type="nvarchar(max)" />
+          <Property Name="Basic" Type="nvarchar(max)" />
+          <Property Name="Gross" Type="nvarchar(max)" />
+          <Property Name="TicketAllowance " Type="nvarchar(max)" />
+          <Property Name="Arrears" Type="nvarchar(max)" />
+          <Property Name="totalpayable" Type="nvarchar(max)" />
+          <Property Name="OTRegular" Type="nvarchar(max)" />
+          <Property Name="OTRegularamt" Type="nvarchar(max)" />
+          <Property Name="OTFriday" Type="nvarchar(max)" />
+          <Property Name="OTFridayamt" Type="nvarchar(max)" />
+          <Property Name="OTNight" Type="nvarchar(max)" />
+          <Property Name="HolidayOT" Type="nvarchar(max)" />
+          <Property Name="HolidayOTamt" Type="nvarchar(max)" />
+          <Property Name="Fot" Type="nvarchar(max)" />
+          <Property Name="TotalOT" Type="nvarchar(max)" />
+          <Property Name="cashAdvances" Type="nvarchar(max)" />
+          <Property Name="HouseAllow" Type="nvarchar(max)" />
+          <Property Name="TransportationAllowance " Type="nvarchar(max)" />
+          <Property Name="FoodAllow" Type="nvarchar(max)" />
+          <Property Name="Timekeeping" Type="nvarchar(max)" />
+          <Property Name="Communication" Type="nvarchar(max)" />
+          <Property Name="TrafficFines" Type="nvarchar(max)" />
+          <Property Name="Absents" Type="int" />
+          <Property Name="LWOP" Type="int" />
+          <Property Name="TotalLWOP" Type="nvarchar(max)" />
+          <Property Name="others" Type="nvarchar(max)" />
+          <Property Name="TotalDedution" Type="nvarchar(max)" />
+          <Property Name="NetPay" Type="nvarchar(max)" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+          <Property Name="forthemonth" Type="date" />
         </EntityType>
         <EntityType Name="PROBATION_ASSESSMENT">
           <Key>
@@ -1063,7 +1101,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_pay_To_leave">
-          <End Role="Leave" Type="Self.Leave" Multiplicity="0..1" />
+          <End Role="Leave" Type="Self.Leave" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="payrole" Type="Self.payrole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Leave">
@@ -1089,7 +1129,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_payrole_Toleaveab">
-          <End Role="leave_absence" Type="Self.leave_absence" Multiplicity="0..1" />
+          <End Role="leave_absence" Type="Self.leave_absence" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="payrole" Type="Self.payrole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="leave_absence">
@@ -1225,6 +1267,7 @@
           <EntitySet Name="passport" EntityType="Self.passport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrole" EntityType="Self.payrole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrolelogin" EntityType="Self.payrolelogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="payrollsaved" EntityType="Self.payrollsaved" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROBATION_ASSESSMENT" EntityType="Self.PROBATION_ASSESSMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rec_req_form" EntityType="Self.rec_req_form" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
@@ -2093,6 +2136,7 @@
             <End Role="leavecal" EntitySet="leavecals" />
             <End Role="end_of_service" EntitySet="end_of_service" />
           </AssociationSet>
+          <EntitySet Name="payrollsaveds" EntityType="HRModel.payrollsaved" />
         </EntityContainer>
         <EntityType Name="Leave_approved">
           <Key>
@@ -2789,6 +2833,7 @@
           <Property Name="Arrears" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="TransportationAllowance_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="others" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="save" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_pay_To_con">
           <End Type="HRModel.contract" Role="contract" Multiplicity="1" />
@@ -2862,6 +2907,43 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="payrollsaved">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_no" Type="Int32" Nullable="false" />
+          <Property Name="employee_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Basic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Gross" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TicketAllowance_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Arrears" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="totalpayable" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTRegular" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTRegularamt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTFriday" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTFridayamt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTNight" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HolidayOT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HolidayOTamt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fot" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalOT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="cashAdvances" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HouseAllow" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TransportationAllowance_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FoodAllow" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Timekeeping" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Communication" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TrafficFines" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Absents" Type="Int32" />
+          <Property Name="LWOP" Type="Int32" />
+          <Property Name="TotalLWOP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="others" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalDedution" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NetPay" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="forthemonth" Type="DateTime" Precision="0" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3625,6 +3707,7 @@
           <EntitySetMapping Name="payroles">
             <EntityTypeMapping TypeName="HRModel.payrole">
               <MappingFragment StoreEntitySet="payrole">
+                <ScalarProperty Name="save" ColumnName="save" />
                 <ScalarProperty Name="others" ColumnName="others" />
                 <ScalarProperty Name="TransportationAllowance_" ColumnName="TransportationAllowance " />
                 <ScalarProperty Name="Arrears" ColumnName="Arrears" />
@@ -3649,6 +3732,44 @@
                 <ScalarProperty Name="OTRegular" ColumnName="OTRegular" />
                 <ScalarProperty Name="totalpayable" ColumnName="totalpayable" />
                 <ScalarProperty Name="con_id" ColumnName="con_id" />
+                <ScalarProperty Name="employee_no" ColumnName="employee_no" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="payrollsaveds">
+            <EntityTypeMapping TypeName="HRModel.payrollsaved">
+              <MappingFragment StoreEntitySet="payrollsaved">
+                <ScalarProperty Name="forthemonth" ColumnName="forthemonth" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="NetPay" ColumnName="NetPay" />
+                <ScalarProperty Name="TotalDedution" ColumnName="TotalDedution" />
+                <ScalarProperty Name="others" ColumnName="others" />
+                <ScalarProperty Name="TotalLWOP" ColumnName="TotalLWOP" />
+                <ScalarProperty Name="LWOP" ColumnName="LWOP" />
+                <ScalarProperty Name="Absents" ColumnName="Absents" />
+                <ScalarProperty Name="TrafficFines" ColumnName="TrafficFines" />
+                <ScalarProperty Name="Communication" ColumnName="Communication" />
+                <ScalarProperty Name="Timekeeping" ColumnName="Timekeeping" />
+                <ScalarProperty Name="FoodAllow" ColumnName="FoodAllow" />
+                <ScalarProperty Name="TransportationAllowance_" ColumnName="TransportationAllowance " />
+                <ScalarProperty Name="HouseAllow" ColumnName="HouseAllow" />
+                <ScalarProperty Name="cashAdvances" ColumnName="cashAdvances" />
+                <ScalarProperty Name="TotalOT" ColumnName="TotalOT" />
+                <ScalarProperty Name="Fot" ColumnName="Fot" />
+                <ScalarProperty Name="HolidayOTamt" ColumnName="HolidayOTamt" />
+                <ScalarProperty Name="HolidayOT" ColumnName="HolidayOT" />
+                <ScalarProperty Name="OTNight" ColumnName="OTNight" />
+                <ScalarProperty Name="OTFridayamt" ColumnName="OTFridayamt" />
+                <ScalarProperty Name="OTFriday" ColumnName="OTFriday" />
+                <ScalarProperty Name="OTRegularamt" ColumnName="OTRegularamt" />
+                <ScalarProperty Name="OTRegular" ColumnName="OTRegular" />
+                <ScalarProperty Name="totalpayable" ColumnName="totalpayable" />
+                <ScalarProperty Name="Arrears" ColumnName="Arrears" />
+                <ScalarProperty Name="TicketAllowance_" ColumnName="TicketAllowance " />
+                <ScalarProperty Name="Gross" ColumnName="Gross" />
+                <ScalarProperty Name="Basic" ColumnName="Basic" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
                 <ScalarProperty Name="employee_no" ColumnName="employee_no" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

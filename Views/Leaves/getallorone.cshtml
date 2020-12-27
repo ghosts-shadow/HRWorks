@@ -25,7 +25,8 @@
            value="Search/change records" />
 </div>
 <div>
-    @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("getallorone", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pagesize = ViewBag.pagesize ,search = ViewBag.search }))
+    @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("getallorone", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pagesize = ViewBag.pagesize, search = ViewBag.search }))
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value="back to main" />
 </div>
 }
 <table class="table" style="border-collapse: separate;">
