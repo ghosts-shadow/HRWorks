@@ -71,7 +71,7 @@
         <th style="position: sticky;top: 0;">
             actual return date
         </th>
-        @if (User.IsInRole("super_admin"))
+        @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")
         {
            <th style="position: sticky;top: 0;">changed by</th><th style="position: sticky;top: 0;">changed date</th>
         }
@@ -197,7 +197,10 @@
 
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Return_leave)
+            @if (item.actualchangedby != "system")
+            {
+                @Html.DisplayFor(modelItem => item.Return_leave)
+            }
         </td>
         <td>
             @if (!item.actual_return_date.HasValue)
@@ -208,8 +211,9 @@
                     {
                         if (item.Return_leave.Value.Date != DateTime.Now.Date)
                         {
-                            var radiff = DateTime.Now - item.Return_leave.Value;
-                            @radiff.Days
+                            var radiff = DateTime.Now - item.End_leave.Value;
+                            var ndate = radiff.Days + 1;
+                            @ndate
                         }
                         else
                         {
@@ -237,9 +241,12 @@
             }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.actual_return_date)
+            @if (item.actualchangedby != "system")
+            {
+                @Html.DisplayFor(modelItem => item.actual_return_date)
+            }
         </td>
-        @if (User.IsInRole("super_admin"))
+        @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")
         {
             <td>
                 @Html.DisplayFor(modelItem => item.actualchangedby)

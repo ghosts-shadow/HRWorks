@@ -532,7 +532,6 @@ namespace HRworks.Controllers
 //                        var leave2 = this.db.Leaves.Where(
 //                            x => x.Employee_id == masterFile.employee_id && x.Start_leave <= payr.forthemonth
 //                                                                         && x.End_leave >= payr.forthemonth).ToList();
-
                         var leavedate1 = payr.forthemonth;
                         var leavedateend = new DateTime(payr.forthemonth.Value.Year,payr.forthemonth.Value.Month,DateTime.DaysInMonth(payr.forthemonth.Value.Year,payr.forthemonth.Value.Month));
                         leavedateend = leavedateend.AddDays(1);
@@ -561,9 +560,9 @@ namespace HRworks.Controllers
                                     leave2.Add(leaf);
                                 }
                             }
-
+                            
                             leavedate1=leavedate1.Value.AddDays(1);
-                        } while (leavedate1 != leavedateend);
+                        } while (leavedate1 < leavedateend);
                         var lowp = 0;
                         foreach (var leaf in leave1)
                         {
@@ -605,7 +604,146 @@ namespace HRworks.Controllers
                         var aqf = 0l;
                         var aqh = 0l;
                         if (lab1 == null) goto tos1;
-                        var attd = att.FindAll(x => x.EmpID == lab1.ID).ToList();
+                        var attd1 = att.FindAll(x => x.EmpID == lab1.ID).ToList();
+                        var attd = new List<Attendance>();
+                        foreach (var atq in attd1)
+                        {
+                            var attq1 = new Attendance();
+                            if (attd.Exists(x=>x.EmpID == atq.EmpID))
+                            {
+                                attq1 = attd.First();
+                                attd.Remove(attq1);
+                                long.TryParse(attq1.C1, out var hrs1);
+                                long.TryParse(atq.C1, out var hrs2);
+                                var sum = hrs1 + hrs2;
+                                attq1.C1 = sum.ToString();
+                                long.TryParse(attq1.C2, out hrs1);
+                                long.TryParse(atq.C2, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C2 = sum.ToString();
+                                long.TryParse(attq1.C3, out hrs1);
+                                long.TryParse(atq.C3, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C3 = sum.ToString();
+                                long.TryParse(attq1.C4, out hrs1);
+                                long.TryParse(atq.C4, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C4 = sum.ToString();
+                                long.TryParse(attq1.C5, out hrs1);
+                                long.TryParse(atq.C5, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C5 = sum.ToString();
+                                long.TryParse(attq1.C6, out hrs1);
+                                long.TryParse(atq.C6, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C6 = sum.ToString();
+                                long.TryParse(attq1.C7, out hrs1);
+                                long.TryParse(atq.C7, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C7 = sum.ToString();
+                                long.TryParse(attq1.C8, out hrs1);
+                                long.TryParse(atq.C8, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C8 = sum.ToString();
+                                long.TryParse(attq1.C9, out hrs1);
+                                long.TryParse(atq.C9, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C9 = sum.ToString();
+                                long.TryParse(attq1.C10, out hrs1);
+                                long.TryParse(atq.C10, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C10 = sum.ToString();
+                                long.TryParse(attq1.C11, out hrs1);
+                                long.TryParse(atq.C11, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C11 = sum.ToString();
+                                long.TryParse(attq1.C12, out hrs1);
+                                long.TryParse(atq.C12, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C12 = sum.ToString();
+                                long.TryParse(attq1.C13, out hrs1);
+                                long.TryParse(atq.C13, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C13 = sum.ToString();
+                                long.TryParse(attq1.C14, out hrs1);
+                                long.TryParse(atq.C14, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C14 = sum.ToString();
+                                long.TryParse(attq1.C15, out hrs1);
+                                long.TryParse(atq.C15, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C15 = sum.ToString();
+                                long.TryParse(attq1.C16, out hrs1);
+                                long.TryParse(atq.C16, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C16 = sum.ToString();
+                                long.TryParse(attq1.C17, out hrs1);
+                                long.TryParse(atq.C17, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C17 = sum.ToString();
+                                long.TryParse(attq1.C18, out hrs1);
+                                long.TryParse(atq.C18, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C18 = sum.ToString();
+                                long.TryParse(attq1.C19, out hrs1);
+                                long.TryParse(atq.C19, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C19 = sum.ToString();
+                                long.TryParse(attq1.C20, out hrs1);
+                                long.TryParse(atq.C20, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C20 = sum.ToString();
+                                long.TryParse(attq1.C21, out hrs1);
+                                long.TryParse(atq.C21, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C21 = sum.ToString();
+                                long.TryParse(attq1.C22, out hrs1);
+                                long.TryParse(atq.C22, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C22 = sum.ToString();
+                                long.TryParse(attq1.C23, out hrs1);
+                                long.TryParse(atq.C23, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C23 = sum.ToString();
+                                long.TryParse(attq1.C24, out hrs1);
+                                long.TryParse(atq.C24, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C24 = sum.ToString();
+                                long.TryParse(attq1.C25, out hrs1);
+                                long.TryParse(atq.C25, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C25 = sum.ToString();
+                                long.TryParse(attq1.C26, out hrs1);
+                                long.TryParse(atq.C26, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C26 = sum.ToString();
+                                long.TryParse(attq1.C27, out hrs1);
+                                long.TryParse(atq.C27, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C27 = sum.ToString();
+                                long.TryParse(attq1.C28, out hrs1);
+                                long.TryParse(atq.C28, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C28 = sum.ToString();
+                                long.TryParse(attq1.C29, out hrs1);
+                                long.TryParse(atq.C29, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C29 = sum.ToString();
+                                long.TryParse(attq1.C30, out hrs1);
+                                long.TryParse(atq.C30, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C30 = sum.ToString();
+                                long.TryParse(attq1.C31, out hrs1);
+                                long.TryParse(atq.C31, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C31 = sum.ToString();
+                                attd.Add(attq1);
+                            }
+                            else
+                            {
+                                attd.Add(atq);
+                            }
+                        }
                         var fdaylist = this.GetAll(month.Value);
                         var hlistday = this.GetAllholi(month.Value);
                         foreach (var aq in attd)
@@ -1884,6 +2022,20 @@ namespace HRworks.Controllers
                         }
 
                         tos1:
+                        
+                        if (abslist1.Count != 0)
+                        {
+                            payr.Absents = abslist1.OrderByDescending(x => x.month).First().Id;
+                            payr.leave_absence = abslist1.OrderByDescending(x => x.month).First();
+                            payr.leave_absence.absence = absd;
+                        }
+
+                        if (leave1.Count != 0)
+                        {
+                            payr.LWOP = leave1.OrderByDescending(x => x.Start_leave).First().Id;
+                            payr.Leave = leave1.OrderByDescending(x => x.Start_leave).First();
+                            payr.Leave.days = lowp;
+                        }
                         payr.OTRegular = aqt.ToString();
                         payr.OTFriday = aqf.ToString();
                         payr.HolidayOT = aqh.ToString();
@@ -2222,7 +2374,146 @@ namespace HRworks.Controllers
                             var aqf = 0l;
                             var aqh = 0l;
                             if (lab1 == null) goto tos;
-                            var attd = att.FindAll(x => x.EmpID == lab1.ID).ToList();
+                        var attd1 = att.FindAll(x => x.EmpID == lab1.ID).ToList();
+                        var attd = new List<Attendance>();
+                        foreach (var atq in attd1)
+                        {
+                            var attq1 = new Attendance();
+                            if (attd.Exists(x=>x.EmpID == atq.EmpID))
+                            {
+                                attq1 = attd.First();
+                                attd.Remove(attq1);
+                                long.TryParse(attq1.C1, out var hrs1);
+                                long.TryParse(atq.C1, out var hrs2);
+                                var sum = hrs1 + hrs2;
+                                attq1.C1 = sum.ToString();
+                                long.TryParse(attq1.C2, out hrs1);
+                                long.TryParse(atq.C2, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C2 = sum.ToString();
+                                long.TryParse(attq1.C3, out hrs1);
+                                long.TryParse(atq.C3, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C3 = sum.ToString();
+                                long.TryParse(attq1.C4, out hrs1);
+                                long.TryParse(atq.C4, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C4 = sum.ToString();
+                                long.TryParse(attq1.C5, out hrs1);
+                                long.TryParse(atq.C5, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C5 = sum.ToString();
+                                long.TryParse(attq1.C6, out hrs1);
+                                long.TryParse(atq.C6, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C6 = sum.ToString();
+                                long.TryParse(attq1.C7, out hrs1);
+                                long.TryParse(atq.C7, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C7 = sum.ToString();
+                                long.TryParse(attq1.C8, out hrs1);
+                                long.TryParse(atq.C8, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C8 = sum.ToString();
+                                long.TryParse(attq1.C9, out hrs1);
+                                long.TryParse(atq.C9, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C9 = sum.ToString();
+                                long.TryParse(attq1.C10, out hrs1);
+                                long.TryParse(atq.C10, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C10 = sum.ToString();
+                                long.TryParse(attq1.C11, out hrs1);
+                                long.TryParse(atq.C11, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C11 = sum.ToString();
+                                long.TryParse(attq1.C12, out hrs1);
+                                long.TryParse(atq.C12, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C12 = sum.ToString();
+                                long.TryParse(attq1.C13, out hrs1);
+                                long.TryParse(atq.C13, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C13 = sum.ToString();
+                                long.TryParse(attq1.C14, out hrs1);
+                                long.TryParse(atq.C14, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C14 = sum.ToString();
+                                long.TryParse(attq1.C15, out hrs1);
+                                long.TryParse(atq.C15, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C15 = sum.ToString();
+                                long.TryParse(attq1.C16, out hrs1);
+                                long.TryParse(atq.C16, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C16 = sum.ToString();
+                                long.TryParse(attq1.C17, out hrs1);
+                                long.TryParse(atq.C17, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C17 = sum.ToString();
+                                long.TryParse(attq1.C18, out hrs1);
+                                long.TryParse(atq.C18, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C18 = sum.ToString();
+                                long.TryParse(attq1.C19, out hrs1);
+                                long.TryParse(atq.C19, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C19 = sum.ToString();
+                                long.TryParse(attq1.C20, out hrs1);
+                                long.TryParse(atq.C20, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C20 = sum.ToString();
+                                long.TryParse(attq1.C21, out hrs1);
+                                long.TryParse(atq.C21, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C21 = sum.ToString();
+                                long.TryParse(attq1.C22, out hrs1);
+                                long.TryParse(atq.C22, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C22 = sum.ToString();
+                                long.TryParse(attq1.C23, out hrs1);
+                                long.TryParse(atq.C23, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C23 = sum.ToString();
+                                long.TryParse(attq1.C24, out hrs1);
+                                long.TryParse(atq.C24, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C24 = sum.ToString();
+                                long.TryParse(attq1.C25, out hrs1);
+                                long.TryParse(atq.C25, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C25 = sum.ToString();
+                                long.TryParse(attq1.C26, out hrs1);
+                                long.TryParse(atq.C26, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C26 = sum.ToString();
+                                long.TryParse(attq1.C27, out hrs1);
+                                long.TryParse(atq.C27, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C27 = sum.ToString();
+                                long.TryParse(attq1.C28, out hrs1);
+                                long.TryParse(atq.C28, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C28 = sum.ToString();
+                                long.TryParse(attq1.C29, out hrs1);
+                                long.TryParse(atq.C29, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C29 = sum.ToString();
+                                long.TryParse(attq1.C30, out hrs1);
+                                long.TryParse(atq.C30, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C30 = sum.ToString();
+                                long.TryParse(attq1.C31, out hrs1);
+                                long.TryParse(atq.C31, out hrs2);
+                                sum = hrs1 + hrs2;
+                                attq1.C31 = sum.ToString();
+                                attd.Add(attq1);
+                            }
+                            else
+                            {
+                                attd.Add(atq);
+                            }
+                        }
                             var fdaylist = this.GetAll(month.Value);
                             var hlistday = this.GetAllholi(month.Value);
                             foreach (var aq in attd)

@@ -852,6 +852,8 @@
                 file1.actual_return_date = leave.actual_return_date;
                 if (leave.actual_return_date == null) masterstatus.status = "on leave";
                 else masterstatus.status = "active";
+                file1.actualchangedby = User.Identity.Name;
+                file1.actualchangeddateby = DateTime.Now;
                 this.db.Leaves.Add(file1);
                 this.db.SaveChanges();
                 return this.RedirectToAction("Index");
@@ -1323,17 +1325,39 @@
 
             if (this.ModelState.IsValid)
             {
+                
+                if (leave.End_leave < leave.Start_leave)
+                {
+                    ModelState.AddModelError("End_leave", "end date should not be less then start date");
+                    goto jderr;
+                }
+                if (leave.Return_leave < leave.Start_leave)
+                {
+                    ModelState.AddModelError("Return_leave", "return date should not be less then start date");
+                    goto jderr;
+                }
+                if (leave.Return_leave < leave.End_leave)
+                {
+                    ModelState.AddModelError("Return_leave", "return date should not be less then end date ");
+                    goto jderr;
+                }
+                if (leave.actual_return_date < leave.Start_leave)
+                {
+                    ModelState.AddModelError("actual_return_date", "actual return date should not be less then start date ");
+                    goto jderr;
+                }
                 var actdate = new DateTime();
                 var file1 = new Leave();
                 file1.Employee_id = leave.Employee_id;
                 var masterstatus = this.db.master_file.Find(leave.Employee_id);
                 if (leave.actual_return_date < leave.Return_leave)
                 {
+                    actdate = leave.actual_return_date.Value;
                     file1 = leave;
                     file1.Date = leave.Date;
                     file1.Reference = serverfile;
                     file1.Start_leave = leave.Start_leave;
-                    file1.End_leave = leave.actual_return_date;
+                    file1.End_leave = actdate.AddDays(-1);
                     file1.Return_leave = leave.actual_return_date;
                     file1.leave_type = leave.leave_type;
                     file1.actual_return_date = leave.actual_return_date;
@@ -1372,26 +1396,31 @@
                 {
                     actdate = leave.actual_return_date.Value;
                     file1 = leave;
-                    file1.actual_return_date = leave.Return_leave;
+                    file1.actualchangedby = "system";
+                    file1.actualchangeddateby = DateTime.Now;
+                    var todate = leave.End_leave;
+                    file1.Return_leave = todate.Value.AddDays(1);
+                    file1.actual_return_date = todate.Value.AddDays(1);
                     this.db.Entry(file1).State = EntityState.Modified;
                     this.db.SaveChanges();
                     var unpaidauto = new Leave();
                     unpaidauto = file1;
                     unpaidauto.leave_type = "6";
-                    unpaidauto.Start_leave = leave.Return_leave;
-                    unpaidauto.End_leave = actdate;
+                    unpaidauto.Start_leave = todate.Value.AddDays(1);
+                    var actdate_1 = actdate.AddDays(-1);
+                    unpaidauto.End_leave = actdate_1;
                     unpaidauto.Return_leave = actdate;
                     unpaidauto.actual_return_date = actdate;
                     file1.half = leave.half;
                     masterstatus.status = "active";
-                    unpaidauto.actualchangedby = "system";
+                    unpaidauto.actualchangedby = User.Identity.Name;
                     unpaidauto.actualchangeddateby = DateTime.Now;
                     this.db.Leaves.Add(unpaidauto);
                     this.db.SaveChanges();
                 }
                 return this.RedirectToAction("getallorone");
             }
-
+            jderr: ;
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
@@ -1400,8 +1429,9 @@
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
-
             this.ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
+            var leavemasterfile = afinallist.Find(x => x.employee_id == leave.Employee_id);
+            leave.master_file = leavemasterfile;
             return this.View(leave);
         }
 

@@ -39,7 +39,16 @@
             showOtherMonths: true,
             selectOtherMonths: true,
             showButtonPanel: true,
-            dateFormat: "dd M yy"
+            dateFormat: "dd M yy",
+            onSelect: function(date){
+
+                var selectedDate = new Date(date);
+                var msecsInADay = 86400000;
+                var endDate = new Date(selectedDate.getTime() + msecsInADay);
+
+                //Set Minimum Date of EndDatePicker After Selected Date of StartDatePicker
+                $("#End_leave").datepicker( "option", "minDate", endDate );
+            }
         });
         $("#End_leave").datepicker({
             altField: "#alternate",
@@ -49,7 +58,16 @@
             showOtherMonths: true,
             selectOtherMonths: true,
             showButtonPanel: true,
-            dateFormat: "dd M yy"
+            dateFormat: "dd M yy",
+            onSelect: function (date) {
+
+                var selectedDate = new Date(date);
+                var msecsInADay = 86400000;
+                var endDate = new Date(selectedDate.getTime() + msecsInADay);
+
+                //Set Minimum Date of EndDatePicker After Selected Date of StartDatePicker
+                $("#Return_leave").datepicker("option", "minDate", endDate);
+            }
         });
         $("#actual_return_date").datepicker({
             altField: "#alternate",

@@ -48,7 +48,16 @@
             showOtherMonths: true,
             selectOtherMonths: true,
             showButtonPanel: true,
-            dateFormat: "dd M yy"
+            dateFormat: "dd M yy",
+            onSelect: function (date) {
+
+                var selectedDate = new Date(date);
+                var msecsInADay = 86400000;
+                var endDate = new Date(selectedDate.getTime() + msecsInADay);
+
+                //Set Minimum Date of EndDatePicker After Selected Date of StartDatePicker
+                $("#datepicker2").datepicker("option", "minDate", endDate);
+            }
         });
         $("#datepicker4").datepicker({
             altField: "#alternate",
@@ -58,7 +67,16 @@
             showOtherMonths: true,
             selectOtherMonths: true,
             showButtonPanel: true,
-            dateFormat: "dd M yy"
+            dateFormat: "dd M yy",
+            onSelect: function (date) {
+
+                var selectedDate = new Date(date);
+                var msecsInADay = 86400000;
+                var endDate = new Date(selectedDate.getTime() + msecsInADay);
+
+                //Set Minimum Date of EndDatePicker After Selected Date of StartDatePicker
+                $("#datepicker3").datepicker("option", "minDate", endDate);
+            }
         });
         $("#employee_no").chosen({ no_results_text: "Oops, nothing found!" });
     });
