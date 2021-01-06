@@ -455,6 +455,7 @@
           <Property Name="refr" Type="bigint" />
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
+          <Property Name="nameofgov" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="liquidation_ref">
           <Key>
@@ -1629,6 +1630,7 @@
           <NavigationProperty Name="liquidation_ref" Relationship="Self.FK_liquidation_To_lref" FromRole="liquidation" ToRole="liquidation_ref" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_changed" Type="DateTime" Precision="3" />
+          <Property Name="nameofgov" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="liquidation_ref">
           <Key>
@@ -3134,6 +3136,7 @@
           <EntitySetMapping Name="liquidations">
             <EntityTypeMapping TypeName="HRModel.liquidation">
               <MappingFragment StoreEntitySet="liquidation">
+                <ScalarProperty Name="nameofgov" ColumnName="nameofgov" />
                 <ScalarProperty Name="date_changed" ColumnName="date_changed" />
                 <ScalarProperty Name="changed_by" ColumnName="changed_by" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

@@ -72,7 +72,7 @@
 
                 var selectedDate = new Date(date);
                 var msecsInADay = 86400000;
-                var endDate = new Date(selectedDate.getTime() + msecsInADay);
+                var endDate = new Date(selectedDate.getTime() );
 
                 //Set Minimum Date of EndDatePicker After Selected Date of StartDatePicker
                 $("#datepicker3").datepicker("option", "minDate", endDate);
@@ -190,7 +190,7 @@
             <input type="text"
                    id="datepicker"
                    class="form-control"
-                   name="Date" />
+                   name="Date" required="required"/>
             @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -217,7 +217,7 @@
             <input type="text"
                    id="datepicker4"
                    class="form-control"
-                   name="Start_leave"  />
+                   name="Start_leave"  required="required"/>
             @Html.ValidationMessageFor(model => model.Start_leave, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -231,7 +231,7 @@
             <input type="text"
                    id="datepicker3"
                    class="form-control"
-                   name="End_leave" />
+                   name="End_leave"  required="required"/>
             @Html.ValidationMessageFor(model => model.End_leave, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -253,7 +253,7 @@
             <input type="text"
                    id="datepicker2"
                    class="form-control"
-                   name="Return_leave" />
+                   name="Return_leave"  required="required"/>
             @Html.ValidationMessageFor(model => model.Return_leave, "", new { @class = "text-danger" })
         </div>
     </div>

@@ -468,14 +468,14 @@ namespace HRworks.Controllers
                 var paylisteisting = this.db.payroles.ToList();
                 mts = this.db1.MainTimeSheets.Where(
                     x => x.TMonth.Month == month.Value.Month && x.TMonth.Year == month.Value.Year
-                                                             && x.ManPowerSupplier == 1).ToList();
+                                                             && (x.ManPowerSupplier == 1 || x.ManPowerSupplier == 8)).ToList();
                 var atlist = this.db1.Attendances.ToList();
                 var endmo = new DateTime(
                     month.Value.Year,
                     month.Value.Month,
                     DateTime.DaysInMonth(month.Value.Year, month.Value.Month));
                 var Msum = this.db1.MainTimeSheets.Where(
-                        y => y.ManPowerSupplier == 1 && y.TMonth.Month == month.Value.Month && y.TMonth.Year == month
+                        y => (y.ManPowerSupplier == 1 || y.ManPowerSupplier == 8) && y.TMonth.Month == month.Value.Month && y.TMonth.Year == month
                                  .Value.Year)
                     .ToList();
                 var cony = 0;

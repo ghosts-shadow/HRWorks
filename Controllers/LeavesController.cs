@@ -840,7 +840,7 @@
                 file1.End_leave = leave.End_leave;
                 if (leave.Return_leave == null)
                 {
-                    file1.Return_leave = file1.End_leave;
+                    file1.Return_leave = file1.End_leave.Value.AddDays(1);
                 }
                 else
                 {

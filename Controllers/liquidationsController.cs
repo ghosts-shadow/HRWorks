@@ -25,6 +25,73 @@
                 this.db.master_file.OrderBy(e => e.employee_no),
                 "employee_id",
                 "employee_no");
+            ViewBag.nameofgov = new List<SelectListItem>()
+            {
+                new SelectListItem() {Value = "FEDERAL AUTHORITY OF IDENTITY AND CITIZENSHIP", Text = "FEDERAL AUTHORITY OF IDENTITY AND CITIZENSHIP"},
+                new SelectListItem() {Value = "MINISTRY OF HUMAN RESOURCES & EMIRATISATION", Text = "MINISTRY OF HUMAN RESOURCES & EMIRATISATION"},
+                new SelectListItem() {Value = "DEPARTMENT OF ECONOMIC ACTIVITIES", Text = "DEPARTMENT OF ECONOMIC ACTIVITIES"},
+                new SelectListItem() {Value = "MUNICIPAL DEPARTMENT", Text = "MUNICIPAL DEPARTMENT"},
+                new SelectListItem() {Value = "ABU DHABI POST", Text = "ABU DHABI POST"},
+                new SelectListItem() {Value = "TASHEEL", Text = "TASHEEL"},
+                new SelectListItem() {Value = "TAWJEEH", Text = "TAWJEEH"},
+                new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
+                new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
+                new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
+            };
+            ViewBag.expenses = new List<SelectListItem>()
+            {
+                new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
+                new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
+                new SelectListItem() { Value="CANCEL RESIDENCE", Text= "CANCEL RESIDENCE" },
+                new SelectListItem() { Value="CHANGE STATUS", Text= "CHANGE STATUS" },
+                new SelectListItem() { Value="COMPANY BOXES", Text= "COMPANY BOXES" },
+                new SelectListItem() { Value="COMPANY FINES", Text= "COMPANY FINES" },
+                new SelectListItem() { Value="COMPANY LICENSE RENEWAL", Text= "COMPANY LICENSE RENEWAL" },
+                new SelectListItem() { Value="DEPOSIT REFUND", Text= "DEPOSIT REFUND" },
+                new SelectListItem() { Value="FINAL EXIT TICKET", Text= "FINAL EXIT TICKET" },
+                new SelectListItem() { Value="FINES & RENEW EMIRATES ID", Text= "FINES & RENEW EMIRATES ID" },
+                new SelectListItem() { Value="ISSUE  RESIDENCE", Text= "ISSUE  RESIDENCE" },
+                new SelectListItem() { Value="ISSUE NEW VISA", Text= "ISSUE NEW VISA" },
+                new SelectListItem() { Value="TYPING CANCELLATION OF JOB OFFELETTER", Text= "TYPING CANCELLATION OF JOB OFFELETTER" },
+                new SelectListItem() { Value="TYPING JOB OFFER", Text= "TYPING JOB OFFER" },
+                new SelectListItem() { Value="FEES JUDICIAL DEPARTMENT", Text= "FEES JUDICIAL DEPARTMENT" },
+                new SelectListItem() { Value="LEAVING - ISSUE", Text= "LEAVING - ISSUE" },
+                new SelectListItem() { Value="MODIFY CONTRACT", Text= "MODIFY CONTRACT" },
+                new SelectListItem() { Value="MODIFY ELECTRONIC WORK PERMIT", Text= "MODIFY ELECTRONIC WORK PERMIT" },
+                new SelectListItem() { Value="NEW VISA PENALTY", Text= "NEW VISA PENALTY" },
+                new SelectListItem() { Value="OUTSIDE THE COUNTRY CANCELLATION", Text= "OUTSIDE THE COUNTRY CANCELLATION" },
+                new SelectListItem() { Value="PAY FINE RESIDENCE", Text= "PAY FINE RESIDENCE" },
+                new SelectListItem() { Value="PRE APPROVAL FOR WORK PERMIT", Text= "PRE APPROVAL FOR WORK PERMIT" },
+                new SelectListItem() { Value="PRO-CARD CANCEL", Text= "PRO-CARD CANCEL" },
+                new SelectListItem() { Value="ABSCONDING - ELECTRONIC", Text= "ABSCONDING - ELECTRONIC" },
+                new SelectListItem() { Value="REPORT ESCAPE", Text= "REPORT ESCAPE" },
+                new SelectListItem() { Value="APPROVAL FOR WORK PERMIT FINES", Text= "APPROVAL FOR WORK PERMIT FINES" },
+                new SelectListItem() { Value="TRADE LICENSE UPDATE", Text= "TRADE LICENSE UPDATE" },
+                new SelectListItem() { Value="MEDICAL EXAMINATION ", Text= "MEDICAL EXAMINATION " },
+                new SelectListItem() { Value="AMENDING AN EMPLOYMENT CONTRACT", Text= "AMENDING AN EMPLOYMENT CONTRACT" },
+                new SelectListItem() { Value="VISA CANCELLATION VISA- WORK", Text= "VISA CANCELLATION VISA- WORK" },
+                new SelectListItem() { Value="UPDATE WORKPERMIT INFORMATION", Text= "UPDATE WORKPERMIT INFORMATION" },
+                new SelectListItem() { Value="UPDATE IMMIGRATION FILE", Text= "UPDATE IMMIGRATION FILE" },
+                new SelectListItem() { Value="TYPING ELECTRONIC PRE APPROVAL FOR WORK", Text= "TYPING ELECTRONIC PRE APPROVAL FOR WORK" },
+                new SelectListItem() { Value="TYPING APPROVAL FOR WORK PERMIT", Text= "TYPING APPROVAL FOR WORK PERMIT" },
+                new SelectListItem() { Value="TRANSACTION FUND", Text= "TRANSACTION FUND" },
+                new SelectListItem() { Value="SUBMIT RENEW LABOUR CARD", Text= "SUBMIT RENEW LABOUR CARD" },
+                new SelectListItem() { Value="SUBMIT NEW WORK PERMIT", Text= "SUBMIT NEW WORK PERMIT" },
+                new SelectListItem() { Value="SUBMIT ELECTRONIC WORK PERMIT", Text= "SUBMIT ELECTRONIC WORK PERMIT" },
+                new SelectListItem() { Value="RESIDENCY-FROM NEW PASSPORT", Text= "RESIDENCY-FROM NEW PASSPORT" },
+                new SelectListItem() { Value="RESIDENCES - PAY NEW FINE", Text= "RESIDENCES - PAY NEW FINE" },
+                new SelectListItem() { Value="REPORTS - RESIDENCE DETAILS", Text= "REPORTS - RESIDENCE DETAILS" },
+                new SelectListItem() { Value="RENEWAL OF TRADE LICENSE – ABUDHABI", Text= "RENEWAL OF TRADE LICENSE – ABUDHABI" },
+                new SelectListItem() { Value="RENEWAL OF TRADE LICENSE – AL AIN", Text= "RENEWAL OF TRADE LICENSE – AL AIN" },
+                new SelectListItem() { Value="RENEWAL OF NATIONAL OR GCC ELECTRONIC WORK", Text= "RENEWAL OF NATIONAL OR GCC ELECTRONIC WORK" },
+                new SelectListItem() { Value="RENEWAL OF AL AIN PO BOX", Text= "RENEWAL OF AL AIN PO BOX" },
+                new SelectListItem() { Value="RENEWAL OF ABUDHABI PO BOX", Text= "RENEWAL OF ABUDHABI PO BOX" },
+                new SelectListItem() { Value="RENEW WORK PERMIT", Text= "RENEW WORK PERMIT" },
+                new SelectListItem() { Value="RENEW SYSTEM", Text= "RENEW SYSTEM" },
+                new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
+                new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
+                new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
+            };
             var eel = this.db.master_file.OrderBy(e => e.employee_no).ToList();
             var liste = new List<master_file>();
             foreach (var file in eel)
@@ -44,6 +111,74 @@
         [Authorize(Roles = "liquidation")]
         public ActionResult Create(liquilist liquilist)
         {
+            ViewBag.nameofgov = new List<SelectListItem>()
+            {
+                new SelectListItem() {Value = "FEDERAL AUTHORITY OF IDENTITY AND CITIZENSHIP", Text = "FEDERAL AUTHORITY OF IDENTITY AND CITIZENSHIP"},
+                new SelectListItem() {Value = "MINISTRY OF HUMAN RESOURCES & EMIRATISATION", Text = "MINISTRY OF HUMAN RESOURCES & EMIRATISATION"},
+                new SelectListItem() {Value = "DEPARTMENT OF ECONOMIC ACTIVITIES", Text = "DEPARTMENT OF ECONOMIC ACTIVITIES"},
+                new SelectListItem() {Value = "MUNICIPAL DEPARTMENT", Text = "MUNICIPAL DEPARTMENT"},
+                new SelectListItem() {Value = "ABU DHABI POST", Text = "ABU DHABI POST"},
+                new SelectListItem() {Value = "TASHEEL", Text = "TASHEEL"},
+                new SelectListItem() {Value = "TAWJEEH", Text = "TAWJEEH"},
+                new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
+                new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
+                new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
+            };
+            ViewBag.expenses = new List<SelectListItem>()
+            {
+                new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
+                new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
+                new SelectListItem() { Value="CANCEL RESIDENCE", Text= "CANCEL RESIDENCE" },
+                new SelectListItem() { Value="CHANGE STATUS", Text= "CHANGE STATUS" },
+                new SelectListItem() { Value="COMPANY BOXES", Text= "COMPANY BOXES" },
+                new SelectListItem() { Value="COMPANY FINES", Text= "COMPANY FINES" },
+                new SelectListItem() { Value="COMPANY LICENSE RENEWAL", Text= "COMPANY LICENSE RENEWAL" },
+                new SelectListItem() { Value="DEPOSIT REFUND", Text= "DEPOSIT REFUND" },
+                new SelectListItem() { Value="FINAL EXIT TICKET", Text= "FINAL EXIT TICKET" },
+                new SelectListItem() { Value="FINES & RENEW EMIRATES ID", Text= "FINES & RENEW EMIRATES ID" },
+                new SelectListItem() { Value="ISSUE  RESIDENCE", Text= "ISSUE  RESIDENCE" },
+                new SelectListItem() { Value="ISSUE NEW VISA", Text= "ISSUE NEW VISA" },
+                new SelectListItem() { Value="TYPING CANCELLATION OF JOB OFFELETTER", Text= "TYPING CANCELLATION OF JOB OFFELETTER" },
+                new SelectListItem() { Value="TYPING JOB OFFER", Text= "TYPING JOB OFFER" },
+                new SelectListItem() { Value="FEES JUDICIAL DEPARTMENT", Text= "FEES JUDICIAL DEPARTMENT" },
+                new SelectListItem() { Value="LEAVING - ISSUE", Text= "LEAVING - ISSUE" },
+                new SelectListItem() { Value="MODIFY CONTRACT", Text= "MODIFY CONTRACT" },
+                new SelectListItem() { Value="MODIFY ELECTRONIC WORK PERMIT", Text= "MODIFY ELECTRONIC WORK PERMIT" },
+                new SelectListItem() { Value="NEW VISA PENALTY", Text= "NEW VISA PENALTY" },
+                new SelectListItem() { Value="OUTSIDE THE COUNTRY CANCELLATION", Text= "OUTSIDE THE COUNTRY CANCELLATION" },
+                new SelectListItem() { Value="PAY FINE RESIDENCE", Text= "PAY FINE RESIDENCE" },
+                new SelectListItem() { Value="PRE APPOVAL FOR WORK PERMIT", Text= "PRE APPOVAL FOR WORK PERMIT" },
+                new SelectListItem() { Value="PRE APPROVAL FOR WORK PERMIT", Text= "PRE APPROVAL FOR WORK PERMIT" },
+                new SelectListItem() { Value="PRO-CARD CANCEL", Text= "PRO-CARD CANCEL" },
+                new SelectListItem() { Value="ABSCONDING - ELECTRONIC", Text= "ABSCONDING - ELECTRONIC" },
+                new SelectListItem() { Value="REPORT ESCAPE", Text= "REPORT ESCAPE" },
+                new SelectListItem() { Value="APPROVAL FOR WORK PERMIT FINES", Text= "APPROVAL FOR WORK PERMIT FINES" },
+                new SelectListItem() { Value="TRADE LICENSE UPDATE", Text= "TRADE LICENSE UPDATE" },
+                new SelectListItem() { Value="MEDICAL EXAMINATION ", Text= "MEDICAL EXAMINATION " },
+                new SelectListItem() { Value="AMENDING AN EMPLOYMENT CONTRACT", Text= "AMENDING AN EMPLOYMENT CONTRACT" },
+                new SelectListItem() { Value="VISA CANCELLATION VISA- WORK", Text= "VISA CANCELLATION VISA- WORK" },
+                new SelectListItem() { Value="UPDATE WORKPERMIT INFORMATION", Text= "UPDATE WORKPERMIT INFORMATION" },
+                new SelectListItem() { Value="UPDATE IMMIGRATION FILE", Text= "UPDATE IMMIGRATION FILE" },
+                new SelectListItem() { Value="TYPING ELECTRONIC PRE APPROVAL FOR WORK", Text= "TYPING ELECTRONIC PRE APPROVAL FOR WORK" },
+                new SelectListItem() { Value="TYPING APPROVAL FOR WORK PERMIT", Text= "TYPING APPROVAL FOR WORK PERMIT" },
+                new SelectListItem() { Value="TRANSACTION FUND", Text= "TRANSACTION FUND" },
+                new SelectListItem() { Value="SUBMIT RENEW LABOUR CARD", Text= "SUBMIT RENEW LABOUR CARD" },
+                new SelectListItem() { Value="SUBMIT NEW WORK PERMIT", Text= "SUBMIT NEW WORK PERMIT" },
+                new SelectListItem() { Value="SUBMIT ELECTRONIC WORK PERMIT", Text= "SUBMIT ELECTRONIC WORK PERMIT" },
+                new SelectListItem() { Value="RESIDENCY-FROM NEW PASSPORT", Text= "RESIDENCY-FROM NEW PASSPORT" },
+                new SelectListItem() { Value="RESIDENCES - PAY NEW FINE", Text= "RESIDENCES - PAY NEW FINE" },
+                new SelectListItem() { Value="REPORTS - RESIDENCE DETAILS", Text= "REPORTS - RESIDENCE DETAILS" },
+                new SelectListItem() { Value="RENEWAL OF TRADE LICENSE – ABUDHABI", Text= "RENEWAL OF TRADE LICENSE – ABUDHABI" },
+                new SelectListItem() { Value="RENEWAL OF TRADE LICENSE – AL AIN", Text= "RENEWAL OF TRADE LICENSE – AL AIN" },
+                new SelectListItem() { Value="RENEWAL OF NATIONAL OR GCC ELECTRONIC WORK", Text= "RENEWAL OF NATIONAL OR GCC ELECTRONIC WORK" },
+                new SelectListItem() { Value="RENEWAL OF AL AIN PO BOX", Text= "RENEWAL OF AL AIN PO BOX" },
+                new SelectListItem() { Value="RENEWAL OF ABUDHABI PO BOX", Text= "RENEWAL OF ABUDHABI PO BOX" },
+                new SelectListItem() { Value="RENEW WORK PERMIT", Text= "RENEW WORK PERMIT" },
+                new SelectListItem() { Value="RENEW SYSTEM", Text= "RENEW SYSTEM" },
+                new SelectListItem() { Value="RENEW RESIDENC", Text= "RENEW RESIDENC" },
+                new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
+                new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
+            };
             var la = new liqiapproval();
             var errorlist = new List<string>();
             var refrlist = this.db.liquidation_ref.ToList();
@@ -65,7 +200,7 @@
                     var lilist = this.db.liquidations.ToList();
                     if (liqui.bill_no != null && liqui.employee_no != null)
                     {
-                        if (!lilist.Exists(x=>x.bill_no == liqui.bill_no))
+                        if (!lilist.Exists(x=>x.bill_no == liqui.bill_no && x.nameofgov == liqui.nameofgov))
                         {
                         liqui.refr = refrlist.Last().Id;
                         liqui.changed_by = User.Identity.Name;;
@@ -89,7 +224,7 @@
                             errorlist.Add(errorstring);
                         }
 
-                        var errorstring1 = " bill no:- "+liqui.bill_no+" exists ";
+                        var errorstring1 = " bill no:- "+liqui.bill_no+" exists for the issure " + liqui.nameofgov;
                         errorlist.Add(errorstring1);
                     }
                     }
@@ -191,6 +326,12 @@
             if (from.HasValue && to.HasValue)
             {
                  zzzz = lii2.FindAll(x => x.invoice_date >= from && x.invoice_date <= to);
+            }
+            else if(from.HasValue && !to.HasValue)
+            {
+                var enddate = new DateTime(from.Value.Year,from.Value.Month,DateTime.DaysInMonth(from.Value.Year,from.Value.Month));
+                var startdate = new DateTime(from.Value.Year,from.Value.Month,1);
+                zzzz = lii2.FindAll(x => x.invoice_date >= startdate && x.invoice_date <= enddate);
             }
             foreach (var lq in zzzz)
             {
@@ -330,7 +471,7 @@
         }
 
         // GET: liquidations1/Edit/5
-        [Authorize(Roles = "super_admin")]
+        //[Authorize(Roles = "super_admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -349,6 +490,74 @@
                 "employee_id",
                 "employee_name",
                 liquidation.employee_no);
+            ViewBag.nameofgov = new List<SelectListItem>()
+            {
+                new SelectListItem() {Value = "FEDERAL AUTHORITY OF IDENTITY AND CITIZENSHIP", Text = "FEDERAL AUTHORITY OF IDENTITY AND CITIZENSHIP"},
+                new SelectListItem() {Value = "MINISTRY OF HUMAN RESOURCES & EMIRATISATION", Text = "MINISTRY OF HUMAN RESOURCES & EMIRATISATION"},
+                new SelectListItem() {Value = "DEPARTMENT OF ECONOMIC ACTIVITIES", Text = "DEPARTMENT OF ECONOMIC ACTIVITIES"},
+                new SelectListItem() {Value = "MUNICIPAL DEPARTMENT", Text = "MUNICIPAL DEPARTMENT"},
+                new SelectListItem() {Value = "ABU DHABI POST", Text = "ABU DHABI POST"},
+                new SelectListItem() {Value = "TASHEEL", Text = "TASHEEL"},
+                new SelectListItem() {Value = "TAWJEEH", Text = "TAWJEEH"},
+                new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
+                new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
+                new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
+            };
+            ViewBag.expenses = new List<SelectListItem>()
+            {
+                new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
+                new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
+                new SelectListItem() { Value="CANCEL RESIDENCE", Text= "CANCEL RESIDENCE" },
+                new SelectListItem() { Value="CHANGE STATUS", Text= "CHANGE STATUS" },
+                new SelectListItem() { Value="COMPANY BOXES", Text= "COMPANY BOXES" },
+                new SelectListItem() { Value="COMPANY FINES", Text= "COMPANY FINES" },
+                new SelectListItem() { Value="COMPANY LICENSE RENEWAL", Text= "COMPANY LICENSE RENEWAL" },
+                new SelectListItem() { Value="DEPOSIT REFUND", Text= "DEPOSIT REFUND" },
+                new SelectListItem() { Value="FINAL EXIT TICKET", Text= "FINAL EXIT TICKET" },
+                new SelectListItem() { Value="FINES & RENEW EMIRATES ID", Text= "FINES & RENEW EMIRATES ID" },
+                new SelectListItem() { Value="ISSUE  RESIDENCE", Text= "ISSUE  RESIDENCE" },
+                new SelectListItem() { Value="ISSUE NEW VISA", Text= "ISSUE NEW VISA" },
+                new SelectListItem() { Value="TYPING CANCELLATION OF JOB OFFELETTER", Text= "TYPING CANCELLATION OF JOB OFFELETTER" },
+                new SelectListItem() { Value="TYPING JOB OFFER", Text= "TYPING JOB OFFER" },
+                new SelectListItem() { Value="FEES JUDICIAL DEPARTMENT", Text= "FEES JUDICIAL DEPARTMENT" },
+                new SelectListItem() { Value="LEAVING - ISSUE", Text= "LEAVING - ISSUE" },
+                new SelectListItem() { Value="MODIFY CONTRACT", Text= "MODIFY CONTRACT" },
+                new SelectListItem() { Value="MODIFY ELECTRONIC WORK PERMIT", Text= "MODIFY ELECTRONIC WORK PERMIT" },
+                new SelectListItem() { Value="NEW VISA PENALTY", Text= "NEW VISA PENALTY" },
+                new SelectListItem() { Value="OUTSIDE THE COUNTRY CANCELLATION", Text= "OUTSIDE THE COUNTRY CANCELLATION" },
+                new SelectListItem() { Value="PAY FINE RESIDENCE", Text= "PAY FINE RESIDENCE" },
+                new SelectListItem() { Value="PRE APPOVAL FOR WORK PERMIT", Text= "PRE APPOVAL FOR WORK PERMIT" },
+                new SelectListItem() { Value="PRE APPROVAL FOR WORK PERMIT", Text= "PRE APPROVAL FOR WORK PERMIT" },
+                new SelectListItem() { Value="PRO-CARD CANCEL", Text= "PRO-CARD CANCEL" },
+                new SelectListItem() { Value="ABSCONDING - ELECTRONIC", Text= "ABSCONDING - ELECTRONIC" },
+                new SelectListItem() { Value="REPORT ESCAPE", Text= "REPORT ESCAPE" },
+                new SelectListItem() { Value="APPROVAL FOR WORK PERMIT FINES", Text= "APPROVAL FOR WORK PERMIT FINES" },
+                new SelectListItem() { Value="TRADE LICENSE UPDATE", Text= "TRADE LICENSE UPDATE" },
+                new SelectListItem() { Value="MEDICAL EXAMINATION ", Text= "MEDICAL EXAMINATION " },
+                new SelectListItem() { Value="AMENDING AN EMPLOYMENT CONTRACT", Text= "AMENDING AN EMPLOYMENT CONTRACT" },
+                new SelectListItem() { Value="VISA CANCELLATION VISA- WORK", Text= "VISA CANCELLATION VISA- WORK" },
+                new SelectListItem() { Value="UPDATE WORKPERMIT INFORMATION", Text= "UPDATE WORKPERMIT INFORMATION" },
+                new SelectListItem() { Value="UPDATE IMMIGRATION FILE", Text= "UPDATE IMMIGRATION FILE" },
+                new SelectListItem() { Value="TYPING ELECTRONIC PRE APPROVAL FOR WORK", Text= "TYPING ELECTRONIC PRE APPROVAL FOR WORK" },
+                new SelectListItem() { Value="TYPING APPROVAL FOR WORK PERMIT", Text= "TYPING APPROVAL FOR WORK PERMIT" },
+                new SelectListItem() { Value="TRANSACTION FUND", Text= "TRANSACTION FUND" },
+                new SelectListItem() { Value="SUBMIT RENEW LABOUR CARD", Text= "SUBMIT RENEW LABOUR CARD" },
+                new SelectListItem() { Value="SUBMIT NEW WORK PERMIT", Text= "SUBMIT NEW WORK PERMIT" },
+                new SelectListItem() { Value="SUBMIT ELECTRONIC WORK PERMIT", Text= "SUBMIT ELECTRONIC WORK PERMIT" },
+                new SelectListItem() { Value="RESIDENCY-FROM NEW PASSPORT", Text= "RESIDENCY-FROM NEW PASSPORT" },
+                new SelectListItem() { Value="RESIDENCES - PAY NEW FINE", Text= "RESIDENCES - PAY NEW FINE" },
+                new SelectListItem() { Value="REPORTS - RESIDENCE DETAILS", Text= "REPORTS - RESIDENCE DETAILS" },
+                new SelectListItem() { Value="RENEWAL OF TRADE LICENSE – ABUDHABI", Text= "RENEWAL OF TRADE LICENSE – ABUDHABI" },
+                new SelectListItem() { Value="RENEWAL OF TRADE LICENSE – AL AIN", Text= "RENEWAL OF TRADE LICENSE – AL AIN" },
+                new SelectListItem() { Value="RENEWAL OF NATIONAL OR GCC ELECTRONIC WORK", Text= "RENEWAL OF NATIONAL OR GCC ELECTRONIC WORK" },
+                new SelectListItem() { Value="RENEWAL OF AL AIN PO BOX", Text= "RENEWAL OF AL AIN PO BOX" },
+                new SelectListItem() { Value="RENEWAL OF ABUDHABI PO BOX", Text= "RENEWAL OF ABUDHABI PO BOX" },
+                new SelectListItem() { Value="RENEW WORK PERMIT", Text= "RENEW WORK PERMIT" },
+                new SelectListItem() { Value="RENEW SYSTEM", Text= "RENEW SYSTEM" },
+                new SelectListItem() { Value="RENEW RESIDENC", Text= "RENEW RESIDENC" },
+                new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
+                new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
+            };
             ViewBag.refr = new SelectList(db.liquidation_ref, "Id", "Id", liquidation.refr);
             return View(liquidation);
         }
@@ -357,11 +566,8 @@
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin")]
+        //[Authorize(Roles = "super_admin")]
         public ActionResult Edit(
-            [Bind(
-                Include =
-                    "Id,bill_no,expenses,invoice_date,discription,employee_no,MBNo,invoice,VAT,invoice_amount,refr,changed_by,date_changed")]
             liquidation liquidation)
         {
             if (ModelState.IsValid)
@@ -376,6 +582,74 @@
                 "employee_id",
                 "employee_name",
                 liquidation.employee_no);
+            ViewBag.nameofgov = new List<SelectListItem>()
+            {
+                new SelectListItem() {Value = "FEDERAL AUTHORITY OF IDENTITY AND CITIZENSHIP", Text = "FEDERAL AUTHORITY OF IDENTITY AND CITIZENSHIP"},
+                new SelectListItem() {Value = "MINISTRY OF HUMAN RESOURCES & EMIRATISATION", Text = "MINISTRY OF HUMAN RESOURCES & EMIRATISATION"},
+                new SelectListItem() {Value = "DEPARTMENT OF ECONOMIC ACTIVITIES", Text = "DEPARTMENT OF ECONOMIC ACTIVITIES"},
+                new SelectListItem() {Value = "MUNICIPAL DEPARTMENT", Text = "MUNICIPAL DEPARTMENT"},
+                new SelectListItem() {Value = "ABU DHABI POST", Text = "ABU DHABI POST"},
+                new SelectListItem() {Value = "TASHEEL", Text = "TASHEEL"},
+                new SelectListItem() {Value = "TAWJEEH", Text = "TAWJEEH"},
+                new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
+                new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
+                new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
+            };
+            ViewBag.expenses = new List<SelectListItem>()
+            {
+                new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
+                new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
+                new SelectListItem() { Value="CANCEL RESIDENCE", Text= "CANCEL RESIDENCE" },
+                new SelectListItem() { Value="CHANGE STATUS", Text= "CHANGE STATUS" },
+                new SelectListItem() { Value="COMPANY BOXES", Text= "COMPANY BOXES" },
+                new SelectListItem() { Value="COMPANY FINES", Text= "COMPANY FINES" },
+                new SelectListItem() { Value="COMPANY LICENSE RENEWAL", Text= "COMPANY LICENSE RENEWAL" },
+                new SelectListItem() { Value="DEPOSIT REFUND", Text= "DEPOSIT REFUND" },
+                new SelectListItem() { Value="FINAL EXIT TICKET", Text= "FINAL EXIT TICKET" },
+                new SelectListItem() { Value="FINES & RENEW EMIRATES ID", Text= "FINES & RENEW EMIRATES ID" },
+                new SelectListItem() { Value="ISSUE  RESIDENCE", Text= "ISSUE  RESIDENCE" },
+                new SelectListItem() { Value="ISSUE NEW VISA", Text= "ISSUE NEW VISA" },
+                new SelectListItem() { Value="TYPING CANCELLATION OF JOB OFFELETTER", Text= "TYPING CANCELLATION OF JOB OFFELETTER" },
+                new SelectListItem() { Value="TYPING JOB OFFER", Text= "TYPING JOB OFFER" },
+                new SelectListItem() { Value="FEES JUDICIAL DEPARTMENT", Text= "FEES JUDICIAL DEPARTMENT" },
+                new SelectListItem() { Value="LEAVING - ISSUE", Text= "LEAVING - ISSUE" },
+                new SelectListItem() { Value="MODIFY CONTRACT", Text= "MODIFY CONTRACT" },
+                new SelectListItem() { Value="MODIFY ELECTRONIC WORK PERMIT", Text= "MODIFY ELECTRONIC WORK PERMIT" },
+                new SelectListItem() { Value="NEW VISA PENALTY", Text= "NEW VISA PENALTY" },
+                new SelectListItem() { Value="OUTSIDE THE COUNTRY CANCELLATION", Text= "OUTSIDE THE COUNTRY CANCELLATION" },
+                new SelectListItem() { Value="PAY FINE RESIDENCE", Text= "PAY FINE RESIDENCE" },
+                new SelectListItem() { Value="PRE APPOVAL FOR WORK PERMIT", Text= "PRE APPOVAL FOR WORK PERMIT" },
+                new SelectListItem() { Value="PRE APPROVAL FOR WORK PERMIT", Text= "PRE APPROVAL FOR WORK PERMIT" },
+                new SelectListItem() { Value="PRO-CARD CANCEL", Text= "PRO-CARD CANCEL" },
+                new SelectListItem() { Value="ABSCONDING - ELECTRONIC", Text= "ABSCONDING - ELECTRONIC" },
+                new SelectListItem() { Value="REPORT ESCAPE", Text= "REPORT ESCAPE" },
+                new SelectListItem() { Value="APPROVAL FOR WORK PERMIT FINES", Text= "APPROVAL FOR WORK PERMIT FINES" },
+                new SelectListItem() { Value="TRADE LICENSE UPDATE", Text= "TRADE LICENSE UPDATE" },
+                new SelectListItem() { Value="MEDICAL EXAMINATION ", Text= "MEDICAL EXAMINATION " },
+                new SelectListItem() { Value="AMENDING AN EMPLOYMENT CONTRACT", Text= "AMENDING AN EMPLOYMENT CONTRACT" },
+                new SelectListItem() { Value="VISA CANCELLATION VISA- WORK", Text= "VISA CANCELLATION VISA- WORK" },
+                new SelectListItem() { Value="UPDATE WORKPERMIT INFORMATION", Text= "UPDATE WORKPERMIT INFORMATION" },
+                new SelectListItem() { Value="UPDATE IMMIGRATION FILE", Text= "UPDATE IMMIGRATION FILE" },
+                new SelectListItem() { Value="TYPING ELECTRONIC PRE APPROVAL FOR WORK", Text= "TYPING ELECTRONIC PRE APPROVAL FOR WORK" },
+                new SelectListItem() { Value="TYPING APPROVAL FOR WORK PERMIT", Text= "TYPING APPROVAL FOR WORK PERMIT" },
+                new SelectListItem() { Value="TRANSACTION FUND", Text= "TRANSACTION FUND" },
+                new SelectListItem() { Value="SUBMIT RENEW LABOUR CARD", Text= "SUBMIT RENEW LABOUR CARD" },
+                new SelectListItem() { Value="SUBMIT NEW WORK PERMIT", Text= "SUBMIT NEW WORK PERMIT" },
+                new SelectListItem() { Value="SUBMIT ELECTRONIC WORK PERMIT", Text= "SUBMIT ELECTRONIC WORK PERMIT" },
+                new SelectListItem() { Value="RESIDENCY-FROM NEW PASSPORT", Text= "RESIDENCY-FROM NEW PASSPORT" },
+                new SelectListItem() { Value="RESIDENCES - PAY NEW FINE", Text= "RESIDENCES - PAY NEW FINE" },
+                new SelectListItem() { Value="REPORTS - RESIDENCE DETAILS", Text= "REPORTS - RESIDENCE DETAILS" },
+                new SelectListItem() { Value="RENEWAL OF TRADE LICENSE – ABUDHABI", Text= "RENEWAL OF TRADE LICENSE – ABUDHABI" },
+                new SelectListItem() { Value="RENEWAL OF TRADE LICENSE – AL AIN", Text= "RENEWAL OF TRADE LICENSE – AL AIN" },
+                new SelectListItem() { Value="RENEWAL OF NATIONAL OR GCC ELECTRONIC WORK", Text= "RENEWAL OF NATIONAL OR GCC ELECTRONIC WORK" },
+                new SelectListItem() { Value="RENEWAL OF AL AIN PO BOX", Text= "RENEWAL OF AL AIN PO BOX" },
+                new SelectListItem() { Value="RENEWAL OF ABUDHABI PO BOX", Text= "RENEWAL OF ABUDHABI PO BOX" },
+                new SelectListItem() { Value="RENEW WORK PERMIT", Text= "RENEW WORK PERMIT" },
+                new SelectListItem() { Value="RENEW SYSTEM", Text= "RENEW SYSTEM" },
+                new SelectListItem() { Value="RENEW RESIDENC", Text= "RENEW RESIDENC" },
+                new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
+                new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
+            };
             ViewBag.refr = new SelectList(db.liquidation_ref, "Id", "Id", liquidation.refr);
             return View(liquidation);
         }

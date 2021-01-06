@@ -67,6 +67,9 @@
                 @Html.DisplayNameFor(model => model.expenses)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.nameofgov)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.invoice_date)
             </th>
             <th>
@@ -113,6 +116,9 @@
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.expenses)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.nameofgov)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.invoice_date)

@@ -36,6 +36,8 @@ namespace HRworks.Models
         public Nullable<long> refr { get; set; }
         public string changed_by { get; set; }
         public Nullable<System.DateTime> date_changed { get; set; }
+        [Display(Name = "Issuer")]
+        public string nameofgov { get; set; }
     
         public virtual master_file master_file { get; set; }
         public virtual liquidation_ref liquidation_ref { get; set; }
