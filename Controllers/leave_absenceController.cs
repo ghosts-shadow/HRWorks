@@ -72,19 +72,20 @@ namespace HRworks.Controllers
         }
 
         // GET: leave_absence/Edit/5
-        [Authorize(Roles = "super_admin")]
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id,DateTime? eddate)
         {
+            ViewBag.eddate = eddate;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             leave_absence leave_absence = db.leave_absence.Find(id);
+            ViewBag.eddate = eddate;
             if (leave_absence == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name", leave_absence.Employee_id);
+            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_no", leave_absence.Employee_id);
             return View(leave_absence);
         }
 
@@ -93,22 +94,24 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin")]
-        public ActionResult Edit([Bind(Include = "Employee_id,Id,absence,month,fromd,tod")] leave_absence leave_absence)
+        public ActionResult Edit([Bind(Include = "Employee_id,Id,absence,month,fromd,tod")] leave_absence leave_absence,DateTime? eddate)
         {
+            ViewBag.eddate = eddate;
             if (ModelState.IsValid)
             {
                 db.Entry(leave_absence).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("leave_absence_Index","Leaves",new{ eddate=eddate});
             }
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name", leave_absence.Employee_id);
+            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_no", leave_absence.Employee_id);
             return View(leave_absence);
         }
-
+        
+        [Authorize(Roles = "super_admin")]
         // GET: leave_absence/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id,DateTime? eddate)
         {
+            ViewBag.eddate = eddate;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -120,16 +123,18 @@ namespace HRworks.Controllers
             }
             return View(leave_absence);
         }
-
+        
+        [Authorize(Roles = "super_admin")]
         // POST: leave_absence/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id,DateTime? eddate)
         {
+            ViewBag.eddate = eddate;
             leave_absence leave_absence = db.leave_absence.Find(id);
             db.leave_absence.Remove(leave_absence);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("leave_absence_Index","Leaves",new{ eddate=eddate});
         }
 
         protected override void Dispose(bool disposing)

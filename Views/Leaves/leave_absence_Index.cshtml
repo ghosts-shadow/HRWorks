@@ -72,6 +72,7 @@
         <th>
             @Html.DisplayNameFor(model => model.absence)
         </th>
+        <th></th>
     </tr>
 
     @{
@@ -93,7 +94,7 @@
         @Html.DisplayFor(modelItem => item.master_file.employee_name)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.month)
+        @Html.DisplayFor(modelItem => item.month.Value.Month)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.fromd)
@@ -104,6 +105,10 @@
     <td>
         @Html.DisplayFor(modelItem => item.absence)
     </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", "leave_absence",new { id=item.Id ,eddate=@ViewBag.eddate},"") |
+        @Html.ActionLink("Delete", "Delete", "leave_absence", new { id = item.Id, eddate = @ViewBag.eddate }, "")
+        </td>
 </tr>
     }
 

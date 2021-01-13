@@ -25,7 +25,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.month)
+            @Html.DisplayFor(model => model.month.Value.Month)
         </dd>
 
         <dt>
@@ -54,12 +54,14 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
+        <input type="text" value="@ViewBag.eddate" style="display:none" />
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to List", "leave_absence_Index", "Leaves", new { eddate = @ViewBag.eddate }, "")
         </div>
     }
 </div>

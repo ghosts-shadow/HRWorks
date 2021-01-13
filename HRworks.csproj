@@ -801,6 +801,7 @@
     <Content Include="Views\liquidations\Delete.cshtml" />
     <Content Include="Views\payroles\payslip.cshtml" />
     <Content Include="Views\Leaves\getallonleave.cshtml" />
+    <Content Include="Views\Attendances\notintimesheet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

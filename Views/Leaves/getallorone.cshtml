@@ -258,7 +258,7 @@
         @if (User.IsInRole("admin") || User.IsInRole("super_admin")|| User.IsInRole("payrole"))
         {
     <td>
-        @Html.ActionLink("change/enter actual return date", "Edit", new { id = item.Id })
+        @Html.ActionLink("change/enter actual return date", "Edit", new { id = item.Id, search = @ViewBag.search, page = @ViewBag.page})
         @if (User.IsInRole("super_admin"))
         {
             <b>| @Html.ActionLink("delete", "Delete", new { id = item.Id })</b>

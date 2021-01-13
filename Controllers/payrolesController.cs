@@ -756,6 +756,7 @@ namespace HRworks.Controllers
                                 double.TryParse(Unprotect(payr.contract.FOT), out aft1);
                             }
 
+                            aft1 = 0;
                             var leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
                             if (aft1 != 0)
                             {
@@ -2278,7 +2279,7 @@ namespace HRworks.Controllers
                         payr.master_file = masterFile;
                         payr.employee_no = masterFile.employee_id;
                         payr.forthemonth = new DateTime(month.Value.Year, month.Value.Month, 1);
-                        if (masterFile.contracts.Count != 0)
+                        if (masterFile.contracts.Count != 0 && masterFile.last_working_day.Value.Month != month.Value.Month)
                         {
                             var conlist = this.db.contracts.ToList();
                             var alist1 = this.db.contracts.OrderByDescending(e => e.date_changed).ToList();
@@ -2525,7 +2526,8 @@ namespace HRworks.Controllers
                                 {
                                     double.TryParse(Unprotect(payr.contract.FOT), out aft1);
                                 }
-
+                                
+                                aft1 = 0;
                                 var leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
                                 if (aft1 != 0)
                                 {

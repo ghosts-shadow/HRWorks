@@ -7,11 +7,28 @@
 
 <h2>Edit</h2>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#month").datepicker();
+        $("#fromd").datepicker();
+        $("#tod").datepicker();
+    });
+    function absdays() {
+        var da1 = new Date($("#fromd").val());
+        var da2 = new Date($("#tod").val());
+        var dif = ((da2 - da1) / 1000 / 60 / 60 / 24) + 1;
+        $("#absence").val(dif);
+    }
+</script>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
+
+    <div class="form-horizontal" onclick="absdays()">
         <h4>leave_absence</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -56,7 +73,7 @@
                 @Html.ValidationMessageFor(model => model.tod, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <input type="text" value="@ViewBag.eddate" style="display:none" />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -66,5 +83,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "leave_absence_Index", "Leaves", new { eddate = @ViewBag.eddate }, "")
 </div>

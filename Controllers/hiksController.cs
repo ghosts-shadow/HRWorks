@@ -12,6 +12,7 @@
     public class hiksController : Controller
     {
         private readonly HREntities db = new HREntities();
+        private readonly LogisticsSoftEntities db1 = new LogisticsSoftEntities();
 
         public ActionResult Absent(DateTime? getdate)
         {
@@ -45,12 +46,14 @@
                     month.Value.Year,
                     month.Value.Month,
                     DateTime.DaysInMonth(month.Value.Year, month.Value.Month));
-                while (startdate != enddate)
+                var holidays = db1.Holidays.Where(x =>
+                    x.Date.Value.Month == month.Value.Month && x.Date.Value.Year == month.Value.Year).ToList();
+                while (startdate >= enddate)
                 {
                     if (startdate >= DateTime.Now.Date)
-                        {
-                            break;
-                        }
+                    {
+                        break;
+                    }
                     foreach (var hik in emplist)
                     {
                         if (!tmlist.Exists(x => x.ID == hik.ID && x.date == startdate))
@@ -59,26 +62,47 @@
                             {
                                 if (startdate.DayOfWeek != DayOfWeek.Saturday)
                                 {
-                                    var emp = new hik();
-                                    var newdate = new DateTime(startdate.Year, startdate.Month, startdate.Day);
-                                    emp.ID = hik.ID;
-                                    emp.EMPID = hik.EMPID;
-                                    emp.Person = hik.Person;
-                                    emp.date = newdate;
-                                    var qwEmployeeId = 0;
-                                    int.TryParse(hik.ID, out qwEmployeeId);
-                                    if (!leavelist.Exists(x=>x.Start_leave<= startdate && x.End_leave>=startdate && x.master_file.employee_no == qwEmployeeId))
+                                    if (!holidays.Exists(x=>x.Date == startdate))
                                     {
-                                        abslist.Add(emp);
+                                        var emp = new hik();
+                                        var newdate = new DateTime(startdate.Year, startdate.Month, startdate.Day);
+                                        emp.ID = hik.ID;
+                                        emp.EMPID = hik.EMPID;
+                                        emp.Person = hik.Person;
+                                        emp.date = newdate;
+                                        var qwEmployeeId = 0;
+                                        int.TryParse(hik.ID, out qwEmployeeId);
+                                        if (!leavelist.Exists(x =>
+                                            x.Start_leave <= startdate && x.End_leave >= startdate &&
+                                            x.master_file.employee_no == qwEmployeeId))
+                                        {
+                                            abslist.Add(emp);
+                                        }
                                     }
                                 }
                             }
                         }
 
                     }
-                        startdate = startdate.AddDays(1);
-                        
+                    startdate = startdate.AddDays(1);
                 }
+/*
+
+                foreach (var Qa in abslist.OrderBy(x=>x.EMPID).ThenBy(x => x.date))     
+                {
+                    var abauto = new leave_absence();
+                    var msitem = msname.Find(x => x.employee_no == Qa.EMPID);
+
+                    if (msitem != null)
+                    {
+                        abauto.Employee_id = msitem.employee_id;
+                        abauto.fromd = Qa.date;
+                        abauto.tod = Qa.date;
+                        var diff = abauto.tod - abauto.fromd;
+                        abauto.absence = diff.Value.Days + 1;
+                    }
+
+                }*/
             }
 
             return this.View(abslist.OrderBy(x => x.date).ThenBy(x=>x.EMPID));

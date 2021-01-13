@@ -41,6 +41,8 @@
             ViewBag.expenses = new List<SelectListItem>()
             {
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
+                new SelectListItem() { Value="BANK", Text= "BANK" },
+                new SelectListItem() { Value="CHARGE CARD", Text= "CHARGE CARD" },
                 new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
                 new SelectListItem() { Value="CANCEL RESIDENCE", Text= "CANCEL RESIDENCE" },
                 new SelectListItem() { Value="CHANGE STATUS", Text= "CHANGE STATUS" },
@@ -127,6 +129,8 @@
             ViewBag.expenses = new List<SelectListItem>()
             {
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
+                new SelectListItem() { Value="BANK", Text= "BANK" },
+                new SelectListItem() { Value="CHARGE CARD", Text= "CHARGE CARD" },
                 new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
                 new SelectListItem() { Value="CANCEL RESIDENCE", Text= "CANCEL RESIDENCE" },
                 new SelectListItem() { Value="CHANGE STATUS", Text= "CHANGE STATUS" },
@@ -506,6 +510,8 @@
             ViewBag.expenses = new List<SelectListItem>()
             {
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
+                new SelectListItem() { Value="BANK", Text= "BANK" },
+                new SelectListItem() { Value="CHARGE CARD", Text= "CHARGE CARD" },
                 new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
                 new SelectListItem() { Value="CANCEL RESIDENCE", Text= "CANCEL RESIDENCE" },
                 new SelectListItem() { Value="CHANGE STATUS", Text= "CHANGE STATUS" },
@@ -598,6 +604,8 @@
             ViewBag.expenses = new List<SelectListItem>()
             {
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
+                new SelectListItem() { Value="BANK", Text= "BANK" },
+                new SelectListItem() { Value="CHARGE CARD", Text= "CHARGE CARD" },
                 new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
                 new SelectListItem() { Value="CANCEL RESIDENCE", Text= "CANCEL RESIDENCE" },
                 new SelectListItem() { Value="CHANGE STATUS", Text= "CHANGE STATUS" },

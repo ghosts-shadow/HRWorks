@@ -17,6 +17,7 @@
         <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","Attendances",new{variable = "A",month = DateTime.Now})'" value="Absence Report "/>
         <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","Attendances",new{variable = "V",month = DateTime.Now})'" value="Vacation Report "/>
         <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","Attendances",new{variable = "T",month = DateTime.Now})'" value="Transfer Report "/>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("notintimesheet","Attendances",new{month = DateTime.Now})'" value="not in timesheet"/>
         </div>
 </div>
 

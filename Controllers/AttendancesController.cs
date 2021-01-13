@@ -13,6 +13,7 @@ namespace HRworks.Controllers
     public class AttendancesController : Controller
     {
         private LogisticsSoftEntities db = new LogisticsSoftEntities();
+        private HREntities db1 = new HREntities();
 
         // GET: Attendances
         public ActionResult Index(string variable ,DateTime? month)
@@ -367,6 +368,43 @@ namespace HRworks.Controllers
                 }
             }
             return View(attendance1.OrderBy(x=>x.LabourMaster.EMPNO));
+        }
+
+        public ActionResult notintimesheet(DateTime? month)
+        {
+            var maintime = this.db.MainTimeSheets.ToList();
+            var HRemployee = db1.master_file.ToList();
+            var HRempfinal = new List<master_file>();
+            var tsemployee = db.LabourMasters.ToList();
+            var attendance = new List<Attendance>();
+            var attendanc = this.db.Attendances.ToList();
+            if (month.HasValue)
+            {
+                var maintim = maintime.FindAll(
+                    x =>(x.ManPowerSupplier == 1 || x.ManPowerSupplier == 8)   && x.TMonth.Month == month.Value.Month
+                                                 && x.TMonth.Year == month.Value.Year);
+                foreach (var sheet in maintim)
+                {
+                    var atten = attendanc.FindAll(x => x.SubMain == sheet.ID);
+                    attendance.AddRange(atten);
+                }
+            }
+
+            foreach (var file in HRemployee)
+            {
+                var tsemp = tsemployee.Find(x => x.EMPNO == file.employee_no);
+                if (tsemp != null)
+                {
+                    if (!attendance.Exists(x=>x.EmpID == tsemp.ID))
+                    {
+                        if (!HRempfinal.Exists(x=>x.employee_no == file.employee_no) && file.last_working_day == null && file.date_joined < month)
+                        {
+                            HRempfinal.Add(file);
+                        }
+                    }
+                }
+            }
+            return View(HRempfinal.OrderBy(x=>x.employee_no));
         }
 
         public ActionResult Report()

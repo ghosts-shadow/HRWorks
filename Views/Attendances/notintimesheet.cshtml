@@ -1,0 +1,55 @@
+﻿@model IEnumerable<HRworks.Models.master_file>
+
+@{
+    ViewBag.Title = "notintimesheet";
+}
+
+<h2>not in timesheet</h2>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+
+</script>
+@using (Html.BeginForm("notintimesheet", "Attendances", FormMethod.Get, new { id = "form1" }))
+{
+    <div>
+        month:-
+        <input type="text" name="month" id="datepicker" value="@if (ViewBag.month != null)
+                                                               {
+                                                                   @ViewBag.month.ToString("d")
+                                                               }" class="form-control" />
+        <input type="submit"
+               name="submit"
+               value="Get records" ondblclick="norc()" class="btn btn-default" />
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Report")'" value="back to main" />
+        <br />
+        <br />
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.employee_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.employee_name)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.employee_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.employee_name)
+            </td>
+        </tr>
+    }
+
+</table>

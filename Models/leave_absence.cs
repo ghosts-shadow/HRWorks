@@ -24,8 +24,8 @@ namespace HRworks.Models
         public Nullable<int> Employee_id { get; set; }
         public int Id { get; set; }
         public Nullable<double> absence { get; set; }
-
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM}")]
+        
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> month { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]

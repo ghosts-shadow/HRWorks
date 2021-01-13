@@ -1247,11 +1247,13 @@
         }
 
         // GET: Leaves/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id ,string search, int? page)
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var leave = this.db.Leaves.Find(id);
             if (leave == null) return this.HttpNotFound();
+            ViewBag.search = search;
+            ViewBag.page = page;
             var listItems = new List<ListItem>
                                 {
                                     new ListItem { Text = "Annual", Value = "1" },
@@ -1286,7 +1288,7 @@
                 Include =
                     "Employee_id,Id,Date,Reference,Start_leave,End_leave,Return_leave,leave_type,actual_return_date")]
             Leave leave,
-            HttpPostedFileBase fileBase)
+            HttpPostedFileBase fileBase,string search, int? page)
         {
             var listItems = new List<ListItem>
                                 {
@@ -1299,6 +1301,8 @@
                                     new ListItem { Text = "others", Value = "7" }
                                 };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
+            ViewBag.search = search;
+            ViewBag.page = page;
             string serverfile;
             if (fileBase != null)
             {
@@ -1418,7 +1422,7 @@
                     this.db.Leaves.Add(unpaidauto);
                     this.db.SaveChanges();
                 }
-                return this.RedirectToAction("getallorone");
+                return this.RedirectToAction("getallorone",new{search = search,page= page});
             }
             jderr: ;
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
@@ -1465,6 +1469,7 @@
                 defaSize = a;
             }
             ViewBag.search = search;
+            ViewBag.page = page;
             ViewBag.pagesize = defaSize;
             if (!string.IsNullOrEmpty(search))
             {
@@ -1530,6 +1535,7 @@
 
         public ActionResult leave_absence_Index(DateTime? eddate)
         {
+            ViewBag.eddate = eddate;
             var leaves = new List<leave_absence>();
             if (eddate != null)
             {
