@@ -63,7 +63,8 @@
             var hou = parseFloat($("#hou").val());
             var tran = parseFloat($("#tran").val());
             var liv = parseFloat($("#liv").val());
-            $("#gro").val(bas + hou + tran + liv);
+            var foo = parseFloat($("#foo").val());
+            $("#gro").val(bas + hou + tran + liv + foo);
         }
     </script>
 
@@ -186,6 +187,13 @@
             @Html.ValidationMessageFor(model => model.living_allowance, "", new { @class = "text-danger" })
         </div>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.food_allowance, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.food_allowance, new { htmlAttributes = new { @class = "form-control", @id = "foo" } })
+            @Html.ValidationMessageFor(model => model.food_allowance, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.salary_details, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -202,13 +210,6 @@
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.food_allowance, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.food_allowance, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.food_allowance, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.ticket_allowance, htmlAttributes: new { @class = "control-label col-md-2" })
