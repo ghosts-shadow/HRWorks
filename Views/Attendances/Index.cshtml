@@ -190,6 +190,11 @@
             }
 
         </th>
+        @if (ViewBag.variable == "A")
+        {
+            <th>
+            </th>
+        }
     </tr>
     @foreach (var item in Model)
     {
@@ -325,6 +330,15 @@
                 }
 
             </td>
+            @if (ViewBag.variable == "A")
+            {
+                if (item.absapproved_ != true)
+                 {
+                     <td>
+                         <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("approveabs",new{variable =@ViewBag.variable,month = @ViewBag.month,id=@item.ID ,idstr = @ViewBag.idstr})'" value="approve" />
+                     </td>
+                 }
+            }
         </tr>
     }
 

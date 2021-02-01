@@ -12,7 +12,7 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class hik
     {
         public string ID { get; set; }
@@ -29,5 +29,6 @@ namespace HRworks.Models
         public string DeviceNo { get; set; }
         public string Person { get; set; }
         public int SID { get; set; }
+        public bool absence_approved { get; set; }
     }
 }

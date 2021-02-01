@@ -48,9 +48,10 @@
 //        });
         html2canvas(document.getElementById('liqui')).then(function(canvas) {         
                 var imgData = canvas.toDataURL(
-                    'image/png');              
+                    'image/jpeg',1);
+                //window.open(imgData, "_blank");
                 var doc = new jsPDF('p', 'mm');
-            doc.addImage(imgData, 'PNG', 0, 0, 210,267);
+            doc.addImage(imgData, 'jpeg', 0, 0, 210,300);
                 doc.save('sample-file.pdf');
             
         });
@@ -113,7 +114,7 @@
         }
     }
 </style>
-<div class="body1" onclick="total()" style="width: 100%">
+<div class="body1" onclick="total()" style="width: 100%;">
     @using (Html.BeginForm("print", "liquidations", FormMethod.Get, new { id = "form1" }))
     {
         <div id="hide">
@@ -127,7 +128,7 @@
             <input type="button" value="print" class="btn btn-default" onclick="print();" />
         </div>
     }
-    <div id="liqui" style="padding: 3%" >
+    <div id="liqui" style="padding: 3%; background-color: white; font-family: Calibri !important; font-size: 20px !important;">
         <div style="border: 1px solid black; padding: 3%;">
             <div class="row" style="left: 45%; position: relative; top: 0%">
                 <img src="~/img/logo.png" height="100" width="150" />
@@ -140,7 +141,7 @@
                 <div style="left: 1%; position: relative;font-size: 110%">
                     <b>liq.@ViewBag.preli sheet: @ViewBag.prefr</b>
                 </div>
-                <div style="left: 73%; position: relative;font-size: 110%">
+                <div style="left: 69%; position: relative;font-size: 110%">
                     <b>
                         date :@if (ViewBag.pdate != null)
                         {@ViewBag.pdate.ToString("dd MMMM yyyy")}

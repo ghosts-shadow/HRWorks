@@ -1,4 +1,6 @@
-﻿namespace HRworks.Controllers
+﻿using System.Web.Security;
+
+namespace HRworks.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -15,12 +17,20 @@
 
         // GET: liquidations/Create
         [Authorize(Roles = "liquidation")]
-        public ActionResult Create()
+        public ActionResult Create(long? refr, DateTime? date1 , long? liq)
         {
             var refrlist = this.db.liquidation_ref.ToList();
-            this.ViewBag.refr = refrlist.Last().refr;
-            this.ViewBag.date = refrlist.Last().date.Value.ToShortDateString();
-            this.ViewBag.liq = refrlist.Last().liq;
+            if (refr.HasValue && date1.HasValue && liq.HasValue)
+            {
+                this.ViewBag.refr = refr;
+                this.ViewBag.date = date1.Value.ToShortDateString();
+                this.ViewBag.liq = liq;
+            }else
+            {
+                this.ViewBag.refr = refrlist.Last().refr;
+                this.ViewBag.date = refrlist.Last().date.Value.ToShortDateString();
+                this.ViewBag.liq = refrlist.Last().liq;
+            }
             this.ViewBag.employee_no = new SelectList(
                 this.db.master_file.OrderBy(e => e.employee_no),
                 "employee_id",
@@ -37,10 +47,12 @@
                 new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
                 new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
                 new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
+                new SelectListItem() {Value = "ANSARI EXCHANGE", Text = "ANSARI EXCHANGE"}
             };
             ViewBag.expenses = new List<SelectListItem>()
             {
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
+                new SelectListItem() { Value="MOL EMPLOYEES LIST", Text= "MOL EMPLOYEES LIST" },
                 new SelectListItem() { Value="BANK", Text= "BANK" },
                 new SelectListItem() { Value="CHARGE CARD", Text= "CHARGE CARD" },
                 new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
@@ -90,6 +102,8 @@
                 new SelectListItem() { Value="RENEWAL OF ABUDHABI PO BOX", Text= "RENEWAL OF ABUDHABI PO BOX" },
                 new SelectListItem() { Value="RENEW WORK PERMIT", Text= "RENEW WORK PERMIT" },
                 new SelectListItem() { Value="RENEW SYSTEM", Text= "RENEW SYSTEM" },
+                new SelectListItem() { Value="VISA RENEWAL", Text= "VISA RENEWAL" },
+                new SelectListItem() { Value="NOQODI-ANSARI EXCHANGE", Text= "NOQODI-ANSARI EXCHANGE" },
                 new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
                 new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
                 new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
@@ -125,10 +139,12 @@
                 new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
                 new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
                 new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
+                new SelectListItem() {Value = "ANSARI EXCHANGE", Text = "ANSARI EXCHANGE"}
             };
             ViewBag.expenses = new List<SelectListItem>()
             {
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
+                new SelectListItem() { Value="MOL EMPLOYEES LIST", Text= "MOL EMPLOYEES LIST" },
                 new SelectListItem() { Value="BANK", Text= "BANK" },
                 new SelectListItem() { Value="CHARGE CARD", Text= "CHARGE CARD" },
                 new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
@@ -151,7 +167,6 @@
                 new SelectListItem() { Value="NEW VISA PENALTY", Text= "NEW VISA PENALTY" },
                 new SelectListItem() { Value="OUTSIDE THE COUNTRY CANCELLATION", Text= "OUTSIDE THE COUNTRY CANCELLATION" },
                 new SelectListItem() { Value="PAY FINE RESIDENCE", Text= "PAY FINE RESIDENCE" },
-                new SelectListItem() { Value="PRE APPOVAL FOR WORK PERMIT", Text= "PRE APPOVAL FOR WORK PERMIT" },
                 new SelectListItem() { Value="PRE APPROVAL FOR WORK PERMIT", Text= "PRE APPROVAL FOR WORK PERMIT" },
                 new SelectListItem() { Value="PRO-CARD CANCEL", Text= "PRO-CARD CANCEL" },
                 new SelectListItem() { Value="ABSCONDING - ELECTRONIC", Text= "ABSCONDING - ELECTRONIC" },
@@ -179,7 +194,9 @@
                 new SelectListItem() { Value="RENEWAL OF ABUDHABI PO BOX", Text= "RENEWAL OF ABUDHABI PO BOX" },
                 new SelectListItem() { Value="RENEW WORK PERMIT", Text= "RENEW WORK PERMIT" },
                 new SelectListItem() { Value="RENEW SYSTEM", Text= "RENEW SYSTEM" },
-                new SelectListItem() { Value="RENEW RESIDENC", Text= "RENEW RESIDENC" },
+                new SelectListItem() { Value="VISA RENEWAL", Text= "VISA RENEWAL" },
+                new SelectListItem() { Value="NOQODI-ANSARI EXCHANGE", Text= "NOQODI-ANSARI EXCHANGE" },
+                new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
                 new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
                 new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
             };
@@ -506,10 +523,12 @@
                 new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
                 new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
                 new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
+                new SelectListItem() {Value = "ANSARI EXCHANGE", Text = "ANSARI EXCHANGE"}
             };
             ViewBag.expenses = new List<SelectListItem>()
             {
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
+                new SelectListItem() { Value="MOL EMPLOYEES LIST", Text= "MOL EMPLOYEES LIST" },
                 new SelectListItem() { Value="BANK", Text= "BANK" },
                 new SelectListItem() { Value="CHARGE CARD", Text= "CHARGE CARD" },
                 new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
@@ -532,7 +551,6 @@
                 new SelectListItem() { Value="NEW VISA PENALTY", Text= "NEW VISA PENALTY" },
                 new SelectListItem() { Value="OUTSIDE THE COUNTRY CANCELLATION", Text= "OUTSIDE THE COUNTRY CANCELLATION" },
                 new SelectListItem() { Value="PAY FINE RESIDENCE", Text= "PAY FINE RESIDENCE" },
-                new SelectListItem() { Value="PRE APPOVAL FOR WORK PERMIT", Text= "PRE APPOVAL FOR WORK PERMIT" },
                 new SelectListItem() { Value="PRE APPROVAL FOR WORK PERMIT", Text= "PRE APPROVAL FOR WORK PERMIT" },
                 new SelectListItem() { Value="PRO-CARD CANCEL", Text= "PRO-CARD CANCEL" },
                 new SelectListItem() { Value="ABSCONDING - ELECTRONIC", Text= "ABSCONDING - ELECTRONIC" },
@@ -560,7 +578,9 @@
                 new SelectListItem() { Value="RENEWAL OF ABUDHABI PO BOX", Text= "RENEWAL OF ABUDHABI PO BOX" },
                 new SelectListItem() { Value="RENEW WORK PERMIT", Text= "RENEW WORK PERMIT" },
                 new SelectListItem() { Value="RENEW SYSTEM", Text= "RENEW SYSTEM" },
-                new SelectListItem() { Value="RENEW RESIDENC", Text= "RENEW RESIDENC" },
+                new SelectListItem() { Value="VISA RENEWAL", Text= "VISA RENEWAL" },
+                new SelectListItem() { Value="NOQODI-ANSARI EXCHANGE", Text= "NOQODI-ANSARI EXCHANGE" },
+                new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
                 new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
                 new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
             };
@@ -600,10 +620,12 @@
                 new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
                 new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
                 new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
+                new SelectListItem() {Value = "ANSARI EXCHANGE", Text = "ANSARI EXCHANGE"}
             };
             ViewBag.expenses = new List<SelectListItem>()
             {
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
+                new SelectListItem() { Value="MOL EMPLOYEES LIST", Text= "MOL EMPLOYEES LIST" },
                 new SelectListItem() { Value="BANK", Text= "BANK" },
                 new SelectListItem() { Value="CHARGE CARD", Text= "CHARGE CARD" },
                 new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
@@ -626,7 +648,6 @@
                 new SelectListItem() { Value="NEW VISA PENALTY", Text= "NEW VISA PENALTY" },
                 new SelectListItem() { Value="OUTSIDE THE COUNTRY CANCELLATION", Text= "OUTSIDE THE COUNTRY CANCELLATION" },
                 new SelectListItem() { Value="PAY FINE RESIDENCE", Text= "PAY FINE RESIDENCE" },
-                new SelectListItem() { Value="PRE APPOVAL FOR WORK PERMIT", Text= "PRE APPOVAL FOR WORK PERMIT" },
                 new SelectListItem() { Value="PRE APPROVAL FOR WORK PERMIT", Text= "PRE APPROVAL FOR WORK PERMIT" },
                 new SelectListItem() { Value="PRO-CARD CANCEL", Text= "PRO-CARD CANCEL" },
                 new SelectListItem() { Value="ABSCONDING - ELECTRONIC", Text= "ABSCONDING - ELECTRONIC" },
@@ -654,7 +675,9 @@
                 new SelectListItem() { Value="RENEWAL OF ABUDHABI PO BOX", Text= "RENEWAL OF ABUDHABI PO BOX" },
                 new SelectListItem() { Value="RENEW WORK PERMIT", Text= "RENEW WORK PERMIT" },
                 new SelectListItem() { Value="RENEW SYSTEM", Text= "RENEW SYSTEM" },
-                new SelectListItem() { Value="RENEW RESIDENC", Text= "RENEW RESIDENC" },
+                new SelectListItem() { Value="VISA RENEWAL", Text= "VISA RENEWAL" },
+                new SelectListItem() { Value="NOQODI-ANSARI EXCHANGE", Text= "NOQODI-ANSARI EXCHANGE" },
+                new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
                 new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
                 new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
             };

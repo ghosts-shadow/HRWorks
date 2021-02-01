@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "settingrole";
+}
+
+<h2>settingrole</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.DropDownList("username", new List<SelectListItem>(ViewBag.users), new { @class = "form-control ", required = "true" })
+    @Html.DropDownList("rolename", new List<SelectListItem>(ViewBag.roles), new { @class = "form-control ", required = "true" })
+    <p>add role<input type="submit" value="save" class="btn btn-default" id="save" /></p>
+}

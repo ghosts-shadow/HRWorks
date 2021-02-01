@@ -1,4 +1,7 @@
-﻿namespace HRworks.Controllers
+﻿using System.Data.Entity;
+using Microsoft.Ajax.Utilities;
+
+namespace HRworks.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -14,8 +17,8 @@
         private readonly HREntities db = new HREntities();
         private readonly LogisticsSoftEntities db1 = new LogisticsSoftEntities();
 
-        public ActionResult Absent(DateTime? getdate)
-        {
+        public ActionResult Absent(DateTime? getdate,string empnos)
+         {
             var month = getdate;
             this.ViewBag.eddate = getdate;
             var tmlist = this.db.hiks.OrderBy(x => x.datetime).ToList();
@@ -33,6 +36,7 @@
                         int.TryParse(hik.ID, out qwEmployeeId);
                         if (msname.Exists(x => x.employee_no == qwEmployeeId))
                             hik.Person = msname.Find(x => x.employee_no == qwEmployeeId).employee_name;
+                        
                         hik.EMPID = qwEmployeeId;
                     }
                 }
@@ -48,7 +52,7 @@
                     DateTime.DaysInMonth(month.Value.Year, month.Value.Month));
                 var holidays = db1.Holidays.Where(x =>
                     x.Date.Value.Month == month.Value.Month && x.Date.Value.Year == month.Value.Year).ToList();
-                while (startdate >= enddate)
+                while (startdate <= enddate)
                 {
                     if (startdate >= DateTime.Now.Date)
                     {
@@ -72,6 +76,11 @@
                                         emp.date = newdate;
                                         var qwEmployeeId = 0;
                                         int.TryParse(hik.ID, out qwEmployeeId);
+                                        ViewBag.absapp = empnos;
+                                        if (!empnos.IsNullOrWhiteSpace() && empnos.Contains(hik.ID + "("+newdate.ToString()+")"))
+                                        {
+                                            emp.absence_approved = true;
+                                        }
                                         if (!leavelist.Exists(x =>
                                             x.Start_leave <= startdate && x.End_leave >= startdate &&
                                             x.master_file.employee_no == qwEmployeeId))
@@ -82,30 +91,63 @@
                                 }
                             }
                         }
-
                     }
                     startdate = startdate.AddDays(1);
                 }
-/*
+            }
+            
+            return this.View(abslist.OrderBy(x => x.date).ThenBy(x=>x.EMPID));
+        }
 
-                foreach (var Qa in abslist.OrderBy(x=>x.EMPID).ThenBy(x => x.date))     
+        public ActionResult Abstransfer(int? id,DateTime? date1,string empnos)
+        {
+            var newlistemo = new List<int>();
+            var neweos = "";
+            var abslist = db.leave_absence.ToList();
+            var mastervar = db.master_file.OrderByDescending(x => x.date_changed).ToList();
+            if (!abslist.Exists(x=>x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+            {
+                var absvar = new leave_absence();
+                var emp = mastervar.Find(x => x.employee_no == id);
+                if (emp != null)
                 {
-                    var abauto = new leave_absence();
-                    var msitem = msname.Find(x => x.employee_no == Qa.EMPID);
-
-                    if (msitem != null)
+                    var date2 = date1.Value.AddDays(-1);
+                    if (abslist.Exists(x=>x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                     {
-                        abauto.Employee_id = msitem.employee_id;
-                        abauto.fromd = Qa.date;
-                        abauto.tod = Qa.date;
-                        var diff = abauto.tod - abauto.fromd;
-                        abauto.absence = diff.Value.Days + 1;
+                        var abs1 = abslist.Find(x=>x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2);
+                        abs1.tod = date1;
+                        abs1.absence = (abs1.tod - abs1.fromd).Value.Days + 1;
+                        this.db.Entry(abs1).State = EntityState.Modified;
+                        this.db.SaveChanges();
+                    }
+                    else
+                    {
+                        absvar.Employee_id = emp.employee_id;
+                        absvar.fromd = date1;
+                        absvar.tod = date1;
+                        absvar.absence = 1;
+                        absvar.month = date1;
+                        this.db.leave_absence.Add(absvar);
+                        this.db.SaveChanges();
                     }
 
-                }*/
+                    if (!empnos.IsNullOrWhiteSpace())
+                    {
+                        if (!empnos.Contains(emp.employee_no.ToString() + "("+date1.ToString()+")"))
+                        {
+                            empnos += " , " + emp.employee_no +"(" +date1.ToString()+ ")";
+                            neweos = empnos;
+                        }
+                    }
+                    else
+                    {
+                        empnos = emp.employee_no.ToString() +"(" +date1.ToString()+ ")";
+                        neweos = empnos;
+                    }
+                }
             }
 
-            return this.View(abslist.OrderBy(x => x.date).ThenBy(x=>x.EMPID));
+            return RedirectToAction("Absent", new {getdate = date1,empnos = neweos});
         }
 
         public ActionResult DownloadExcel(DateTime? getdate)
@@ -213,10 +255,13 @@
             foreach (var w1 in chin.OrderBy(x => x.EMPID).ThenBy(x => x.datetime))
                 if (!schin.Exists(x => x.date == w1.date && x.EMPID == w1.EMPID))
                     schin.Add(w1);
+
             foreach (var w1 in chout.OrderBy(x => x.EMPID).ThenByDescending(x => x.datetime))
                 if (!schout.Exists(x => x.date == w1.date && x.EMPID == w1.EMPID))
+                    schout.Add(w1);
+
             passexel.AddRange(schin);
-                    passexel.AddRange(schout);
+            passexel.AddRange(schout);
             var Ep = new ExcelPackage();
             var Sheet = Ep.Workbook.Worksheets.Add(getdate.ToString());
             Sheet.Cells["A1"].Value = "employee no";

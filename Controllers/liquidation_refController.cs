@@ -30,23 +30,31 @@ namespace HRworks.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                long? a = 0l;
+                DateTime? ba = DateTime.Now;
+                long? c = 0l;
                 if (this.db.liquidation_ref.ToList().Exists(x => x.date == liquidation_ref.date && x.refr == liquidation_ref.refr && x.liq == liquidation_ref.liq))
                 {
                     var aaaa = this.db.liquidation_ref.ToList().Find(x => x.date == liquidation_ref.date && x.refr == liquidation_ref.refr
                                                                                                          && x.liq
                                                                                                          == liquidation_ref
                                                                                                              .liq);
+                    a = aaaa.refr;
+                    ba = aaaa.date;
+                    c = aaaa.liq;
                     liquidation_ref = aaaa;
                     this.db.Entry(liquidation_ref).State = EntityState.Modified;
                     this.db.SaveChanges();
                 }
                 else
                 {
+                    a = liquidation_ref.refr;
+                    ba = liquidation_ref.date;
+                    c = liquidation_ref.liq;
                     db.liquidation_ref.Add(liquidation_ref);
                     db.SaveChanges();
                 }
-                return RedirectToAction("Create", "liquidations");
+                return RedirectToAction("Create", "liquidations",new {refr = a,date1 = ba,liq = c});
             }
 
             return View(liquidation_ref);

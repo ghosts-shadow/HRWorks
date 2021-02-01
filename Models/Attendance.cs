@@ -118,6 +118,7 @@ namespace HRworks.Models
         public Nullable<int> Skilledthours { get; set; }
         public Nullable<int> Unskilledthours { get; set; }
         public Nullable<int> TotalWorkers { get; set; }
+        public Nullable<bool> absapproved_ { get; set; }
     
         public virtual MainTimeSheet MainTimeSheet { get; set; }
         public virtual LabourMaster LabourMaster { get; set; }

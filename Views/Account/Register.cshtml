@@ -5,7 +5,7 @@
 
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form",@onclick= "checkCheckbox()" }))
 {
     @Html.AntiForgeryToken()
     <h4>Create a new account.</h4>
@@ -38,14 +38,24 @@
     <div class="form-group">
         @Html.LabelFor(m => m.UserRole, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.RadioButtonFor(m => m.UserRole, "admin", new {@class = "radio-inline"})@Html.Label("admin")
-            @Html.RadioButtonFor(m => m.UserRole, "Manager", new {@class = "radio-inline"})@Html.Label("manager")<br/>
-            @Html.RadioButtonFor(m => m.UserRole, "liquidation", new {@class = "radio-inline"})@Html.Label("liquidation")
-            @Html.RadioButtonFor(m => m.UserRole, "employee_EID", new {@class = "radio-inline"})@Html.Label("employee_EID")
-            @Html.RadioButtonFor(m => m.UserRole, "employee_INC", new {@class = "radio-inline"})@Html.Label("employee_INC")<br />
-            @Html.RadioButtonFor(m => m.UserRole, "employee_PASS", new {@class = "radio-inline"})@Html.Label("employee_PASS")
-            @Html.RadioButtonFor(m => m.UserRole, "employee_VLC", new {@class = "radio-inline"})@Html.Label("employee_VLC")<br />
-            @Html.RadioButtonFor(m => m.UserRole, "payrole", new {@class = "radio-inline"})@Html.Label("payrole")<br />
+            @Html.CheckBox("admin", new { @class = "radio-inline" })@Html.Label("admin")
+            @Html.CheckBox("Manager", new { @class = "radio-inline" })@Html.Label("manager")<br />
+            @Html.CheckBox("liquidation", new { @class = "radio-inline" })@Html.Label("liquidation")
+            @Html.CheckBox("employee_EID", new { @class = "radio-inline" })@Html.Label("employee_EID")
+            @Html.CheckBox("employee_INC", new { @class = "radio-inline" })@Html.Label("employee_INC")<br />
+            @Html.CheckBox("employee_PASS", new { @class = "radio-inline" })@Html.Label("employee_PASS")
+            @Html.CheckBox("employee_VLC", new { @class = "radio-inline" })@Html.Label("employee_VLC")<br />
+            @Html.CheckBox("payrole", new { @class = "radio-inline" })@Html.Label("payrole")<br />
+            @Html.TextBoxFor(m => m.UserRole, new { @class = "form-control", @id = "roles" })
+            @*@Html.RadioButtonFor(m => m.UserRole, "admin", new {@class = "radio-inline"})@Html.Label("admin"),@style="display:none"
+        @Html.RadioButtonFor(m => m.UserRole, "Manager", new {@class = "radio-inline"})@Html.Label("manager")<br/>
+        @Html.RadioButtonFor(m => m.UserRole, "liquidation", new {@class = "radio-inline"})@Html.Label("liquidation")
+        @Html.RadioButtonFor(m => m.UserRole, "employee_EID", new {@class = "radio-inline"})@Html.Label("employee_EID")
+        @Html.RadioButtonFor(m => m.UserRole, "employee_INC", new {@class = "radio-inline"})@Html.Label("employee_INC")<br />
+        @Html.RadioButtonFor(m => m.UserRole, "employee_PASS", new {@class = "radio-inline"})@Html.Label("employee_PASS")
+        @Html.RadioButtonFor(m => m.UserRole, "employee_VLC", new {@class = "radio-inline"})@Html.Label("employee_VLC")<br />
+        @Html.RadioButtonFor(m => m.UserRole, "payrole", new {@class = "radio-inline"})@Html.Label("payrole")<br />*@
+
         </div>
     </div>
     <div class="form-group">
@@ -54,7 +64,47 @@
         </div>
     </div>
 }
-
+<script>
+    function checkCheckbox() {
+        var rolestring = "";
+        var ad = document.getElementById("admin");
+        var ma = document.getElementById("Manager");
+        var li = document.getElementById("liquidation");
+        var eid = document.getElementById("employee_EID");
+        var inc = document.getElementById("employee_INC");
+        var pass = document.getElementById("employee_PASS");
+        var vlc = document.getElementById("employee_VLC");
+        var pay = document.getElementById("payrole");
+        var rol = document.getElementById("roles");
+        if (ad.checked == true) {
+            rolestring += ad.name +",";
+        }
+        if (ma.checked == true) {
+            rolestring += ma.name + ",";
+        }
+        if (li.checked == true) {
+            rolestring += li.name + ",";
+        }
+        if (eid.checked == true) {
+            rolestring += eid.name + ",";
+        }
+        if (inc.checked == true) {
+            rolestring += inc.name + ",";
+        }
+        if (pass.checked == true) {
+            rolestring += pass.name + ",";
+        }
+        if (vlc.checked == true) {
+            rolestring += vlc.name + ",";
+        }
+        if (pay.checked == true) {
+            rolestring += pay.name + ",";
+        }
+        var ind = rolestring.lastIndexOf(",");
+        rolestring = rolestring.slice(0,ind);
+        rol.value = rolestring;
+    }
+</script>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

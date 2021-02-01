@@ -272,6 +272,7 @@
           <Property Name="DeviceNo" Type="varchar(max)" />
           <Property Name="Person" Type="varchar(max)" />
           <Property Name="SID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="absence_approved" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="HRA_requset">
           <Key>
@@ -2784,6 +2785,7 @@
           <Property Name="DeviceNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="Person" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="SID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="absence_approved" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="absencelist">
           <Key>
@@ -3677,6 +3679,7 @@
           <EntitySetMapping Name="hiks">
             <EntityTypeMapping TypeName="HRModel.hik">
               <MappingFragment StoreEntitySet="hik">
+                <ScalarProperty Name="absence_approved" ColumnName="absence_approved" />
                 <ScalarProperty Name="SID" ColumnName="SID" />
                 <ScalarProperty Name="Person" ColumnName="Person" />
                 <ScalarProperty Name="DeviceNo" ColumnName="DeviceNo" />

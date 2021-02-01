@@ -1286,7 +1286,7 @@
         public ActionResult Edit(
             [Bind(
                 Include =
-                    "Employee_id,Id,Date,Reference,Start_leave,End_leave,Return_leave,leave_type,actual_return_date")]
+                    "Employee_id,Id,Date,Reference,Start_leave,End_leave,Return_leave,leave_type,actual_return_date,half")]
             Leave leave,
             HttpPostedFileBase fileBase,string search, int? page)
         {

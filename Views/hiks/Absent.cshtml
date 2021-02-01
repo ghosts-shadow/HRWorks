@@ -11,7 +11,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    $(function() {
+    $(function () {
         $("#getdate").datepicker({
             altField: "#alternate",
             altFormat: "MM,yy",
@@ -30,19 +30,22 @@
 {
     <div class="row">
         <div class=" col-md-2">
-            <input type="text" name="getdate" id="getdate" class="form-control"/>
+            <input type="text" name="getdate" id="getdate" class="form-control" />
         </div>
         <div class=" col-md-1">
-            <input type="submit" value="search" class="btn btn-default"/>
+            <input type="submit" value="search" class="btn btn-default" />
         </div>
-        @if(ViewBag.eddate != null)
+        @if (ViewBag.eddate != null)
         {
             <div class="col-md-5">
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel2", "hiks", new { getdate = ViewBag.eddate })'" value="Export"/></div>
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel2", "hiks", new { getdate = ViewBag.eddate })'" value="Export" />
+            </div>
         }
     </div>
-    <br/>
+    <br />
+
 }
+
 <table class="table">
     <tr>
         <th>#SN</th>
@@ -55,6 +58,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Person)
         </th>
+        <th></th>
     </tr>
     @{
         var i = 0;
@@ -73,6 +77,12 @@
     <td>
         @Html.DisplayFor(modelItem => item.Person)
     </td>
+    @if (item.absence_approved != true)
+    {
+        <td>
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Abstransfer", "hiks", new {id=@item.ID , date1=@item.date,empnos=@ViewBag.absapp })'" value="approve" />
+        </td>
+    }
 </tr>
     }
 

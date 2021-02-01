@@ -223,6 +223,7 @@
     <Compile Include="Controllers\payrolesController.cs" />
     <Compile Include="Controllers\PROBATION_ASSESSMENTController.cs" />
     <Compile Include="Controllers\rec_req_formController.cs" />
+    <Compile Include="Controllers\rolesettingController.cs" />
     <Compile Include="Controllers\Training_EffectivenessController.cs" />
     <Compile Include="Controllers\Training_EvaluationController.cs" />
     <Compile Include="Controllers\Training_RequestController.cs" />
@@ -802,10 +803,12 @@
     <Content Include="Views\payroles\payslip.cshtml" />
     <Content Include="Views\Leaves\getallonleave.cshtml" />
     <Content Include="Views\Attendances\notintimesheet.cshtml" />
+    <Content Include="Views\rolesetting\settingrole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Uploads\" />
+    <Folder Include="Views\allroles\" />
     <Folder Include="Views\upload\" />
   </ItemGroup>
   <ItemGroup>

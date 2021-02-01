@@ -159,7 +159,8 @@ namespace HRworks.Controllers
                 {
                     un.full_name = model.full_name;
                     un.aspnet_uid = user.Id;
-                    await this.UserManager.AddToRoleAsync(user.Id, model.UserRole);
+                    string[] userrole = model.UserRole.Split(','); 
+                    await this.UserManager.AddToRolesAsync(user.Id, userrole);
                     df.usernames.Add(un);
                     df.SaveChanges();
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

@@ -80,6 +80,7 @@
           <Property Name="Skilledthours" Type="int" />
           <Property Name="Unskilledthours" Type="int" />
           <Property Name="TotalWorkers" Type="int" />
+          <Property Name="absapproved " Type="bit" />
         </EntityType>
         <EntityType Name="Holidays">
           <Key>
@@ -366,6 +367,7 @@
           <Property Name="Skilledthours" Type="Int32" />
           <Property Name="Unskilledthours" Type="Int32" />
           <Property Name="TotalWorkers" Type="Int32" />
+          <Property Name="absapproved_" Type="Boolean" />
         </EntityType>
         <EntityType Name="MainTimeSheet">
           <Key>
@@ -586,6 +588,7 @@
           <EntitySetMapping Name="Attendances">
             <EntityTypeMapping TypeName="LogisticsSoftModel.Attendance">
               <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="absapproved_" ColumnName="absapproved " />
                 <ScalarProperty Name="TotalWorkers" ColumnName="TotalWorkers" />
                 <ScalarProperty Name="Unskilledthours" ColumnName="Unskilledthours" />
                 <ScalarProperty Name="Skilledthours" ColumnName="Skilledthours" />

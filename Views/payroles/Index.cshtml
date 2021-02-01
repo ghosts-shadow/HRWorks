@@ -41,6 +41,7 @@
 }
 <table class="table">
     <tr style="font-size: 12px">
+        <th style=" position: sticky;top: 0; width: 48px;"></th>
         <th style=" position: sticky;top: 0; width: 82px;">
             ID
         </th>
@@ -131,12 +132,17 @@
         <th style=" position: sticky;top: 0; width: 67px;">
             Remarks
         </th>
-        <th style=" position: sticky;top: 0; width: 48px;"></th>
     </tr>
 
     @foreach (var item in Model.Payroll)
     {
         <tr style="font-size: 11px">
+            <td>
+                @if (item.Id != 0)
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                }
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.master_file.employee_no)
             </td>
@@ -381,12 +387,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.remarks)
-            </td>
-            <td>
-                @if (item.Id != 0)
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                }
             </td>
         </tr>
     }
