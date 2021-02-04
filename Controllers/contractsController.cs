@@ -359,6 +359,7 @@
             {
                 var img = new contract();
                 img.con_id = contract.con_id;
+                img.employee_id = contract.employee_id;
                 img.employee_no = contract.employee_no;
                 img.designation = contract.designation;
                 img.grade = contract.grade;
@@ -376,8 +377,8 @@
                 img.imgpath = serverfile;
                 img.changed_by = this.User.Identity.Name;
                 img.date_changed = DateTime.Now;
-                this.db.contracts.Add(img);
-                this.db.SaveChanges();
+                db.Entry(img).State = EntityState.Modified;
+                db.SaveChanges();
                 return this.RedirectToAction("Index");
             }
 

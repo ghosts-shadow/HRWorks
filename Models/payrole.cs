@@ -41,6 +41,7 @@ namespace HRworks.Models
         public string TransportationAllowance_ { get; set; }
         public string others { get; set; }
         public bool save { get; set; }
+        public string Rstate { get; set; }
     
         public virtual contract contract { get; set; }
         public virtual Leave Leave { get; set; }

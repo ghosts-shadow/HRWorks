@@ -1,4 +1,5 @@
 ﻿@using HRworks.Controllers
+@using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime
 @model HRworks.Models.paysavedlist
 
 @{
@@ -31,13 +32,16 @@
     <input type="submit"
            name="submit"
            value="Get records" ondblclick="norc()" class="btn btn-default" />
-
-    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Report", "Attendances")'" value="back to main" />
+    @if (ViewBag.payday != null)
+    {
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "payroles",new{month = @ViewBag.payday,refresh = true})'" value="Recalculate" />
+    }
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Report", "Attendances")'" value="Back to main" />
     @if (ViewBag.payday != null && User.IsInRole("super_admin"))
     {
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "payroles", new {month = @ViewBag.payday, save = "save"})'" value="save"/>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "payroles", new {month = @ViewBag.payday, save = "save"})'" value="Save" />
     }
-    </div>
+</div>
 }
 <table class="table">
     <tr style="font-size: 12px">
