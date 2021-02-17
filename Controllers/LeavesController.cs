@@ -696,11 +696,14 @@
             var listItems = new List<ListItem>
                                 {
                                     new ListItem { Text = "Annual", Value = "1" },
-                                    new ListItem { Text = "Sick", Value = "2" },
+                                    new ListItem { Text = "Sick(non industrial)", Value = "2" },
                                     new ListItem { Text = "Compassionate", Value = "3" },
                                     new ListItem { Text = "Maternity", Value = "4" },
                                     new ListItem { Text = "Haj", Value = "5" },
-                                    new ListItem { Text = "Unpaid", Value = "6" }
+                                    new ListItem { Text = "Unpaid", Value = "6" },
+                                    new ListItem { Text = "Sick(industrial)", Value = "7" },
+                                    new ListItem { Text = "UDDAH", Value = "8" },
+                                    new ListItem { Text = "Escape", Value = "9" }
                                 };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
@@ -739,11 +742,14 @@
             var listItems = new List<ListItem>
                                 {
                                     new ListItem { Text = "Annual", Value = "1" },
-                                    new ListItem { Text = "Sick", Value = "2" },
+                                    new ListItem { Text = "Sick(non industrial)", Value = "2" },
                                     new ListItem { Text = "Compassionate", Value = "3" },
                                     new ListItem { Text = "Maternity", Value = "4" },
                                     new ListItem { Text = "Haj", Value = "5" },
-                                    new ListItem { Text = "Unpaid", Value = "6" }
+                                    new ListItem { Text = "Unpaid", Value = "6" },
+                                    new ListItem { Text = "Sick(industrial)", Value = "7" },
+                                    new ListItem { Text = "UDDAH", Value = "8" },
+                                    new ListItem { Text = "Escape", Value = "9" }
                                 };
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
@@ -767,6 +773,12 @@
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             string serverfile;
             var leavelistc = this.db.Leaves.ToList();
+            if (leavelistc.Exists(x=>x.Start_leave>=leave.Start_leave && x.End_leave <= leave.End_leave && x.Employee_id == leave.Employee_id))
+            {
+                ModelState.AddModelError("Start_leave", "already exists");
+
+                goto jderr;
+            }
             if (leavelistc.Exists(x=>x.Start_leave<=leave.Start_leave && x.End_leave >= leave.End_leave && x.Employee_id == leave.Employee_id))
             {
                 ModelState.AddModelError("Start_leave", "already exists");
@@ -1257,12 +1269,14 @@
             var listItems = new List<ListItem>
                                 {
                                     new ListItem { Text = "Annual", Value = "1" },
-                                    new ListItem { Text = "Sick", Value = "2" },
+                                    new ListItem { Text = "Sick(non industrial)", Value = "2" },
                                     new ListItem { Text = "Compassionate", Value = "3" },
                                     new ListItem { Text = "Maternity", Value = "4" },
                                     new ListItem { Text = "Haj", Value = "5" },
                                     new ListItem { Text = "Unpaid", Value = "6" },
-                                    new ListItem { Text = "Other", Value = "7" }
+                                    new ListItem { Text = "Sick(industrial)", Value = "7" },
+                                    new ListItem { Text = "UDDAH", Value = "8" },
+                                    new ListItem { Text = "Escape", Value = "9" }
                                 };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text",leave.leave_type);
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
@@ -1293,12 +1307,14 @@
             var listItems = new List<ListItem>
                                 {
                                     new ListItem { Text = "Annual", Value = "1" },
-                                    new ListItem { Text = "Sick", Value = "2" },
+                                    new ListItem { Text = "Sick(non industrial)", Value = "2" },
                                     new ListItem { Text = "Compassionate", Value = "3" },
                                     new ListItem { Text = "Maternity", Value = "4" },
                                     new ListItem { Text = "Haj", Value = "5" },
                                     new ListItem { Text = "Unpaid", Value = "6" },
-                                    new ListItem { Text = "others", Value = "7" }
+                                    new ListItem { Text = "Sick(industrial)", Value = "7" },
+                                    new ListItem { Text = "UDDAH", Value = "8" },
+                                    new ListItem { Text = "Escape", Value = "9" }
                                 };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             ViewBag.search = search;

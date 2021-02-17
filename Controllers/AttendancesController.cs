@@ -520,7 +520,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 1);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -547,7 +547,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 2);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -574,7 +574,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 3);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -601,7 +601,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 4);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -628,7 +628,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 5);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -655,7 +655,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 6);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -682,7 +682,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 7);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -709,7 +709,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 8);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -736,7 +736,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 9);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -763,7 +763,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 10);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -790,7 +790,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 11);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -817,7 +817,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 12);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -844,7 +844,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 13);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -871,7 +871,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 14);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -898,7 +898,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 15);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -925,7 +925,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 16);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -952,7 +952,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 17);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -979,7 +979,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 18);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1006,7 +1006,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 19);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1033,7 +1033,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 20);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1060,7 +1060,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 21);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1087,7 +1087,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 22);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1114,7 +1114,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 23);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1141,7 +1141,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 24);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1168,7 +1168,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 25);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1195,7 +1195,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 26);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1222,7 +1222,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 27);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1249,7 +1249,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 28);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1276,7 +1276,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 29);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1303,7 +1303,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 30);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1330,7 +1330,7 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 31);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>

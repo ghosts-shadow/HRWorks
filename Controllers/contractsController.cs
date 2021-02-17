@@ -227,15 +227,18 @@
             Sheet.Cells["C1"].Value = "designation";
             Sheet.Cells["D1"].Value = "grade";
             Sheet.Cells["E1"].Value = "departmant project";
-            Sheet.Cells["F1"].Value = "salary_details";
+            Sheet.Cells["F1"].Value = "gross";
             Sheet.Cells["G1"].Value = "basic ";
             Sheet.Cells["H1"].Value = "housing allowance";
-            Sheet.Cells["I1"].Value = "IBAN";
-            Sheet.Cells["J1"].Value = "account_no";
-            Sheet.Cells["K1"].Value = "bank_name";
-            Sheet.Cells["L1"].Value = "img";
-            Sheet.Cells["Q1"].Value = "changed_by";
-            Sheet.Cells["R1"].Value = "date_changed";
+            Sheet.Cells["I1"].Value = "transportation allowance";
+            Sheet.Cells["J1"].Value = "FOT";
+            Sheet.Cells["K1"].Value = "food_allowance";
+            Sheet.Cells["L1"].Value = "living_allowance";
+            Sheet.Cells["M1"].Value = "others";
+            Sheet.Cells["N1"].Value = "arrears";
+            Sheet.Cells["O1"].Value = "img path";
+            Sheet.Cells["P1"].Value = "changed by";
+            Sheet.Cells["Q1"].Value = "date changed";
             var row = 2;
             foreach (var item in passexel)
             {
@@ -251,12 +254,11 @@
                 Sheet.Cells[string.Format("J{0}", row)].Value = this.Unprotect(item.FOT);
                 Sheet.Cells[string.Format("K{0}", row)].Value = this.Unprotect(item.food_allowance);
                 Sheet.Cells[string.Format("L{0}", row)].Value = this.Unprotect(item.living_allowance);
-                Sheet.Cells[string.Format("M{0}", row)].Value = this.Unprotect(item.transportation_allowance);
-                Sheet.Cells[string.Format("N{0}", row)].Value = this.Unprotect(item.others);
-                Sheet.Cells[string.Format("O{0}", row)].Value = this.Unprotect(item.arrears);
-                Sheet.Cells[string.Format("P{0}", row)].Value = item.imgpath;
-                Sheet.Cells[string.Format("Q{0}", row)].Value = item.changed_by;
-                Sheet.Cells[string.Format("R{0}", row)].Value = item.date_changed.ToString();
+                Sheet.Cells[string.Format("M{0}", row)].Value = this.Unprotect(item.others);
+                Sheet.Cells[string.Format("N{0}", row)].Value = this.Unprotect(item.arrears);
+                Sheet.Cells[string.Format("O{0}", row)].Value = item.imgpath;
+                Sheet.Cells[string.Format("P{0}", row)].Value = item.changed_by;
+                Sheet.Cells[string.Format("Q{0}", row)].Value = item.date_changed.ToString();
                 row++;
             }
 

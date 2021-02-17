@@ -15,7 +15,7 @@ namespace HRworks.Controllers
 
     using Microsoft.AspNet.Identity;
 
-    [Authorize(Roles = "super_admin,employee_con")]
+    [Authorize(Roles = "super_admin,employee_con,payrole")]
     public class contractloginsController : Controller
     {
         private HREntities db = new HREntities();
