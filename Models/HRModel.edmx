@@ -587,7 +587,11 @@
           <Property Name="employee_no" Type="int" Nullable="false" />
           <Property Name="employee_name" Type="nvarchar(max)" />
           <Property Name="Basic" Type="nvarchar(max)" />
+          <Property Name="CHouseAllow" Type="nvarchar(max)" />
+          <Property Name="CTransportationAllowance" Type="nvarchar(max)" />
+          <Property Name="CFoodAllow" Type="nvarchar(max)" />
           <Property Name="Gross" Type="nvarchar(max)" />
+          <Property Name="Grosstotal" Type="nvarchar(max)" />
           <Property Name="TicketAllowance " Type="nvarchar(max)" />
           <Property Name="Arrears" Type="nvarchar(max)" />
           <Property Name="totalpayable" Type="nvarchar(max)" />
@@ -615,6 +619,7 @@
           <Property Name="NetPay" Type="nvarchar(max)" />
           <Property Name="remarks" Type="nvarchar(max)" />
           <Property Name="forthemonth" Type="date" />
+          <Property Name="establishment" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="PROBATION_ASSESSMENT">
           <Key>
@@ -2949,6 +2954,11 @@
           <Property Name="NetPay" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="forthemonth" Type="DateTime" Precision="0" />
+          <Property Name="CHouseAllow" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CTransportationAllowance" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CFoodAllow" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Grosstotal" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="establishment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3749,6 +3759,11 @@
           <EntitySetMapping Name="payrollsaveds">
             <EntityTypeMapping TypeName="HRModel.payrollsaved">
               <MappingFragment StoreEntitySet="payrollsaved">
+                <ScalarProperty Name="establishment" ColumnName="establishment" />
+                <ScalarProperty Name="Grosstotal" ColumnName="Grosstotal" />
+                <ScalarProperty Name="CFoodAllow" ColumnName="CFoodAllow" />
+                <ScalarProperty Name="CTransportationAllowance" ColumnName="CTransportationAllowance" />
+                <ScalarProperty Name="CHouseAllow" ColumnName="CHouseAllow" />
                 <ScalarProperty Name="forthemonth" ColumnName="forthemonth" />
                 <ScalarProperty Name="remarks" ColumnName="remarks" />
                 <ScalarProperty Name="NetPay" ColumnName="NetPay" />
