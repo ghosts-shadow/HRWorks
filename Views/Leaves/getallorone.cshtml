@@ -197,10 +197,7 @@
 
         </td>
         <td>
-            @if (item.actualchangedby != "system")
-            {
                 @Html.DisplayFor(modelItem => item.Return_leave)
-            }
         </td>
         <td>
             @if (!item.actual_return_date.HasValue)
