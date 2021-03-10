@@ -46,10 +46,5 @@ namespace HRworks.Models
         public string NetPay { get; set; }
         public string remarks { get; set; }
         public Nullable<System.DateTime> forthemonth { get; set; }
-        public string CHouseAllow { get; set; }
-        public string CTransportationAllowance { get; set; }
-        public string CFoodAllow { get; set; }
-        public string Grosstotal { get; set; }
-        public string establishment { get; set; }
     }
 }
