@@ -50,7 +50,7 @@
                             this.db.SaveChanges();
                         }
              */
-            var eddate = DateTime.Now.Date;
+            var eddate = new DateTime(2020, 12, DateTime.DaysInMonth(2020, 12)); ;
             foreach (var empjd in emp_listfinal)
             {
                 var leaveballist = this.db.leavecals.ToList();
@@ -65,7 +65,7 @@
                     double lbal = 0;
                     var asf = empjd.date_joined;
                     var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
-                        x => x.Employee_id == Employee_id && x.Start_leave >= asf && x.End_leave <= eddate);
+                        x => x.Employee_id == Employee_id && x.Start_leave >= asf );
                     var times = eddate - asf;
                     if (times != null)
                     {
@@ -286,6 +286,7 @@
                 var leaveballist = this.db.leavecals.ToList();
                 var leavebal = new leavecal();
                 var Employee_id = empjd.employee_id;
+                eddate = new DateTime(2020, 12, DateTime.DaysInMonth(2020, 12));
                 if (Employee_id != null && eddate != null)
                 {
                     double unpaid = 0;
@@ -295,7 +296,7 @@
                     double lbal = 0;
                     var asf = empjd.date_joined;
                     var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
-                        x => x.Employee_id == Employee_id && x.Start_leave >= asf && x.End_leave <= eddate);
+                        x => x.Employee_id == Employee_id && x.Start_leave >= asf );
                     var times = eddate - asf;
                     if (times != null)
                     {
@@ -490,7 +491,8 @@
                 var leaveballist = this.db.leavecals.ToList();
                 var leavebal = new leavecal();
                 var Employee_id = master.employee_id;
-                if (Employee_id != null && eddate != null)
+                eddate= new DateTime(2020, 12, DateTime.DaysInMonth(2020, 12));
+            if (Employee_id != null && eddate != null)
                 {
                     double unpaid = 0;
                     double netperiod = 0;
@@ -499,7 +501,7 @@
                     double lbal = 0;
                     var asf = master.date_joined;
                     var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
-                        x => x.Employee_id == Employee_id && x.Start_leave >= asf && x.End_leave <= eddate);
+                        x => x.Employee_id == Employee_id && x.Start_leave >= asf );
                     var times = eddate - asf;
                     if (times != null)
                     {

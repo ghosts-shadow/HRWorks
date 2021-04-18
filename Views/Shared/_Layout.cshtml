@@ -158,22 +158,22 @@
                 @if (Request.IsAuthenticated)
                 {
 
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Employee Details</a>
-                    <ul class="dropdown-menu" style="background-color: #2c6faa; color: white">
-                        <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
-                        <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
-                        <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
-                        <li>@Html.ActionLink("Employee(Comman Details) ", "Index", "master_file")</li>
-                        <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
-                        <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
-                        <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
-                        @if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
-                        {
-                            <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
-                        }
-                    </ul>
-                </li>
+                   // <li class="dropdown">
+                     //   <a class="dropdown-toggle" data-toggle="dropdown" href="#">Employee Details</a>
+                     //   <ul class="dropdown-menu" style="background-color: #2c6faa; color: white">
+                     //   </ul>
+                    //</li>
+                    <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
+                    <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
+                    <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
+                    <li>@Html.ActionLink("Employee(Comman Details) ", "Index", "master_file")</li>
+                    <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
+                    <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
+                    <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
+                    if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
+                    {
+                        <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
+                    }
                     <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
                     <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
                     <li>@Html.ActionLink("attendance", "Index1", "hiks")</li>

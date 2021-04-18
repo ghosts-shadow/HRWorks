@@ -455,7 +455,7 @@ namespace HRworks.Controllers
                 else
                 {
                     mts_1 = db1.MainTimeSheets.Where(
-                        x => x.TMonth.Month == (month.Value.Month - 1) && x.TMonth.Year == (month.Value.Year - 1)
+                        x => x.TMonth.Month == (month.Value.Month - 1) && x.TMonth.Year == (month.Value.Year)
                                                                        && (x.ManPowerSupplier == 1 ||
                                                                            x.ManPowerSupplier == 8)).ToList();
                 }
@@ -515,10 +515,6 @@ namespace HRworks.Controllers
                             payr.Rstate = "C";
                         }
 
-                        if (payr.Rstate == "R")
-                        {
-                            goto R;
-                        }
 
 //                        var leave1 = db.Leaves.Where(
 //                            x => x.Employee_id == masterFile.employee_id && x.leave_type == "6"
