@@ -1,0 +1,156 @@
+﻿@using HRworks.Controllers
+@model IEnumerable<HRworks.Models.Wpsmodel>
+@{
+    var molnolist = new List<string>(){"549959" , "575203", "663119", "1115891"};
+    ViewBag.Title = "wpsprint";
+    var i = 0;
+}
+<style type="text/css" media="print">
+    .page0
+    {
+        -webkit-transform: rotate(-90deg); 
+        -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    .page1
+    {
+        -webkit-transform: rotate(-90deg); 
+        -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    .page2
+    {
+        -webkit-transform: rotate(-90deg); 
+        -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    .page3
+    {
+        -webkit-transform: rotate(-90deg); 
+        -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    th td {
+        padding: 2%
+    }
+</style>
+
+@foreach(var molno in molnolist)
+{
+    var srno = 0;
+    var classstring = "page" + i;
+    <div class="@classstring">
+        <div style="text-align: center; text-transform: uppercase; width: 100%">
+            company name:- citiscape<br/>mol id no:-@molno<br/>payroll of the month
+
+            @{
+                var payrollsavedForthemonth = Model.First().Payrollsaved.forthemonth;
+            }
+            @if (payrollsavedForthemonth != null)
+            {
+                @payrollsavedForthemonth.Value.ToString("M")
+            }
+        </div>
+        <table>
+            <tr style="text-transform: uppercase;">
+                <th rowspan="2">
+                    sr no
+                </th>
+                <th rowspan="2">
+                    name of the employee
+                </th>
+                <th rowspan="2">
+                    work permit no
+                </th>
+                <th rowspan="2">
+                    personal no
+                </th>
+                <th rowspan="2">
+                    bank name
+                </th>
+                <th rowspan="2">
+                    fab card no or iban for personal account
+                </th>
+                <th rowspan="2">
+                    no of days absent
+                </th>
+                <th colspan="3">
+                    employee's net salary
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    fixed portion
+                </th>
+                <th>
+                    variable portion
+                </th>
+                <th>
+                    total payment
+                </th>
+            </tr>
+            @foreach (var item in Model.Where(x =>x.LabourCard != null && x.LabourCard.establishment == molno))
+            {
+                <tr>@{
+                        srno++;
+                    }
+                    <td>@srno</td>
+                    @if (item.MasterFile != null)
+                    {
+                        <td>@item.MasterFile.employee_name</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    @if (item.LabourCard != null)
+                    {
+                        <td>@item.LabourCard.work_permit_no</td>
+                        <td>@item.LabourCard.personal_no</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                        <td></td>
+                    }
+                    @if (item.BankDetails != null)
+                    {
+                        <td>@item.BankDetails.bank_name</td>
+                        <td>@item.BankDetails.IBAN</td>
+                    }
+                    else
+                    {
+                        <td></td>
+                        <td></td>
+                    }
+                    <td>@item.Payrollsaved.Absents</td>
+                    <td>@{ int.TryParse(payrolesController.Unprotect(item.Payrollsaved.Gross), out var e);} @e.ToString("F")</td>
+                    <td>
+                        @{
+                            double a = 0, b = 0, c = 0;
+
+                            if (item.Payrollsaved.TotalOT != null)
+                            {
+                                double.TryParse(payrolesController.Unprotect(item.Payrollsaved.TotalOT), out a);
+                            }
+                            if (item.Payrollsaved.Arrears != null)
+                            {
+                                double.TryParse(payrolesController.Unprotect(item.Payrollsaved.Arrears), out b);
+                            }
+                            if (item.Payrollsaved.TicketAllowance_ != null)
+                            {
+                                double.TryParse(payrolesController.Unprotect(item.Payrollsaved.TicketAllowance_), out c);
+                            }
+                            var sum = a + b + c;
+                            @sum.ToString("F")
+
+                        }
+                    </td>
+                    <td>@{ int.TryParse(payrolesController.Unprotect(item.Payrollsaved.NetPay), out var d);} @d.ToString("F")</td>
+                </tr>
+            }
+        </table>
+
+    </div>
+    i++;
+}

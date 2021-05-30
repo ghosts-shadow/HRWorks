@@ -7,9 +7,6 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/favicon.ico")
-    <script src="https://kit.fontawesome.com/cfaa3617c9.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript">
         var i = 0;
         $(document).ready(function () {
@@ -54,89 +51,40 @@
         }
     </script>
     <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            margin-top: -45px;
-            font-size: 13px
+        table {
+            width: 100%;
+            background-color: #eeeeee;
+            border-collapse: collapse;
         }
 
-        .navbar-inverse {
-            border-color: #2c6faa
+        th, .navbar, .nav {
+            background-color: #2c6faa;
+            color: white;
         }
 
-            .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
-                color: #fff;
-                background-color: #1f4b74;
-            }
-
-        .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
-            color: #fff;
-            text-decoration: none;
-            background-color: #1f4b74;
+        th, tr, td {
+            border: 1px solid black !important;
+            padding: 0.3%
         }
 
-        th {
-            background-color: #2f5168 !important
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
         }
 
-        .navbar-inverse .navbar-nav > li > a {
-            color: #fff;
-        }
-
-        .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
-            margin-left: -15px;
-            color: #fff !important;
-        }
-
-            .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand:hover {
-                color: #fff;
-                background-color: #1f4b74;
-            }
-
-        .navbar-inverse .navbar-nav > li > a:focus, .navbar-inverse .navbar-nav > li > a:hover {
-            color: #fff;
-            background-color: #1f4b74;
-        }
-
-        .dropdown-menu > li > a {
-            display: block;
-            padding: 3px 20px;
-            clear: both;
-            font-weight: 400;
-            line-height: 1.42857143;
-            color: #fff !important;
-            white-space: nowrap;
-        }
-
-        .logo-image {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-top: -6px;
-        }
-
-        .img-fluid {
-            max-width: 100%;
-            height: auto;
-        }
-
-        .nav {
-            display: block !important;
-        }
-
-        .container-fluid {
-            display: block !important;
-        }
-
-        .navbar-nav .dropdown-menu {
-            position: absolute !important
+        .navbar-right {
+            margin-right: 0px
         }
     </style>
 </head>
 <body onload="" style="text-transform: capitalize; margin-left: 1%; margin-right: 1%">
-<div class="container-fluid">
-    <div class="navbar navbar-inverse navbar-fixed-top" style="position: relative; padding: 0px !important">
+
+    <div class="navbar navbar-inverse navbar-fixed-top" style="position: relative; top: -50px;padding: 0px !important">
         <div class="navbar-header">
             <button type="button"
                     class="navbar-toggle"
@@ -145,37 +93,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="@Url.Action("index","Home")">
-                <div class="logo-image">
-                    <img src="~/img/CITI SCAPE LOGO.png" class="img-fluid">
-                </div>
-                @Html.ActionLink("HRworks", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </a>
+            </button>@Html.ActionLink("HRworks", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
         </div>
-        <div class="navbar-collapse collapse" id="myNavbar">
+        <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav " style="font-size: 11px;">
                 @if (Request.IsAuthenticated)
                 {
-
-                   // <li class="dropdown">
-                     //   <a class="dropdown-toggle" data-toggle="dropdown" href="#">Employee Details</a>
-                     //   <ul class="dropdown-menu" style="background-color: #2c6faa; color: white">
-                     //   </ul>
-                    //</li>
                     <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
                     <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
                     <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
-                    <li>@Html.ActionLink("Employee(Comman Details) ", "Index", "master_file")</li>
+                    <li>@Html.ActionLink("Employee Details", "Index", "master_file")</li>
+                    <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
                     <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
+                    <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
                     <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
                     <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
-                    if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
-                    {
-                        <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
-                    }
-                    <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
-                    <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
                     <li>@Html.ActionLink("attendance", "Index1", "hiks")</li>
                     if (User.Identity.IsAuthenticated)
                     {
@@ -185,9 +117,10 @@
                         }
                         if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
                         {
-                            <li>@Html.ActionLink("payrole", "Report", "Attendances")</li>
+                            <li>@Html.ActionLink("payroll", "Report", "Attendances")</li>
                             <li>@Html.ActionLink("user name", "index", "usernames")</li>
                             <li>@Html.ActionLink("end of service", "EOSB", "end_of_service")</li>
+                            <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
                         }
                     }
 
@@ -196,7 +129,6 @@
             @Html.Partial("_LoginPartial")
         </div>
     </div>
-</div>
     <div class="body-content row" style="text-transform: capitalize; margin-left: 1%; margin-right: 1%; position: relative; top: 5%">
         @RenderBody()
         <hr />

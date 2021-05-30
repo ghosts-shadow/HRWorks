@@ -17,18 +17,18 @@
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("report")'" value="Individual Report " />
                 <br />
                 <br />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reportserch")'" value=" Balance inquiry" />
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reportserch")'" value=" Balance Inquiry" />
                 <br />
                 <br />
             </div>
             <div class="col-lg-4">
                 @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
                 {
-                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("getallorone")'" value="Change/Enter actual return date" />
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("getallorone")'" value="Change/Enter Actual Return Date" />
                 }
                 <br />
                 <br />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("mrv")'" value="Monthly Report" />
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("mrv")'" value="Periodic Report" />
             </div>
             <div class="col-lg-3">
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leave_absence_Index")'" value=" Absence Report" />

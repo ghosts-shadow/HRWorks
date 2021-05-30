@@ -44,11 +44,12 @@ namespace HRworks.Controllers
                 new SelectListItem() {Value = "ABU DHABI POST", Text = "ABU DHABI POST"},
                 new SelectListItem() {Value = "TASHEEL", Text = "TASHEEL"},
                 new SelectListItem() {Value = "TAWJEEH", Text = "TAWJEEH"},
+                new SelectListItem() {Value = "DUBAI ECONOMY", Text = "DUBAI ECONOMY"},
                 new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
                 new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
                 new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
                 new SelectListItem() {Value = "ANSARI EXCHANGE", Text = "ANSARI EXCHANGE"}
-            };
+            }.OrderBy(x => x.Value);
             ViewBag.expenses = new List<SelectListItem>()
             {
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
@@ -103,11 +104,12 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="RENEW WORK PERMIT", Text= "RENEW WORK PERMIT" },
                 new SelectListItem() { Value="RENEW SYSTEM", Text= "RENEW SYSTEM" },
                 new SelectListItem() { Value="VISA RENEWAL", Text= "VISA RENEWAL" },
+                new SelectListItem() { Value="OWNER PROCEDURES PRINT", Text= "OWNER PROCEDURES PRINT" },
                 new SelectListItem() { Value="NOQODI-ANSARI EXCHANGE", Text= "NOQODI-ANSARI EXCHANGE" },
                 new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
                 new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
                 new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
-            };
+            }.OrderBy(x=>x.Value);
             var eel = this.db.master_file.OrderBy(e => e.employee_no).ToList();
             var liste = new List<master_file>();
             foreach (var file in eel)
@@ -135,12 +137,13 @@ namespace HRworks.Controllers
                 new SelectListItem() {Value = "MUNICIPAL DEPARTMENT", Text = "MUNICIPAL DEPARTMENT"},
                 new SelectListItem() {Value = "ABU DHABI POST", Text = "ABU DHABI POST"},
                 new SelectListItem() {Value = "TASHEEL", Text = "TASHEEL"},
+                new SelectListItem() {Value = "DUBAI ECONOMY", Text = "DUBAI ECONOMY"},
                 new SelectListItem() {Value = "TAWJEEH", Text = "TAWJEEH"},
                 new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
                 new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
                 new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
                 new SelectListItem() {Value = "ANSARI EXCHANGE", Text = "ANSARI EXCHANGE"}
-            };
+            }.OrderBy(x => x.Value);
             ViewBag.expenses = new List<SelectListItem>()
             {
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
@@ -195,11 +198,12 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="RENEW WORK PERMIT", Text= "RENEW WORK PERMIT" },
                 new SelectListItem() { Value="RENEW SYSTEM", Text= "RENEW SYSTEM" },
                 new SelectListItem() { Value="VISA RENEWAL", Text= "VISA RENEWAL" },
+                new SelectListItem() { Value="OWNER PROCEDURES PRINT", Text= "OWNER PROCEDURES PRINT" },
                 new SelectListItem() { Value="NOQODI-ANSARI EXCHANGE", Text= "NOQODI-ANSARI EXCHANGE" },
                 new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
                 new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
                 new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
-            };
+            }.OrderBy(x => x.Value);
             var la = new liqiapproval();
             var errorlist = new List<string>();
             var refrlist = this.db.liquidation_ref.ToList();
@@ -519,12 +523,13 @@ namespace HRworks.Controllers
                 new SelectListItem() {Value = "MUNICIPAL DEPARTMENT", Text = "MUNICIPAL DEPARTMENT"},
                 new SelectListItem() {Value = "ABU DHABI POST", Text = "ABU DHABI POST"},
                 new SelectListItem() {Value = "TASHEEL", Text = "TASHEEL"},
+                new SelectListItem() {Value = "DUBAI ECONOMY", Text = "DUBAI ECONOMY"},
                 new SelectListItem() {Value = "TAWJEEH", Text = "TAWJEEH"},
                 new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
                 new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
                 new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
                 new SelectListItem() {Value = "ANSARI EXCHANGE", Text = "ANSARI EXCHANGE"}
-            };
+            }.OrderBy(x => x.Value);
             ViewBag.expenses = new List<SelectListItem>()
             {
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
@@ -579,11 +584,12 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="RENEW WORK PERMIT", Text= "RENEW WORK PERMIT" },
                 new SelectListItem() { Value="RENEW SYSTEM", Text= "RENEW SYSTEM" },
                 new SelectListItem() { Value="VISA RENEWAL", Text= "VISA RENEWAL" },
+                new SelectListItem() { Value="OWNER PROCEDURES PRINT", Text= "OWNER PROCEDURES PRINT" },
                 new SelectListItem() { Value="NOQODI-ANSARI EXCHANGE", Text= "NOQODI-ANSARI EXCHANGE" },
                 new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
                 new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
                 new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
-            };
+            }.OrderBy(x => x.Value);
             ViewBag.refr = new SelectList(db.liquidation_ref, "Id", "Id", liquidation.refr);
             return View(liquidation);
         }
@@ -617,11 +623,12 @@ namespace HRworks.Controllers
                 new SelectListItem() {Value = "ABU DHABI POST", Text = "ABU DHABI POST"},
                 new SelectListItem() {Value = "TASHEEL", Text = "TASHEEL"},
                 new SelectListItem() {Value = "TAWJEEH", Text = "TAWJEEH"},
+                new SelectListItem() {Value = "DUBAI ECONOMY", Text = "DUBAI ECONOMY"},
                 new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
                 new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
                 new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
                 new SelectListItem() {Value = "ANSARI EXCHANGE", Text = "ANSARI EXCHANGE"}
-            };
+            }.OrderBy(x => x.Value);
             ViewBag.expenses = new List<SelectListItem>()
             {
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
@@ -676,11 +683,12 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="RENEW WORK PERMIT", Text= "RENEW WORK PERMIT" },
                 new SelectListItem() { Value="RENEW SYSTEM", Text= "RENEW SYSTEM" },
                 new SelectListItem() { Value="VISA RENEWAL", Text= "VISA RENEWAL" },
+                new SelectListItem() { Value="OWNER PROCEDURES PRINT", Text= "OWNER PROCEDURES PRINT" },
                 new SelectListItem() { Value="NOQODI-ANSARI EXCHANGE", Text= "NOQODI-ANSARI EXCHANGE" },
                 new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
                 new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
                 new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
-            };
+            }.OrderBy(x => x.Value);
             ViewBag.refr = new SelectList(db.liquidation_ref, "Id", "Id", liquidation.refr);
             return View(liquidation);
         }

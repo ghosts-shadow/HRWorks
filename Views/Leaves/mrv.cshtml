@@ -34,7 +34,7 @@
 </script>
 <div class="row">
     <div class="col-md-5">
-        <h2>monthly report</h2>
+        <h2> periodic report</h2>
         <br/>
     </div>
     <div class="col-md-5" style="left: 50%">
@@ -105,6 +105,9 @@
             @Html.DisplayNameFor(model => model.End_leave)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.Areturn_leave)
+        </th>
+        <th>
             @Html.DisplayName("Days")
         </th>
     </tr>
@@ -151,10 +154,17 @@
                     @Html.DisplayFor(modelItem => item.End_leave)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Areturn_leave)
+                </td>
+                <td>
                     @{
-                        var daysins = item.End_leave - item.Start_leave;
-                        var days = daysins.Value.TotalDays +1;
-                    }@days
+                        if (item.End_leave != null && item.Start_leave != null)
+                        {
+                            var daysins = item.End_leave - item.Start_leave;
+                            var days = daysins.Value.TotalDays + 1;
+                            @days
+                        }
+                    }
                 </td>
             </tr>
         }
@@ -183,11 +193,17 @@
         @Html.DisplayFor(modelItem => item.End_leave)
     </td>
     <td>
+        @Html.DisplayFor(modelItem => item.Areturn_leave)
+    </td>
+    <td>
         @{
-            var daysins = item.End_leave - item.Start_leave;
-            var days = daysins.Value.TotalDays+1;
+            if (item.End_leave != null && item.Start_leave != null)
+            {
+                var daysins = item.End_leave - item.Start_leave;
+                var days = daysins.Value.TotalDays + 1;
+                @days
+            }
         }
-        @days
     </td>
 </tr>
         }

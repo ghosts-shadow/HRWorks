@@ -101,6 +101,12 @@
         annual leave taken = @ViewBag.aval 
     </div>
     <div>
+        Annual Leave Applied = @ViewBag.faval 
+    </div>
+    <div>
+        Annual Leave total = @ViewBag.taval 
+    </div>
+    <div>
         leave balance = @ViewBag.lbal 
     </div>
 </div>
@@ -172,7 +178,7 @@
                 }
                 @if (item.leave_type == "2")
                 {
-                    <i>Sick</i>
+                    <i>Sick(non industrial)</i>
                 }
                 @if (item.leave_type == "3")
                 {
@@ -192,11 +198,19 @@
                 }
                 @if (item.leave_type == "7")
                 {
-                    <i> others</i>
+                    <i> Sick(industrial)</i>
                 }
                 @if (item.leave_type == "8")
                 {
-                    <i>half - day</i>
+                    <i>UDDAH</i>
+                }
+                @if (item.leave_type == "9")
+                {
+                    <i>ESCORT</i>
+                }
+                @if (item.leave_type == "10")
+                {
+                    <i>PATERNITY</i>
                 }
             </td>
             <td>

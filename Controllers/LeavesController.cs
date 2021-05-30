@@ -50,7 +50,7 @@
                             this.db.SaveChanges();
                         }
              */
-            var eddate = new DateTime(2020, 12, DateTime.DaysInMonth(2020, 12)); ;
+            var eddate = new DateTime(DateTime.Now.Year, 12, DateTime.DaysInMonth(DateTime.Now.Year, 12)); ;
             foreach (var empjd in emp_listfinal)
             {
                 var leaveballist = this.db.leavecals.ToList();
@@ -97,7 +97,7 @@
                             }
 
                             double sick = 0;
-                            if (leaf.leave_type == "2")
+                            if (leaf.leave_type == "2" || leaf.leave_type == "7")
                             {
                                 if (leaf.days != null)
                                 {
@@ -222,6 +222,10 @@
                         netperiod = period - unpaid;
                         accrued = Math.Round(netperiod * 30 / 360);
                         lbal = accrued - avalied;
+                        if (lbal > 30)
+                        {
+                            lbal = 30;
+                        }
                         leavebal.leave_balance = lbal;
                         leavebal.period = period;
                         leavebal.anual_leave_taken = avalied;
@@ -234,6 +238,10 @@
                             var check = leaveballist.Find(x => x.Employee_id == empjd.employee_id);
                             leavebal = check;
                             lbal = accrued - avalied;
+                            if (lbal > 30)
+                            {
+                                lbal = 30;
+                            }
                             leavebal.leave_balance = lbal;
                             leavebal.period = period;
                             leavebal.anual_leave_taken = avalied;
@@ -286,7 +294,7 @@
                 var leaveballist = this.db.leavecals.ToList();
                 var leavebal = new leavecal();
                 var Employee_id = empjd.employee_id;
-                eddate = new DateTime(2020, 12, DateTime.DaysInMonth(2020, 12));
+                eddate = new DateTime(DateTime.Now.Year, 12, DateTime.DaysInMonth(DateTime.Now.Year, 12));
                 if (Employee_id != null && eddate != null)
                 {
                     double unpaid = 0;
@@ -453,6 +461,10 @@
                         netperiod = period - unpaid;
                         accrued = Math.Round(netperiod * 30 / 360);
                         lbal = accrued - avalied;
+                        if (lbal > 30)
+                        {
+                            lbal = 30;
+                        }
                         leavebal.leave_balance = lbal;
                         leavebal.period = period;
                         leavebal.anual_leave_taken = avalied;
@@ -465,6 +477,10 @@
                             var check = leaveballist.Find(x => x.Employee_id == empjd.employee_id);
                             leavebal = check;
                             lbal = accrued - avalied;
+                            if (lbal > 30)
+                            {
+                                lbal = 30;
+                            }
                             leavebal.leave_balance = lbal;
                             leavebal.period = period;
                             leavebal.anual_leave_taken = avalied;
@@ -658,7 +674,11 @@
                         netperiod = period - unpaid;
                         accrued = Math.Round(netperiod * 30 / 360);
                         lbal = accrued - avalied;
-                        leavebal.leave_balance = lbal;
+                        if (lbal > 30)
+                        {
+                            lbal = 30;
+                        }
+                    leavebal.leave_balance = lbal;
                         leavebal.period = period;
                         leavebal.anual_leave_taken = avalied;
                         leavebal.net_period = netperiod;
@@ -670,7 +690,11 @@
                             var check = leaveballist.Find(x => x.Employee_id == master.employee_id);
                             leavebal = check;
                             lbal = accrued - avalied;
-                            leavebal.leave_balance = lbal;
+                            if (lbal > 30)
+                            {
+                                lbal = 30;
+                            }
+                        leavebal.leave_balance = lbal;
                             leavebal.period = period;
                             leavebal.anual_leave_taken = avalied;
                             leavebal.net_period = netperiod;
@@ -705,7 +729,8 @@
                                     new ListItem { Text = "Unpaid", Value = "6" },
                                     new ListItem { Text = "Sick(industrial)", Value = "7" },
                                     new ListItem { Text = "UDDAH", Value = "8" },
-                                    new ListItem { Text = "Escape", Value = "9" }
+                                    new ListItem { Text = "ESCORT", Value = "9" },
+                                    new ListItem { Text = "PATERNITY ", Value = "10" }                                 
                                 };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
@@ -751,7 +776,8 @@
                                     new ListItem { Text = "Unpaid", Value = "6" },
                                     new ListItem { Text = "Sick(industrial)", Value = "7" },
                                     new ListItem { Text = "UDDAH", Value = "8" },
-                                    new ListItem { Text = "Escape", Value = "9" }
+                                    new ListItem { Text = "ESCORT", Value = "9" },
+                                    new ListItem { Text = "PATERNITY ", Value = "10" }
                                 };
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
@@ -1182,6 +1208,10 @@
                     netperiod = period - unpaid;
                     accrued = Math.Round(netperiod * 30 / 360);
                     lbal = accrued - avalied;
+                    if (lbal > 30)
+                    {
+                        lbal = 30;
+                    }
                     passexel = ump;
                 }
             }
@@ -1278,7 +1308,8 @@
                                     new ListItem { Text = "Unpaid", Value = "6" },
                                     new ListItem { Text = "Sick(industrial)", Value = "7" },
                                     new ListItem { Text = "UDDAH", Value = "8" },
-                                    new ListItem { Text = "Escape", Value = "9" }
+                                    new ListItem { Text = "ESCORT", Value = "9" },
+                                    new ListItem { Text = "PATERNITY ", Value = "10" },
                                 };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text",leave.leave_type);
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
@@ -1316,7 +1347,8 @@
                                     new ListItem { Text = "Unpaid", Value = "6" },
                                     new ListItem { Text = "Sick(industrial)", Value = "7" },
                                     new ListItem { Text = "UDDAH", Value = "8" },
-                                    new ListItem { Text = "Escape", Value = "9" }
+                                    new ListItem { Text = "ESCORT", Value = "9" },
+                                    new ListItem { Text = "PATERNITY ", Value = "10" }
                                 };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             ViewBag.search = search;
@@ -1596,7 +1628,7 @@
 
         public ActionResult report(long? Employee_id, DateTime? eddate)
         {
-            eddate = new DateTime(2020,12, DateTime.DaysInMonth(2020,12));
+            eddate = new DateTime(DateTime.Now.Year, 12, DateTime.DaysInMonth(DateTime.Now.Year, 12));
             ViewBag.Employee_id = Employee_id;
             ViewBag.eddate = eddate;
             var emp_listfinal = new List<master_file>();
@@ -1620,8 +1652,13 @@
             {
                 double unpaid = 0;
                 double netperiod = 0;
+                double netperiod1 = 0;
                 double accrued = 0;
+                double accrued2 = 0;
                 double avalied = 0;
+                double favalied = 0;
+                double actualavalable = 0;
+                double actualavalable2 = 0;
                 double lbal = 0;
                 double sick = 0;
                 double comp = 0;
@@ -1631,12 +1668,22 @@
                 var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
                     x => x.Employee_id == Employee_id && x.Start_leave >= asf );
                 var times = eddate - asf;
+                var eddate2 = new DateTime(2020, 12, DateTime.DaysInMonth(DateTime.Now.Year, 12));
+                var times3 = eddate2 - asf;
                 if (times != null)
                 {
                     var period = times.Value.TotalDays + 1;
+                    var period2 = times3.Value.TotalDays + 1;
                     var ump = leaves.ToList();
+                    var rdate = new DateTime();
                     foreach (var leaf in ump)
                     {
+                        if (leaf.Reference == null)
+                        {
+                            leaf.Reference = DateTime.Now.ToString("F");
+                        }
+
+                        rdate = Convert.ToDateTime(leaf.Reference);
                         if (leaf.leave_type == "6")
                         {
                             {
@@ -1653,7 +1700,7 @@
                             }
                         }
 
-                        if (leaf.leave_type == "2")
+                        if (leaf.leave_type == "2" || leaf.leave_type == "7")
                         {
                             {
                                 if (leaf.half)
@@ -1725,21 +1772,71 @@
                             {
                                 if (leaf.half)
                                 {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
+                                    if (leaf.Start_leave < new DateTime(2020,12,31))
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) actualavalable += times.Value.TotalDays + 1 - 0.5;
+
+                                    }
+                                    if (leaf.Start_leave > new DateTime(2020,12,31))
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) actualavalable2 += times.Value.TotalDays + 1 - 0.5;
+
+                                    }
+                                    var times2 = new TimeSpan?();
+                                    if (leaf.Start_leave > DateTime.Today)
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) favalied += times.Value.TotalDays + 1 - 0.5;
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
+                                    }
                                 }
                                 else
                                 {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) avalied += times.Value.TotalDays + 1;
+                                    if (leaf.Start_leave < new DateTime(2020, 12, 31))
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) actualavalable += times.Value.TotalDays + 1;
+
+                                    }
+                                    if (leaf.Start_leave > new DateTime(2020, 12, 31))
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) actualavalable2 += times.Value.TotalDays + 1;
+
+                                    }
+                                    var times2 = new TimeSpan?();
+                                    if (leaf.Start_leave > DateTime.Today)
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) favalied += times.Value.TotalDays + 1;
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (times != null) avalied += times.Value.TotalDays + 1;
+                                    }
                                 }
                             }
                         }
                     }
 
                     netperiod = period - unpaid;
+                    netperiod1 = period2 - unpaid;
                     accrued = Math.Round(netperiod * 30 / 360);
-                    lbal = accrued - avalied;
+                    accrued2 = Math.Round(netperiod1 * 30 / 360);
+                    var asasa = actualavalable;
+                    var asasa2 = actualavalable2;
+                    lbal = accrued - avalied - favalied;
+                    if (lbal > 30)
+                    {
+                        lbal = 30;
+                    }
                     this.ViewBag.mate = mate;
                     this.ViewBag.haj = haj;
                     this.ViewBag.sick = sick;
@@ -1747,6 +1844,8 @@
                     this.ViewBag.lbal = lbal;
                     this.ViewBag.per = period;
                     this.ViewBag.aval = avalied;
+                    this.ViewBag.faval = favalied;
+                    this.ViewBag.taval = favalied + avalied;
                     this.ViewBag.netp = netperiod;
                     this.ViewBag.ump = unpaid;
                     this.ViewBag.accr = accrued;
@@ -1980,7 +2079,8 @@
                                            con.designation,
                                            con.departmant_project,
                                            l.Start_leave,
-                                           l.End_leave
+                                           l.End_leave,
+                                           l.actual_return_date
                                        };
             var leavelist = this.db.Leaves.ToList();
             var listconleave = con_leave.OrderBy(x=>x.departmant_project).ToList();
@@ -1996,16 +2096,17 @@
                 clitem.departmant_project = cl.departmant_project;
                 clitem.Start_leave = cl.Start_leave;
                 clitem.End_leave = cl.End_leave;
+                clitem.Areturn_leave = cl.actual_return_date;
                 cllist.Add(clitem);
             }
 
             if (eddate.HasValue && !eddate1.HasValue)
             {
-                return this.View(cllist.Where(x => x.Start_leave >= eddate).OrderBy(x => x.departmant_project).ThenByDescending(x => x.Start_leave));
+                return this.View(cllist.Where(x => x.Start_leave >= eddate || x.Areturn_leave == null).OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));
             }
             if (eddate.HasValue && eddate1.HasValue)
             {
-                return this.View(cllist.Where(x => x.Start_leave >= eddate && x.Start_leave <= eddate1).OrderBy(x => x.departmant_project).ThenByDescending(x => x.Start_leave));
+                return this.View(cllist.Where(x => (x.Start_leave >= eddate && x.Start_leave <= eddate1) ||(x.Start_leave >= eddate && x.Start_leave <= eddate1 && x.Areturn_leave == null) || (x.Areturn_leave >= eddate && x.Areturn_leave <= eddate1) ).OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));
             }
             
             return this.View(new List<con_leavemodel>());

@@ -357,6 +357,7 @@ namespace HRworks.Controllers
                     payrole.TotalDedution = Protect(payrole.TotalDedution);
                 if (payrole.others != null && !IsBase64Encoded(payrole.others))
                     payrole.others = Protect(payrole.others);
+                payrole.save = payrole.save;
                 db.Entry(payrole).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index", new {month = payrole.forthemonth});
@@ -515,25 +516,29 @@ namespace HRworks.Controllers
                             payr.Rstate = "C";
                         }
 
+                        if (payr.Rstate == "R")
+                        {
+                            goto R;
+                        }
 
-//                        var leave1 = db.Leaves.Where(
-//                            x => x.Employee_id == masterFile.employee_id && x.leave_type == "6"
-//                                                                         && x.Start_leave >= payr.forthemonth
-//                                                                         && x.Start_leave <= endmo
-//                                                                         && x.End_leave >= payr.forthemonth
-//                                                                         && x.End_leave <= endmo).ToList();
-//                        var leave1 = db.Leaves.Where(
-//                            x => x.Employee_id == masterFile.employee_id && x.leave_type == "6"
-//                                                                         && x.Start_leave <= payr.forthemonth
-//                                                                         && x.End_leave >= payr.forthemonth).ToList();
-//                        var leave2 = db.Leaves.Where(
-//                            x => x.Employee_id == masterFile.employee_id && x.Start_leave >= payr.forthemonth
-//                                                                         && x.Start_leave <= endmo
-//                                                                        && x.End_leave >= payr.forthemonth
-//                                                                         && x.End_leave <= endmo).ToList();
-//                        var leave2 = db.Leaves.Where(
-//                            x => x.Employee_id == masterFile.employee_id && x.Start_leave <= payr.forthemonth
-//                                                                         && x.End_leave >= payr.forthemonth).ToList();
+                        //                        var leave1 = db.Leaves.Where(
+                        //                            x => x.Employee_id == masterFile.employee_id && x.leave_type == "6"
+                        //                                                                         && x.Start_leave >= payr.forthemonth
+                        //                                                                         && x.Start_leave <= endmo
+                        //                                                                         && x.End_leave >= payr.forthemonth
+                        //                                                                         && x.End_leave <= endmo).ToList();
+                        //                        var leave1 = db.Leaves.Where(
+                        //                            x => x.Employee_id == masterFile.employee_id && x.leave_type == "6"
+                        //                                                                         && x.Start_leave <= payr.forthemonth
+                        //                                                                         && x.End_leave >= payr.forthemonth).ToList();
+                        //                        var leave2 = db.Leaves.Where(
+                        //                            x => x.Employee_id == masterFile.employee_id && x.Start_leave >= payr.forthemonth
+                        //                                                                         && x.Start_leave <= endmo
+                        //                                                                        && x.End_leave >= payr.forthemonth
+                        //                                                                         && x.End_leave <= endmo).ToList();
+                        //                        var leave2 = db.Leaves.Where(
+                        //                            x => x.Employee_id == masterFile.employee_id && x.Start_leave <= payr.forthemonth
+                        //                                                                         && x.End_leave >= payr.forthemonth).ToList();
                         var leavedate1 = new DateTime();
                         if (payr.forthemonth.Value.Month == 1)
                         {
@@ -1294,7 +1299,7 @@ namespace HRworks.Controllers
 
                             if (leavedate.Month == 1)
                             {
-                                leavedate = new DateTime(month.Value.Year-1, 12, 21);
+                                leavedate = new DateTime(month.Value.Year - 1, 12, 21);
                             }
                             else
                             {
@@ -1770,7 +1775,7 @@ namespace HRworks.Controllers
 
                             if (leavedate.Month == 1)
                             {
-                                leavedate = new DateTime(month.Value.Year-1, 12, 21);
+                                leavedate = new DateTime(month.Value.Year - 1, 12, 21);
                             }
                             else
                             {
@@ -2278,7 +2283,7 @@ namespace HRworks.Controllers
 
                             if (leavedate.Month == 1)
                             {
-                                leavedate = new DateTime(month.Value.Year-1, 12, 21);
+                                leavedate = new DateTime(month.Value.Year - 1, 12, 21);
                             }
                             else
                             {
@@ -2488,7 +2493,7 @@ namespace HRworks.Controllers
                         payr.Rstate = "R";
                         var ant = 0d;
                         var m = 0d;
-                        if (payr.OTNight != null  && IsBase64Encoded(payr.OTNight))
+                        if (payr.OTNight != null && IsBase64Encoded(payr.OTNight))
                             double.TryParse(Unprotect(payr.OTNight), out ant);
                         else
                             payr.OTNight = "0";
@@ -2610,6 +2615,11 @@ namespace HRworks.Controllers
                         else
                             payr.save = true;
                         Edit(payr, "edit");
+                        R:;
+                        if (payr.Rstate == "R")
+                        {
+                            paylist.Add(payr);
+                        }
                         sav: ;
                         if (!save.IsNullOrWhiteSpace())
                         {
@@ -2618,31 +2628,61 @@ namespace HRworks.Controllers
                                 x.forthemonth == payr.forthemonth && x.employee_no == payr.master_file.employee_no))
                                 goto save_end;
                             var paysave = new payrollsaved();
-                            double.TryParse(Unprotect(payr.HolidayOT), out var b1);
-                            var bas = Unprotect(payr.contract.basic);
-                            double.TryParse(bas, out var bas1);
-                            var basperh1 = bas1 * 12 / 365 / 8;
-                            var bdays = b1;
-                            b1 = b1 * 2.5 * basperh1;
-                            double.TryParse(Unprotect(payr.OTFriday), out var c1);
-                            var cdays1 = c1;
-                            c1 = c1 * 1.5 * basperh1;
-                            double.TryParse(Unprotect(payr.OTRegular), out var a1);
-                            var adays1 = a1;
-                            a1 = a1 * 1.25 * basperh1;
-                            paysave.employee_no = payr.master_file.employee_no;
-                            if (payr.master_file.labour_card.Last() != null)
+                            if (payr.master_file != null)
                             {
-                                paysave.establishment = payr.master_file.labour_card.Last().establishment;
+                                paysave.employee_no = payr.master_file.employee_no;
+                                paysave.employee_name = payr.master_file.employee_name;
+                                if (payr.master_file.labour_card.Count > 0)
+                                {
+                                    paysave.establishment = payr.master_file.labour_card.Last().establishment;
+                                }
                             }
 
-                            paysave.employee_name = payr.master_file.employee_name;
-                            paysave.Basic = payr.contract.basic;
-                            paysave.CHouseAllow = payr.contract.housing_allowance;
-                            paysave.CTransportationAllowance = payr.contract.transportation_allowance;
-                            paysave.CFoodAllow = payr.contract.food_allowance;
-                            paysave.Gross = payr.contract.salary_details;
-                            paysave.Grosstotal = payr.contract.salary_details + payr.TotalOT;
+                            var a1 = 0d;
+                            var b1 = 0d;
+                            var c1 = 0d;
+                            if (payr.contract != null)
+                            {
+                                if (payr.HolidayOT != null)
+                                {
+                                    double.TryParse(Unprotect(payr.HolidayOT), out b1);
+                                }
+                                if (payr.contract != null)
+                                {
+                                    var bas = Unprotect(payr.contract.basic);
+                                    double.TryParse(bas, out var bas1);
+                                    var basperh1 = bas1 * 12 / 365 / 8;
+                                    var bdays = b1;
+                                    b1 = b1 * 2.5 * basperh1;
+                                    if (payr.HolidayOT != null)
+                                    {
+                                        double.TryParse(Unprotect(payr.OTFriday), out c1);
+                                    }
+                                    var cdays1 = c1;
+                                    c1 = c1 * 1.5 * basperh1;
+                                    if (payr.HolidayOT != null)
+                                    {
+                                        double.TryParse(Unprotect(payr.OTRegular), out a1);
+                                    }
+                                    var adays1 = a1;
+                                    a1 = a1 * 1.25 * basperh1;
+                                }
+                                if (payr.contract.basic != null)
+                                    paysave.Basic = payr.contract.basic;
+                                if (payr.contract.housing_allowance != null)
+                                    paysave.CHouseAllow = payr.contract.housing_allowance;
+                                if (payr.contract.transportation_allowance != null)
+                                    paysave.CTransportationAllowance = payr.contract.transportation_allowance;
+                                if (payr.contract.food_allowance != null)
+                                    paysave.CFoodAllow = payr.contract.food_allowance;
+                                if (payr.contract.salary_details != null)
+                                {
+                                    paysave.Gross = payr.contract.salary_details;
+                                    paysave.Grosstotal = payr.contract.salary_details + payr.TotalOT;
+
+                                }
+                                
+                            }
                             paysave.TicketAllowance_ = payr.TicketAllowance_;
                             paysave.Arrears = payr.Arrears;
                             paysave.totalpayable = payr.totalpayable;
@@ -2679,15 +2719,12 @@ namespace HRworks.Controllers
                             paysave.NetPay = payr.NetPay;
                             paysave.remarks = payr.remarks;
                             paysave.forthemonth = payr.forthemonth;
+                            payr.save = true;
+                            db.Entry(payr).State = EntityState.Modified;
+                            db.SaveChanges();
                             db.payrollsaveds.Add(paysave);
                             db.SaveChanges();
                             save_end: ;
-                        }
-
-                        R: ;
-                        if (payr.Rstate == "R")
-                        {
-                            paylist.Add(payr);
                         }
                     }
                     else
@@ -2744,14 +2781,14 @@ namespace HRworks.Controllers
                             {
                                 var leave1_1 = db.Leaves.Where(
                                     x => x.Employee_id == masterFile.employee_id && x.leave_type == "6"
-                                                                                 && x.Start_leave <= leavedate1
-                                                                                 && x.End_leave >= leavedate1).ToList();
+                                        && x.Start_leave <= leavedate1
+                                        && x.End_leave >= leavedate1).ToList();
                                 var leave2_1 = db.Leaves.Where(
                                     x => x.Employee_id == masterFile.employee_id && x.Start_leave <= leavedate1
-                                                                                 && x.End_leave >= leavedate1).ToList();
+                                        && x.End_leave >= leavedate1).ToList();
                                 var abslist1_1 = db.leave_absence.Where(
                                     x => x.Employee_id == masterFile.employee_id && x.fromd <= leavedate1
-                                                                                 && x.tod >= leavedate1).ToList();
+                                        && x.tod >= leavedate1).ToList();
                                 foreach (var leaf in leave1_1)
                                     if (!leave1.Exists(x => x.Id == leaf.Id))
                                         leave1.Add(leaf);
@@ -3482,7 +3519,7 @@ namespace HRworks.Controllers
 
                                 if (leavedate.Month == 1)
                                 {
-                                    leavedate = new DateTime(month.Value.Year-1, 12, 21);
+                                    leavedate = new DateTime(month.Value.Year - 1, 12, 21);
                                 }
                                 else
                                 {
@@ -3503,7 +3540,7 @@ namespace HRworks.Controllers
 
                                 if (leavedate.Month == 1)
                                 {
-                                    leavedate = new DateTime(month.Value.Year-1, 12, 21);
+                                    leavedate = new DateTime(month.Value.Year - 1, 12, 21);
                                 }
                                 else
                                 {
@@ -3979,7 +4016,7 @@ namespace HRworks.Controllers
 
                                 if (leavedate.Month == 1)
                                 {
-                                    leavedate = new DateTime(month.Value.Year-1, 12, 21);
+                                    leavedate = new DateTime(month.Value.Year - 1, 12, 21);
                                 }
                                 else
                                 {
@@ -4487,7 +4524,7 @@ namespace HRworks.Controllers
 
                                 if (leavedate.Month == 1)
                                 {
-                                    leavedate = new DateTime(month.Value.Year-1, 12, 21);
+                                    leavedate = new DateTime(month.Value.Year - 1, 12, 21);
                                 }
                                 else
                                 {
@@ -4741,7 +4778,7 @@ namespace HRworks.Controllers
                             payr.TotalDedution = TLWOP.ToString();
                             double.TryParse(payr.TotalDedution, out var c10);
                             if (labs + ldays >= DateTime.DaysInMonth(payr.forthemonth.Value.Year,
-                                    payr.forthemonth.Value.Month))
+                                payr.forthemonth.Value.Month))
                                 payr.NetPay = 0.ToString();
                             else
                                 payr.NetPay = (a + b - c10).ToString();
@@ -5098,6 +5135,7 @@ namespace HRworks.Controllers
                 {
                     Sheet.Cells[string.Format("N{0}", row)].Value = Unprotect(item.OTNight);
                 }
+
                 Sheet.Cells[string.Format("O{0}", row)].Value = Unprotect(item.TotalOT);
                 if (item.cashAdvances != null)
                 {
@@ -5178,6 +5216,60 @@ namespace HRworks.Controllers
             Response.AddHeader("content-disposition", "filename = payroll.xlsx");
             Response.BinaryWrite(Ep.GetAsByteArray());
             Response.End();
+        }
+
+        public ActionResult wpsprint(DateTime? month)
+        {
+            var wpslist = new List<Wpsmodel>();
+            if (month.HasValue)
+            {
+                var payrolllist = db.payrollsaveds.ToList();
+                var labourcardlist = db.labour_card.ToList();
+                var masterfilelist = db.master_file.ToList();
+                var banklist = db.bank_details.ToList();
+                var parollformonth = payrolllist.FindAll(x =>
+                    x.forthemonth.Value.Year == month.Value.Year && x.forthemonth.Value.Month == month.Value.Month);
+                var i = 0;
+                foreach (var pa in parollformonth)
+                {
+                    var new_wps = new Wpsmodel();
+                    var mf = masterfilelist.FindAll(x => x.employee_no == pa.employee_no)
+                        .OrderByDescending(x => x.date_changed).ToList();
+                    var lc = labourcardlist.FindAll(x => x.emp_no == mf.First().employee_id)
+                        .OrderByDescending(x => x.date_changed).ToList();
+                    var bd = banklist.FindAll(x => x.employee_no == mf.First().employee_id)
+                        .OrderByDescending(x => x.Employee_Id).ToList();
+                    i++;
+                    new_wps.srno = i;
+                    if (bd.Count > 0)
+                    {
+                        new_wps.BankDetails = bd.First();
+                        new_wps.BankDetailsid = bd.First().Employee_Id;
+                    }
+
+                    if (mf.Count > 0)
+                    {
+                        new_wps.MasterFile = mf.First();
+                        new_wps.MasterFileid = mf.First().employee_id;
+                    }
+
+
+                    if (lc.Count > 0)
+                    {
+                        new_wps.LabourCard = lc.First();
+                        new_wps.LabourCardid = lc.First().employee_id;
+                    }
+
+                    new_wps.Payrollsaved = pa;
+                    new_wps.Payrollsavedid = pa.Id;
+
+                    wpslist.Add(new_wps);
+                }
+
+                return View(wpslist.OrderBy(x=>x.srno));
+            }
+
+            return View(wpslist);
         }
 
         protected override void Dispose(bool disposing)

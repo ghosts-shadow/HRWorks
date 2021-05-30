@@ -4,6 +4,7 @@
 
 @{
     ViewBag.Title = "Index";
+    var newdate = new DateTime(2021, 3, 1);
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -29,19 +30,27 @@
 <div>
     month:-
     <input type="text" name="month" id="datepicker" class="form-control" value="@if(ViewBag.payday != null){@ViewBag.payday.ToString("d")}" />
-    
+
     <input type="submit"
            name="submit"
            value="Get records" ondblclick="norc()" class="btn btn-default" />
     @if (ViewBag.payday != null)
     {
         <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel", new{ViewBag.payday})'" value="Download Excel" />
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "payroles",new{month = @ViewBag.payday,refresh = "C"})'" value="Recalculate" />
+        if (!Model.Payrollsaved.Any() && Model.Payroll.Count() != 0)
+        {
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "payroles",new{month = @ViewBag.payday,refresh = "C"})'" value="Recalculate" />
+        }
+
     }
     <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Report", "Attendances")'" value="Back to main" />
-    @if (ViewBag.payday != null && User.IsInRole("super_admin"))
+    @if (ViewBag.payday != null && User.IsInRole("super_admin") && Model.Payroll.Count() != 0)
     {
         <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "payroles", new {month = @ViewBag.payday, save = "save"})'" value="Save" />
+    }
+    @if (ViewBag.payday != null && Model.Payrollsaved.Count() != 0)
+    {
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("wpsprint", "payroles", new {month = @newdate})'" value="wps" />
     }
 </div>
 }
@@ -510,8 +519,7 @@
                         ldays = (double)item.LWOP;
                     }
 
-                    double.TryParse(payrolesController.Unprotect(item.Fot), out var e);
-                    
+                    double.TryParse("0", out var e);
                 }
                 @e.ToString("#,##0.00")
             </td>

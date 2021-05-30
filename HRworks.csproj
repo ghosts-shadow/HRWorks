@@ -433,6 +433,7 @@
     <Compile Include="Models\visa_and_labour_card.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\wpsmodel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -804,6 +805,7 @@
     <Content Include="Views\Leaves\getallonleave.cshtml" />
     <Content Include="Views\Attendances\notintimesheet.cshtml" />
     <Content Include="Views\rolesetting\settingrole.cshtml" />
+    <Content Include="Views\payroles\wpsprint.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

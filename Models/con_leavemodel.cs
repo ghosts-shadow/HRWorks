@@ -26,6 +26,10 @@ namespace HRworks.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> End_leave { get; set; }
 
+        [Display(Name = "actual return date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
+        public Nullable<System.DateTime> Areturn_leave { get; set; }
+
         [Display(Name = "Employee NO")]
         public int employee_no { get; set; }
 
