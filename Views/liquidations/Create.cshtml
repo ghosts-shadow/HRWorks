@@ -115,7 +115,7 @@
             for (var i = 0; i < counter; i++) {
                 var num = 0;
                 var a = $("#invoice_amount" + i).val() == '' ? 0 : $("#invoice_amount" + i).val();
-                total1 = total1 + parseFloat(a);
+                total1 = total1 + parseFloat(a).toFixed(2);
             }
             $("#totalq").html(total1);
             $("#tt").html("<br/>" + total1);

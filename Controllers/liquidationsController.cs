@@ -108,7 +108,8 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="NOQODI-ANSARI EXCHANGE", Text= "NOQODI-ANSARI EXCHANGE" },
                 new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
                 new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
-                new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
+                new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" },
+                new SelectListItem() {Value = "ID CARD RENEWAL", Text = "ID CARD RENEWAL"},
             }.OrderBy(x=>x.Value);
             var eel = this.db.master_file.OrderBy(e => e.employee_no).ToList();
             var liste = new List<master_file>();
@@ -202,7 +203,8 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="NOQODI-ANSARI EXCHANGE", Text= "NOQODI-ANSARI EXCHANGE" },
                 new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
                 new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
-                new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
+                new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" },
+                new SelectListItem() {Value = "ID CARD RENEWAL", Text = "ID CARD RENEWAL"},
             }.OrderBy(x => x.Value);
             var la = new liqiapproval();
             var errorlist = new List<string>();
@@ -588,7 +590,8 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="NOQODI-ANSARI EXCHANGE", Text= "NOQODI-ANSARI EXCHANGE" },
                 new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
                 new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
-                new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
+                new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" },
+                new SelectListItem() {Value = "ID CARD RENEWAL", Text = "ID CARD RENEWAL"},
             }.OrderBy(x => x.Value);
             ViewBag.refr = new SelectList(db.liquidation_ref, "Id", "Id", liquidation.refr);
             return View(liquidation);
@@ -687,7 +690,8 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="NOQODI-ANSARI EXCHANGE", Text= "NOQODI-ANSARI EXCHANGE" },
                 new SelectListItem() { Value="RENEW RESIDENCE", Text= "RENEW RESIDENC" },
                 new SelectListItem() { Value="RENEW ESTABLISHMENTS", Text= "RENEW ESTABLISHMENTS" },
-                new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" }
+                new SelectListItem() { Value="RENEW ELECTRONIC WORK PERMIT", Text= "RENEW ELECTRONIC WORK PERMIT" },
+                new SelectListItem() {Value = "ID CARD RENEWAL", Text = "ID CARD RENEWAL"},
             }.OrderBy(x => x.Value);
             ViewBag.refr = new SelectList(db.liquidation_ref, "Id", "Id", liquidation.refr);
             return View(liquidation);
