@@ -41,6 +41,7 @@ namespace HRworks.Controllers
             {
                 passexel = db.labour_card.Include(p => p.master_file).ToList();
             }
+
             ExcelPackage Ep = new ExcelPackage();
             ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("labour_card".ToUpper());
             Sheet.Cells["A1"].Value = "employee no";
@@ -56,7 +57,6 @@ namespace HRworks.Controllers
             int row = 2;
             foreach (var item in passexel)
             {
-
                 Sheet.Cells[string.Format("A{0}", row)].Value = item.master_file.employee_no;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.master_file.employee_name;
                 Sheet.Cells[string.Format("C{0}", row)].Value = item.work_permit_no;
@@ -69,6 +69,7 @@ namespace HRworks.Controllers
                 Sheet.Cells[string.Format("J{0}", row)].Value = item.date_changed;
                 row++;
             }
+
             Sheet.Cells["A:AZ"].AutoFitColumns();
             Response.Clear();
             Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -93,11 +94,11 @@ namespace HRworks.Controllers
 
             ViewBag.PageSize = new List<SelectListItem>()
             {
-                new SelectListItem() { Value="10", Text= "10" },
-                new SelectListItem() { Value="15", Text= "15" },
-                new SelectListItem() { Value="25", Text= "25" },
-                new SelectListItem() { Value="50", Text= "50" },
-                new SelectListItem() { Value="100", Text= "100" },
+                new SelectListItem() {Value = "10", Text = "10"},
+                new SelectListItem() {Value = "15", Text = "15"},
+                new SelectListItem() {Value = "25", Text = "25"},
+                new SelectListItem() {Value = "50", Text = "50"},
+                new SelectListItem() {Value = "100", Text = "100"},
             };
             ViewBag.pagesize = defaSize;
             IPagedList<labour_card> passlist = null;
@@ -122,6 +123,7 @@ namespace HRworks.Controllers
                         }
                     }
                 }
+
                 if (ab.Count != 1)
                 {
                     if (ab[--j] != ab[i = i - 2])
@@ -145,7 +147,8 @@ namespace HRworks.Controllers
                 if (int.TryParse(search, out idk))
                 {
                     ab = db.labour_card
-                        .Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed)
+                        .Where(x => x.master_file.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/)
+                        .OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed)
                         .ToList();
                 }
                 else
@@ -153,7 +156,8 @@ namespace HRworks.Controllers
                     ab = db.labour_card
                         .Where(
                             x => x.master_file.employee_name
-                                .Contains(search) /*.Contains(search) /*.StartsWith(search)*/).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
+                                .Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
+                        .OrderBy(x => x.master_file.employee_no).ThenBy(x => x.date_changed).ToList();
                 }
 
                 if (ab.Count != 0)
@@ -201,11 +205,13 @@ namespace HRworks.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             labour_card labour_card = db.labour_card.Find(id);
             if (labour_card == null)
             {
                 return HttpNotFound();
             }
+
             return View(labour_card);
         }
 
@@ -216,7 +222,8 @@ namespace HRworks.Controllers
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
             ViewBag.emp_no = new SelectList(db.master_file.OrderBy(e => e.employee_no), "employee_id", "employee_no");
-            ViewBag.emp_no1 = new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
+            ViewBag.emp_no1 =
+                new SelectList(db.master_file.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View();
         }
 
@@ -226,7 +233,7 @@ namespace HRworks.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "super_admin,admin,payrole,employee_VLC")]
-        public ActionResult Create( labour_card labour_card, HttpPostedFileBase fileBase)
+        public ActionResult Create(labour_card labour_card, HttpPostedFileBase fileBase)
         {
             string serverfile;
             if (fileBase != null)
@@ -235,13 +242,15 @@ namespace HRworks.Controllers
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
                 DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/labour_card/" + fileexe);
-                serverfile = "D:/HR/img/labour_card/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
-                filepath = Directory.CreateDirectory(serverfile); int i = 0;
+                serverfile = "D:/HR/img/labour_card/" + a.employee_no; /*+ "/"+ passport.employee_no + fileexe;*/
+                filepath = Directory.CreateDirectory(serverfile);
+                int i = 0;
                 do
                 {
                     serverfile = "D:/HR/img/labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/img/labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile =
+                    "D:/HR/img/labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -249,6 +258,7 @@ namespace HRworks.Controllers
             {
                 serverfile = null;
             }
+
             if (ModelState.IsValid)
             {
                 var img = new labour_card();
@@ -261,6 +271,12 @@ namespace HRworks.Controllers
                 img.imgpath = serverfile;
                 img.changed_by = User.Identity.Name;
                 img.date_changed = DateTime.Now;
+                var master = new master_file();
+                master = db.master_file.Find(labour_card.emp_no);
+                if (master.visas.Count != 0)
+                {
+                    labour_card.master_file.status = "active";
+                }
                 db.labour_card.Add(img);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -280,11 +296,13 @@ namespace HRworks.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             labour_card labour_card = db.labour_card.Find(id);
             if (labour_card == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.emp_no = new SelectList(db.master_file, "employee_id", "employee_name", labour_card.emp_no);
             return View(labour_card);
         }
@@ -295,7 +313,7 @@ namespace HRworks.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "super_admin,admin,payrole,employee_VLC")]
-        public ActionResult Edit( labour_card labour_card, HttpPostedFileBase fileBase)
+        public ActionResult Edit(labour_card labour_card, HttpPostedFileBase fileBase)
         {
             string serverfile;
             if (fileBase != null)
@@ -304,13 +322,15 @@ namespace HRworks.Controllers
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
                 DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/labour_card/" + fileexe);
-                serverfile = "D:/HR/img/labour_card/" + a.employee_no;/*+ "/"+ passport.employee_no + fileexe;*/
-                filepath = Directory.CreateDirectory(serverfile); int i = 0;
+                serverfile = "D:/HR/img/labour_card/" + a.employee_no; /*+ "/"+ passport.employee_no + fileexe;*/
+                filepath = Directory.CreateDirectory(serverfile);
+                int i = 0;
                 do
                 {
                     serverfile = "D:/HR/img/labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/img/labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile =
+                    "D:/HR/img/labour_card/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -318,6 +338,7 @@ namespace HRworks.Controllers
             {
                 serverfile = null;
             }
+
             if (ModelState.IsValid)
             {
                 var img = new labour_card();
@@ -334,6 +355,7 @@ namespace HRworks.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
             ViewBag.emp_no = new SelectList(db.master_file, "employee_id", "employee_no");
             ViewBag.emp_no1 = new SelectList(db.master_file, "employee_id", "employee_name");
@@ -348,11 +370,13 @@ namespace HRworks.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             labour_card labour_card = db.labour_card.Find(id);
             if (labour_card == null)
             {
                 return HttpNotFound();
             }
+
             return View(labour_card);
         }
 
@@ -374,6 +398,7 @@ namespace HRworks.Controllers
             {
                 db.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

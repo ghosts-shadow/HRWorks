@@ -1784,6 +1784,7 @@
                 double avalied = 0;
                 double avalied1 = 0;
                 double favalied = 0;
+                double favalied1 = 0;
                 double lbal = 0;
                 double lbal1 = 0;
                 double sick = 0;
@@ -1896,11 +1897,15 @@
                             {
                                 if (leaf.half)
                                 {
-                                    if (leaf.Start_leave > DateTime.Today &&
-                                        leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                    if (leaf.Start_leave > DateTime.Today)
                                     {
                                         times = leaf.End_leave - leaf.Start_leave;
                                         if (times != null) favalied += times.Value.TotalDays + 1 - 0.5;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) favalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                        }
                                     }
                                     else
                                     {
@@ -1915,11 +1920,15 @@
                                 }
                                 else
                                 {
-                                    if (leaf.Start_leave > DateTime.Today &&
-                                        leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                    if (leaf.Start_leave > DateTime.Today)
                                     {
                                         times = leaf.End_leave - leaf.Start_leave;
                                         if (times != null) favalied += times.Value.TotalDays + 1;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) favalied1 += times1.Value.TotalDays + 1;
+                                        }
                                     }
                                     else
                                     {
@@ -1939,13 +1948,13 @@
                     netperiod = period - unpaid;
                     accrued = Math.Round(netperiod * 30 / 360);
                     accrued1 = 30;
-                    if ((accrued - avalied - favalied) < (accrued1 - avalied1 - favalied))
+                    if ((accrued - avalied - favalied) < (accrued1 - avalied1 - favalied1))
                     {
                         lbal = accrued - avalied - favalied;
                     }
                     else
                     {
-                        lbal = accrued1 - avalied1 - favalied;
+                        lbal = accrued1 - avalied1 - favalied1;
                     }
 
                     this.ViewBag.mate = mate;
@@ -1955,8 +1964,8 @@
                     this.ViewBag.lbal = lbal;
                     this.ViewBag.per = period;
                     this.ViewBag.aval = avalied;
-                    this.ViewBag.faval = favalied;
-                    this.ViewBag.taval = favalied + avalied;
+                    this.ViewBag.faval = favalied + favalied1;
+                    this.ViewBag.taval = favalied + avalied + favalied1;
                     this.ViewBag.netp = netperiod;
                     this.ViewBag.ump = unpaid;
                     this.ViewBag.accr = accrued;

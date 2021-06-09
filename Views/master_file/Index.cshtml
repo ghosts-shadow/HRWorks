@@ -37,17 +37,17 @@
     </script>
     using (Html.BeginForm("Index", "master_file", FormMethod.Get, new { id = "form1" }))
     {
-        <div>
-            @*Page Size:@Html.DropDownList("pageSize", null, new { @id = "pageSize"/*, @onchange = "norc()"*/ })
-            *@
-            page size:-<input type="text" name="pagesize" id="pagesize" value="@ViewBag.pagesize" />
-            search:-
-            @Html.TextBox("search")
-            <input type="submit"
-                   name="submit"
-                   value="Search/change records" ondblclick="norc()" />
-
-        </div>
+<div>
+    @*Page Size:@Html.DropDownList("pageSize", null, new { @id = "pageSize"/*, @onchange = "norc()"*/ })
+    *@
+    page size:-<input type="text" name="pagesize" id="pagesize" value="@ViewBag.pagesize" />
+    search:-
+    @Html.TextBox("search")
+    <input type="submit"
+           name="submit"
+           value="Search/change records" ondblclick="norc()" />
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("statusupdate")'" value="Update status" />
+</div>
         <div>
             @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pagesize = ViewBag.pagesize }))
         </div>

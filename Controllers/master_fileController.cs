@@ -37,6 +37,47 @@ namespace HRworks.Controllers
         private HREntities db = new HREntities();
 
         // GET: master_file
+        public ActionResult statusupdate()
+        {
+
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+
+            foreach (var file in afinallist)
+            {
+                if (file.labour_card.Count() != 0 && file.visas.Count() != 0)
+                {
+                    file.status = "active";
+                    var leavelist = db.Leaves.ToList();
+                    var leaveflist = leavelist.FindAll(x => x.actual_return_date == null && x.Employee_id == file.employee_id);
+                    foreach (var leaf in leaveflist)
+                    {
+                        if (leaf.Start_leave <= DateTime.Now.Date && DateTime.Now.Date <= leaf.End_leave)
+                        {
+                            file.status = "on leave";
+                        }
+                    }
+                }
+                else
+                {
+                    file.status = "in process";
+                }
+                if(file.last_working_day != null)
+                {
+                    file.status = "inactive";
+                }
+                this.db.Entry(file).State = EntityState.Modified;
+                this.db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
         public void DownloadExcel(string search)
         {
             List<master_file> passexel;
@@ -367,7 +408,10 @@ namespace HRworks.Controllers
                     }
                     else
                     {
-                         img.status = "active";
+                        if (img.labour_card.Count != 0 || img.labour_card.Count != 0)
+                        {
+                            img.status = "active";
+                        }
                     }
                    
                     img.img = serverfile;
