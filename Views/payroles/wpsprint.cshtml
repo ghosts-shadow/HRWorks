@@ -115,6 +115,7 @@
     };
 </script>
 <input type="button" value="print" class="btn btn-default" onclick="print();" />
+<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcelwps", "payroles", new { month = ViewBag.month1 })'" value="Export" />
 @foreach (var molno in molnolist)
 {
     var srno = 0;

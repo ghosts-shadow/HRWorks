@@ -13,7 +13,7 @@ namespace HRworks.Controllers
     public class liquidation_refController : Controller
     {
         private HREntities db = new HREntities();
-        [Authorize(Roles = "liquidation")]
+        [Authorize(Roles = "liquidation,super_admin")]
 
         public ActionResult Create()
         {
@@ -25,7 +25,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "liquidation")]
+        [Authorize(Roles = "liquidation,super_admin")]
         public ActionResult Create([Bind(Include = "Id,date,refr,liq")] liquidation_ref liquidation_ref)
         {
             if (ModelState.IsValid)

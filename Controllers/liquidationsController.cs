@@ -16,7 +16,7 @@ namespace HRworks.Controllers
         private readonly HREntities db = new HREntities();
 
         // GET: liquidations/Create
-        [Authorize(Roles = "liquidation")]
+        [Authorize(Roles = "liquidation,super_admin")]
         public ActionResult Create(long? refr, DateTime? date1 , long? liq)
         {
             var refrlist = this.db.liquidation_ref.ToList();
@@ -127,7 +127,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "liquidation")]
+        [Authorize(Roles = "liquidation,super_admin")]
         public ActionResult Create(liquilist liquilist)
         {
             ViewBag.nameofgov = new List<SelectListItem>()

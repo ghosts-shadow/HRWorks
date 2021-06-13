@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Web.Services.Description;
 using HRworks.Models;
 using Microsoft.Ajax.Utilities;
 using OfficeOpenXml;
@@ -2615,11 +2617,12 @@ namespace HRworks.Controllers
                         else
                             payr.save = true;
                         Edit(payr, "edit");
-                        R:;
+                        R: ;
                         if (payr.Rstate == "R")
                         {
                             paylist.Add(payr);
                         }
+
                         sav: ;
                         if (!save.IsNullOrWhiteSpace())
                         {
@@ -2647,6 +2650,7 @@ namespace HRworks.Controllers
                                 {
                                     double.TryParse(Unprotect(payr.HolidayOT), out b1);
                                 }
+
                                 if (payr.contract != null)
                                 {
                                     var bas = Unprotect(payr.contract.basic);
@@ -2658,15 +2662,18 @@ namespace HRworks.Controllers
                                     {
                                         double.TryParse(Unprotect(payr.OTFriday), out c1);
                                     }
+
                                     var cdays1 = c1;
                                     c1 = c1 * 1.5 * basperh1;
                                     if (payr.HolidayOT != null)
                                     {
                                         double.TryParse(Unprotect(payr.OTRegular), out a1);
                                     }
+
                                     var adays1 = a1;
                                     a1 = a1 * 1.25 * basperh1;
                                 }
+
                                 if (payr.contract.basic != null)
                                     paysave.Basic = payr.contract.basic;
                                 if (payr.contract.housing_allowance != null)
@@ -2679,10 +2686,9 @@ namespace HRworks.Controllers
                                 {
                                     paysave.Gross = payr.contract.salary_details;
                                     paysave.Grosstotal = payr.contract.salary_details + payr.TotalOT;
-
                                 }
-                                
                             }
+
                             paysave.TicketAllowance_ = payr.TicketAllowance_;
                             paysave.Arrears = payr.Arrears;
                             paysave.totalpayable = payr.totalpayable;
@@ -5220,6 +5226,7 @@ namespace HRworks.Controllers
 
         public ActionResult wpsprint(DateTime? month)
         {
+            ViewBag.month1 = month;
             var wpslist = new List<Wpsmodel>();
             if (month.HasValue)
             {
@@ -5266,10 +5273,220 @@ namespace HRworks.Controllers
                     wpslist.Add(new_wps);
                 }
 
-                return View(wpslist.OrderBy(x=>x.srno));
+                return View(wpslist.OrderBy(x => x.srno));
             }
 
             return View(wpslist);
+        }
+
+
+        public ActionResult DownloadExcelwps(DateTime? month)
+        {
+            var wpslist = new List<Wpsmodel>();
+            if (month.HasValue)
+            {
+                var payrolllist = db.payrollsaveds.ToList();
+                var labourcardlist = db.labour_card.ToList();
+                var masterfilelist = db.master_file.ToList();
+                var banklist = db.bank_details.ToList();
+                var parollformonth = payrolllist.FindAll(x =>
+                    x.forthemonth.Value.Year == month.Value.Year && x.forthemonth.Value.Month == month.Value.Month);
+                var i = 0;
+                foreach (var pa in parollformonth)
+                {
+                    var new_wps = new Wpsmodel();
+                    var mf = masterfilelist.FindAll(x => x.employee_no == pa.employee_no)
+                        .OrderByDescending(x => x.date_changed).ToList();
+                    var lc = labourcardlist.FindAll(x => x.emp_no == mf.First().employee_id)
+                        .OrderByDescending(x => x.date_changed).ToList();
+                    var bd = banklist.FindAll(x => x.employee_no == mf.First().employee_id)
+                        .OrderByDescending(x => x.Employee_Id).ToList();
+                    i++;
+                    new_wps.srno = i;
+                    if (bd.Count > 0)
+                    {
+                        new_wps.BankDetails = bd.First();
+                        new_wps.BankDetailsid = bd.First().Employee_Id;
+                    }
+
+                    if (mf.Count > 0)
+                    {
+                        new_wps.MasterFile = mf.First();
+                        new_wps.MasterFileid = mf.First().employee_id;
+                    }
+
+
+                    if (lc.Count > 0)
+                    {
+                        new_wps.LabourCard = lc.First();
+                        new_wps.LabourCardid = lc.First().employee_id;
+                    }
+
+                    new_wps.Payrollsaved = pa;
+                    new_wps.Payrollsavedid = pa.Id;
+
+                    wpslist.Add(new_wps);
+                }
+
+                var Ep = new ExcelPackage();
+                var Sheet = Ep.Workbook.Worksheets.Add("wps".ToUpper());
+                var row = 1;
+                var molnolist = new List<string>() {"549959", "575203", "663119", "1115891" ,null};
+                foreach (var mol in molnolist)
+                {
+                    var srno = 1;
+                    var total = 0d;
+                    var total1 = 0d;
+                    var total2 = 0d;
+                    Sheet.Cells[string.Format("E{0}", row)].Value = "comoany name :- citiscape".ToUpper();
+                    row++;
+                    Sheet.Cells[string.Format("E{0}", row)].Value = ("mol id no :- " + mol).ToUpper();
+                    row++;
+                    Sheet.Cells[string.Format("E{0}", row)].Value = ("payroll for the month of :- "+ month.Value.ToString("M")).ToUpper();
+                    row++;
+                    Sheet.Cells[string.Format("A{0}", row)].Value = "Srno".ToUpper();
+                    Sheet.Cells[string.Format("B{0}", row)].Value = "name".ToUpper();
+                    Sheet.Cells[string.Format("C{0}", row)].Value = "work permit no".ToUpper();
+                    Sheet.Cells[string.Format("D{0}", row)].Value = "personal no".ToUpper();
+                    Sheet.Cells[string.Format("E{0}", row)].Value = "bank name".ToUpper();
+                    Sheet.Cells[string.Format("F{0}", row)].Value = "IBAN".ToUpper();
+                    Sheet.Cells[string.Format("G{0}", row)].Value = "no of days absent".ToUpper();
+                    Sheet.Cells[string.Format("H{0}", row)].Value = "fixed portion".ToUpper();
+                    Sheet.Cells[string.Format("I{0}", row)].Value = "variable portion".ToUpper();
+                    Sheet.Cells[string.Format("J{0}", row)].Value = "total payment".ToUpper();
+                    row++;
+                    var molwps = wpslist.FindAll(x => x.Payrollsaved.establishment == mol);
+                    foreach (var item in molwps)
+                    {
+                        double a = 0, b = 0, c = 0, d = 0, e = 0;
+                        var sum = a + b + c;
+                        if (item.Payrollsaved != null)
+                        {
+                            if (item.Payrollsaved.Gross != null)
+                            {
+                                double.TryParse(payrolesController.Unprotect(item.Payrollsaved.Gross), out e);
+                            }
+
+                            if (item.Payrollsaved.NetPay != null)
+                            {
+                                double.TryParse(payrolesController.Unprotect(item.Payrollsaved.NetPay), out d);
+                            }
+
+                            if (item.Payrollsaved.TotalOT != null)
+                            {
+                                double.TryParse(payrolesController.Unprotect(item.Payrollsaved.TotalOT), out a);
+                            }
+
+                            if (item.Payrollsaved.Arrears != null)
+                            {
+                                double.TryParse(payrolesController.Unprotect(item.Payrollsaved.Arrears), out b);
+                            }
+
+                            if (item.Payrollsaved.TicketAllowance_ != null)
+                            {
+                                double.TryParse(payrolesController.Unprotect(item.Payrollsaved.TicketAllowance_),
+                                    out c);
+                            }
+                        }
+                        if (total2 > 500000)
+                        {
+
+                            Sheet.Cells[string.Format("G{0}", row)].Value = "total";
+                            Sheet.Cells[string.Format("H{0}", row)].Value = total;
+                            Sheet.Cells[string.Format("I{0}", row)].Value = total1;
+                            Sheet.Cells[string.Format("J{0}", row)].Value = total2;
+                            row += 5;
+                            Sheet.Cells[string.Format("E{0}", row)].Value = "comoany name :- citiscape".ToUpper();
+                            row++;
+                            Sheet.Cells[string.Format("E{0}", row)].Value = ("mol id no :- " + mol).ToUpper();
+                            row++;
+                            Sheet.Cells[string.Format("E{0}", row)].Value = ("payroll for the month of :- " + month.Value.ToString("M")).ToUpper();
+                            row++;
+                            Sheet.Cells[string.Format("A{0}", row)].Value = "Srno".ToUpper();
+                            Sheet.Cells[string.Format("B{0}", row)].Value = "name".ToUpper();
+                            Sheet.Cells[string.Format("C{0}", row)].Value = "work permit no".ToUpper();
+                            Sheet.Cells[string.Format("D{0}", row)].Value = "personal no".ToUpper();
+                            Sheet.Cells[string.Format("E{0}", row)].Value = "bank name".ToUpper();
+                            Sheet.Cells[string.Format("F{0}", row)].Value = "IBAN".ToUpper();
+                            Sheet.Cells[string.Format("G{0}", row)].Value = "no of days absent".ToUpper();
+                            Sheet.Cells[string.Format("H{0}", row)].Value = "fixed portion".ToUpper();
+                            Sheet.Cells[string.Format("I{0}", row)].Value = "variable portion".ToUpper();
+                            Sheet.Cells[string.Format("J{0}", row)].Value = "total payment".ToUpper();
+                            row++;
+                            total2 = 0;
+                        }
+
+                        total += e;
+                        total1 += sum;
+                        total2 += d;
+                        Sheet.Cells[string.Format("A{0}", row)].Value = srno;
+                        if (item.MasterFile != null)
+                        {
+                            if (item.MasterFile.employee_name != null)
+                            {
+                                Sheet.Cells[string.Format("B{0}", row)].Value = item.MasterFile.employee_name;
+                            }
+                        }
+
+                        if (item.LabourCard != null)
+                        {
+                            if (item.LabourCard.work_permit_no != null)
+                            {
+                                Sheet.Cells[string.Format("C{0}", row)].Value = item.LabourCard.work_permit_no;
+                            }
+
+                            if (item.LabourCard.personal_no != null)
+                            {
+                                Sheet.Cells[string.Format("D{0}", row)].Value = item.LabourCard.personal_no;
+                            }
+                        }
+
+                        if (item.BankDetails != null)
+                        {
+                            if (item.BankDetails.bank_name != null)
+                            {
+                                Sheet.Cells[string.Format("E{0}", row)].Value = item.BankDetails.bank_name;
+                            }
+
+                            if (item.BankDetails.IBAN != null)
+                            {
+                                Sheet.Cells[string.Format("F{0}", row)].Value = item.BankDetails.IBAN;
+                            }
+                        }
+
+                        if (item.Payrollsaved != null)
+                        {
+                            if (item.Payrollsaved.Absents != null)
+                            {
+                                Sheet.Cells[string.Format("G{0}", row)].Value = item.Payrollsaved.Absents;
+                            }
+                        }
+
+                        Sheet.Cells[string.Format("H{0}", row)].Value = e;
+                        Sheet.Cells[string.Format("I{0}", row)].Value = sum;
+                        Sheet.Cells[string.Format("J{0}", row)].Value = d;
+                        row++;
+                        srno++;
+                    }
+
+                    Sheet.Cells[string.Format("G{0}", row)].Value = "total";
+                    Sheet.Cells[string.Format("H{0}", row)].Value = total;
+                    Sheet.Cells[string.Format("I{0}", row)].Value = total1;
+                    Sheet.Cells[string.Format("J{0}", row)].Value = total2;
+                    row += 5;
+                }
+
+                Sheet.Cells["A:AZ"].AutoFitColumns();
+                this.Response.Clear();
+                this.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                this.Response.AddHeader("content-disposition", "filename =wps.xlsx");
+                this.Response.BinaryWrite(Ep.GetAsByteArray());
+                this.Response.End();
+                return RedirectToAction("wpsprint", month);
+            }
+
+
+            return RedirectToAction("wpsprint", month);
         }
 
         protected override void Dispose(bool disposing)
