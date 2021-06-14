@@ -32,7 +32,8 @@ namespace HRworks.Controllers
             {
                 long? a = 0l;
                 DateTime? ba = DateTime.Now;
-                long? c = 0l;
+                long? c = 0l, refid;
+
                 if (this.db.liquidation_ref.ToList().Exists(x => x.date == liquidation_ref.date && x.refr == liquidation_ref.refr && x.liq == liquidation_ref.liq))
                 {
                     var aaaa = this.db.liquidation_ref.ToList().Find(x => x.date == liquidation_ref.date && x.refr == liquidation_ref.refr
@@ -45,6 +46,11 @@ namespace HRworks.Controllers
                     liquidation_ref = aaaa;
                     this.db.Entry(liquidation_ref).State = EntityState.Modified;
                     this.db.SaveChanges();
+                    aaaa = this.db.liquidation_ref.ToList().Find(x => x.date == liquidation_ref.date && x.refr == liquidation_ref.refr
+                        && x.liq
+                        == liquidation_ref
+                            .liq);
+                    refid = aaaa.Id;
                 }
                 else
                 {
@@ -53,8 +59,13 @@ namespace HRworks.Controllers
                     c = liquidation_ref.liq;
                     db.liquidation_ref.Add(liquidation_ref);
                     db.SaveChanges();
+                    var aaaa = this.db.liquidation_ref.ToList().Find(x => x.date == liquidation_ref.date && x.refr == liquidation_ref.refr
+                        && x.liq
+                        == liquidation_ref
+                            .liq);
+                    refid = aaaa.Id;
                 }
-                return RedirectToAction("Create", "liquidations",new {refr = a,date1 = ba,liq = c});
+                return RedirectToAction("Create", "liquidations",new {refr = refid});
             }
 
             return View(liquidation_ref);

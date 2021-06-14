@@ -1,4 +1,5 @@
 ﻿using System.Web.Security;
+using Microsoft.Ajax.Utilities;
 
 namespace HRworks.Controllers
 {
@@ -17,14 +18,16 @@ namespace HRworks.Controllers
 
         // GET: liquidations/Create
         [Authorize(Roles = "liquidation,super_admin")]
-        public ActionResult Create(long? refr, DateTime? date1 , long? liq)
+        public ActionResult Create(string refr)
         {
             var refrlist = this.db.liquidation_ref.ToList();
-            if (refr.HasValue && date1.HasValue && liq.HasValue)
+            if (!refr.IsNullOrWhiteSpace())
             {
-                this.ViewBag.refr = refr;
-                this.ViewBag.date = date1.Value.ToShortDateString();
-                this.ViewBag.liq = liq;
+                var refid = refrlist.Find(x => x.Id.ToString() == refr);
+                this.ViewBag.refid = refr;
+                this.ViewBag.refr = refid.refr;
+                this.ViewBag.date = refid.date.Value.ToShortDateString();
+                this.ViewBag.liq = refid.liq;
             }else
             {
                 this.ViewBag.refr = refrlist.Last().refr;
@@ -128,8 +131,9 @@ namespace HRworks.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "liquidation,super_admin")]
-        public ActionResult Create(liquilist liquilist)
+        public ActionResult Create(liquilist liquilist , long? refr)
         {
+            this.ViewBag.refid = refr;
             ViewBag.nameofgov = new List<SelectListItem>()
             {
                 new SelectListItem() {Value = "FEDERAL AUTHORITY OF IDENTITY AND CITIZENSHIP", Text = "FEDERAL AUTHORITY OF IDENTITY AND CITIZENSHIP"},
@@ -229,8 +233,8 @@ namespace HRworks.Controllers
                     {
                         if (!lilist.Exists(x=>x.bill_no == liqui.bill_no && x.nameofgov == liqui.nameofgov))
                         {
-                        liqui.refr = refrlist.Last().Id;
-                        liqui.changed_by = User.Identity.Name;;
+                        liqui.refr = refrlist.Find(x=>x.Id == refr).Id;
+                        liqui.changed_by = User.Identity.Name;
                         liqui.date_changed = DateTime.Now;
                         this.db.liquidations.Add(liqui);
                         this.db.SaveChanges();
