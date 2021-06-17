@@ -51,6 +51,9 @@ namespace HRworks.Controllers
                 new SelectListItem() {Value = "JUDICIAL DEPARTMENT", Text = "JUDICIAL DEPARTMENT"},
                 new SelectListItem() {Value = "MINISTRY OF INTERIOR", Text = "MINISTRY OF INTERIOR"},
                 new SelectListItem() {Value = "TRAFFIC DEPARTMENT", Text = "TRAFFIC DEPARTMENT"},
+                new SelectListItem() {Value = "DEPARTMENT OF ECONOMIC DEVELOPMENT", Text = "DEPARTMENT OF ECONOMIC DEVELOPMENT"},
+                new SelectListItem() {Value = "MINISTRY OF CLIMATE CHANGE AND ENVIRONMENT", Text = "MINISTRY OF CLIMATE CHANGE AND ENVIRONMENT"},
+                new SelectListItem() {Value = "ABU DHABI POLICE GHQ", Text = "ABU DHABI POLICE GHQ"},
                 new SelectListItem() {Value = "ANSARI EXCHANGE", Text = "ANSARI EXCHANGE"}
             }.OrderBy(x => x.Value);
             ViewBag.expenses = new List<SelectListItem>()
@@ -58,6 +61,11 @@ namespace HRworks.Controllers
                 new SelectListItem() { Value="ARAMEX ABUDHABI", Text= "ARAMEX ABUDHABI" },
                 new SelectListItem() { Value="MOL EMPLOYEES LIST", Text= "MOL EMPLOYEES LIST" },
                 new SelectListItem() { Value="BANK", Text= "BANK" },
+                new SelectListItem() { Value="COMMERCIAL LICENSE", Text= "COMMERCIAL LICENSE" },
+                new SelectListItem() { Value="LICENSE/AMENDMENT/NA", Text= "LICENSE/AMENDMENT/NA" },
+                new SelectListItem() { Value="LICENSE/RENEWAL/NA", Text= "LICENSE/RENEWAL/NA" },
+                new SelectListItem() { Value="ISSUING OR ANNUAL RENEWAL OF PRACTICING AND AGRI ACTIVITIES", Text= "ISSUING OR ANNUAL RENEWAL OF PRACTICING AND AGRI ACTIVITIES" },
+                new SelectListItem() { Value="REGISTRATION OF TRUCKS", Text= "REGISTRATION OF TRUCKS" },
                 new SelectListItem() { Value="CHARGE CARD", Text= "CHARGE CARD" },
                 new SelectListItem() { Value="CANCEL LABOUR CARD", Text= "CANCEL LABOUR CARD" },
                 new SelectListItem() { Value="CANCEL RESIDENCE", Text= "CANCEL RESIDENCE" },

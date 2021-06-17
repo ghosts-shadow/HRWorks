@@ -418,7 +418,7 @@ namespace HRworks.Controllers
             {
                 if (afinallist.Count == 0) afinallist.Add(file);
 
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no && x.status != "inactive")) afinallist.Add(file);
             }
 
             var paylist = new List<payrole>();
@@ -4829,7 +4829,7 @@ namespace HRworks.Controllers
             {
                 if (afinallist.Count == 0) afinallist.Add(file);
 
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no && x.status != "inactive")) afinallist.Add(file);
             }
 
             var pay = db.payrollsaveds.ToList();
@@ -5269,15 +5269,85 @@ namespace HRworks.Controllers
 
                     new_wps.Payrollsaved = pa;
                     new_wps.Payrollsavedid = pa.Id;
+                    double result = 0d;
+                    double.TryParse(Unprotect(pa.NetPay), out result);
+                    new_wps.panet = 0d;
+                    new_wps.panet = result;
 
                     wpslist.Add(new_wps);
                 }
 
-                return View(wpslist.OrderBy(x => x.srno));
+                return View(wpslist.OrderBy(x => x.panet));
             }
 
             return View(wpslist);
         }
+        public ActionResult wpssub(DateTime? month)
+        {
+            ViewBag.month1 = month;
+            var wpslist = new List<Wpsmodel>();
+            if (month.HasValue)
+            {
+                var payrolllist = db.payrollsaveds.ToList();
+                var labourcardlist = db.labour_card.ToList();
+                var masterfilelist = db.master_file.ToList();
+                var banklist = db.bank_details.ToList();
+                var conlist = db.contracts.ToList();
+                var parollformonth = payrolllist.FindAll(x =>
+                    x.forthemonth.Value.Year == month.Value.Year && x.forthemonth.Value.Month == month.Value.Month);
+                var i = 0;
+                foreach (var pa in parollformonth)
+                {
+                    var new_wps = new Wpsmodel();
+                    var mf = masterfilelist.FindAll(x => x.employee_no == pa.employee_no)
+                        .OrderByDescending(x => x.date_changed).ToList();
+                    var lc = labourcardlist.FindAll(x => x.emp_no == mf.First().employee_id)
+                        .OrderByDescending(x => x.date_changed).ToList();
+                    var bd = banklist.FindAll(x => x.employee_no == mf.First().employee_id)
+                        .OrderByDescending(x => x.Employee_Id).ToList();
+                    var co = conlist.FindAll(x => x.employee_no == mf.First().employee_id)
+                        .OrderByDescending(x => x.employee_id).ToList();
+                    i++;
+                    new_wps.srno = i;
+                    if (bd.Count > 0)
+                    {
+                        new_wps.BankDetails = bd.First();
+                        new_wps.BankDetailsid = bd.First().Employee_Id;
+                    }
+
+                    if (mf.Count > 0)
+                    {
+                        new_wps.MasterFile = mf.First();
+                        new_wps.MasterFileid = mf.First().employee_id;
+                    }
+
+                    if (co.Count > 0)
+                    {
+                        new_wps.Contract = co.First();
+                        new_wps.contractid = co.First().employee_id;
+                    }
+                    
+                    if (lc.Count > 0)
+                    {
+                        new_wps.LabourCard = lc.First();
+                        new_wps.LabourCardid = lc.First().employee_id;
+                    }
+
+                    new_wps.Payrollsaved = pa;
+                    new_wps.Payrollsavedid = pa.Id;
+                    double result = 0d;
+                    double.TryParse(Unprotect(pa.NetPay),out result);
+                    new_wps.panet = 0d;
+                    new_wps.panet = result;
+                    wpslist.Add(new_wps);
+                }
+
+                return View(wpslist.OrderBy(x => x.panet));
+            }
+
+            return View(wpslist);
+        }
+
 
 
         public ActionResult DownloadExcelwps(DateTime? month)
@@ -5324,6 +5394,10 @@ namespace HRworks.Controllers
 
                     new_wps.Payrollsaved = pa;
                     new_wps.Payrollsavedid = pa.Id;
+                    double result = 0d;
+                    double.TryParse(Unprotect(pa.NetPay), out result);
+                    new_wps.panet = 0d;
+                    new_wps.panet = result;
 
                     wpslist.Add(new_wps);
                 }
@@ -5355,7 +5429,7 @@ namespace HRworks.Controllers
                     Sheet.Cells[string.Format("I{0}", row)].Value = "variable portion".ToUpper();
                     Sheet.Cells[string.Format("J{0}", row)].Value = "total payment".ToUpper();
                     row++;
-                    var molwps = wpslist.FindAll(x => x.Payrollsaved.establishment == mol);
+                    var molwps = wpslist.FindAll(x => x.Payrollsaved.establishment == mol).OrderBy(x=>x.panet).ToList();
                     foreach (var item in molwps)
                     {
                         double a = 0, b = 0, c = 0, d = 0, e = 0;
@@ -5388,7 +5462,9 @@ namespace HRworks.Controllers
                                     out c);
                             }
                         }
-                        if (total2 > 500000)
+
+                        var temptotal = total2 + d;
+                        if (temptotal > 490000)
                         {
 
                             Sheet.Cells[string.Format("G{0}", row)].Value = "total";

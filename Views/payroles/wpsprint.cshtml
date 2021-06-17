@@ -1,7 +1,7 @@
 ﻿@using HRworks.Controllers
 @model IEnumerable<HRworks.Models.Wpsmodel>
 @{
-    var molnolist = new List<string>() { "549959", "575203", "663119", "1115891" };
+    var molnolist = new List<string>() { "549959", "575203", "663119", "1115891",null };
     ViewBag.Title = "wpsprint";
     var i = 0;
 }
@@ -116,6 +116,7 @@
 </script>
 <input type="button" value="print" class="btn btn-default" onclick="print();" />
 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcelwps", "payroles", new { month = ViewBag.month1 })'" value="Export" />
+<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("wpssub", "payroles", new { month = ViewBag.month1 })'" value="Wps Summary" />
 @foreach (var molno in molnolist)
 {
     var srno = 0;
@@ -132,7 +133,7 @@
             }
             @if (payrollsavedForthemonth != null)
             {
-                @payrollsavedForthemonth.Value.ToString("M")
+                @payrollsavedForthemonth.Value.ToString("m")
             }
         </div>
         <table>
@@ -251,7 +252,6 @@
                 <td>@total2</td>
             </tr>
         </table>
-
     </div>
     i++;
 }

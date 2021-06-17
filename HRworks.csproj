@@ -806,6 +806,7 @@
     <Content Include="Views\Attendances\notintimesheet.cshtml" />
     <Content Include="Views\rolesetting\settingrole.cshtml" />
     <Content Include="Views\payroles\wpsprint.cshtml" />
+    <Content Include="Views\payroles\wpssub.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
