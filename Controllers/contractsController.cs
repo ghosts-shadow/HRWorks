@@ -355,6 +355,11 @@
             else
             {
                 serverfile = null;
+                var imglist = db.contracts.ToList().FindAll(x => x.employee_no == contract.employee_no)
+                    .OrderByDescending(x => x.date_changed).ToList();
+                var imgpath = imglist.FindAll(c => c.imgpath != null).OrderByDescending(x => x.date_changed).First()
+                    .imgpath;
+                serverfile = imgpath;
             }
 
             if (this.ModelState.IsValid)

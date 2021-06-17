@@ -72,5 +72,6 @@ namespace HRworks.Models
         public virtual DbSet<contractlogin> contractlogins { get; set; }
         public virtual DbSet<payrole> payroles { get; set; }
         public virtual DbSet<payrollsaved> payrollsaveds { get; set; }
+        public virtual DbSet<liquiexp> liquiexps { get; set; }
     }
 }

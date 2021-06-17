@@ -214,6 +214,7 @@
     <Compile Include="Controllers\leave_absenceController.cs" />
     <Compile Include="Controllers\liquidationsController.cs" />
     <Compile Include="Controllers\liquidation_refController.cs" />
+    <Compile Include="Controllers\liquiexpsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MANPOWER_TRANSFER_REQUESTController.cs" />
     <Compile Include="Controllers\master_fileController.cs" />
@@ -350,6 +351,9 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\liquidation_ref.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\liquiexp.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\liquilist.cs" />
@@ -807,6 +811,11 @@
     <Content Include="Views\rolesetting\settingrole.cshtml" />
     <Content Include="Views\payroles\wpsprint.cshtml" />
     <Content Include="Views\payroles\wpssub.cshtml" />
+    <Content Include="Views\liquiexps\Create.cshtml" />
+    <Content Include="Views\liquiexps\Delete.cshtml" />
+    <Content Include="Views\liquiexps\Details.cshtml" />
+    <Content Include="Views\liquiexps\Edit.cshtml" />
+    <Content Include="Views\liquiexps\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -467,6 +467,14 @@
           <Property Name="refr" Type="bigint" />
           <Property Name="liq" Type="bigint" />
         </EntityType>
+        <EntityType Name="liquiexp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="expence" Type="nvarchar(max)" />
+          <Property Name="issuer" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="MANPOWER_TRANSFER_REQUEST">
           <Key>
             <PropertyRef Name="Id" />
@@ -1268,6 +1276,7 @@
           <EntitySet Name="liqiapproval" EntityType="Self.liqiapproval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation" EntityType="Self.liquidation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation_ref" EntityType="Self.liquidation_ref" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="liquiexp" EntityType="Self.liquiexp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MANPOWER_TRANSFER_REQUEST" EntityType="Self.MANPOWER_TRANSFER_REQUEST" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="master_file" EntityType="Self.master_file" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OT_employee_list" EntityType="Self.OT_employee_list" Schema="dbo" store:Type="Tables" />
@@ -2146,6 +2155,7 @@
             <End Role="end_of_service" EntitySet="end_of_service" />
           </AssociationSet>
           <EntitySet Name="payrollsaveds" EntityType="HRModel.payrollsaved" />
+          <EntitySet Name="liquiexps" EntityType="HRModel.liquiexp" />
         </EntityContainer>
         <EntityType Name="Leave_approved">
           <Key>
@@ -2959,6 +2969,14 @@
           <Property Name="CFoodAllow" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Grosstotal" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="establishment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="liquiexp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="expence" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="issuer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3795,6 +3813,15 @@
                 <ScalarProperty Name="Basic" ColumnName="Basic" />
                 <ScalarProperty Name="employee_name" ColumnName="employee_name" />
                 <ScalarProperty Name="employee_no" ColumnName="employee_no" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="liquiexps">
+            <EntityTypeMapping TypeName="HRModel.liquiexp">
+              <MappingFragment StoreEntitySet="liquiexp">
+                <ScalarProperty Name="issuer" ColumnName="issuer" />
+                <ScalarProperty Name="expence" ColumnName="expence" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

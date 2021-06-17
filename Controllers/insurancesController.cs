@@ -231,6 +231,11 @@ namespace HRworks.Controllers
             else
             {
                 serverfile = null;
+                var imglist = db.insurances.ToList().FindAll(x => x.employee_no == insurance.employee_no)
+                    .OrderByDescending(x => x.date_changed).ToList();
+                var imgpath = imglist.FindAll(c => c.imgpath != null).OrderByDescending(x => x.date_changed).First()
+                    .imgpath;
+                serverfile = imgpath;
             }
             if (ModelState.IsValid)
             {

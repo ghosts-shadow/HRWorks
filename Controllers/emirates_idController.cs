@@ -371,6 +371,10 @@ namespace HRworks.Controllers
             else
             {
                 serverfile = null;
+                var imglist = db.emirates_id.ToList().FindAll(x => x.employee_no == emirates_id.employee_no)
+                    .OrderByDescending(x => x.date_changed).ToList();
+                var imgpath = imglist.FindAll(c => c.imgpath != null).OrderByDescending(x => x.date_changed).First().imgpath;
+                serverfile = imgpath;
             }
             if (ModelState.IsValid)
             {
@@ -380,7 +384,8 @@ namespace HRworks.Controllers
                 img.eid_expiry = emirates_id.eid_expiry;
                 img.imgpath = serverfile;
                 img.changed_by = User.Identity.Name;
-                img.date_changed = DateTime.Now; db.emirates_id.Add(img);
+                img.date_changed = DateTime.Now; 
+                db.emirates_id.Add(img);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

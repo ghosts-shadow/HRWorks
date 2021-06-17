@@ -334,6 +334,11 @@ namespace HRworks.Controllers
             else
             {
                 serverfile = null;
+                var imglist = db.visas.ToList().FindAll(x => x.emp_no == visa.emp_no)
+                    .OrderByDescending(x => x.date_changed).ToList();
+                var imgpath = imglist.FindAll(c => c.imgpath != null).OrderByDescending(x => x.date_changed).First()
+                    .imgpath;
+                serverfile = imgpath;
             }
 
             if (ModelState.IsValid)
