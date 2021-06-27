@@ -28,7 +28,6 @@
         $(function () {
             $('#employee_no' + 0).chosen({ no_results_text: "Oops, nothing found!" });
             $('#expenses' + 0).chosen({ no_results_text: "Oops, nothing found!" });
-            $('#nameofgov' + 0).chosen({ no_results_text: "Oops, nothing found!" });
             $('#invoice_date' + 0).datepicker();
             if(counter <25)
             $('#add').click(() => {
@@ -50,12 +49,15 @@
                 clone.find('#invoice_amount' + 0).attr('name', 'Liquidations1[' + number + '].invoice_amount');
                 clone.find('#expenses' + 0).attr('id', 'expenses' + number);
                 clone.find('#nameofgov' + 0).attr('id', 'nameofgov' + number);
+                clone.find('#expensesid' + 0).attr('id', 'expensesid' + number);
+                clone.find('#nameofgovid' + 0).attr('id', 'nameofgovid' + number);
                 clone.find('#bill_no' + 0).attr('id', 'bill_no' + number);
                 clone.find('#invoice_date' + 0).attr('id', 'invoice_date' + number);
                 clone.find('#discription' + 0).attr('id', 'discription' + number);
                 clone.find('#employee_no' + 0).attr('id', 'employee_no' + number);
                 clone.find('#MBNo' + 0).attr('id', 'MBNo' + number);
                 clone.find('#invoice' + 0).attr('id', 'invoice' + number);
+                clone.find('#gov' + 0).attr('id', 'invoice' + number);
                 clone.find('#VAT' + 0).attr('id', 'VAT' + number);
                 clone.find('#tdel' + 1).attr('id', 'tdel' + 1 + number);
                 clone.find('#tdel' + 2).attr('id', 'tdel' + 2 + number);
@@ -80,7 +82,6 @@
         function chosendestroy() {
             $('#employee_no0').chosen("destroy"); 
             $('#expenses0').chosen("destroy"); 
-            $('#nameofgov0').chosen("destroy"); 
             $("#invoice_date0").datepicker("destroy");
 
         }
@@ -126,7 +127,7 @@
         };
     </script>
     <script>
-        document.onkeydown = function (e) {
+        document.onkeydown = function(e) {
             if (event.keyCode == 123) {
                 return false;
             }
@@ -157,7 +158,34 @@
                 $('#foot').show();
             }
         }
+
+        function changeval(id) {
+            var r = /\d+/g;
+            var s = r.exec(id);
+            var x = document.getElementById("expenses" + s);
+            var gov = document.getElementById("gov" + s);
+            var x1 = document.getElementById("expensesid" + s);
+            var y1 = document.getElementById("nameofgovid" + s);
+            var y = document.getElementById("nameofgov" + s);
+            var textToFind = x.options[x.selectedIndex].text;
+            for (var i = 0; i < x1.options.length; i++) {
+                if (x1.options[i].text === textToFind) {
+                    x1.selectedIndex = i;
+                    break;
+                }
+            }
+            y1.value = x1.value;
+            textToFind = y1.options[y1.selectedIndex].text;
+            for (var j = 0; j < y.options.length; j++) {
+                if (y.options[j].text === textToFind) {
+                    y.selectedIndex = j;
+                    break;
+                }
+            }
+            gov.value = textToFind;
+        }
     </script>
+
     @*<script>
             function check() {
                 for (var i = 0; i < counter; i++) {
@@ -230,7 +258,7 @@
             @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
         </div>
         <br />
-        <div class="row" onclick="check()">
+        <div class="row" onclick="check()" >
             <table style="text-align: center;" onclick="total()">
                 <col>
                 <thead onclick="check()">
@@ -260,13 +288,16 @@
                     </td>
 
                     <td>
-                        @Html.DropDownList("Liquidations1[0].expenses", new List<SelectListItem>(ViewBag.expenses).OrderBy(x => x.Value), new {@class = "form-control chosen-select", id = "expenses0", required = "true"})
+                        @Html.DropDownList("Liquidations1[0].expenses", new List<SelectListItem>(ViewBag.expenses).OrderBy(x => x.Value), new {@class = "form-control chosen-select", id = "expenses0", required = "true", @onchange = "changeval(this.id)" })
+                        @Html.DropDownList("Liquidations1[0].expensesid", new List<SelectListItem>(ViewBag.expensesid).OrderBy(x => x.Value), new {@class = "form-control chosen-select", id = "expensesid0", required = "true", @style = "display: none" })
                         
                         @Html.ValidationMessageFor(model => model.Liquidations1[0].expenses, string.Empty, new { @class = "text-danger" })
                     </td>
                     <td>
-                        @Html.DropDownList("Liquidations1[0].nameofgov", new List<SelectListItem>(ViewBag.nameofgov).OrderBy(x => x.Value), new { @class = "form-control chosen-select", @id = "nameofgov0", @required = "true" })
-                        @Html.ValidationMessageFor(model => model.Liquidations1[0].nameofgov, string.Empty, new { @class = "text-danger" })
+                        <input type="text" readonly="readonly" id="gov0" class="form-control"/>
+                        @Html.DropDownList("Liquidations1[0].nameofgov", new List<SelectListItem>(ViewBag.nameofgov).OrderBy(x => x.Value), new {@class = "form-control chosen-select", @id = "nameofgov0", @required = "true", @style = "display: none"})
+                        @Html.DropDownList("Liquidations1[0].nameofgovid", new List<SelectListItem>(ViewBag.nameofgovid).OrderBy(x => x.Value), new {@class = "form-control chosen-select", @id = "nameofgovid0", @required = "true", @style = "display: none"})
+                        @Html.ValidationMessageFor(model => model.Liquidations1[0].nameofgov, string.Empty, new {@class = "text-danger"})
                     </td>
                     <td>
 
