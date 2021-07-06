@@ -34,6 +34,10 @@ namespace HRworks.Controllers
 
         public static bool IsBase64Encoded(string str)
         {
+            if (str == null)
+            {
+                return false;
+            }
             if (str.Replace(" ", "").Length % 4 != 0) return false;
 
             try
@@ -144,6 +148,11 @@ namespace HRworks.Controllers
                 "employee_id",
                 "employee_name",
                 payrole.employee_no);
+            ViewBag.ded_add =new List<SelectListItem>()
+            {   
+                new SelectListItem() {Value = "Addition", Text = "Addition"},
+                new SelectListItem() {Value = "deduction", Text = "deduction"}
+            };
             if (!payrole.totalpayable.Contains(" ") && IsBase64Encoded(payrole.totalpayable))
                 payrole.totalpayable = Unprotect(payrole.totalpayable);
 
@@ -262,6 +271,15 @@ namespace HRworks.Controllers
             {
                 payrole.others = 0.ToString();
             }
+            if (!string.IsNullOrWhiteSpace(payrole.amount))
+            {
+                if (!payrole.amount.Contains(" ") && IsBase64Encoded(payrole.amount))
+                    payrole.amount = Unprotect(payrole.amount);
+            }
+            else
+            {
+                payrole.amount = 0.ToString();
+            }
 
             if (!string.IsNullOrWhiteSpace(payrole.TotalDedution))
                 if (!payrole.TotalDedution.Contains(" ") && IsBase64Encoded(payrole.TotalDedution))
@@ -312,6 +330,7 @@ namespace HRworks.Controllers
                             double.TryParse(payrole.totalpayable, out var a);
                             double.TryParse(payrole.TotalOT, out var b);
                             double.TryParse(payrole.TotalDedution, out var c);
+                            double.TryParse(payrole.amount, out var d);
                             payrole.NetPay = (a + b - c).ToString();
                             payrole.NetPay = Protect(payrole.NetPay);
                         }
@@ -321,6 +340,7 @@ namespace HRworks.Controllers
                         double.TryParse(payrole.totalpayable, out var a);
                         double.TryParse(payrole.TotalOT, out var b);
                         double.TryParse(payrole.TotalDedution, out var c);
+                        double.TryParse(payrole.amount, out var d);
                         payrole.NetPay = (a + b - c).ToString();
                         payrole.NetPay = Protect(payrole.NetPay);
                     }
@@ -359,6 +379,8 @@ namespace HRworks.Controllers
                     payrole.TotalDedution = Protect(payrole.TotalDedution);
                 if (payrole.others != null && !IsBase64Encoded(payrole.others))
                     payrole.others = Protect(payrole.others);
+                if (payrole.amount != null && !IsBase64Encoded(payrole.amount))
+                    payrole.amount = Protect(payrole.amount);
                 payrole.save = payrole.save;
                 db.Entry(payrole).State = EntityState.Modified;
                 db.SaveChanges();
@@ -2604,12 +2626,13 @@ namespace HRworks.Controllers
                         var endday = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month,
                             DateTime.DaysInMonth(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month));
                         var stday = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month, 1);
-
-
+                        var d = 0d;
+                        if (payr.amount != null && IsBase64Encoded(payr.amount))
+                            double.TryParse(Unprotect(payr.amount), out d);
                         if (absd + lowp >=
                             DateTime.DaysInMonth(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month))
                             payr.NetPay = 0.ToString();
-                        else
+                        else 
                             payr.NetPay = (a + b - c).ToString();
 
                         if (save.IsNullOrWhiteSpace())
@@ -2644,6 +2667,9 @@ namespace HRworks.Controllers
                             var a1 = 0d;
                             var b1 = 0d;
                             var c1 = 0d;
+                            var d1 = 0d;
+                            var e1 = 0d;
+                            var f1 = 0d;
                             if (payr.contract != null)
                             {
                                 if (payr.HolidayOT != null)
@@ -2682,10 +2708,16 @@ namespace HRworks.Controllers
                                     paysave.CTransportationAllowance = payr.contract.transportation_allowance;
                                 if (payr.contract.food_allowance != null)
                                     paysave.CFoodAllow = payr.contract.food_allowance;
+                                if (payr.amount != null)
+                                    paysave.amount = payr.amount;
+                                if (payr.ded_add != null)
+                                    paysave.ded_add = payr.ded_add;
                                 if (payr.contract.salary_details != null)
                                 {
-                                    paysave.Gross = payr.contract.salary_details;
-                                    paysave.Grosstotal = payr.contract.salary_details + payr.TotalOT;
+                                    paysave.Gross = payr.contract.salary_details; 
+                                    double.TryParse(Unprotect(payr.contract.salary_details), out d1);
+                                    double.TryParse(Unprotect(payr.TotalOT), out e1);
+                                    paysave.Grosstotal = Protect((d1 + e1).ToString());
                                 }
                             }
 
@@ -2717,6 +2749,8 @@ namespace HRworks.Controllers
                             else
                                 paysave.LWOP = 0;
 
+                            if (payr.amount != null)
+                                paysave.amount = payr.amount;
                             double.TryParse(Unprotect(payr.contract.salary_details), out var gross);
                             var TLWOP = (paysave.Absents + paysave.LWOP) * (gross * 12 / 365);
                             paysave.TotalLWOP = TLWOP.ToString();
@@ -5348,7 +5382,57 @@ namespace HRworks.Controllers
             return View(wpslist);
         }
 
-
+        public ActionResult reconsilation(DateTime? month)
+        {
+            var payrolllist = db.payrollsaveds.ToList();
+            var reconlist = new List<Reconsilationmodel>();
+            if (month != null)
+            {
+                var cmgross = 0d;
+                var pmgross = 0d;
+                var month1 = payrolllist.FindAll(x => x.forthemonth.Value.Month == month.Value.Month &&  x.forthemonth.Value.Year == month.Value.Year);
+                foreach (var cm in month1)
+                {
+                    double.TryParse(Unprotect(cm.Gross), out var cg);
+                    cmgross += cg;
+                }
+                 month1 = payrolllist.FindAll(x => x.forthemonth.Value.Month == month.Value.Month &&  x.forthemonth.Value.Year == month.Value.Year &&
+                                                      (x.remarks != null || x.ded_add != null));
+                var month2 = payrolllist.FindAll(x =>
+                    x.forthemonth.Value.Month == (month.Value.Month - 1) &&
+                    x.forthemonth.Value.Year == (month.Value.Year));
+                foreach (var cm in month2)
+                {
+                    double.TryParse(Unprotect(cm.Gross), out var cg);
+                    pmgross += cg;
+                }
+                ViewBag.cmgross = cmgross;
+                ViewBag.pmgross = pmgross;
+                ViewBag.diffgross = Math.Abs(cmgross - pmgross);
+                ViewBag.cmdate = month1.First().forthemonth.Value.ToString("MMMM yyyy");
+                ViewBag.pmdate = month2.First().forthemonth.Value.ToString("MMMM yyyy");
+                if (month1 == null)
+                {
+                    goto a;
+                }
+                foreach (var payrollsaved in month1)
+                {
+                    var recon = new Reconsilationmodel();
+                    var paynew = month2.Find(x => x.employee_no == payrollsaved.employee_no);
+                    recon.ded_add = payrollsaved.ded_add;
+                    recon.employee_id = payrollsaved.employee_no;
+                    recon.employee_name = payrollsaved.employee_name;
+                    recon.remarks = payrollsaved.remarks;
+                    double.TryParse(Unprotect(payrollsaved.Gross),out var ab);
+                    recon.gross = Math.Abs(ab);
+                    double.TryParse(Unprotect(payrollsaved.amount),out var ab2);
+                    recon.amount = ab2;
+                    reconlist.Add(recon);
+                }
+            }
+            a: ;
+            return View(reconlist);
+        }
 
         public ActionResult DownloadExcelwps(DateTime? month)
         {

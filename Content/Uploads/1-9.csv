@@ -1,4 +1,4 @@
-employee_no,designation,grade,departmant,salary_details,basic,housing_allowance,transportation_allowance,FOT,food_allowance,living_allowance,ticket_allowance,others,arrears
+employee_no,designation,grade,department/project,salary_details,basic,housing_allowance,transportation_allowance,FOT,food_allowance,living_allowance,ticket_allowance,others,arrears
 8,QMR,6,ISO,0,0,0,0,0,0,0,0,0,0
 40,Sr. Procurement Officer,5A,Procurement,0,0,0,0,0,0,0,0,0,0
 53,General Manager,9A,GM Office,0,0,0,0,0,0,0,0,0,0

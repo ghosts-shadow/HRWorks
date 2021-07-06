@@ -45,8 +45,9 @@
     @Html.TextBox("search")
     <input type="submit"
            name="submit"
-           value="Search/change records" ondblclick="norc()" />
+           value="Search/change records" ondblclick="norc()" class="btn btn-default"/>
     <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("statusupdate")'" value="Update status" />
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("report")'" value="report" />
 </div>
         <div>
             @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pagesize = ViewBag.pagesize }))

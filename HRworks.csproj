@@ -228,6 +228,7 @@
     <Compile Include="Controllers\Training_EffectivenessController.cs" />
     <Compile Include="Controllers\Training_EvaluationController.cs" />
     <Compile Include="Controllers\Training_RequestController.cs" />
+    <Compile Include="Controllers\uploaddataController.cs" />
     <Compile Include="Controllers\usernamesController.cs" />
     <Compile Include="Controllers\visasController.cs" />
     <Compile Include="Controllers\visa_and_labour_cardController.cs" />
@@ -397,6 +398,7 @@
     <Compile Include="Models\ProjectList.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Reconsilationmodel.cs" />
     <Compile Include="Models\rec_req_form.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -816,6 +818,10 @@
     <Content Include="Views\liquiexps\Details.cshtml" />
     <Content Include="Views\liquiexps\Edit.cshtml" />
     <Content Include="Views\liquiexps\Index.cshtml" />
+    <Content Include="Views\uploaddata\Index.cshtml" />
+    <Content Include="Views\uploaddata\Importincl.cshtml" />
+    <Content Include="Views\payroles\reconsilation.cshtml" />
+    <Content Include="Views\master_file\report.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

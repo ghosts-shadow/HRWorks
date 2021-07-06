@@ -14,6 +14,12 @@
             <b style="color:red ">@er</b>
         }
     }
+    <style>
+        table th {
+            position: relative;
+            top: 0px
+        }
+    </style>
     <input type="text" name="refr" value="@ViewBag.refid" style="display: none"/>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
@@ -30,46 +36,49 @@
             $('#expenses' + 0).chosen({ no_results_text: "Oops, nothing found!" });
             $('#invoice_date' + 0).datepicker();
             if(counter <25)
-            $('#add').click(() => {
-                chosendestroy();
-                number = counter++;
-                container = $('#tablerow1');
-                template = $('#tr0');
-                var clone = template.clone(true);
-                clone.attr('id', "tr" + number);
-                clone.find('#expenses' + 0).attr('name', 'Liquidations1[' + number + '].expenses');
-                clone.find('#nameofgov' + 0).attr('name', 'Liquidations1[' + number + '].nameofgov');
-                clone.find('#bill_no' + 0).attr('name', 'Liquidations1[' + number + '].bill_no');
-                clone.find('#invoice_date' + 0).attr('name', 'Liquidations1[' + number + '].invoice_date');
-                clone.find('#discription' + 0).attr('name', 'Liquidations1[' + number + '].discription');
-                clone.find('#employee_no' + 0).attr('name', 'Liquidations1[' + number + '].employee_no');
-                clone.find('#MBNo' + 0).attr('name', 'Liquidations1[' + number + '].MBNo');
-                clone.find('#invoice' + 0).attr('name', 'Liquidations1[' + number + '].invoice');
-                clone.find('#VAT' + 0).attr('name', 'Liquidations1[' + number + '].VAT');
-                clone.find('#invoice_amount' + 0).attr('name', 'Liquidations1[' + number + '].invoice_amount');
-                clone.find('#expenses' + 0).attr('id', 'expenses' + number);
-                clone.find('#nameofgov' + 0).attr('id', 'nameofgov' + number);
-                clone.find('#expensesid' + 0).attr('id', 'expensesid' + number);
-                clone.find('#nameofgovid' + 0).attr('id', 'nameofgovid' + number);
-                clone.find('#bill_no' + 0).attr('id', 'bill_no' + number);
-                clone.find('#invoice_date' + 0).attr('id', 'invoice_date' + number);
-                clone.find('#discription' + 0).attr('id', 'discription' + number);
-                clone.find('#employee_no' + 0).attr('id', 'employee_no' + number);
-                clone.find('#MBNo' + 0).attr('id', 'MBNo' + number);
-                clone.find('#invoice' + 0).attr('id', 'invoice' + number);
-                clone.find('#gov' + 0).attr('id', 'invoice' + number);
-                clone.find('#VAT' + 0).attr('id', 'VAT' + number);
-                clone.find('#tdel' + 1).attr('id', 'tdel' + 1 + number);
-                clone.find('#tdel' + 2).attr('id', 'tdel' + 2 + number);
-                clone.find('#invoice_amount' + 0).attr('id', 'invoice_amount' + number);
-                clone.find('#employee_no' + 0).attr('id', 'employee_no' + number);
-                clone.find('.form-control').val('');
-                $('#discription' + number).val(' ');
-                clone.find('#re').append(' <input type = "button" value = "Remove" onclick = "remove(this.id)"  id="' + number + '"/>');
-                container.append(clone).before(clone);
-                createchosen();
+                $('#add').click(() => {
+                    chosendestroy();
+                    number = counter++;
+                    container = $('#tablerow1');
+                    template = $('#tr0');
+                    var clone = template.clone(true);
+                    clone.attr('id', "tr" + number);
+                    clone.find('#expenses' + 0).attr('name', 'Liquidations1[' + number + '].expenses');
+                    clone.find('#nameofgov' + 0).attr('name', 'Liquidations1[' + number + '].nameofgov');
+                    clone.find('#expensesid' + 0).attr('name', 'Liquidations1[' + number + '].expensesid');
+                    clone.find('#nameofgovid' + 0).attr('name', 'Liquidations1[' + number + '].nameofgovid');
+                    clone.find('#bill_no' + 0).attr('name', 'Liquidations1[' + number + '].bill_no');
+                    clone.find('#invoice_date' + 0).attr('name', 'Liquidations1[' + number + '].invoice_date');
+                    clone.find('#discription' + 0).attr('name', 'Liquidations1[' + number + '].discription');
+                    clone.find('#employee_no' + 0).attr('name', 'Liquidations1[' + number + '].employee_no');
+                    clone.find('#MBNo' + 0).attr('name', 'Liquidations1[' + number + '].MBNo');
+                    clone.find('#invoice' + 0).attr('name', 'Liquidations1[' + number + '].invoice');
+                    clone.find('#VAT' + 0).attr('name', 'Liquidations1[' + number + '].VAT');
+                    clone.find('#invoice_amount' + 0).attr('name', 'Liquidations1[' + number + '].invoice_amount');
+                    clone.find('#expenses' + 0).attr('id', 'expenses' + number);
+                    clone.find('#nameofgov' + 0).attr('id', 'nameofgov' + number);
+                    clone.find('#expensesid' + 0).attr('id', 'expensesid' + number);
+                    clone.find('#nameofgovid' + 0).attr('id', 'nameofgovid' + number);
+                    clone.find('#gov' + 0).attr('id', 'gov' + number);
+                    clone.find('#bill_no' + 0).attr('id', 'bill_no' + number);
+                    clone.find('#invoice_date' + 0).attr('id', 'invoice_date' + number);
+                    clone.find('#discription' + 0).attr('id', 'discription' + number);
+                    clone.find('#employee_no' + 0).attr('id', 'employee_no' + number);
+                    clone.find('#MBNo' + 0).attr('id', 'MBNo' + number);
+                    clone.find('#invoice' + 0).attr('id', 'invoice' + number);
+                    clone.find('#gov' + 0).attr('id', 'invoice' + number);
+                    clone.find('#VAT' + 0).attr('id', 'VAT' + number);
+                    clone.find('#tdel' + 1).attr('id', 'tdel' + 1 + number);
+                    clone.find('#tdel' + 2).attr('id', 'tdel' + 2 + number);
+                    clone.find('#invoice_amount' + 0).attr('id', 'invoice_amount' + number);
+                    clone.find('#employee_no' + 0).attr('id', 'employee_no' + number);
+                    clone.find('.form-control').val('');
+                    $('#discription' + number).val(' ');
+                    clone.find('#re').append(' <input type = "button" value = "Remove" onclick = "remove(this.id)"  id="' + number + '"/>');
+                    container.append(clone).before(clone);
+                    createchosen();
 
-            });
+                });
         });
         var total1 = 0;
 
@@ -93,9 +102,6 @@
                 }
                 if ($("#expenses" + i).length != 0) {
                     $("#expenses" + i).chosen({ no_results_text: "Oops, nothing found!" });
-                }
-                if ($("#nameofgov" + i).length != 0) {
-                    $("#nameofgov" + i).chosen({ no_results_text: "Oops, nothing found!" });
                 }
                 if ($("#invoice_date" + i).length != 0) {
                     $("#invoice_date" + i).datepicker();
@@ -126,6 +132,8 @@
 
         };
     </script>
+    <style>
+        </style>
     <script>
         document.onkeydown = function(e) {
             if (event.keyCode == 123) {
@@ -271,6 +279,7 @@
                         <th rowspan="2" scope="rowgroup" id="thdel1"> @Html.LabelFor(model => model.Liquidations1[0].employee_no, new { @class = "control-label " })</th>
                         <th rowspan="2" scope="rowgroup" id="thdel2"> @Html.LabelFor(model => model.Liquidations1[0].MBNo, new { @class = "control-label " })</th>
                         <th colspan="3">debit amount</th>
+                        <th rowspan="2"></th>
                     </tr>
                     <tr>
                         <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].invoice, new { @class = "control-label " })</th>

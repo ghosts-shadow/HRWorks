@@ -66,7 +66,34 @@
             border: 1px solid black !important;
             padding: 0.3%
         }
-
+         button {
+             color: #333;
+             background-color: #fff;
+             border-color: #ccc;
+             display: inline-block;
+             margin-bottom: 0;
+             font-weight: normal;
+             text-align: center;
+             white-space: nowrap;
+             vertical-align: middle;
+             -ms-touch-action: manipulation;
+             touch-action: manipulation;
+             cursor: pointer;
+             background-image: none;
+             border: 1px solid transparent;
+             border-top-color: transparent;
+             border-right-color: transparent;
+             border-bottom-color: transparent;
+             border-left-color: transparent;
+             padding: 6px 12px;
+             font-size: 14px;
+             line-height: 1.42857143;
+             border-radius: 4px;
+             -webkit-user-select: none;
+             -moz-user-select: none;
+             -ms-user-select: none;
+             user-select: none;
+         }
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -76,60 +103,64 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
-
+        table th {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 123px;
+        }
         .navbar-right {
             margin-right: 0px
         }
     </style>
 </head>
-<body onload="" style="text-transform: capitalize; margin-left: 1%; margin-right: 1%">
-
-    <div class="navbar navbar-inverse navbar-fixed-top" style="position: relative; top: -50px;padding: 0px !important">
-        <div class="navbar-header">
-            <button type="button"
-                    class="navbar-toggle"
-                    data-toggle="collapse"
-                    data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>@Html.ActionLink("HRworks", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav " style="font-size: 11px;">
-                @if (Request.IsAuthenticated)
-                {
-                    <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
-                    <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
-                    <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
-                    <li>@Html.ActionLink("Employee Details", "Index", "master_file")</li>
-                    <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
-                    <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
-                    <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
-                    <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
-                    <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
-                    <li>@Html.ActionLink("attendance", "Index1", "hiks")</li>
-                    if (User.Identity.IsAuthenticated)
-                    {
-                        if (User.Identity.Name == "dinizsneden@gmail.com")
-                        {
-                            <li>@Html.ActionLink("HR forms", "HR_Forms", "HR_forms")</li>
-                        }
-                        if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
-                        {
-                            <li>@Html.ActionLink("payroll", "Report", "Attendances")</li>
-                            <li>@Html.ActionLink("user name", "index", "usernames")</li>
-                            <li>@Html.ActionLink("end of service", "EOSB", "end_of_service")</li>
-                            <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
-                        }
-                    }
-
-                }
-            </ul>
-            @Html.Partial("_LoginPartial")
-        </div>
+<body onload="" style="text-transform: capitalize; padding-top: 0px">
+<div class="navbar navbar-inverse navbar-fixed-top" style="position: sticky;top: 0px; padding: 0px !important">
+    <div class="navbar-header">
+        <button type="button"
+                class="navbar-toggle"
+                data-toggle="collapse"
+                data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>@Html.ActionLink("HRworks", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
     </div>
-    <div class="body-content row" style="text-transform: capitalize; margin-left: 1%; margin-right: 1%; position: relative; top: 5%">
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav " style="font-size: 11px;">
+            @if (Request.IsAuthenticated)
+            {
+                <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
+                <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
+                <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
+                <li>@Html.ActionLink("Employee Details", "Index", "master_file")</li>
+                <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
+                <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
+                <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
+                <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
+                <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
+                <li>@Html.ActionLink("attendance", "Index1", "hiks")</li>
+                if (User.Identity.IsAuthenticated)
+                {
+                    if (User.Identity.Name == "dinizsneden@gmail.com")
+                    {
+                        <li>@Html.ActionLink("HR forms", "HR_Forms", "HR_forms")</li>
+                    }
+                    if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
+                    {
+                        <li>@Html.ActionLink("payroll", "Report", "Attendances")</li>
+                        <li>@Html.ActionLink("uploaddata", "Index", "uploaddata")</li>
+                        <li>@Html.ActionLink("user name", "index", "usernames")</li>
+                        <li>@Html.ActionLink("end of service", "EOSB", "end_of_service")</li>
+                        <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
+                    }
+                }
+
+            }
+        </ul>
+        @Html.Partial("_LoginPartial")
+    </div>
+</div>
+    <div class="body-content row" style="text-transform: capitalize; margin-left: 2%; margin-right: 2%; position: relative; top: 5%">
         @RenderBody()
         <hr />
         <footer id="foot">

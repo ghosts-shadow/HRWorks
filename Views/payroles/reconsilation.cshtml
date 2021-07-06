@@ -1,0 +1,133 @@
+﻿@model IEnumerable<HRworks.Models.Reconsilationmodel>
+
+@{
+    ViewBag.Title = "reconsilation";
+    var add_ded = new List<string>() {"deduction", "Addition"};
+    var a = 0d;
+    var b = 0d;
+    var c = 0d;
+}
+<div class="container">
+    <div class="row" style="text-align: center">
+        <div class="col-md-10" >
+            <h2 style="text-transform: uppercase">payroll reconciliation for the month of @ViewBag.cmdate</h2>
+                <div class="row">
+                    <div class="col-md-3">
+                        @ViewBag.cmdate
+                    </div>
+                    <div class="col-md-3">
+                        @ViewBag.cmgross
+                    </div>
+                    <div class="col-3">gross salary</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        @ViewBag.pmdate
+                    </div>
+                    <div class="col-md-3">
+                        @ViewBag.pmgross
+                    </div>
+                    <div class="col-md-3">gross salary</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <br />
+                    </div>
+                    <div class="col-md-3">
+                        @ViewBag.diffgross
+                    </div>
+                    <div class="col-md-3">difference</div>
+                </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    @foreach (var item1 in add_ded)
+    {
+        <b>@item1</b>
+        <br />
+        <br />
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.employee_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.employee_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.remarks)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.gross)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.amount)
+                </th>
+            </tr>
+            @foreach (var item in Model.Where(x => x.ded_add == item1))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.employee_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.employee_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.remarks)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.gross)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.amount)
+                    </td>
+                </tr>
+                if (item1 == "deduction")
+                {
+                    a += item.gross;
+                }
+                else
+                {
+                    b += item.gross;
+                }
+            }
+            <tr>
+                <td colspan="3">total</td>
+                <td>
+                    @if (item1 == "deduction")
+                    {
+                        @a
+                    }
+                    else
+                    {
+                        @b
+                    }
+                </td>
+            </tr>
+
+        </table>
+        <br />
+        <br />
+        <br />
+        c = Math.Abs(a - b);
+    }
+    <div class="row">
+        <div class="col-md-9"><br /></div>
+        <div class="col-md-1"><b>Differenc @c</b></div>
+    </div>
+    <div class="row">
+        <div class="col-md-5"><b>perpared by:</b></div>
+        <div class="col-md-5"><b>reviewed by:</b></div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">erma askin</div>
+        <div class="col-md-5">mr. yahya ali rashid</div>
+    </div>
+    <div class="row">
+        <div class="col-md-5"><br/></div>
+        <div class="col-md-5">HR manager</div>
+    </div>
+</div>

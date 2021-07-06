@@ -42,6 +42,8 @@ namespace HRworks.Models
         public string others { get; set; }
         public bool save { get; set; }
         public string Rstate { get; set; }
+        public string amount { get; set; }
+        public string ded_add { get; set; }
     
         public virtual contract contract { get; set; }
         public virtual Leave Leave { get; set; }

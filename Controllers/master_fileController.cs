@@ -234,6 +234,7 @@ namespace HRworks.Controllers
 
         }
 
+        
         // GET: master_file/Details/5
         public ActionResult Details(int? id)
         {
@@ -482,6 +483,42 @@ namespace HRworks.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult report(DateTime? from, DateTime? to, string status)
+        {
+            ViewBag.from = from;
+            ViewBag.to = to;
+            var afinallist = new List<master_file>();
+                var alist = db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+                foreach (var file in alist)
+                {
+                    if (afinallist.Count == 0) afinallist.Add(file);
+
+                    if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                        afinallist.Add(file);
+                }
+            var afinallist2 = new List<master_file>();
+            if (status == "inactive")
+            {
+                foreach (var file in afinallist)
+                {
+                    if (file.status == "inactive" && file.last_working_day > from && file.last_working_day < to)
+                    {
+                        afinallist2.Add(file);
+                    }
+                }
+            }
+            if (status == "joining")
+            {
+                foreach (var file in afinallist)
+                {
+                    if (file.date_joined > from && file.date_joined < to)
+                    {
+                        afinallist2.Add(file);
+                    }
+                }
+            }
+            return View(afinallist2);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

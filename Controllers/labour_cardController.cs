@@ -275,6 +275,7 @@ namespace HRworks.Controllers
                 master = db.master_file.Find(labour_card.emp_no);
                 if (master.visas.Count != 0)
                 {
+                    labour_card.master_file = master;
                     labour_card.master_file.status = "active";
                 }
                 db.labour_card.Add(img);

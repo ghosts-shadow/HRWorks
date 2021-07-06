@@ -455,7 +455,7 @@
 
                                     if (column.ColumnName == "designation") pro.designation = dr[column].ToString();
                                     if (column.ColumnName == "grade") pro.grade = dr[column].ToString();
-                                    if (column.ColumnName == "departmant")
+                                    if (column.ColumnName == "department/project")
                                         pro.departmant_project = dr[column].ToString();
                                     if (column.ColumnName == "salary_details")
                                     {

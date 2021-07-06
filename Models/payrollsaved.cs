@@ -51,5 +51,7 @@ namespace HRworks.Models
         public string CFoodAllow { get; set; }
         public string Grosstotal { get; set; }
         public string establishment { get; set; }
+        public string amount { get; set; }
+        public string ded_add { get; set; }
     }
 }

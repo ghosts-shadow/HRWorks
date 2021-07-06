@@ -578,6 +578,8 @@
           <Property Name="others" Type="nvarchar(max)" />
           <Property Name="save" Type="bit" Nullable="false" />
           <Property Name="Rstate" Type="nvarchar(max)" />
+          <Property Name="amount" Type="nvarchar(max)" />
+          <Property Name="ded_add" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="payrolelogin">
           <Key>
@@ -628,6 +630,8 @@
           <Property Name="remarks" Type="nvarchar(max)" />
           <Property Name="forthemonth" Type="date" />
           <Property Name="establishment" Type="nvarchar(max)" />
+          <Property Name="amount" Type="nvarchar(max)" />
+          <Property Name="ded_add" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="PROBATION_ASSESSMENT">
           <Key>
@@ -2855,6 +2859,8 @@
           <Property Name="others" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="save" Type="Boolean" Nullable="false" />
           <Property Name="Rstate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="amount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ded_add" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_pay_To_con">
           <End Type="HRModel.contract" Role="contract" Multiplicity="1" />
@@ -2969,6 +2975,8 @@
           <Property Name="CFoodAllow" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Grosstotal" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="establishment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="amount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ded_add" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="liquiexp">
           <Key>
@@ -3743,6 +3751,8 @@
           <EntitySetMapping Name="payroles">
             <EntityTypeMapping TypeName="HRModel.payrole">
               <MappingFragment StoreEntitySet="payrole">
+                <ScalarProperty Name="ded_add" ColumnName="ded_add" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
                 <ScalarProperty Name="Rstate" ColumnName="Rstate" />
                 <ScalarProperty Name="save" ColumnName="save" />
                 <ScalarProperty Name="others" ColumnName="others" />
@@ -3777,6 +3787,8 @@
           <EntitySetMapping Name="payrollsaveds">
             <EntityTypeMapping TypeName="HRModel.payrollsaved">
               <MappingFragment StoreEntitySet="payrollsaved">
+                <ScalarProperty Name="ded_add" ColumnName="ded_add" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
                 <ScalarProperty Name="establishment" ColumnName="establishment" />
                 <ScalarProperty Name="Grosstotal" ColumnName="Grosstotal" />
                 <ScalarProperty Name="CFoodAllow" ColumnName="CFoodAllow" />
