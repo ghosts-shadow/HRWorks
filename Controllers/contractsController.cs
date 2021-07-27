@@ -326,13 +326,10 @@
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "super_admin,admin,payrole,employee_con")]
         public ActionResult Edit(
-            [Bind(
-                Include =
-                    "con_id,employee_no,designation,grade,departmant_project,salary_details,basic,housing_allowance,transportation_allowance,FOT,food_allowance,living_allowance,ticket_allowance,others,arrears,employee_id")]
             contract contract,
             HttpPostedFileBase fileBase)
         {
-            string serverfile;
+            string serverfile = null;
             if (fileBase != null)
             {
                 var a = this.db.master_file.Find(contract.employee_no);
@@ -351,20 +348,31 @@
                     serverfile = "D:/HR/img/contract/" + a.employee_no + "/" + a.employee_no + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
-            }
+            }/*
             else
             {
                 serverfile = null;
                 var imglist = db.contracts.ToList().FindAll(x => x.employee_no == contract.employee_no)
                     .OrderByDescending(x => x.date_changed).ToList();
-                var imgpath = imglist.FindAll(c => c.imgpath != null).OrderByDescending(x => x.date_changed).First()
-                    .imgpath;
-                serverfile = imgpath;
-            }
+                var imgpath = imglist.FindAll(c => c.imgpath != null).OrderByDescending(x => x.date_changed).ToList();
+                if (imgpath.Count != 0)
+                {
+                    var aserverfile = imgpath.First();
+                    if (aserverfile != null)
+                    {
+                        serverfile = aserverfile.imgpath;
+                    }
+                }
+                else
+                {
+                    serverfile = null;
+                }
+            }*/
 
             if (this.ModelState.IsValid)
             {
                 var img = new contract();
+
                 img.con_id = contract.con_id;
                 img.employee_id = contract.employee_id;
                 img.employee_no = contract.employee_no;
@@ -381,7 +389,14 @@
                 img.ticket_allowance = this.Protect(contract.ticket_allowance);
                 img.others = this.Protect(contract.others);
                 img.arrears = this.Protect(contract.arrears);
-                img.imgpath = serverfile;
+                if (serverfile != null)
+                {
+                    img.imgpath = serverfile;
+                }
+                else
+                {
+                    img.imgpath = contract.imgpath;
+                }
                 img.changed_by = this.User.Identity.Name;
                 img.date_changed = DateTime.Now;
                 db.Entry(img).State = EntityState.Modified;
