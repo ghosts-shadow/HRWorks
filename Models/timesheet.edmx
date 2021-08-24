@@ -151,6 +151,32 @@
           <Property Name="File Type" Type="nvarchar" MaxLength="255" />
           <Property Name="TMnth" Type="int" />
         </EntityType>
+        <EntityType Name="Manpowerinoutform">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="camp" Type="nvarchar(max)" />
+          <Property Name="companyName" Type="nvarchar(max)" />
+          <Property Name="EmpID" Type="bigint" Nullable="false" />
+          <Property Name="mobileNo" Type="int" />
+          <Property Name="roomNo" Type="int" />
+          <Property Name="Project" Type="bigint" Nullable="false" />
+          <Property Name="SSg" Type="bit" Nullable="false" />
+          <Property Name="SSp" Type="bit" Nullable="false" />
+          <Property Name="blanket" Type="bit" Nullable="false" />
+          <Property Name="bs" Type="bit" Nullable="false" />
+          <Property Name="fs" Type="bit" Nullable="false" />
+          <Property Name="pillow" Type="bit" Nullable="false" />
+          <Property Name="pc" Type="bit" Nullable="false" />
+          <Property Name="ck" Type="bit" Nullable="false" />
+          <Property Name="rk" Type="bit" Nullable="false" />
+          <Property Name="cic" Type="bit" Nullable="false" />
+          <Property Name="copon" Type="bit" Nullable="false" />
+          <Property Name="check-in" Type="date" />
+          <Property Name="check-out" Type="date" />
+          <Property Name="date_" Type="date" />
+        </EntityType>
         <EntityType Name="ManPowerSupplier">
           <Key>
             <PropertyRef Name="ID" />
@@ -262,11 +288,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Manpowerinoutform_ToLabourMaster">
+          <End Role="LabourMaster" Type="Self.LabourMaster" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Manpowerinoutform" Type="Self.Manpowerinoutform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LabourMaster">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Manpowerinoutform">
+              <PropertyRef Name="EmpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Manpowerinoutform_ToTable_1">
+          <End Role="ProjectList" Type="Self.ProjectList" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Manpowerinoutform" Type="Self.Manpowerinoutform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Manpowerinoutform">
+              <PropertyRef Name="Project" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="LogisticsSoftModelStoreContainer">
           <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Holidays" EntityType="Self.Holidays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LabourMaster" EntityType="Self.LabourMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MainTimeSheet" EntityType="Self.MainTimeSheet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Manpowerinoutform" EntityType="Self.Manpowerinoutform" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ManPowerSupplier" EntityType="Self.ManPowerSupplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectList" EntityType="Self.ProjectList" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Attendance_ToLabourMaster" Association="Self.FK_Attendance_ToLabourMaster">
@@ -284,6 +339,14 @@
           <AssociationSet Name="FK_MainTimeSheet_ToTable_1" Association="Self.FK_MainTimeSheet_ToTable_1">
             <End Role="ProjectList" EntitySet="ProjectList" />
             <End Role="MainTimeSheet" EntitySet="MainTimeSheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Manpowerinoutform_ToLabourMaster" Association="Self.FK_Manpowerinoutform_ToLabourMaster">
+            <End Role="LabourMaster" EntitySet="LabourMaster" />
+            <End Role="Manpowerinoutform" EntitySet="Manpowerinoutform" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Manpowerinoutform_ToTable_1" Association="Self.FK_Manpowerinoutform_ToTable_1">
+            <End Role="ProjectList" EntitySet="ProjectList" />
+            <End Role="Manpowerinoutform" EntitySet="Manpowerinoutform" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -433,6 +496,15 @@
             <End Role="MainTimeSheet" EntitySet="MainTimeSheets" />
           </AssociationSet>
           <EntitySet Name="Holidays" EntityType="LogisticsSoftModel.Holiday" />
+          <EntitySet Name="Manpowerinoutforms" EntityType="LogisticsSoftModel.Manpowerinoutform" />
+          <AssociationSet Name="FK_Manpowerinoutform_ToLabourMaster" Association="LogisticsSoftModel.FK_Manpowerinoutform_ToLabourMaster">
+            <End Role="LabourMaster" EntitySet="LabourMasters" />
+            <End Role="Manpowerinoutform" EntitySet="Manpowerinoutforms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Manpowerinoutform_ToTable_1" Association="LogisticsSoftModel.FK_Manpowerinoutform_ToTable_1">
+            <End Role="ProjectList" EntitySet="ProjectLists" />
+            <End Role="Manpowerinoutform" EntitySet="Manpowerinoutforms" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="LabourMaster">
           <Key>
@@ -462,6 +534,7 @@
           <Property Name="Workflow_Instance_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="File_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Attendances" Relationship="LogisticsSoftModel.FK_Attendance_ToLabourMaster" FromRole="LabourMaster" ToRole="Attendance" />
+          <NavigationProperty Name="Manpowerinoutforms" Relationship="LogisticsSoftModel.FK_Manpowerinoutform_ToLabourMaster" FromRole="LabourMaster" ToRole="Manpowerinoutform" />
         </EntityType>
         <Association Name="FK_Attendance_ToLabourMaster">
           <End Type="LogisticsSoftModel.LabourMaster" Role="LabourMaster" Multiplicity="1">
@@ -533,6 +606,7 @@
           <Property Name="man_power_budget" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="rate_w_wo_at" Type="Boolean" />
           <NavigationProperty Name="MainTimeSheets" Relationship="LogisticsSoftModel.FK_MainTimeSheet_ToTable_1" FromRole="ProjectList" ToRole="MainTimeSheet" />
+          <NavigationProperty Name="Manpowerinoutforms" Relationship="LogisticsSoftModel.FK_Manpowerinoutform_ToTable_1" FromRole="ProjectList" ToRole="Manpowerinoutform" />
         </EntityType>
         <Association Name="FK_MainTimeSheet_ToTable">
           <End Type="LogisticsSoftModel.ManPowerSupplier" Role="ManPowerSupplier" Multiplicity="1">
@@ -579,6 +653,62 @@
           <Property Name="Workflow_Instance_ID" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="File_Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Manpowerinoutform">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="camp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="companyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmpID" Type="Int64" Nullable="false" />
+          <Property Name="mobileNo" Type="Int32" />
+          <Property Name="roomNo" Type="Int32" />
+          <Property Name="Project" Type="Int64" Nullable="false" />
+          <Property Name="SSg" Type="Boolean" Nullable="false" />
+          <Property Name="SSp" Type="Boolean" Nullable="false" />
+          <Property Name="blanket" Type="Boolean" Nullable="false" />
+          <Property Name="bs" Type="Boolean" Nullable="false" />
+          <Property Name="fs" Type="Boolean" Nullable="false" />
+          <Property Name="pillow" Type="Boolean" Nullable="false" />
+          <Property Name="pc" Type="Boolean" Nullable="false" />
+          <Property Name="ck" Type="Boolean" Nullable="false" />
+          <Property Name="rk" Type="Boolean" Nullable="false" />
+          <Property Name="cic" Type="Boolean" Nullable="false" />
+          <Property Name="copon" Type="Boolean" Nullable="false" />
+          <Property Name="check_in" Type="DateTime" Precision="0" />
+          <Property Name="check_out" Type="DateTime" Precision="0" />
+          <Property Name="date_" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="LabourMaster" Relationship="LogisticsSoftModel.FK_Manpowerinoutform_ToLabourMaster" FromRole="Manpowerinoutform" ToRole="LabourMaster" />
+          <NavigationProperty Name="ProjectList" Relationship="LogisticsSoftModel.FK_Manpowerinoutform_ToTable_1" FromRole="Manpowerinoutform" ToRole="ProjectList" />
+        </EntityType>
+        <Association Name="FK_Manpowerinoutform_ToLabourMaster">
+          <End Type="LogisticsSoftModel.LabourMaster" Role="LabourMaster" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LogisticsSoftModel.Manpowerinoutform" Role="Manpowerinoutform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LabourMaster">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Manpowerinoutform">
+              <PropertyRef Name="EmpID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Manpowerinoutform_ToTable_1">
+          <End Type="LogisticsSoftModel.ProjectList" Role="ProjectList" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="LogisticsSoftModel.Manpowerinoutform" Role="Manpowerinoutform" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectList">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Manpowerinoutform">
+              <PropertyRef Name="Project" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -789,6 +919,33 @@
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="year" ColumnName="year" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Manpowerinoutforms">
+            <EntityTypeMapping TypeName="LogisticsSoftModel.Manpowerinoutform">
+              <MappingFragment StoreEntitySet="Manpowerinoutform">
+                <ScalarProperty Name="date_" ColumnName="date_" />
+                <ScalarProperty Name="check_out" ColumnName="check-out" />
+                <ScalarProperty Name="check_in" ColumnName="check-in" />
+                <ScalarProperty Name="copon" ColumnName="copon" />
+                <ScalarProperty Name="cic" ColumnName="cic" />
+                <ScalarProperty Name="rk" ColumnName="rk" />
+                <ScalarProperty Name="ck" ColumnName="ck" />
+                <ScalarProperty Name="pc" ColumnName="pc" />
+                <ScalarProperty Name="pillow" ColumnName="pillow" />
+                <ScalarProperty Name="fs" ColumnName="fs" />
+                <ScalarProperty Name="bs" ColumnName="bs" />
+                <ScalarProperty Name="blanket" ColumnName="blanket" />
+                <ScalarProperty Name="SSp" ColumnName="SSp" />
+                <ScalarProperty Name="SSg" ColumnName="SSg" />
+                <ScalarProperty Name="Project" ColumnName="Project" />
+                <ScalarProperty Name="roomNo" ColumnName="roomNo" />
+                <ScalarProperty Name="mobileNo" ColumnName="mobileNo" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="companyName" ColumnName="companyName" />
+                <ScalarProperty Name="camp" ColumnName="camp" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

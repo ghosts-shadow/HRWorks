@@ -15,6 +15,9 @@
         <AssociationConnector Association="LogisticsSoftModel.FK_MainTimeSheet_ToTable" />
         <AssociationConnector Association="LogisticsSoftModel.FK_MainTimeSheet_ToTable_1" />
         <EntityTypeShape EntityType="LogisticsSoftModel.Holiday" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LogisticsSoftModel.Manpowerinoutform" Width="1.5" PointX="3" PointY="18.125" />
+        <AssociationConnector Association="LogisticsSoftModel.FK_Manpowerinoutform_ToLabourMaster" />
+        <AssociationConnector Association="LogisticsSoftModel.FK_Manpowerinoutform_ToTable_1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

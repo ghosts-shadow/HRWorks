@@ -50,6 +50,18 @@
             return true;
         }
     </script>
+    <script>
+        function navpos() {
+            var  nav = document.querySelector('#navpos');
+            var th = document.querySelector('.body-content').getElementsByTagName("th");
+            var  width = nav.offsetWidth;
+            var height = nav.offsetHeight;
+            var topst = height + "px";
+            for (var i = 0; i < th.length; i++) {
+                th[i].style.top = topst;
+            }
+        }
+    </script>
     <style>
         table {
             width: 100%;
@@ -58,63 +70,150 @@
         }
 
         th, .navbar, .nav {
-            background-color: #2c6faa;
-            color: white;
+            background-color: #152939 !important;
+            color: white !important;
         }
 
         th, tr, td {
             border: 1px solid black !important;
             padding: 0.3%
         }
-         button {
-             color: #333;
-             background-color: #fff;
-             border-color: #ccc;
-             display: inline-block;
-             margin-bottom: 0;
-             font-weight: normal;
-             text-align: center;
-             white-space: nowrap;
-             vertical-align: middle;
-             -ms-touch-action: manipulation;
-             touch-action: manipulation;
-             cursor: pointer;
-             background-image: none;
-             border: 1px solid transparent;
-             border-top-color: transparent;
-             border-right-color: transparent;
-             border-bottom-color: transparent;
-             border-left-color: transparent;
-             padding: 6px 12px;
-             font-size: 14px;
-             line-height: 1.42857143;
-             border-radius: 4px;
-             -webkit-user-select: none;
-             -moz-user-select: none;
-             -ms-user-select: none;
-             user-select: none;
-         }
+
+        button {
+            color: #333;
+            background-color: #fff;
+            border-color: #ccc;
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: normal;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
+
         /* Firefox */
+
         input[type=number] {
             -moz-appearance: textfield;
         }
+
         table th {
             position: -webkit-sticky;
             position: sticky;
-            top: 123px;
+        }
+        .dd1, .dd2 {
+            background-color: #152939 !important;
+            float: left;
+            margin-top: 14px;
         }
         .navbar-right {
             margin-right: 0px
         }
+        .dropdown-menu {
+            background-color: #152939 !important;
+            color: #ffffff !important
+        }
+        .dropdown-menu > li > a {
+            color: #fff !important;
+        }
+        .dropdown-menu > li > a:hover {
+            color: black !important;
+        }
+        .navbar-inverse .navbar-nav > li > a {
+            color: #fff!important;
+            margin-top: 7px;
+            padding-bottom: 0px;
+        }
+        .body-content {
+            margin-bottom: 50px;
+        }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+    <style>
+        .no-js #loader { display: none;  }
+        .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+        .se-pre-con {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url(https://smallenvelop.com/wp-content/uploads/2014/08/Preloader_11.gif) center no-repeat #fff;
+        }
+    </style>
+    <script>
+        $(window).load(function() {
+            // Animate loader off screen
+            $(".se-pre-con").fadeOut("slow");
+        });
+        $('a').on('click', function () {
+            setTimeout(function () { $(".se-pre-con").css("display:block");}, 3000);
+            
+        });  
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        function dd1() {
+            if ($("#dd1").hasClass("open")) {
+                $(".dd1").removeClass("open");
+            } else {
+                $(".dd1").addClass("open");
+            }
+            if ($("#dd2").hasClass("open")) {
+                $(".dd2").removeClass("open");
+            }
+        }
+
+        function dd2() {
+            if ($("#dd2").hasClass("open")) {
+                $(".dd2").removeClass("open");
+            } else {
+                $(".dd2").addClass("open");
+            }
+            if ($("#dd1").hasClass("open")) {
+                $(".dd1").removeClass("open");
+            }
+        }
+
+        function ddremove() {
+            if ($("#dd1").hasClass("open")) {
+                $(".dd1").removeClass("open");
+            }
+            if ($("#dd2").hasClass("open")) {
+                $(".dd2").removeClass("open");
+            }
+        }
+    </script>
 </head>
-<body onload="" style="text-transform: capitalize; padding-top: 0px">
-<div class="navbar navbar-inverse navbar-fixed-top" style="position: sticky;top: 0px; padding: 0px !important">
+<body onload="navpos()" style="text-transform: capitalize; padding-top: 0px" onclick="navpos()">
+<div class="navbar navbar-inverse navbar-fixed-top" style="position: sticky; top: 0px; padding: 0px !important" id="navpos" >
     <div class="navbar-header">
         <button type="button"
                 class="navbar-toggle"
@@ -123,21 +222,53 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-        </button>@Html.ActionLink("HRworks", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </button>
+        <a class="navbar-brand" href="@Url.Action("index", "Home")" style="margin-top: -12px; padding-right: 0px;">
+            <div>
+                <img src="~/img/navlogo.png" class="img-fluid" width="60px" height="60px">
+            </div>
+        </a>
     </div>
     <div class="navbar-collapse collapse">
+
         <ul class="nav navbar-nav " style="font-size: 11px;">
             @if (Request.IsAuthenticated)
             {
-                <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
-                <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
-                <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
-                <li>@Html.ActionLink("Employee Details", "Index", "master_file")</li>
+                <div class="dropdown dd1" id="dd1">
+                    <button class="btn btn-primary dropdown-toggle" type="button" onclick='dd1()' style="background-color: #152939 !important;border-color: #152939">
+                        Employee Details
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
+                        <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
+                        <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
+                        <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
+                        <li>@Html.ActionLink("master file", "Index", "master_file")</li>
+                        <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
+                        <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
+                        @if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
+                        {
+                            <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="dropdown dd2" id="dd2">
+                    <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd2()" style="background-color: #152939 !important;border-color: #152939">
+                        Financial
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        @if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
+                        {
+                            <li>@Html.ActionLink("payroll", "Report", "Attendances")</li>
+                            <li>@Html.ActionLink("end of service", "EOSB", "end_of_service")</li>
+                        }
+                    </ul>
+                </div>
                 <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
-                <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
                 <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
-                <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
-                <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
                 <li>@Html.ActionLink("attendance", "Index1", "hiks")</li>
                 if (User.Identity.IsAuthenticated)
                 {
@@ -147,31 +278,31 @@
                     }
                     if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
                     {
-                        <li>@Html.ActionLink("payroll", "Report", "Attendances")</li>
                         <li>@Html.ActionLink("uploaddata", "Index", "uploaddata")</li>
                         <li>@Html.ActionLink("user name", "index", "usernames")</li>
-                        <li>@Html.ActionLink("end of service", "EOSB", "end_of_service")</li>
-                        <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
                     }
                 }
-
             }
         </ul>
         @Html.Partial("_LoginPartial")
     </div>
 </div>
-    <div class="body-content row" style="text-transform: capitalize; margin-left: 2%; margin-right: 2%; position: relative; top: 5%">
+<div class="body-content row" style="text-transform: capitalize; margin-left: 2%; margin-right: 2%; position: relative; top: 5%" onclick="ddremove()">
+    <div id="bodyloder">
         @RenderBody()
-        <hr />
-        <footer id="foot">
-            <p>&copy; @DateTime.Now.Year - CITISCAPE L.L.C.</p>
-            @if (Request.IsAuthenticated)
-            {<label id="lblTime" style="display: none"></label>
-            }
-        </footer>
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <hr />
+    <footer id="foot" style="bottom: 0; left: 0; position: fixed; text-align: center; background-color: #152939; color: #fff; width: 100%; vertical-align: bottom">
+        <p>&copy; @DateTime.Now.Year - CITISCAPE L.L.C.</p>
+        @if (Request.IsAuthenticated)
+        {
+            <label id="lblTime" style="display: none"></label>
+        }
+    </footer>
+    <div class="se-pre-con"></div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
 </body>
 </html>

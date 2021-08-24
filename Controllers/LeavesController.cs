@@ -63,6 +63,8 @@
                     double accrued1 = 0;
                     double avalied = 0;
                     double avalied1 = 0;
+                    double favalied = 0;
+                    double favalied1 = 0;
                     double lbal = 0;
                     var asf = empjd.date_joined;
                     var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
@@ -77,48 +79,30 @@
                         {
                             if (leaf.leave_type == "6")
                             {
-                                if (leaf.days != null)
+                                if (leaf.half)
                                 {
-                                    if (leaf.half) unpaid += leaf.days.Value - 0.5;
-                                    else
-                                        unpaid += leaf.days.Value;
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) unpaid += times.Value.TotalDays + 1 - 0.5;
                                 }
                                 else
                                 {
-                                    if (leaf.half)
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) unpaid += times.Value.TotalDays + 1 - 0.5;
-                                    }
-                                    else
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) unpaid += times.Value.TotalDays + 1;
-                                    }
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) unpaid += times.Value.TotalDays + 1;
                                 }
                             }
 
                             double sick = 0;
                             if (leaf.leave_type == "2" || leaf.leave_type == "7")
                             {
-                                if (leaf.days != null)
+                                if (leaf.half)
                                 {
-                                    if (leaf.half) sick += leaf.days.Value - 0.5;
-                                    else
-                                        sick += leaf.days.Value;
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
                                 }
                                 else
                                 {
-                                    if (leaf.half)
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
-                                    }
-                                    else
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) sick += times.Value.TotalDays + 1;
-                                    }
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) sick += times.Value.TotalDays + 1;
                                 }
                             }
 
@@ -127,23 +111,15 @@
                             double comp = 0;
                             if (leaf.leave_type == "3")
                             {
-                                if (leaf.days != null)
+                                if (leaf.half)
                                 {
-                                    if (leaf.half) comp += leaf.days.Value - 0.5;
-                                    else comp += leaf.days.Value;
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
                                 }
                                 else
                                 {
-                                    if (leaf.half)
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
-                                    }
-                                    else
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) comp += times.Value.TotalDays + 1;
-                                    }
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) comp += times.Value.TotalDays + 1;
                                 }
                             }
 
@@ -152,23 +128,15 @@
                             double mate = 0;
                             if (leaf.leave_type == "4")
                             {
-                                if (leaf.days != null)
+                                if (leaf.half)
                                 {
-                                    if (leaf.half) mate += leaf.days.Value - 0.5;
-                                    else mate += leaf.days.Value;
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
                                 }
                                 else
                                 {
-                                    if (leaf.half)
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
-                                    }
-                                    else
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) mate += times.Value.TotalDays + 1;
-                                    }
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) mate += times.Value.TotalDays + 1;
                                 }
                             }
 
@@ -176,23 +144,15 @@
                             double haj = 0;
                             if (leaf.leave_type == "5")
                             {
-                                if (leaf.days != null)
+                                if (leaf.half)
                                 {
-                                    if (leaf.half) haj += leaf.days.Value - 0.5;
-                                    else haj += leaf.days.Value;
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
                                 }
                                 else
                                 {
-                                    if (leaf.half)
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
-                                    }
-                                    else
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) haj += times.Value.TotalDays + 1;
-                                    }
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) haj += times.Value.TotalDays + 1;
                                 }
                             }
 
@@ -221,22 +181,56 @@
                                 {
                                     if (leaf.half)
                                     {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
-                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        if (leaf.Start_leave > DateTime.Today)
                                         {
-                                            times1 = leaf.End_leave - leaf.Start_leave;
-                                            if (times1 != null) avalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                            times = leaf.End_leave - leaf.Start_leave;
+                                            if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                            {
+                                                times1 = leaf.End_leave - leaf.Start_leave;
+                                                if (times1 != null) favalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                            }
+                                            else
+                                            {
+                                                if (times != null) favalied += times.Value.TotalDays + 1 - 0.5;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            times = leaf.End_leave - leaf.Start_leave;
+                                            if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                            {
+                                                times1 = leaf.End_leave - leaf.Start_leave;
+                                                if (times1 != null) avalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                            }
+
+                                            if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
                                         }
                                     }
                                     else
                                     {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) avalied += times.Value.TotalDays + 1;
-                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        if (leaf.Start_leave > DateTime.Today)
                                         {
-                                            times1 = leaf.End_leave - leaf.Start_leave;
-                                            if (times1 != null) avalied1 += times1.Value.TotalDays + 1;
+                                            times = leaf.End_leave - leaf.Start_leave;
+                                            if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                            {
+                                                times1 = leaf.End_leave - leaf.Start_leave;
+                                                if (times1 != null) favalied1 += times1.Value.TotalDays + 1;
+                                            }
+                                            else
+                                            {
+                                                if (times != null) favalied += times.Value.TotalDays + 1;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            times = leaf.End_leave - leaf.Start_leave;
+                                            if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                            {
+                                                times1 = leaf.End_leave - leaf.Start_leave;
+                                                if (times1 != null) avalied1 += times1.Value.TotalDays + 1;
+                                            }
+
+                                            if (times != null) avalied += times.Value.TotalDays + 1;
                                         }
                                     }
                                 }
@@ -246,13 +240,13 @@
                         netperiod = period - unpaid;
                         accrued = Math.Round(netperiod * 30 / 360);
                         accrued1 = 30;
-                        if ((accrued - avalied) < (accrued1 - avalied1))
+                        if ((accrued - avalied - favalied - favalied1) < (accrued1 - avalied1 - favalied1))
                         {
-                            lbal = accrued - avalied;
+                            lbal = accrued - avalied - favalied - favalied1;
                         }
                         else
                         {
-                            lbal = accrued1 - avalied1;
+                            lbal = accrued1 - avalied1 - favalied1;
                         }
 
                         leavebal.leave_balance = lbal;
@@ -329,6 +323,8 @@
                     double accrued1 = 0;
                     double avalied = 0;
                     double avalied1 = 0;
+                    double favalied = 0;
+                    double favalied1 = 0;
                     double lbal = 0;
                     var asf = empjd.date_joined;
                     var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
@@ -343,48 +339,30 @@
                         {
                             if (leaf.leave_type == "6")
                             {
-                                if (leaf.days != null)
+                                if (leaf.half)
                                 {
-                                    if (leaf.half) unpaid += leaf.days.Value - 0.5;
-                                    else
-                                        unpaid += leaf.days.Value;
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) unpaid += times.Value.TotalDays + 1 - 0.5;
                                 }
                                 else
                                 {
-                                    if (leaf.half)
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) unpaid += times.Value.TotalDays + 1 - 0.5;
-                                    }
-                                    else
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) unpaid += times.Value.TotalDays + 1;
-                                    }
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) unpaid += times.Value.TotalDays + 1;
                                 }
                             }
 
                             double sick = 0;
                             if (leaf.leave_type == "2")
                             {
-                                if (leaf.days != null)
+                                if (leaf.half)
                                 {
-                                    if (leaf.half) sick += leaf.days.Value - 0.5;
-                                    else
-                                        sick += leaf.days.Value;
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
                                 }
                                 else
                                 {
-                                    if (leaf.half)
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
-                                    }
-                                    else
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) sick += times.Value.TotalDays + 1;
-                                    }
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) sick += times.Value.TotalDays + 1;
                                 }
                             }
 
@@ -393,23 +371,15 @@
                             double comp = 0;
                             if (leaf.leave_type == "3")
                             {
-                                if (leaf.days != null)
+                                if (leaf.half)
                                 {
-                                    if (leaf.half) comp += leaf.days.Value - 0.5;
-                                    else comp += leaf.days.Value;
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
                                 }
                                 else
                                 {
-                                    if (leaf.half)
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
-                                    }
-                                    else
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) comp += times.Value.TotalDays + 1;
-                                    }
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) comp += times.Value.TotalDays + 1;
                                 }
                             }
 
@@ -418,23 +388,15 @@
                             double mate = 0;
                             if (leaf.leave_type == "4")
                             {
-                                if (leaf.days != null)
+                                if (leaf.half)
                                 {
-                                    if (leaf.half) mate += leaf.days.Value - 0.5;
-                                    else mate += leaf.days.Value;
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
                                 }
                                 else
                                 {
-                                    if (leaf.half)
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
-                                    }
-                                    else
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) mate += times.Value.TotalDays + 1;
-                                    }
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) mate += times.Value.TotalDays + 1;
                                 }
                             }
 
@@ -442,23 +404,15 @@
                             double haj = 0;
                             if (leaf.leave_type == "5")
                             {
-                                if (leaf.days != null)
+                                if (leaf.half)
                                 {
-                                    if (leaf.half) haj += leaf.days.Value - 0.5;
-                                    else haj += leaf.days.Value;
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
                                 }
                                 else
                                 {
-                                    if (leaf.half)
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
-                                    }
-                                    else
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) haj += times.Value.TotalDays + 1;
-                                    }
+                                    times = leaf.End_leave - leaf.Start_leave;
+                                    if (times != null) haj += times.Value.TotalDays + 1;
                                 }
                             }
 
@@ -488,22 +442,56 @@
                                 {
                                     if (leaf.half)
                                     {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
-                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        if (leaf.Start_leave > DateTime.Today)
                                         {
-                                            times1 = leaf.End_leave - leaf.Start_leave;
-                                            if (times1 != null) avalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                            times = leaf.End_leave - leaf.Start_leave;
+                                            if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                            {
+                                                times1 = leaf.End_leave - leaf.Start_leave;
+                                                if (times1 != null) favalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                            }
+                                            else
+                                            {
+                                                if (times != null) favalied += times.Value.TotalDays + 1 - 0.5;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            times = leaf.End_leave - leaf.Start_leave;
+                                            if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                            {
+                                                times1 = leaf.End_leave - leaf.Start_leave;
+                                                if (times1 != null) avalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                            }
+
+                                            if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
                                         }
                                     }
                                     else
                                     {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) avalied += times.Value.TotalDays + 1;
-                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        if (leaf.Start_leave > DateTime.Today)
                                         {
-                                            times1 = leaf.End_leave - leaf.Start_leave;
-                                            if (times1 != null) avalied1 += times1.Value.TotalDays + 1;
+                                            times = leaf.End_leave - leaf.Start_leave;
+                                            if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                            {
+                                                times1 = leaf.End_leave - leaf.Start_leave;
+                                                if (times1 != null) favalied1 += times1.Value.TotalDays + 1;
+                                            }
+                                            else
+                                            {
+                                                if (times != null) favalied += times.Value.TotalDays + 1;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            times = leaf.End_leave - leaf.Start_leave;
+                                            if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                            {
+                                                times1 = leaf.End_leave - leaf.Start_leave;
+                                                if (times1 != null) avalied1 += times1.Value.TotalDays + 1;
+                                            }
+
+                                            if (times != null) avalied += times.Value.TotalDays + 1;
                                         }
                                     }
                                 }
@@ -513,14 +501,15 @@
                         netperiod = period - unpaid;
                         accrued = Math.Round(netperiod * 30 / 360);
                         accrued1 = 30;
-                        if ((accrued - avalied) < (accrued1 - avalied1))
+                        if ((accrued - avalied - favalied - favalied1) < (accrued1 - avalied1 - favalied1))
                         {
-                            lbal = accrued - avalied;
+                            lbal = accrued - avalied - favalied - favalied1;
                         }
                         else
                         {
-                            lbal = accrued1 - avalied1;
+                            lbal = accrued1 - avalied1 - favalied1;
                         }
+
 
                         leavebal.leave_balance = lbal;
                         leavebal.period = period;
@@ -571,6 +560,8 @@
                 double avalied = 0;
                 double avalied1 = 0;
                 double lbal = 0;
+                double favalied = 0;
+                double favalied1 = 0;
                 var asf = master.date_joined;
                 var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
                     x => x.Employee_id == Employee_id && x.Start_leave >= asf);
@@ -584,48 +575,30 @@
                     {
                         if (leaf.leave_type == "6")
                         {
-                            if (leaf.days != null)
+                            if (leaf.half)
                             {
-                                if (leaf.half) unpaid += leaf.days.Value - 0.5;
-                                else
-                                    unpaid += leaf.days.Value;
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) unpaid += times.Value.TotalDays + 1 - 0.5;
                             }
                             else
                             {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) unpaid += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) unpaid += times.Value.TotalDays + 1;
-                                }
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) unpaid += times.Value.TotalDays + 1;
                             }
                         }
 
                         double sick = 0;
                         if (leaf.leave_type == "2")
                         {
-                            if (leaf.days != null)
+                            if (leaf.half)
                             {
-                                if (leaf.half) sick += leaf.days.Value - 0.5;
-                                else
-                                    sick += leaf.days.Value;
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
                             }
                             else
                             {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) sick += times.Value.TotalDays + 1;
-                                }
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) sick += times.Value.TotalDays + 1;
                             }
                         }
 
@@ -634,23 +607,15 @@
                         double comp = 0;
                         if (leaf.leave_type == "3")
                         {
-                            if (leaf.days != null)
+                            if (leaf.half)
                             {
-                                if (leaf.half) comp += leaf.days.Value - 0.5;
-                                else comp += leaf.days.Value;
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
                             }
                             else
                             {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) comp += times.Value.TotalDays + 1;
-                                }
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) comp += times.Value.TotalDays + 1;
                             }
                         }
 
@@ -659,23 +624,15 @@
                         double mate = 0;
                         if (leaf.leave_type == "4")
                         {
-                            if (leaf.days != null)
+                            if (leaf.half)
                             {
-                                if (leaf.half) mate += leaf.days.Value - 0.5;
-                                else mate += leaf.days.Value;
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
                             }
                             else
                             {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) mate += times.Value.TotalDays + 1;
-                                }
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) mate += times.Value.TotalDays + 1;
                             }
                         }
 
@@ -683,23 +640,15 @@
                         double haj = 0;
                         if (leaf.leave_type == "5")
                         {
-                            if (leaf.days != null)
+                            if (leaf.half)
                             {
-                                if (leaf.half) haj += leaf.days.Value - 0.5;
-                                else haj += leaf.days.Value;
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
                             }
                             else
                             {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) haj += times.Value.TotalDays + 1;
-                                }
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) haj += times.Value.TotalDays + 1;
                             }
                         }
 
@@ -728,22 +677,56 @@
                             {
                                 if (leaf.half)
                                 {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
-                                    if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                    if (leaf.Start_leave > DateTime.Today)
                                     {
-                                        times1 = leaf.End_leave - leaf.Start_leave;
-                                        if (times1 != null) avalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) favalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                        }
+                                        else
+                                        {
+                                            if (times != null) favalied += times.Value.TotalDays + 1 - 0.5;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) avalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                        }
+
+                                        if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
                                     }
                                 }
                                 else
                                 {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) avalied += times.Value.TotalDays + 1;
-                                    if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                    if (leaf.Start_leave > DateTime.Today)
                                     {
-                                        times1 = leaf.End_leave - leaf.Start_leave;
-                                        if (times1 != null) avalied1 += times1.Value.TotalDays + 1;
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) favalied1 += times1.Value.TotalDays + 1;
+                                        }
+                                        else
+                                        {
+                                            if (times != null) favalied += times.Value.TotalDays + 1;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) avalied1 += times1.Value.TotalDays + 1;
+                                        }
+
+                                        if (times != null) avalied += times.Value.TotalDays + 1;
                                     }
                                 }
                             }
@@ -753,14 +736,15 @@
                     netperiod = period - unpaid;
                     accrued = Math.Round(netperiod * 30 / 360);
                     accrued1 = 30;
-                    if ((accrued - avalied) < (accrued1 - avalied1))
+                    if ((accrued - avalied - favalied - favalied1) < (accrued1 - avalied1 - favalied1))
                     {
-                        lbal = accrued - avalied;
+                        lbal = accrued - avalied - favalied - favalied1;
                     }
                     else
                     {
-                        lbal = accrued1 - avalied1;
+                        lbal = accrued1 - avalied1 - favalied1;
                     }
+
 
                     leavebal.leave_balance = lbal;
                     leavebal.period = period;
@@ -1127,6 +1111,13 @@
             double avalied = 0;
             double lbal = 0;
             double period = 0;
+            double netperiod1 = 0;
+            double accrued1 = 0;
+            double lbfortheyear = 0;
+            double avalied1 = 0;
+            double favalied = 0;
+            double favalied1 = 0;
+            double lbal1 = 0;
             List<Leave> passexel = new List<Leave>();
             var emp_list = this.db.master_file.ToList();
             var emp_listfinal = new List<master_file>();
@@ -1148,134 +1139,27 @@
                 var empjd = emp_listfinal.Find(x => x.employee_no == Employee_id);
                 Employee_id = empjd.employee_id;
                 var asf = empjd.date_joined;
+                var asf1 = new DateTime(DateTime.Now.Year, 1, 1);
                 var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
                     x => x.Employee_id == Employee_id && x.Start_leave >= asf && x.End_leave <= eddate);
                 var times = eddate - asf;
+                var times1 = eddate - asf1;
                 double haj = 0;
                 double mate = 0;
                 double comp = 0;
                 double sick = 0;
+                double udd = 0;
+                double esco = 0;
+                double pater = 0;
                 if (times != null)
                 {
                     period = times.Value.TotalDays + 1;
                     var ump = leaves.ToList();
                     foreach (var leaf in ump)
                     {
-                        if (leaf.leave_type == "6")
-                        {
-                            if (leaf.days != null)
-                            {
-                                if (leaf.half) unpaid += leaf.days.Value - 0.5;
-                                else
-                                    unpaid += leaf.days.Value;
-                            }
-                            else
-                            {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) unpaid += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) unpaid += times.Value.TotalDays + 1;
-                                }
-                            }
-                        }
-
-                        if (leaf.leave_type == "2")
-                        {
-                            if (leaf.days != null)
-                            {
-                                if (leaf.half) sick += leaf.days.Value - 0.5;
-                                else
-                                    sick += leaf.days.Value;
-                            }
-                            else
-                            {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) sick += times.Value.TotalDays + 1;
-                                }
-                            }
-                        }
-
-                        if (leaf.leave_type == "3")
-                        {
-                            if (leaf.days != null)
-                            {
-                                if (leaf.half) comp += leaf.days.Value - 0.5;
-                                else comp += leaf.days.Value;
-                            }
-                            else
-                            {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) comp += times.Value.TotalDays + 1;
-                                }
-                            }
-                        }
-
-                        if (leaf.leave_type == "4")
-                        {
-                            if (leaf.days != null)
-                            {
-                                if (leaf.half) mate += leaf.days.Value - 0.5;
-                                else mate += leaf.days.Value;
-                            }
-                            else
-                            {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) mate += times.Value.TotalDays + 1;
-                                }
-                            }
-                        }
-
-                        if (leaf.leave_type == "5")
-                        {
-                            if (leaf.days != null)
-                            {
-                                if (leaf.half) haj += leaf.days.Value - 0.5;
-                                else haj += leaf.days.Value;
-                            }
-                            else
-                            {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) haj += times.Value.TotalDays + 1;
-                                }
-                            }
-                        }
-
                         if (leaf.leave_type == "1")
                         {
-                            if (leaf.days != null)
+                            /*if (leaf.days != null)
                             {
                                 if (leaf.half) avalied += leaf.days.Value - 0.5;
                                 else avalied += leaf.days.Value;
@@ -1292,16 +1176,189 @@
                                     times = leaf.End_leave - leaf.Start_leave;
                                     if (times != null) avalied += times.Value.TotalDays + 1;
                                 }
+                            }*/
+
+                            {
+                                if (leaf.half)
+                                {
+                                    if (leaf.Start_leave > DateTime.Today)
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) favalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                        }
+                                        else
+                                        {
+                                            if (times != null) favalied += times.Value.TotalDays + 1 - 0.5;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) avalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                        }
+
+                                        if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
+                                    }
+                                }
+                                else
+                                {
+                                    if (leaf.Start_leave > DateTime.Today)
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) favalied1 += times1.Value.TotalDays + 1;
+                                        }
+                                        else
+                                        {
+                                            if (times != null) favalied += times.Value.TotalDays + 1;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) avalied1 += times1.Value.TotalDays + 1;
+                                        }
+
+                                        if (times != null) avalied += times.Value.TotalDays + 1;
+                                    }
+                                }
+                            }
+                        }
+
+                        if (leaf.leave_type == "2" || leaf.leave_type == "7")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) sick += times.Value.TotalDays + 1;
+                            }
+                        }
+
+                        if (leaf.leave_type == "3")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) comp += times.Value.TotalDays + 1;
+                            }
+                        }
+
+                        if (leaf.leave_type == "4")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) mate += times.Value.TotalDays + 1;
+                            }
+                        }
+
+                        if (leaf.leave_type == "5")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) haj += times.Value.TotalDays + 1;
+                            }
+                        }
+
+                        if (leaf.leave_type == "6")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) unpaid += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) unpaid += times.Value.TotalDays + 1;
+                            }
+                        }
+
+                        if (leaf.leave_type == "8")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) udd += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) udd += times.Value.TotalDays + 1;
+                            }
+                        }
+
+                        if (leaf.leave_type == "9")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) esco += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) esco += times.Value.TotalDays + 1;
+                            }
+                        }
+
+                        if (leaf.leave_type == "10")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) pater += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) pater += times.Value.TotalDays + 1;
                             }
                         }
                     }
 
                     netperiod = period - unpaid;
                     accrued = Math.Round(netperiod * 30 / 360);
-                    lbal = accrued - avalied;
-                    if (lbal > 30)
+                    accrued1 = 30;
+                    if ((accrued - avalied - favalied) < (accrued1 - avalied1 - favalied1))
                     {
-                        lbal = 30;
+                        lbal = accrued - avalied - favalied;
+                    }
+                    else
+                    {
+                        lbal = accrued1 - avalied1 - favalied1;
                     }
 
                     passexel = ump;
@@ -1313,66 +1370,103 @@
             var Sheet = Ep.Workbook.Worksheets.Add("leaves_report".ToUpper());
             Sheet.Cells["A1"].Value = "employee no";
             Sheet.Cells["B1"].Value = "employee name";
-            Sheet.Cells["C1"].Value = "from ";
-            Sheet.Cells["D1"].Value = "to";
-            Sheet.Cells["E1"].Value = "actual return date ";
-            Sheet.Cells["F1"].Value = "leave type ";
-            Sheet.Cells["G1"].Value = "is half-day included";
+            Sheet.Cells["C1"].Value = "date";
+            Sheet.Cells["D1"].Value = "from ";
+            Sheet.Cells["E1"].Value = "to";
+            Sheet.Cells["F1"].Value = "actual return date ";
+            Sheet.Cells["G1"].Value = "days ";
+            Sheet.Cells["H1"].Value = "leave type ";
+            Sheet.Cells["I1"].Value = "is half-day included";
             var row = 2;
-            foreach (var item in passexel)
+            foreach (var item in passexel.OrderByDescending(x => x.Start_leave).ToList())
             {
+                var stday = new DateTime();
+                var edday = new DateTime();
                 Sheet.Cells[string.Format("A{0}", row)].Value = item.master_file.employee_no;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.master_file.employee_name;
-                Sheet.Cells[string.Format("C{0}", row)].Value = item.Start_leave;
-                Sheet.Cells[string.Format("D{0}", row)].Value = item.End_leave;
-                Sheet.Cells[string.Format("E{0}", row)].Value = item.actual_return_date;
+                Sheet.Cells[string.Format("C{0}", row)].Value = item.Date.ToString("d");
+                if (item.Start_leave.HasValue)
+                {
+                    Sheet.Cells[string.Format("D{0}", row)].Value = item.Start_leave.Value.ToString("d");
+                    stday = item.Start_leave.Value;
+                }
+
+                if (item.End_leave.HasValue)
+                {
+                    Sheet.Cells[string.Format("E{0}", row)].Value = item.End_leave.Value.ToString("d");
+                    edday = item.End_leave.Value;
+                }
+
+                if (item.actual_return_date.HasValue)
+                    Sheet.Cells[string.Format("F{0}", row)].Value = item.actual_return_date.Value.ToString("d");
+                if (item.half)
+                {
+                    Sheet.Cells[string.Format("G{0}", row)].Value =
+                        ((edday - stday).Days + 1 - 0.5);
+                }
+                else
+                {
+                    Sheet.Cells[string.Format("G{0}", row)].Value =
+                        ((edday - stday).Days + 1);
+                }
+
                 if (item.leave_type == "1")
                 {
-                    Sheet.Cells[string.Format("F{0}", row)].Value = " Annual";
+                    Sheet.Cells[string.Format("h{0}", row)].Value = " Annual";
                 }
 
                 if (item.leave_type == "2")
                 {
-                    Sheet.Cells[string.Format("F{0}", row)].Value = " Sick";
+                    Sheet.Cells[string.Format("h{0}", row)].Value = " Sick";
                 }
 
                 if (item.leave_type == "3")
                 {
-                    Sheet.Cells[string.Format("F{0}", row)].Value = " Compassionate";
+                    Sheet.Cells[string.Format("h{0}", row)].Value = " Compassionate";
                 }
 
                 if (item.leave_type == "4")
                 {
-                    Sheet.Cells[string.Format("F{0}", row)].Value = " Maternity";
+                    Sheet.Cells[string.Format("h{0}", row)].Value = " Maternity";
                 }
 
                 if (item.leave_type == "5")
                 {
-                    Sheet.Cells[string.Format("F{0}", row)].Value = " Haj";
+                    Sheet.Cells[string.Format("h{0}", row)].Value = " Haj";
                 }
 
                 if (item.leave_type == "6")
                 {
-                    Sheet.Cells[string.Format("F{0}", row)].Value = " Unpaid";
+                    Sheet.Cells[string.Format("h{0}", row)].Value = " Unpaid";
                 }
 
                 if (item.leave_type == "7")
                 {
-                    Sheet.Cells[string.Format("F{0}", row)].Value = " others";
+                    Sheet.Cells[string.Format("h{0}", row)].Value = " others";
                 }
 
                 if (item.leave_type == "8")
                 {
-                    Sheet.Cells[string.Format("F{0}", row)].Value = " half - day";
+                    Sheet.Cells[string.Format("h{0}", row)].Value = "UDDAH";
+                }
+
+                if (item.leave_type == "9")
+                {
+                    Sheet.Cells[string.Format("h{0}", row)].Value = "Escort";
+                }
+
+                if (item.leave_type == "10")
+                {
+                    Sheet.Cells[string.Format("h{0}", row)].Value = "Paternity";
                 }
 
                 if (item.half)
                 {
-                    Sheet.Cells[string.Format("G{0}", row)].Value = "yes";
+                    Sheet.Cells[string.Format("I{0}", row)].Value = "yes";
                 }
                 else
                 {
-                    Sheet.Cells[string.Format("G{0}", row)].Value = "no";
+                    Sheet.Cells[string.Format("I{0}", row)].Value = "no";
                 }
 
                 row++;
@@ -1380,11 +1474,14 @@
 
             row += 5;
             Sheet.Cells[string.Format("A{0}", row)].Value = "Period =" + period;
-            Sheet.Cells[string.Format("A{0}", row + 1)].Value = "Netperiod =" + netperiod;
-            Sheet.Cells[string.Format("A{0}", row + 2)].Value = "Unpaid =" + unpaid;
+            Sheet.Cells[string.Format("A{0}", row + 1)].Value = "Unpaid =" + unpaid;
+            Sheet.Cells[string.Format("A{0}", row + 2)].Value = "Netperiod =" + netperiod;
             Sheet.Cells[string.Format("A{0}", row + 3)].Value = "Accrued =" + accrued;
-            Sheet.Cells[string.Format("A{0}", row + 4)].Value = "annual leave taken =" + avalied;
-            Sheet.Cells[string.Format("A{0}", row + 5)].Value = "leave balance =" + lbal;
+            Sheet.Cells[string.Format("A{0}", row + 4)].Value = "annual leave taken =" + (avalied);
+            Sheet.Cells[string.Format("A{0}", row + 5)].Value = "annual leave applied =" + (favalied + favalied1);
+            Sheet.Cells[string.Format("A{0}", row + 6)].Value =
+                "annual leave total =" + (favalied + avalied + favalied1);
+            Sheet.Cells[string.Format("A{0}", row + 7)].Value = "leave balance =" + lbal;
             Sheet.Cells["A:AZ"].AutoFitColumns();
             this.Response.Clear();
             this.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -1434,11 +1531,7 @@
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(
-            [Bind(
-                Include =
-                    "Employee_id,Id,Date,Reference,Start_leave,End_leave,Return_leave,leave_type,actual_return_date,half")]
-            Leave leave,
+        public ActionResult Edit(Leave leave,
             HttpPostedFileBase fileBase, string search, int? page)
         {
             var listItems = new List<ListItem>
@@ -1478,10 +1571,42 @@
             else
             {
                 serverfile = null;
+                var filepath = db.Leaves.ToList().FindAll(x => x.Employee_id == leave.Employee_id)
+                    .OrderByDescending(x => x.Start_leave).ToList();
+                var filepath1 = filepath.FindAll(c => c.Reference != null);
+                if (filepath1.Count != 0)
+                {
+                    var imgpath = filepath.FindAll(c => c.Reference != null).OrderByDescending(x => x.Start_leave)
+                        .First().Reference;
+                    serverfile = imgpath;
+                }
             }
 
             if (this.ModelState.IsValid)
             {
+                var leavelistc = this.db.Leaves.AsNoTracking().ToList();
+                var editleave = leavelistc.Find(x => x.Id == leave.Id);
+                leavelistc.Remove(editleave);
+                if (leavelistc.Exists(x =>
+                    x.Start_leave >= leave.Start_leave && x.End_leave <= leave.End_leave &&
+                    x.Employee_id == leave.Employee_id))
+                {
+                    ModelState.AddModelError("Start_leave", "already exists");
+
+                    goto jderr;
+                }
+
+                if (leavelistc.Exists(x =>
+                    x.Start_leave <= leave.Start_leave && x.End_leave >= leave.End_leave &&
+                    x.Employee_id == leave.Employee_id))
+                {
+                    ModelState.AddModelError("Start_leave", "already exists");
+
+                    goto jderr;
+                }
+
+                leavelistc.Add(editleave);
+
                 if (leave.End_leave < leave.Start_leave)
                 {
                     ModelState.AddModelError("End_leave", "end date should not be less then start date");
@@ -1531,6 +1656,13 @@
 
                     file1.actualchangedby = User.Identity.Name;
                     file1.actualchangeddateby = DateTime.Now;
+                    var attachedEntity = db.Leaves.Find(file1.Id);
+                    if (attachedEntity != null && db.Entry(attachedEntity).State != EntityState.Detached)
+                    {
+                        db.Entry(attachedEntity).State = EntityState.Detached;
+                    }
+
+                    file1.master_file = masterstatus;
                     this.db.Entry(file1).State = EntityState.Modified;
                     this.db.SaveChanges();
                 }
@@ -1553,6 +1685,13 @@
 
                     file1.actualchangedby = User.Identity.Name;
                     file1.actualchangeddateby = DateTime.Now;
+                    var attachedEntity = db.Leaves.Find(file1.Id);
+                    if (attachedEntity != null && db.Entry(attachedEntity).State != EntityState.Detached)
+                    {
+                        db.Entry(attachedEntity).State = EntityState.Detached;
+                    }
+
+                    file1.master_file = masterstatus;
                     this.db.Entry(file1).State = EntityState.Modified;
                     this.db.SaveChanges();
                 }
@@ -1565,6 +1704,13 @@
                     var todate = leave.End_leave;
                     file1.Return_leave = todate.Value.AddDays(1);
                     file1.actual_return_date = todate.Value.AddDays(1);
+                    var attachedEntity = db.Leaves.Find(file1.Id);
+                    if (attachedEntity != null && db.Entry(attachedEntity).State != EntityState.Detached)
+                    {
+                        db.Entry(attachedEntity).State = EntityState.Detached;
+                    }
+
+                    file1.master_file = masterstatus;
                     this.db.Entry(file1).State = EntityState.Modified;
                     this.db.SaveChanges();
                     var unpaidauto = new Leave();
@@ -1791,6 +1937,9 @@
                 double comp = 0;
                 double mate = 0;
                 double haj = 0;
+                double udd = 0;
+                double esco = 0;
+                double pater = 0;
                 var asf = empjd.date_joined;
                 var asf1 = new DateTime(DateTime.Now.Year, 1, 1);
                 var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
@@ -1811,136 +1960,195 @@
                         }
 
                         rdate = Convert.ToDateTime(leaf.Reference);
-                        if (leaf.leave_type == "6")
+
+                        if (leaf.leave_type == "1")
                         {
+                            /*if (leaf.days != null)
+                            {
+                                if (leaf.half) avalied += leaf.days.Value - 0.5;
+                                else avalied += leaf.days.Value;
+                            }
+                            else
                             {
                                 if (leaf.half)
                                 {
                                     times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) unpaid += times.Value.TotalDays + 1 - 0.5;
+                                    if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
                                 }
                                 else
                                 {
                                     times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) unpaid += times.Value.TotalDays + 1;
+                                    if (times != null) avalied += times.Value.TotalDays + 1;
+                                }
+                            }*/
+
+                            {
+                                if (leaf.half)
+                                {
+                                    if (leaf.Start_leave > DateTime.Today)
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) favalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                        }
+                                        else
+                                        {
+                                            if (times != null) favalied += times.Value.TotalDays + 1 - 0.5;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) avalied1 += times1.Value.TotalDays + 1 - 0.5;
+                                        }
+
+                                        if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
+                                    }
+                                }
+                                else
+                                {
+                                    if (leaf.Start_leave > DateTime.Today)
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) favalied1 += times1.Value.TotalDays + 1;
+                                        }
+                                        else
+                                        {
+                                            if (times != null) favalied += times.Value.TotalDays + 1;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        times = leaf.End_leave - leaf.Start_leave;
+                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
+                                        {
+                                            times1 = leaf.End_leave - leaf.Start_leave;
+                                            if (times1 != null) avalied1 += times1.Value.TotalDays + 1;
+                                        }
+
+                                        if (times != null) avalied += times.Value.TotalDays + 1;
+                                    }
                                 }
                             }
                         }
 
                         if (leaf.leave_type == "2" || leaf.leave_type == "7")
                         {
+                            if (leaf.half)
                             {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) sick += times.Value.TotalDays + 1;
-                                }
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) sick += times.Value.TotalDays + 1;
                             }
                         }
 
                         if (leaf.leave_type == "3")
                         {
+                            if (leaf.half)
                             {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) comp += times.Value.TotalDays + 1;
-                                }
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) comp += times.Value.TotalDays + 1;
                             }
                         }
 
                         if (leaf.leave_type == "4")
                         {
+                            if (leaf.half)
                             {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) mate += times.Value.TotalDays + 1;
-                                }
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) mate += times.Value.TotalDays + 1;
                             }
                         }
 
                         if (leaf.leave_type == "5")
                         {
+                            if (leaf.half)
                             {
-                                if (leaf.half)
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
-                                }
-                                else
-                                {
-                                    times = leaf.End_leave - leaf.Start_leave;
-                                    if (times != null) haj += times.Value.TotalDays + 1;
-                                }
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) haj += times.Value.TotalDays + 1;
                             }
                         }
 
-
-                        if (leaf.leave_type == "1")
+                        if (leaf.leave_type == "6")
                         {
+                            if (leaf.half)
                             {
-                                if (leaf.half)
-                                {
-                                    if (leaf.Start_leave > DateTime.Today)
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) favalied += times.Value.TotalDays + 1 - 0.5;
-                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
-                                        {
-                                            times1 = leaf.End_leave - leaf.Start_leave;
-                                            if (times1 != null) favalied1 += times1.Value.TotalDays + 1 - 0.5;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) avalied += times.Value.TotalDays + 1 - 0.5;
-                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
-                                        {
-                                            times1 = leaf.End_leave - leaf.Start_leave;
-                                            if (times1 != null) avalied1 += times1.Value.TotalDays + 1 - 0.5;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    if (leaf.Start_leave > DateTime.Today)
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) favalied += times.Value.TotalDays + 1;
-                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
-                                        {
-                                            times1 = leaf.End_leave - leaf.Start_leave;
-                                            if (times1 != null) favalied1 += times1.Value.TotalDays + 1;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        times = leaf.End_leave - leaf.Start_leave;
-                                        if (times != null) avalied += times.Value.TotalDays + 1;
-                                        if (leaf.Date > new DateTime(DateTime.Now.Year, 3, 31))
-                                        {
-                                            times1 = leaf.End_leave - leaf.Start_leave;
-                                            if (times1 != null) avalied1 += times1.Value.TotalDays + 1;
-                                        }
-                                    }
-                                }
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) unpaid += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) unpaid += times.Value.TotalDays + 1;
+                            }
+                        }
+
+                        if (leaf.leave_type == "8")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) udd += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) udd += times.Value.TotalDays + 1;
+                            }
+                        }
+
+                        if (leaf.leave_type == "9")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) esco += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) esco += times.Value.TotalDays + 1;
+                            }
+                        }
+
+                        if (leaf.leave_type == "10")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) pater += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) pater += times.Value.TotalDays + 1;
                             }
                         }
                     }
@@ -1948,15 +2156,18 @@
                     netperiod = period - unpaid;
                     accrued = Math.Round(netperiod * 30 / 360);
                     accrued1 = 30;
-                    if ((accrued - avalied - favalied) < (accrued1 - avalied1 - favalied1))
+                    if ((accrued - avalied - favalied - favalied1) < (accrued1 - avalied1 - favalied1))
                     {
-                        lbal = accrued - avalied - favalied;
+                        lbal = accrued - avalied - favalied - favalied1;
                     }
                     else
                     {
                         lbal = accrued1 - avalied1 - favalied1;
                     }
 
+                    this.ViewBag.udd = udd;
+                    this.ViewBag.esco = esco;
+                    this.ViewBag.pater = pater;
                     this.ViewBag.mate = mate;
                     this.ViewBag.haj = haj;
                     this.ViewBag.sick = sick;
@@ -2195,8 +2406,23 @@
             return this.View();
         }
 
-        public ActionResult mrv(DateTime? eddate, DateTime? eddate1)
+        public ActionResult mrv(DateTime? eddate, DateTime? eddate1,int? leave_type)
         {
+            var listItems = new List<ListItem>
+            {
+                new ListItem {Text = "Annual", Value = "1"},
+                new ListItem {Text = "Sick(non industrial)", Value = "2"},
+                new ListItem {Text = "Compassionate", Value = "3"},
+                new ListItem {Text = "Maternity", Value = "4"},
+                new ListItem {Text = "Haj", Value = "5"},
+                new ListItem {Text = "Unpaid", Value = "6"},
+                new ListItem {Text = "Sick(industrial)", Value = "7"},
+                new ListItem {Text = "UDDAH", Value = "8"},
+                new ListItem {Text = "ESCORT", Value = "9"},
+                new ListItem {Text = "PATERNITY ", Value = "10"}
+            };
+            this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
+            ViewBag.leaveval = leave_type;
             var con_leave = from l in this.db.Leaves
                 join con in this.db.contracts on l.master_file.employee_no equals con.master_file.employee_no
                 select new
@@ -2207,7 +2433,9 @@
                     con.departmant_project,
                     l.Start_leave,
                     l.End_leave,
-                    l.actual_return_date
+                    l.actual_return_date,
+                    l.leave_type,
+                    l.half
                 };
             var leavelist = this.db.Leaves.ToList();
             var listconleave = con_leave.OrderBy(x => x.departmant_project).ToList();
@@ -2223,22 +2451,24 @@
                 clitem.departmant_project = cl.departmant_project;
                 clitem.Start_leave = cl.Start_leave;
                 clitem.End_leave = cl.End_leave;
+                clitem.leave_type = cl.leave_type;
+                clitem.half = cl.half;
                 clitem.Areturn_leave = cl.actual_return_date;
                 cllist.Add(clitem);
             }
 
             if (eddate.HasValue && !eddate1.HasValue)
             {
-                return this.View(cllist.Where(x => x.Start_leave >= eddate || x.Areturn_leave == null)
+                return this.View(cllist.Where(x => (x.Start_leave >= eddate || x.Areturn_leave == null) && x.leave_type == leave_type.ToString())
                     .OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));
             }
 
             if (eddate.HasValue && eddate1.HasValue)
             {
                 return this.View(cllist
-                    .Where(x => (x.Start_leave >= eddate && x.Start_leave <= eddate1) ||
-                                (x.Start_leave >= eddate && x.Start_leave <= eddate1 && x.Areturn_leave == null) ||
-                                (x.Areturn_leave >= eddate && x.Areturn_leave <= eddate1))
+                    .Where(x => ((x.Start_leave >= eddate && x.Start_leave <= eddate1) ||
+                                 (x.Start_leave >= eddate && x.Start_leave <= eddate1 && x.Areturn_leave == null) ||
+                                 (x.Areturn_leave >= eddate && x.Areturn_leave <= eddate1)) && x.leave_type == leave_type.ToString())
                     .OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));
             }
 

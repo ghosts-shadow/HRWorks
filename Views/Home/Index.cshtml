@@ -1,5 +1,136 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<div>
+    <script>
+        function navpos() {
+            var nav = document.querySelector('#navpos');
+            var th = document.querySelector('#logo');
+            var th2 = document.querySelector('#footer231');
+            var height = nav.offsetHeight;
+            var topst = height + "px";
+            th.style.top = topst;
+            var th1 = document.querySelector('#sli');
+            var height1 = th.offsetHeight / 3;
+            var topst1 = height1 + "px";
+            th1.style.top = topst1;
+            th1 = document.querySelector('#sli');
+            var height2 = th1.offsetHeight / 3;
+            var topst2 = height2 + "px";
+            th2.style.top = topst2;
+            var ff = th2.offsetWidth / 10;
+            var ff1 = document.querySelector('.ffal');
+            ff1.style.paddingLeft = ff * 1.3 + "px";
+            ff1.style.paddingRight = ff + "px";
+            var ff2 = document.querySelector('.ffal1');
+            ff2.style.paddingLeft = ff + "px";
+            ff2.style.paddingRight = ff + "px";
+            var ff3 = document.querySelector('.ffal2');
+            ff3.style.paddingLeft = ff + "px";
+            ff3.style.paddingRight = ff * 1.3 + "px";
+            navpos();
+        }
+    </script>
+    <div style="float: left; position: fixed; left: -1%; width: 200px; height: 125px;" id="logo">
+        <img src="~/img/logo.jpg" width="200" />
+    </div>
 
-<h3 style="text-transform: capitalize; position:center"> welcome to citiscape hrworks</h3>
+    <style>
+
+        body {
+            overflow: hidden;
+        }
+
+        .footer {
+            position: fixed;
+            left: 0;
+            height: 35%;
+            width: 100%;
+            color: black;
+            text-align: center;
+        }
+
+
+        .footer2 {
+            position: fixed;
+            left: 15px;
+            width: 100%;
+            background-color: #44ba44;
+            color: white;
+            text-align: center;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .navbar-brand {
+            display: none;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="~/Content/engine1/style.css" />
+    <script type="text/javascript" src="~/Content/engine1/jquery.js"></script>
+    <br />
+    <br />
+    <br />
+    <div id="sli" style="position: relative;">
+        <div id="wowslider-container1">
+            <div class="ws_images">
+                <ul height:100%>
+                    <li><img src="~/Content/data1/images/232.jpg" alt="" title="" id="wows1_0" /></li>
+                    <li><img src="~/Content/data1/images/331.jpg" alt="" title="" id="wows1_1" /></li>
+                    <li><img src="~/Content/data1/images/753.jpg" alt="" title="" id="wows1_2" /></li>
+                    <li><img src="~/Content/data1/images/142.jpg" alt="" title="" id="wows1_3" /></li>
+                </ul>
+            </div>
+            <div class="ws_bullets">
+                <div>
+                    <a href="#" title=""><span><img src="~/Content/data1/tooltips/232.jpg" alt="" />1</span></a>
+                    <a href="#" title=""><span><img src="~/Content/data1/tooltips/331.jpg" alt="" />2</span></a>
+                    <a href="#" title=""><span><img src="~/Content/data1/tooltips/753.jpg" alt="" />3</span></a>
+                    <a href="#" title=""><span><img src="~/Content/data1/tooltips/142.jpg" alt="" />4</span></a>
+                </div>
+            </div>
+            <div class="ws_shadow"></div>
+        </div>
+        <script type="text/javascript" src="~/Content/engine1/wowslider.js"></script>
+        <script type="text/javascript" src="~/Content/engine1/script.js"></script>
+    </div>
+    <div class="footer" id="footer231" style="position: relative;">
+        <div class="footer2 row" style="font-size: 150%">
+            OUR OFFICES
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div style="float: left;position: relative;padding-left:10%;" class="ffal">
+                <b style="color: #44ba44">
+                    ABU DHABI – MAIN OFFICE
+                </b><br />
+                P.O. Box 48303 Abu Dhabi UAE<br />
+                T. <a href="tel:026338228">+971 (02) 633 8228</a><br />
+                F. <a href="tel:026558010">+971 (02) 633 8010</a><br />
+                E. <a href="mailto:Info@citiscapegroup.com">Info@citiscapegroup.com</a>
+            </div>
+            <div style="float: left;position: relative;padding-left:10%;" class="ffal1">
+                <b style=" color: #44ba44">
+                    DUBAI OFFICE
+                </b><br />
+                P.O. Box 72329 Dubai UAE<br />
+                T. <a href="tel:043298644">+971 (04) 3298644</a><br />
+                F. <a href="tel:043298644">+971 (04) 3298644</a><br />
+                E. <a href="mailto:Info@citiscapegroup.com">Info@citiscapegroup.com</a>
+            </div>
+            <div style="float: left;position: relative;padding-left:10%;" class="ffal2">
+                <b style="color: #44ba44">
+                    AL AIN OFFICE
+                </b><br />
+                P.O. Box 15242 Al Ain UAE<br />
+                T. <a href="tel:037679311">+971 (03) 767 9311</a><br />
+                F. <a href="tel:037679366">+971 (03) 767 9366</a><br />
+                E. <a href="mailto:Info@citiscapegroup.com">Info@citiscapegroup.com</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -18,6 +18,7 @@ namespace HRworks.Models
         public LabourMaster()
         {
             this.Attendances = new HashSet<Attendance>();
+            this.Manpowerinoutforms = new HashSet<Manpowerinoutform>();
         }
     
         public long ID { get; set; }
@@ -46,5 +47,7 @@ namespace HRworks.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Attendance> Attendances { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Manpowerinoutform> Manpowerinoutforms { get; set; }
     }
 }

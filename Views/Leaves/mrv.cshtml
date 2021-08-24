@@ -35,10 +35,10 @@
 <div class="row">
     <div class="col-md-5">
         <h2> periodic report</h2>
-        <br/>
+        <br />
     </div>
     <div class="col-md-5" style="left: 50%">
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value="back to main"/>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value="back to main" />
     </div>
 </div>
 <script>
@@ -80,6 +80,10 @@
         to
     </p>
     <input type="text" id="datepicker2" name="eddate1" class="form-control" />
+    <p>
+        leave type
+    </p>
+    @Html.DropDownList("leave_type", null, htmlAttributes: new { @class = "form-control" })
     <br />
     <input type="submit" value="Search" class="btn btn-default" />
 }
@@ -106,6 +110,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Areturn_leave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.leave_type)
         </th>
         <th>
             @Html.DisplayName("Days")
@@ -157,55 +164,222 @@
                     @Html.DisplayFor(modelItem => item.Areturn_leave)
                 </td>
                 <td>
-                    @{
-                        if (item.End_leave != null && item.Start_leave != null)
+                    @if (item.leave_type == "1")
+                    {
+                        <i>Annual</i>
+                    }
+                    @if (item.leave_type == "2")
+                    {
+                        <i>Sick(non industrial)</i>
+                    }
+                    @if (item.leave_type == "3")
+                    {
+                        <i>Compassionate</i>
+                    }
+                    @if (item.leave_type == "4")
+                    {
+                        <i>Maternity </i>
+                    }
+                    @if (item.leave_type == "5")
+                    {
+                        <i>Haj</i>
+                    }
+                    @if (item.leave_type == "6")
+                    {
+                        <i>Unpaid </i>
+                    }
+                    @if (item.leave_type == "7")
+                    {
+                        <i> Sick(industrial)</i>
+                    }
+                    @if (item.leave_type == "8")
+                    {
+                        <i>UDDAH</i>
+                    }
+                    @if (item.leave_type == "9")
+                    {
+                        <i>ESCORT</i>
+                    }
+                    @if (item.leave_type == "10")
+                    {
+                        <i>PATERNITY</i>
+                    }
+                </td>
+                <td>
+                    @*
+            helped by ahemed yousaf
+        *@
+                    @if (item.half == true)
+                    {
+                        var a = item.Start_leave;
+                        var b = item.End_leave;
+                        double days = 0;
+                        if (a == b)
                         {
-                            var daysins = item.End_leave - item.Start_leave;
-                            var days = daysins.Value.TotalDays + 1;
-                            @days
+                            days = 1;
+                        }
+                        else
+                        {
+                            var ab = b - a;
+                            if (ab.HasValue)
+                            {
+                                days = ab.Value.TotalDays;
+                                days = System.Math.Abs(days);
+                                days += 1;
+                            }
+                        }
+                        days -= 0.5;
+                        @days.ToString()
+                    }
+                    else
+                    {
+                        {
+                            var a = item.Start_leave;
+                            var b = item.End_leave;
+                            double days = 0;
+                            if (a == b)
+                            {
+                                days = 1;
+                            }
+                            else
+                            {
+                                var ab = b - a;
+                                if (ab.HasValue)
+                                {
+                                    days = ab.Value.TotalDays;
+                                    days = System.Math.Abs(days);
+                                    days += 1;
+                                }
+                            }
+                            @days.ToString()
                         }
                     }
+
                 </td>
             </tr>
         }
         else
         {
-<tr>
-    <td>
-        @{
-            i++;
-        }
-        @i
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.employee_no)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.employee_name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.designation)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Start_leave)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.End_leave)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Areturn_leave)
-    </td>
-    <td>
-        @{
-            if (item.End_leave != null && item.Start_leave != null)
-            {
-                var daysins = item.End_leave - item.Start_leave;
-                var days = daysins.Value.TotalDays + 1;
-                @days
-            }
-        }
-    </td>
-</tr>
+            <tr>
+                <td>
+                    @{
+                        i++;
+                    }
+                    @i
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.employee_no)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.employee_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.designation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Start_leave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.End_leave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Areturn_leave)
+                </td>
+                
+                <td>
+                    @if (item.leave_type == "1")
+                    {
+                        <i>Annual</i>
+                    }
+                    @if (item.leave_type == "2")
+                    {
+                        <i>Sick(non industrial)</i>
+                    }
+                    @if (item.leave_type == "3")
+                    {
+                        <i>Compassionate</i>
+                    }
+                    @if (item.leave_type == "4")
+                    {
+                        <i>Maternity </i>
+                    }
+                    @if (item.leave_type == "5")
+                    {
+                        <i>Haj</i>
+                    }
+                    @if (item.leave_type == "6")
+                    {
+                        <i>Unpaid </i>
+                    }
+                    @if (item.leave_type == "7")
+                    {
+                        <i> Sick(industrial)</i>
+                    }
+                    @if (item.leave_type == "8")
+                    {
+                        <i>UDDAH</i>
+                    }
+                    @if (item.leave_type == "9")
+                    {
+                        <i>ESCORT</i>
+                    }
+                    @if (item.leave_type == "10")
+                    {
+                        <i>PATERNITY</i>
+                    }
+                </td>
+                <td>
+                    @*
+            helped by ahemed yousaf
+        *@
+                    @if (item.half == true)
+                    {
+                        var a = item.Start_leave;
+                        var b = item.End_leave;
+                        double days = 0;
+                        if (a == b)
+                        {
+                            days = 1;
+                        }
+                        else
+                        {
+                            var ab = b - a;
+                            if (ab.HasValue)
+                            {
+                                days = ab.Value.TotalDays;
+                                days = System.Math.Abs(days);
+                                days += 1;
+                            }
+                        }
+                        days -= 0.5;
+                        @days.ToString()
+                    }
+                    else
+                    {
+                        {
+                            var a = item.Start_leave;
+                            var b = item.End_leave;
+                            double days = 0;
+                            if (a == b)
+                            {
+                                days = 1;
+                            }
+                            else
+                            {
+                                var ab = b - a;
+                                if (ab.HasValue)
+                                {
+                                    days = ab.Value.TotalDays;
+                                    days = System.Math.Abs(days);
+                                    days += 1;
+                                }
+                            }
+                            @days.ToString()
+                        }
+                    }
+
+                </td>
+            </tr>
         }
 
     }

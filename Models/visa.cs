@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace HRworks.Models
 {
     using System;
@@ -14,18 +16,30 @@ namespace HRworks.Models
     
     public partial class visa
     {
+        [Display(Name = "employee id")]
         public int employee_id { get; set; }
+        [Display(Name = "uid no")]
         public Nullable<long> uid_no { get; set; }
+        [Display(Name = "file no")]
         public Nullable<long> file_no { get; set; }
+        [Display(Name = "employee no")]
         public int emp_no { get; set; }
+        [Display(Name = "place of issue")]
         public string place_of_issue { get; set; }
+        [Display(Name = "accompanied by")]
         public string accompanied_by { get; set; }
+        [Display(Name = "rv expiry")]
         public Nullable<System.DateTime> rv_expiry { get; set; }
+        [Display(Name = "rv issue")]
         public Nullable<System.DateTime> rv_issue { get; set; }
+        [Display(Name = "proff as per visa")]
         public string proff_as_per_visa { get; set; }
+        [Display(Name = "imgpath")]
         public string imgpath { get; set; }
         public string sponsor { get; set; }
+        [Display(Name = "changed by")]
         public string changed_by { get; set; }
+        [Display(Name = "date changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
     
         public virtual master_file master_file { get; set; }

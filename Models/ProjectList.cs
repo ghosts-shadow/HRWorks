@@ -18,6 +18,7 @@ namespace HRworks.Models
         public ProjectList()
         {
             this.MainTimeSheets = new HashSet<MainTimeSheet>();
+            this.Manpowerinoutforms = new HashSet<Manpowerinoutform>();
         }
     
         public long ID { get; set; }
@@ -55,5 +56,7 @@ namespace HRworks.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MainTimeSheet> MainTimeSheets { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Manpowerinoutform> Manpowerinoutforms { get; set; }
     }
 }

@@ -54,13 +54,13 @@
     }
 </script>
 
-@using (Html.BeginForm())
+@using(Html.BeginForm("report","master_file"))
 {
     <div>
         from :
-        <input type="text" id="datepicker1" name="from" class="form-control" value="@ViewBag.from.ToString("d")"/>
+        <input type="text" id="datepicker1" name="from" class="form-control" value="@ViewBag.from"/>
         to :
-        <input type="text" id="datepicker" name="to" class="form-control" value="@ViewBag.to.ToString("d")"/>
+        <input type="text" id="datepicker" name="to" class="form-control" value="@ViewBag.to"/>
         <br/>
         <input type="submit" name="status" value="inactive" class="btn btn-default"/>
         <input type="submit" name="status" value="joining" class="btn btn-default"/>

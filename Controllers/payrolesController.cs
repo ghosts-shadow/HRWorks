@@ -38,6 +38,7 @@ namespace HRworks.Controllers
             {
                 return false;
             }
+
             if (str.Replace(" ", "").Length % 4 != 0) return false;
 
             try
@@ -148,8 +149,8 @@ namespace HRworks.Controllers
                 "employee_id",
                 "employee_name",
                 payrole.employee_no);
-            ViewBag.ded_add =new List<SelectListItem>()
-            {   
+            ViewBag.ded_add = new List<SelectListItem>()
+            {
                 new SelectListItem() {Value = "Addition", Text = "Addition"},
                 new SelectListItem() {Value = "deduction", Text = "deduction"}
             };
@@ -271,6 +272,7 @@ namespace HRworks.Controllers
             {
                 payrole.others = 0.ToString();
             }
+
             if (!string.IsNullOrWhiteSpace(payrole.amount))
             {
                 if (!payrole.amount.Contains(" ") && IsBase64Encoded(payrole.amount))
@@ -440,7 +442,8 @@ namespace HRworks.Controllers
             {
                 if (afinallist.Count == 0) afinallist.Add(file);
 
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no && x.status != "inactive")) afinallist.Add(file);
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no && x.status != "inactive"))
+                    afinallist.Add(file);
             }
 
             var paylist = new List<payrole>();
@@ -2548,6 +2551,97 @@ namespace HRworks.Controllers
                             totded += comrat;
                         }
 
+                            var fad = 0d;
+
+                            var mindate = new DateTime();
+                            if (payr.forthemonth.Value.Month == 1)
+                            {
+                                mindate = new DateTime(payr.forthemonth.Value.Year - 1, 12, 21);
+                            }
+                            else
+                            {
+                                mindate = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month - 1,
+                                    21);
+                            }
+
+                            var moutdate = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month,
+                                20);
+                            var minoutlist = new List<Manpowerinoutform>();
+                            if (lab1 != null)
+                            {
+                                do
+                                {
+                                    var minout = db1.Manpowerinoutforms
+                                        .Where(x => x.check_in < mindate && x.EmpID == lab1.ID && x.camp != "Camp Musaffah").ToList();
+                                    foreach (var inout in minout)
+                                    {
+                                        if (!minoutlist.Exists(
+                                            x => x.EmpID == inout.EmpID && x.Project == inout.Project))
+                                        {
+                                            minoutlist.Add(inout);
+                                        }
+                                    }
+
+                                    mindate = mindate.AddDays(1);
+                                } while (mindate <= moutdate);
+                            }
+
+                            if (payr.forthemonth.Value.Month == 1)
+                            {
+                                datediff1 = new DateTime(payr.forthemonth.Value.Year - 1, 12, 21);
+                            }
+                            else
+                            {
+                                datediff1 = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month - 1,
+                                    21);
+                            }
+
+                            datediff2 = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month, 20);
+                            datediff = (datediff2 - datediff1).Days + 1;
+                            var faddays = 0;
+                            foreach (var inout in minoutlist)
+                            {
+                                var date1 = inout.check_in;
+                                var date2 = inout.check_out;
+                                if (date2 == null)
+                                {
+                                    date2 = datediff2;
+                                }
+
+                                while (date1 != date2)
+                                {
+                                    if (date1 >= datediff1 && date1 < datediff2) faddays += 1;
+                                    date1 = date1.Value.AddDays(1);
+                                }
+
+                                if (faddays != datediff)
+                                {
+                                    faddays += 1;
+                                }
+                            }
+
+                            var fadamountpday = 250d * 12d / 365d;
+                            var fadamount = fadamountpday * (datediff - faddays);
+                            if (fadamount > 250)
+                            {
+                                fadamount = 250;
+                            }
+
+                            if (payr.contract != null)
+                            {
+                                var confa = 0d;
+                                double.TryParse(Unprotect(payr.contract.food_allowance), out confa);
+                                if (confa == 0)
+                                {
+                                    fadamount = 0;
+                                }
+                            }
+                            else
+                            {
+                                fadamount = 0;
+                            }
+                            payr.FoodAllow = Protect(fadamount.ToString());
+
                         if (payr.FoodAllow != null)
                         {
                             double.TryParse(Unprotect(payr.FoodAllow), out comrat);
@@ -2632,7 +2726,7 @@ namespace HRworks.Controllers
                         if (absd + lowp >=
                             DateTime.DaysInMonth(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month))
                             payr.NetPay = 0.ToString();
-                        else 
+                        else
                             payr.NetPay = (a + b - c).ToString();
 
                         if (save.IsNullOrWhiteSpace())
@@ -2714,7 +2808,7 @@ namespace HRworks.Controllers
                                     paysave.ded_add = payr.ded_add;
                                 if (payr.contract.salary_details != null)
                                 {
-                                    paysave.Gross = payr.contract.salary_details; 
+                                    paysave.Gross = payr.contract.salary_details;
                                     double.TryParse(Unprotect(payr.contract.salary_details), out d1);
                                     double.TryParse(Unprotect(payr.TotalOT), out e1);
                                     paysave.Grosstotal = Protect((d1 + e1).ToString());
@@ -4806,6 +4900,97 @@ namespace HRworks.Controllers
                             if (payr.Leave != null) ldays = payr.Leave.days.Value;
 
                             var TLWOP = (labs + ldays) * (sal * 12 / 365);
+                            var fad = 0d;
+
+                            var mindate = new DateTime();
+                            if (payr.forthemonth.Value.Month == 1)
+                            {
+                                mindate = new DateTime(payr.forthemonth.Value.Year - 1, 12, 21);
+                            }
+                            else
+                            {
+                                mindate = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month - 1,
+                                    21);
+                            }
+
+                            var moutdate = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month,
+                                20);
+                            var minoutlist = new List<Manpowerinoutform>();
+                            if (lab1 != null)
+                            {
+                                do
+                                {
+                                    var minout = db1.Manpowerinoutforms
+                                        .Where(x => x.check_in < mindate && x.EmpID == lab1.ID && x.camp != "Camp Musaffah").ToList();
+                                    foreach (var inout in minout)
+                                    {
+                                        if (!minoutlist.Exists(
+                                            x => x.EmpID == inout.EmpID && x.Project == inout.Project))
+                                        {
+                                            minoutlist.Add(inout);
+                                        }
+                                    }
+
+                                    mindate = mindate.AddDays(1);
+                                } while (mindate <= moutdate);
+                            }
+
+                            if (payr.forthemonth.Value.Month == 1)
+                            {
+                                datediff1 = new DateTime(payr.forthemonth.Value.Year - 1, 12, 21);
+                            }
+                            else
+                            {
+                                datediff1 = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month - 1,
+                                    21);
+                            }
+
+                            datediff2 = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month, 20);
+                            datediff = (datediff2 - datediff1).Days + 1;
+                            var faddays = 0;
+                            foreach (var inout in minoutlist)
+                            {
+                                var date1 = inout.check_in;
+                                var date2 = inout.check_out;
+                                if (date2 == null)
+                                {
+                                    date2 = datediff2;
+                                }
+
+                                while (date1 != date2)
+                                {
+                                    if (date1 >= datediff1 && date1 < datediff2) faddays += 1;
+                                    date1 = date1.Value.AddDays(1);
+                                }
+
+                                if (faddays != datediff)
+                                {
+                                    faddays += 1;
+                                }
+                            }
+
+                            var fadamountpday = 250d * 12d / 365d;
+                            var fadamount = fadamountpday * (datediff - faddays);
+                            if (fadamount > 250)
+                            {
+                                fadamount = 250;
+                            }
+
+                            if (payr.contract != null)
+                            {
+                                var confa = 0d;
+                                double.TryParse(Unprotect(payr.contract.food_allowance), out confa);
+                                if (confa == 0)
+                                {
+                                    fadamount = 0;
+                                }
+                            }
+                            else
+                            {
+                                fadamount = 0;
+                            }
+                            payr.FoodAllow = Protect(fadamount.ToString());
+
                             var tac = 0d;
                             var arr = 0d;
                             if (payr.TicketAllowance_ != null && IsBase64Encoded(payr.TicketAllowance_))
@@ -4815,7 +5000,7 @@ namespace HRworks.Controllers
                             payr.totalpayable = (sal + tac + arr).ToString();
                             double.TryParse(payr.totalpayable, out var a);
                             double.TryParse(payr.TotalOT, out var b);
-                            payr.TotalDedution = TLWOP.ToString();
+                            payr.TotalDedution = (TLWOP + fadamount).ToString();
                             double.TryParse(payr.TotalDedution, out var c10);
                             if (labs + ldays >= DateTime.DaysInMonth(payr.forthemonth.Value.Year,
                                 payr.forthemonth.Value.Month))
@@ -4863,7 +5048,8 @@ namespace HRworks.Controllers
             {
                 if (afinallist.Count == 0) afinallist.Add(file);
 
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no && x.status != "inactive")) afinallist.Add(file);
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no && x.status != "inactive"))
+                    afinallist.Add(file);
             }
 
             var pay = db.payrollsaveds.ToList();
@@ -5316,6 +5502,7 @@ namespace HRworks.Controllers
 
             return View(wpslist);
         }
+
         public ActionResult wpssub(DateTime? month)
         {
             ViewBag.month1 = month;
@@ -5360,7 +5547,7 @@ namespace HRworks.Controllers
                         new_wps.Contract = co.First();
                         new_wps.contractid = co.First().employee_id;
                     }
-                    
+
                     if (lc.Count > 0)
                     {
                         new_wps.LabourCard = lc.First();
@@ -5370,7 +5557,7 @@ namespace HRworks.Controllers
                     new_wps.Payrollsaved = pa;
                     new_wps.Payrollsavedid = pa.Id;
                     double result = 0d;
-                    double.TryParse(Unprotect(pa.NetPay),out result);
+                    double.TryParse(Unprotect(pa.NetPay), out result);
                     new_wps.panet = 0d;
                     new_wps.panet = result;
                     wpslist.Add(new_wps);
@@ -5390,22 +5577,40 @@ namespace HRworks.Controllers
             {
                 var cmgross = 0d;
                 var pmgross = 0d;
-                var month1 = payrolllist.FindAll(x => x.forthemonth.Value.Month == month.Value.Month &&  x.forthemonth.Value.Year == month.Value.Year);
+                var month1 = payrolllist.FindAll(x =>
+                    x.forthemonth.Value.Month == month.Value.Month && x.forthemonth.Value.Year == month.Value.Year);
                 foreach (var cm in month1)
                 {
                     double.TryParse(Unprotect(cm.Gross), out var cg);
                     cmgross += cg;
                 }
-                 month1 = payrolllist.FindAll(x => x.forthemonth.Value.Month == month.Value.Month &&  x.forthemonth.Value.Year == month.Value.Year &&
-                                                      (x.remarks != null || x.ded_add != null));
-                var month2 = payrolllist.FindAll(x =>
+
+                month1 = payrolllist.FindAll(x =>
+                    x.forthemonth.Value.Month == month.Value.Month && x.forthemonth.Value.Year == month.Value.Year &&
+                    (x.remarks != null || x.ded_add != null));
+                var month2 = new List<payrollsaved>();
+                if (month.Value.Month == 1)
+                {
+                    month2 = payrolllist.FindAll(x =>
+                        x.forthemonth.Value.Month == (12) &&
+                        x.forthemonth.Value.Year == (month.Value.Year -1));
+                }
+                else {
+                month2 = payrolllist.FindAll(x =>
                     x.forthemonth.Value.Month == (month.Value.Month - 1) &&
-                    x.forthemonth.Value.Year == (month.Value.Year));
+                    x.forthemonth.Value.Year == (month.Value.Year)); }
+
+                if (month2 == null)
+                {
+                    goto a;
+                }
+
                 foreach (var cm in month2)
                 {
                     double.TryParse(Unprotect(cm.Gross), out var cg);
                     pmgross += cg;
                 }
+
                 ViewBag.cmgross = cmgross;
                 ViewBag.pmgross = pmgross;
                 ViewBag.diffgross = Math.Abs(cmgross - pmgross);
@@ -5415,6 +5620,7 @@ namespace HRworks.Controllers
                 {
                     goto a;
                 }
+
                 foreach (var payrollsaved in month1)
                 {
                     var recon = new Reconsilationmodel();
@@ -5423,13 +5629,14 @@ namespace HRworks.Controllers
                     recon.employee_id = payrollsaved.employee_no;
                     recon.employee_name = payrollsaved.employee_name;
                     recon.remarks = payrollsaved.remarks;
-                    double.TryParse(Unprotect(payrollsaved.Gross),out var ab);
+                    double.TryParse(Unprotect(payrollsaved.Gross), out var ab);
                     recon.gross = Math.Abs(ab);
-                    double.TryParse(Unprotect(payrollsaved.amount),out var ab2);
+                    double.TryParse(Unprotect(payrollsaved.amount), out var ab2);
                     recon.amount = ab2;
                     reconlist.Add(recon);
                 }
             }
+
             a: ;
             return View(reconlist);
         }
@@ -5489,7 +5696,7 @@ namespace HRworks.Controllers
                 var Ep = new ExcelPackage();
                 var Sheet = Ep.Workbook.Worksheets.Add("wps".ToUpper());
                 var row = 1;
-                var molnolist = new List<string>() {"549959", "575203", "663119", "1115891" ,null};
+                var molnolist = new List<string>() {"549959", "575203", "663119", "1115891", null};
                 foreach (var mol in molnolist)
                 {
                     var srno = 1;
@@ -5500,7 +5707,8 @@ namespace HRworks.Controllers
                     row++;
                     Sheet.Cells[string.Format("E{0}", row)].Value = ("mol id no :- " + mol).ToUpper();
                     row++;
-                    Sheet.Cells[string.Format("E{0}", row)].Value = ("payroll for the month of :- "+ month.Value.ToString("M")).ToUpper();
+                    Sheet.Cells[string.Format("E{0}", row)].Value =
+                        ("payroll for the month of :- " + month.Value.ToString("M")).ToUpper();
                     row++;
                     Sheet.Cells[string.Format("A{0}", row)].Value = "Srno".ToUpper();
                     Sheet.Cells[string.Format("B{0}", row)].Value = "name".ToUpper();
@@ -5513,7 +5721,8 @@ namespace HRworks.Controllers
                     Sheet.Cells[string.Format("I{0}", row)].Value = "variable portion".ToUpper();
                     Sheet.Cells[string.Format("J{0}", row)].Value = "total payment".ToUpper();
                     row++;
-                    var molwps = wpslist.FindAll(x => x.Payrollsaved.establishment == mol).OrderBy(x=>x.panet).ToList();
+                    var molwps = wpslist.FindAll(x => x.Payrollsaved.establishment == mol).OrderBy(x => x.panet)
+                        .ToList();
                     foreach (var item in molwps)
                     {
                         double a = 0, b = 0, c = 0, d = 0, e = 0;
@@ -5550,7 +5759,6 @@ namespace HRworks.Controllers
                         var temptotal = total2 + d;
                         if (temptotal > 490000)
                         {
-
                             Sheet.Cells[string.Format("G{0}", row)].Value = "total";
                             Sheet.Cells[string.Format("H{0}", row)].Value = total;
                             Sheet.Cells[string.Format("I{0}", row)].Value = total1;
@@ -5560,7 +5768,8 @@ namespace HRworks.Controllers
                             row++;
                             Sheet.Cells[string.Format("E{0}", row)].Value = ("mol id no :- " + mol).ToUpper();
                             row++;
-                            Sheet.Cells[string.Format("E{0}", row)].Value = ("payroll for the month of :- " + month.Value.ToString("M")).ToUpper();
+                            Sheet.Cells[string.Format("E{0}", row)].Value =
+                                ("payroll for the month of :- " + month.Value.ToString("M")).ToUpper();
                             row++;
                             Sheet.Cells[string.Format("A{0}", row)].Value = "Srno".ToUpper();
                             Sheet.Cells[string.Format("B{0}", row)].Value = "name".ToUpper();

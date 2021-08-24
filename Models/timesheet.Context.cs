@@ -31,5 +31,6 @@ namespace HRworks.Models
         public virtual DbSet<ManPowerSupplier> ManPowerSuppliers { get; set; }
         public virtual DbSet<ProjectList> ProjectLists { get; set; }
         public virtual DbSet<Holiday> Holidays { get; set; }
+        public virtual DbSet<Manpowerinoutform> Manpowerinoutforms { get; set; }
     }
 }

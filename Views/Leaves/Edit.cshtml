@@ -44,7 +44,7 @@
 
                 var selectedDate = new Date(date);
                 var msecsInADay = 86400000;
-                var endDate = new Date(selectedDate.getTime() + msecsInADay);
+                var endDate = new Date(selectedDate.getTime());
 
                 //Set Minimum Date of EndDatePicker After Selected Date of StartDatePicker
                 $("#End_leave").datepicker( "option", "minDate", endDate );

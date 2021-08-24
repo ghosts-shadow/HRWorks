@@ -20,7 +20,7 @@
             top: 0px
         }
     </style>
-    <input type="text" name="refr" value="@ViewBag.refid" style="display: none"/>
+    <input type="text" name="refr" value="@ViewBag.refid" style="display: none" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -35,7 +35,7 @@
             $('#employee_no' + 0).chosen({ no_results_text: "Oops, nothing found!" });
             $('#expenses' + 0).chosen({ no_results_text: "Oops, nothing found!" });
             $('#invoice_date' + 0).datepicker();
-            if(counter <25)
+            if (counter < 25)
                 $('#add').click(() => {
                     chosendestroy();
                     number = counter++;
@@ -89,8 +89,8 @@
         }
 
         function chosendestroy() {
-            $('#employee_no0').chosen("destroy"); 
-            $('#expenses0').chosen("destroy"); 
+            $('#employee_no0').chosen("destroy");
+            $('#expenses0').chosen("destroy");
             $("#invoice_date0").datepicker("destroy");
 
         }
@@ -133,9 +133,9 @@
         };
     </script>
     <style>
-        </style>
+    </style>
     <script>
-        document.onkeydown = function(e) {
+        document.onkeydown = function (e) {
             if (event.keyCode == 123) {
                 return false;
             }
@@ -215,6 +215,19 @@
 
             }
         </script>*@
+
+    <script>
+        function navpos() {
+            var nav = document.querySelector('#navpos');
+            var th = document.querySelector('.body-content').getElementsByTagName("th");
+            var width = nav.offsetWidth;
+            var height = nav.offsetHeight;
+            var topst = 0 + "px";
+            for (var i = 0; i < th.length; i++) {
+                th[i].style.top = topst;
+            }
+        }
+    </script>
     @Html.AntiForgeryToken()
     <style>
         table {
@@ -233,9 +246,11 @@
             margin-left: -15px;
             margin-right: -15px;
         }
+
         #nameofgov0_chosen {
             width: 100% !important
         }
+
         #expenses0_chosen {
             width: 100% !important
         }
@@ -244,221 +259,221 @@
         <p id="del">save bill elements<input type="submit" value="save" class="btn btn-default" id="save" /></p>
         <hr />
         <div style="border: 1px solid black; padding: 3%">
-        <div class="row" style="left: 45%; position: relative; top: 0%">
-            <img src="~/img/logo.png" height="50" width="100" />
+            <div class="row" style="left: 45%; position: relative; top: 0%">
+                <img src="~/img/logo.png" height="50" width="100" />
+                <br />
+            </div>
             <br />
-        </div>
-        <br />
-        <div class="row" style="background-color: black !important;  color: white; text-align: center;">
-            <h2 style="margin-left: 25%; text-align: center; text-transform: uppercase; -webkit-print-color-adjust: exact;">petty cash imprest sheet </h2>
-        </div>
-        <div class="row">
-            <div style="left: 5%; position: relative;">
-                @Html.LabelFor(model => model.Liquidations1[0].refr, "liq.", new { @class = "control-label " })
-                @ViewBag.liq
-                @Html.LabelFor(model => model.Liquidations1[0].refr, "sheet: ", new { @class = "control-label " })
-                @ViewBag.refr
+            <div class="row" style="background-color: black !important;  color: white; text-align: center;">
+                <h2 style="margin-left: 25%; text-align: center; text-transform: uppercase; -webkit-print-color-adjust: exact;">petty cash imprest sheet </h2>
             </div>
-            <div style="left: 75%; position: relative;">
-                @Html.LabelFor(model => model.Liquidations1[0].liquidation_ref.date, "date:", new { @class = "control-label " })
-                @ViewBag.date
+            <div class="row">
+                <div style="left: 5%; position: relative;">
+                    @Html.LabelFor(model => model.Liquidations1[0].refr, "liq.", new { @class = "control-label " })
+                    @ViewBag.liq
+                    @Html.LabelFor(model => model.Liquidations1[0].refr, "sheet: ", new { @class = "control-label " })
+                    @ViewBag.refr
+                </div>
+                <div style="left: 75%; position: relative;">
+                    @Html.LabelFor(model => model.Liquidations1[0].liquidation_ref.date, "date:", new { @class = "control-label " })
+                    @ViewBag.date
+                </div>
+                @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
             </div>
-            @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
-        </div>
-        <br />
-        <div class="row" onclick="check()" >
-            <table style="text-align: center;" onclick="total()">
-                <col>
-                <thead onclick="check()">
-                    <tr>
-                        <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].bill_no, new { @class = "control-label " })</th>
-                        <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].expenses, new { @class = "control-label " })</th>
-                        <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].nameofgov, new { @class = "control-label " })</th>
-                        <th rowspan="2" scope="rowgroup"> @Html.LabelFor(model => model.Liquidations1[0].invoice_date, new { @class = "control-label " })</th>
-                        <th rowspan="2" scope="rowgroup" style="display: none"> @Html.LabelFor(model => model.Liquidations1[0].discription, new { @class = "control-label " })</th>
-                        <th rowspan="2" scope="rowgroup" id="thdel1"> @Html.LabelFor(model => model.Liquidations1[0].employee_no, new { @class = "control-label " })</th>
-                        <th rowspan="2" scope="rowgroup" id="thdel2"> @Html.LabelFor(model => model.Liquidations1[0].MBNo, new { @class = "control-label " })</th>
-                        <th colspan="3">debit amount</th>
-                        <th rowspan="2"></th>
-                    </tr>
-                    <tr>
-                        <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].invoice, new { @class = "control-label " })</th>
-                        <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].VAT, new { @class = "control-label " })</th>
-                        <th scope="col">@Html.LabelFor(model => model.Liquidations1[0].invoice_amount, new { @class = "control-label " })</th>
-                    </tr>
-                </thead>
-                <tr id="tr0">
-                    <td>
-                        @*
-                            @Html.EditorFor(model => model.Liquidations1[0].bill_no, new { htmlAttributes = new { @class = "form-control", id = "bill_no0" } })
-                        *@
-                        <input class="form-control text-box single-line" data-val="true" data-val-number="The field bill_no must be a number." id="bill_no0" name="Liquidations1[0].bill_no" type="text" value="">
-                        @Html.ValidationMessageFor(model => model.Liquidations1[0].bill_no, string.Empty, new { @class = "text-danger" })
-                    </td>
-
-                    <td>
-                        @Html.DropDownList("Liquidations1[0].expenses", new List<SelectListItem>(ViewBag.expenses).OrderBy(x => x.Value), new {@class = "form-control chosen-select", id = "expenses0", required = "true", @onchange = "changeval(this.id)" })
-                        @Html.DropDownList("Liquidations1[0].expensesid", new List<SelectListItem>(ViewBag.expensesid).OrderBy(x => x.Value), new {@class = "form-control chosen-select", id = "expensesid0", required = "true", @style = "display: none" })
-                        
-                        @Html.ValidationMessageFor(model => model.Liquidations1[0].expenses, string.Empty, new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        <input type="text" readonly="readonly" id="gov0" class="form-control"/>
-                        @Html.DropDownList("Liquidations1[0].nameofgov", new List<SelectListItem>(ViewBag.nameofgov).OrderBy(x => x.Value), new {@class = "form-control chosen-select", @id = "nameofgov0", @required = "true", @style = "display: none"})
-                        @Html.DropDownList("Liquidations1[0].nameofgovid", new List<SelectListItem>(ViewBag.nameofgovid).OrderBy(x => x.Value), new {@class = "form-control chosen-select", @id = "nameofgovid0", @required = "true", @style = "display: none"})
-                        @Html.ValidationMessageFor(model => model.Liquidations1[0].nameofgov, string.Empty, new {@class = "text-danger"})
-                    </td>
-                    <td>
-
-                        @Html.EditorFor(model => model.Liquidations1[0].invoice_date, new { htmlAttributes = new { @class = "form-control", id = "invoice_date0" } })
-                        @*<input type="date" name="Liquidations1[0].invoice_date" class="form-control" , id="invoice_date0" required="true" />*@
-                        @Html.ValidationMessageFor(model => model.Liquidations1[0].invoice_date, string.Empty, new { @class = "text-danger" })
-                    </td>
-                    <td style="display: none">
-                        @Html.EditorFor(model => model.Liquidations1[0].discription, new { htmlAttributes = new { @class = "form-control", id = "discription0" } })
-                        @Html.ValidationMessageFor(model => model.Liquidations1[0].discription, string.Empty, new { @class = "text-danger" })
-                    </td>
-
-                    <td id="tdel1">
-                        @*@Html.EditorFor(model => model.Liquidations1[0].employee_no, new { htmlAttributes = new { @class = "form-control", id = "employee_no0" } })*@
-                        @Html.DropDownList("Liquidations1[0].employee_no", new List<SelectListItem>(ViewBag.ee), new { @class = "form-control chosen-select", @id = "employee_no0", @required = "true" })
-                        @*<input type="text" class="form-control" id="employee_no0" list="ll" name="Liquidations1[0].employee_no"/>
-                            <datalist id="ll">
-                                <option value=""> </option>
-                                @foreach (var i in ViewBag.ee)
-                                {
-                                    <option value="@i.Text">@i.Text</option>
-                                }
-                            </datalist>*@
-
-                        @Html.ValidationMessageFor(model => model.Liquidations1[0].employee_no, string.Empty, new { @class = "text-danger" })
-                    </td>
-
-                    <td id="tdel2">
-                        @Html.EditorFor(model => model.Liquidations1[0].MBNo, new { htmlAttributes = new { @class = "form-control", id = "MBNo0" } })
-                        @Html.ValidationMessageFor(model => model.Liquidations1[0].MBNo, string.Empty, new { @class = "text-danger" })
-                    </td>
-
-                    <td>
-                        @Html.EditorFor(model => model.Liquidations1[0].invoice, new { htmlAttributes = new { @class = "form-control", id = "invoice0" } })
-                        @Html.ValidationMessageFor(model => model.Liquidations1[0].invoice, string.Empty, new { @class = "text-danger" })
-                    </td>
-
-                    <td>
-                        @Html.EditorFor(model => model.Liquidations1[0].VAT, new { htmlAttributes = new { @class = "form-control", id = "VAT0" } })
-                        @Html.ValidationMessageFor(model => model.Liquidations1[0].VAT, string.Empty, new { @class = "text-danger" })
-                    </td>
-
-                    <td>
-                        @Html.EditorFor(model => model.Liquidations1[0].invoice_amount, new { htmlAttributes = new { @class = "form-control", id = "invoice_amount0", @readonly = "readonly" } })
-                        @Html.ValidationMessageFor(model => model.Liquidations1[0].invoice_amount, string.Empty, new { @class = "text-danger" })
-                    </td>
-                    <td id="re"></td>
-                </tr>
-                <tr id="tablerow1"></tr>
-                <tr>
-                    <td colspan="6" style="text-align: right" onclick="ttotal()">total</td>
-                    <td colspan="3" style="text-align: left" id="totalq" onclick="ttotal()"></td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-sm-2">
-            <input type="button" class="btn btn-default" value="add" id="add" name="add" onclick="total()" />
-        </div>
-        <br />
-        <br />
-        <div class="row" style="border: 1px solid black; text-align: left;">
             <br />
-            <div class="col-sm-7" style="border: 1px solid black;">
-                <div class="row">
-                    <p>we certify that above mantioned material consumed and / or expenditures incurred for<br /><input type="text" style="border: none; font-weight: bold; height: 25px; width: 100%;" placeholder="purpose" /></p>
-                </div>
-                <br />
-                <div class="row" style="text-transform: capitalize">
-                    <div class="col-md-3" style="text-align: center">
-                        <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
-                        <b>imperst holder</b>
-                    </div>
-                    <div class="col-md-3" style="text-align: center">
-                        <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
-                        <b style="text-transform: uppercase">pm/hod</b>
-                    </div>
-                    <div class="col-md-3" style="text-align: center">
-                        <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
-                        <b>OD/Head of projects</b>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-2" style="border: 1px solid black;">
-                <b>
-                    <br />
-                    float amount:
-                </b>
-                <br />
-                <b>
-                    <br />
-                    expenses:
-                </b>
-                <br />
-                <b>
-                    <br />
-                    remaining balance:
-                </b>
-            </div>
-            <div class="col-sm-1">
-                <b id="tt" style="text-align: center;">
+            <div class="row" onclick="check()">
+                <table style="text-align: center;" onclick="total()">
+                    <col>
+                    <thead onclick="check()">
+                        <tr>
+                            <th rowspan="2" scope="rowgroup" style="top: 0px "> @Html.LabelFor(model => model.Liquidations1[0].bill_no, new { @class = "control-label " })</th>
+                            <th rowspan="2" scope="rowgroup" style="top: 0px "> @Html.LabelFor(model => model.Liquidations1[0].expenses, new { @class = "control-label " })</th>
+                            <th rowspan="2" scope="rowgroup" style="top: 0px "> @Html.LabelFor(model => model.Liquidations1[0].nameofgov, new { @class = "control-label " })</th>
+                            <th rowspan="2" scope="rowgroup" style="top: 0px "> @Html.LabelFor(model => model.Liquidations1[0].invoice_date, new { @class = "control-label " })</th>
+                            <th rowspan="2" scope="rowgroup" style="display: none"> @Html.LabelFor(model => model.Liquidations1[0].discription, new { @class = "control-label " })</th>
+                            <th rowspan="2" scope="rowgroup" id="thdel1" style="top: 0px "> @Html.LabelFor(model => model.Liquidations1[0].employee_no, new { @class = "control-label " })</th>
+                            <th rowspan="2" scope="rowgroup" id="thdel2" style="top: 0px "> @Html.LabelFor(model => model.Liquidations1[0].MBNo, new { @class = "control-label " })</th>
+                            <th colspan="3" style="top: 0px ">debit amount</th>
+                            <th rowspan="2" style="top: 0px "></th>
+                        </tr>
+                        <tr>
+                            <th scope="col" style="top: 0px ">@Html.LabelFor(model => model.Liquidations1[0].invoice, new { @class = "control-label " })</th>
+                            <th scope="col" style="top: 0px ">@Html.LabelFor(model => model.Liquidations1[0].VAT, new { @class = "control-label " })</th>
+                            <th scope="col" style="top: 0px ">@Html.LabelFor(model => model.Liquidations1[0].invoice_amount, new { @class = "control-label " })</th>
+                        </tr>
+                    </thead>
+                    <tr id="tr0">
+                        <td>
+                            @*
+                                @Html.EditorFor(model => model.Liquidations1[0].bill_no, new { htmlAttributes = new { @class = "form-control", id = "bill_no0" } })
+                            *@
+                            <input class="form-control text-box single-line" data-val="true" data-val-number="The field bill_no must be a number." id="bill_no0" name="Liquidations1[0].bill_no" type="text" value="">
+                            @Html.ValidationMessageFor(model => model.Liquidations1[0].bill_no, string.Empty, new { @class = "text-danger" })
+                        </td>
 
+                        <td>
+                            @Html.DropDownList("Liquidations1[0].expenses", new List<SelectListItem>(ViewBag.expenses).OrderBy(x => x.Value), new { @class = "form-control chosen-select", id = "expenses0", required = "true", @onchange = "changeval(this.id)" })
+                            @Html.DropDownList("Liquidations1[0].expensesid", new List<SelectListItem>(ViewBag.expensesid).OrderBy(x => x.Value), new { @class = "form-control chosen-select", id = "expensesid0", required = "true", @style = "display: none" })
+
+                            @Html.ValidationMessageFor(model => model.Liquidations1[0].expenses, string.Empty, new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            <input type="text" readonly="readonly" id="gov0" class="form-control" />
+                            @Html.DropDownList("Liquidations1[0].nameofgov", new List<SelectListItem>(ViewBag.nameofgov).OrderBy(x => x.Value), new { @class = "form-control chosen-select", @id = "nameofgov0", @required = "true", @style = "display: none" })
+                            @Html.DropDownList("Liquidations1[0].nameofgovid", new List<SelectListItem>(ViewBag.nameofgovid).OrderBy(x => x.Value), new { @class = "form-control chosen-select", @id = "nameofgovid0", @required = "true", @style = "display: none" })
+                            @Html.ValidationMessageFor(model => model.Liquidations1[0].nameofgov, string.Empty, new { @class = "text-danger" })
+                        </td>
+                        <td>
+
+                            @Html.EditorFor(model => model.Liquidations1[0].invoice_date, new { htmlAttributes = new { @class = "form-control", id = "invoice_date0" } })
+                            @*<input type="date" name="Liquidations1[0].invoice_date" class="form-control" , id="invoice_date0" required="true" />*@
+                            @Html.ValidationMessageFor(model => model.Liquidations1[0].invoice_date, string.Empty, new { @class = "text-danger" })
+                        </td>
+                        <td style="display: none">
+                            @Html.EditorFor(model => model.Liquidations1[0].discription, new { htmlAttributes = new { @class = "form-control", id = "discription0" } })
+                            @Html.ValidationMessageFor(model => model.Liquidations1[0].discription, string.Empty, new { @class = "text-danger" })
+                        </td>
+
+                        <td id="tdel1">
+                            @*@Html.EditorFor(model => model.Liquidations1[0].employee_no, new { htmlAttributes = new { @class = "form-control", id = "employee_no0" } })*@
+                            @Html.DropDownList("Liquidations1[0].employee_no", new List<SelectListItem>(ViewBag.ee), new { @class = "form-control chosen-select", @id = "employee_no0", @required = "true" })
+                            @*<input type="text" class="form-control" id="employee_no0" list="ll" name="Liquidations1[0].employee_no"/>
+                                <datalist id="ll">
+                                    <option value=""> </option>
+                                    @foreach (var i in ViewBag.ee)
+                                    {
+                                        <option value="@i.Text">@i.Text</option>
+                                    }
+                                </datalist>*@
+
+                            @Html.ValidationMessageFor(model => model.Liquidations1[0].employee_no, string.Empty, new { @class = "text-danger" })
+                        </td>
+
+                        <td id="tdel2">
+                            @Html.EditorFor(model => model.Liquidations1[0].MBNo, new { htmlAttributes = new { @class = "form-control", id = "MBNo0" } })
+                            @Html.ValidationMessageFor(model => model.Liquidations1[0].MBNo, string.Empty, new { @class = "text-danger" })
+                        </td>
+
+                        <td>
+                            @Html.EditorFor(model => model.Liquidations1[0].invoice, new { htmlAttributes = new { @class = "form-control", id = "invoice0" } })
+                            @Html.ValidationMessageFor(model => model.Liquidations1[0].invoice, string.Empty, new { @class = "text-danger" })
+                        </td>
+
+                        <td>
+                            @Html.EditorFor(model => model.Liquidations1[0].VAT, new { htmlAttributes = new { @class = "form-control", id = "VAT0" } })
+                            @Html.ValidationMessageFor(model => model.Liquidations1[0].VAT, string.Empty, new { @class = "text-danger" })
+                        </td>
+
+                        <td>
+                            @Html.EditorFor(model => model.Liquidations1[0].invoice_amount, new { htmlAttributes = new { @class = "form-control", id = "invoice_amount0", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.Liquidations1[0].invoice_amount, string.Empty, new { @class = "text-danger" })
+                        </td>
+                        <td id="re"></td>
+                    </tr>
+                    <tr id="tablerow1"></tr>
+                    <tr>
+                        <td colspan="6" style="text-align: right" onclick="ttotal()">total</td>
+                        <td colspan="3" style="text-align: left" id="totalq" onclick="ttotal()"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-2">
+                <input type="button" class="btn btn-default" value="add" id="add" name="add" onclick="total()" />
+            </div>
+            <br />
+            <br />
+            <div class="row" style="border: 1px solid black; text-align: left;">
+                <br />
+                <div class="col-sm-7" style="border: 1px solid black;">
+                    <div class="row">
+                        <p>we certify that above mantioned material consumed and / or expenditures incurred for<br /><input type="text" style="border: none; font-weight: bold; height: 25px; width: 100%;" placeholder="purpose" /></p>
+                    </div>
+                    <br />
+                    <div class="row" style="text-transform: capitalize">
+                        <div class="col-md-3" style="text-align: center">
+                            <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
+                            <b>imperst holder</b>
+                        </div>
+                        <div class="col-md-3" style="text-align: center">
+                            <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
+                            <b style="text-transform: uppercase">pm/hod</b>
+                        </div>
+                        <div class="col-md-3" style="text-align: center">
+                            <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
+                            <b>OD/Head of projects</b>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2" style="border: 1px solid black;">
+                    <b>
+                        <br />
+                        float amount:
+                    </b>
+                    <br />
+                    <b>
+                        <br />
+                        expenses:
+                    </b>
+                    <br />
+                    <b>
+                        <br />
+                        remaining balance:
+                    </b>
+                </div>
+                <div class="col-sm-1">
+                    <b id="tt" style="text-align: center;">
+
+                    </b>
+                </div>
+            </div>
+            <div class="row" style="border: 1px solid black;">
+                <b>
+                    <b>
+                        for the use of accounts department only
+                    </b>
                 </b>
             </div>
-        </div>
-        <div class="row" style="border: 1px solid black;">
-            <b>
-                <b>
-                    for the use of accounts department only
-                </b>
-            </b>
-        </div>
-        <div class="row" style="border: 1px solid black; text-align: center">
-            <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
-                <br />
-                <br />
-                <b>
+            <div class="row" style="border: 1px solid black; text-align: center">
+                <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
+                    <br />
+                    <br />
+                    <b>
+                        <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
+                        checked by
+                    </b>
+
+                </div>
+                <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
+                    <br />
+                    <br />
                     <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
-                    checked by
-                </b>
+                    reviewed by
+                </div>
+                <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
+                    <br />
+                    <br />
+                    <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
+                    approved by
+                </div>
+            </div>
+            <div class="row" style="border: 1px solid black;">
+                .<br />
+                <br />
+                encoded in the system by:_____________________
+                <br />.
+            </div>
+            <div class="row" style="margin-left: 20%">
 
+                <div class="col-sm-4" style="left: 0%; position: relative;">
+                    <b></b>
+                </div>
+                <div class="col-sm-5" style="left: 0%; position: relative;">
+                    <b> CSFIN04 </b>
+                </div>
+                <div class="col-sm-3" style="left: 10%; position: relative;">
+                    <b> Version R4</b>
+                </div>
             </div>
-            <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
-                <br />
-                <br />
-                <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
-                reviewed by
-            </div>
-            <div class="col-lg-4" style="border: 1px solid black; width: 33.33%">
-                <br />
-                <br />
-                <hr style="/* old IE */background-color: #333; /* Modern Browsers */border: none; /* Set the hr color */color: #333; height: 3px;" />
-                approved by
-            </div>
-        </div>
-        <div class="row" style="border: 1px solid black;">
-            .<br />
-            <br />
-            encoded in the system by:_____________________
-            <br />.
-        </div>
-        <div class="row" style="margin-left: 20%">
-
-            <div class="col-sm-4" style="left: 0%; position: relative;">
-                <b></b>
-            </div>
-            <div class="col-sm-5" style="left: 0%; position: relative;">
-                <b> CSFIN04 </b>
-            </div>
-            <div class="col-sm-3" style="left: 10%; position: relative;">
-                <b> Version R4</b>
-            </div>
-        </div>
         </div>
     </div>
     <br />

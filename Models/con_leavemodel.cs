@@ -11,6 +11,10 @@ namespace HRworks.Models
     public class con_leavemodel
     {
         public int id { get; set; }
+        [Display(Name = "leave type")]
+        public string leave_type { get; set; }
+        [Display(Name = "is half-day included")]
+        public bool half { get; set; }
 
         [Display(Name = "Designation")]
         public string designation { get; set; }

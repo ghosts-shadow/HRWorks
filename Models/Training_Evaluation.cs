@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace HRworks.Models
 {
     using System;
@@ -15,31 +17,57 @@ namespace HRworks.Models
     public partial class Training_Evaluation
     {
         public int Id { get; set; }
+        [Display(Name = "employee no")]
         public Nullable<int> Employee_id { get; set; }
+        [Display(Name = "Training Program")]
         public string traning_prog { get; set; }
+        [Display(Name = "traning date")]
         public string traning_date { get; set; }
+        [Display(Name = "Illustration and presentation skill")]
         public Nullable<int> TEV_1_1 { get; set; }
+        [Display(Name = "Knowledge of the trainer/Speaker about the course subject")]
         public Nullable<int> TEV_1_2 { get; set; }
+        [Display(Name = "Interacting and responding with participants/Audiences")]
         public Nullable<int> TEV_1_3 { get; set; }
+        [Display(Name = "The ability to manage lecture discussions")]
         public Nullable<int> TEV_1_4 { get; set; }
+        [Display(Name = "Professional Manner")]
         public Nullable<int> TEV_1_5 { get; set; }
+        [Display(Name = "Topics Consistency")]
         public Nullable<int> TEV_2_1 { get; set; }
+        [Display(Name = "Usefulness of the program Materials and handouts")]
         public Nullable<int> TEV_2_2 { get; set; }
+        [Display(Name = "Meeting the individual needs")]
         public Nullable<int> TEV_2_3 { get; set; }
+        [Display(Name = "Updated useful information")]
         public Nullable<int> TEV_2_4 { get; set; }
+        [Display(Name = "The activities; Assignments, tasks, materials were helpful")]
         public Nullable<int> TEV_2_5 { get; set; }
+        [Display(Name = "The location of the training/event; accessibility, directions, venue, etc.")]
         public Nullable<int> TEV_3_1 { get; set; }
+        [Display(Name = "The Refreshments: food & beverages")]
         public Nullable<int> TEV_3_2 { get; set; }
+        [Display(Name = "The program/event length")]
         public Nullable<int> TEV_3_3 { get; set; }
+        [Display(Name = "The timing")]
         public Nullable<int> TEV_3_4 { get; set; }
+        [Display(Name = "The availability of equipment need and technological tools")]
         public Nullable<int> TEV_3_5 { get; set; }
+        [Display(Name = "Overall Experience")]
         public Nullable<int> TEV_4_1 { get; set; }
+        [Display(Name = "Relevancy to my area of responsibility")]
         public Nullable<int> TEV_4_2 { get; set; }
+        [Display(Name = "The possibility of applying the knowledge and skills learned at work")]
         public Nullable<int> TEV_4_3 { get; set; }
+        [Display(Name = "The program has added to my knowledge and help me to improve my skills")]
         public Nullable<int> TEV_4_4 { get; set; }
+        [Display(Name = "Overall Experience")]
         public Nullable<int> TEV_4_5 { get; set; }
+        [Display(Name = "employee no")]
         public string TEV_5_1 { get; set; }
+        [Display(Name = "Main Outcomes:")]
         public string TEV_5_2 { get; set; }
+        [Display(Name = "Comments:")]
         public string enhancements { get; set; }
     
         public virtual master_file master_file { get; set; }

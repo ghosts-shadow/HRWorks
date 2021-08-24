@@ -13,5 +13,9 @@ namespace HRworks.Controllers
         {
             return View();
         }
+        public ActionResult jdFormFilling()
+        {
+            return View();
+        }
     }
 }

@@ -31,54 +31,54 @@
 }
 <table class="table" style="border-collapse: separate;">
     <tr >
-        <th style="position: sticky;top: 0;">#SN</th>
+        <th >#SN</th>
         @if (User.Identity.Name == "dinizsneden@gmail.com")
         {
-            <th style="position: sticky;top: 0;">
+            <th >
                 @Html.DisplayNameFor(model => model.Employee_id)
             </th>
-            <th style="position: sticky;top: 0;">
+            <th >
                 @Html.DisplayNameFor(model => model.Id)
             </th>
         }
-        <th style="position: sticky;top: 0;">
+        <th >
             @Html.DisplayNameFor(model => model.master_file.employee_no)
         </th>
-        <th style="position: sticky;top: 0;">
+        <th >
             @Html.DisplayNameFor(model => model.master_file.employee_name)
         </th>
-        <th style="position: sticky;top: 0;">
+        <th >
             @Html.DisplayNameFor(model => model.leave_type)
         </th>
-        <th style="position: sticky;top: 0;">
+        <th >
             @Html.DisplayNameFor(model => model.Date)
         </th>
-        <th style="position: sticky;top: 0;">
+        <th >
             @Html.DisplayNameFor(model => model.Start_leave)
         </th>
-        <th style="position: sticky;top: 0;">
+        <th >
             @Html.DisplayNameFor(model => model.End_leave)
         </th>
-        <th style="position: sticky;top: 0;">
+        <th >
             @Html.DisplayNameFor(model => model.days)
         </th>
-        <th style="position: sticky;top: 0;">
+        <th >
             @Html.DisplayNameFor(model => model.Return_leave)
         </th>
-        <th style="position: sticky;top: 0;">
+        <th >
             unpaid days(after return date)
         </th>
-        <th style="position: sticky;top: 0;">
+        <th >
             actual return date
         </th>
         @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")
         {
-           <th style="position: sticky;top: 0;">changed by</th><th style="position: sticky;top: 0;">changed date</th>
+           <th >changed by</th><th >changed date</th>
         }
 
             @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
             {
-                <th style="position: sticky;top: 0;"></th>
+                <th ></th>
             }
         </tr>
     @{ var i = 0;
