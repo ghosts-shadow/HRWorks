@@ -382,6 +382,8 @@
           <Property Name="leave_bal" Type="float" />
           <Property Name="submitted_by" Type="nvarchar(max)" />
           <Property Name="approved_by" Type="nvarchar(max)" />
+          <Property Name="approved_byHR" Type="nvarchar(max)" />
+          <Property Name="apstatus" Type="nvarchar(max)" />
           <Property Name="time" Type="datetime" />
           <Property Name="days" Type="int" />
           <Property Name="data_o_n" Type="nchar" MaxLength="10" />
@@ -771,6 +773,7 @@
           </Key>
           <Property Name="full_name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="aspnet_uid" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="employee_no" Type="int" />
         </EntityType>
         <EntityType Name="visa">
           <Key>
@@ -1236,6 +1239,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_usernames_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="usernames" Type="Self.usernames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="usernames">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_visa_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="visa" Type="Self.visa" Multiplicity="*" />
@@ -1434,6 +1451,10 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="usernames" EntitySet="usernames" />
           </AssociationSet>
+          <AssociationSet Name="FK_usernames_To_master_file" Association="Self.FK_usernames_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="usernames" EntitySet="usernames" />
+          </AssociationSet>
           <AssociationSet Name="FK_visa_To_master_file" Association="Self.FK_visa_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="visa" EntitySet="visa" />
@@ -1610,7 +1631,6 @@
           <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="leave_bal" Type="Double" />
           <Property Name="submitted_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="approved_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="time" Type="DateTime" Precision="3" />
           <Property Name="days" Type="Int32" />
           <Property Name="data_o_n" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
@@ -1618,6 +1638,9 @@
           <NavigationProperty Name="payroles" Relationship="HRModel.FK_pay_To_leave" FromRole="Leave" ToRole="payrole" />
           <Property Name="actualchangedby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="actualchangeddateby" Type="DateTime" Precision="0" />
+          <Property Name="approved_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="approved_byHR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="apstatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
@@ -1707,6 +1730,7 @@
           <NavigationProperty Name="end_of_service" Relationship="HRModel.FK_EOS_To_master_file" FromRole="master_file" ToRole="end_of_service" />
           <NavigationProperty Name="emp_joi_sta_change" Relationship="HRModel.FK_ejsc_To_master_file" FromRole="master_file" ToRole="emp_joi_sta_change" />
           <NavigationProperty Name="payroles" Relationship="HRModel.FK_pay_To_master_file" FromRole="master_file" ToRole="payrole" />
+          <NavigationProperty Name="usernames" Relationship="HRModel.FK_usernames_To_master_file" FromRole="master_file" ToRole="username" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -1740,6 +1764,8 @@
           <Property Name="full_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="aspnet_uid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_usernames_To_AspNetUsers" FromRole="usernames" ToRole="AspNetUsers" />
+          <Property Name="employee_no" Type="Int32" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_usernames_To_master_file" FromRole="username" ToRole="master_file" />
         </EntityType>
         <EntityType Name="visa">
           <Key>
@@ -2160,6 +2186,10 @@
           </AssociationSet>
           <EntitySet Name="payrollsaveds" EntityType="HRModel.payrollsaved" />
           <EntitySet Name="liquiexps" EntityType="HRModel.liquiexp" />
+          <AssociationSet Name="FK_usernames_To_master_file" Association="HRModel.FK_usernames_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="username" EntitySet="usernames" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
           <Key>
@@ -2986,6 +3016,20 @@
           <Property Name="expence" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="issuer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <Association Name="FK_usernames_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HRModel.username" Role="username" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="username">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3135,13 +3179,15 @@
           <EntitySetMapping Name="Leaves">
             <EntityTypeMapping TypeName="HRModel.Leave">
               <MappingFragment StoreEntitySet="Leave">
+                <ScalarProperty Name="apstatus" ColumnName="apstatus" />
+                <ScalarProperty Name="approved_byHR" ColumnName="approved_byHR" />
+                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
                 <ScalarProperty Name="actualchangeddateby" ColumnName="actualchangeddateby" />
                 <ScalarProperty Name="actualchangedby" ColumnName="actualchangedby" />
                 <ScalarProperty Name="half" ColumnName="half" />
                 <ScalarProperty Name="data_o_n" ColumnName="data_o_n" />
                 <ScalarProperty Name="days" ColumnName="days" />
                 <ScalarProperty Name="time" ColumnName="time" />
-                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
                 <ScalarProperty Name="submitted_by" ColumnName="submitted_by" />
                 <ScalarProperty Name="leave_bal" ColumnName="leave_bal" />
                 <ScalarProperty Name="email" ColumnName="email" />
@@ -3251,6 +3297,7 @@
           <EntitySetMapping Name="usernames">
             <EntityTypeMapping TypeName="HRModel.username">
               <MappingFragment StoreEntitySet="usernames">
+                <ScalarProperty Name="employee_no" ColumnName="employee_no" />
                 <ScalarProperty Name="full_name" ColumnName="full_name" />
                 <ScalarProperty Name="aspnet_uid" ColumnName="aspnet_uid" />
               </MappingFragment>

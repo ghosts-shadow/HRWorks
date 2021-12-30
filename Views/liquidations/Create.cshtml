@@ -114,7 +114,7 @@
             for (var i = 0; i < counter; i++) {
                 a = $("#invoice" + i).val() == '' ? 0 : $("#invoice" + i).val();
                 b = $("#VAT" + i).val() == '' ? 0 : $("#VAT" + i).val();
-                sum = parseFloat(a) + parseFloat(b);
+                sum = (parseFloat(a) * 100 + parseFloat(b) * 100) / 100;
                 $("#invoice_amount" + i).val(sum);
             }
             ttotal();

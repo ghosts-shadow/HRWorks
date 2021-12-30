@@ -9,7 +9,7 @@
 }
 @if (Request.IsAuthenticated)
 {
-<h2 style="text-transform: uppercase">master file</h2>
+    <h2 style="text-transform: uppercase">master file</h2>
 
     <p>
         @Html.ActionLink("Create New", "Create")
@@ -60,367 +60,394 @@
     </div>
     <table class="table"
            id="master_file">
-        <tr>
-            <th></th>
-            <th>
-                @Html.DisplayNameFor(model => model.employee_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.employee_name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.nationality)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.dob)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.date_joined)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.last_working_day)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.emirates_id.First().eid_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.emirates_id.First().eid_expiry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.bank_details.First().IBAN)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.bank_details.First().bank_name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.insurances.First().card_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.insurances.First().age)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.insurances.First().dependency)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.insurances.First().marital_status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.insurances.First().annual_primium)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.insurances.First().deletion_date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.insurances.First().invoice_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.insurances.First().credit_amt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.passports.First().company_code)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.passports.First().passport_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.passports.First().passport_expiry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.passports.First().passport_issue_date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.passports.First().passport_return_date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.passports.First().passport_remarks)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.passports.First().status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.visas.First().uid_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.visas.First().file_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.visas.First().place_of_issue)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.visas.First().accompanied_by)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.visas.First().rv_expiry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.visas.First().rv_issue)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.visas.First().proff_as_per_visa)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.labour_card.First().work_permit_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.labour_card.First().personal_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.labour_card.First().proffession)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.labour_card.First().lc_expiry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.labour_card.First().establishment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.img)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.status)
-            </th>
-            @if (User.Identity.IsAuthenticated)
-            {
-                if (User.IsInRole("super_admin") || User.IsInRole("admin"))
-                {
-                    <th>
-                        @Html.DisplayNameFor(model => model.changed_by)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.date_changed)
-                    </th>
-                }
-            }
-        </tr>
-
-        @foreach (var item in Model)
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.employee_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contracts.First().departmant_project)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contracts.First().designation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nationality)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.dob)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_joined)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.last_working_day)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.emirates_id.First().eid_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.emirates_id.First().eid_expiry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.bank_details.First().IBAN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.bank_details.First().bank_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.insurances.First().card_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.insurances.First().age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.insurances.First().dependency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.insurances.First().marital_status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.insurances.First().annual_primium)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.insurances.First().deletion_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.insurances.First().invoice_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.insurances.First().credit_amt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.passports.First().company_code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.passports.First().passport_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.passports.First().passport_expiry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.passports.First().passport_issue_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.passports.First().passport_return_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.passports.First().passport_remarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.passports.First().status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.visas.First().uid_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.visas.First().file_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.visas.First().place_of_issue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.visas.First().accompanied_by)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.visas.First().rv_expiry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.visas.First().rv_issue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.visas.First().proff_as_per_visa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.labour_card.First().work_permit_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.labour_card.First().personal_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.labour_card.First().proffession)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.labour_card.First().lc_expiry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.labour_card.First().establishment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.img)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        @if (User.Identity.IsAuthenticated)
         {
-            <tr>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new {id = item.employee_id}) |
-                    @Html.ActionLink("Details", "Details", new {id = item.employee_id}) |
-                    @Html.ActionLink("Delete", "Delete", new {id = item.employee_id})
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.employee_no)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.employee_name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.nationality)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.dob)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.date_joined)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.last_working_day)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.gender)
-                </td>
-                @if (item.emirates_id.Count != 0)
-                {
-                    var em = item.emirates_id.OrderByDescending(x => x.date_changed).First();
-                    <td>
-                        @em.eid_no
-                    </td>
-                    <td>
-                        @em.eid_expiry
-                    </td>
-                }else
-                {
-                    <td></td>
-                    <td></td>
-                }
-                
-                @if (item.bank_details.Count != 0)
-                {
-                    var bk = item.bank_details.OrderByDescending(x => x.Employee_Id).First();
-                    <td>
-                        @bk.IBAN
-                    </td>
-                    <td>
-                        @bk.bank_name
-                    </td>
-                }else
-                {
-                    <td></td>
-                    <td></td>
-                }
-
-                @if (item.insurances.Count != 0)
-                {
-                    var inc = item.insurances.OrderByDescending(x => x.employee_id).First();
-                    <td>
-                        @inc.card_no
-                    </td>
-                    <td>
-                        @inc.age
-                    </td>
-                    <td>
-                        @inc.dependency
-                    </td>
-                    <td>
-                        @inc.marital_status
-                    </td>
-                    <td>
-                        @inc.annual_primium
-                    </td>
-                    <td>
-                        @inc.deletion_date
-                    </td>
-                    <td>
-                        @inc.invoice_no
-                    </td>
-                    <td>
-                        @inc.credit_amt
-                    </td>
-                }else
-                {
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                }
-
-                @if (item.passports.Count != 0)
-                {
-                    var pass = item.passports.OrderByDescending(x => x.employee_id).First();
-                    <td>
-                        @pass.company_code
-                    </td>
-                    <td>
-                        @pass.passport_no
-                    </td>
-                    <td>
-                        @pass.passport_expiry
-                    </td>
-                    <td>
-                        @pass.passport_issue_date
-                    </td>
-                    <td>
-                        @pass.passport_return_date
-                    </td>
-                    <td>
-                        @pass.passport_remarks
-                    </td>
-                    <td>
-                        @pass.status
-                    </td>
-                }else
-                {
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                }
-
-                @if (item.visas.Count != 0)
-                {
-                    var VI = item.visas.OrderByDescending(x => x.employee_id).First();
-                    <td>
-                        @VI.uid_no
-                    </td>
-                    <td>
-                        @VI.file_no
-                    </td>
-                    <td>
-                        @VI.place_of_issue
-                    </td>
-                    <td>
-                        @VI.accompanied_by
-                    </td>
-                    <td>
-                        @VI.rv_expiry
-                    </td>
-                    <td>
-                        @VI.rv_issue
-                    </td>
-                    <td>
-                        @VI.proff_as_per_visa
-                    </td>
-                }else
-                {
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                }
-
-                @if (item.labour_card.Count != 0)
-                {
-                    var la = item.labour_card.OrderByDescending(x => x.employee_id).First();
-                    <td>
-                        @la.work_permit_no
-                    </td>
-                    <td>
-                        @la.personal_no
-                    </td>
-                    <td>
-                        @la.proffession
-                    </td>
-                    <td>
-                        @la.lc_expiry
-                    </td>
-                    <td>
-                        @la.establishment
-                    </td>
-                }else
-                {
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                }
-
-                @*@Url.Action(item.img)*@
-                <td>
-                    @if (item.img != null)
-                    {
-                        <img src="@Url.Content(item.img)"
-                             alt="@Html.DisplayFor(modelItem => item.img)"
-                             style="height: 150px; width: 125px"/>
-                    }
-                    else
-                    {
-                        @item.img
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.status)
-                </td>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    if (User.IsInRole("super_admin") || User.IsInRole("admin"))
-                    {
-                        <td>
-                            @Html.DisplayFor(modelItem => item.changed_by)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.date_changed)
-                        </td>
-                    }
-                }
-            </tr>
+            if (User.IsInRole("super_admin") || User.IsInRole("admin"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.changed_by)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.date_changed)
+                </th>
+            }
         }
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {id = item.employee_id}) |
+            @Html.ActionLink("Details", "Details", new {id = item.employee_id}) |
+            @Html.ActionLink("Delete", "Delete", new {id = item.employee_id})
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.employee_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.employee_name)
+        </td>
+        @if (item.contracts.Count != 0)
+        {
+            var em = item.contracts.OrderByDescending(x => x.date_changed).First();
+            <td>
+                @em.departmant_project
+            </td>
+            <td>
+                @em.designation
+            </td>
+        }
+        else
+        {
+            <td></td>
+            <td></td>
+        }
+        <td>
+            @Html.DisplayFor(modelItem => item.nationality)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dob)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date_joined)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.last_working_day)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.gender)
+        </td>
+        @if (item.emirates_id.Count != 0)
+        {
+            var em = item.emirates_id.OrderByDescending(x => x.date_changed).First();
+            <td>
+                @em.eid_no
+            </td>
+            <td>
+                @em.eid_expiry
+            </td>
+        }
+        else
+        {
+            <td></td>
+            <td></td>
+        }
+
+        @if (item.bank_details.Count != 0)
+        {
+            var bk = item.bank_details.OrderByDescending(x => x.Employee_Id).First();
+            <td>
+                @bk.IBAN
+            </td>
+            <td>
+                @bk.bank_name
+            </td>
+        }
+        else
+        {
+            <td></td>
+            <td></td>
+        }
+
+        @if (item.insurances.Count != 0)
+        {
+            var inc = item.insurances.OrderByDescending(x => x.employee_id).First();
+            <td>
+                @inc.card_no
+            </td>
+            <td>
+                @inc.age
+            </td>
+            <td>
+                @inc.dependency
+            </td>
+            <td>
+                @inc.marital_status
+            </td>
+            <td>
+                @inc.annual_primium
+            </td>
+            <td>
+                @inc.deletion_date
+            </td>
+            <td>
+                @inc.invoice_no
+            </td>
+            <td>
+                @inc.credit_amt
+            </td>
+        }
+        else
+        {
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        }
+
+        @if (item.passports.Count != 0)
+        {
+            var pass = item.passports.OrderByDescending(x => x.employee_id).First();
+            <td>
+                @pass.company_code
+            </td>
+            <td>
+                @pass.passport_no
+            </td>
+            <td>
+                @pass.passport_expiry
+            </td>
+            <td>
+                @pass.passport_issue_date
+            </td>
+            <td>
+                @pass.passport_return_date
+            </td>
+            <td>
+                @pass.passport_remarks
+            </td>
+            <td>
+                @pass.status
+            </td>
+        }
+        else
+        {
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        }
+
+        @if (item.visas.Count != 0)
+        {
+            var VI = item.visas.OrderByDescending(x => x.employee_id).First();
+            <td>
+                @VI.uid_no
+            </td>
+            <td>
+                @VI.file_no
+            </td>
+            <td>
+                @VI.place_of_issue
+            </td>
+            <td>
+                @VI.accompanied_by
+            </td>
+            <td>
+                @VI.rv_expiry
+            </td>
+            <td>
+                @VI.rv_issue
+            </td>
+            <td>
+                @VI.proff_as_per_visa
+            </td>
+        }
+        else
+        {
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        }
+
+        @if (item.labour_card.Count != 0)
+        {
+            var la = item.labour_card.OrderByDescending(x => x.employee_id).First();
+            <td>
+                @la.work_permit_no
+            </td>
+            <td>
+                @la.personal_no
+            </td>
+            <td>
+                @la.proffession
+            </td>
+            <td>
+                @la.lc_expiry
+            </td>
+            <td>
+                @la.establishment
+            </td>
+        }
+        else
+        {
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        }
+
+        @*@Url.Action(item.img)*@
+        <td>
+            @if (item.img != null)
+            {
+                <img src="@Url.Content(item.img)"
+                     alt="@Html.DisplayFor(modelItem => item.img)"
+                     style="height: 150px; width: 125px"/>
+            }
+            else
+            {
+                @item.img
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.status)
+        </td>
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("super_admin") || User.IsInRole("admin"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.changed_by)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date_changed)
+                </td>
+            }
+        }
+        </tr>
+    }
 
     </table>
 }

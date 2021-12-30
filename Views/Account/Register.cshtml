@@ -16,6 +16,12 @@
             @Html.TextBoxFor(m => m.full_name, new { @class = "form-control" })
         </div>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.EMPNO, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.EMPNO, new { @class = "form-control" })
+        </div>
+    </div>
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
@@ -35,19 +41,22 @@
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserRole, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.CheckBox("admin", new { @class = "radio-inline" })@Html.Label("admin")
-            @Html.CheckBox("Manager", new { @class = "radio-inline" })@Html.Label("manager")<br />
-            @Html.CheckBox("liquidation", new { @class = "radio-inline" })@Html.Label("liquidation")
-            @Html.CheckBox("employee_EID", new { @class = "radio-inline" })@Html.Label("employee_EID")
-            @Html.CheckBox("employee_INC", new { @class = "radio-inline" })@Html.Label("employee_INC")<br />
-            @Html.CheckBox("employee_PASS", new { @class = "radio-inline" })@Html.Label("employee_PASS")
-            @Html.CheckBox("employee_VLC", new { @class = "radio-inline" })@Html.Label("employee_VLC")<br />
-            @Html.CheckBox("payrole", new { @class = "radio-inline" })@Html.Label("payrole")<br />
-            @Html.TextBoxFor(m => m.UserRole, new { @class = "form-control", @id = "roles" })
-            @*@Html.RadioButtonFor(m => m.UserRole, "admin", new {@class = "radio-inline"})@Html.Label("admin"),@style="display:none"
+    if(User.IsInRole("super_admin"))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserRole, new {@class = "col-md-2 control-label"})
+            <div class="col-md-10">
+                @Html.CheckBox("admin", new {@class = "radio-inline"})@Html.Label("admin")
+                @Html.CheckBox("Manager", new {@class = "radio-inline"})@Html.Label("manager")<br/>
+                @Html.CheckBox("liquidation", new {@class = "radio-inline"})@Html.Label("liquidation")
+                @Html.CheckBox("employee_EID", new {@class = "radio-inline"})@Html.Label("employee_EID")
+                @Html.CheckBox("employee_INC", new {@class = "radio-inline"})@Html.Label("employee_INC")<br/>
+                @Html.CheckBox("employee_PASS", new {@class = "radio-inline"})@Html.Label("employee_PASS")
+                @Html.CheckBox("employee_VLC", new {@class = "radio-inline"})@Html.Label("employee_VLC")<br/>
+                @Html.CheckBox("payrole", new {@class = "radio-inline"})@Html.Label("payrole")<br/>
+                @Html.CheckBox("registration", new {@class = "radio-inline"})@Html.Label("registration")<br/>
+                @Html.TextBoxFor(m => m.UserRole, new {@class = "form-control", @id = "roles"})
+                @*@Html.RadioButtonFor(m => m.UserRole, "admin", new {@class = "radio-inline"})@Html.Label("admin"),@style="display:none"
         @Html.RadioButtonFor(m => m.UserRole, "Manager", new {@class = "radio-inline"})@Html.Label("manager")<br/>
         @Html.RadioButtonFor(m => m.UserRole, "liquidation", new {@class = "radio-inline"})@Html.Label("liquidation")
         @Html.RadioButtonFor(m => m.UserRole, "employee_EID", new {@class = "radio-inline"})@Html.Label("employee_EID")
@@ -56,8 +65,9 @@
         @Html.RadioButtonFor(m => m.UserRole, "employee_VLC", new {@class = "radio-inline"})@Html.Label("employee_VLC")<br />
         @Html.RadioButtonFor(m => m.UserRole, "payrole", new {@class = "radio-inline"})@Html.Label("payrole")<br />*@
 
+            </div>
         </div>
-    </div>
+    }
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Register" />
@@ -75,6 +85,7 @@
         var pass = document.getElementById("employee_PASS");
         var vlc = document.getElementById("employee_VLC");
         var pay = document.getElementById("payrole");
+        var reg = document.getElementById("registration");
         var rol = document.getElementById("roles");
         if (ad.checked == true) {
             rolestring += ad.name +",";
@@ -99,6 +110,9 @@
         }
         if (pay.checked == true) {
             rolestring += pay.name + ",";
+        }
+        if (reg.checked == true) {
+            rolestring += reg.name + ",";
         }
         var ind = rolestring.lastIndexOf(",");
         rolestring = rolestring.slice(0,ind);

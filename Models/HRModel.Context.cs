@@ -73,7 +73,5 @@ namespace HRworks.Models
         public virtual DbSet<payrole> payroles { get; set; }
         public virtual DbSet<payrollsaved> payrollsaveds { get; set; }
         public virtual DbSet<liquiexp> liquiexps { get; set; }
-
-        public System.Data.Entity.DbSet<HRworks.Models.Reconsilationmodel> Reconsilationmodels { get; set; }
     }
 }

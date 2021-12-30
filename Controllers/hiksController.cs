@@ -24,24 +24,33 @@ namespace HRworks.Controllers
             var tmlist = this.db.hiks.OrderBy(x => x.datetime).ToList();
             var msname = this.db.master_file.ToList();
             var emplist = new List<hik>();
+            var emplist1 = new List<hik>();
             var leavelist= db.Leaves.ToList();
             foreach (var hik in tmlist)
             {
-                if (!emplist.Exists(x => x.ID == hik.ID))
+                if (!emplist1.Exists(x => x.ID == hik.ID))
                 {
                     if (hik.ID != string.Empty)
                     {
-                        emplist.Add(hik);
+                        emplist1.Add(hik);
                         var qwEmployeeId = 0;
                         int.TryParse(hik.ID, out qwEmployeeId);
                         if (msname.Exists(x => x.employee_no == qwEmployeeId))
                             hik.Person = msname.Find(x => x.employee_no == qwEmployeeId).employee_name;
-                        
                         hik.EMPID = qwEmployeeId;
                     }
                 }
             }
 
+            foreach (var hik in emplist1)
+            {
+
+                var activeuser = msname.FindAll(x => x.status == "active"|| x.status == "in process");
+                if (activeuser.Exists(x => x.employee_no.ToString() == hik.ID))
+                {
+                    emplist.Add(hik);
+                }
+            }
             var abslist = new List<hik>();
             if (month.HasValue)
             {
@@ -259,6 +268,30 @@ namespace HRworks.Controllers
             foreach (var w1 in chout.OrderBy(x => x.EMPID).ThenByDescending(x => x.datetime))
                 if (!schout.Exists(x => x.date == w1.date && x.EMPID == w1.EMPID))
                     schout.Add(w1);
+            var chdecin = new List<hik>();
+            chdecin = chin.OrderBy(x => x.EMPID).ThenByDescending(x => x.datetime).ToList();
+            var schinout = new List<hik>();
+            foreach (var hik in schin.OrderBy(x => x.EMPID).ThenBy(x => x.datetime))
+            {
+                if (!schinout.Exists(x => x.EMPID == hik.EMPID && x.date == hik.date) && !schout.Exists(x2 => x2.EMPID == hik.EMPID && x2.date == hik.date))
+                {
+                    var tempchin = new hik();
+                    tempchin = chdecin.Find(c => c.EMPID == hik.EMPID);
+                    if (!schin.Exists(x1 => x1.EMPID == tempchin.EMPID && x1.datetime == tempchin.datetime))
+                    {
+                        schinout.Add(tempchin);
+                    }
+                }
+            }
+
+            foreach (var hik1 in schinout)
+            {
+                if (hik1.Status == "CheckIN")
+                {
+                    hik1.Status = "CheckOut";
+                }
+            }
+            passexel.AddRange(schinout);
 
             passexel.AddRange(schin);
             passexel.AddRange(schout);
@@ -560,6 +593,30 @@ namespace HRworks.Controllers
             foreach (var w1 in chout.OrderBy(x => x.EMPID).ThenByDescending(x => x.datetime))
                 if (!schout.Exists(x => x.date == w1.date && x.EMPID == w1.EMPID))
                     schout.Add(w1);
+            var chdecin = new List<hik>();
+            chdecin = chin.OrderBy(x => x.EMPID).ThenByDescending(x => x.datetime).ToList();
+            var schinout = new List<hik>();
+            foreach (var hik in schin.OrderBy(x => x.EMPID).ThenBy(x => x.datetime))
+            {
+                if (!schinout.Exists(x=>x.EMPID == hik.EMPID && x.date == hik.date) && !schout.Exists(x2=>x2.EMPID == hik.EMPID && x2.date == hik.date))
+                {
+                    var tempchin = new hik(); 
+                    tempchin = chdecin.Find(c => c.EMPID == hik.EMPID);
+                    if (!schin.Exists(x1 => x1.EMPID == tempchin.EMPID && x1.datetime == tempchin.datetime))
+                    {
+                        schinout.Add(tempchin);
+                    }
+                }
+            }
+
+            foreach (var hik1 in schinout)
+            {
+                if (hik1.Status == "CheckIN")
+                {
+                    hik1.Status = "CheckOut";
+                }
+            }
+            passexel.AddRange(schinout);
             passexel.AddRange(schin);
             passexel.AddRange(schout);
             return this.View(passexel.OrderBy(x => x.date).ThenBy(x => x.EMPID));

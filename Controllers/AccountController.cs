@@ -136,7 +136,7 @@ namespace HRworks.Controllers
 
         //
         // GET: /Account/Register
-        [Authorize(Roles = "super_admin")]
+        [Authorize(Roles = "super_admin,registration")]
         public ActionResult Register()
         {
             return View();
@@ -146,11 +146,18 @@ namespace HRworks.Controllers
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin")]
+        [Authorize(Roles = "super_admin,registration")]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
+                HREntities db = new HREntities();
+                var masteremp = db.master_file.ToList();
+                if (!masteremp.Exists(x=>x.employee_no != model.EMPNO))
+                {
+                    ModelState.AddModelError("EMPNO","invalid emp no");
+                    goto fail;
+                }
                 HREntities df=new HREntities();
                 username un=new username();
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -159,7 +166,17 @@ namespace HRworks.Controllers
                 {
                     un.full_name = model.full_name;
                     un.aspnet_uid = user.Id;
-                    string[] userrole = model.UserRole.Split(','); 
+                    var empid = masteremp.Find(x => x.employee_no != model.EMPNO);
+                    un.employee_no = empid.employee_id;
+                    string[] userrole = model.UserRole.Split(',');
+                    if (User.IsInRole("registration"))
+                    {
+                        await this.UserManager.AddToRoleAsync(user.Id, "employee");
+                    }
+                    else
+                    {
+                        await this.UserManager.AddToRolesAsync(user.Id, userrole);
+                    }
                     await this.UserManager.AddToRolesAsync(user.Id, userrole);
                     df.usernames.Add(un);
                     df.SaveChanges();
@@ -173,7 +190,7 @@ namespace HRworks.Controllers
                 }
                 AddErrors(result);
             }
-
+            fail: ;
             // If we got this far, something failed, redisplay form
             return View(model);
         }

@@ -864,16 +864,15 @@
             string serverfile;
             var leavelistc = this.db.Leaves.ToList();
             if (leavelistc.Exists(x =>
-                x.Start_leave >= leave.Start_leave && x.End_leave <= leave.End_leave &&
+                ((x.Start_leave <= leave.Start_leave && x.End_leave >= leave.Start_leave) || (x.Start_leave <= leave.End_leave && x.End_leave >= leave.End_leave)) &&
                 x.Employee_id == leave.Employee_id))
             {
                 ModelState.AddModelError("Start_leave", "already exists");
 
                 goto jderr;
             }
-
             if (leavelistc.Exists(x =>
-                x.Start_leave <= leave.Start_leave && x.End_leave >= leave.End_leave &&
+                (x.Start_leave >= leave.Start_leave && x.End_leave <= leave.End_leave) &&
                 x.Employee_id == leave.Employee_id))
             {
                 ModelState.AddModelError("Start_leave", "already exists");
@@ -881,12 +880,13 @@
                 goto jderr;
             }
 
-//            if (leavelistc.Exists(x=>x.End_leave >= leave.Start_leave && x.Employee_id == leave.Employee_id))
-//            {
-//                ModelState.AddModelError("Start_leave", leave.Start_leave+" already exists");
-//
-//                goto jderr;
-//            }
+
+            //            if (leavelistc.Exists(x=>x.End_leave >= leave.Start_leave && x.Employee_id == leave.Employee_id))
+            //            {
+            //                ModelState.AddModelError("Start_leave", leave.Start_leave+" already exists");
+            //
+            //                goto jderr;
+            //            }
             if (leave.Start_leave < jd && leave.Start_leave != default)
             {
                 ModelState.AddModelError("Start_leave", "selected date is before " + jd);
@@ -1588,22 +1588,23 @@
                 var editleave = leavelistc.Find(x => x.Id == leave.Id);
                 leavelistc.Remove(editleave);
                 if (leavelistc.Exists(x =>
-                    x.Start_leave >= leave.Start_leave && x.End_leave <= leave.End_leave &&
+                    ((x.Start_leave <= leave.Start_leave && x.End_leave >= leave.Start_leave) || (x.Start_leave <= leave.End_leave && x.End_leave >= leave.End_leave)) &&
                     x.Employee_id == leave.Employee_id))
                 {
                     ModelState.AddModelError("Start_leave", "already exists");
 
                     goto jderr;
                 }
-
                 if (leavelistc.Exists(x =>
-                    x.Start_leave <= leave.Start_leave && x.End_leave >= leave.End_leave &&
+                    (x.Start_leave >= leave.Start_leave && x.End_leave <= leave.End_leave) &&
                     x.Employee_id == leave.Employee_id))
                 {
                     ModelState.AddModelError("Start_leave", "already exists");
 
                     goto jderr;
                 }
+
+
 
                 leavelistc.Add(editleave);
 
