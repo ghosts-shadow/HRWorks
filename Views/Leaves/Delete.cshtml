@@ -104,10 +104,16 @@
 
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
-
+    
+        <div class="form-group" style="display: none">
+            <div class="col-md-10">
+                <input type="text" name="search" value="@ViewBag.search"/>
+                <input type="text" name="page" value="@ViewBag.page"/>
+            </div>
+        </div>
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to List", "getallorone",new{ search = @ViewBag.search, page = @ViewBag.page })
         </div>
     }
 </div>

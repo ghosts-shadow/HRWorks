@@ -73,5 +73,6 @@ namespace HRworks.Models
         public virtual DbSet<payrole> payroles { get; set; }
         public virtual DbSet<payrollsaved> payrollsaveds { get; set; }
         public virtual DbSet<liquiexp> liquiexps { get; set; }
+        public virtual DbSet<leavecal2020> leavecal2020 { get; set; }
     }
 }

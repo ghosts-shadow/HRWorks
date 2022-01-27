@@ -47,9 +47,10 @@ namespace HRworks.Models
             this.emp_joi_sta_change = new HashSet<emp_joi_sta_change>();
             this.payroles = new HashSet<payrole>();
             this.usernames = new HashSet<username>();
+            this.leavecal2020 = new HashSet<leavecal2020>();
         }
-    
-    
+
+
         public int employee_id { get; set; }
 
         [Display(Name = "Employee NO")]
@@ -146,5 +147,7 @@ namespace HRworks.Models
         public virtual ICollection<payrole> payroles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<username> usernames { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<leavecal2020> leavecal2020 { get; set; }
     }
 }

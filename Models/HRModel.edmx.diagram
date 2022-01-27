@@ -97,6 +97,8 @@
         <EntityTypeShape EntityType="HRModel.payrollsaved" Width="1.5" PointX="17.625" PointY="10.75" />
         <EntityTypeShape EntityType="HRModel.liquiexp" Width="1.5" PointX="11.625" PointY="18.75" />
         <AssociationConnector Association="HRModel.FK_usernames_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.leavecal2020" Width="1.5" PointX="2.75" PointY="89.25" />
+        <AssociationConnector Association="HRModel.FK_leavecal2020_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

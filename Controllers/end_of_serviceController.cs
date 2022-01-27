@@ -128,7 +128,7 @@ namespace HRworks.Controllers
                 }
 
                 EOSBvar.abstotal = q;
-                leavcal.cal_bal(endOfService.last_working_day.Value, emp);
+                leavcal.forfitedbalence(emp.employee_id);
                 var leavecallist = this.db.leavecals.ToList();
                 var leavecal = leavecallist.Find(x => x.Employee_id == emp.employee_id);
                 EOSBvar.leavecal = leavecal;
@@ -166,7 +166,6 @@ namespace HRworks.Controllers
         public ActionResult Create()
         {
             LeavesController an = new LeavesController();
-            an.cal_bal();
             var alist = db.master_file.OrderBy(e => e.employee_no).ThenBy(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             var ab = db.master_file.OrderBy(p => p.employee_no).ThenBy(x => x.date_changed).ToList();
@@ -303,12 +302,18 @@ namespace HRworks.Controllers
             {
                 if (afinallist.Count == 0)
                 {
-                    afinallist.Add(file);
+                    {
+                        afinallist.Add(file);
+                        an.forfitedbalence(file.employee_id);
+                    }
                 }
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no))
                 {
-                    afinallist.Add(file);
+                    {
+                        afinallist.Add(file);
+                        an.forfitedbalence(file.employee_id);
+                    }
                 }
             }
 

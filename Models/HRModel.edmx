@@ -429,6 +429,27 @@
           <Property Name="net_period" Type="float" />
           <Property Name="accrued" Type="float" />
         </EntityType>
+        <EntityType Name="leavecal2020">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="leave_balance" Type="float" />
+          <Property Name="periodtill2020" Type="float" />
+          <Property Name="anual_leave_takentill2020" Type="float" />
+          <Property Name="unpaid_leavetill2020" Type="float" />
+          <Property Name="net_periodtill2020" Type="float" />
+          <Property Name="accruedtill2020" Type="float" />
+          <Property Name="forfitedtill2020" Type="float" />
+          <Property Name="periodafter2020" Type="float" />
+          <Property Name="anual_leave_takenafter2020" Type="float" />
+          <Property Name="unpaid_leaveafter2020" Type="float" />
+          <Property Name="net_periodafter2020" Type="float" />
+          <Property Name="accruedafter2020" Type="float" />
+          <Property Name="forfitedafter2020" Type="float" />
+          <Property Name="dateupdated" Type="date" />
+        </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
             <PropertyRef Name="Id" />
@@ -1047,6 +1068,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_leavecal2020_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="leavecal2020" Type="Self.leavecal2020" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="leavecal2020">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_liqui_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="liquidation" Type="Self.liquidation" Multiplicity="*" />
@@ -1294,6 +1329,7 @@
           <EntitySet Name="leave_absence" EntityType="Self.leave_absence" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Leave_approved" EntityType="Self.Leave_approved" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leavecal" EntityType="Self.leavecal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="leavecal2020" EntityType="Self.leavecal2020" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liqiapproval" EntityType="Self.liqiapproval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation" EntityType="Self.liquidation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation_ref" EntityType="Self.liquidation_ref" Schema="dbo" store:Type="Tables" />
@@ -1390,6 +1426,10 @@
           <AssociationSet Name="FK_leave_cal_To_master_file" Association="Self.FK_leave_cal_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="leavecal" EntitySet="leavecal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_leavecal2020_To_master_file" Association="Self.FK_leavecal2020_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="leavecal2020" EntitySet="leavecal2020" />
           </AssociationSet>
           <AssociationSet Name="FK_liqui_To_master_file" Association="Self.FK_liqui_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -1731,6 +1771,7 @@
           <NavigationProperty Name="emp_joi_sta_change" Relationship="HRModel.FK_ejsc_To_master_file" FromRole="master_file" ToRole="emp_joi_sta_change" />
           <NavigationProperty Name="payroles" Relationship="HRModel.FK_pay_To_master_file" FromRole="master_file" ToRole="payrole" />
           <NavigationProperty Name="usernames" Relationship="HRModel.FK_usernames_To_master_file" FromRole="master_file" ToRole="username" />
+          <NavigationProperty Name="leavecal2020" Relationship="HRModel.FK_leavecal2020_To_master_file" FromRole="master_file" ToRole="leavecal2020" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -2189,6 +2230,11 @@
           <AssociationSet Name="FK_usernames_To_master_file" Association="HRModel.FK_usernames_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="username" EntitySet="usernames" />
+          </AssociationSet>
+          <EntitySet Name="leavecal2020" EntityType="HRModel.leavecal2020" />
+          <AssociationSet Name="FK_leavecal2020_To_master_file" Association="HRModel.FK_leavecal2020_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="leavecal2020" EntitySet="leavecal2020" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
@@ -3027,6 +3073,42 @@
             </Principal>
             <Dependent Role="username">
               <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="leavecal2020">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="leave_balance" Type="Double" />
+          <Property Name="periodtill2020" Type="Double" />
+          <Property Name="anual_leave_takentill2020" Type="Double" />
+          <Property Name="unpaid_leavetill2020" Type="Double" />
+          <Property Name="net_periodtill2020" Type="Double" />
+          <Property Name="accruedtill2020" Type="Double" />
+          <Property Name="forfitedtill2020" Type="Double" />
+          <Property Name="periodafter2020" Type="Double" />
+          <Property Name="anual_leave_takenafter2020" Type="Double" />
+          <Property Name="unpaid_leaveafter2020" Type="Double" />
+          <Property Name="net_periodafter2020" Type="Double" />
+          <Property Name="accruedafter2020" Type="Double" />
+          <Property Name="forfitedafter2020" Type="Double" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_leavecal2020_To_master_file" FromRole="leavecal2020" ToRole="master_file" />
+          <Property Name="dateupdated" Type="DateTime" Precision="0" />
+        </EntityType>
+        <Association Name="FK_leavecal2020_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HRModel.leavecal2020" Role="leavecal2020" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="leavecal2020">
+              <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3881,6 +3963,28 @@
               <MappingFragment StoreEntitySet="liquiexp">
                 <ScalarProperty Name="issuer" ColumnName="issuer" />
                 <ScalarProperty Name="expence" ColumnName="expence" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="leavecal2020">
+            <EntityTypeMapping TypeName="HRModel.leavecal2020">
+              <MappingFragment StoreEntitySet="leavecal2020">
+                <ScalarProperty Name="dateupdated" ColumnName="dateupdated" />
+                <ScalarProperty Name="forfitedafter2020" ColumnName="forfitedafter2020" />
+                <ScalarProperty Name="accruedafter2020" ColumnName="accruedafter2020" />
+                <ScalarProperty Name="net_periodafter2020" ColumnName="net_periodafter2020" />
+                <ScalarProperty Name="unpaid_leaveafter2020" ColumnName="unpaid_leaveafter2020" />
+                <ScalarProperty Name="anual_leave_takenafter2020" ColumnName="anual_leave_takenafter2020" />
+                <ScalarProperty Name="periodafter2020" ColumnName="periodafter2020" />
+                <ScalarProperty Name="forfitedtill2020" ColumnName="forfitedtill2020" />
+                <ScalarProperty Name="accruedtill2020" ColumnName="accruedtill2020" />
+                <ScalarProperty Name="net_periodtill2020" ColumnName="net_periodtill2020" />
+                <ScalarProperty Name="unpaid_leavetill2020" ColumnName="unpaid_leavetill2020" />
+                <ScalarProperty Name="anual_leave_takentill2020" ColumnName="anual_leave_takentill2020" />
+                <ScalarProperty Name="periodtill2020" ColumnName="periodtill2020" />
+                <ScalarProperty Name="leave_balance" ColumnName="leave_balance" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

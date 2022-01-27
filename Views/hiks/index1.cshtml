@@ -50,10 +50,10 @@
         <div class=" col-md-2">
             <input type="text" name="todate" id="to" class="form-control" />
         </div>
-        <div class=" col-md-1">
+        <div class=" col-md-6">
             <input type="submit" value="search" class="btn btn-default" />
-        </div>
-        <div class="col-md-5">
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index1", "hiks", new { getdate = DateTime.Today,todate = DateTime.Now })'" value="today" />
+        
         @if (ViewBag.eddate != null)
         {
             <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel1", "hiks", new { getdate = ViewBag.eddate ,todate =  ViewBag.eddate2})'" value="Export"/>

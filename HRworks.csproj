@@ -369,6 +369,9 @@
     <Compile Include="Models\leavecal.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\leavecal2020.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\leave_absence.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>

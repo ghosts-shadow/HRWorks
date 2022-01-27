@@ -40,7 +40,7 @@
     <div class="col-md-5">
         <p>
             <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New" />
-            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel1","Leaves",new{leave_bal_till=ViewBag.leave_bal_till,days=ViewBag.days })'" value="Export" />
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel1","Leaves",new{days=ViewBag.days })'" value="Export" />
         </p>
     </div>
     <div class="col-md-5" style="left: 50%">
@@ -51,11 +51,6 @@
 {
     <i>no of days</i>
     <input type="text" id="days" name="days" class="form-control" />
-    <br />
-    <p>OR</p>
-    <br />
-    <i>report Date</i>
-    <input type="text" id="datepicker1" name="leave_bal_till" class="form-control" />
     <br />
     <input type="submit" value="Search" class="btn btn-default" />
     <br />

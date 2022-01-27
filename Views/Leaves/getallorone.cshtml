@@ -30,157 +30,134 @@
 </div>
 }
 <table class="table" style="border-collapse: separate;">
-    <tr >
-        <th >#SN</th>
-        @if (User.Identity.Name == "dinizsneden@gmail.com")
-        {
-            <th >
-                @Html.DisplayNameFor(model => model.Employee_id)
-            </th>
-            <th >
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-        }
-        <th >
-            @Html.DisplayNameFor(model => model.master_file.employee_no)
-        </th>
-        <th >
-            @Html.DisplayNameFor(model => model.master_file.employee_name)
-        </th>
-        <th >
-            @Html.DisplayNameFor(model => model.leave_type)
-        </th>
-        <th >
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th >
-            @Html.DisplayNameFor(model => model.Start_leave)
-        </th>
-        <th >
-            @Html.DisplayNameFor(model => model.End_leave)
-        </th>
-        <th >
-            @Html.DisplayNameFor(model => model.days)
-        </th>
-        <th >
-            @Html.DisplayNameFor(model => model.Return_leave)
-        </th>
-        <th >
-            unpaid days(after return date)
-        </th>
-        <th >
-            actual return date
-        </th>
-        @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")
-        {
-           <th >changed by</th><th >changed date</th>
-        }
-
-            @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
-            {
-                <th ></th>
-            }
-        </tr>
-    @{ var i = 0;
-    }
-@foreach (var item in Model) {
-<tr>
-    @{i++;}
-    <td>@i</td>
+<tr >
+    <th >#SN</th>
     @if (User.Identity.Name == "dinizsneden@gmail.com")
     {
-        <td>
-            @Html.DisplayFor(modelItem => item.Employee_id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
+        <th >
+            @Html.DisplayNameFor(model => model.Employee_id)
+        </th>
+        <th >
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
     }
-    <td>
-        @Html.DisplayFor(modelItem => item.master_file.employee_no)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.master_file.employee_name)
-    </td>
-    <td>
-        @if (item.leave_type == "1")
+    <th >
+        @Html.DisplayNameFor(model => model.master_file.employee_no)
+    </th>
+    <th >
+        @Html.DisplayNameFor(model => model.master_file.employee_name)
+    </th>
+    <th >
+        @Html.DisplayNameFor(model => model.leave_type)
+    </th>
+    <th >
+        @Html.DisplayNameFor(model => model.Date)
+    </th>
+    <th >
+        @Html.DisplayNameFor(model => model.Start_leave)
+    </th>
+    <th >
+        @Html.DisplayNameFor(model => model.End_leave)
+    </th>
+    <th >
+        @Html.DisplayNameFor(model => model.days)
+    </th>
+    <th >
+        @Html.DisplayNameFor(model => model.Return_leave)
+    </th>
+    <th >
+        unpaid days(after return date)
+    </th>
+    <th >
+        actual return date
+    </th>
+    @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")
+    {
+        <th >changed by</th><th >changed date</th>
+    }
+
+    @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
+    {
+        <th ></th>
+    }
+</tr>
+@{ var i = 0;
+}
+@foreach (var item in Model) {
+    <tr>
+        @{i++;}
+        <td>@i</td>
+        @if (User.Identity.Name == "dinizsneden@gmail.com")
         {
-            <i>Annual</i>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee_id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
         }
-        @if (item.leave_type == "2")
-        {
-            <i>Sick(non industrial)</i>
-        }
-        @if (item.leave_type == "3")
-        {
-            <i>Compassionate</i>
-        }
-        @if (item.leave_type == "4")
-        {
-            <i>Maternity </i>
-        }
-        @if (item.leave_type == "5")
-        {
-            <i>Haj</i>
-        }
-        @if (item.leave_type == "6")
-        {
-            <i>Unpaid </i>
-        }
-        @if (item.leave_type == "7")
-        {
-            <i> Sick(industrial)</i>
-        }
-        @if (item.leave_type == "8")
-        {
-            <i>UDDAH</i>
-        }
-        @if (item.leave_type == "9")
-        {
-            <i>ESCORT</i>
-        }
-        @if (item.leave_type == "10")
-        {
-            <i>PATERNITY</i>
-        }
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Date)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Start_leave)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.End_leave)
-    </td>
-    <td>
-        @*
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @if (item.leave_type == "1")
+            {
+                <i>Annual</i>
+            }
+            @if (item.leave_type == "2")
+            {
+                <i>Sick(non industrial)</i>
+            }
+            @if (item.leave_type == "3")
+            {
+                <i>Compassionate</i>
+            }
+            @if (item.leave_type == "4")
+            {
+                <i>Maternity </i>
+            }
+            @if (item.leave_type == "5")
+            {
+                <i>Haj</i>
+            }
+            @if (item.leave_type == "6")
+            {
+                <i>Unpaid </i>
+            }
+            @if (item.leave_type == "7")
+            {
+                <i> Sick(industrial)</i>
+            }
+            @if (item.leave_type == "8")
+            {
+                <i>UDDAH</i>
+            }
+            @if (item.leave_type == "9")
+            {
+                <i>ESCORT</i>
+            }
+            @if (item.leave_type == "10")
+            {
+                <i>PATERNITY</i>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Start_leave)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.End_leave)
+        </td>
+        <td>
+            @*
             helped by ahemed yousaf
         *@
-        @if (item.half == true)
-        {
-            var a = item.Start_leave;
-            var b = item.End_leave;
-            double days = 0;
-            if (a == b)
-            {
-                days = 1;
-            }
-            else
-            {
-                var ab = b - a;
-                if (ab.HasValue)
-                {
-                    days = ab.Value.TotalDays;
-                    days = System.Math.Abs(days);
-                    days += 1;
-                }
-            }
-            days -= 0.5;
-            @days.ToString()
-        }
-        else
-        {
+            @if (item.half == true)
             {
                 var a = item.Start_leave;
                 var b = item.End_leave;
@@ -199,78 +176,101 @@
                         days += 1;
                     }
                 }
+                days -= 0.5;
                 @days.ToString()
             }
-        }
-
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Return_leave)
-    </td>
-    <td>
-        @if (!item.actual_return_date.HasValue)
-        {
-            if (item.Return_leave != null)
+            else
             {
-                if (item.End_leave < DateTime.Now)
                 {
-                    if (item.Return_leave.Value.Date != DateTime.Now.Date)
+                    var a = item.Start_leave;
+                    var b = item.End_leave;
+                    double days = 0;
+                    if (a == b)
                     {
-                        var radiff = DateTime.Now - item.End_leave.Value;
-                        var ndate = radiff.Days + 1;
-                        @ndate
+                        days = 1;
+                    }
+                    else
+                    {
+                        var ab = b - a;
+                        if (ab.HasValue)
+                        {
+                            days = ab.Value.TotalDays;
+                            days = System.Math.Abs(days);
+                            days += 1;
+                        }
+                    }
+                    @days.ToString()
+                }
+            }
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Return_leave)
+        </td>
+        <td>
+            @if (!item.actual_return_date.HasValue)
+            {
+                if (item.Return_leave != null)
+                {
+                    if (item.End_leave < DateTime.Now)
+                    {
+                        if (item.Return_leave.Value.Date != DateTime.Now.Date)
+                        {
+                            var radiff = DateTime.Now - item.End_leave.Value;
+                            var ndate = radiff.Days + 1;
+                            @ndate
+                        }
+                        else
+                        {
+                            var ra = 0;
+                            @ra
+                        }
                     }
                     else
                     {
                         var ra = 0;
                         @ra
                     }
+
                 }
                 else
                 {
                     var ra = 0;
                     @ra
                 }
-
             }
             else
             {
                 var ra = 0;
                 @ra
             }
-        }
-        else
-        {
-            var ra = 0;
-            @ra
-        }
-    </td>
-    <td>
-        @if (item.actualchangedby != "system")
-        {
-            @Html.DisplayFor(modelItem => item.actual_return_date)
-        }
-    </td>
-    @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")
-    {
-        <td>
-            @Html.DisplayFor(modelItem => item.actualchangedby)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.actualchangeddateby)
-        </td>
-    }
-    @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
-    {
-        <td>
-            @Html.ActionLink("change/enter actual return date", "Edit", new { id = item.Id, search = @ViewBag.search, page = @ViewBag.page })
-            @if (User.IsInRole("super_admin"))
+            @if (item.actualchangedby != "system")
             {
-                <b>| @Html.ActionLink("delete", "Delete", new { id = item.Id })</b>
+                @Html.DisplayFor(modelItem => item.actual_return_date)
             }
         </td>
-    }
-</tr>
+        @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.actualchangedby)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.actualchangeddateby)
+            </td>
+        }
+        @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
+        {
+            <td>
+                @Html.ActionLink("change/enter actual return date", "Edit", new { id = item.Id, search = @ViewBag.search, page = @ViewBag.page })
+                @if (User.IsInRole("super_admin"))
+                {
+                    <b>| @Html.ActionLink("delete", "Delete", new { id = item.Id, search = @ViewBag.search, page = @ViewBag.page })</b>
+                }
+            </td>
+        }
+    </tr>
 }
 
 </table>

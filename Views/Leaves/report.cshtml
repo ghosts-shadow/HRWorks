@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "report";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var endyeardate = new DateTime(DateTime.Today.Year -1, 12, 31);
 }
 
 <div style="position: fixed;top: 100px "><br /></div>
@@ -85,56 +86,81 @@
     <h3><b>employee name:- @ViewBag.name <br /> employee no:- @ViewBag.no</b></h3>
     <br />
     <br />
-    <div style="font: 25px bold;">
-        <div>
-            period = @ViewBag.per
-        </div>
-        <div>
-            unpaid = @ViewBag.ump
-        </div>
-        <div>
-            net period = @ViewBag.netp
-        </div>
-        <div>
-            accrued = @ViewBag.accr
-        </div>
-        <div>
-            annual leave taken = @ViewBag.aval
-        </div>
-        <div>
-            Annual Leave Applied = @ViewBag.faval
-        </div>
-        <div>
-            Annual Leave total = @ViewBag.taval
-        </div>
-        <div>
-            leave balance = @ViewBag.lbal
-        </div>
-    </div>
+        <table class="table">
+            <tr>
+                <th>description</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>period</td>
+                <td>@ViewBag.per</td>
+            </tr>
+            <tr>
+                <td>unpaid</td>
+                <td>@ViewBag.ump</td>
+            </tr>
+            <tr>
+                <td>net period</td>
+                <td>@ViewBag.netp</td>
+            </tr>
+            <tr>
+                <td>accrued</td>
+                <td>@ViewBag.accr</td>
+            </tr>
+            <tr>
+                <td>annual leave taken</td>
+                <td>@ViewBag.aval</td>
+            </tr>
+            <tr>
+                <td> Annual Leave Applied</td>
+                <td>@ViewBag.faval</td>
+            </tr>
+            <tr>
+                <td>Annual Leave total</td>
+                <td>@ViewBag.taval</td>
+            </tr>
+            <tr>
+                <td>leave balance</td>
+                <td>@ViewBag.lbal</td>
+            </tr>
+            <tr>
+                <td>forfited balance</td>
+                <td>@ViewBag.forfited</td>
+            </tr>
+            <tr>
+                <td style="background-color: #152939"></td>
+                <td style="background-color: #152939"></td>
+            </tr>
+            <tr>
+                <td>sick </td>
+                <td>@ViewBag.sick</td>
+            </tr>
+            <tr>
+                <td>compassionate </td>
+                <td> @ViewBag.comp</td>
+            </tr>
+            <tr>
+                <td>maternity</td>
+                <td>@ViewBag.mate</td>
+            </tr>
+            <tr>
+                <td>haj</td>
+                <td>@ViewBag.haj</td>
+            </tr>
+            <tr>
+                <td>UDDAH</td>
+                <td>@ViewBag.udd</td>
+            </tr>
+            <tr>
+                <td>escort</td>
+                <td>@ViewBag.esco</td>
+            </tr>
+            <tr>
+                <td>paternity</td>
+                <td>@ViewBag.pater</td>
+            </tr>
+        </table>
     <br />
-    <div style="font: 25px bold;">
-        <div>
-            sick = @ViewBag.sick
-        </div>
-        <div>
-            compassionate = @ViewBag.comp
-        </div>
-        <div>
-            maternity = @ViewBag.mate
-        </div>
-        <div>
-            haj = @ViewBag.haj
-        </div>
-        <div>
-           UDDAH  = @ViewBag.udd
-        </div>
-        <div>
-            escort = @ViewBag.esc
-        </div>
-        <div>
-            paternity = @ViewBag.pater
-        </div>
-    </div>
     <hr />
     <table class="table">
         <tr>
