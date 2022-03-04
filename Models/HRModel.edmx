@@ -220,6 +220,33 @@
           <Property Name="Bank_Account_No" Type="nvarchar(max)" />
           <Property Name="Remarks" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="employeeleavesubmition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Start_leave" Type="date" />
+          <Property Name="End_leave" Type="date" />
+          <Property Name="Return_leave" Type="date" />
+          <Property Name="leave_type" Type="nvarchar(max)" />
+          <Property Name="toltal_requested_days" Type="float" />
+          <Property Name="submitted_by" Type="nvarchar(max)" />
+          <Property Name="approved_byline" Type="nvarchar(max)" />
+          <Property Name="approved_byhod" Type="nvarchar(max)" />
+          <Property Name="apstatus" Type="nvarchar(max)" />
+          <Property Name="half" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="emprel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="line_man" Type="int" Nullable="false" />
+          <Property Name="HOD" Type="int" />
+        </EntityType>
         <EntityType Name="end_of_service">
           <Key>
             <PropertyRef Name="Id" />
@@ -958,6 +985,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ehop_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="emprel" Type="Self.emprel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="emprel">
+              <PropertyRef Name="HOD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ejsc_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="emp_joi_sta_change" Type="Self.emp_joi_sta_change" Multiplicity="*" />
@@ -966,6 +1005,18 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="emp_joi_sta_change">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_els_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="employeeleavesubmition" Type="Self.employeeleavesubmition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="employeeleavesubmition">
               <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1003,6 +1054,30 @@
             </Principal>
             <Dependent Role="end_of_service">
               <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ere_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="emprel" Type="Self.emprel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="emprel">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_erl_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="emprel" Type="Self.emprel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="emprel">
+              <PropertyRef Name="line_man" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1317,6 +1392,8 @@
           <EntitySet Name="DUTY_HANDOVER" EntityType="Self.DUTY_HANDOVER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emp_joi_sta_change" EntityType="Self.emp_joi_sta_change" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="employeeleavesubmition" EntityType="Self.employeeleavesubmition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="emprel" EntityType="Self.emprel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="end_of_service" EntityType="Self.end_of_service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EXIT_INTERVIEW" EntityType="Self.EXIT_INTERVIEW" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hik" EntityType="Self.hik" Schema="dbo" store:Type="Tables" />
@@ -1391,9 +1468,17 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="DUTY_HANDOVER" EntitySet="DUTY_HANDOVER" />
           </AssociationSet>
+          <AssociationSet Name="FK_ehop_To_master_file" Association="Self.FK_ehop_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="emprel" EntitySet="emprel" />
+          </AssociationSet>
           <AssociationSet Name="FK_ejsc_To_master_file" Association="Self.FK_ejsc_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emp_joi_sta_change" EntitySet="emp_joi_sta_change" />
+          </AssociationSet>
+          <AssociationSet Name="FK_els_To_master_file" Association="Self.FK_els_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="employeeleavesubmition" EntitySet="employeeleavesubmition" />
           </AssociationSet>
           <AssociationSet Name="FK_end_of_service_To_contract" Association="Self.FK_end_of_service_To_contract">
             <End Role="contract" EntitySet="contract" />
@@ -1406,6 +1491,14 @@
           <AssociationSet Name="FK_EOS_To_master_file" Association="Self.FK_EOS_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="end_of_service" EntitySet="end_of_service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ere_To_master_file" Association="Self.FK_ere_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="emprel" EntitySet="emprel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_erl_To_master_file" Association="Self.FK_erl_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="emprel" EntitySet="emprel" />
           </AssociationSet>
           <AssociationSet Name="FK_induction_To_master_file" Association="Self.FK_induction_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -1772,6 +1865,10 @@
           <NavigationProperty Name="payroles" Relationship="HRModel.FK_pay_To_master_file" FromRole="master_file" ToRole="payrole" />
           <NavigationProperty Name="usernames" Relationship="HRModel.FK_usernames_To_master_file" FromRole="master_file" ToRole="username" />
           <NavigationProperty Name="leavecal2020" Relationship="HRModel.FK_leavecal2020_To_master_file" FromRole="master_file" ToRole="leavecal2020" />
+          <NavigationProperty Name="employeeleavesubmitions" Relationship="HRModel.FK_els_To_master_file" FromRole="master_file" ToRole="employeeleavesubmition" />
+          <NavigationProperty Name="emprels" Relationship="HRModel.FK_ehop_To_master_file" FromRole="master_file" ToRole="emprel" />
+          <NavigationProperty Name="emprels1" Relationship="HRModel.FK_ere_To_master_file" FromRole="master_file" ToRole="emprel" />
+          <NavigationProperty Name="emprels2" Relationship="HRModel.FK_erl_To_master_file" FromRole="master_file" ToRole="emprel" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -2235,6 +2332,24 @@
           <AssociationSet Name="FK_leavecal2020_To_master_file" Association="HRModel.FK_leavecal2020_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="leavecal2020" EntitySet="leavecal2020" />
+          </AssociationSet>
+          <EntitySet Name="employeeleavesubmitions" EntityType="HRModel.employeeleavesubmition" />
+          <AssociationSet Name="FK_els_To_master_file" Association="HRModel.FK_els_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="employeeleavesubmition" EntitySet="employeeleavesubmitions" />
+          </AssociationSet>
+          <EntitySet Name="emprels" EntityType="HRModel.emprel" />
+          <AssociationSet Name="FK_ehop_To_master_file" Association="HRModel.FK_ehop_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="emprel" EntitySet="emprels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ere_To_master_file" Association="HRModel.FK_ere_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="emprel" EntitySet="emprels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_erl_To_master_file" Association="HRModel.FK_erl_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="emprel" EntitySet="emprels" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
@@ -3112,6 +3227,85 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="employeeleavesubmition">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Start_leave" Type="DateTime" Precision="0" />
+          <Property Name="End_leave" Type="DateTime" Precision="0" />
+          <Property Name="Return_leave" Type="DateTime" Precision="0" />
+          <Property Name="leave_type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="toltal_requested_days" Type="Double" />
+          <Property Name="submitted_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="apstatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="half" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_els_To_master_file" FromRole="employeeleavesubmition" ToRole="master_file" />
+          <Property Name="approved_byline" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="approved_byhod" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_els_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.employeeleavesubmition" Role="employeeleavesubmition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="employeeleavesubmition">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="emprel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="line_man" Type="Int32" Nullable="false" />
+          <Property Name="HOD" Type="Int32" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_ehop_To_master_file" FromRole="emprel" ToRole="master_file" />
+          <NavigationProperty Name="master_file1" Relationship="HRModel.FK_ere_To_master_file" FromRole="emprel" ToRole="master_file" />
+          <NavigationProperty Name="master_file2" Relationship="HRModel.FK_erl_To_master_file" FromRole="emprel" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_ehop_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.emprel" Role="emprel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="emprel">
+              <PropertyRef Name="HOD" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ere_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.emprel" Role="emprel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="emprel">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_erl_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.emprel" Role="emprel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="emprel">
+              <PropertyRef Name="line_man" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3984,6 +4178,35 @@
                 <ScalarProperty Name="anual_leave_takentill2020" ColumnName="anual_leave_takentill2020" />
                 <ScalarProperty Name="periodtill2020" ColumnName="periodtill2020" />
                 <ScalarProperty Name="leave_balance" ColumnName="leave_balance" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="employeeleavesubmitions">
+            <EntityTypeMapping TypeName="HRModel.employeeleavesubmition">
+              <MappingFragment StoreEntitySet="employeeleavesubmition">
+                <ScalarProperty Name="approved_byhod" ColumnName="approved_byhod" />
+                <ScalarProperty Name="approved_byline" ColumnName="approved_byline" />
+                <ScalarProperty Name="half" ColumnName="half" />
+                <ScalarProperty Name="apstatus" ColumnName="apstatus" />
+                <ScalarProperty Name="submitted_by" ColumnName="submitted_by" />
+                <ScalarProperty Name="toltal_requested_days" ColumnName="toltal_requested_days" />
+                <ScalarProperty Name="leave_type" ColumnName="leave_type" />
+                <ScalarProperty Name="Return_leave" ColumnName="Return_leave" />
+                <ScalarProperty Name="End_leave" ColumnName="End_leave" />
+                <ScalarProperty Name="Start_leave" ColumnName="Start_leave" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="emprels">
+            <EntityTypeMapping TypeName="HRModel.emprel">
+              <MappingFragment StoreEntitySet="emprel">
+                <ScalarProperty Name="HOD" ColumnName="HOD" />
+                <ScalarProperty Name="line_man" ColumnName="line_man" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

@@ -99,6 +99,12 @@
         <AssociationConnector Association="HRModel.FK_usernames_To_master_file" />
         <EntityTypeShape EntityType="HRModel.leavecal2020" Width="1.5" PointX="2.75" PointY="89.25" />
         <AssociationConnector Association="HRModel.FK_leavecal2020_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.employeeleavesubmition" Width="1.5" PointX="2.75" PointY="95.25" />
+        <AssociationConnector Association="HRModel.FK_els_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.emprel" Width="1.5" PointX="2.75" PointY="101.5" />
+        <AssociationConnector Association="HRModel.FK_ehop_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_ere_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_erl_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

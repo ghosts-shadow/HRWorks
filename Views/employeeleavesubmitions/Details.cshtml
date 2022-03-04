@@ -1,0 +1,114 @@
+﻿@model HRworks.Models.employeeleavesubmition
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>employeeleavesubmition</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Start_leave)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Start_leave)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.End_leave)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.End_leave)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Return_leave)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Return_leave)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.leave_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.leave_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.toltal_requested_days)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.toltal_requested_days)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.submitted_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.submitted_by)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.apstatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.apstatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.half)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.half)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.approved_byline)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.approved_byline)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.approved_byhod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.approved_byhod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

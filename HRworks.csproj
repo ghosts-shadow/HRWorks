@@ -229,6 +229,8 @@
     <Compile Include="Controllers\datacorrectionController.cs" />
     <Compile Include="Controllers\DUTY_HANDOVERController.cs" />
     <Compile Include="Controllers\emirates_idController.cs" />
+    <Compile Include="Controllers\employeeleavesubmitionsController.cs" />
+    <Compile Include="Controllers\emprelsController.cs" />
     <Compile Include="Controllers\emp_joi_sta_changeController.cs" />
     <Compile Include="Controllers\end_of_serviceController.cs" />
     <Compile Include="Controllers\EXIT_INTERVIEWController.cs" />
@@ -312,6 +314,13 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\emirates_id.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\employeeleavesub.cs" />
+    <Compile Include="Models\employeeleavesubmition.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\emprel.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\emp_joi_sta_change.cs">
@@ -1027,6 +1036,17 @@
     <Content Include="Views\master_file\report.cshtml" />
     <Content Include="Views\pdfhtml\Index.cshtml" />
     <Content Include="Views\HR_forms\jdFormFilling.cshtml" />
+    <Content Include="Views\emprels\Create.cshtml" />
+    <Content Include="Views\emprels\Delete.cshtml" />
+    <Content Include="Views\emprels\Details.cshtml" />
+    <Content Include="Views\emprels\Edit.cshtml" />
+    <Content Include="Views\emprels\Index.cshtml" />
+    <Content Include="Views\employeeleavesubmitions\Create.cshtml" />
+    <Content Include="Views\employeeleavesubmitions\Delete.cshtml" />
+    <Content Include="Views\employeeleavesubmitions\Details.cshtml" />
+    <Content Include="Views\employeeleavesubmitions\Edit.cshtml" />
+    <Content Include="Views\employeeleavesubmitions\Index.cshtml" />
+    <Content Include="Views\emprels\Importexcel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

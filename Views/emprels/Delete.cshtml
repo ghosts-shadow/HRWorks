@@ -1,0 +1,48 @@
+﻿@model HRworks.Models.emprel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>employee relations</h2>
+<h4>Delete</h4>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            HOD/GM
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+        <dt>
+            line manager
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file2.employee_name)
+        </dd>
+        <dt>
+            employee
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file1.employee_name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

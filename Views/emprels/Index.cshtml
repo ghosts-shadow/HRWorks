@@ -1,0 +1,72 @@
+﻿@model IEnumerable<HRworks.Models.emprel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>employee relations</h2>
+
+<p>
+    <div>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create", "contracts")'" value="Create new"/>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("ImportExcel", "contracts")'" value="Upload"/>
+    </div>
+</p>
+<table class="table">
+    <tr>
+        <th colspan="2">employee</th>
+        <th colspan="2">line manager</th>
+        <th colspan="2">HOD/GM</th>
+        <th></th>
+    </tr>
+    <tr>
+        <th>
+            employee no
+        </th>
+        <th>
+            name
+        </th>
+        <th>
+            employee no
+        </th>
+        <th>
+            name
+        </th>
+        <th>
+            employee no
+        </th>
+        <th>
+            name
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file1.employee_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file1.employee_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file2.employee_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file2.employee_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

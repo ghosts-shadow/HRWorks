@@ -71,9 +71,9 @@ namespace HRworks.Controllers
                     {
                         if (!tmlist.Exists(x => x.ID == hik.ID && x.date == startdate))
                         {
-                            if (startdate.DayOfWeek != DayOfWeek.Friday)
+                            if (startdate.DayOfWeek != DayOfWeek.Saturday)
                             {
-                                if (startdate.DayOfWeek != DayOfWeek.Saturday)
+                                if (startdate.DayOfWeek != DayOfWeek.Sunday)
                                 {
                                     if (!holidays.Exists(x=>x.Date == startdate))
                                     {
@@ -365,9 +365,9 @@ namespace HRworks.Controllers
                     {
                         if (!tmlist.Exists(x => x.ID == hik.ID && x.date == startdate))
                         {
-                            if (startdate.DayOfWeek != DayOfWeek.Friday)
+                            if (startdate.DayOfWeek != DayOfWeek.Saturday)
                             {
-                                if (startdate.DayOfWeek != DayOfWeek.Saturday)
+                                if (startdate.DayOfWeek != DayOfWeek.Sunday)
                                 {
                                     var emp = new hik();
                                     var newdate = new DateTime(startdate.Year, startdate.Month, startdate.Day);

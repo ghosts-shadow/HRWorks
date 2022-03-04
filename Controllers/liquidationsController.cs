@@ -300,7 +300,7 @@ namespace HRworks.Controllers
             return this.View(printlist1);
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult liquiapprove(DateTime? pdate, int? prefr)
         {
             var lii =new List<liquidation>();
@@ -328,7 +328,7 @@ namespace HRworks.Controllers
             return this.View(lii2);
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult approveliqui(int? pid)
         {
             var lalist = this.db.liqiapprovals.ToList();
@@ -344,7 +344,7 @@ namespace HRworks.Controllers
             return RedirectToAction("liquiapprove");
         }
 
-        [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "super_admin")]
         public ActionResult rejectliqui(int? pid, string remark)
         {
 

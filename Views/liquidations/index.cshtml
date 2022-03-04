@@ -29,7 +29,7 @@
     <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("print")'" value="print" />
     @if (Request.IsAuthenticated)
     {
-        if (User.IsInRole("Manager"))
+        if (User.IsInRole("super_admin"))
         {
             <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("liquiapprove")'" value="approval" />
         }

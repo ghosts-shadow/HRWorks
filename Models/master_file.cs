@@ -48,6 +48,10 @@ namespace HRworks.Models
             this.payroles = new HashSet<payrole>();
             this.usernames = new HashSet<username>();
             this.leavecal2020 = new HashSet<leavecal2020>();
+            this.employeeleavesubmitions = new HashSet<employeeleavesubmition>();
+            this.emprels = new HashSet<emprel>();
+            this.emprels1 = new HashSet<emprel>();
+            this.emprels2 = new HashSet<emprel>();
         }
 
 
@@ -149,5 +153,13 @@ namespace HRworks.Models
         public virtual ICollection<username> usernames { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<leavecal2020> leavecal2020 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<employeeleavesubmition> employeeleavesubmitions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<emprel> emprels { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<emprel> emprels1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<emprel> emprels2 { get; set; }
     }
 }

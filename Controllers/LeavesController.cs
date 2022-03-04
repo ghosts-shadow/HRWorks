@@ -1288,6 +1288,10 @@
             }
 
             var empjd = afinallist.Find(x => x.employee_id == Employee_id);
+            if (empjd == null)
+            {
+                goto endfun;
+            }
             var asf = empjd.date_joined;
             if (asf == null)
             {
@@ -1455,6 +1459,13 @@
                 leavecalsave.accruedafter2020 = per2020lb.accruedafter2020;
                 leavecalsave.periodafter2020 = per2020lb.net_periodafter2020 - per2020lb.unpaid_leaveafter2020;
                 leavecalsave.dateupdated = DateTime.Today;
+                leavecalsave.forfitedafter2020 = per2020lb.forfitedafter2020;
+                leavecalsave.periodtill2020 = per2020lb.periodtill2020;
+                leavecalsave.anual_leave_takentill2020 = per2020lb.anual_leave_takentill2020;
+                leavecalsave.unpaid_leavetill2020 = per2020lb.unpaid_leavetill2020;
+                leavecalsave.net_periodtill2020 = per2020lb.net_periodtill2020;
+                leavecalsave.accruedtill2020 = per2020lb.accruedtill2020;
+                leavecalsave.forfitedtill2020 = per2020lb.forfitedtill2020;
                 leavecalsave.leave_balance = per2020lb.leave_balance;
                 this.db.Entry(leavecalsave).State = EntityState.Modified;
                 this.db.SaveChanges();
@@ -1496,19 +1507,23 @@
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no))
                 {
-                    afinallist.Add(file);
+                    if (file.status != "inactive")
+                    {
+                        afinallist.Add(file);
+                    }
                 }
             }
 
             ViewBag.days = days;
             var leaves = new List<Leave>();
+            
             if (days.HasValue)
             {
                 foreach (var file in afinallist)
                 {
                     this.forfitedbalence(file.employee_id);
                 }
-                var leaveballist = this.db.leavecal2020.Where(x => x.leave_balance <= days.Value).ToList();
+                var leaveballist = this.db.leavecal2020.Where(x => x.leave_balance >= days.Value).ToList();
                 foreach (var leavecal in leaveballist)
                 {
                     var leaveempid = this.db.Leaves.Where(x => x.Employee_id == leavecal.Employee_id)
@@ -1540,7 +1555,7 @@
                 var leavesnew = new List<Leave>();
                 foreach (var leaf in leaves)
                 {
-                    if (leaf.leave_bal < days.Value)
+                    if (leaf.leave_bal <= days.Value)
                     {
                         continue;
                     }
