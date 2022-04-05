@@ -30,6 +30,7 @@ namespace HRworks.Models
         public Nullable<double> accruedafter2020 { get; set; }
         public Nullable<double> forfitedafter2020 { get; set; }
         public Nullable<System.DateTime> dateupdated { get; set; }
+        public Nullable<double> ifslbal { get; set; }
     
         public virtual master_file master_file { get; set; }
     }

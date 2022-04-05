@@ -1423,19 +1423,27 @@
                     }
                 }
 
-                var actillperyear = 30 - (unpaidperyear * 30 / 360);
+                var actillperyear = Math.Round(30 - (unpaidperyear * 30 / 360));
                 var lbperyear = actillperyear - anualleavetakenperyear;
 
                 per2020lb.anual_leave_takenafter2020 += anualleavetakenperyear;
                 per2020lb.unpaid_leaveafter2020 += unpaidperyear;
-                per2020lb.net_periodafter2020 += new DateTime(2021 + i, 12, 31).DayOfYear - (unpaidperyear * 30 / 360);
+                per2020lb.net_periodafter2020 += Math.Round(new DateTime(2021 + i, 12, 31).DayOfYear - (unpaidperyear * 30 / 360));
                 per2020lb.accruedafter2020 += actillperyear;
                 if (DateTime.Today > new DateTime(2022 + i, 3, 31))
                 {
-                    if (per2020lb.leave_balance < 0)
+                    if (per2020lb.leave_balance <= 0)
                     {
-                        per2020lb.forfitedafter2020 += lbperyear + per2020lb.leave_balance;
-                        per2020lb.leave_balance = 0;
+                        if((lbperyear + per2020lb.leave_balance) < 0)
+                        {
+                            per2020lb.forfitedafter2020 += 0;
+                            per2020lb.leave_balance = lbperyear + per2020lb.leave_balance;
+                        }
+                        else
+                        {
+                            per2020lb.forfitedafter2020 += lbperyear + per2020lb.leave_balance;
+                            per2020lb.leave_balance = 0;
+                        }
                     }
                     else
                     {
@@ -1449,6 +1457,37 @@
                 }
             }
 
+            var submitedleave = db.employeeleavesubmitions.ToList().FindAll(x => x.Employee_id == empjd.employee_id && x.apstatus == "submitted");
+            var Unsubmitedlb = 0d;
+            var Ansubmitedlb = 0d;
+            foreach (var leaf in submitedleave)
+            {
+                var times = new TimeSpan?();
+                if (leaf.leave_type == "1")
+                {
+                    times = leaf.End_leave - leaf.Start_leave;
+                    if (leaf.half)
+                    {
+                        if (times != null) Ansubmitedlb += times.Value.TotalDays + 1 - 0.5;
+                    }
+                    else
+                    {
+                        if (times != null) Ansubmitedlb += times.Value.TotalDays + 1;
+                    }
+                }
+                if (leaf.leave_type == "6")
+                {
+                    times = leaf.End_leave - leaf.Start_leave;
+                    if (leaf.half)
+                    {
+                        if (times != null) Unsubmitedlb += times.Value.TotalDays + 1 - 0.5;
+                    }
+                    else
+                    {
+                        if (times != null) Unsubmitedlb += times.Value.TotalDays + 1;
+                    }
+                }
+            }
             var leavecal202list = db.leavecal2020.ToList();
             if (leavecal202list.Exists(x => x.Employee_id == empjd.employee_id))
             {
@@ -1457,7 +1496,7 @@
                 leavecalsave.unpaid_leaveafter2020 = per2020lb.unpaid_leaveafter2020;
                 leavecalsave.net_periodafter2020 = per2020lb.net_periodafter2020;
                 leavecalsave.accruedafter2020 = per2020lb.accruedafter2020;
-                leavecalsave.periodafter2020 = per2020lb.net_periodafter2020 - per2020lb.unpaid_leaveafter2020;
+                leavecalsave.periodafter2020 = /*per2020lb.net_periodafter2020 + (per2020lb.unpaid_leaveafter2020 * 30 / 360)*/ 365 * yearsinperiod;
                 leavecalsave.dateupdated = DateTime.Today;
                 leavecalsave.forfitedafter2020 = per2020lb.forfitedafter2020;
                 leavecalsave.periodtill2020 = per2020lb.periodtill2020;
@@ -1467,6 +1506,7 @@
                 leavecalsave.accruedtill2020 = per2020lb.accruedtill2020;
                 leavecalsave.forfitedtill2020 = per2020lb.forfitedtill2020;
                 leavecalsave.leave_balance = per2020lb.leave_balance;
+                leavecalsave.ifslbal = per2020lb.leave_balance - Ansubmitedlb - (Unsubmitedlb * 30 / 360);
                 this.db.Entry(leavecalsave).State = EntityState.Modified;
                 this.db.SaveChanges();
             }
@@ -1475,13 +1515,15 @@
                 var leavecalsave = new leavecal2020();
                 leavecalsave.Employee_id = per2020lb.Employee_id;
                 leavecalsave.leave_balance = per2020lb.leave_balance;
+                leavecalsave.leave_balance = per2020lb.leave_balance;
+                leavecalsave.ifslbal = per2020lb.leave_balance - Ansubmitedlb - (Unsubmitedlb * 30 / 360);
                 leavecalsave.periodtill2020 = per2020lb.periodtill2020;
                 leavecalsave.anual_leave_takentill2020 = per2020lb.anual_leave_takentill2020;
                 leavecalsave.unpaid_leavetill2020 = per2020lb.unpaid_leavetill2020;
                 leavecalsave.net_periodtill2020 = per2020lb.net_periodtill2020;
                 leavecalsave.accruedtill2020 = per2020lb.accruedtill2020;
                 leavecalsave.forfitedtill2020 = per2020lb.forfitedtill2020;
-                leavecalsave.periodafter2020 = per2020lb.net_periodafter2020 - per2020lb.unpaid_leaveafter2020;
+                leavecalsave.periodafter2020 = /*per2020lb.net_periodafter2020 - per2020lb.unpaid_leaveafter2020*/365 * yearsinperiod;
                 leavecalsave.anual_leave_takenafter2020 = per2020lb.anual_leave_takenafter2020;
                 leavecalsave.unpaid_leaveafter2020 = per2020lb.unpaid_leaveafter2020;
                 leavecalsave.net_periodafter2020 = per2020lb.net_periodafter2020;
@@ -1538,7 +1580,7 @@
 
                 foreach (var emp in afinallist)
                 {
-                    if (emp.date_joined != null)
+                    if (emp.date_joined != null && emp.status != "inactive")
                     {
                         var leaf = new Leave();
                         if (leaveballist.Exists(x => x.Employee_id == emp.employee_id))
@@ -1555,7 +1597,7 @@
                 var leavesnew = new List<Leave>();
                 foreach (var leaf in leaves)
                 {
-                    if (leaf.leave_bal <= days.Value)
+                    if (leaf.leave_bal < days.Value)
                     {
                         continue;
                     }

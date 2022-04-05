@@ -6,34 +6,122 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy"
+        });
+        $("#datepicker1").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy"
+        });
+        $("#datepicker2").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy"
+        });
+        $("#datepicker3").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy",
+            onSelect: function (date) {
+
+                var selectedDate = new Date(date);
+                var msecsInADay = 86400000;
+                var endDate = new Date(selectedDate.getTime() + msecsInADay);
+
+                //Set Minimum Date of EndDatePicker After Selected Date of StartDatePicker
+                $("#datepicker2").datepicker("option", "minDate", endDate);
+                if (endDate.getDay() == 6) {
+                    $("#datepicker2").datepicker("setDate", new Date(endDate.getTime() + msecsInADay + msecsInADay));
+                } else if (endDate.getDay() == 0) {
+                    $("#datepicker2").datepicker("setDate", new Date(endDate.getTime() + msecsInADay));
+                } else {
+                    $("#datepicker2").datepicker("setDate", endDate);
+                }
+            }
+        });
+        $("#datepicker4").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            minDate: new Date(),
+            dateFormat: "dd M yy",
+            onSelect: function (date) {
+
+                var selectedDate = new Date(date);
+                var msecsInADay = 86400000;
+                var endDate = new Date(selectedDate.getTime() );
+
+                //Set Minimum Date of EndDatePicker After Selected Date of StartDatePicker
+                $("#datepicker3").datepicker("option", "minDate", endDate);
+            }
+        });
+        $("#employee_no").chosen({ no_results_text: "Oops, nothing found!" });
+    });
+
+    function dayscount() {
+        var a = new Date($("#datepicker3").val());
+        var b = new Date($("#datepicker4").val());
+        var c = new Date($("#datepicker2").val());
+        if (a < b) {
+            $("#datepicker3").val($("#datepicker4").val());
+        } if (c < a) {
+            $("#datepicker2").val($("#datepicker3").val());
+        }
+        if ((a - b) == 0) {
+            $("#toltal_requested_days").val(1);
+        } else {
+            $("#toltal_requested_days").val((a - b) / (1000 * 60 * 60 * 24)+1);
+        }
+    }
+</script>
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
+
+    <div class="form-horizontal" onclick="dayscount()">
         <h4>employeeleavesubmition</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Employee_id, "Employee_id", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
-            </div>
-        </div>
+       
+        
 
         <div class="form-group">
             @Html.LabelFor(model => model.Start_leave, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Start_leave, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Start_leave, new { htmlAttributes = new { @class = "form-control" , id = "datepicker4", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.Start_leave, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -41,7 +129,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.End_leave, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.End_leave, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.End_leave, new { htmlAttributes = new { @class = "form-control" , id = "datepicker3", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.End_leave, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -49,7 +137,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Return_leave, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Return_leave, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Return_leave, new { htmlAttributes = new { @class = "form-control", id = "datepicker2", @required = "required" } })
                 @Html.ValidationMessageFor(model => model.Return_leave, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -57,7 +145,10 @@
         <div class="form-group">
             @Html.LabelFor(model => model.leave_type, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                @*
                 @Html.EditorFor(model => model.leave_type, new { htmlAttributes = new { @class = "form-control" } })
+            *@
+                @Html.DropDownList("leave_type", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.leave_type, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -65,27 +156,11 @@
         <div class="form-group">
             @Html.LabelFor(model => model.toltal_requested_days, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.toltal_requested_days, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.toltal_requested_days, new { htmlAttributes = new { @class = "form-control" ,@id = "toltal_requested_days" } })
                 @Html.ValidationMessageFor(model => model.toltal_requested_days, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.submitted_by, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.submitted_by, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.submitted_by, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.apstatus, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.apstatus, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.apstatus, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
+        
         <div class="form-group">
             @Html.LabelFor(model => model.half, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -95,22 +170,7 @@
                 </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.approved_byline, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.approved_byline, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.approved_byline, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.approved_byhod, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.approved_byhod, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.approved_byhod, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

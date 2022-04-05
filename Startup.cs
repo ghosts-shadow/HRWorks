@@ -114,7 +114,7 @@ namespace HRworks
             if (!roleManager.RoleExists("HOD"))
             {
                 var role = new IdentityRole();
-                role.Name = "employee";
+                role.Name = "HOD";
                 roleManager.Create(role);
             }
             if (!roleManager.RoleExists("registration"))

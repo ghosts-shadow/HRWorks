@@ -83,6 +83,10 @@ namespace HRworks.Controllers
                                         emp.EMPID = hik.EMPID;
                                         emp.Person = hik.Person;
                                         emp.date = newdate;
+                                        if (hik.ID == "5403")
+                                        {
+                                            var aaaa = 0;
+                                        }
                                         var qwEmployeeId = 0;
                                         int.TryParse(hik.ID, out qwEmployeeId);
                                         ViewBag.absapp = empnos;

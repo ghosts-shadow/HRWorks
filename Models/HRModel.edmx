@@ -476,6 +476,7 @@
           <Property Name="accruedafter2020" Type="float" />
           <Property Name="forfitedafter2020" Type="float" />
           <Property Name="dateupdated" Type="date" />
+          <Property Name="ifslbal" Type="float" />
         </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
@@ -3212,6 +3213,7 @@
           <Property Name="forfitedafter2020" Type="Double" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_leavecal2020_To_master_file" FromRole="leavecal2020" ToRole="master_file" />
           <Property Name="dateupdated" Type="DateTime" Precision="0" />
+          <Property Name="ifslbal" Type="Double" />
         </EntityType>
         <Association Name="FK_leavecal2020_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1">
@@ -4164,6 +4166,7 @@
           <EntitySetMapping Name="leavecal2020">
             <EntityTypeMapping TypeName="HRModel.leavecal2020">
               <MappingFragment StoreEntitySet="leavecal2020">
+                <ScalarProperty Name="ifslbal" ColumnName="ifslbal" />
                 <ScalarProperty Name="dateupdated" ColumnName="dateupdated" />
                 <ScalarProperty Name="forfitedafter2020" ColumnName="forfitedafter2020" />
                 <ScalarProperty Name="accruedafter2020" ColumnName="accruedafter2020" />

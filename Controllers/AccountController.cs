@@ -166,7 +166,7 @@ namespace HRworks.Controllers
                 {
                     un.full_name = model.full_name;
                     un.aspnet_uid = user.Id;
-                    var empid = masteremp.Find(x => x.employee_no != model.EMPNO);
+                    var empid = masteremp.Find(x => x.employee_no == model.EMPNO);
                     un.employee_no = empid.employee_id;
                     string[] userrole = model.UserRole.Split(',');
                     if (User.IsInRole("registration"))

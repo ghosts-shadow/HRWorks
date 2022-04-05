@@ -1047,6 +1047,7 @@
     <Content Include="Views\employeeleavesubmitions\Edit.cshtml" />
     <Content Include="Views\employeeleavesubmitions\Index.cshtml" />
     <Content Include="Views\emprels\Importexcel.cshtml" />
+    <Content Include="Views\employeeleavesubmitions\empleaveap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
