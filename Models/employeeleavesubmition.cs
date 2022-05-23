@@ -13,7 +13,7 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class employeeleavesubmition
     {
         public int Id { get; set; }
@@ -44,7 +44,9 @@ namespace HRworks.Models
         public bool half { get; set; }
         public string approved_byline { get; set; }
         public string approved_byhod { get; set; }
-
+        public string imgpath { get; set; }
+        public Nullable<System.DateTime> dateadded { get; set; }
+    
         public virtual master_file master_file { get; set; }
     }
 }

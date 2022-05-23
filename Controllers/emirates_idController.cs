@@ -373,7 +373,10 @@ namespace HRworks.Controllers
                 serverfile = null;
                 var imglist = db.emirates_id.ToList().FindAll(x => x.employee_no == emirates_id.employee_no)
                     .OrderByDescending(x => x.date_changed).ToList();
-                var imgpath = imglist.FindAll(c => c.imgpath != null).OrderByDescending(x => x.date_changed).First().imgpath;
+                var imgpath = "";
+                imgpath = null;
+                if (imglist.FindAll(c => c.imgpath != null).Count != 0)
+                    imgpath=imglist.FindAll(c => c.imgpath != null).OrderByDescending(x => x.date_changed).First().imgpath;
                 serverfile = imgpath;
             }
             if (ModelState.IsValid)

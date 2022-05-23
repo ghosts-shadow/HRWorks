@@ -63,7 +63,12 @@ namespace HRworks.Models
 
     public class RegisterViewModel
     {
+        [Required]
         [Display(Name = "Username")]
+        public string UserName { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         [Required]

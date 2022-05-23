@@ -208,7 +208,7 @@
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    if (!(User.IsInRole("HOD") || User.IsInRole("Manager") || User.IsInRole("employee")))
+                    if (!(User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager") || User.IsInRole("employee")|| User.IsInRole("registration")))
                     {
                         <div class="dropdown dd1" id="dd1">
                             <button class="btn btn-primary dropdown-toggle" type="button" onclick='dd1()' style="background-color: #152939 !important; border-color: #152939">
@@ -263,11 +263,13 @@
                     }
                     else
                     {
-
-                        <li>@Html.ActionLink("leave", "Index", "employeeleavesubmitions")</li>
-                        if (User.IsInRole("HOD") || User.IsInRole("Manager"))
+                        if(!User.IsInRole("registration"))
                         {
-                            <li>@Html.ActionLink("approvals", "empleaveap", "employeeleavesubmitions")</li>
+                            <li>@Html.ActionLink("leave", "Index", "employeeleavesubmitions")</li>
+                            if (User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager"))
+                            {
+                                <li>@Html.ActionLink("approvals", "empleaveap", "employeeleavesubmitions")</li>
+                            }
                         }
                     }
                 }

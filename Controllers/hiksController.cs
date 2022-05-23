@@ -22,35 +22,39 @@ namespace HRworks.Controllers
             var month = getdate;
             this.ViewBag.eddate = getdate;
             var tmlist = this.db.hiks.OrderBy(x => x.datetime).ToList();
-            var msname = this.db.master_file.ToList();
-            var emplist = new List<hik>();
             var emplist1 = new List<hik>();
             var leavelist= db.Leaves.ToList();
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            var inactlist = alist.FindAll(x => x.status == "inactive");
+            var peremp = new master_file();
+            foreach (var file in alist.OrderBy(x=>x.employee_no).ThenByDescending(x=>x.date_changed))
+            {
+                if (!inactlist.Exists(x => x.employee_no == file.employee_no))
+                { 
+                    afinallist.Add(file);
+                }
+                
+            }
             foreach (var hik in tmlist)
             {
                 if (!emplist1.Exists(x => x.ID == hik.ID))
                 {
                     if (hik.ID != string.Empty)
                     {
-                        emplist1.Add(hik);
-                        var qwEmployeeId = 0;
-                        int.TryParse(hik.ID, out qwEmployeeId);
-                        if (msname.Exists(x => x.employee_no == qwEmployeeId))
-                            hik.Person = msname.Find(x => x.employee_no == qwEmployeeId).employee_name;
-                        hik.EMPID = qwEmployeeId;
+                        if (afinallist.Exists(x=>x.employee_no.ToString() == hik.ID))
+                        {
+                            var qwEmployeeId = 0;
+                            int.TryParse(hik.ID, out qwEmployeeId);
+                            if (afinallist.Exists(x => x.employee_no == qwEmployeeId))
+                                hik.Person = afinallist.Find(x => x.employee_no == qwEmployeeId).employee_name;
+                            hik.EMPID = qwEmployeeId;
+                            emplist1.Add(hik); 
+                        }
                     }
                 }
             }
 
-            foreach (var hik in emplist1)
-            {
-
-                var activeuser = msname.FindAll(x => x.status == "active"|| x.status == "in process");
-                if (activeuser.Exists(x => x.employee_no.ToString() == hik.ID))
-                {
-                    emplist.Add(hik);
-                }
-            }
             var abslist = new List<hik>();
             if (month.HasValue)
             {
@@ -67,7 +71,7 @@ namespace HRworks.Controllers
                     {
                         break;
                     }
-                    foreach (var hik in emplist)
+                    foreach (var hik in emplist1)
                     {
                         if (!tmlist.Exists(x => x.ID == hik.ID && x.date == startdate))
                         {
@@ -83,10 +87,6 @@ namespace HRworks.Controllers
                                         emp.EMPID = hik.EMPID;
                                         emp.Person = hik.Person;
                                         emp.date = newdate;
-                                        if (hik.ID == "5403")
-                                        {
-                                            var aaaa = 0;
-                                        }
                                         var qwEmployeeId = 0;
                                         int.TryParse(hik.ID, out qwEmployeeId);
                                         ViewBag.absapp = empnos;

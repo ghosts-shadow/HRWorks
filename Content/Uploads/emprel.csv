@@ -1,0 +1,354 @@
+employee no,emp name,ign,Line Manager,ign1,HOD/GM,ign2
+8,Rosalina Reyes Guevara,ISO,4997,Talal Allam ,,
+40,Joselito Riego Madarang,Procurement,10076,Christopher Bentley,,
+101,Mohammad  Shaheen,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+102,Rubel  Abu Gaher,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+103,Shuman  Paul,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+106,Mohammed Towhid Towhid Alam,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+110,Mohammed  Afsar,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+111,Nurul  Absar,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+122,Srinivasan  Perriyasamy,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+123,Kabil  Hossain,Branch Office - Al-Ain,5344,Yahya Mohamed Ali Rashid ,,
+132,Mohammad  Ripan,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+137,Sajib Chandra Das,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+139,Kamal Siran Bepari,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+144,Osman  Goni,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+180,Jose  Diniz,Procurement,10076,Christopher Bentley,,
+212,Abul Bashar Lotfor Rahman,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+214,Masud Din Mohammed,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+227,Chandrasiri  Brahmanage,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+235,Tahidul Islam Taslim Uddin,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+256,Shanker Annan Sayanna,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+414,Sayed Saied Mahmoud Embaby,Grove,5380,Hiba Rafic Trad ,,
+442,Delia Sacro Andes,Project Control,5179,Philip Fernandez Eigo ,4997,Talal Allam 
+486,Khalil M. Khalil,Legal,5344,Yahya Mohamed Ali Rashid ,,
+491,Erma Cadiente Askin,Human Resources,5344,Yahya Mohamed Ali Rashid ,,
+498,Yasser  Abouelmagd Mariey Shoeib,Grove,5380,Hiba Rafic Trad ,,
+508,Marivic Mejia Perey,Logistics Department,5342,Mohamed Khairy Abdelghani Mohamed ,,
+525,Abu Kalam  Abul Hossain,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+528,Mohammed Ali Abdul Quddus,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+530,Saiful Islam Lil Miah,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+531,Liton Tofazzal Hossain,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+532,Iqbal Hossain Abdul Aziz,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+535,Md. Hanif Mia  Md. Wazuddin,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+538,Mohammad Aman Mohammad Ali,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+549,Hanif Nurul Islam,Grove,5380,Hiba Rafic Trad ,,
+589,Christopher Santos Mendoza,ISO,8,Rosalina Reyes Guevara ,,
+629,Nurul Islam Abdul Gafur,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+633,Firoj Hossain Nurl Islam,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+634,Ziaur Rahman Abdus Sattar,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+645,Zahangir Hossain Late Habibar Rahman,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+646,Pradip Debnath Kumod,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+651,Opendra Kumar Yadav,Grove,5380,Hiba Rafic Trad ,,
+666,Gangaram Kanchi Gangaram,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+773,Tara M.M. Saed,Planning,4997,Talal Allam ,,
+806,Harison  Christi,Steel Workshop,4167,Omar  Dib,5342,Mohamed Khairy Abdelghani Mohamed 
+825,Laxman  Bachchu,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+867,Sherlyn Grace Pentinio,Procurement,10076,Christopher Bentley,,
+869,Md Musa Saleh  Ahmed,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+906,Abdul Hakim  Abdul Matin,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+918,Alamgir Hossain  Mohammad Ali,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+919,Shofiqul Islam  Rayes Uddin,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+920,Juwel Miah  Badal Miah,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+922,Mohammed Sumon  Md. Abdul Hai,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+925,Eman Ali  Abdul Samad,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+933,Shariful  Akbar Ali,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+945,Md. Kiran Miah  Hasem Molia,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+960,Mahin Uddin  Siraj Miah,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+962,Billal Hossain  Riaz Uddin,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+974,Khokon Miah  Mulluk Hossain,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+1000,Shahadat Hossain  Abdul Awal,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+1007,Quiyum Bhuiyan  Late Nazrul Islam,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1012,Shahbaz Ahmad  Mushtaq Ahmad,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+1023,Muddasar Iqbal  Muhammad Saleem,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1088,Thomas Dalton Rodriguez,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+1101,Ahmed A. El Sayed Mohamed,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+1120,Shamez  Rabi Miah,Grove,5380,Hiba Rafic Trad ,,
+1133,Robert Cruz  Thomas Cruz,Steel Workshop,4167,Omar  Dib,5342,Mohamed Khairy Abdelghani Mohamed 
+1152,Joby  Johan,Wood Workshop,4167,Omar  Dib,5342,Mohamed Khairy Abdelghani Mohamed 
+1166,Dave Aguas Galang,Administration,5342,Mohamed Khairy Abdelghani Mohamed ,,
+1172,Sabir Mahmood  Khan,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+1217,Muhammad Arshad  Muhammad Aziz,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+1247,Ghulam Mostafa  Mafiz Uddin,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+1259,Mohammad Farok  Mia  Abdul Halim,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1264,Mohammad Kanchan Mia  Mohammed Lal Miah,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+1265,Akhtar  Abdul Jalil,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+1269,Alamin  Nuru Miah,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+1277,Md. Sohid  Khoimuddin,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1282,Shah Alam  Sobahan,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+1330,Jaynal Abedin  Samir Ali,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+1335,Aktar Zaman  Afzal Hossain,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+1348,Joseph  Jacob,Wood Workshop,4167,Omar  Dib,5342,Mohamed Khairy Abdelghani Mohamed 
+1404,Md. Aynal Haq  Md. Nalu Miah,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+1406,Tarek  Muslim Miah,Administration,5342,Mohamed Khairy Abdelghani Mohamed ,,
+1407,Rahim  Noor Ahammad Molla,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+1412,Hamid Miah  Dula Miah,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+1415,Sanwar Hossain  Moksed Hossain,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+1419,Mostafa Kamal  Akkas Ali,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+1420,Rasel  Badshah Mia,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+1428,Sahid Miah  Hossain Ali,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+1439,Amir Uddin  Ghyas Uddin,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+1443,Jalal  Habil,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1473,Badul  Hazimoddin,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+1475,Alamin  Amir Uddin,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+1478,Mukter Hossain  Abdul Baten Mia,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+1526,Racel  Lopez,Human Resources,5344,Yahya Mohamed Ali Rashid ,,
+1531,Salwan  Nameh,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+1572,Govindarajan  Alagar,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+1578,Arumugam  Subbaiya,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+1644,Ram Chet  Bind,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+1705,Shaji  Valevadakethil Thankachan,Wood Workshop,4167,Omar  Dib,5342,Mohamed Khairy Abdelghani Mohamed 
+1725,Mohamed  Kak,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+1791,Mohammed  Ilyas Khan,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+1795,Shareesh  Nalpadi,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+1800,Mootolikandy  Sachin Thyagaraj,Estimation,1964,Badr Alrai ,,
+1814,Kawser  Abul Kashem,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1815,Mohammad Alamgir  Abdul Sattar,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1816,Jahangir Fakir  Fazlu Fakir,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1819,Ripon Ahmed  Montaj Uddin,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1826,Dulal Miah  Faiz Uddin,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1832,Bablu Mia  Late Mohir Sheikh,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1834,Juwel  Salam Uddin,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1837,Al Amin  Bajlu Rahman,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1842,Zakir Hossain  Abdul Hai,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+1844,Md. Sharif  Ab. Baten,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1845,Abul  Abul Koddos,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1846,Aman Ullah  Late Abul Hashem,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1850,Zakir Hossain  Zahir Uddin,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1852,Zakir Hossain  Abdul Hai,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+1854,Anowar Hossain  Majibur Rahman,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1856,Ismail Hossain  Afsar Uddin,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1860,Magdy Samir Anwar Ramaly  Nakhla,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+1925,Arukandy  Rajeesh,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+1964,Badr  Alrai,Estimation,4997,Talal Allam ,,
+2017,Muhammad Ibrahim  Awan,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+2032,Abdul  Qadir,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+2118,Merzek Kamal  Saad Mikhaeil,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+2140,Eid Zaky Abd  Elaziz Ahmed,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+2141,Ragab Osman  Abbas Hussein,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+2196,Anwar Ali  Khan,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+2226,Medhat Said  Fikry Iskander,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+2277,Roy Sampang Nicdao,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+2280,Dhirendra Das  Kirendra Das,Resources Management,4167,Omar  Dib,5342,Mohamed Khairy Abdelghani Mohamed 
+3350,Mylin  Grita,DCC,8,Rosalina Reyes Guevara ,,
+2307,Sanjay  Singh,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+2308,Rajesh  Bhagat,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+2309,Ashok Kumar  Prasad,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+2343,Gulat  Khan,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+2345,Bodor Uddin  Hormuj Ali,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+2364,Elhossiny Abdel  Moneim Abdel Hady,Grove,5380,Hiba Rafic Trad ,,
+2422,Bebawy Younan  Bushra Barsoum,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+2424,Raafat Kamel  Kellini Metias,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+2437,Hani Lamei Abd  El Nour Ghattas,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+2459,Ayoub Loutfi  Hanna Bebawi,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+2466,Mohanad  Alzoghbi,Grove,5380,Hiba Rafic Trad ,,
+2476,Aleem  Khan,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+2487,Noor Mohammed  Ali Ahmed,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+2489,Bellal  Nurul Haque,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+2542,Enrico  Guerrero,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+2600,Wakil  Khan,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+2648,Maria Grace  Arsolon,Finance,5143,Abdul Baseer Khan ,,
+2657,Periyanan  Periyanan,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+2673,Shahidul  Osman,Grove,5380,Hiba Rafic Trad ,,
+2674,Anowar Hossan  Eiddrish Ali,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+2683,Sambho Kumar Saha  Hare Krishna Saha,Grove,5380,Hiba Rafic Trad ,,
+2688,Devnath Kumar Prajapati,Steel Workshop,4167,Omar  Dib,5342,Mohamed Khairy Abdelghani Mohamed 
+2855,Virendra Singh  Kushwaha,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+2868,Raafat Sabet  Hammad Hussein,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+2870,Mohamed Fadi Alla  Mohamed Hamad,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+2872,Elamir Abdellah  Osman Hamad,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+2998,Md Abul Hosen  Md Ala Uddin,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+3000,Riaz  Ajim Uddin,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+3006,Jia  Late Anowar Hossain Mal,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+3008,Mijanur Rahman  Altaf Mollah,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+3012,Khukan  Hafiz Uddin,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+3225,Azim Babu  Md Humayan,Grove,5380,Hiba Rafic Trad ,,
+3226,Shoriful Islam  Vogur Uddin,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+3228,Torikul Islam  Md Abul Kasem Ali,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+3250,Nizam Nathiru Kunju,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+3259,Mohamad Alsheikh Amin,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+3260,Feryal  El Timani Ep Dib Matar,Grove,5380,Hiba Rafic Trad ,,
+3286,Sahin  Dorbash,Grove,5380,Hiba Rafic Trad ,,
+3334,Md. Rahaman Hossain  Md. Anar Ullah,Administration,5342,Mohamed Khairy Abdelghani Mohamed ,,
+3335,Mohor  Lutfar Molla,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+3445,Arabi Mohamed  Ibrahim Khalil,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+3453,Thaer  Al Ibrahim,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+3494,Mohamed Anwar  El Sayed Mohamed,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+3540,Abul Hossain  Abdul Ali,Grove,5380,Hiba Rafic Trad ,,
+3542,Moram Ali  Late Sonam Uddin,Grove,5380,Hiba Rafic Trad ,,
+3550,Sadek Miah  Falu,Grove,5380,Hiba Rafic Trad ,,
+3732,Raja Anees-Ur  Rehman,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+3733,Muhammad Azmat  Muhammad Aslam,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+3734,Ifraheem  Ali,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+3867,Vijayan  Neeroli,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+3906,Thomas  Aryapiradathu Gheevarghese Gheevargese,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+3944,Joselito  Divino,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+3947,Ruperto  Cabral,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+4039,Muhammad  Riaz,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+4108,Shijith  Poyil,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+4167,Omar  Dib,Operations,5342,Mohamed Khairy Abdelghani Mohamed ,,
+4168,Adel  Saad,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4207,Khorsad  Borhan Uddin,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+4208,Sharif  Abid Ali,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+4215,Salim Hossan  Nozir Ahammad,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+4216,Md Miraz  Md Bador Zaman,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+4217,Didarul Islam  Md Abul Kashem,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+4233,Sumon  Abul Khayer,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+4302,Md Ashraf Ali  Atiar Moral,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4304,Sarif Uddin  Abzal Hoque,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4312,Alam Miah  Atar Uddin,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4316,Md Kalam Miah  Md Abdus Salam,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+4340,Sajid  Mehmood,Transportation,5354,Hasib Ahmad ,4430,Sherif Sabry 
+4355,Riyaz Adam  Mirkar,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4406,Mahmoud Soliman Daoud,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4430,Sherif  Sabry,Operations,4997,Talal Allam ,,
+4439,Durul  Huda,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+4455,Passhill Johnman Fernandes,Transportation,5342,Mohamed Khairy Abdelghani Mohamed ,,
+4462,Prince  Thankachan,Wood Workshop,4167,Omar  Dib,5342,Mohamed Khairy Abdelghani Mohamed 
+4470,Zyad  Nader,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+4496,Syed Fiaz Hussain  Shah,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4506,Arshad Mehmood  Ali Bahadar,Grove,5380,Hiba Rafic Trad ,,
+4509,Sohail Iqbal  Md Iqbal Bari,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+4521,Hussein El Said  Amer,Wood Workshop,4167,Omar  Dib,5342,Mohamed Khairy Abdelghani Mohamed 
+4532,Aamir  Abbas,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+4554,Arcel Galang Dacir,Administration,5342,Mohamed Khairy Abdelghani Mohamed ,,
+4569,Faizal Chackuparambil Ibrahim,Estimation,1964,Badr Alrai ,,
+4612,Harindra  Ram,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4613,Tribhuwan  ,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4615,Harish Chandra Ram,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4632,Amar Kumar  Pandaba,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+4634,Sumanta  Mallik,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+4672,Syed Majid Hussain  Shah,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4686,Umar  Ali,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+4689,Tahir  Ali,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+4692,Muhammad  Sadaqat,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+4710,Mohamad  Bakar,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4713,Ahmad  Aldaoud,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+4748,Ghulam  Mustafa,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+4802,Affan  Samad,Internal Audit,10040,Kasturiarachchige Nilani Sureshi  Perera ,,
+4882,Shifaz  Sathar,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4890,Mir Feroz Ali Mosari,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+4918,Abdelhamid Amin Abdelhamid Hende,Public Relations,5344,Yahya Mohamed Ali Rashid ,,
+4939,Srinivasareddy  Betireddy,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4952,Bassel  Kandakje,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+4982,Levin  Dickson,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+4997,Talal  Allam,GM Office,10002,Naser Mohamed Naser Al Mur Al Zaabi ,,
+5053,Rhodora Grita Magtibay,Grove,5380,Hiba Rafic Trad ,,
+5077,Carol  James,Design,4997,Talal Allam ,,
+5092,Ammar Mahmoud Diab,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5111,Hillprince Roseben Fernandes,Finance,5143,Abdul Baseer Khan ,,
+5116,Jennielyn  Jusay,Estimation,1964,Badr Alrai ,,
+5117,Hamayoun  Raza,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5143,Abdul Baseer Khan,Finance,4997,Talal Allam ,,
+5152,April Diaz Azarcon,GM Office,4997,Talal  Allam,,
+5172,George Abu Alahad Matlub,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+5178,Fernando Jr. Decolongon Dichosa,Estimation,1964,Badr Alrai ,,
+5179,Philip Fernandez Eigo,Project Control,4997,Talal Allam ,,
+5181,Jeffrey Parreno Yap,Operations,5143,Abdul Baseer Khan ,,
+5207,Silja  Akil,Project Control,5179,Philip Fernandez Eigo,,
+5214,Mohamad Khalil Mohamad,Grove,5380,Hiba Rafic Trad ,,
+5226,Sameer  Ahamed,Grove,5380,Hiba Rafic Trad ,,
+5257,Saravanapriya  Singaram,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+5260,Ernie Jose Mendoza,Estimation,1964,Badr Alrai ,,
+5263,Tariq  Mehmood,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+5266,Yaman Abdulkader Talib,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+5269,Firas Abou Moughdib,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5271,Amjad Wagny Abdelmoneim Hassanein,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5299,Allan Lapuz Sandico,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+5306,El Sayed  Mahmoud,Mechanics Workshop,4167,Omar  Dib,5342,Mohamed Khairy Abdelghani Mohamed 
+5309,Muhammad Sameen  Muhammad Nazir,Finance,5143,Abdul Baseer Khan ,,
+5310,Darwin Armada Colete,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+5312,Athar  Ali,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5314,Zahir Ahmed Khan,Operations,5143,Abdul Baseer Khan ,,
+5324,Mohamed Said Abdel Rahman Mohamed,Operations,5143,Abdul Baseer Khan ,,
+5328,Lina  Rashyd,Operations,5143,Abdul Baseer Khan ,,
+5332,Ali Mohamed Ali Eldelsouky Ali,Information Technology,5342,Mohamed Khairy Abdelghani Mohamed ,,
+5333,Leah Anna Marri Balanza Catipay,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5335,Mansoor  Ali,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5336,Mohamed Abdelhamid Amin Hendem,Operations,5143,Abdul Baseer Khan ,,
+5337,Louwy Caldejon Valera,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+5339,M.Bakri Ibrahim Kattan,Operations,5143,Abdul Baseer Khan ,,
+5340,Esa Mohiuddin  Mohammed,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5342,Mohamed Khairy Abdelghani Mohamed,Administration,4997,Talal Allam ,,
+5344,Yahya Mohamed Ali Rashid,Human Resources,4997,Talal Allam ,,
+5348,Birendra  Kumar,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5351,Ahmed  Mohammad Yousaf,Information Technology,5342,Mohamed Khairy Abdelghani Mohamed ,,
+5354,Hasib  Ahmad,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5357,Jameeluddin  Syed,Operations,5143,Abdul Baseer Khan ,,
+5358,Munawar  Khan,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+5360,Amro Yousef Abdel Hadi Al-Samaneh,Operations,5143,Abdul Baseer Khan ,,
+5362,Aysha Abdullah Saeed Khamis Alghaithi,Contracts,5344,Yahya Mohamed Ali Rashid ,,
+5363,Sanjay Dutt  Sharma,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5364,Tariq Mohammad Atieh Thawabi,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5365,Moza Saeed Eisa Ali Amatrooshi,Human Resources,5344,Yahya Mohamed Ali Rashid ,,
+5367,Rhys William Elsisura Porlas,Operations,5143,Abdul Baseer Khan ,,
+5368,Anuskumar  Somasundaram,Operations,5143,Abdul Baseer Khan ,,
+5369,Pearl G. Carame,Procurement,10076,Christopher Bentley,,
+5370,Hala  Ayoub,Design,5077,Carol  James,,
+5371,Mary Jho Ann Sanchez Quintana,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5372,Nahed  El Masry,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5374,April Anne Pating Serevilla,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5375,Mohamed Taha Mohamed Abdelrazek,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5377,Noor Louai Al Nahawi,Administration,5342,Mohamed Khairy Abdelghani Mohamed ,,
+5379,Thanseer  Abdul Karim,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5380,Hiba Rafic Trad,Grove,4997,Talal Allam ,,
+5381,Dianna Lane Collado Andalis,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+5382,Zahid  Hussain,Operations,5143,Abdul Baseer Khan ,,
+5385,Ehab Fathy Ahmed Abouelazm,Logistics Department,5342,Mohamed Khairy Abdelghani Mohamed ,,
+5386,Sneden Valen  Diniz,Information Technology,5342,Mohamed Khairy Abdelghani Mohamed ,,
+5391,Catherine  Quinto,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+5392,Hamza Khaled Mohammad Alhatmel,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5393,Ahnas Moothampackal Muhammadkutty,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5394,Arunkumar  Muthuraj,Procurement,10076,Christopher Bentley,,
+5397,David Ogbac David,Operations,5143,Abdul Baseer Khan ,,
+5401,Hassan Hassan Hallak,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5402,Samer  Chaalan,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+5403,Safaa Hazem Abdelhamid Soliman,Grove,5380,Hiba Rafic Trad ,,
+5404,Abdulkarim  Hallak,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+5405,Ahmad  Hallak,Operations,5143,Abdul Baseer Khan ,,
+5406,Saleh Ahmed  Late Altab Ali,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+5407,Alaa Aldeen Abokassem,Grove,5380,Hiba Rafic Trad ,,
+5408,Mohammed Saif Al Zalek,Finance,5143,Abdul Baseer Khan ,,
+5409,Yamen Abdul Masih Maksoud,Grove,5380,Hiba Rafic Trad ,,
+5410,Qalandar Said Ahmed Shah Shah,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+5411,Adham Alaaeldin Moustafa Derbala,Human Resources,5344,Yahya Mohamed Ali Rashid ,,
+5413,Moemen Abdelhamid Khalifa Rehan Zayed,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5414,Mahmoud Mohamed Farghly Metwaly,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5415,Muhammad Awais Rafiq,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+5417,Maram Salah Wajeeh Dalbah,Operations,4430,Sherif  Sabry,,
+5418,Akoub Ishak  Ayad Assad,Grove,5380,Hiba Rafic Trad ,,
+5419,Shadi  Jabbour,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+5420,Christian Argarin Orias,Grove,5380,Hiba Rafic Trad ,,
+5421,Ahmed Mohammed Saqqaf Al Haddar,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+5422,Tahir  Al Ameri,Human Resources,5344,Yahya Mohamed Ali Rashid ,,
+5423,Ahmed Mohammed Ahmed Farag,Grove,5380,Hiba Rafic Trad ,,
+6032,Qadar Khan Munawar,Operations,5143,Abdul Baseer Khan ,,
+6034,Saffar Khan Baloch,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+6042,Quayum Khan Abdul,Operations,5143,Abdul Baseer Khan ,,
+6046,Mohd Hafiz Ahmad,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+6075,Md. Jaker Hossain Late Ambar Ali,Grove,5380,Hiba Rafic Trad ,,
+6084,Saleh Ahmed Late Haji Rakib Ali,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+6085,Nazir Ahammed Hasanussaman,Operations,5143,Abdul Baseer Khan ,,
+6087,Md. Abul Miah Md. Aman Miah,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+6091,Sebulahmed Mokbul Hossain,Grove,5380,Hiba Rafic Trad ,,
+6094,Md. Jabed Miah Rowab Miah,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+6098,Azad Miah Alfu Miah,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+6145,Mohammed Nazimul Islam Mohammed Abdullatif,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+6158,Khaled Abdul Bari,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+6184,Mohammad Sadiq Fawzur Rahman,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+6209,Md. Hasib Uddin  Md. Basir,Operations,5143,Abdul Baseer Khan ,,
+6246,Abdul Kuddus  Sunar Uddin,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+6309,Mohammed Mohi Uddin  Din Mohammed,Resources Management,5342,Mohamed Khairy Abdelghani Mohamed ,,
+6320,Rubel Ahmed  Hira Miah,Operations,5143,Abdul Baseer Khan ,,
+6326,Md Sihab Uddin  Md Elas Ali,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+6348,Nasir Uddin  Late Mazfal Ahamed,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+6354,Mohammed Jashim  Late Abdul Monaf,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+6459,Jashim  Jomir Ali,Operations,5354,Hasib Ahmad ,4430,Sherif Sabry 
+6480,Magdi Ahmed Gomaa  Mohammed Abu,Operations,5415,Muhammad Awais Rafiq,4430,Sherif Sabry 
+6565,Ala Uddin  Idris Miah,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+6585,Sher  Mohammad Rajan,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+6586,Iman Ali  Late Aftab Miah,Grove,5214,Mohamad Khalil Mohamad,5380,Hiba Rafic Trad 
+6668,Mohammad Yousuf Nobi  Mazibul Hoque,Operations,5342,Mohamed Khairy Abdelghani Mohamed ,,
+6713,Halim Uddin Late  Toyub Ali,Grove,2466,Mohanad  Alzoghbi,5380,Hiba Rafic Trad 
+6733,Mohammed Nabi Hossan  Dil Mohammed,Operations,1531,Salwan Nameh ,4430,Sherif Sabry 
+6847,Jiessel  Tarala,Finance,5143,Abdul Baseer Khan ,,

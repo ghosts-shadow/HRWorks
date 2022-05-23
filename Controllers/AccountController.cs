@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -152,7 +153,17 @@ namespace HRworks.Controllers
             if (ModelState.IsValid)
             {
                 HREntities db = new HREntities();
-                var masteremp = db.master_file.ToList();
+                var alist = db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+                var masteremp = new List<master_file>();
+                var inactlist = alist.FindAll(x => x.status == "inactive");
+                foreach (var file in alist.OrderBy(x => x.employee_no).ThenByDescending(x => x.date_changed))
+                {
+                    if (!inactlist.Exists(x => x.employee_no == file.employee_no))
+                    {
+                        masteremp.Add(file);
+                    }
+
+                }
                 if (!masteremp.Exists(x=>x.employee_no != model.EMPNO))
                 {
                     ModelState.AddModelError("EMPNO","invalid emp no");
@@ -160,7 +171,7 @@ namespace HRworks.Controllers
                 }
                 HREntities df=new HREntities();
                 username un=new username();
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -169,14 +180,6 @@ namespace HRworks.Controllers
                     var empid = masteremp.Find(x => x.employee_no == model.EMPNO);
                     un.employee_no = empid.employee_id;
                     string[] userrole = model.UserRole.Split(',');
-                    if (User.IsInRole("registration"))
-                    {
-                        await this.UserManager.AddToRoleAsync(user.Id, "employee");
-                    }
-                    else
-                    {
-                        await this.UserManager.AddToRolesAsync(user.Id, userrole);
-                    }
                     await this.UserManager.AddToRolesAsync(user.Id, userrole);
                     df.usernames.Add(un);
                     df.SaveChanges();

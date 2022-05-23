@@ -107,7 +107,7 @@
         }
     }
 </script>
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create","employeeleavesubmitions",FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -170,7 +170,18 @@
                 </div>
             </div>
         </div>
-        
+        <div class="form-group" >
+            @Html.LabelFor(model => model.imgpath, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*
+                @Html.EditorFor(model => model.Reference, new { htmlAttributes = new { @class = "form-control" } })
+            *@
+                <input type="file"
+                       id="fileBase"
+                       name="fileBase" accept="image/*,.pdf,.doc"/>
+                @Html.ValidationMessageFor(model => model.imgpath, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

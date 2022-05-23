@@ -117,6 +117,12 @@ namespace HRworks
                 role.Name = "HOD";
                 roleManager.Create(role);
             }
+            if (!roleManager.RoleExists("EXTHOD"))
+            {
+                var role = new IdentityRole();
+                role.Name = "EXTHOD";
+                roleManager.Create(role);
+            }
             if (!roleManager.RoleExists("registration"))
             {
                 var role = new IdentityRole();

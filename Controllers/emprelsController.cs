@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HRworks.Models;
+using Microsoft.Ajax.Utilities;
 using OfficeOpenXml;
 
 namespace HRworks.Controllers
@@ -20,7 +21,7 @@ namespace HRworks.Controllers
         public ActionResult Index()
         {
             var emprels = db.emprels.Include(e => e.master_file).Include(e => e.master_file1).Include(e => e.master_file2).ToList();
-            return View(emprels);
+            return View(emprels.OrderBy(x=>x.master_file1.employee_no));
         }
 
         // GET: emprels/Details/5
@@ -41,9 +42,17 @@ namespace HRworks.Controllers
         // GET: emprels/Create
         public ActionResult Create()
         {
-            ViewBag.HOD = new SelectList(db.master_file, "employee_id", "employee_no");
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_no");
-            ViewBag.line_man = new SelectList(db.master_file, "employee_id", "employee_no");
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+            ViewBag.HOD = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
+            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
+            ViewBag.line_man = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
             return View();
         }
 
@@ -67,9 +76,17 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.HOD = new SelectList(db.master_file, "employee_id", "employee_no", emprel.HOD);
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_no", emprel.Employee_id);
-            ViewBag.line_man = new SelectList(db.master_file, "employee_id", "employee_no", emprel.line_man);
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+            ViewBag.HOD = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.HOD);
+            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.Employee_id);
+            ViewBag.line_man = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.line_man);
             return View(emprel);
         }
 
@@ -85,9 +102,17 @@ namespace HRworks.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.HOD = new SelectList(db.master_file, "employee_id", "employee_no", emprel.HOD);
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_no", emprel.Employee_id);
-            ViewBag.line_man = new SelectList(db.master_file, "employee_id", "employee_no", emprel.line_man);
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+            ViewBag.HOD = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.HOD);
+            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.Employee_id);
+            ViewBag.line_man = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.line_man);
             return View(emprel);
         }
 
@@ -110,9 +135,17 @@ namespace HRworks.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewBag.HOD = new SelectList(db.master_file, "employee_id", "employee_no", emprel.HOD);
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_no", emprel.Employee_id);
-            ViewBag.line_man = new SelectList(db.master_file, "employee_id", "employee_no", emprel.line_man);
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+            ViewBag.HOD = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.HOD);
+            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.Employee_id);
+            ViewBag.line_man = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.line_man);
             return View(emprel);
         }
 
@@ -181,13 +214,36 @@ namespace HRworks.Controllers
                         this.ViewBag.Data = dt;
                         if (dt.Rows.Count > 0)
                         {
+                            var br = 0;
+                            var bebr = 0;
                             foreach (DataRow dr in dt.Rows)
                             {
+                                if (bebr >= 3)
+                                {
+                                    bebr = 0;
+                                    br++;
+                                }
+
+                                if (br > 1)
+                                {
+                                    goto brgoto;
+                                }
                                 var pro = new emprel();
                                 var dublicatecheck = this.db.emprels.ToList();
                                 foreach (DataColumn column in dt.Columns)
                                 {
-                                    
+
+                                    if (dr[column].ToString().IsNullOrWhiteSpace())
+                                    {
+                                        bebr++;
+                                    }
+                                    else
+                                    {
+                                        if (bebr != 0)
+                                        {
+                                            bebr--;
+                                        }
+                                    }
                                     if (column.ColumnName == "employee no")
                                     {
                                         int.TryParse(dr[column].ToString(), out var idm);
@@ -222,13 +278,14 @@ namespace HRworks.Controllers
 
                                 if (!dublicatecheck.Exists(x =>
                                     x.Employee_id == pro.Employee_id && x.line_man == pro.line_man &&
-                                    x.HOD == pro.HOD))
+                                    x.HOD == pro.HOD) && pro.Employee_id != 0)
                                 {
                                     this.db.emprels.Add(pro);
                                     this.db.SaveChanges();
                                 }
                                 e:;
                             }
+                            brgoto: ;
                         }
                     }
                 }

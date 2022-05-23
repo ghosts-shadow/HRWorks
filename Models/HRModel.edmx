@@ -237,6 +237,8 @@
           <Property Name="approved_byhod" Type="nvarchar(max)" />
           <Property Name="apstatus" Type="nvarchar(max)" />
           <Property Name="half" Type="bit" Nullable="false" />
+          <Property Name="imgpath" Type="nvarchar(max)" />
+          <Property Name="dateadded" Type="datetime" />
         </EntityType>
         <EntityType Name="emprel">
           <Key>
@@ -417,6 +419,7 @@
           <Property Name="half" Type="bit" Nullable="false" />
           <Property Name="actualchangedby" Type="nvarchar(max)" />
           <Property Name="actualchangeddateby" Type="date" />
+          <Property Name="imgpath" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="leave_absence">
           <Key>
@@ -1775,6 +1778,7 @@
           <Property Name="approved_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="approved_byHR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="apstatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
@@ -3247,6 +3251,8 @@
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_els_To_master_file" FromRole="employeeleavesubmition" ToRole="master_file" />
           <Property Name="approved_byline" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="approved_byhod" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dateadded" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_els_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -3457,6 +3463,7 @@
           <EntitySetMapping Name="Leaves">
             <EntityTypeMapping TypeName="HRModel.Leave">
               <MappingFragment StoreEntitySet="Leave">
+                <ScalarProperty Name="imgpath" ColumnName="imgpath" />
                 <ScalarProperty Name="apstatus" ColumnName="apstatus" />
                 <ScalarProperty Name="approved_byHR" ColumnName="approved_byHR" />
                 <ScalarProperty Name="approved_by" ColumnName="approved_by" />
@@ -4189,6 +4196,8 @@
           <EntitySetMapping Name="employeeleavesubmitions">
             <EntityTypeMapping TypeName="HRModel.employeeleavesubmition">
               <MappingFragment StoreEntitySet="employeeleavesubmition">
+                <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+                <ScalarProperty Name="imgpath" ColumnName="imgpath" />
                 <ScalarProperty Name="approved_byhod" ColumnName="approved_byhod" />
                 <ScalarProperty Name="approved_byline" ColumnName="approved_byline" />
                 <ScalarProperty Name="half" ColumnName="half" />
