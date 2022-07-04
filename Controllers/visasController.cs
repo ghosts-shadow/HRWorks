@@ -19,19 +19,27 @@ namespace HRworks.Controllers
 
         public void DownloadExcel(string search)
         {
-            List<visa> passexel;
+            List<visa> passexel = new List<visa>();
+            List<visa> passexel1;
             if (search != null)
             {
-                passexel = db.visas
+                passexel1 = db.visas
                     .Where(
                         x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
                     .ToList();
             }
             else
             {
-                passexel = db.visas.Include(p => p.master_file).ToList();
+                passexel1 = db.visas.Include(p => p.master_file).ToList();
             }
 
+            foreach (var a in passexel1.OrderBy(x => x.master_file.employee_no).ThenByDescending(y => y.date_changed))
+            {
+                if (!passexel.Exists(x => x.master_file.employee_no == a.master_file.employee_no))
+                {
+                    passexel.Add(a);
+                }
+            }
             ExcelPackage Ep = new ExcelPackage();
             ExcelWorksheet Sheet = Ep.Workbook.Worksheets.Add("visa".ToUpper());
             Sheet.Cells["A1"].Value = "employee no";

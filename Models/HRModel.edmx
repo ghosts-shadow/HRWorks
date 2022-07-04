@@ -135,6 +135,23 @@
           <Property Name="Mawaqif" Type="nvarchar(max)" />
           <Property Name="Immigration" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="certificatesavingtest&#x9;">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_id" Type="int" Nullable="false" />
+          <Property Name="certificate_type" Type="int" Nullable="false" />
+          <Property Name="destination" Type="nvarchar(max)" />
+          <Property Name="submition_date" Type="date" />
+        </EntityType>
+        <EntityType Name="certificatetype">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="certificate name " Type="nchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="contract">
           <Key>
             <PropertyRef Name="employee_id" />
@@ -166,6 +183,16 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="pro_username" Type="nvarchar(max)" />
           <Property Name="pro_password" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="detailsinarabic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_id" Type="int" Nullable="false" />
+          <Property Name="ARname" Type="nvarchar(max)" />
+          <Property Name="ARposition" Type="nvarchar(max)" />
+          <Property Name="ARnationality" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="DUTY_HANDOVER">
           <Key>
@@ -861,6 +888,18 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
+        <Association Name="FK_AR_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="detailsinarabic" Type="Self.detailsinarabic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="detailsinarabic">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_bank_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="bank_details" Type="Self.bank_details" Multiplicity="*" />
@@ -893,6 +932,30 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="CERTIFICATE_REQUEST">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_certificatereq_To_certificatetype">
+          <End Role="certificatetype" Type="Self.certificatetype" Multiplicity="1" />
+          <End Role="certificatesavingtest&#x9;" Type="Self.certificatesavingtest&#x9;" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="certificatetype">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="certificatesavingtest&#x9;">
+              <PropertyRef Name="certificate_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_certificatereq_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="certificatesavingtest&#x9;" Type="Self.certificatesavingtest&#x9;" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="certificatesavingtest&#x9;">
               <PropertyRef Name="employee_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1391,8 +1454,11 @@
           <EntitySet Name="bank_details" EntityType="Self.bank_details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BUSINESS_TRIP_REPORT " EntityType="Self.BUSINESS_TRIP_REPORT " Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CERTIFICATE_REQUEST" EntityType="Self.CERTIFICATE_REQUEST" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="certificatesavingtest&#x9;" EntityType="Self.certificatesavingtest&#x9;" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="certificatetype" EntityType="Self.certificatetype" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="contract" EntityType="Self.contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="contractlogin" EntityType="Self.contractlogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="detailsinarabic" EntityType="Self.detailsinarabic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DUTY_HANDOVER" EntityType="Self.DUTY_HANDOVER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emp_joi_sta_change" EntityType="Self.emp_joi_sta_change" Schema="dbo" store:Type="Tables" />
@@ -1432,6 +1498,10 @@
           <EntitySet Name="usernames" EntityType="Self.usernames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa" EntityType="Self.visa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AR_To_master_file" Association="Self.FK_AR_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="detailsinarabic" EntitySet="detailsinarabic" />
+          </AssociationSet>
           <AssociationSet Name="FK_bank_To_master_file" Association="Self.FK_bank_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="bank_details" EntitySet="bank_details" />
@@ -1443,6 +1513,14 @@
           <AssociationSet Name="FK_certificate_To_master_file" Association="Self.FK_certificate_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="CERTIFICATE_REQUEST" EntitySet="CERTIFICATE_REQUEST" />
+          </AssociationSet>
+          <AssociationSet Name="FK_certificatereq_To_certificatetype" Association="Self.FK_certificatereq_To_certificatetype">
+            <End Role="certificatetype" EntitySet="certificatetype" />
+            <End Role="certificatesavingtest&#x9;" EntitySet="certificatesavingtest&#x9;" />
+          </AssociationSet>
+          <AssociationSet Name="FK_certificatereq_To_master_file" Association="Self.FK_certificatereq_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="certificatesavingtest&#x9;" EntitySet="certificatesavingtest&#x9;" />
           </AssociationSet>
           <AssociationSet Name="FK_con_To_master_file" Association="Self.FK_con_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -1874,6 +1952,8 @@
           <NavigationProperty Name="emprels" Relationship="HRModel.FK_ehop_To_master_file" FromRole="master_file" ToRole="emprel" />
           <NavigationProperty Name="emprels1" Relationship="HRModel.FK_ere_To_master_file" FromRole="master_file" ToRole="emprel" />
           <NavigationProperty Name="emprels2" Relationship="HRModel.FK_erl_To_master_file" FromRole="master_file" ToRole="emprel" />
+          <NavigationProperty Name="certificatesavingtest_" Relationship="HRModel.FK_certificatereq_To_master_file" FromRole="master_file" ToRole="certificatesavingtest_" />
+          <NavigationProperty Name="detailsinarabics" Relationship="HRModel.FK_AR_To_master_file" FromRole="master_file" ToRole="detailsinarabic" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -2355,6 +2435,21 @@
           <AssociationSet Name="FK_erl_To_master_file" Association="HRModel.FK_erl_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emprel" EntitySet="emprels" />
+          </AssociationSet>
+          <EntitySet Name="certificatesavingtest_" EntityType="HRModel.certificatesavingtest_" />
+          <EntitySet Name="certificatetypes" EntityType="HRModel.certificatetype" />
+          <EntitySet Name="detailsinarabics" EntityType="HRModel.detailsinarabic" />
+          <AssociationSet Name="FK_certificatereq_To_certificatetype" Association="HRModel.FK_certificatereq_To_certificatetype">
+            <End Role="certificatetype" EntitySet="certificatetypes" />
+            <End Role="certificatesavingtest_" EntitySet="certificatesavingtest_" />
+          </AssociationSet>
+          <AssociationSet Name="FK_certificatereq_To_master_file" Association="HRModel.FK_certificatereq_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="certificatesavingtest_" EntitySet="certificatesavingtest_" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AR_To_master_file" Association="HRModel.FK_AR_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="detailsinarabic" EntitySet="detailsinarabics" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
@@ -3314,6 +3409,73 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="certificatesavingtest_">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_id" Type="Int32" Nullable="false" />
+          <Property Name="certificate_type" Type="Int32" Nullable="false" />
+          <Property Name="destination" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="submition_date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="certificatetype" Relationship="HRModel.FK_certificatereq_To_certificatetype" FromRole="certificatesavingtest_" ToRole="certificatetype" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_certificatereq_To_master_file" FromRole="certificatesavingtest_" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="certificatetype">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="certificate_name_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="certificatesavingtest_" Relationship="HRModel.FK_certificatereq_To_certificatetype" FromRole="certificatetype" ToRole="certificatesavingtest_" />
+        </EntityType>
+        <EntityType Name="detailsinarabic">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_id" Type="Int32" Nullable="false" />
+          <Property Name="ARname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ARposition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ARnationality" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_AR_To_master_file" FromRole="detailsinarabic" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_certificatereq_To_certificatetype">
+          <End Type="HRModel.certificatetype" Role="certificatetype" Multiplicity="1" />
+          <End Type="HRModel.certificatesavingtest_" Role="certificatesavingtest_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="certificatetype">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="certificatesavingtest_">
+              <PropertyRef Name="certificate_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_certificatereq_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.certificatesavingtest_" Role="certificatesavingtest_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="certificatesavingtest_">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AR_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.detailsinarabic" Role="detailsinarabic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="detailsinarabic">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4220,6 +4382,36 @@
                 <ScalarProperty Name="HOD" ColumnName="HOD" />
                 <ScalarProperty Name="line_man" ColumnName="line_man" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="certificatesavingtest_">
+            <EntityTypeMapping TypeName="HRModel.certificatesavingtest_">
+              <MappingFragment StoreEntitySet="certificatesavingtest&#x9;">
+                <ScalarProperty Name="submition_date" ColumnName="submition_date" />
+                <ScalarProperty Name="destination" ColumnName="destination" />
+                <ScalarProperty Name="certificate_type" ColumnName="certificate_type" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="certificatetypes">
+            <EntityTypeMapping TypeName="HRModel.certificatetype">
+              <MappingFragment StoreEntitySet="certificatetype">
+                <ScalarProperty Name="certificate_name_" ColumnName="certificate name " />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="detailsinarabics">
+            <EntityTypeMapping TypeName="HRModel.detailsinarabic">
+              <MappingFragment StoreEntitySet="detailsinarabic">
+                <ScalarProperty Name="ARnationality" ColumnName="ARnationality" />
+                <ScalarProperty Name="ARposition" ColumnName="ARposition" />
+                <ScalarProperty Name="ARname" ColumnName="ARname" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

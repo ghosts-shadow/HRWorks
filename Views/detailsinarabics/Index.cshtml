@@ -1,0 +1,58 @@
+﻿@model IEnumerable<HRworks.Models.detailsinarabic>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New" />
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("ImportExcel")'" value="Import" />
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ARname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ARposition)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ARnationality)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.master_file.employee_no)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.master_file.employee_name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ARname)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ARposition)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.ARnationality)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>
+</tr>
+}
+
+</table>

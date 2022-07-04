@@ -1,0 +1,26 @@
+﻿@model HRworks.Models.certificatetype
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>certificatetype</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.certificate_name_)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.certificate_name_)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

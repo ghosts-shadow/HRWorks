@@ -105,6 +105,12 @@
         <AssociationConnector Association="HRModel.FK_ehop_To_master_file" />
         <AssociationConnector Association="HRModel.FK_ere_To_master_file" />
         <AssociationConnector Association="HRModel.FK_erl_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.certificatesavingtest_" Width="1.5" PointX="8.75" PointY="20.625" />
+        <EntityTypeShape EntityType="HRModel.certificatetype" Width="1.5" PointX="6.5" PointY="23" />
+        <EntityTypeShape EntityType="HRModel.detailsinarabic" Width="1.5" PointX="2.75" PointY="104.875" />
+        <AssociationConnector Association="HRModel.FK_certificatereq_To_certificatetype" />
+        <AssociationConnector Association="HRModel.FK_certificatereq_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_AR_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

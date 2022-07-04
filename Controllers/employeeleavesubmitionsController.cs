@@ -337,13 +337,13 @@ namespace HRworks.Controllers
                     leaf.apstatus == "approved by line manager")
                 {
                     var templeave = new Leave();
-                    templeave.Date = employeeleavesubmition.Date;
-                    templeave.Start_leave = employeeleavesubmition.Start_leave;
-                    templeave.End_leave = employeeleavesubmition.End_leave;
-                    templeave.Return_leave = employeeleavesubmition.Return_leave;
-                    templeave.half = employeeleavesubmition.half;
-                    templeave.Employee_id = employeeleavesubmition.Employee_id;
-                    templeave.leave_type = employeeleavesubmition.leave_type;
+                    templeave.Date = leaf.Date;
+                    templeave.Start_leave = leaf.Start_leave;
+                    templeave.End_leave = leaf.End_leave;
+                    templeave.Return_leave = leaf.Return_leave;
+                    templeave.half = leaf.half;
+                    templeave.Employee_id = leaf.Employee_id;
+                    templeave.leave_type = leaf.leave_type;
                     templeave.actualchangedby = User.Identity.Name;
                     leavelistc.Add(templeave);
                 }
@@ -354,8 +354,14 @@ namespace HRworks.Controllers
                   x.End_leave >= employeeleavesubmition.Start_leave) ||
                  (x.Start_leave <= employeeleavesubmition.End_leave &&
                   x.End_leave >= employeeleavesubmition.End_leave)) &&
-                x.Employee_id == employeeleavesubmition.Employee_id))
+                x.Employee_id == employeeleavesubmition.Employee_id ))
             {
+                var testl = leavelistc.FindAll(x =>
+                    ((x.Start_leave <= employeeleavesubmition.Start_leave &&
+                      x.End_leave >= employeeleavesubmition.Start_leave) ||
+                     (x.Start_leave <= employeeleavesubmition.End_leave &&
+                      x.End_leave >= employeeleavesubmition.End_leave)) &&
+                    x.Employee_id == employeeleavesubmition.Employee_id);
                 ModelState.AddModelError("Start_leave", "already exists");
 
                 goto jderr;
@@ -364,7 +370,7 @@ namespace HRworks.Controllers
             if (leavelistc.Exists(x =>
                 (x.Start_leave >= employeeleavesubmition.Start_leave &&
                  x.End_leave <= employeeleavesubmition.End_leave) &&
-                x.Employee_id == employeeleavesubmition.Employee_id))
+                x.Employee_id == employeeleavesubmition.Employee_id ))
             {
                 ModelState.AddModelError("Start_leave", "already exists");
 

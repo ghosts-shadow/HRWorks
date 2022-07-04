@@ -1786,12 +1786,15 @@
 
             if (eddate.HasValue && eddate1.HasValue)
             {
+                // return this.View(cllist
+                //     .Where(x => ((x.Start_leave >= eddate && x.Start_leave <= eddate1) ||
+                //                  (x.Start_leave >= eddate && x.Start_leave <= eddate1 && x.Areturn_leave == null) ||
+                //                  (x.Areturn_leave >= eddate && x.Areturn_leave <= eddate1)) &&
+                //                 x.leave_type == leave_type.ToString())
+                //     .OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));
                 return this.View(cllist
-                    .Where(x => ((x.Start_leave >= eddate && x.Start_leave <= eddate1) ||
-                                 (x.Start_leave >= eddate && x.Start_leave <= eddate1 && x.Areturn_leave == null) ||
-                                 (x.Areturn_leave >= eddate && x.Areturn_leave <= eddate1)) &&
-                                x.leave_type == leave_type.ToString())
-                    .OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));
+                    .Where(x => ((eddate >= x.Start_leave && eddate1 <= x.Start_leave ) || (eddate <= x.End_leave && eddate1 >= x.End_leave)) &&
+                                x.leave_type == leave_type.ToString()).OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));
             }
 
             return this.View(new List<con_leavemodel>());

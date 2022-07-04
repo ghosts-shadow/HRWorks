@@ -76,6 +76,17 @@
                 @Html.CheckBox("HOD", new { @class = "radio-inline" })@Html.Label("HOD")<br />
                 @Html.CheckBox("Manager", new { @class = "radio-inline" })@Html.Label("manager")<br />
                 @Html.CheckBox("employee", new { @class = "radio-inline" })@Html.Label("employee")<br />
+                @Html.TextBoxFor(m => m.UserRole, new { @class = "form-control", @id = "roles" })
+                <div style="display: none">
+                    @Html.CheckBox("admin", new { @class = "radio-inline" })@Html.Label("admin")
+                    @Html.CheckBox("liquidation", new { @class = "radio-inline" })@Html.Label("liquidation")
+                    @Html.CheckBox("employee_EID", new { @class = "radio-inline" })@Html.Label("employee_EID")
+                    @Html.CheckBox("employee_INC", new { @class = "radio-inline" })@Html.Label("employee_INC")<br />
+                    @Html.CheckBox("employee_PASS", new { @class = "radio-inline" })@Html.Label("employee_PASS")
+                    @Html.CheckBox("employee_VLC", new { @class = "radio-inline" })@Html.Label("employee_VLC")<br />
+                    @Html.CheckBox("payrole", new { @class = "radio-inline" })@Html.Label("payrole")<br />
+                    @Html.CheckBox("registration", new { @class = "radio-inline" })@Html.Label("registration")<br />
+                </div>
             </div>
         </div>
     }

@@ -76,5 +76,8 @@ namespace HRworks.Models
         public virtual DbSet<leavecal2020> leavecal2020 { get; set; }
         public virtual DbSet<employeeleavesubmition> employeeleavesubmitions { get; set; }
         public virtual DbSet<emprel> emprels { get; set; }
+        public virtual DbSet<certificatesavingtest_> certificatesavingtest_ { get; set; }
+        public virtual DbSet<certificatetype> certificatetypes { get; set; }
+        public virtual DbSet<detailsinarabic> detailsinarabics { get; set; }
     }
 }

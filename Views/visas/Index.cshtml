@@ -41,7 +41,7 @@
 
     </div>
     <div>
-        <a href="@Url.Action("DownloadExcel","visa_and_labour_card",new{search=ViewBag.search})">Download Excel</a>
+        <a href="@Url.Action("DownloadExcel","visas",new{search=ViewBag.search})">Download Excel</a>
     </div>
     <div>
         @Html.PagedListPager((PagedList.IPagedList)Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, pagesize = ViewBag.pagesize }))
