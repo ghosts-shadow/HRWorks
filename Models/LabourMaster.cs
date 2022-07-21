@@ -19,11 +19,14 @@ namespace HRworks.Models
         {
             this.Attendances = new HashSet<Attendance>();
             this.Manpowerinoutforms = new HashSet<Manpowerinoutform>();
+            this.asignprojects = new HashSet<asignproject>();
+            this.overtimeemployeelists = new HashSet<overtimeemployeelist>();
+            this.towemps = new HashSet<towemp>();
         }
     
         public long ID { get; set; }
         public long EMPNO { get; set; }
-        public int ManPowerSupply { get; set; }
+        public long ManPowerSupply { get; set; }
         public string VisaSponser { get; set; }
         public string Person_Name { get; set; }
         public string Position { get; set; }
@@ -49,5 +52,12 @@ namespace HRworks.Models
         public virtual ICollection<Attendance> Attendances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Manpowerinoutform> Manpowerinoutforms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<asignproject> asignprojects { get; set; }
+        public virtual ManPowerSupplier ManPowerSupplier { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<overtimeemployeelist> overtimeemployeelists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<towemp> towemps { get; set; }
     }
 }

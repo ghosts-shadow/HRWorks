@@ -12,13 +12,16 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class username
+    public partial class AttendanceFreq
     {
-        public string full_name { get; set; }
-        public string aspnet_uid { get; set; }
-        public Nullable<int> employee_no { get; set; }
-
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual master_file master_file { get; set; }
+        public int ID { get; set; }
+        public string Description { get; set; }
+        public string Dec { get; set; }
+        public string Encoded_Absolute_URL { get; set; }
+        public string Item_Type { get; set; }
+        public string Path { get; set; }
+        public string URL_Path { get; set; }
+        public string Workflow_Instance_ID { get; set; }
+        public string File_Type { get; set; }
     }
 }

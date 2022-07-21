@@ -19,6 +19,12 @@ namespace HRworks.Models
         {
             this.MainTimeSheets = new HashSet<MainTimeSheet>();
             this.Manpowerinoutforms = new HashSet<Manpowerinoutform>();
+            this.asignprojects = new HashSet<asignproject>();
+            this.overtimerefs = new HashSet<overtimeref>();
+            this.promanlists = new HashSet<promanlist>();
+            this.towrefs = new HashSet<towref>();
+            this.towrefs1 = new HashSet<towref>();
+            this.weekendlists = new HashSet<weekendlist>();
         }
     
         public long ID { get; set; }
@@ -58,5 +64,17 @@ namespace HRworks.Models
         public virtual ICollection<MainTimeSheet> MainTimeSheets { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Manpowerinoutform> Manpowerinoutforms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<asignproject> asignprojects { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<overtimeref> overtimerefs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<promanlist> promanlists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<towref> towrefs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<towref> towrefs1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<weekendlist> weekendlists { get; set; }
     }
 }

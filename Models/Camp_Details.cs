@@ -12,13 +12,14 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class username
+    public partial class Camp_Details
     {
-        public string full_name { get; set; }
-        public string aspnet_uid { get; set; }
-        public Nullable<int> employee_no { get; set; }
-
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual master_file master_file { get; set; }
+        public int ID { get; set; }
+        public string Camp_Name { get; set; }
+        public string Camp_Location { get; set; }
+        public Nullable<System.DateTime> Start { get; set; }
+        public Nullable<System.DateTime> End { get; set; }
+        public bool Active { get; set; }
+        public string Remark { get; set; }
     }
 }

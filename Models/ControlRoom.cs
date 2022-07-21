@@ -12,13 +12,12 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class username
+    public partial class ControlRoom
     {
-        public string full_name { get; set; }
-        public string aspnet_uid { get; set; }
-        public Nullable<int> employee_no { get; set; }
-
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual master_file master_file { get; set; }
+        public int ID { get; set; }
+        public Nullable<System.DateTime> xDate { get; set; }
+        public Nullable<int> Room { get; set; }
+        public string Remark { get; set; }
+        public Nullable<int> EmpID { get; set; }
     }
 }

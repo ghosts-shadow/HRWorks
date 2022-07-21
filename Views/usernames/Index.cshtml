@@ -11,6 +11,9 @@
     <table class="table">
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.master_file.employee_no)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.full_name)
             </th>
             <th>
@@ -23,10 +26,30 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.master_file.employee_no)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.full_name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.AspNetUser.UserName)
+                </td>
+                <td>
+                    @{
+                        var roles = "";
+                        foreach (var role in item.AspNetUser.AspNetRoles)
+                        {
+                            if (roles != "")
+                            {
+                                roles = roles + "," + role.Name;
+                            }
+                            else
+                            {
+                                roles = role.Name;
+                            }
+                        }
+                    }
+                    @roles
                 </td>
             </tr>
         }

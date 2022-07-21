@@ -12,13 +12,13 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class username
+    public partial class promanlist
     {
-        public string full_name { get; set; }
-        public string aspnet_uid { get; set; }
-        public Nullable<int> employee_no { get; set; }
-
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual master_file master_file { get; set; }
+        public int Id { get; set; }
+        public long ManPowerSupplier { get; set; }
+        public long Project { get; set; }
+    
+        public virtual ManPowerSupplier ManPowerSupplier1 { get; set; }
+        public virtual ProjectList ProjectList { get; set; }
     }
 }

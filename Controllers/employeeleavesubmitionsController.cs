@@ -756,10 +756,8 @@ namespace HRworks.Controllers
                 using (var client = new SmtpClient())
                 {
                     client.Connect("outlook.office365.com", 587, false);
-
                     // Note: only needed if the SMTP server requires authentication
-                    client.Authenticate("timekeeper@citiscapegroup.com", "Vam15380");
-
+                    client.Authenticate("leave@citiscapegroup.com", "Vam15380");
                     client.Send(message);
                     client.Disconnect(true);
                 }

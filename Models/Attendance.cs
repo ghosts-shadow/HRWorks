@@ -12,9 +12,15 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+
     public partial class Attendance
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Attendance()
+        {
+            this.approvals = new HashSet<approval>();
+        }
+    
         public long ID { get; set; }
         public long EmpID { get; set; }
         public long SubMain { get; set; }
@@ -122,5 +128,7 @@ namespace HRworks.Models
     
         public virtual MainTimeSheet MainTimeSheet { get; set; }
         public virtual LabourMaster LabourMaster { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<approval> approvals { get; set; }
     }
 }

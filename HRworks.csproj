@@ -367,19 +367,28 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\approval.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\asignproject.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetRole.cs">
-      <DependentUpon>HRModel.tt</DependentUpon>
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUser.cs">
-      <DependentUpon>HRModel.tt</DependentUpon>
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserClaim.cs">
-      <DependentUpon>HRModel.tt</DependentUpon>
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserLogin.cs">
-      <DependentUpon>HRModel.tt</DependentUpon>
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Attendance.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AttendanceFreq.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ATTENDANCE_ADJUSTMENT.cs">
@@ -390,6 +399,9 @@
     </Compile>
     <Compile Include="Models\BUSINESS_TRIP_REPORT_.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Camp_Details.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\certificatesavingtest_.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -406,9 +418,18 @@
     <Compile Include="Models\contractlogin.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ControlRoom.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\con_leavemodel.cs" />
+    <Compile Include="Models\Copy_of_Attendance.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CsPermission.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\C__MigrationHistory.cs">
-      <DependentUpon>HRModel.tt</DependentUpon>
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\decrycontracts.cs" />
     <Compile Include="Models\decrymodel.cs" />
@@ -424,6 +445,9 @@
     <Compile Include="Models\employeeleavesub.cs" />
     <Compile Include="Models\employeeleavesubmition.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmpPromise.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\emprel.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -507,6 +531,12 @@
     <Compile Include="Models\liquilist.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\liquisum.cs" />
+    <Compile Include="Models\LogIn.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MainShifting.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\MainTimeSheet.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
@@ -523,8 +553,20 @@
     <Compile Include="Models\master_file.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Mnth.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyCompanyInfo.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\OT_employee_list.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\overtimeemployeelist.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\overtimeref.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OVERTIME_APPROVAL.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -542,18 +584,42 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\paysavedlist.cs" />
+    <Compile Include="Models\PPP.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Pprint.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PROBATION_ASSESSMENT.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProjectList.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\promanlist.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Reconsilationmodel.cs" />
     <Compile Include="Models\rec_req_form.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RefsList.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Room_Details.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ShiftingFile.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Switchboard_Item.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Table.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblUser.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\timesheet.Context.cs">
       <AutoGen>True</AutoGen>
@@ -570,6 +636,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>timesheet.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\towemp.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\towref.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Training_Effectiveness.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -579,8 +651,17 @@
     <Compile Include="Models\Training_Request.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\trattfile.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserInfo.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\username.cs">
-      <DependentUpon>HRModel.tt</DependentUpon>
+      <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\USER_ROLES.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Utility.cs" />
     <Compile Include="Models\visa.cs">
@@ -588,6 +669,9 @@
     </Compile>
     <Compile Include="Models\visa_and_labour_card.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\weekendlist.cs">
+      <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\wpsmodel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -795,6 +879,11 @@
     <Content Include="arabic certificates\Salary Certificate.pdf" />
     <Content Include="arabic certificates\Employment Certificate.pdf" />
     <Content Include="arabic certificates\Letter to Immigration - Male.pdf" />
+    <Content Include="arabic certificates\Letter to Immigration - Female.pdf" />
+    <Content Include="arabic certificates\Driving License - Light - Male.pdf" />
+    <Content Include="arabic certificates\Driving License - Light - Female.pdf" />
+    <Content Include="arabic certificates\Driving Licence - Heavy - Male.pdf" />
+    <Content Include="arabic certificates\Driving Licence - Heavy - Female.pdf" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Models\timesheet.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

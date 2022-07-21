@@ -563,7 +563,321 @@ namespace HRworks.Controllers
                 Response.Flush();
                 Response.End();
             }
+            if (certificatesavingtest_.certificate_type == 8)
+            {
+                string filepath = Server.MapPath("~/arabic certificates/Letter to Immigration - Female.pdf");
+                string filepathout = Server.MapPath("~/arabic certificates/tempstore/Letter to Immigration - Female.pdf");
+
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                using (var document = PdfDocument.Load(filepath))
+                {
+                    using (var formattedText = new PdfFormattedText())
+                    {
+
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Right;
+                        formattedText.Language = new PdfLanguage("Arabic");
+                        formattedText.FontSize = 15.17;
+                        formattedText.Append(nameinar.ARname);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 472));
+                        formattedText.Clear();
+                        formattedText.Append(nameinar.ARnationality);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 447));
+                        formattedText.Clear();
+                        formattedText.Append(nameinar.ARposition);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 424));
+
+                    }
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Right;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(passport.passport_no);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 400));
+                       formattedText.Clear();
+                        formattedText.Append( "test"/*Unprotect(contract.salary_details)*/);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 378));
+                        formattedText.Clear();
+                        formattedText.Append(DateTime.Today.ToString("d"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(100, 701));
+
+                    }
+
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(120, 692));
+                        formattedText.Clear();
+                    }
+
+                    document.Save(filepathout);
+                    document.Close();
+                }
+                Response.Clear();
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("Content-Disposition", "attachment;filename=\"Letter to Immigration - Female.pdf\"");
+                Response.BinaryWrite(System.IO.File.ReadAllBytes(filepathout));
+                Response.Flush();
+                Response.End();
+            }
+            if (certificatesavingtest_.certificate_type == 9)
+            {
+                string filepath = Server.MapPath("~/arabic certificates/Driving License - Light - Male.pdf");
+                string filepathout = Server.MapPath("~/arabic certificates/tempstore/Driving License - Light - Male.pdf");
+
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                using (var document = PdfDocument.Load(filepath))
+                {
+                    using (var formattedText = new PdfFormattedText())
+                    {
+
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Right;
+                        formattedText.Language = new PdfLanguage("Arabic");
+                        formattedText.FontSize = 15.17;
+                        formattedText.Append(nameinar.ARname);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 531));
+                        formattedText.Clear();
+                        formattedText.Append(nameinar.ARnationality);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 507));
+
+                    }
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Right;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(passport.passport_no);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 481));
+                       formattedText.Clear();
+                        formattedText.Append(DateTime.Today.ToString("d"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(120, 741));
+
+                    }
+
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(135, 729));
+                        formattedText.Clear();
+                    }
+
+                    document.Save(filepathout);
+                    document.Close();
+                }
+                Response.Clear();
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("Content-Disposition", "attachment;filename=\"Driving License - Light - Male.pdf\"");
+                Response.BinaryWrite(System.IO.File.ReadAllBytes(filepathout));
+                Response.Flush();
+                Response.End();
+            }
+            if (certificatesavingtest_.certificate_type == 10)
+            {
+                string filepath = Server.MapPath("~/arabic certificates/Driving License - Light - Female.pdf");
+                string filepathout = Server.MapPath("~/arabic certificates/tempstore/Driving License - Light - Female.pdf");
+
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                using (var document = PdfDocument.Load(filepath))
+                {
+                    using (var formattedText = new PdfFormattedText())
+                    {
+
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Right;
+                        formattedText.Language = new PdfLanguage("Arabic");
+                        formattedText.FontSize = 15.17;
+                        formattedText.Append(nameinar.ARname);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 506));
+                        formattedText.Clear();
+                        formattedText.Append(nameinar.ARnationality);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 482));
+
+                    }
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Right;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(passport.passport_no);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 456));
+                       formattedText.Clear();
+                        formattedText.Append(DateTime.Today.ToString("d"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 731));
+
+                    }
+
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(135, 719));
+                        formattedText.Clear();
+                    }
+
+                    document.Save(filepathout);
+                    document.Close();
+                }
+                Response.Clear();
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("Content-Disposition", "attachment;filename=\"Driving License - Light - Female.pdf\"");
+                Response.BinaryWrite(System.IO.File.ReadAllBytes(filepathout));
+                Response.Flush();
+                Response.End();
+            }
+            if (certificatesavingtest_.certificate_type == 11)
+            {
+                string filepath = Server.MapPath("~/arabic certificates/Driving Licence - Heavy - Male.pdf");
+                string filepathout = Server.MapPath("~/arabic certificates/tempstore/Driving Licence - Heavy - Male.pdf");
+
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                using (var document = PdfDocument.Load(filepath))
+                {
+                    using (var formattedText = new PdfFormattedText())
+                    {
+
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Right;
+                        formattedText.Language = new PdfLanguage("Arabic");
+                        formattedText.FontSize = 15.17;
+                        formattedText.Append(nameinar.ARname);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 480));
+                        formattedText.Clear();
+                        formattedText.Append(nameinar.ARnationality);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 456));
+
+                    }
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Right;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(passport.passport_no);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 436));
+                       formattedText.Clear();
+                        formattedText.Append(DateTime.Today.ToString("d"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(105, 710));
+
+                    }
+
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 700));
+                        formattedText.Clear();
+                    }
+
+                    document.Save(filepathout);
+                    document.Close();
+                }
+                Response.Clear();
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("Content-Disposition", "attachment;filename=\"Driving Licence - Heavy - Male.pdf\"");
+                Response.BinaryWrite(System.IO.File.ReadAllBytes(filepathout));
+                Response.Flush();
+                Response.End();
+            }
+            if (certificatesavingtest_.certificate_type == 12)
+            {
+                string filepath = Server.MapPath("~/arabic certificates/Driving Licence - Heavy - female.pdf");
+                string filepathout = Server.MapPath("~/arabic certificates/tempstore/Driving Licence - Heavy - female.pdf");
+
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                using (var document = PdfDocument.Load(filepath))
+                {
+                    using (var formattedText = new PdfFormattedText())
+                    {
+
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Right;
+                        formattedText.Language = new PdfLanguage("Arabic");
+                        formattedText.FontSize = 15.17;
+                        formattedText.Append(nameinar.ARname);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 480));
+                        formattedText.Clear();
+                        formattedText.Append(nameinar.ARnationality);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 456));
+
+                    }
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Right;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(passport.passport_no);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 436));
+                       formattedText.Clear();
+                        formattedText.Append(DateTime.Today.ToString("d"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(105, 710));
+
+                    }
+
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 700));
+                        formattedText.Clear();
+                    }
+
+                    document.Save(filepathout);
+                    document.Close();
+                }
+                Response.Clear();
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("Content-Disposition", "attachment;filename=\"Driving Licence - Heavy - female.pdf\"");
+                Response.BinaryWrite(System.IO.File.ReadAllBytes(filepathout));
+                Response.Flush();
+                Response.End();
+            }
         end:;
+        }
+
+        public ActionResult hrcertificatesubmmit(int empno, int certificatetype, DateTime? endDate, string reason)
+        {
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+            return View();
         }
 
         /*
