@@ -6,13 +6,14 @@
 
 <h2>certificate requests</h2>
 
+<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("hrcertificatesubmmit")'" value="create new" />
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.certificatetype.certificate_name_)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.destination)
+            @Html.DisplayNameFor(model => model.destination)/reason
         </th>
         <th>
             @Html.DisplayNameFor(model => model.submition_date)

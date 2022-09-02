@@ -164,7 +164,7 @@ namespace HRworks.Controllers
                     }
 
                 }
-                if (!masteremp.Exists(x=>x.employee_no != model.EMPNO))
+                if (!masteremp.Exists(x=>x.employee_no == model.EMPNO))
                 {
                     ModelState.AddModelError("EMPNO","invalid emp no");
                     goto fail;

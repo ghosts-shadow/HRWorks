@@ -175,7 +175,7 @@ namespace HRworks.Controllers
                 ViewBag.submmites = "certificate request has been successfully submitted";
             }
 
-            ViewBag.certificatetype = new SelectList(db.certificatetypes, "Id", "certificate_name_");
+            ViewBag.certificatetype = new SelectList(db.certificatetypes.Where(x=>x.certificsatefor == "Employee"), "Id", "certificate_name_");
             return View();
         }
 

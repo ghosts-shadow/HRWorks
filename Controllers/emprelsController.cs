@@ -124,12 +124,25 @@ namespace HRworks.Controllers
         public ActionResult Edit([Bind(Include = "Id,Employee_id,line_man,HOD")] emprel emprel)
         {
             if (ModelState.IsValid)
-            {
+            {/*
+                var emp =this.db.master_file.Find(emprel.Employee_id);
+                var empLM =this.db.master_file.Find(emprel.line_man);
+                var empHOD = new master_file();
+                empHOD = null;
+                if (emprel.HOD != null)
+                { 
+                    empHOD = this.db.master_file.Find(emprel.HOD);
+                }*/
                 var dublicatecheck = this.db.emprels.ToList();
                 if (!dublicatecheck.Exists(x =>
                     x.Employee_id == emprel.Employee_id && x.line_man == emprel.line_man &&
                     x.HOD == emprel.HOD))
                 {
+                    var attachedEntity = db.emprels.Find(emprel.Id);
+                    if (attachedEntity != null && db.Entry(attachedEntity).State != EntityState.Detached)
+                    {
+                        db.Entry(attachedEntity).State = EntityState.Detached;
+                    }
                     db.Entry(emprel).State = EntityState.Modified;
                     db.SaveChanges();
                 }

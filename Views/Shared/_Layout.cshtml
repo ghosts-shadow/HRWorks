@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/favicon.ico")
@@ -208,7 +208,7 @@
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    if (!(User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager") || User.IsInRole("employee")|| User.IsInRole("registration")))
+                    if (!(User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager") || User.IsInRole("employee") || User.IsInRole("registration")))
                     {
                         <div class="dropdown dd1" id="dd1">
                             <button class="btn btn-primary dropdown-toggle" type="button" onclick='dd1()' style="background-color: #152939 !important; border-color: #152939">
@@ -234,19 +234,19 @@
                                 }
                             </ul>
                         </div>
-                        <div class="dropdown dd2" id="dd2">
-                            <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd2()" style="background-color: #152939 !important; border-color: #152939">
-                                Financial
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                @if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
-                                {
+                        if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
+                        {
+                            <div class="dropdown dd2" id="dd2">
+                                <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd2()" style="background-color: #152939 !important; border-color: #152939">
+                                    Financial
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
                                     <li>@Html.ActionLink("payroll", "Report", "Attendances")</li>
                                     <li>@Html.ActionLink("end of service", "EOSB", "end_of_service")</li>
-                                }
-                            </ul>
-                        </div>
+                                </ul>
+                            </div>
+                        }
                         <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
                         <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
                         <li>@Html.ActionLink("attendance", "Index1", "hiks")</li>
@@ -259,17 +259,19 @@
                         {
                             <li>@Html.ActionLink("uploaddata", "Index", "uploaddata")</li>
                             <li>@Html.ActionLink("user name", "index", "usernames")</li>
+                            <li>@Html.ActionLink("certificates", "Index", "certificatesavingtest_")</li>
                         }
                     }
                     else
                     {
-                        if(!User.IsInRole("registration"))
+                        if (!User.IsInRole("registration"))
                         {
                             <li>@Html.ActionLink("leave", "Index", "employeeleavesubmitions")</li>
                             if (User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager"))
                             {
                                 <li>@Html.ActionLink("approvals", "empleaveap", "employeeleavesubmitions")</li>
                             }
+                            //<li>@Html.ActionLink("certificate request", "subcertificatereq", "detailsinarabics")</li>
                         }
                     }
                 }

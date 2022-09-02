@@ -1,14 +1,16 @@
-﻿@model IEnumerable<HRworks.Models.employeeleavesubmition>
+﻿@using Microsoft.Ajax.Utilities
+@model IEnumerable<HRworks.Models.employeeleavesubmition>
 
 @{
     ViewBag.Title = "empleaveap";
 }
-
+<script>
+    var logend = '@ViewBag.logend';
+    if (logend == 'forcelogout') {
+        document.getElementById('logoutForm').submit();
+    }
+</script>
 <h2>leave approvals</h2>
-<p>
-    @if (!User.IsInRole("5e32cca6-ca41-4afb-bdf1-10fdbdf5a773")) { 
-    @Html.ActionLink("Create New leave", "Create")}
-</p>
 <table class="table">
     <tr>
         <th>
@@ -37,6 +39,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.half)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.imgpath)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.submitted_by)
@@ -106,7 +111,15 @@
         }
         @if (item.leave_type == "10")
         {
-            <i>PATERNITY</i>
+            <i> PATERNITY </i>
+        }
+        @if (item.leave_type == "11")
+        {
+            <i>SABBATICAL</i>
+        }
+        @if (item.leave_type == "12")
+        {
+            <i>STUDY</i>
         }
     </td>
     <td>
@@ -176,14 +189,19 @@
         }
     </td>
     <td>
+        @if (!item.imgpath.IsNullOrWhiteSpace())
+        {
+            <input type="submit" value=@Path.GetFileName(item.imgpath) class="btn btn-default" style="padding: 0; border: none; background: none;" onclick="window.location.href = '@Url.Action("Download", "employeeleavesubmitions", new {id = item.Id})'" />
+        }
+
+    </td>
+    <td>
         @Html.DisplayFor(modelItem => item.submitted_by)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.apstatus)
     </td>
     <td>
-        @Html.ActionLink("Details", "Details", new { id = item.Id })
-        
         <div class="row">
             <div class="col-md-2" style="display: block;">
                 <input type="submit" value="Approve" class="btn btn-default" style="color: green;" onclick="window.location.href = '@Url.Action("approve", "employeeleavesubmitions", new {id = item.Id})'"/>

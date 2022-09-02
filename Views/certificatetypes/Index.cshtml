@@ -14,6 +14,9 @@
         <th>
             @Html.DisplayNameFor(model => model.certificate_name_)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.certificsatefor)
+        </th>
         <th></th>
     </tr>
 
@@ -21,6 +24,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.certificate_name_)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.certificsatefor)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

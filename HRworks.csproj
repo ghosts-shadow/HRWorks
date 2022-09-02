@@ -374,16 +374,16 @@
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetRole.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUser.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserClaim.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserLogin.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Attendance.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
@@ -429,7 +429,7 @@
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\C__MigrationHistory.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\decrycontracts.cs" />
     <Compile Include="Models\decrymodel.cs" />
@@ -658,7 +658,7 @@
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\username.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\USER_ROLES.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
@@ -884,6 +884,18 @@
     <Content Include="arabic certificates\Driving License - Light - Female.pdf" />
     <Content Include="arabic certificates\Driving Licence - Heavy - Male.pdf" />
     <Content Include="arabic certificates\Driving Licence - Heavy - Female.pdf" />
+    <Content Include="arabic certificates\Experience Certificate - Arabic Female.pdf" />
+    <Content Include="arabic certificates\Experience Certificate - Arabic Male.pdf" />
+    <Content Include="arabic certificates\EXPERIENCE CERTIFICATE - english.pdf" />
+    <Content Include="arabic certificates\Resignation Notice Acceptance.pdf" />
+    <Content Include="arabic certificates\Termination Notice.pdf" />
+    <Content Include="arabic certificates\tempstore\Driving Licence - Heavy - female.pdf" />
+    <Content Include="Content\Uploads\1-9.csv" />
+    <Content Include="arabic certificates\sautinsoft pdfs\Termination Notice.pdf" />
+    <Content Include="arabic certificates\sautinsoft pdfs\Salary Certificate.pdf" />
+    <Content Include="arabic certificates\sautinsoft pdfs\Resignation Notice Acceptance.pdf" />
+    <Content Include="arabic certificates\sautinsoft pdfs\EXPERIENCE CERTIFICATE - english.pdf" />
+    <Content Include="arabic certificates\sautinsoft pdfs\Employment Certificate.pdf" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Models\timesheet.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1290,11 +1302,10 @@
     <Content Include="Views\certificatesavingtest_\Edit.cshtml" />
     <Content Include="Views\certificatesavingtest_\Index.cshtml" />
     <Content Include="Views\certificatesavingtest_\cer1.cshtml" />
+    <Content Include="Views\certificatesavingtest_\hrcertificatesubmmit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="arabic certificates\tempstore\" />
-    <Folder Include="Content\Uploads\" />
     <Folder Include="pdftohtml\" />
     <Folder Include="Views\allroles\" />
     <Folder Include="Views\upload\" />

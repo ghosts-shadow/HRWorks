@@ -34,7 +34,9 @@
                 new ListItem {Text = "Sick(industrial)", Value = "7"},
                 new ListItem {Text = "UDDAH", Value = "8"},
                 new ListItem {Text = "ESCORT", Value = "9"},
-                new ListItem {Text = "PATERNITY ", Value = "10"}
+                new ListItem {Text = "PATERNITY ", Value = "10"},
+                new ListItem {Text = "SABBATICAL", Value = "11"},
+                new ListItem {Text = "STUDY LEAVE ", Value = "12"}
             };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
@@ -80,7 +82,9 @@
                 new ListItem {Text = "Sick(industrial)", Value = "7"},
                 new ListItem {Text = "UDDAH", Value = "8"},
                 new ListItem {Text = "ESCORT", Value = "9"},
-                new ListItem {Text = "PATERNITY ", Value = "10"}
+                new ListItem {Text = "PATERNITY ", Value = "10"},
+                new ListItem {Text = "SABBATICAL", Value = "11"},
+                new ListItem {Text = "STUDY LEAVE ", Value = "12"}
             };
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
@@ -148,6 +152,21 @@
                 goto jderr;
             }
 
+            if (leavelistc.Exists(x => x.leave_type == "5" &&
+                                       x.Employee_id == leave.Employee_id))
+            {
+                ModelState.AddModelError("leave_type", "already taken once");
+                goto jderr;
+            }
+            if (leave.leave_type == "5")
+            {
+                var datediff = (leave.End_leave - leave.Start_leave).Value.TotalDays + 1;
+                if (datediff > 10)
+                {
+                    ModelState.AddModelError("leave_type", "maximum days allowed for haj are 10 ");
+                    goto jderr;
+                }
+            }
             if (fileBase != null)
             {
                 var i = 0;
@@ -258,18 +277,28 @@
             var leaves = new List<Leave>();
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
+            var duplist = new List<master_file>();
             foreach (var file in alist)
             {
-                if (afinallist.Count == 0)
-                {
-                    afinallist.Add(file);
-                }
-
+                var temp = file.employee_no;
+                var temp2 = file.last_working_day;
+                var temp3 = file.status;
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no))
                 {
-                    afinallist.Add(file);
+                    if (file.status != "inactive" && !file.last_working_day.HasValue)
+                    {
+                        if (!duplist.Exists(x => x.employee_no == file.employee_no))
+                        {
+                            afinallist.Add(file);
+                        }
+                    }
+                    else
+                    {
+                        duplist.Add(file);
+                    }
                 }
             }
+
 
             if (days.HasValue)
             {
@@ -277,7 +306,7 @@
                 {
                     forfitedbalence(file.employee_id);
                 }
-                var leaveballist = this.db.leavecal2020.Where(x => x.leave_balance <= days.Value).ToList();
+                var leaveballist = this.db.leavecal2020.Where(x => x.leave_balance >= days.Value).ToList();
                 foreach (var leavecal in leaveballist)
                 {
                     var leaveempid = this.db.Leaves.Where(x => x.Employee_id == leavecal.Employee_id)
@@ -305,7 +334,19 @@
                     }
                 }
 
-                passexel = leaves;
+                var leavesnew = new List<Leave>();
+                foreach (var leaf in leaves)
+                {
+                    if (leaf.leave_bal < days.Value)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        leavesnew.Add(leaf);
+                    }
+                }
+                passexel = leavesnew;
             }
             
             var Ep = new ExcelPackage();
@@ -371,6 +412,8 @@
                 double udd = 0;
                 double esco = 0;
                 double pater = 0;
+                double sab = 0;
+                double study = 0;
                 if (times != null)
                 {
                     var ump = leaves.ToList();
@@ -518,6 +561,32 @@
                                 if (times != null) pater += times.Value.TotalDays + 1;
                             }
                         }
+                        if (leaf.leave_type == "11")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) sab += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) sab += times.Value.TotalDays + 1;
+                            }
+                        }
+                        if (leaf.leave_type == "12")
+                        {
+                            if (leaf.half)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) study += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) study += times.Value.TotalDays + 1;
+                            }
+                        }
                     }
                     passexel = ump;
                     if (empjd.date_joined != null)
@@ -627,6 +696,14 @@
                 {
                     Sheet.Cells[string.Format("h{0}", row)].Value = "Paternity";
                 }
+                if (item.leave_type == "11")
+                {
+                    Sheet.Cells[string.Format("h{0}", row)].Value = "Sabbatical";
+                }
+                if (item.leave_type == "12")
+                {
+                    Sheet.Cells[string.Format("h{0}", row)].Value = "study";
+                }
 
                 if (item.half)
                 {
@@ -679,6 +756,8 @@
                 new ListItem {Text = "UDDAH", Value = "8"},
                 new ListItem {Text = "ESCORT", Value = "9"},
                 new ListItem {Text = "PATERNITY ", Value = "10"},
+                new ListItem {Text = "SABBATICAL", Value = "11"},
+                new ListItem {Text = "STUDY LEAVE ", Value = "12"}
             };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text", leave.leave_type);
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
@@ -713,7 +792,9 @@
                 new ListItem {Text = "Sick(industrial)", Value = "7"},
                 new ListItem {Text = "UDDAH", Value = "8"},
                 new ListItem {Text = "ESCORT", Value = "9"},
-                new ListItem {Text = "PATERNITY ", Value = "10"}
+                new ListItem {Text = "PATERNITY ", Value = "10"},
+                new ListItem {Text = "SABBATICAL", Value = "11"},
+                new ListItem {Text = "STUDY LEAVE ", Value = "12"}
             };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             ViewBag.search = search;
@@ -979,7 +1060,7 @@
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             int defaSize = 100;
             List<Leave> leaves = new List<Leave>();
-            leaves = this.db.Leaves.Where(x => x.actual_return_date == null).Include(l => l.master_file)
+            leaves = this.db.Leaves.Where(x => x.actual_return_date == null && x.Start_leave < DateTime.Today).Include(l => l.master_file)
                 .OrderBy(x => x.master_file.employee_no)
                 .ThenByDescending(x => x.Start_leave)
                 .ThenByDescending(x => x.master_file.employee_no).ToList();
@@ -1110,6 +1191,8 @@
                 double udd = 0;
                 double esco = 0;
                 double pater = 0;
+                double sab = 0;
+                double study = 0;
                 double availed = 0;
                 var favailed = 0d;
                 foreach (var leaf in ump)
@@ -1248,6 +1331,32 @@
                             if (times != null) pater += times.Value.TotalDays + 1;
                         }
                     }
+                    if (leaf.leave_type == "11")
+                    {
+                        if (leaf.half)
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) sab += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        else
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) sab += times.Value.TotalDays + 1;
+                        }
+                    }
+                    if (leaf.leave_type == "12")
+                    {
+                        if (leaf.half)
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) study += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        else
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) study += times.Value.TotalDays + 1;
+                        }
+                    }
                 }
 
                 this.ViewBag.udd = udd;
@@ -1257,6 +1366,8 @@
                 this.ViewBag.haj = haj;
                 this.ViewBag.sick = sick;
                 this.ViewBag.comp = comp;
+                this.ViewBag.sab = sab;
+                this.ViewBag.study = study;
                 this.ViewBag.lbal = leavebal2020.leave_balance;
                 this.ViewBag.per = leavebal2020.periodtill2020 + leavebal2020.periodafter2020;
                 this.ViewBag.aval = availed;
@@ -1539,18 +1650,24 @@
         {
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
+            var duplist = new List<master_file>();
             foreach (var file in alist)
             {
-                if (afinallist.Count == 0)
-                {
-                    afinallist.Add(file);
-                }
-
+                var temp = file.employee_no;
+                var temp2 = file.last_working_day;
+                var temp3 = file.status;
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no))
                 {
-                    if (file.status != "inactive")
+                    if (file.status != "inactive" && !file.last_working_day.HasValue)
                     {
-                        afinallist.Add(file);
+                        if (!duplist.Exists(x => x.employee_no == file.employee_no))
+                        {
+                            afinallist.Add(file);
+                        }
+                    }
+                    else
+                    {
+                        duplist.Add(file);
                     }
                 }
             }
@@ -1572,7 +1689,7 @@
                     foreach (var leaf in leaveempid)
                     {
                         leaf.leave_bal = leavecal.leave_balance;
-                        if (!leaves.Exists(x => x.Employee_id == leaf.Employee_id)) leaves.Add(leaf);
+                        if (!leaves.Exists(x => x.Employee_id == leaf.Employee_id) && afinallist.Exists(x => x.employee_id == leaf.Employee_id)) leaves.Add(leaf);
                     }
                 }
 
@@ -1738,7 +1855,9 @@
                 new ListItem {Text = "Sick(industrial)", Value = "7"},
                 new ListItem {Text = "UDDAH", Value = "8"},
                 new ListItem {Text = "ESCORT", Value = "9"},
-                new ListItem {Text = "PATERNITY ", Value = "10"}
+                new ListItem {Text = "PATERNITY ", Value = "10"},
+                new ListItem {Text = "SABBATICAL", Value = "11"},
+                new ListItem {Text = "STUDY LEAVE ", Value = "12"}
             };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             ViewBag.leaveval = leave_type;
@@ -1792,8 +1911,11 @@
                 //                  (x.Areturn_leave >= eddate && x.Areturn_leave <= eddate1)) &&
                 //                 x.leave_type == leave_type.ToString())
                 //     .OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));
+                // return this.View(cllist
+                //     .Where(x => ((eddate >= x.Start_leave && eddate1 <= x.Start_leave ) || (eddate <= x.End_leave && eddate1 >= x.End_leave)) &&
+                //                 x.leave_type == leave_type.ToString()).OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));
                 return this.View(cllist
-                    .Where(x => ((eddate >= x.Start_leave && eddate1 <= x.Start_leave ) || (eddate <= x.End_leave && eddate1 >= x.End_leave)) &&
+                    .Where(x => ((eddate <= x.Start_leave && eddate1 >= x.Start_leave) || (eddate >= x.End_leave && eddate1 <= x.End_leave)) &&
                                 x.leave_type == leave_type.ToString()).OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));
             }
 

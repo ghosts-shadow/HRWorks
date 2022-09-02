@@ -143,6 +143,14 @@
             {
                 <i>PATERNITY</i>
             }
+            @if (item.leave_type == "11")
+            {
+                <i>SABBATICAL</i>
+            }
+            @if (item.leave_type == "12")
+            {
+                <i>STUDY</i>
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Date)

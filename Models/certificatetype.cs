@@ -22,6 +22,7 @@ namespace HRworks.Models
     
         public int Id { get; set; }
         public string certificate_name_ { get; set; }
+        public string certificsatefor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<certificatesavingtest_> certificatesavingtest_ { get; set; }

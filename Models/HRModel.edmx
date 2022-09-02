@@ -150,7 +150,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="certificate name " Type="nchar" MaxLength="10" />
+          <Property Name="certificate name " Type="nvarchar(max)" />
+          <Property Name="certificsatefor" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="contract">
           <Key>
@@ -3428,6 +3429,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="certificate_name_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="certificatesavingtest_" Relationship="HRModel.FK_certificatereq_To_certificatetype" FromRole="certificatetype" ToRole="certificatesavingtest_" />
+          <Property Name="certificsatefor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="detailsinarabic">
           <Key>
@@ -4400,6 +4402,7 @@
           <EntitySetMapping Name="certificatetypes">
             <EntityTypeMapping TypeName="HRModel.certificatetype">
               <MappingFragment StoreEntitySet="certificatetype">
+                <ScalarProperty Name="certificsatefor" ColumnName="certificsatefor" />
                 <ScalarProperty Name="certificate_name_" ColumnName="certificate name " />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

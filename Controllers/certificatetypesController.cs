@@ -46,15 +46,15 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,certificate_name_")] certificatetype certificatetype)
+        public ActionResult Create([Bind(Include = "Id,certificate_name_,certificsatefor")] certificatetype certificatetype)
         {
+
             if (ModelState.IsValid)
             {
                 db.certificatetypes.Add(certificatetype);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(certificatetype);
         }
 
@@ -78,7 +78,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,certificate_name_")] certificatetype certificatetype)
+        public ActionResult Edit([Bind(Include = "Id,certificate_name_,certificsatefor")] certificatetype certificatetype)
         {
             if (ModelState.IsValid)
             {

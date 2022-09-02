@@ -53,9 +53,8 @@
         <td>forfited balance</td>
         <td>@ViewBag.forfited</td>
     </tr>
-    <tr>
-        <td style="background-color: #152939"></td>
-        <td style="background-color: #152939"></td>
+    <tr style="background-color: #152939;color: white">
+        <td colspan="2">total miscellaneous leave taken</td>
     </tr>
     <tr>
         <td>sick </td>
@@ -70,11 +69,11 @@
         <td>@ViewBag.mate</td>
     </tr>
     <tr>
-        <td>haj</td>
+        <td>hajj</td>
         <td>@ViewBag.haj</td>
     </tr>
     <tr>
-        <td>UDDAH</td>
+        <td>AL-UDDAH</td>
         <td>@ViewBag.udd</td>
     </tr>
     <tr>
@@ -83,6 +82,14 @@
     </tr>
     <tr>
         <td>paternity</td>
+        <td>@ViewBag.pater</td>
+    </tr>
+    <tr>
+        <td>sabbatical</td>
+        <td>@ViewBag.sab</td>
+    </tr>
+    <tr>
+        <td>study</td>
         <td>@ViewBag.pater</td>
     </tr>
 </table>
@@ -176,6 +183,14 @@
                 {
                     <i>PATERNITY</i>
                 }
+                @if (item.leave_type == "11")
+                {
+                    <i>SABBATICAL</i>
+                }
+                @if (item.leave_type == "12")
+                {
+                    <i>STUDY</i>
+                }
             </td>
             <td>
                 @*
@@ -244,7 +259,45 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.apstatus)
+                @*Html.DisplayFor(modelItem => item.apstatus)*@
+                @{
+                    var temp = "";
+                    if (ViewBag.rel == "line_man")
+                    {
+                        if (item.apstatus == "submitted")
+                        {
+                            temp = "pending line manager approval";
+                        }
+                        if (item.apstatus == "approved")
+                        {
+                            temp = "approved";
+                        }
+                        if (item.apstatus == "approved by line manager")
+                        {
+                            temp = "pending HOD approval";
+                        }
+
+                    }
+                    else
+                    {
+
+                        if (item.apstatus == "submitted")
+                        {
+                            temp = "pending HOD approval";
+                        }
+                        if (item.apstatus == "approved")
+                        {
+                            temp = "approved";
+                        }
+                        if (item.apstatus == "submitted for HR")
+                        {
+                            temp = "pending HR approval";
+
+                        }
+                    }
+                    @temp
+                }
+
             </td>
         </tr>
     }
