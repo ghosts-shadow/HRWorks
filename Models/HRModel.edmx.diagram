@@ -111,6 +111,9 @@
         <AssociationConnector Association="HRModel.FK_certificatereq_To_certificatetype" />
         <AssociationConnector Association="HRModel.FK_certificatereq_To_master_file" />
         <AssociationConnector Association="HRModel.FK_AR_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.empreturnfromleavesub" Width="1.5" PointX="14.5" PointY="19.25" />
+        <AssociationConnector Association="HRModel.FK_empretsub_To_leave" />
+        <AssociationConnector Association="HRModel.FK_empretsub_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

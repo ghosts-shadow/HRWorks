@@ -1,4 +1,5 @@
-﻿@model IEnumerable<HRworks.Models.employeeleavesubmition>
+﻿@using Microsoft.Ajax.Utilities
+@model IEnumerable<HRworks.Models.employeeleavesubmition>
 
 @{
     ViewBag.Title = "Index";
@@ -118,6 +119,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.half)
+        </th>
+        <th>
+            @Html.DisplayName("actual return date")
         </th>
         <th>Status</th>
     </tr>
@@ -259,6 +263,83 @@
                 }
             </td>
             <td>
+                @{
+                    if (item.empreturnfromleavesubs != null)
+                    {
+
+                        var erls = item.empreturnfromleavesubs.ToList();
+                        if (erls.Count != 0)
+                        {
+                            var subcheck = "";
+                            foreach (var empreturnfromleavesub in erls)
+                            {
+                                if (empreturnfromleavesub.actualreturnleave.HasValue && empreturnfromleavesub.apstatus == "approved")
+                                {
+                                    @empreturnfromleavesub.actualreturnleave.Value.ToString("dd MMM yyyy")
+                                }
+                                else if (empreturnfromleavesub.actualreturnleave.HasValue && empreturnfromleavesub.apstatus.Contains("submitted"))
+                                {
+                                    @empreturnfromleavesub.actualreturnleave.Value.ToString("dd MMM yyyy")
+                                    <br/>@empreturnfromleavesub.apstatus
+                                }
+                                else if (empreturnfromleavesub.apstatus == null)
+                                {
+                                    if (item.Return_leave <= DateTime.Today)
+                                    {
+                                        @Html.ActionLink("add return", "Create", "empreturnfromleavesubs", new { id = item.Id }, new { })
+                                    }
+                                }
+                                else if (empreturnfromleavesub.apstatus.Contains("rejected"))
+                                {
+                                    @Html.ActionLink("try again", "Create", "empreturnfromleavesubs", new { id = item.Id }, new { })
+                                    <p style="color: red">@empreturnfromleavesub.apstatus</p>
+                                }
+                                //else if (empreturnfromleavesub.apstatus.Contains("submitted") || empreturnfromleavesub.apstatus.Contains("approved"))
+                                if (empreturnfromleavesub != null)
+                                {
+                                    <br />
+                                    var temp1 = "";
+                                    if (ViewBag.rel == "line_man")
+                                    {
+                                        if (empreturnfromleavesub.apstatus == "submitted")
+                                        {
+                                            temp1 = "pending line manager approval";
+                                        }
+                                        if (empreturnfromleavesub.apstatus == "approved")
+                                        {
+                                            temp1 = "";
+                                        }
+                                        if (empreturnfromleavesub.apstatus == "approved by line manager")
+                                        {
+                                            temp1 = "pending HOD approval";
+                                        }
+
+                                    }
+                                    else
+                                    {
+
+                                        if (empreturnfromleavesub.apstatus == "submitted")
+                                        {
+                                            temp1 = "pending HOD approval";
+                                        }
+                                        if (empreturnfromleavesub.apstatus == "approved")
+                                        {
+                                            temp1 = "";
+                                        }
+                                        if (empreturnfromleavesub.apstatus == "submitted for HR")
+                                        {
+                                            temp1 = "pending HR approval";
+
+                                        }
+                                    }
+                                    @temp1
+                                }
+                            }
+                        }
+                    }
+                }
+            </td>
+            <td>
                 @*Html.DisplayFor(modelItem => item.apstatus)*@
                 @{
                     var temp = "";
@@ -267,14 +348,23 @@
                         if (item.apstatus == "submitted")
                         {
                             temp = "pending line manager approval";
+                            @temp
                         }
                         if (item.apstatus == "approved")
                         {
                             temp = "approved";
+                            @temp
                         }
                         if (item.apstatus == "approved by line manager")
                         {
                             temp = "pending HOD approval";
+                            @temp
+                        }
+                        if (item.apstatus.Contains("rejected"))
+                        {
+                            temp = item.apstatus;
+                            <p style="color: red">@temp</p>
+
                         }
 
                     }
@@ -284,18 +374,26 @@
                         if (item.apstatus == "submitted")
                         {
                             temp = "pending HOD approval";
+                            @temp
                         }
                         if (item.apstatus == "approved")
                         {
                             temp = "approved";
+                            @temp
                         }
                         if (item.apstatus == "submitted for HR")
                         {
                             temp = "pending HR approval";
+                            @temp
+
+                        }
+                        if (item.apstatus.Contains("rejected"))
+                        {
+                            temp = item.apstatus;
+                            <p style="color: red">@temp</p>
 
                         }
                     }
-                    @temp
                 }
 
             </td>

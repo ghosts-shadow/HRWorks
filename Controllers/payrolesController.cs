@@ -436,7 +436,7 @@ namespace HRworks.Controllers
         public ActionResult Index(DateTime? month, string save, string refresh)
         {
             var payroles = db.payroles.Include(p => p.contract).Include(p => p.Leave).Include(p => p.master_file);
-            var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
+            /*var alist = db.master_file.OrderBy(e => e.employee_no).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist.OrderByDescending(x => x.date_changed))
             {
@@ -444,6 +444,30 @@ namespace HRworks.Controllers
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no && x.status != "inactive"))
                     afinallist.Add(file);
+            }*/
+
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            var duplist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                var temp = file.employee_no;
+                var temp2 = file.last_working_day;
+                var temp3 = file.status;
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                {
+                    if (file.status != "inactive" && !file.last_working_day.HasValue)
+                    {
+                        if (!duplist.Exists(x => x.employee_no == file.employee_no))
+                        {
+                            afinallist.Add(file);
+                        }
+                    }
+                    else
+                    {
+                        duplist.Add(file);
+                    }
+                }
             }
 
             var paylist = new List<payrole>();
@@ -460,7 +484,8 @@ namespace HRworks.Controllers
                 mts = db1.MainTimeSheets.Where(
                         x => x.TMonth.Month == month.Value.Month && x.TMonth.Year == month.Value.Year
                                                                  && (x.ManPowerSupplier == 1 ||
-                                                                     x.ManPowerSupplier == 8))
+                                                                     x.ManPowerSupplier == 8 ||
+                                                                     x.ManPowerSupplier == 9))
                     .ToList();
 
                 var atlist = db1.Attendances.ToList();
@@ -469,7 +494,8 @@ namespace HRworks.Controllers
                     month.Value.Month,
                     DateTime.DaysInMonth(month.Value.Year, month.Value.Month));
                 var Msum = db1.MainTimeSheets.Where(
-                        y => (y.ManPowerSupplier == 1 || y.ManPowerSupplier == 8) &&
+                        y => (y.ManPowerSupplier == 1 || y.ManPowerSupplier == 8 ||
+                              y.ManPowerSupplier == 9) &&
                              y.TMonth.Month == month.Value.Month && y.TMonth.Year == month
                                  .Value.Year)
                     .ToList();
@@ -478,14 +504,16 @@ namespace HRworks.Controllers
                     mts_1 = db1.MainTimeSheets.Where(
                         x => x.TMonth.Month == 12 && x.TMonth.Year == (month.Value.Year - 1)
                                                   && (x.ManPowerSupplier == 1 ||
-                                                      x.ManPowerSupplier == 8)).ToList();
+                                                      x.ManPowerSupplier == 8 ||
+                                                      x.ManPowerSupplier == 9)).ToList();
                 }
                 else
                 {
                     mts_1 = db1.MainTimeSheets.Where(
                         x => x.TMonth.Month == (month.Value.Month - 1) && x.TMonth.Year == (month.Value.Year)
                                                                        && (x.ManPowerSupplier == 1 ||
-                                                                           x.ManPowerSupplier == 8)).ToList();
+                                                                           x.ManPowerSupplier == 8 ||
+                                                                           x.ManPowerSupplier == 9)).ToList();
                 }
 
                 var Msum_1 = mts_1;
@@ -521,6 +549,7 @@ namespace HRworks.Controllers
                         else
                             cony_1++;
                 }
+                
 
                 att_1 = passexel_1;
 //                var temp = afinallist.Find(x => x.employee_no == 101);
@@ -582,19 +611,313 @@ namespace HRworks.Controllers
                         var leave1 = new List<Leave>();
                         var leave2 = new List<Leave>();
                         var abslist1 = new List<leave_absence>();
+                        var currentyear = DateTime.Today.Year;
+                        var sickleaveind = new List<Leave>();
+                        var sickleavenonind = new List<Leave>();
+                        var sickleaveindhp = new List<Leave>();
+                        var sickleavenonindhp = new List<Leave>();
+                        var sickleaveindup = new List<Leave>();
+                        var sickleavenonindup = new List<Leave>();
+                        var maternityleave = new List<Leave>();
+                        var maternityleavehp = new List<Leave>();
+                        var maternityleaveup = new List<Leave>();
+                        var yearstart = new DateTime(currentyear, 1, 1);
+                        var yearend = new DateTime(currentyear, 12, 31);
+                        var sickleaveindlist = new List<Leave>();
+                        var sickleavenonindlist = new List<Leave>();
+                        var datecount = yearstart;
+                        var slindcount = 0d;
+                        var slindcounthalfex = 0d;
+                        var slnonindcount = 0d;
+                        var slnonindcounthalfex = 0d;
+                        var mlcount = 0d;
+                        var mlcounthalfex = 0d;
+                        do
+                        {
+                            var sickleaveindlist1 = db.Leaves.Where(
+                                x => x.Employee_id == masterFile.employee_id && x.leave_type == "7"
+                                                                             && x.Start_leave <= datecount
+                                                                             && x.End_leave >= datecount).ToList();
+                            var sickleavenonindlist1 = db.Leaves.Where(
+                                x => x.Employee_id == masterFile.employee_id && x.leave_type == "2"
+                                                                             && x.Start_leave <= datecount
+                                                                             && x.End_leave >= datecount).ToList();
+                            var maternityleavelist1 = db.Leaves.Where(
+                                x => x.Employee_id == masterFile.employee_id && x.leave_type == "4"
+                                                                             && x.Start_leave <= datecount
+                                                                             && x.End_leave >= datecount).ToList();
+                            foreach (var leaf in sickleaveindlist1)
+                            {
+                                slindcount++;
+                                slindcounthalfex++;
+                                if (!sickleaveind.Exists(x => x.Id == leaf.Id))
+                                {
+                                    sickleaveind.Add(leaf);
+                                    if (leaf.half)
+                                    {
+                                        slindcount -= 0.5;
+                                        slindcounthalfex -= 0.5;
+                                    }
+                                }
+
+                                if (slindcount > 180)
+                                {
+                                    var slindcounttemp = slindcount - 180;
+                                    var slindcounthalfextemp = slindcounthalfex - 180;
+                                    if (slindcounttemp > 180)
+                                    {
+                                        if (sickleaveindup.Exists(x => x.Start_leave == leaf.Start_leave))
+                                        {
+                                            var daysepleave = new Leave();
+                                            daysepleave.Start_leave = datecount;
+                                            daysepleave.End_leave = datecount;
+                                            daysepleave.leave_type = leaf.leave_type;
+                                            if ((slindcounthalfextemp % 1) == 0)
+                                            {
+                                                daysepleave.half = false;
+                                            }
+                                            else
+                                            {
+                                                daysepleave.half = true;
+                                                slindcounthalfextemp -= 0.5;
+                                            }
+                                            sickleaveindup.Add(daysepleave);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (sickleaveindhp.Exists(x => x.Start_leave == leaf.Start_leave))
+                                        {
+                                            var daysepleave = new Leave();
+                                            daysepleave.Start_leave = datecount;
+                                            daysepleave.End_leave = datecount;
+                                            daysepleave.leave_type = leaf.leave_type;
+                                            if ((slindcounthalfex % 1) == 0)
+                                            {
+                                                daysepleave.half = false;
+                                            }
+                                            else
+                                            {
+                                                daysepleave.half = true;
+                                                slindcounthalfex -= 0.5;
+                                            }
+                                            sickleaveindhp.Add(daysepleave);
+                                        }
+                                    }
+                                }
+                            }
+                            foreach (var leaf in sickleavenonindlist1)
+                            {
+                                slnonindcount++;
+                                slnonindcounthalfex++;
+                                if (!sickleavenonind.Exists(x => x.Id == leaf.Id))
+                                {
+                                    sickleavenonind.Add(leaf);
+                                    if (leaf.half)
+                                    {
+                                        slnonindcount -= 0.5;
+                                        slnonindcounthalfex -= 0.5;
+                                    }
+                                }
+                                if (slnonindcount > 15)
+                                {
+                                    var slnonindcounttemp = slindcount - 15;
+                                    var slnonindcounthalfextemp = slnonindcounthalfex - 15;
+                                    if (slnonindcounttemp > 30)
+                                    {
+                                        if (sickleaveindup.Exists(x => x.Start_leave == leaf.Start_leave))
+                                        {
+                                            var daysepleave = new Leave();
+                                            daysepleave.Start_leave = datecount;
+                                            daysepleave.End_leave = datecount;
+                                            daysepleave.leave_type = leaf.leave_type;
+                                            if ((slnonindcounthalfextemp % 1) == 0)
+                                            {
+                                                daysepleave.half = false;
+                                            }
+                                            else
+                                            {
+                                                daysepleave.half = true;
+                                                slnonindcounthalfextemp -= 0.5;
+                                            }
+                                            sickleaveindup.Add(daysepleave);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (sickleaveindhp.Exists(x => x.Start_leave == leaf.Start_leave))
+                                        {
+                                            var daysepleave = new Leave();
+                                            daysepleave.Start_leave = datecount;
+                                            daysepleave.End_leave = datecount;
+                                            daysepleave.leave_type = leaf.leave_type;
+                                            if ((slnonindcounthalfex % 1) == 0)
+                                            {
+                                                daysepleave.half = false;
+                                            }
+                                            else
+                                            {
+                                                daysepleave.half = true;
+                                                slnonindcounthalfex -= 0.5;
+                                            }
+                                            sickleaveindhp.Add(daysepleave);
+                                        }
+                                    }
+                                }
+                            }
+                            foreach (var leaf in maternityleavelist1)
+                            {
+                                mlcount++;
+                                mlcounthalfex++;
+                                if (!maternityleave.Exists(x => x.Id == leaf.Id))
+                                {
+                                    maternityleave.Add(leaf);
+                                    if (leaf.half)
+                                    {
+                                        mlcount -= 0.5;
+                                        mlcounthalfex -= 0.5;
+                                    }
+                                }
+                                if (mlcount > 45)
+                                {
+                                    var mlcounttemp = slindcount - 45;
+                                    var mlcounthalfextemp = mlcounthalfex - 45;
+                                    if (mlcounttemp > 15)
+                                    {
+                                        if (maternityleaveup.Exists(x => x.Start_leave == leaf.Start_leave))
+                                        {
+                                            var daysepleave = new Leave();
+                                            daysepleave.Start_leave = datecount;
+                                            daysepleave.End_leave = datecount;
+                                            daysepleave.leave_type = leaf.leave_type;
+                                            if ((mlcounthalfextemp % 1) == 0)
+                                            {
+                                                daysepleave.half = false;
+                                            }
+                                            else
+                                            {
+                                                daysepleave.half = true;
+                                                mlcounthalfextemp -= 0.5;
+                                            }
+                                            maternityleaveup.Add(daysepleave);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (maternityleavehp.Exists(x => x.Start_leave == leaf.Start_leave))
+                                        {
+                                            var daysepleave = new Leave();
+                                            daysepleave.Start_leave = datecount;
+                                            daysepleave.End_leave = datecount;
+                                            daysepleave.leave_type = leaf.leave_type;
+                                            if ((mlcounthalfex % 1) == 0)
+                                            {
+                                                daysepleave.half = false;
+                                            }
+                                            else
+                                            {
+                                                daysepleave.half = true;
+                                                mlcounthalfex -= 0.5;
+                                            }
+                                            maternityleavehp.Add(daysepleave);
+                                        }
+                                    }
+                                }
+                            }
+                            datecount = datecount.AddDays(1);
+                        } while (datecount < yearend);
+
                         var absd = 0;
+                        var mlcounthp = 0d;
+                        var mlcountup = 0d;
+                        var slindcounthp = 0d;
+                        var slindcountup = 0d;
+                        var slnonindcounthp = 0d;
+                        var slnonindcountup = 0d;
                         do
                         {
                             var leave1_1 = db.Leaves.Where(
                                 x => x.Employee_id == masterFile.employee_id && x.leave_type == "6"
-                                                                             && x.Start_leave <= leavedate1
-                                                                             && x.End_leave >= leavedate1).ToList();
+                                    && x.Start_leave <= leavedate1
+                                    && x.End_leave >= leavedate1).ToList();
                             var leave2_1 = db.Leaves.Where(
                                 x => x.Employee_id == masterFile.employee_id && x.Start_leave <= leavedate1
-                                                                             && x.End_leave >= leavedate1).ToList();
+                                    && x.End_leave >= leavedate1).ToList();
                             var abslist1_1 = db.leave_absence.Where(
                                 x => x.Employee_id == masterFile.employee_id && x.fromd <= leavedate1
-                                                                             && x.tod >= leavedate1).ToList();
+                                    && x.tod >= leavedate1).ToList();
+
+                            if (maternityleavehp.Exists(x =>
+                                x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                            {
+                                var temp = maternityleavehp.Find(x =>
+                                    x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                                mlcounthp++;
+                                if (temp.half)
+                                {
+                                    mlcounthp -= 0.5;
+                                }
+                            }
+
+                            if (maternityleaveup.Exists(x =>
+                                x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                            {
+                                var temp = maternityleaveup.Find(x =>
+                                    x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                                mlcountup++;
+                                if (temp.half)
+                                {
+                                    mlcountup -= 0.5;
+                                }
+                            }
+
+                            if (sickleaveindhp.Exists(x =>
+                                x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                            {
+                                var temp = sickleaveindhp.Find(x =>
+                                    x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                                slindcounthp++;
+                                if (temp.half)
+                                {
+                                    slindcounthp -= 0.5;
+                                }
+                            }
+
+                            if (sickleaveindup.Exists(x =>
+                                x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                            {
+                                var temp = sickleaveindup.Find(x =>
+                                    x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                                slindcountup++;
+                                if (temp.half)
+                                {
+                                    slindcountup -= 0.5;
+                                }
+                            }
+
+                            if (sickleavenonindhp.Exists(x =>
+                                x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                            {
+                                var temp = sickleavenonindhp.Find(x =>
+                                    x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                                slnonindcounthp++;
+                                if (temp.half)
+                                {
+                                    slnonindcounthp -= 0.5;
+                                }
+                            }
+
+                            if (sickleavenonindup.Exists(x =>
+                                x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                            {
+                                var temp = sickleavenonindup.Find(x =>
+                                    x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                                slnonindcountup++;
+                                if (temp.half)
+                                {
+                                    slnonindcountup -= 0.5;
+                                }
+                            }
                             foreach (var leaf in leave1_1)
                                 if (!leave1.Exists(x => x.Id == leaf.Id))
                                     leave1.Add(leaf);
@@ -2910,7 +3233,229 @@ namespace HRworks.Controllers
                             var leave1 = new List<Leave>();
                             var leave2 = new List<Leave>();
                             var abslist1 = new List<leave_absence>();
+                            var currentyear = DateTime.Today.Year;
+                            var sickleaveind = new List<Leave>();
+                            var sickleavenonind = new List<Leave>();
+                            var sickleaveindhp = new List<Leave>();
+                            var sickleavenonindhp = new List<Leave>();
+                            var sickleaveindup = new List<Leave>();
+                            var sickleavenonindup = new List<Leave>();
+                            var maternityleave = new List<Leave>();
+                            var maternityleavehp = new List<Leave>();
+                            var maternityleaveup = new List<Leave>();
+                            var yearstart = new DateTime(currentyear, 1, 1);
+                            var yearend = new DateTime(currentyear, 12, 31);
+                            var sickleaveindlist = new List<Leave>();
+                            var sickleavenonindlist = new List<Leave>();
+                            var datecount = yearstart;
+                            var slindcount = 0d;
+                            var slindcounthalfex = 0d;
+                            var slnonindcount = 0d;
+                            var slnonindcounthalfex = 0d;
+                            var mlcount = 0d;
+                            var mlcounthalfex = 0d;
+                            do
+                            {
+                                var sickleaveindlist1 = db.Leaves.Where(
+                                    x => x.Employee_id == masterFile.employee_id && x.leave_type == "7"
+                                                                                 && x.Start_leave <= datecount
+                                                                                 && x.End_leave >= datecount).ToList();
+                                var sickleavenonindlist1 = db.Leaves.Where(
+                                    x => x.Employee_id == masterFile.employee_id && x.leave_type == "2"
+                                                                                 && x.Start_leave <= datecount
+                                                                                 && x.End_leave >= datecount).ToList();
+                                var maternityleavelist1 = db.Leaves.Where(
+                                    x => x.Employee_id == masterFile.employee_id && x.leave_type == "4"
+                                                                                 && x.Start_leave <= datecount
+                                                                                 && x.End_leave >= datecount).ToList();
+                                foreach (var leaf in sickleaveindlist1)
+                                {
+                                    slindcount++;
+                                    slindcounthalfex++;
+                                    if (!sickleaveind.Exists(x => x.Id == leaf.Id))
+                                    {
+                                        sickleaveind.Add(leaf);
+                                        if (leaf.half)
+                                        {
+                                            slindcount -= 0.5;
+                                            slindcounthalfex -= 0.5;
+                                        }
+                                    }
+
+                                    if (slindcount > 180)
+                                    {
+                                        var slindcounttemp = slindcount - 180;
+                                        var slindcounthalfextemp = slindcounthalfex - 180;
+                                        if (slindcounttemp > 180)
+                                        {
+                                            if (sickleaveindup.Exists(x => x.Start_leave == leaf.Start_leave))
+                                            {
+                                                var daysepleave = new Leave();
+                                                daysepleave.Start_leave = datecount;
+                                                daysepleave.End_leave = datecount;
+                                                daysepleave.leave_type = leaf.leave_type;
+                                                if ((slindcounthalfextemp % 1) == 0)
+                                                {
+                                                    daysepleave.half = false;
+                                                }
+                                                else
+                                                {
+                                                    daysepleave.half = true;
+                                                    slindcounthalfextemp -= 0.5;
+                                                }
+                                                sickleaveindup.Add(daysepleave);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (sickleaveindhp.Exists(x => x.Start_leave == leaf.Start_leave))
+                                            {
+                                                var daysepleave = new Leave();
+                                                daysepleave.Start_leave = datecount;
+                                                daysepleave.End_leave = datecount;
+                                                daysepleave.leave_type = leaf.leave_type;
+                                                if ((slindcounthalfex % 1) == 0)
+                                                {
+                                                    daysepleave.half = false;
+                                                }
+                                                else
+                                                {
+                                                    daysepleave.half = true;
+                                                    slindcounthalfex -= 0.5;
+                                                }
+                                                sickleaveindhp.Add(daysepleave);
+                                            }
+                                        }
+                                    }
+                                }
+                                foreach (var leaf in sickleavenonindlist1)
+                                {
+                                    slnonindcount++;
+                                    slnonindcounthalfex++;
+                                    if (!sickleavenonind.Exists(x => x.Id == leaf.Id))
+                                    {
+                                        sickleavenonind.Add(leaf);
+                                        if (leaf.half)
+                                        {
+                                            slnonindcount -= 0.5;
+                                            slnonindcounthalfex -= 0.5;
+                                        }
+                                    }
+                                    if (slnonindcount > 15)
+                                    {
+                                        var slnonindcounttemp = slindcount - 15;
+                                        var slnonindcounthalfextemp = slnonindcounthalfex - 15;
+                                        if (slnonindcounttemp > 30)
+                                        {
+                                            if (sickleaveindup.Exists(x => x.Start_leave == leaf.Start_leave))
+                                            {
+                                                var daysepleave = new Leave();
+                                                daysepleave.Start_leave = datecount;
+                                                daysepleave.End_leave = datecount;
+                                                daysepleave.leave_type = leaf.leave_type;
+                                                if ((slnonindcounthalfextemp % 1) == 0)
+                                                {
+                                                    daysepleave.half = false;
+                                                }
+                                                else
+                                                {
+                                                    daysepleave.half = true;
+                                                    slnonindcounthalfextemp -= 0.5;
+                                                }
+                                                sickleaveindup.Add(daysepleave);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (sickleaveindhp.Exists(x => x.Start_leave == leaf.Start_leave))
+                                            {
+                                                var daysepleave = new Leave();
+                                                daysepleave.Start_leave = datecount;
+                                                daysepleave.End_leave = datecount;
+                                                daysepleave.leave_type = leaf.leave_type;
+                                                if ((slnonindcounthalfex % 1) == 0)
+                                                {
+                                                    daysepleave.half = false;
+                                                }
+                                                else
+                                                {
+                                                    daysepleave.half = true;
+                                                    slnonindcounthalfex -= 0.5;
+                                                }
+                                                sickleaveindhp.Add(daysepleave);
+                                            }
+                                        }
+                                    }
+                                }
+                                foreach (var leaf in maternityleavelist1)
+                                {
+                                    mlcount++;
+                                    mlcounthalfex++;
+                                    if (!maternityleave.Exists(x => x.Id == leaf.Id))
+                                    {
+                                        maternityleave.Add(leaf);
+                                        if (leaf.half)
+                                        {
+                                            mlcount -= 0.5;
+                                            mlcounthalfex -= 0.5;
+                                        }
+                                    }
+                                    if (mlcount > 45)
+                                    {
+                                        var mlcounttemp = slindcount - 45;
+                                        var mlcounthalfextemp = mlcounthalfex - 45;
+                                        if (mlcounttemp > 15)
+                                        {
+                                            if (maternityleaveup.Exists(x => x.Start_leave == leaf.Start_leave))
+                                            {
+                                                var daysepleave = new Leave();
+                                                daysepleave.Start_leave = datecount;
+                                                daysepleave.End_leave = datecount;
+                                                daysepleave.leave_type = leaf.leave_type;
+                                                if ((mlcounthalfextemp % 1) == 0)
+                                                {
+                                                    daysepleave.half = false;
+                                                }
+                                                else
+                                                {
+                                                    daysepleave.half = true;
+                                                    mlcounthalfextemp -= 0.5;
+                                                }
+                                                maternityleaveup.Add(daysepleave);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (maternityleavehp.Exists(x => x.Start_leave == leaf.Start_leave))
+                                            {
+                                                var daysepleave = new Leave();
+                                                daysepleave.Start_leave = datecount;
+                                                daysepleave.End_leave = datecount;
+                                                daysepleave.leave_type = leaf.leave_type;
+                                                if ((mlcounthalfex % 1) == 0)
+                                                {
+                                                    daysepleave.half = false;
+                                                }
+                                                else
+                                                {
+                                                    daysepleave.half = true;
+                                                    mlcounthalfex -= 0.5;
+                                                }
+                                                maternityleavehp.Add(daysepleave);
+                                            }
+                                        }
+                                    }
+                                }
+                                datecount = datecount.AddDays(1);
+                            } while (datecount < yearend);
+
                             var absd = 0;
+                            var mlcounthp = 0d;
+                            var mlcountup = 0d;
+                            var slindcounthp = 0d;
+                            var slindcountup = 0d;
+                            var slnonindcounthp = 0d;
+                            var slnonindcountup = 0d;
                             do
                             {
                                 var leave1_1 = db.Leaves.Where(
@@ -2923,6 +3468,78 @@ namespace HRworks.Controllers
                                 var abslist1_1 = db.leave_absence.Where(
                                     x => x.Employee_id == masterFile.employee_id && x.fromd <= leavedate1
                                         && x.tod >= leavedate1).ToList();
+
+                                if (maternityleavehp.Exists(x =>
+                                    x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                                {
+                                    var temp = maternityleavehp.Find(x =>
+                                        x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                                    mlcounthp++;
+                                    if (temp.half)
+                                    {
+                                        mlcounthp -= 0.5;
+                                    }
+                                }
+
+                                if (maternityleaveup.Exists(x =>
+                                    x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                                {
+                                    var temp = maternityleaveup.Find(x =>
+                                        x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                                    mlcountup++;
+                                    if (temp.half)
+                                    {
+                                        mlcountup -= 0.5;
+                                    }
+                                }
+
+                                if (sickleaveindhp.Exists(x =>
+                                    x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                                {
+                                    var temp = sickleaveindhp.Find(x =>
+                                        x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                                    slindcounthp++;
+                                    if (temp.half)
+                                    {
+                                        slindcounthp -= 0.5;
+                                    }
+                                }
+
+                                if (sickleaveindup.Exists(x =>
+                                    x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                                {
+                                    var temp = sickleaveindup.Find(x =>
+                                        x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                                    slindcountup++;
+                                    if (temp.half)
+                                    {
+                                        slindcountup -= 0.5;
+                                    }
+                                }
+
+                                if (sickleavenonindhp.Exists(x =>
+                                    x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                                {
+                                    var temp = sickleavenonindhp.Find(x =>
+                                        x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                                    slnonindcounthp++;
+                                    if (temp.half)
+                                    {
+                                        slnonindcounthp -= 0.5;
+                                    }
+                                }
+
+                                if (sickleavenonindup.Exists(x =>
+                                    x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                                {
+                                    var temp = sickleavenonindup.Find(x =>
+                                        x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                                    slnonindcountup++;
+                                    if (temp.half)
+                                    {
+                                        slnonindcountup -= 0.5;
+                                    }
+                                }
                                 foreach (var leaf in leave1_1)
                                     if (!leave1.Exists(x => x.Id == leaf.Id))
                                         leave1.Add(leaf);
@@ -4867,9 +5484,118 @@ namespace HRworks.Controllers
                             {
                                 payr.LWOP = leave1.OrderByDescending(x => x.Start_leave).First().Id;
                                 payr.Leave = leave1.OrderByDescending(x => x.Start_leave).First();
+                                if (!payr.Leave.days.HasValue)
+                                {
+                                    payr.Leave.days = 0;
+                                }
                                 payr.Leave.days = lowp;
                             }
+                            if (mlcounthp > 0 || mlcountup > 0)
+                            {
+                                payr.LWOP = maternityleave.OrderByDescending(x => x.Start_leave).First().Id;
+                                payr.Leave = maternityleave.OrderByDescending(x => x.Start_leave).First();
+                                if (!payr.Leave.days.HasValue)
+                                {
+                                    payr.Leave.days = 0;
+                                }
 
+                                if (mlcounthp!=0)
+                                {
+                                    var temp = 0.5 * (mlcounthp - (mlcounthp % 1)) + (mlcounthp % 1);
+
+                                    payr.Leave.days += (int)temp ;
+                                    if ((temp % 1) != 0)
+                                    {
+                                        payr.Leave.half = true;
+                                    }
+                                    else
+                                    {
+                                        payr.Leave.half = false;
+                                    }
+                                }
+                                if (mlcountup != 0)
+                                {
+                                    payr.Leave.days += (int)mlcountup;
+                                    if ((mlcountup % 1) != 0)
+                                    {
+                                        payr.Leave.half = true;
+                                    }
+                                    else
+                                    {
+                                        payr.Leave.half = false;
+                                    }
+                                }
+                            }
+                            if (slindcountup > 0 || slindcounthp > 0)
+                            {
+                                payr.LWOP = sickleaveind.OrderByDescending(x => x.Start_leave).First().Id;
+                                payr.Leave = sickleaveind.OrderByDescending(x => x.Start_leave).First();
+                                if (!payr.Leave.days.HasValue)
+                                {
+                                    payr.Leave.days = 0;
+                                }
+                                if (slindcounthp != 0)
+                                {
+                                    var temp = 0.5 * (slindcounthp - (slindcounthp % 1)) + (slindcounthp % 1);
+
+                                    payr.Leave.days += (int)temp;
+                                    if ((temp % 1) != 0)
+                                    {
+                                        payr.Leave.half = true;
+                                    }
+                                    else
+                                    {
+                                        payr.Leave.half = false;
+                                    }
+                                }
+                                if (slindcountup != 0)
+                                {
+                                    payr.Leave.days += (int)slindcountup;
+                                    if ((slindcountup % 1) != 0)
+                                    {
+                                        payr.Leave.half = true;
+                                    }
+                                    else
+                                    {
+                                        payr.Leave.half = false;
+                                    }
+                                }
+                            }
+                            if (slnonindcountup > 0 || slnonindcounthp > 0)
+                            {
+                                payr.LWOP = sickleavenonind.OrderByDescending(x => x.Start_leave).First().Id;
+                                payr.Leave = sickleavenonind.OrderByDescending(x => x.Start_leave).First();
+                                if (!payr.Leave.days.HasValue)
+                                {
+                                    payr.Leave.days = 0;
+                                }
+                                if (slnonindcounthp != 0)
+                                {
+                                    var temp = 0.5 * (slnonindcounthp - (slnonindcounthp % 1)) + (slnonindcounthp % 1);
+
+                                    payr.Leave.days += (int)temp;
+                                    if ((temp % 1) != 0)
+                                    {
+                                        payr.Leave.half = true;
+                                    }
+                                    else
+                                    {
+                                        payr.Leave.half = false;
+                                    }
+                                }
+                                if (mlcountup != 0)
+                                {
+                                    payr.Leave.days += (int)slnonindcountup;
+                                    if ((slnonindcountup % 1) != 0)
+                                    {
+                                        payr.Leave.half = true;
+                                    }
+                                    else
+                                    {
+                                        payr.Leave.half = false;
+                                    }
+                                }
+                            }
                             double.TryParse(Unprotect(con.basic), out var bac);
                             var basperh = bac * 12 / 365 / 8;
                             var leave21 = leave2.FindAll(
@@ -4897,7 +5623,14 @@ namespace HRworks.Controllers
                             var ldays = 0d;
                             if (payr.leave_absence != null) labs = payr.leave_absence.absence.Value;
 
-                            if (payr.Leave != null) ldays = payr.Leave.days.Value;
+                            if (payr.Leave != null)
+                            {
+                                ldays = payr.Leave.days.Value;
+                                if (payr.Leave.half)
+                                {
+                                    ldays += 0.5;
+                                }
+                            }
 
                             var TLWOP = (labs + ldays) * (sal * 12 / 365);
                             var fad = 0d;

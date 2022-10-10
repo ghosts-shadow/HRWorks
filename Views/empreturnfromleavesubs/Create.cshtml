@@ -1,0 +1,165 @@
+﻿@model HRworks.Models.empreturnfromleavesub
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+@{
+
+    var temp = "";
+    var stdate = new DateTime();
+    temp = ViewBag.Start_leave.ToString();
+    var temp2 = "";
+    var endate = new DateTime();
+    temp2 = ViewBag.End_leave.ToString();
+    var temp3 = "";
+    var rndate = new DateTime();
+    temp3 = ViewBag.Return_leave.ToString();
+    DateTime.TryParse(temp, out stdate);
+    DateTime.TryParse(temp2, out stdate);
+    DateTime.TryParse(temp3, out rndate);
+    var day = rndate.Day;
+    var month = rndate.Month - 1;
+    var year = rndate.Year;
+
+}
+<script>
+    var datetemp = new Date(@year, @month, @day);
+    $(function() {
+        $("#datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy",
+            minDate: datetemp
+        });
+    });
+</script>
+
+<style type="text/css">
+    input {
+        font-weight: bold;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <h2>add actual return date </h2>
+    <div class="form-horizontal">
+        @*
+            <h2>Create</h2>
+            <h4>empreturnfromleavesub</h4>
+                    <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Employee_id, "Employee_id", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+        @*
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.empsubleaveid, "empsubleaveid", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("empsubleaveid", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.empsubleaveid, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.submitted_by, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.submitted_by, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.submitted_by, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.approved_byline, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.approved_byline, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.approved_byline, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.approved_byhod, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.approved_byhod, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.approved_byhod, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.apstatus, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.apstatus, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.apstatus, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.dateadded, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.dateadded, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.dateadded, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        *@
+
+
+        <div class="form-group">
+            @Html.Label("from", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.Label(stdate.ToString("dd MMM yyyy"), new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("to", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.Label(stdate.ToString("dd MMM yyyy"), new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("return date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.Label(rndate.ToString("dd MMM yyyy"), new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("actual return date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.actualreturnleave, new { htmlAttributes = new { @class = "form-control", @id = "datepicker", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.actualreturnleave, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="text" value="@ViewBag.leaveid" style="display: none" name="leaveid" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+

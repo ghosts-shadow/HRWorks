@@ -29,9 +29,11 @@ namespace HRworks.Controllers
             var userempnolist = db.usernames
                 .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
             var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
+
+            var employeeleavesubmitions = new List<employeeleavesubmition>();
             if (empuser == null)
             {
-                return RedirectToAction("LogOff", "Account");
+                goto logend;
             }
 
             var empjd = empuser.master_file;
@@ -42,7 +44,7 @@ namespace HRworks.Controllers
                 ViewBag.rel = "line_man";
             }
 
-            var employeeleavesubmitions =
+            employeeleavesubmitions =
                 db.employeeleavesubmitions.ToList()
                     .FindAll(x => x.Employee_id == empjd.employee_id && (x.apstatus != "approved"));
             leafcon.forfitedbalence(empjd.employee_id);
@@ -70,6 +72,7 @@ namespace HRworks.Controllers
             foreach (var leaf in ump)
             {
                 var leavetoemp = new employeeleavesubmition();
+                leavetoemp.Id = leaf.Id;
                 leavetoemp.Date = leaf.Date;
                 leavetoemp.Start_leave = leaf.Start_leave;
                 leavetoemp.End_leave = leaf.End_leave;
@@ -80,6 +83,30 @@ namespace HRworks.Controllers
                 leavetoemp.half = leaf.half;
                 leavetoemp.toltal_requested_days = leaf.days;
                 leavetoemp.apstatus = "approved";
+                leavetoemp.empreturnfromleavesubs = new List<empreturnfromleavesub>();
+                var erllist = db.empreturnfromleavesubs.Where(y=>y.leaveid == leaf.Id ).OrderByDescending(x=>x.dateadded).ToList();
+                var empleavesubcheck = new empreturnfromleavesub();
+                var empreturn = new empreturnfromleavesub();
+                if (erllist.Count != 0)
+                {
+                    empleavesubcheck = erllist.First();
+                    empreturn.actualreturnleave = empleavesubcheck.actualreturnleave;
+                    empreturn.apstatus = empleavesubcheck.apstatus;
+                }
+                else
+                {
+                    empreturn.actualreturnleave = leaf.actual_return_date;
+                }
+                empreturn.Date = leavetoemp.Date;
+                empreturn.Employee_id = leavetoemp.Employee_id;
+                if (empreturn.actualreturnleave.HasValue)
+                {
+                    if (empleavesubcheck.apstatus == null && leaf.actual_return_date.HasValue)
+                    {
+                        empreturn.apstatus = "approved";
+                    }
+                }
+                leavetoemp.empreturnfromleavesubs.Add(empreturn);
                 employeeleavesubmitions.Add(leavetoemp);
                 if (leaf.Reference == null)
                 {
@@ -273,6 +300,10 @@ namespace HRworks.Controllers
             this.ViewBag.name = empjd.employee_name;
             this.ViewBag.no = empjd.employee_no;
             this.ViewBag.forfited = leavebal2020.forfitedafter2020 + leavebal2020.forfitedtill2020;
+            return View(employeeleavesubmitions.OrderByDescending(c=>c.Start_leave).ToList());
+
+            logend:;
+            ViewBag.logend = "forcelogout";
             return View(employeeleavesubmitions);
         }
 
@@ -311,7 +342,7 @@ namespace HRworks.Controllers
                 new ListItem {Text = "Haj", Value = "5"},
                 new ListItem {Text = "Unpaid", Value = "6"},
                 new ListItem {Text = "Sick(industrial)", Value = "7"},
-                new ListItem {Text = "UDDAH", Value = "8"},
+                new ListItem {Text = "AL UDDAH", Value = "8"},
                 new ListItem {Text = "ESCORT", Value = "9"},
                 new ListItem {Text = "PATERNITY ", Value = "10"},
                 new ListItem {Text = "SABBATICAL", Value = "11"},
@@ -343,7 +374,7 @@ namespace HRworks.Controllers
                 new ListItem {Text = "Haj", Value = "5"},
                 new ListItem {Text = "Unpaid", Value = "6"},
                 new ListItem {Text = "Sick(industrial)", Value = "7"},
-                new ListItem {Text = "UDDAH", Value = "8"},
+                new ListItem {Text = "AL UDDAH", Value = "8"},
                 new ListItem {Text = "ESCORT", Value = "9"},
                 new ListItem {Text = "PATERNITY ", Value = "10"},
                 new ListItem {Text = "SABBATICAL", Value = "11"},
@@ -386,7 +417,7 @@ namespace HRworks.Controllers
                     }
                 }
             }
-
+            
             foreach (var leaf in empsubleave)
             {
                 if (leaf.apstatus == "submitted" || leaf.apstatus == "submitted for HR" /*|| leaf.apstatus.Contains("rejected")*/ ||
@@ -402,6 +433,36 @@ namespace HRworks.Controllers
                     templeave.leave_type = leaf.leave_type;
                     templeave.actualchangedby = User.Identity.Name;
                     leavelistc.Add(templeave);
+                }
+            }
+
+            if (employeeleavesubmition.leave_type == "12")
+            {
+                var diff = 0d;
+                var difftemp = 0d;
+                var tempaluddah = leavelistc.FindAll(x => x.leave_type == "12");
+                foreach (var leaf in tempaluddah)
+                {
+                    diff += (leaf.End_leave.Value - leaf.Start_leave.Value).Days + 1;
+                    difftemp += (leaf.End_leave.Value - leaf.Start_leave.Value).Days + 1;
+                }
+
+                if (employeeleavesubmition.toltal_requested_days.HasValue)
+                {
+                    diff += employeeleavesubmition.toltal_requested_days.Value;
+                }
+                if (diff > 10)
+                {
+                    // if (diff - difftemp < 10)
+                    // {
+                    //     ModelState.AddModelError("toltal_requested_days", "insufficient balance ");
+                    //     goto jderr;
+                    // }
+                    // else
+                    {
+                        ModelState.AddModelError("toltal_requested_days", "insufficient balance");
+                        goto jderr;
+                    }
                 }
             }
 
@@ -423,13 +484,13 @@ namespace HRworks.Controllers
                 goto jderr;
             }
 
-            if (leavelistc.Exists(x => x.leave_type == "5" &&
+            if (leavelistc.Exists(x => employeeleavesubmition.leave_type == "5" &&
                                        x.Employee_id == employeeleavesubmition.Employee_id))
             {
                 ModelState.AddModelError("leave_type", "already taken once");
                 goto jderr;
             }
-
+            
             if (employeeleavesubmition.leave_type == "5")
             {
                 var datediff = (employeeleavesubmition.End_leave - employeeleavesubmition.Start_leave).Value.TotalDays +
@@ -495,16 +556,16 @@ namespace HRworks.Controllers
                 var fileexe = Path.GetExtension(fileBase.FileName);
                 var filepath = new DirectoryInfo("D:/HR/leave/");
                 serverfile =
-                    "D:/HR/leave/" + employeeleavesubmition.Employee_id; /*+ "/"+ passport.employee_no + fileexe;*/
+                    "D:/HR/leave/" + empuser.master_file.employee_no; /*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 do
                 {
-                    serverfile = "D:/HR/leave/" + employeeleavesubmition.master_file.employee_no + "/" +
-                                 employeeleavesubmition.master_file.employee_no + "_" + i +DateTime.Now.ToString("dd-MM-YY")+ fileexe;
+                    serverfile = "D:/HR/leave/" + empuser.master_file.employee_no + "/" +
+                                 empuser.master_file.employee_no + "_(" + i +")_"+DateTime.Now.ToString("dd-MM-YY")+ fileexe;
                     i++;
                 } while (System.IO.File.Exists(
-                    serverfile = "D:/HR/leave/" + employeeleavesubmition.master_file.employee_no + "/" +
-                                 employeeleavesubmition.master_file.employee_no + "_" + i + DateTime.Now.ToString("dd-MM-YY") + fileexe));
+                    serverfile = "D:/HR/leave/" + empuser.master_file.employee_no + "/" +
+                                 empuser.master_file.employee_no + "_(" + i + ")_" + DateTime.Now.ToString("dd-MM-YY") + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -518,32 +579,8 @@ namespace HRworks.Controllers
                 employeeleavesubmition.Employee_id = empuser.master_file.employee_id;
                 employeeleavesubmition.submitted_by = User.Identity.Name;
 
-                employeeleavesubmition.Date = DateTime.Today; /*
-                if (!serverfile.IsNullOrWhiteSpace() && (employeeleavesubmition.leave_type == "2" ||
-                                                         employeeleavesubmition.leave_type == "7"))
-                {
-                    employeeleavesubmition.apstatus = "approved";
-                    var leaveentry = new Leave();
-                    leaveentry.Date = employeeleavesubmition.Date;
-                    leaveentry.Start_leave = employeeleavesubmition.Start_leave;
-                    leaveentry.End_leave = employeeleavesubmition.End_leave;
-                    leaveentry.Return_leave = employeeleavesubmition.Return_leave;
-                    leaveentry.half = employeeleavesubmition.half;
-                    leaveentry.Employee_id = employeeleavesubmition.Employee_id;
-                    leaveentry.leave_type = employeeleavesubmition.leave_type;
-                    leaveentry.actualchangedby = User.Identity.Name;
-                    leaveentry.actualchangeddateby = DateTime.Now;
-                    db.Leaves.Add(leaveentry);
-                    db.SaveChanges();
-                    var sendmailtridsick = db.employeeleavesubmitions.ToList().Last();
-                    SendMail("", "approved", sendmailtridsick.Id);
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    employeeleavesubmition.apstatus = "submitted";
-                }*/
-                if ((employeeleavesubmition.leave_type == "2" || employeeleavesubmition.leave_type == "7"))
+                employeeleavesubmition.Date = DateTime.Today; 
+                if ((employeeleavesubmition.leave_type == "2" || employeeleavesubmition.leave_type == "7")|| employeeleavesubmition.leave_type == "11")
                 {
                     employeeleavesubmition.apstatus = "submitted for HR";
                     employeeleavesubmition.imgpath = serverfile;
@@ -683,6 +720,8 @@ namespace HRworks.Controllers
             return View(employeeleavesubmitions);
         }
 
+
+        /*
         public ActionResult approve(int id)
         {
             if (User.IsInRole("Manager"))
@@ -707,9 +746,15 @@ namespace HRworks.Controllers
                     leaveentry.half = employeeleavesubmition.half;
                     leaveentry.Employee_id = employeeleavesubmition.Employee_id;
                     leaveentry.leave_type = employeeleavesubmition.leave_type;
-                    leaveentry.actualchangedby = User.Identity.Name;
                     leaveentry.actualchangeddateby = DateTime.Now;
+                    leaveentry.actualchangedby = "added by system after approval " + User.Identity.Name;
+                    leaveentry.approved_by = User.Identity.Name;
+                    leaveentry.imgpath = employeeleavesubmition.imgpath;
                     db.Leaves.Add(leaveentry);
+                    db.SaveChanges();
+                    employeeleavesubmition.approved_byline = "N/A";
+                    employeeleavesubmition.approved_byhod = User.Identity.Name;
+                    db.Entry(employeeleavesubmition).State = EntityState.Modified;
                     db.SaveChanges();
                     SendMail("", "approved", id);
                     return RedirectToAction("empleaveap");
@@ -722,7 +767,7 @@ namespace HRworks.Controllers
                 return RedirectToAction("empleaveap");
             }
 
-            back: ;
+        back:;
             if (User.IsInRole("HOD") || User.IsInRole("EXTHOD"))
             {
                 var employeeleavesubmition = db.employeeleavesubmitions.Find(id);
@@ -735,8 +780,10 @@ namespace HRworks.Controllers
                 leaveentry.half = employeeleavesubmition.half;
                 leaveentry.Employee_id = employeeleavesubmition.Employee_id;
                 leaveentry.leave_type = employeeleavesubmition.leave_type;
-                leaveentry.actualchangedby = User.Identity.Name;
                 leaveentry.actualchangeddateby = DateTime.Now;
+                leaveentry.actualchangedby = "added by system after approval " + User.Identity.Name;
+                leaveentry.approved_by = User.Identity.Name;
+                leaveentry.imgpath = employeeleavesubmition.imgpath;
                 db.Leaves.Add(leaveentry);
                 db.SaveChanges();
                 employeeleavesubmition.approved_byline = User.Identity.Name;
@@ -758,8 +805,9 @@ namespace HRworks.Controllers
                 leaveentry.half = employeeleavesubmition.half;
                 leaveentry.Employee_id = employeeleavesubmition.Employee_id;
                 leaveentry.leave_type = employeeleavesubmition.leave_type;
-                leaveentry.actualchangedby = User.Identity.Name;
                 leaveentry.actualchangeddateby = DateTime.Now;
+                leaveentry.actualchangedby = "added by system after approval " + User.Identity.Name;
+                leaveentry.approved_by = User.Identity.Name;
                 leaveentry.imgpath = employeeleavesubmition.imgpath;
                 db.Leaves.Add(leaveentry);
                 db.SaveChanges();
@@ -771,35 +819,105 @@ namespace HRworks.Controllers
             }
 
             return RedirectToAction("empleaveap");
-        }
+        }*/
 
-        public ActionResult reject(int id, string message)
+        public ActionResult approve(int id)
         {
+            var employeeleavesubmitionlist = db.employeeleavesubmitions.ToList();
+            var employeeleavesubmition = employeeleavesubmitionlist.Find(x=>x.Id == id);
+            var leaveentry = new Leave();
+            leaveentry.Date = employeeleavesubmition.Date;
+            leaveentry.Start_leave = employeeleavesubmition.Start_leave;
+            leaveentry.End_leave = employeeleavesubmition.End_leave;
+            leaveentry.Return_leave = employeeleavesubmition.Return_leave;
+            leaveentry.half = employeeleavesubmition.half;
+            leaveentry.Employee_id = employeeleavesubmition.Employee_id;
+            leaveentry.leave_type = employeeleavesubmition.leave_type;
+            leaveentry.actualchangeddateby = DateTime.Now;
+            leaveentry.imgpath = employeeleavesubmition.imgpath;
+
             if (User.IsInRole("Manager"))
             {
-                var employeeleavesubmition = db.employeeleavesubmitions.Find(id);
+                if (employeeleavesubmition.apstatus == "approved by line manager")
+                {
+                    goto back;
+                }
+
+                var higherupchecklist = db.emprels.ToList();
+                var hihigherupcheck = higherupchecklist.Find(x => x.Employee_id == employeeleavesubmition.Employee_id);
+                if (!hihigherupcheck.HOD.HasValue)
+                {
+                    leaveentry.actualchangedby = "added by system after approval " + User.Identity.Name;
+                    leaveentry.approved_by = User.Identity.Name;
+                    leaveentry.imgpath = employeeleavesubmition.imgpath;
+                    db.Leaves.Add(leaveentry);
+                    db.SaveChanges();
+                    employeeleavesubmition.apstatus = "approved";
+                    employeeleavesubmition.approved_byline = "N/A";
+                    employeeleavesubmition.approved_byhod = User.Identity.Name;
+                    db.Entry(employeeleavesubmition).State = EntityState.Modified;
+                    db.SaveChanges();
+                    SendMail("", "approved", id);
+                    return RedirectToAction("empleaveap");
+                }
+                employeeleavesubmition.approved_byline = User.Identity.Name;
+                employeeleavesubmition.apstatus = "approved by line manager";
+                db.Entry(employeeleavesubmition).State = EntityState.Modified;
+                db.SaveChanges();
+                SendMail("", "approved by line manager", id);
+                return RedirectToAction("empleaveap");
+            }
+        back:;
+            if (User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("super_admin"))
+            {
+                leaveentry.actualchangedby = "added by system after approval " + User.Identity.Name;
+                leaveentry.approved_by = User.Identity.Name;
+                leaveentry.imgpath = employeeleavesubmition.imgpath;
+                db.Leaves.Add(leaveentry);
+                db.SaveChanges();
+                employeeleavesubmition.approved_byhod = User.Identity.Name;
+                employeeleavesubmition.apstatus = "approved";
+                db.Entry(employeeleavesubmition).State = EntityState.Modified;
+                db.SaveChanges();
+                SendMail("", "approved", id);
+                return RedirectToAction("empleaveap");
+            }
+
+            return RedirectToAction("empleaveap");
+        }
+        public ActionResult reject(int id, string message)
+        {
+            var employeeleavesubmition = db.employeeleavesubmitions.Find(id);
+            if (User.IsInRole("Manager"))
+            {
+                if (User.IsInRole("HOD"))
+                {
+                    goto hodtra;
+                }
                 employeeleavesubmition.apstatus = "rejected by line manager for " + message;
                 employeeleavesubmition.approved_byline = User.Identity.Name;
                 db.Entry(employeeleavesubmition).State = EntityState.Modified;
                 db.SaveChanges();
                 SendMail(message, "rejected by line manager for ", id);
+                return RedirectToAction("empleaveap");
             }
 
+            hodtra: ;
             if (User.IsInRole("HOD") || User.IsInRole("EXTHOD"))
             {
-                var employeeleavesubmition = db.employeeleavesubmitions.Find(id);
                 employeeleavesubmition.apstatus = "rejected by HOD for " + message;
-                employeeleavesubmition.approved_byline = User.Identity.Name;
+                employeeleavesubmition.approved_byhod = User.Identity.Name;
                 db.Entry(employeeleavesubmition).State = EntityState.Modified;
                 db.SaveChanges();
                 SendMail(message, "rejected by HOD for ", id);
+                return RedirectToAction("empleaveap");
             }
 
             if (User.IsInRole("super_admin"))
             {
-                var employeeleavesubmition = db.employeeleavesubmitions.Find(id);
                 employeeleavesubmition.apstatus = "rejected by HR for " + message;
-                employeeleavesubmition.approved_byline = User.Identity.Name;
+                employeeleavesubmition.approved_byhod = User.Identity.Name;
+                employeeleavesubmition.approved_byline = "N/A";
                 db.Entry(employeeleavesubmition).State = EntityState.Modified;
                 db.SaveChanges();
                 SendMail(message, "rejected by HR for ", id);
@@ -837,7 +955,7 @@ namespace HRworks.Controllers
             }
 
             var emplusersname = usernamelist.Find(x => x.employee_no == emprel.Employee_id);
-            message.From.Add(new MailboxAddress("Hrworks", "leave@citiscapegroup.com"));
+            message.From.Add(new MailboxAddress("Hrworks", "hrdepartment@citiscapegroup.com"));
 
             if (action.Equals("submitted"))
             {
@@ -847,9 +965,9 @@ namespace HRworks.Controllers
                 message.Subject = "leave approval";
                 message.Body = new TextPart("plain")
                 {
-                    Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  " +
-                           emplusersname.master_file.employee_no + " " +
-                           emplusersname.full_name + " " + desig + " has been submitted for your approval" + "\n\n\n" +
+                    Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for   (" +
+                           emplusersname.master_file.employee_no + ") " +
+                           emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
                            "http://hrworks.ddns.net:6333/citiworks/employeeleavesubmitions" + "\n\n\n" +
                            "Thanks Best Regards, "
                 };
@@ -861,9 +979,9 @@ namespace HRworks.Controllers
                 message.Subject = "leave approval";
                 message.Body = new TextPart("plain")
                 {
-                    Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  " +
-                           emplusersname.master_file.employee_no + " " +
-                           emplusersname.full_name + " " + desig + " has been submitted for your approval" + "\n\n\n" +
+                    Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for   (" +
+                           emplusersname.master_file.employee_no + ") " +
+                           emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
                            "http://hrworks.ddns.net:6333/citiworks/employeeleavesubmitions" + "\n\n\n" +
                            "Thanks Best Regards, "
                 };
@@ -880,9 +998,9 @@ namespace HRworks.Controllers
                     message.Subject = "leave approval";
                     message.Body = new TextPart("plain")
                     {
-                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  " +
-                               emplusersname.master_file.employee_no + " " +
-                               emplusersname.full_name + " " + desig + " has been approved by line manager " +
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  (" +
+                               emplusersname.master_file.employee_no + ") " +
+                               emplusersname.full_name + "-"  + desig + " has been approved by line manager " +
                                previoususersname.master_file.employee_name + " and forwarded for your approval" +
                                "\n\n\n" +
                                "http://hrworks.ddns.net:6333/citiworks/employeeleavesubmitions" + "\n\n\n" +
@@ -897,9 +1015,9 @@ namespace HRworks.Controllers
                     message.Subject = "leave approval";
                     message.Body = new TextPart("plain")
                     {
-                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  " +
-                               emplusersname.master_file.employee_no + " " +
-                               emplusersname.full_name + " " + desig + " has been approved" + "\n\n\n" +
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  (" +
+                               emplusersname.master_file.employee_no + ") " +
+                               emplusersname.full_name + "-" + desig + " has been approved" + "\n\n\n" +
                                "http://hrworks.ddns.net:6333/citiworks/employeeleavesubmitions" + "\n\n\n" +
                                "Thanks Best Regards, "
                     };
@@ -916,10 +1034,10 @@ namespace HRworks.Controllers
                     message.Subject = "leave approval";
                     message.Body = new TextPart("plain")
                     {
-                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  " +
-                               emplusersname.master_file.employee_no + " " +
-                               emplusersname.full_name + " " + desig + " has been rejected by line manager for " +
-                               message + "\n\n\n" + "\n\n\n" + "Thanks Best Regards, "
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  (" +
+                               emplusersname.master_file.employee_no + ") " +
+                               emplusersname.full_name + "-" + desig + " has been rejected by line manager for " +
+                               msg + "\n\n\n" + "\n\n\n" + "Thanks Best Regards, "
                     };
                 }
 
@@ -930,9 +1048,9 @@ namespace HRworks.Controllers
                     message.Subject = "leave approval";
                     message.Body = new TextPart("plain")
                     {
-                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  " +
-                               emplusersname.master_file.employee_no + " " +
-                               emplusersname.full_name + " " + desig + " has been rejected by HOD for " + message +
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for   (" +
+                               emplusersname.master_file.employee_no + ") " +
+                               emplusersname.full_name + "-" + desig + " has been rejected by HOD for " + msg +
                                "\n\n\n" + "\n\n\n" + "Thanks Best Regards, "
                     };
                 }
@@ -944,9 +1062,9 @@ namespace HRworks.Controllers
                     message.Subject = "leave approval";
                     message.Body = new TextPart("plain")
                     {
-                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  " +
-                               emplusersname.master_file.employee_no + " " +
-                               emplusersname.full_name + " " + desig + " has been rejected by HR for " + message +
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  (" +
+                               emplusersname.master_file.employee_no + ") " +
+                               emplusersname.full_name + "-" + desig + " has been rejected by HR for " + msg +
                                "\n\n\n" + "\n\n\n" + "Thanks Best Regards, "
                     };
                 }
@@ -958,7 +1076,7 @@ namespace HRworks.Controllers
                 {
                     client.Connect("outlook.office365.com", 587, false);
                     // Note: only needed if the SMTP server requires authentication
-                    client.Authenticate("leave@citiscapegroup.com", "Yab83702");
+                    client.Authenticate("hrdepartment@citiscapegroup.com", "Gap91093");
                     client.Send(message);
                     client.Disconnect(true);
                 }

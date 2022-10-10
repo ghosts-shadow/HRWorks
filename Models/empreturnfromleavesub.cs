@@ -7,47 +7,33 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class employeeleavesubmition
+    using System.ComponentModel.DataAnnotations;
+
+    public partial class empreturnfromleavesub
     {
         public int Id { get; set; }
         [Display(Name = "Employee ID")]
         public int Employee_id { get; set; }
-
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
         public System.DateTime Date { get; set; }
-        [Display(Name = "from")]
+        public int leaveid { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
-        public Nullable<System.DateTime> Start_leave { get; set; }
-
-        [Display(Name = "to")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
-        public Nullable<System.DateTime> End_leave { get; set; }
-
-        [Display(Name = "Return leave")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
-        public Nullable<System.DateTime> Return_leave { get; set; }
-
-        [Display(Name = "leave type")]
-        public string leave_type { get; set; }
-        [Display(Name = "days")]
-        public Nullable<double> toltal_requested_days { get; set; }
+        public Nullable<System.DateTime> actualreturnleave { get; set; }
+        [Display(Name = "submitted by")]
         public string submitted_by { get; set; }
-        public string apstatus { get; set; }
-        [Display(Name = "is half-day included")]
-        public bool half { get; set; }
+        [Display(Name = "approved by")]
         public string approved_byline { get; set; }
+        [Display(Name = "approved by")]
         public string approved_byhod { get; set; }
-        public string imgpath { get; set; }
+        public string apstatus { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> dateadded { get; set; }
-        public List<empreturnfromleavesub> empreturnfromleavesubs { get; set; }
-
+    
+        public virtual Leave Leave { get; set; }
         public virtual master_file master_file { get; set; }
     }
 }

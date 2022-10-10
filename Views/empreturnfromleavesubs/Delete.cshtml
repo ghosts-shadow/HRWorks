@@ -1,0 +1,96 @@
+﻿@model HRworks.Models.empreturnfromleavesub
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>empreturnfromleavesub</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.actualreturnleave)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.actualreturnleave)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.submitted_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.submitted_by)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.approved_byline)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.approved_byline)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.approved_byhod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.approved_byhod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.apstatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.apstatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateadded)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateadded)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.employeeleavesubmition.leave_type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employeeleavesubmition.leave_type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

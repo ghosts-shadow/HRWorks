@@ -33,7 +33,12 @@
         }
 
     </script>
-
+    <script>
+        var logend = '@ViewBag.logend';
+        if (logend == 'forcelogout') {
+            document.getElementById('logoutForm').submit();
+        }
+    </script>
     <script>
         document.onkeydown = function(e) {
 
@@ -269,7 +274,17 @@
                             <li>@Html.ActionLink("leave", "Index", "employeeleavesubmitions")</li>
                             if (User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager"))
                             {
-                                <li>@Html.ActionLink("approvals", "empleaveap", "employeeleavesubmitions")</li>
+                                
+                                <div class="dropdown dd2" id="dd2">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd2()" style="background-color: #152939 !important; border-color: #152939">
+                                        approvals
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("leave approvals", "empleaveap", "employeeleavesubmitions")</li>
+                                        <li>@Html.ActionLink("return approvals", "empreturnap", "empreturnfromleavesubs")</li>
+                                    </ul>
+                                </div>
                             }
                             //<li>@Html.ActionLink("certificate request", "subcertificatereq", "detailsinarabics")</li>
                         }

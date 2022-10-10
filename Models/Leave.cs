@@ -19,6 +19,7 @@ namespace HRworks.Models
         public Leave()
         {
             this.payroles = new HashSet<payrole>();
+            this.empreturnfromleavesubs = new HashSet<empreturnfromleavesub>();
         }
 
         [Display(Name = "Employee ID")]
@@ -82,5 +83,7 @@ namespace HRworks.Models
         public virtual master_file master_file { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<payrole> payroles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<empreturnfromleavesub> empreturnfromleavesubs { get; set; }
     }
 }

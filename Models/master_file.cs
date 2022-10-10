@@ -54,6 +54,7 @@ namespace HRworks.Models
             this.emprels2 = new HashSet<emprel>();
             this.certificatesavingtest_ = new HashSet<certificatesavingtest_>();
             this.detailsinarabics = new HashSet<detailsinarabic>();
+            this.empreturnfromleavesubs = new HashSet<empreturnfromleavesub>();
         }
 
 
@@ -167,5 +168,7 @@ namespace HRworks.Models
         public virtual ICollection<certificatesavingtest_> certificatesavingtest_ { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<detailsinarabic> detailsinarabics { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<empreturnfromleavesub> empreturnfromleavesubs { get; set; }
     }
 }

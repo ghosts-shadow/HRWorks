@@ -277,6 +277,21 @@
           <Property Name="line_man" Type="int" Nullable="false" />
           <Property Name="HOD" Type="int" />
         </EntityType>
+        <EntityType Name="empreturnfromleavesub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="leaveid" Type="int" Nullable="false" />
+          <Property Name="actualreturnleave" Type="date" />
+          <Property Name="submitted_by" Type="nvarchar(max)" />
+          <Property Name="approved_byline" Type="nvarchar(max)" />
+          <Property Name="approved_byhod" Type="nvarchar(max)" />
+          <Property Name="apstatus" Type="nvarchar(max)" />
+          <Property Name="dateadded" Type="datetime" />
+        </EntityType>
         <EntityType Name="end_of_service">
           <Key>
             <PropertyRef Name="Id" />
@@ -1089,6 +1104,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_empretsub_To_leave">
+          <End Role="Leave" Type="Self.Leave" Multiplicity="1" />
+          <End Role="empreturnfromleavesub" Type="Self.empreturnfromleavesub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Leave">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="empreturnfromleavesub">
+              <PropertyRef Name="leaveid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_empretsub_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="empreturnfromleavesub" Type="Self.empreturnfromleavesub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="empreturnfromleavesub">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_end_of_service_To_contract">
           <End Role="contract" Type="Self.contract" Multiplicity="0..1" />
           <End Role="end_of_service" Type="Self.end_of_service" Multiplicity="*" />
@@ -1465,6 +1504,7 @@
           <EntitySet Name="emp_joi_sta_change" EntityType="Self.emp_joi_sta_change" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="employeeleavesubmition" EntityType="Self.employeeleavesubmition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emprel" EntityType="Self.emprel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="empreturnfromleavesub" EntityType="Self.empreturnfromleavesub" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="end_of_service" EntityType="Self.end_of_service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EXIT_INTERVIEW" EntityType="Self.EXIT_INTERVIEW" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hik" EntityType="Self.hik" Schema="dbo" store:Type="Tables" />
@@ -1562,6 +1602,14 @@
           <AssociationSet Name="FK_els_To_master_file" Association="Self.FK_els_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="employeeleavesubmition" EntitySet="employeeleavesubmition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_empretsub_To_leave" Association="Self.FK_empretsub_To_leave">
+            <End Role="Leave" EntitySet="Leave" />
+            <End Role="empreturnfromleavesub" EntitySet="empreturnfromleavesub" />
+          </AssociationSet>
+          <AssociationSet Name="FK_empretsub_To_master_file" Association="Self.FK_empretsub_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="empreturnfromleavesub" EntitySet="empreturnfromleavesub" />
           </AssociationSet>
           <AssociationSet Name="FK_end_of_service_To_contract" Association="Self.FK_end_of_service_To_contract">
             <End Role="contract" EntitySet="contract" />
@@ -1858,6 +1906,7 @@
           <Property Name="approved_byHR" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="apstatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="empreturnfromleavesubs" Relationship="HRModel.FK_empretsub_To_leave" FromRole="Leave" ToRole="empreturnfromleavesub" />
         </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
@@ -1955,6 +2004,7 @@
           <NavigationProperty Name="emprels2" Relationship="HRModel.FK_erl_To_master_file" FromRole="master_file" ToRole="emprel" />
           <NavigationProperty Name="certificatesavingtest_" Relationship="HRModel.FK_certificatereq_To_master_file" FromRole="master_file" ToRole="certificatesavingtest_" />
           <NavigationProperty Name="detailsinarabics" Relationship="HRModel.FK_AR_To_master_file" FromRole="master_file" ToRole="detailsinarabic" />
+          <NavigationProperty Name="empreturnfromleavesubs" Relationship="HRModel.FK_empretsub_To_master_file" FromRole="master_file" ToRole="empreturnfromleavesub" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -2451,6 +2501,15 @@
           <AssociationSet Name="FK_AR_To_master_file" Association="HRModel.FK_AR_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="detailsinarabic" EntitySet="detailsinarabics" />
+          </AssociationSet>
+          <EntitySet Name="empreturnfromleavesubs" EntityType="HRModel.empreturnfromleavesub" />
+          <AssociationSet Name="FK_empretsub_To_leave" Association="HRModel.FK_empretsub_To_leave">
+            <End Role="Leave" EntitySet="Leaves" />
+            <End Role="empreturnfromleavesub" EntitySet="empreturnfromleavesubs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_empretsub_To_master_file" Association="HRModel.FK_empretsub_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="empreturnfromleavesub" EntitySet="empreturnfromleavesubs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
@@ -3478,6 +3537,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="empreturnfromleavesub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="leaveid" Type="Int32" Nullable="false" />
+          <Property Name="actualreturnleave" Type="DateTime" Precision="0" />
+          <Property Name="submitted_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="approved_byline" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="approved_byhod" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="apstatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dateadded" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Leave" Relationship="HRModel.FK_empretsub_To_leave" FromRole="empreturnfromleavesub" ToRole="Leave" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_empretsub_To_master_file" FromRole="empreturnfromleavesub" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_empretsub_To_leave">
+          <End Type="HRModel.Leave" Role="Leave" Multiplicity="1" />
+          <End Type="HRModel.empreturnfromleavesub" Role="empreturnfromleavesub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Leave">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="empreturnfromleavesub">
+              <PropertyRef Name="leaveid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_empretsub_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.empreturnfromleavesub" Role="empreturnfromleavesub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="empreturnfromleavesub">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4415,6 +4515,22 @@
                 <ScalarProperty Name="ARposition" ColumnName="ARposition" />
                 <ScalarProperty Name="ARname" ColumnName="ARname" />
                 <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="empreturnfromleavesubs">
+            <EntityTypeMapping TypeName="HRModel.empreturnfromleavesub">
+              <MappingFragment StoreEntitySet="empreturnfromleavesub">
+                <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+                <ScalarProperty Name="apstatus" ColumnName="apstatus" />
+                <ScalarProperty Name="approved_byhod" ColumnName="approved_byhod" />
+                <ScalarProperty Name="approved_byline" ColumnName="approved_byline" />
+                <ScalarProperty Name="submitted_by" ColumnName="submitted_by" />
+                <ScalarProperty Name="actualreturnleave" ColumnName="actualreturnleave" />
+                <ScalarProperty Name="leaveid" ColumnName="leaveid" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

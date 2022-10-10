@@ -327,6 +327,7 @@
     <Compile Include="Controllers\emirates_idController.cs" />
     <Compile Include="Controllers\employeeleavesubmitionsController.cs" />
     <Compile Include="Controllers\emprelsController.cs" />
+    <Compile Include="Controllers\empreturnfromleavesubsController.cs" />
     <Compile Include="Controllers\emp_joi_sta_changeController.cs" />
     <Compile Include="Controllers\end_of_serviceController.cs" />
     <Compile Include="Controllers\EXIT_INTERVIEWController.cs" />
@@ -450,6 +451,9 @@
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\emprel.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\empreturnfromleavesub.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\emp_joi_sta_change.cs">
@@ -842,13 +846,6 @@
     <Content Include="hrforms\TrainingEffectivenessFormR2.pdf" />
     <Content Include="hrforms\TrainingFeedbackEvaluationForm.pdf" />
     <Content Include="hrforms\TrainingRequestForm.pdf" />
-    <EntityDeploy Include="Models\HRModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\HRModel.edmx.diagram">
-      <DependentUpon>HRModel.edmx</DependentUpon>
-    </Content>
     <Content Include="arabic certificates\Salary Certificate - Arabic - Male.pdf" />
     <Content Include="Content\fonts\NotoNaskhArabic-VariableFont_wght.ttf" />
     <Content Include="Content\fonts\NotoSans-Black.ttf" />
@@ -896,6 +893,13 @@
     <Content Include="arabic certificates\sautinsoft pdfs\Resignation Notice Acceptance.pdf" />
     <Content Include="arabic certificates\sautinsoft pdfs\EXPERIENCE CERTIFICATE - english.pdf" />
     <Content Include="arabic certificates\sautinsoft pdfs\Employment Certificate.pdf" />
+    <EntityDeploy Include="Models\HRModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\HRModel.edmx.diagram">
+      <DependentUpon>HRModel.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Models\timesheet.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1303,6 +1307,12 @@
     <Content Include="Views\certificatesavingtest_\Index.cshtml" />
     <Content Include="Views\certificatesavingtest_\cer1.cshtml" />
     <Content Include="Views\certificatesavingtest_\hrcertificatesubmmit.cshtml" />
+    <Content Include="Views\empreturnfromleavesubs\Create.cshtml" />
+    <Content Include="Views\empreturnfromleavesubs\Delete.cshtml" />
+    <Content Include="Views\empreturnfromleavesubs\Details.cshtml" />
+    <Content Include="Views\empreturnfromleavesubs\Edit.cshtml" />
+    <Content Include="Views\empreturnfromleavesubs\Index.cshtml" />
+    <Content Include="Views\empreturnfromleavesubs\empreturnap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -173,14 +173,17 @@
                 var imgname = Path.GetFileName(fileBase.FileName);
                 var fileexe = Path.GetExtension(fileBase.FileName);
                 var filepath = new DirectoryInfo("D:/HR/leave/");
-                serverfile = "D:/HR/leave/" + leave.Employee_id; /*+ "/"+ passport.employee_no + fileexe;*/
+                serverfile =
+                    "D:/HR/leave/" + leave.master_file.employee_no; /*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 do
                 {
-                    serverfile = "D:/HR/leave/" + leave.Employee_id + "/" + leave.Employee_id + "_" + i + fileexe;
+                    serverfile = "D:/HR/leave/" + leave.master_file.employee_no + "/" +
+                                 leave.master_file.employee_no + "_(" + i + ")_" + DateTime.Now.ToString("dd-MM-YY") + fileexe;
                     i++;
                 } while (System.IO.File.Exists(
-                    serverfile = "D:/HR/leave/" + leave.Employee_id + "/" + leave.Employee_id + "_" + i + fileexe));
+                    serverfile = "D:/HR/leave/" + leave.master_file.employee_no + "/" +
+                                 leave.master_file.employee_no + "_(" + i + ")_" + DateTime.Now.ToString("dd-MM-YY") + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -806,14 +809,17 @@
                 var imgname = Path.GetFileName(fileBase.FileName);
                 var fileexe = Path.GetExtension(fileBase.FileName);
                 var filepath = new DirectoryInfo("D:/HR/leave/");
-                serverfile = "D:/HR/leave/" + leave.Employee_id; /*+ "/"+ passport.employee_no + fileexe;*/
+                serverfile =
+                    "D:/HR/leave/" + leave.master_file.employee_no; /*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 do
                 {
-                    serverfile = "D:/HR/leave/" + leave.Employee_id + "/" + leave.Employee_id + "_" + i + fileexe;
+                    serverfile = "D:/HR/leave/" + leave.master_file.employee_no + "/" +
+                                 leave.master_file.employee_no + "_(" + i + ")_" + DateTime.Now.ToString("dd-MM-YY") + fileexe;
                     i++;
                 } while (System.IO.File.Exists(
-                    serverfile = "D:/HR/leave/" + leave.Employee_id + "/" + leave.Employee_id + "_" + i + fileexe));
+                    serverfile = "D:/HR/leave/" + leave.master_file.employee_no + "/" +
+                                 leave.master_file.employee_no + "_(" + i + ")_" + DateTime.Now.ToString("dd-MM-YY") + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
