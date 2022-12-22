@@ -4,12 +4,74 @@
     ViewBag.Title = "submit certificate request";
 }
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy",
+            onSelect: function (date) {
 
-@using (Html.BeginForm()) 
+                var selectedDate = new Date(date);
+                var msecsInADay = 86400000;
+                var endDate = new Date(selectedDate.getTime());
+
+                //Set Minimum Date of EndDatePicker After Selected Date of StartDatePicker
+                $("#datepicker1").datepicker("option", "minDate", endDate);
+            }
+        });
+        $("#datepicker1").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy"
+        });
+        $("#certificatetype").chosen({ no_results_text: "Oops, nothing found!" });
+        $("#embassy").chosen({ no_results_text: "Oops, nothing found!" });
+        $("#Countryname").chosen({ no_results_text: "Oops, nothing found!" });
+        hideonval();
+    });
+</script>
+<script>
+    function hideonval() {
+        var certype = document.getElementById('certificatetype').value;
+        if (certype == "18") {
+            document.getElementById('defaulthide').style.display = "";
+            document.getElementById('defaulthide2').style.display = "";
+            document.getElementById('defaulthide3').style.display = "";
+            document.getElementById('embassy').required = true;
+            document.getElementById('datepicker').required = true;
+            document.getElementById('datepicker1').required = true;
+            document.getElementById('defaultshow').style.display = "none";
+        } else {
+            document.getElementById('defaulthide').style.display = "none";
+            document.getElementById('defaulthide2').style.display = "none";
+            document.getElementById('defaulthide3').style.display = "none";
+            document.getElementById('embassy').required = false;
+            document.getElementById('datepicker').required = false;
+            document.getElementById('datepicker1').required = false;
+            document.getElementById('defaultshow').style.display = "";
+        }
+    }
+</script>
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
+
+<div class="form-horizontal" onclick="hideonval()">
     <h4>certificate request</h4>
     <hr />
     <b style="">@ViewBag.submmites</b>
@@ -22,11 +84,267 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" id="defaulthide">
+        @Html.Label("embassy", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select class="form-control" name="embassy" id="embassy">
+                <option value="Embassy of Australia">Embassy of Australia</option>
+                <option value="Embassy Of The Arab Republic Of Egypt">Embassy Of The Arab Republic Of Egypt</option>
+                <option value="Embassy of the Republic of Cameroon">Embassy of the Republic of Cameroon</option>
+                <option value="Embassy of The Republic of Armenia">Embassy of The Republic of Armenia</option>
+                <option value="Embassy of The Federal Republic of Nigeria">Embassy of The Federal Republic of Nigeria</option>
+                <option value="Embassy of the Republic of Portugal">Embassy of the Republic of Portugal</option>
+                <option value="Embassy of Latvia">Embassy of Latvia</option>
+                <option value="Embassy Of The Republic Of Serbia">Embassy Of The Republic Of Serbia</option>
+                <option value="Embassy Of The Republic Of Mozambique">Embassy Of The Republic Of Mozambique</option>
+                <option value="Embassy Of The Republic Of Ghana">Embassy Of The Republic Of Ghana</option>
+                <option value="Embassy of Republic of Ecuador">Embassy of Republic of Ecuador</option>
+                <option value="Embassy Of Romania">Embassy Of Romania</option>
+                <option value="Royal Embassy of Bhutan">Royal Embassy of Bhutan</option>
+                <option value="Embassy of the Republic of Moldova">Embassy of the Republic of Moldova</option>
+                <option value="Embassy of the Republic of Seychelles">Embassy of the Republic of Seychelles</option>
+                <option value="Embassy of the Republic of Ivory Coast">Embassy of the Republic of Ivory Coast</option>
+                <option value="Embassy of the Hellenic Republic">Embassy of the Hellenic Republic</option>
+                <option value="Embassy of Kuwait">Embassy of Kuwait</option>
+                <option value="Embassy of Turkmenistan">Embassy of Turkmenistan</option>
+                <option value="Embassy of the Republic of Panama">Embassy of the Republic of Panama</option>
+                <option value="Embassy of the Republic of North Macedonia">Embassy of the Republic of North Macedonia</option>
+                <option value="Embassy of the Republic of Fiji">Embassy of the Republic of Fiji</option>
+                <option value="Embassy of The Republic Mali">Embassy of The Republic Mali</option>
+                <option value="Embassy of The Republic of Cuba">Embassy of The Republic of Cuba</option>
+                <option value="Embassy of The Republic of Malawi">Embassy of The Republic of Malawi</option>
+                <option value="Embassy of The Republic of Kyrgystan">Embassy of The Republic of Kyrgystan</option>
+                <option value="Embassy of Republic of Nicaragua">Embassy of Republic of Nicaragua</option>
+                <option value="Embassy of The Republic of Kenya">Embassy of The Republic of Kenya</option>
+                <option value="Embassy of The Republic Of Gambia">Embassy of The Republic Of Gambia</option>
+                <option value="Embassy of the Republic of Finland">Embassy of the Republic of Finland</option>
+                <option value="Embassy of The Kingdom of Tonga">Embassy of The Kingdom of Tonga</option>
+                <option value="Embassy of The Sultanate of Oman">Embassy of The Sultanate of Oman</option>
+                <option value="Embassy of Lao People's Democratic Republic">Embassy of Lao People's Democratic Republic</option>
+                <option value="Embassy of The Czech Republic">Embassy of The Czech Republic</option>
+                <option value="Embassy of The Republic of Benin">Embassy of The Republic of Benin</option>
+                <option value="Embassy Of Hungary">Embassy Of Hungary</option>
+                <option value="Embassy of The Republic of South Africa">Embassy of The Republic of South Africa</option>
+                <option value="Embassy of The Republic of Guinea">Embassy of The Republic of Guinea</option>
+                <option value="Embassy of The Republic of Philippine">Embassy of The Republic of Philippine</option>
+                <option value="Embassy of the Federal Democratic Republic of Ethiopia">Embassy of the Federal Democratic Republic of Ethiopia</option>
+                <option value="Embassy of the Socialist Republic of Vietnam">Embassy of the Socialist Republic of Vietnam</option>
+                <option value="Embassy of the Republic of Angola">Embassy of the Republic of Angola</option>
+                <option value="Embassy Of The Republic Of Albania">Embassy Of The Republic Of Albania</option>
+                <option value="Embassy of The Islamic Republic of Iran">Embassy of The Islamic Republic of Iran</option>
+                <option value="Embassy of Malaysia">Embassy of Malaysia</option>
+                <option value="Royal Embassy of Cambodia">Royal Embassy of Cambodia</option>
+                <option value="Embassy Of The Republic Of Slovenia">Embassy Of The Republic Of Slovenia</option>
+                <option value="Embassy of Republic of Maldives">Embassy of Republic of Maldives</option>
+                <option value="Embassy Of The Republic of Poland">Embassy Of The Republic of Poland</option>
+                <option value="Embassy of The Republic of Kazakhstan">Embassy of The Republic of Kazakhstan</option>
+                <option value="Embassy of the Republic of Uzbekistan">Embassy of the Republic of Uzbekistan</option>
+                <option value="Republic Of Rwanda">Republic Of Rwanda</option>
+                <option value="Embassy of the Republic of Paraguay">Embassy of the Republic of Paraguay</option>
+                <option value="Embassy of BurkinaFaso">Embassy of BurkinaFaso</option>
+                <option value="Embassy Of The Republic Of Türkiye">Embassy Of The Republic Of Türkiye</option>
+                <option value="Embassy of The Republic of Italy">Embassy of The Republic of Italy</option>
+                <option value="Embassy of the Grand Duchy of Luxembourg">Embassy of the Grand Duchy of Luxembourg</option>
+                <option value="Montenegro Embassy">Montenegro Embassy</option>
+                <option value="Embassy of The Republic of Azerbaijan">Embassy of The Republic of Azerbaijan</option>
+                <option value="New Zealand Embassy">New Zealand Embassy</option>
+                <option value="Embassy of The Islamic Republic of Afghanistan">Embassy of The Islamic Republic of Afghanistan</option>
+                <option value="Embassy of the Republic of Guinea Bissau">Embassy of the Republic of Guinea Bissau</option>
+                <option value="Embassy of Brunei Darussalam">Embassy of Brunei Darussalam</option>
+                <option value="Embassy of Ukraine">Embassy of Ukraine</option>
+                <option value="Embassy of The Islamic Republic of Pakistan">Embassy of The Islamic Republic of Pakistan</option>
+                <option value="Embassy of The Republic of Croatia">Embassy of The Republic of Croatia</option>
+                <option value="Embassy of Nepal">Embassy of Nepal</option>
+                <option value="Embassy of The Hashemite Kingdom of Jordan">Embassy of The Hashemite Kingdom of Jordan</option>
+                <option value="Embassy of the Republic of Costa Rica">Embassy of the Republic of Costa Rica</option>
+                <option value="Embassy of The Republic of Belarus">Embassy of The Republic of Belarus</option>
+                <option value="Embassy of Switzerland">Embassy of Switzerland</option>
+                <option value="Republic of Zimbabwe">Republic of Zimbabwe</option>
+                <option value="Royal Danish Embassy">Royal Danish Embassy</option>
+                <option value="Embassy of The United Republic of Tanzania">Embassy of The United Republic of Tanzania</option>
+                <option value="Embassy of the Republic of Lithuania">Embassy of the Republic of Lithuania</option>
+                <option value="Embassy Of The Democratic People's Republic Of Algeria">Embassy Of The Democratic People's Republic Of Algeria</option>
+                <option value="Embassy of Libya">Embassy of Libya</option>
+                <option value="Embassy of the Kingdom Of Norway">Embassy of the Kingdom Of Norway</option>
+                <option value="Embassy of Canada">Embassy of Canada</option>
+                <option value="Embassy Of The Republic Of Lebanon">Embassy Of The Republic Of Lebanon</option>
+                <option value="Embassy of The Kingdom of Sweden">Embassy of The Kingdom of Sweden</option>
+                <option value="Embassy of The State of Eritrea">Embassy of The State of Eritrea</option>
+                <option value="Embassy of The Republic of Zambia">Embassy of The Republic of Zambia</option>
+                <option value="Embassy of The Republic of Uruguay">Embassy of The Republic of Uruguay</option>
+                <option value="Embassy of the Arab Republic of Syria">Embassy of the Arab Republic of Syria</option>
+                <option value="Embassy of The Federal Republic of Brazil">Embassy of The Federal Republic of Brazil</option>
+                <option value="Embassy of the Republic of Kosovo">Embassy of the Republic of Kosovo</option>
+                <option value="Embassy of the Kingdom of the Netherlands">Embassy of the Kingdom of the Netherlands</option>
+                <option value="Embassy of The Kingdom of Saudi Arabia">Embassy of The Kingdom of Saudi Arabia</option>
+                <option value="Embassy of Sierra Leone">Embassy of Sierra Leone</option>
+                <option value="Embassy of The Republic of France">Embassy of The Republic of France</option>
+                <option value="Embassy of the Republic of Austria">Embassy of the Republic of Austria</option>
+                <option value="Embassy of the Republic of Singapore">Embassy of the Republic of Singapore</option>
+                <option value="Embassy of the Republic of Cyprus">Embassy of the Republic of Cyprus</option>
+                <option value="Embassy of the kingdom of Eswatini">Embassy of the kingdom of Eswatini</option>
+                <option value="Embassy of Mongolia">Embassy of Mongolia</option>
+                <option value="Embassy of The State of Palestine">Embassy of The State of Palestine</option>
+                <option value="Embassy of The Kingdom of Morocco">Embassy of The Kingdom of Morocco</option>
+                <option value="Embassy Of The Republic Of Tunisia">Embassy Of The Republic Of Tunisia</option>
+                <option value="Embassy of The Kingdom of Lesotho">Embassy of The Kingdom of Lesotho</option>
+                <option value="Embassy of The Republic of Chile">Embassy of The Republic of Chile</option>
+                <option value="Embassy of The Republic of Sudan">Embassy of The Republic of Sudan</option>
+                <option value="Embassy of Tuvalu">Embassy of Tuvalu</option>
+                <option value="Embassy of The Republic of Malta">Embassy of The Republic of Malta</option>
+                <option value="Embassy Of The Kingdom of Thailand">Embassy Of The Kingdom of Thailand</option>
+                <option value="Embassy Of The United States Of America">Embassy Of The United States Of America</option>
+                <option value="Embassy of The Bolivarian Republic of Venezuela">Embassy of The Bolivarian Republic of Venezuela</option>
+                <option value="Embassy Of The Republic Of Burundi">Embassy Of The Republic Of Burundi</option>
+                <option value="Embassy of Estonia">Embassy of Estonia</option>
+                <option value="Embassy of The Republic of South Sudan">Embassy of The Republic of South Sudan</option>
+                <option value="Embassy of The Republic of Indonesia">Embassy of The Republic of Indonesia</option>
+                <option value="British Embassy">British Embassy</option>
+                <option value="Embassy Of Ireland">Embassy Of Ireland</option>
+                <option value="Embassy Of Bosnia and Herzegovina">Embassy Of Bosnia and Herzegovina</option>
+                <option value="Embassy of India">Embassy of India</option>
+                <option value="Embassy of The Republic of Niger">Embassy of The Republic of Niger</option>
+                <option value="Embassy of The Republic of Gabon">Embassy of The Republic of Gabon</option>
+                <option value="Embassy of the Slovak Republic">Embassy of the Slovak Republic</option>
+                <option value="Embassy Of People's Republic Of China">Embassy Of People's Republic Of China</option>
+                <option value="Embassy of The Republic of Senegal">Embassy of The Republic of Senegal</option>
+                <option value="Embassy of the Republic of Guatemala">Embassy of the Republic of Guatemala</option>
+                <option value="Embassy Of Antigua and Barbuda">Embassy Of Antigua and Barbuda</option>
+                <option value="Embassy of The Federal Republic of Germany">Embassy of The Federal Republic of Germany</option>
+                <option value="Embassy of the republic of Yemen">Embassy of the republic of Yemen</option>
+                <option value="Embassy of The Republic of Argentina">Embassy of The Republic of Argentina</option>
+                <option value="Embassy of The Federal Republic of Somalia">Embassy of The Federal Republic of Somalia</option>
+                <option value="Embassy of The Islamic Republic of Muritania">Embassy of The Islamic Republic of Muritania</option>
+                <option value="Embassy of The Republic of Tajikistan">Embassy of The Republic of Tajikistan</option>
+                <option value="Embassy Of The Republic Of Djibouti">Embassy Of The Republic Of Djibouti</option>
+                <option value="Embassy of the Kingdom of Belgium">Embassy of the Kingdom of Belgium</option>
+                <option value="Embassy of The Kingdom of Bahrain">Embassy of The Kingdom of Bahrain</option>
+                <option value="Embassy of the Dominican Republic">Embassy of the Dominican Republic</option>
+                <option value="Embassy of the State of Israel">Embassy of the State of Israel</option>
+                <option value="Embassy of the Republic of Colombia">Embassy of the Republic of Colombia</option>
+                <option value="Embassy Of Japan">Embassy Of Japan</option>
+                <option value="Embassy of The Russian Federation">Embassy of The Russian Federation</option>
+                <option value="Embassy of the Republic of Union of Comoros">Embassy of the Republic of Union of Comoros</option>
+                <option value="Embassy of Of The Democratic Socialist Republic Of Sri Lanka">Embassy of Of The Democratic Socialist Republic Of Sri Lanka</option>
+                <option value="PDD Test">PDD Test</option>
+                <option value="Embassy of The United States of Mexico">Embassy of The United States of Mexico</option>
+                <option value="Embassy of People's Republic of Bangladesh">Embassy of People's Republic of Bangladesh</option>
+                <option value="Embassy of The Republic of Iraq">Embassy of The Republic of Iraq</option>
+                <option value="Embassy of The Kingdom of Spain">Embassy of The Kingdom of Spain</option>
+                <option value="Embassy of The Republic of Uganda">Embassy of The Republic of Uganda</option>
+                <option value="Embassy of The Republic of Korea">Embassy of The Republic of Korea</option>
+                <option value="Embassy of The Republic of Honduras">Embassy of The Republic of Honduras</option>
+                <option value="Embassy of the Democratic Republic of the Congo">Embassy of the Democratic Republic of the Congo</option>
+                <option value="Portuguese Trade Center">Portuguese Trade Center</option>
+                <option value="Consulate General of India">Consulate General of India</option>
+                <option value="Consulate General of The People's Republic of Bangladesh">Consulate General of The People's Republic of Bangladesh</option>
+                <option value="Consulate General of The Kingdom of Netherlands">Consulate General of The Kingdom of Netherlands</option>
+                <option value="Consulate General of The Republic of Singapore">Consulate General of The Republic of Singapore</option>
+                <option value="Consulate General Of The Russian Federation">Consulate General Of The Russian Federation</option>
+                <option value="Consulate General Of The Republic Of Tajikistan">Consulate General Of The Republic Of Tajikistan</option>
+                <option value="Consulate Of The Democratic Socialist Republic Of Sri Lanka">Consulate Of The Democratic Socialist Republic Of Sri Lanka</option>
+                <option value="Consulate General of Peru">Consulate General of Peru</option>
+                <option value="Consulate of The Republic of Philippine">Consulate of The Republic of Philippine</option>
+                <option value="Royal Thai Consulate-General">Royal Thai Consulate-General</option>
+                <option value="Consulate General of the Republic of Burundi">Consulate General of the Republic of Burundi</option>
+                <option value="Consulate General Of The Republic Of Yemen">Consulate General Of The Republic Of Yemen</option>
+                <option value="Consulate General of Romania">Consulate General of Romania</option>
+                <option value="Consulate General of The Republic of Niger">Consulate General of The Republic of Niger</option>
+                <option value="Consulate General Of Japan">Consulate General Of Japan</option>
+                <option value="Consulate General Of Malaysia">Consulate General Of Malaysia</option>
+                <option value="Consulate General Of The Republic Of Mozambique">Consulate General Of The Republic Of Mozambique</option>
+                <option value="Consulate General of Australia">Consulate General of Australia</option>
+                <option value="Consulate General of Canada">Consulate General of Canada</option>
+                <option value="The Consulate General of the Republic of Italy">The Consulate General of the Republic of Italy</option>
+                <option value="Royal Danish Consulate General">Royal Danish Consulate General</option>
+                <option value="Consulate General of Arab Republic of Sudan">Consulate General of Arab Republic of Sudan</option>
+                <option value="Consulate General Of The United States Of America">Consulate General Of The United States Of America</option>
+                <option value="Consulate General of The Hashemite Kingdom of Jordan">Consulate General of The Hashemite Kingdom of Jordan</option>
+                <option value="Counslate General of the Arab Republic of Egypt">Counslate General of the Arab Republic of Egypt</option>
+                <option value="Consulate General of the Republic of Ghana">Consulate General of the Republic of Ghana</option>
+                <option value="Consulate of Republic of Equatorial Guinea">Consulate of Republic of Equatorial Guinea</option>
+                <option value="Consulate General of The Republic of Kyrgystan">Consulate General of The Republic of Kyrgystan</option>
+                <option value="The Consulate General of The Republic of Tunisia">The Consulate General of The Republic of Tunisia</option>
+                <option value="Consulate General of The Federal Republic of Nigeria">Consulate General of The Federal Republic of Nigeria</option>
+                <option value="The Consulate General of The Federal Republic of Germany">The Consulate General of The Federal Republic of Germany</option>
+                <option value="Consulate General Of The Federal Republic Of Somalia">Consulate General Of The Federal Republic Of Somalia</option>
+                <option value="Consulate General of Grenada">Consulate General of Grenada</option>
+                <option value="Consulate General of Islamic Republic of Iran">Consulate General of Islamic Republic of Iran</option>
+                <option value="Consulate General of Arab Republic of Syria">Consulate General of Arab Republic of Syria</option>
+                <option value="Consulate General Of The People's Democratic Republic of Algeria">Consulate General Of The People's Democratic Republic of Algeria</option>
+                <option value="Consulate General of The People's Republic of China">Consulate General of The People's Republic of China</option>
+                <option value="The Consulate General of The Republic of Kenya">The Consulate General of The Republic of Kenya</option>
+                <option value="Consulate General of the Republic of Belarus">Consulate General of the Republic of Belarus</option>
+                <option value="Consulate General of the State of Eritrea">Consulate General of the State of Eritrea</option>
+                <option value="Consulate General Of The Republic Of Angola">Consulate General Of The Republic Of Angola</option>
+                <option value="Consulate General of Switzerland">Consulate General of Switzerland</option>
+                <option value="The Consulate General Of The Islamic Republic Of Pakistan">The Consulate General Of The Islamic Republic Of Pakistan</option>
+                <option value="Consulate of The United Republic of Tanzania">Consulate of The United Republic of Tanzania</option>
+                <option value="The Consulate General of The Republic of Lebanon">The Consulate General of The Republic of Lebanon</option>
+                <option value="Consulate General Of The Republic Of Uzbekistan">Consulate General Of The Republic Of Uzbekistan</option>
+                <option value="The Consulate General of The Federal Democratic Republic of Ethiopia">The Consulate General of The Federal Democratic Republic of Ethiopia</option>
+                <option value="Consulate General of St. Kitts and Nevis">Consulate General of St. Kitts and Nevis</option>
+                <option value="Consulate General of the Republic of Panama">Consulate General of the Republic of Panama</option>
+                <option value="Consulate General of The Kingdom of Morocco">Consulate General of The Kingdom of Morocco</option>
+                <option value="Consulate General of The Republic of France">Consulate General of The Republic of France</option>
+                <option value="Consulate of The Islamic Republic Of Afghanistan">Consulate of The Islamic Republic Of Afghanistan</option>
+                <option value="Consulate General of the Republic of Benin">Consulate General of the Republic of Benin</option>
+                <option value="Consulate General of The Republic of The Comoros">Consulate General of The Republic of The Comoros</option>
+                <option value="Consulate General of the Republic of Bulgaria">Consulate General of the Republic of Bulgaria</option>
+                <option value="Consulate General of The State of Kuwait">Consulate General of The State of Kuwait</option>
+                <option value="Consulate General of the Republic of Azerbaijan">Consulate General of the Republic of Azerbaijan</option>
+                <option value="The Consulate General of the Republic of Malawi">The Consulate General of the Republic of Malawi</option>
+                <option value="The Consulate General of The Republic of Indonesia">The Consulate General of The Republic of Indonesia</option>
+                <option value="Consulate General of The Republic Of Iraq">Consulate General of The Republic Of Iraq</option>
+                <option value="Consulate General of the State of Palestine">Consulate General of the State of Palestine</option>
+                <option value="Consulate of the Republic of Türkiye">Consulate of the Republic of Türkiye</option>
+                <option value="Consulate General of the State of Israel">Consulate General of the State of Israel</option>
+                <option value="Consulate General Of New Zealand">Consulate General Of New Zealand</option>
+                <option value="Consulate General Of The Kingdom of Saudi Arabia">Consulate General Of The Kingdom of Saudi Arabia</option>
+                <option value="The Consulate General Of Malta">The Consulate General Of Malta</option>
+                <option value="Consulate General of The Republic of Kazakhstan">Consulate General of The Republic of Kazakhstan</option>
+                <option value="Consulate General of Republic of Liberia">Consulate General of Republic of Liberia</option>
+                <option value="Consulate General of The Kingdom of Bahrain">Consulate General of The Kingdom of Bahrain</option>
+                <option value="Royal Norwegian Consulate">Royal Norwegian Consulate</option>
+                <option value="Consulate General of the Republic of Korea">Consulate General of the Republic of Korea</option>
+                <option value="Consulate General of Turkmenistan">Consulate General of Turkmenistan</option>
+                <option value="Consulate General of The Republic of Vanuatu">Consulate General of The Republic of Vanuatu</option>
+                <option value="Consulate General Of The State Of Libya">Consulate General Of The State Of Libya</option>
+                <option value="Consulate General of The Republic of Mauritius">Consulate General of The Republic of Mauritius</option>
+                <option value="The General Consulate of The Republic of South Africa">The General Consulate of The Republic of South Africa</option>
+                <option value="The Consulate of United Kingdom">The Consulate of United Kingdom</option>
+                <option value="Consulate General of the Republic of Chad">Consulate General of the Republic of Chad</option>
+            </select>
+            @Html.ValidationMessageFor(model => model.certificate_type, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group" id="defaultshow">
         @Html.LabelFor(model => model.destination, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.destination, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.destination, "", new { @class = "text-danger" })
+            <div>
+                @Html.EditorFor(model => model.destination, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.destination, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" id="defaulthide2">
+        @Html.Label("from", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="text"
+                   id="datepicker"
+                   class="form-control"
+                   name="from" readonly="readonly"/>
+        </div>
+    </div>
+
+    <div class="form-group" id="defaulthide3">
+        @Html.Label("to", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="text"
+                   id="datepicker1"
+                   class="form-control"
+                   name="to" readonly="readonly"/>
         </div>
     </div>
 

@@ -45,6 +45,9 @@ namespace HRworks.Models
         public string approved_byline { get; set; }
         public string approved_byhod { get; set; }
         public string imgpath { get; set; }
+        public string relwho { get; set; }
+        public string rel { get; set; }
+        public string dep { get; set; }
         public Nullable<System.DateTime> dateadded { get; set; }
         public List<empreturnfromleavesub> empreturnfromleavesubs { get; set; }
 

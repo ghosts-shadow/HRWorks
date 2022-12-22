@@ -65,22 +65,21 @@ namespace HRworks.Controllers
             if (ModelState.IsValid)
             {
                 var els = db.Leaves.ToList().Find(x => x.Id == empreturnfromleavesub.leaveid);
+                var exreturnleave = db.empreturnfromleavesubs.ToList();
                 empreturnfromleavesub.Date = DateTime.Today;
                 empreturnfromleavesub.Employee_id = els.Employee_id;
-                if (els.leave_type == "2" ||els.leave_type == "7")
-                {
-                    empreturnfromleavesub.apstatus = "submitted for HR";
-                }
-                else {
-
-                    empreturnfromleavesub.apstatus = "submitted";
-                }
+                empreturnfromleavesub.apstatus = "submitted";
                 empreturnfromleavesub.dateadded = DateTime.Now;
                 empreturnfromleavesub.submitted_by = User.Identity.Name;
+                if (exreturnleave.Exists(x=>x.Employee_id == empreturnfromleavesub.Employee_id && x.apstatus == empreturnfromleavesub.apstatus && x.Date.Date == empreturnfromleavesub.Date.Date))
+                {
+                    goto ex;
+                }
                 db.empreturnfromleavesubs.Add(empreturnfromleavesub);
                 db.SaveChanges();
                 var sendmailtrid = db.empreturnfromleavesubs.ToList().Last();
                 SendMail("", "submitted", sendmailtrid.Id);
+                ex: ;
                 return RedirectToAction("Index","employeeleavesubmitions");
             }
 
@@ -266,30 +265,43 @@ namespace HRworks.Controllers
                 back: ;
                 if (User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("super_admin"))
                 {
-                    empreturnapp.apstatus = "approved";
-                    empreturnapp.approved_byhod = User.Identity.Name;
-                    //     empreturnapp.Leave.actual_return_date = empreturnapp.actualreturnleave;
-                    //     empreturnapp.Leave.actualchangedby = "actual return date added by system after approval from " + User.Identity.Name; 
-                    empreturnapp.Leave.actual_return_date = empreturnapp.Leave.Return_leave;
-                    empreturnapp.Leave.actualchangedby = "system";
-                    empreturnapp.Leave.actualchangeddateby = DateTime.Now;
-                    db.Entry(empreturnapp).State = EntityState.Modified;
-                    db.SaveChanges();
-                    SendMail("", "approved", id);
-                    var todate = empreturnapp.actualreturnleave;
-                    var unpaidauto = new Leave();
-                    unpaidauto.leave_type = "6";
-                    unpaidauto.Date = DateTime.Now;
-                    unpaidauto.Employee_id = empreturnapp.Employee_id;
-                    unpaidauto.master_file = empreturnapp.master_file;
-                    unpaidauto.Start_leave = empreturnapp.Leave.End_leave.Value.AddDays(1);
-                    unpaidauto.End_leave = todate.Value.AddDays(-1);
-                    unpaidauto.Return_leave = todate;
-                    unpaidauto.actual_return_date = todate;
-                    unpaidauto.actualchangedby = "actual return date added by system after approval from " + User.Identity.Name;
-                    unpaidauto.actualchangeddateby = DateTime.Now;
-                    this.db.Leaves.Add(unpaidauto);
-                    this.db.SaveChanges();
+                    if (empreturnapp.actualreturnleave == empreturnapp.Leave.Return_leave)
+                    {
+                        empreturnapp.apstatus = "approved";
+                        empreturnapp.approved_byhod = User.Identity.Name;
+                        empreturnapp.Leave.actual_return_date = empreturnapp.actualreturnleave;
+                        empreturnapp.Leave.actualchangedby =
+                            "actual return date added by system after approval from " + User.Identity.Name;
+                        db.Entry(empreturnapp).State = EntityState.Modified;
+                        db.SaveChanges();
+                        SendMail("", "approved", id);
+                    }
+                    else if (empreturnapp.actualreturnleave > empreturnapp.Leave.Return_leave)
+                    {
+                        empreturnapp.apstatus = "approved";
+                        empreturnapp.approved_byhod = User.Identity.Name;
+                        empreturnapp.Leave.actual_return_date = empreturnapp.Leave.Return_leave;
+                        empreturnapp.Leave.actualchangedby = "system";
+                        empreturnapp.Leave.actualchangeddateby = DateTime.Now;
+                        db.Entry(empreturnapp).State = EntityState.Modified;
+                        db.SaveChanges();
+                        SendMail("", "approved", id);
+                        var todate = empreturnapp.actualreturnleave;
+                        var unpaidauto = new Leave();
+                        unpaidauto.leave_type = "6";
+                        unpaidauto.Date = DateTime.Now;
+                        unpaidauto.Employee_id = empreturnapp.Employee_id;
+                        unpaidauto.master_file = empreturnapp.master_file;
+                        unpaidauto.Start_leave = empreturnapp.Leave.End_leave.Value.AddDays(1);
+                        unpaidauto.End_leave = todate.Value.AddDays(-1);
+                        unpaidauto.Return_leave = todate;
+                        unpaidauto.actual_return_date = todate;
+                        unpaidauto.actualchangedby = "actual return date added by system after approval from " +
+                                                     User.Identity.Name;
+                        unpaidauto.actualchangeddateby = DateTime.Now;
+                        this.db.Leaves.Add(unpaidauto);
+                        this.db.SaveChanges();
+                    }
                     return RedirectToAction("empreturnap");
                 }
             }

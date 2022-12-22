@@ -1500,9 +1500,21 @@
                 per2020lb.forfitedafter2020 = 0d;
             }
 
-            var yearsinperiod =
-                Math.Round(((new DateTime(DateTime.Today.Year, 12, 31) - new DateTime(2021, 1, 1)).TotalDays + 1) /
-                           365);
+            var yearsinperiod = 0d;
+            if (DateTime.Today.Month == 12)
+            {
+                yearsinperiod =
+                    Math.Round(
+                        ((new DateTime(DateTime.Today.Year + 1, 12, 31) - new DateTime(2021, 1, 1)).TotalDays + 1) /
+                        365);
+            }
+            else
+            {
+                yearsinperiod =
+                    Math.Round(
+                        ((new DateTime(DateTime.Today.Year, 12, 31) - new DateTime(2021, 1, 1)).TotalDays + 1) /
+                        365);
+            }
             for (int i = 0; i < yearsinperiod; i++)
             {
                 var anualleavetakenperyear = 0d;
@@ -1920,9 +1932,22 @@
                 // return this.View(cllist
                 //     .Where(x => ((eddate >= x.Start_leave && eddate1 <= x.Start_leave ) || (eddate <= x.End_leave && eddate1 >= x.End_leave)) &&
                 //                 x.leave_type == leave_type.ToString()).OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));
-                return this.View(cllist
+                var leaveconlistfinal = new List<con_leavemodel>();
+                for (DateTime j = eddate.Value; j <= eddate1.Value; j= j.AddDays(1))
+                {
+                    var templeavelist = cllist.FindAll(x => x.Start_leave <= j && x.End_leave >= j);
+                    foreach (var leaf in templeavelist)
+                    {
+                        if (!leaveconlistfinal.Exists(x=>x.id == leaf.id))
+                        {
+                            leaveconlistfinal.Add(leaf);
+                        }
+                    }
+
+                }
+                return this.View(leaveconlistfinal.OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));/*return this.View(cllist
                     .Where(x => ((eddate <= x.Start_leave && eddate1 >= x.Start_leave) || (eddate >= x.End_leave && eddate1 <= x.End_leave)) &&
-                                x.leave_type == leave_type.ToString()).OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));
+                                x.leave_type == leave_type.ToString()).OrderBy(x => x.departmant_project).ThenBy(x => x.employee_no));*/
             }
 
             return this.View(new List<con_leavemodel>());

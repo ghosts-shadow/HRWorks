@@ -400,8 +400,10 @@ namespace HRworks.Controllers
             return View(payrole);
         }
 
-        public List<int> GetAll(DateTime date)
+        public List<int> GetAll(DateTime date,Attendance id)
         {
+            var atweekendpro = id.MainTimeSheet.Project;
+            var weekdaylist = db1.weekendlists.Where(x=>x.project_id == atweekendpro).ToList(); 
             var month = date.Month;
             var lastDayOfMonth = new DateTime(date.Year, date.Month, 1);
             var lastDay = DateTime.DaysInMonth(date.Year, date.Month);
@@ -411,12 +413,32 @@ namespace HRworks.Controllers
             {
                 var temp = new DateTime(date.Year, month, i);
                 var day = temp.DayOfWeek;
-                if (day == DayOfWeek.Friday)
+                if (weekdaylist.Count != 0)
+                {
+                    foreach (var weekend in weekdaylist)
+                    {
+                        int.TryParse(weekend.weekend, out var weekendday);
+                        if (day.ToString() == Enum.GetName(typeof(DayOfWeek), weekendday))
+                        {
+                            count++;
+                            var dd = temp.Day;
+                            array.Add(dd);
+                        }
+                    }
+                }
+                else {
+                if (day == DayOfWeek.Saturday)
                 {
                     count++;
                     var dd = temp.Day;
                     array.Add(dd);
                 }
+                if (day == DayOfWeek.Sunday)
+                {
+                    count++;
+                    var dd = temp.Day;
+                    array.Add(dd);
+                } }
             }
 
             return array;
@@ -1339,27 +1361,6 @@ namespace HRworks.Controllers
                             datestart = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month - 1, 21);
                         }
 
-                        var fdaylist = new List<int>();
-                        var fdaylist1 = GetAll(month.Value);
-                        foreach (var i in fdaylist1)
-                        {
-                            var dt1 = new DateTime(dateend.Year, dateend.Month, i);
-                            if (datestart <= dt1 && dt1 <= dateend)
-                            {
-                                fdaylist.Add(i);
-                            }
-                        }
-
-                        fdaylist1 = GetAll(newdate);
-                        foreach (var i in fdaylist1)
-                        {
-                            var dt1 = new DateTime(datestart.Year, datestart.Month, i);
-                            if (datestart <= dt1 && dt1 <= dateend)
-                            {
-                                fdaylist.Add(i);
-                            }
-                        }
-
                         var hlistday = new List<int>();
                         var hlistday1 = GetAllholi(month.Value);
                         foreach (var i in hlistday1)
@@ -1383,6 +1384,27 @@ namespace HRworks.Controllers
 
                         foreach (var aq in attd_final1)
                         {
+                            var fdaylist = new List<int>();
+                            var fdaylist1 = GetAll(month.Value,aq);
+                            foreach (var i in fdaylist1)
+                            {
+                                var dt1 = new DateTime(dateend.Year, dateend.Month, i);
+                                if (datestart <= dt1 && dt1 <= dateend)
+                                {
+                                    fdaylist.Add(i);
+                                }
+                            }
+
+                            fdaylist1 = GetAll(newdate, aq);
+                            foreach (var i in fdaylist1)
+                            {
+                                var dt1 = new DateTime(datestart.Year, datestart.Month, i);
+                                if (datestart <= dt1 && dt1 <= dateend)
+                                {
+                                    fdaylist.Add(i);
+                                }
+                            }
+
                             var x = 0L;
                             var x1 = 0L;
                             var leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);
@@ -3973,27 +3995,6 @@ namespace HRworks.Controllers
                                     21);
                             }
 
-                            var fdaylist = new List<int>();
-                            var fdaylist1 = GetAll(month.Value);
-                            foreach (var i in fdaylist1)
-                            {
-                                var dt1 = new DateTime(dateend.Year, dateend.Month, i);
-                                if (datestart <= dt1 && dt1 <= dateend)
-                                {
-                                    fdaylist.Add(i);
-                                }
-                            }
-
-                            fdaylist1 = GetAll(newdate);
-                            foreach (var i in fdaylist1)
-                            {
-                                var dt1 = new DateTime(datestart.Year, datestart.Month, i);
-                                if (datestart <= dt1 && dt1 <= dateend)
-                                {
-                                    fdaylist.Add(i);
-                                }
-                            }
-
                             var hlistday = new List<int>();
                             var hlistday1 = GetAllholi(month.Value);
                             foreach (var i in hlistday1)
@@ -4017,6 +4018,28 @@ namespace HRworks.Controllers
 
                             foreach (var aq in attd_final1)
                             {
+
+                                var fdaylist = new List<int>();
+                                var fdaylist1 = GetAll(month.Value,aq);
+                                foreach (var i in fdaylist1)
+                                {
+                                    var dt1 = new DateTime(dateend.Year, dateend.Month, i);
+                                    if (datestart <= dt1 && dt1 <= dateend)
+                                    {
+                                        fdaylist.Add(i);
+                                    }
+                                }
+
+                                fdaylist1 = GetAll(newdate,aq);
+                                foreach (var i in fdaylist1)
+                                {
+                                    var dt1 = new DateTime(datestart.Year, datestart.Month, i);
+                                    if (datestart <= dt1 && dt1 <= dateend)
+                                    {
+                                        fdaylist.Add(i);
+                                    }
+                                }
+
                                 var x = 0L;
                                 var x1 = 0L;
                                 var leavedate = new DateTime(month.Value.Year, month.Value.Month, 1);

@@ -74,6 +74,8 @@ namespace HRworks.Controllers
                 .Find(y => y.employee_no == masterfile.employee_id);
             var nameinarlist = db.detailsinarabics.ToList();
             var nameinar = nameinarlist.Find(x => x.employee_id == certificatesavingtest_.employee_id);
+            var banklist = db.bank_details.ToList();
+            var bankvar = banklist.Find(x => x.employee_no == certificatesavingtest_.employee_id);
 
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
             if (certificatesavingtest_.certificate_type == 1)
@@ -332,6 +334,17 @@ namespace HRworks.Controllers
                         document.Pages[0].Content.DrawText(formattedText,new PdfPoint(420,461));
 
                     }
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(120, 704));
+                        formattedText.Clear();
+                    }
                     document.Save(filepathout);
                     document.Close();
                 }
@@ -384,6 +397,17 @@ namespace HRworks.Controllers
                         document.Pages[0].Content.DrawText(formattedText,new PdfPoint(420,423));
 
                     }
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 653));
+                        formattedText.Clear();
+                    }
                     document.Save(filepathout);
                     document.Close();
                 }
@@ -398,53 +422,46 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Salary Certificate.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Salary Certificate.pdf");
-                DocumentCore dc = DocumentCore.Load(filepath, new PdfLoadOptions());
-                ContentRange cr = dc.Content.Find("@date").First();
-                if (cr != null)
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                using (var document = PdfDocument.Load(filepath))
                 {
-                    cr.Replace(DateTime.Today.ToString("dd MMM yy"));
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(152, 728));
+                        formattedText.Clear();
+                        formattedText.Append("-"+certificatesavingtest_.Id.ToString("D"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(205, 711));
+                        formattedText.Clear();
+                        formattedText.Append(certificatesavingtest_.destination);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(100, 675));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.employee_name);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(160, 528));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.nationality);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(160, 508));
+                        formattedText.Clear();
+                        formattedText.Append(passport.passport_no);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(160, 483));
+                        formattedText.Clear();
+                        formattedText.Append(contract.designation);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(160, 455));
+                        formattedText.Clear();
+                        formattedText.Append(Unprotect(contract.salary_details));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(192, 431));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(160, 410));
+
+                    }
+                    document.Save(filepathout);
+                    document.Close();
                 }
-                cr = dc.Content.Find("@ref").First();
-                if (cr != null)
-                {
-                    cr.Replace(certificatesavingtest_.Id.ToString("D"));
-                }
-                cr = dc.Content.Find("@dest").First();
-                if (cr != null)
-                {
-                    cr.Replace(certificatesavingtest_.destination);
-                }
-                cr = dc.Content.Find("@name").First();
-                if (cr != null)
-                {
-                    cr.Replace(masterfile.employee_name);
-                }
-                cr = dc.Content.Find("@nationality").First();
-                if (cr != null)
-                {
-                    cr.Replace(masterfile.nationality);
-                }
-                cr = dc.Content.Find("@pass").First();
-                if (cr != null)
-                {
-                    cr.Replace(passport.passport_no);
-                }
-                cr = dc.Content.Find("@position").First();
-                if (cr != null)
-                {
-                    cr.Replace(contract.designation);
-                }
-                cr = dc.Content.Find("@salary").First();
-                if (cr != null)
-                {
-                    cr.Replace(Unprotect(contract.salary_details));
-                }
-                cr = dc.Content.Find("@jd").First();
-                if (cr != null)
-                {
-                    cr.Replace(masterfile.date_joined.Value.ToString("dd MMM yy"));
-                }
-                dc.Save(filepathout);
                 Response.Clear();
                 Response.ContentType = "application/pdf";
                 Response.AddHeader("Content-Disposition", "attachment;filename=\"Salary Certificate.pdf\"");
@@ -456,43 +473,41 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Employment Certificate.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Employment Certificate.pdf");
-                DocumentCore dc = DocumentCore.Load(filepath, new PdfLoadOptions());
-                ContentRange cr = dc.Content.Find("@date").First();
-                if (cr != null)
+
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                using (var document = PdfDocument.Load(filepath))
                 {
-                    cr.Replace(DateTime.Today.ToString("dd MMM yy"));
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(175, 722));
+                        formattedText.Clear();
+                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(250, 705));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.employee_name);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(172, 528));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.nationality);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(172, 508));
+                        formattedText.Clear();
+                        formattedText.Append(passport.passport_no);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(172, 485));
+                        formattedText.Clear();
+                        formattedText.Append(contract.designation);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(172, 465));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(200, 445));
+
+                    }
+                    document.Save(filepathout);
+                    document.Close();
                 }
-                cr = dc.Content.Find("@ref").First();
-                if (cr != null)
-                {
-                    cr.Replace(certificatesavingtest_.Id.ToString("D"));
-                }
-                cr = dc.Content.Find("@name").First();
-                if (cr != null)
-                {
-                    cr.Replace(masterfile.employee_name);
-                }
-                cr = dc.Content.Find("@nationality").First();
-                if (cr != null)
-                {
-                    cr.Replace(masterfile.nationality);
-                }
-                cr = dc.Content.Find("@pass").First();
-                if (cr != null)
-                {
-                    cr.Replace(passport.passport_no);
-                }
-                cr = dc.Content.Find("@position").First();
-                if (cr != null)
-                {
-                    cr.Replace(contract.designation);
-                }
-                cr = dc.Content.Find("@Jd").First();
-                if (cr != null)
-                {
-                    cr.Replace(masterfile.date_joined.Value.ToString("dd MMM yy"));
-                }
-                dc.Save(filepathout);
                 Response.Clear();
                 Response.ContentType = "application/pdf";
                 Response.AddHeader("Content-Disposition", "attachment;filename=\"Employment Certificate.pdf\"");
@@ -866,7 +881,6 @@ namespace HRworks.Controllers
                 Response.Flush();
                 Response.End();
             }
-
             if (certificatesavingtest_.certificate_type == 13)
             {
                 string filepath = Server.MapPath("~/arabic certificates/EXPERIENCE CERTIFICATE - english.pdf");
@@ -1088,37 +1102,45 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Resignation Notice Acceptance.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Resignation Notice Acceptance.pdf");
-                DocumentCore dc = DocumentCore.Load(filepath, new PdfLoadOptions());
-                ContentRange cr = dc.Content.Find("@date").First();
-                if (cr != null)
+
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                using (var document = PdfDocument.Load(filepath))
                 {
-                    cr.Replace(DateTime.Today.ToString("dd MMM yy"));
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.Clear();
+                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 660));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.employee_name);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 630));
+                        formattedText.Clear();
+                        formattedText.Append(contract.departmant_project);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 612));
+                        formattedText.Clear();
+                        formattedText.Append(contract.designation);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 592));
+                        formattedText.Clear();
+                        var enddatewof = certificatesavingtest_.destination;
+                        var srtinglenth = enddatewof.Length;
+                        var temp = 0;
+                        if (srtinglenth > enddatewof.IndexOf("@"))
+                        {
+                            temp = enddatewof.IndexOf("@") + 1;
+                            var endate = Convert.ToDateTime(enddatewof.Substring(temp));
+                            formattedText.Append(endate.ToString("dd MMM yy"));
+                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(205, 461));
+                            formattedText.Clear();
+                        }
+                        
+                    }
+                    document.Save(filepathout);
+                    document.Close();
                 }
-                cr = dc.Content.Find("@name").First();
-                if (cr != null)
-                {
-                    cr.Replace(masterfile.employee_name);
-                }
-                cr = dc.Content.Find("@pos").First();
-                if (cr != null)
-                {
-                    cr.Replace(contract.designation);
-                }
-                cr = dc.Content.Find("@dep").First();
-                if (cr != null)
-                {
-                    cr.Replace(contract.departmant_project);
-                }
-                cr = dc.Content.Find("@lds").First();
-                if (cr != null)
-                {
-                    var enddatewof = certificatesavingtest_.destination;
-                    var temp = enddatewof.IndexOf("@") + 1;
-                    var temp2 = enddatewof.Substring(temp);
-                    var endate = Convert.ToDateTime(temp2);
-                    cr.Replace(endate.ToString("dd MMM yy"));
-                }
-                dc.Save(filepathout);
                 Response.Clear();
                 Response.ContentType = "application/pdf";
                 Response.AddHeader("Content-Disposition", "attachment;filename=\"Resignation Notice Acceptance.pdf\"");
@@ -1266,6 +1288,221 @@ namespace HRworks.Controllers
                 Response.Clear();
                 Response.ContentType = "application/pdf";
                 Response.AddHeader("Content-Disposition", "attachment;filename=\"Experience Certificate - Arabic Female.pdf\"");
+                Response.BinaryWrite(System.IO.File.ReadAllBytes(filepathout));
+                Response.Flush();
+                Response.End();
+            }
+            if (certificatesavingtest_.certificate_type == 18)
+            {
+                string filepath = Server.MapPath("~/arabic certificates/Visa request.pdf");
+                string filepathout = Server.MapPath("~/arabic certificates/tempstore/Visa request.pdf");
+
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                using (var document = PdfDocument.Load(filepath))
+                {
+                    var page = document.Pages[0];
+                    double margins = 72;
+                    double maxWidth = page.CropBox.Width - margins * 2;
+                    double maxHeight = page.CropBox.Height - margins * 2;
+                    double heightOffset = maxHeight + margins;
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.FontWeight = PdfFontWeight.Bold;
+                        formattedText.Clear();/*
+                        var enddatewof = certificatesavingtest_.destination;
+                        var temp = enddatewof.IndexOf("@") + 1;
+                        var temp2 = enddatewof.Substring(temp);
+                        var endate = Convert.ToDateTime(temp2);
+                        formattedText.Append(endate.ToString("dd MMM yy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(315, 360));
+                        formattedText.Clear();*/
+                        var namelist = certificatesavingtest_.destination.Split(',');
+                        formattedText.Append(namelist[0]);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(73, 750));
+                        formattedText.Clear();
+                        formattedText.Append(DateTime.Today.ToString("dd MMMM yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(100, 680));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.employee_name);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(150, 590));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.dob.Value.ToString("dd MMMM yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(150, 570));
+                        formattedText.Clear();
+                        formattedText.Append(passport.passport_no);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(150, 550));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.nationality);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(150, 530));
+                        formattedText.Clear();
+                        formattedText.FontWeight = PdfFontWeight.Normal;
+                        formattedText.Append("This is to certify that the above mentioned is a trusted member of this establishment, employed in the capacity of ");
+                        formattedText.FontWeight = PdfFontWeight.Bold; 
+                        formattedText.Append(contract.designation);
+                        formattedText.FontWeight = PdfFontWeight.Normal;
+                        formattedText.Append(" since ");
+                        formattedText.FontWeight = PdfFontWeight.Bold;
+                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMMM yyyy"));
+                        formattedText.FontWeight = PdfFontWeight.Normal;
+                        double y = 280;
+                        int lineIndex = 0, charIndex = 0;
+                        while (charIndex < formattedText.Length)
+                        {
+                            var line = formattedText.FormatLine(charIndex, maxWidth);
+                            y += line.Height;
+
+                            // If line cannot fit on the current page, write it on a new page.
+                            bool lineCannotFit = y > maxHeight;
+                            if (lineCannotFit)
+                            {
+                                page = document.Pages.Add();
+                                y = line.Height;
+                            }
+
+                            page.Content.DrawText(line, new PdfPoint(margins, heightOffset - y));
+
+                            ++lineIndex;
+                            charIndex += line.Length;
+                        }
+                        formattedText.Clear();
+                        formattedText.FontWeight = PdfFontWeight.Bold;
+                        formattedText.Append("Citiscape LLC"); 
+                        formattedText.FontWeight = PdfFontWeight.Normal;
+                        formattedText.Append(" has no objection for her/him to obtain a visit visa to ");
+                        formattedText.FontWeight = PdfFontWeight.Bold;
+                        formattedText.Append(namelist[1]);
+                        formattedText.FontWeight = PdfFontWeight.Normal;
+                        formattedText.Append(" from ");
+                        formattedText.FontWeight = PdfFontWeight.Bold;
+                        var tempdate = new DateTime();
+                        DateTime.TryParse(namelist[2], out tempdate);
+                        formattedText.Append(tempdate.ToString("dd MMMM yyyy"));
+                        formattedText.FontWeight = PdfFontWeight.Normal;
+                        formattedText.Append(" till ");
+                        tempdate = new DateTime();
+                        DateTime.TryParse(namelist[3], out tempdate);
+                        formattedText.FontWeight = PdfFontWeight.Bold;
+                        formattedText.Append(tempdate.ToString("dd MMMM yyyy"));
+                        formattedText.FontWeight = PdfFontWeight.Normal;
+                        y = 350;
+                        lineIndex = 0;
+                        charIndex = 0;
+                        while (charIndex < formattedText.Length)
+                        {
+                            var line = formattedText.FormatLine(charIndex, maxWidth);
+                            y += line.Height;
+
+                            // If line cannot fit on the current page, write it on a new page.
+                            bool lineCannotFit = y > maxHeight;
+                            if (lineCannotFit)
+                            {
+                                page = document.Pages.Add();
+                                y = line.Height;
+                            }
+
+                            page.Content.DrawText(line, new PdfPoint(margins, heightOffset - y));
+
+                            ++lineIndex;
+                            charIndex += line.Length;
+                        }
+
+                    }
+                    document.Save(filepathout);
+                    document.Close();
+                }
+                Response.Clear();
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("Content-Disposition", "attachment;filename=\"Visa request.pdf\"");
+                Response.BinaryWrite(System.IO.File.ReadAllBytes(filepathout));
+                Response.Flush();
+                Response.End();
+            }
+            if (certificatesavingtest_.certificate_type == 19)
+            {
+                string filepath = Server.MapPath("~/arabic certificates/Salary transfer letter.pdf");
+                string filepathout = Server.MapPath("~/arabic certificates/tempstore/Salary transfer letter.pdf");
+
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                using (var document = PdfDocument.Load(filepath))
+                {
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.FontWeight = PdfFontWeight.Bold;
+                        formattedText.Clear();
+                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(111, 745));
+                        formattedText.Clear();
+                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(142, 733));
+                        formattedText.Clear();
+                        formattedText.Append(certificatesavingtest_.destination);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(110, 690));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.employee_name);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(215, 525));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.nationality);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(215, 500));
+                        formattedText.Clear();
+                        formattedText.Append(contract.designation);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(215, 475));
+                        formattedText.Clear();
+                        formattedText.Append(Unprotect(contract.salary_details));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(240, 440));
+                        formattedText.Clear();
+                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(215, 410));
+                        formattedText.Clear();
+                        formattedText.Append(bankvar.IBAN);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(215, 383));
+                        formattedText.Clear();
+                    }
+
+                    document.Save(filepathout);
+                    document.Close();
+                }
+                Response.Clear();
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("Content-Disposition", "attachment;filename=\"Salary transfer letter.pdf\"");
+                Response.BinaryWrite(System.IO.File.ReadAllBytes(filepathout));
+                Response.Flush();
+                Response.End();
+            }
+            if (certificatesavingtest_.certificate_type == 20)
+            {
+                string filepath = Server.MapPath("~/arabic certificates/reference no.pdf");
+                string filepathout = Server.MapPath("~/arabic certificates/tempstore/reference no.pdf");
+
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                using (var document = PdfDocument.Load(filepath))
+                {
+                    using (var formattedText = new PdfFormattedText())
+                    {
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.TextAlignment = PdfTextAlignment.Left;
+                        formattedText.Language = new PdfLanguage("English");
+                        formattedText.FontSize = 11;
+                        formattedText.FontWeight = PdfFontWeight.Bold;
+                        formattedText.Clear();
+                        formattedText.Append(certificatesavingtest_.Id.ToString());
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(111, 745));
+                        formattedText.Clear();
+                    }
+
+                    document.Save(filepathout);
+                    document.Close();
+                }
+                Response.Clear();
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("Content-Disposition", "attachment;filename=\"reference no.pdf\"");
                 Response.BinaryWrite(System.IO.File.ReadAllBytes(filepathout));
                 Response.Flush();
                 Response.End();

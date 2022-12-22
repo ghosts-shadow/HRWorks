@@ -84,6 +84,12 @@
         <th>
             @Html.DisplayNameFor(model => model.sponsor)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.last_working_day)
+        </th>
         @if (User.Identity.IsAuthenticated)
         {
             if (User.IsInRole("super_admin") || User.IsInRole("admin"))
@@ -136,11 +142,23 @@
         @Html.DisplayFor(modelItem => item.sponsor)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.changed_by)
+        @Html.DisplayFor(modelItem => item.master_file.status)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.date_changed)
+        @Html.DisplayFor(modelItem => item.master_file.last_working_day)
     </td>
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("super_admin") || User.IsInRole("admin"))
+        {
+        <td>
+            @Html.DisplayFor(modelItem => item.changed_by)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date_changed)
+        </td>
+        }
+    }
     <td>
         @Html.ActionLink("Edit", "Edit", new { id = item.employee_id }) |
         @Html.ActionLink("Details", "Details", new { id = item.employee_id }) |

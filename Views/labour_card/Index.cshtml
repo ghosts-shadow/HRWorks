@@ -76,6 +76,9 @@
         <th>
             @Html.DisplayNameFor(model => model.imgpath)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.last_working_day)
+        </th>
         @if (User.Identity.IsAuthenticated)
         {
             if (User.IsInRole("super_admin") || User.IsInRole("admin"))
@@ -117,6 +120,9 @@
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.imgpath)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.master_file.last_working_day)
     </td>
     @if (User.Identity.IsAuthenticated)
     {
