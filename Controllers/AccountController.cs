@@ -198,6 +198,46 @@ namespace HRworks.Controllers
             return View(model);
         }
 
+        public async Task<ActionResult> RoleEdit(string id)
+        {
+            var user = UserManager.Users.ToList().Find(x=>x.Id == id);
+            if (user == null)
+            {
+                goto fail;
+            }
+            HREntities df = new HREntities();
+            var usernamelist = df.usernames.ToList();
+            var roleedittemp = new RoleEdit();
+            roleedittemp.UserId = user.Id;
+            roleedittemp.Username = user.UserName;
+            var empname = usernamelist.Find(x => x.aspnet_uid == user.Id).master_file.employee_name;
+            roleedittemp.Name = empname;
+            if (user.Roles.Count == 0)
+            {
+                goto fail;
+            }
+            var userrolelist = await UserManager.GetRolesAsync(id);
+            foreach (var userroles in userrolelist)
+            {
+                if (roleedittemp.userroles == null)
+                {
+                    roleedittemp.userroles = new List<userroles>();
+                    var userroletemp = new userroles();
+                    userroletemp.rolename = userroles;
+                    roleedittemp.userroles.Add(userroletemp);
+                }
+                else
+                {
+                    var userroletemp = new userroles();
+                    userroletemp.rolename = userroles;
+                    roleedittemp.userroles.Add(userroletemp);
+                }
+            }
+
+            return View(roleedittemp);
+            fail: ;
+            return RedirectToAction("Index", "usernames");
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

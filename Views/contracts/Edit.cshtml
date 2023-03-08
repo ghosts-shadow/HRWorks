@@ -36,9 +36,9 @@
             myFunction1();
         };
 
-        var loadfile = function(event) {
+        var loadfile = function (event) {
             var reader = new FileReader();
-            reader.onload = function() {
+            reader.onload = function () {
                 var output = document.getElementById('output');
                 output.src = reader.result;
             };
@@ -66,9 +66,12 @@
             var foo = parseFloat($("#foo").val());
             var oth = parseFloat($("#oth").val());
             var arr = parseFloat($("#arr").val());
-            if (!arr) { $("#arr").val(0) }
-            arr = parseFloat($("#arr").val());
-            $("#gro").val(bas + hou + tran + liv + foo + oth + arr);
+            var gradevalue = $("#gradelist").val();
+            if (gradevalue == "1" || gradevalue == "2" || gradevalue == "3" || gradevalue == "4c" || gradevalue == "4b") {
+                $("#gro").val(bas + liv + oth + arr);
+            } else {
+                $("#gro").val(bas + hou + tran + liv + foo + oth + arr);
+            }
         }
     </script>
 
@@ -146,7 +149,8 @@
     <div class="form-group">
         @Html.LabelFor(model => model.grade, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.grade, new { htmlAttributes = new { @class = "form-control" } })
+            @*@Html.EditorFor(model => model.grade, new { htmlAttributes = new { @class = "form-control" } })*@
+            @Html.DropDownList("gradelist", null, new { @class = "form-control", @id = "gradelist" })
             @Html.ValidationMessageFor(model => model.grade, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -175,13 +179,14 @@
         </div>
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.transportation_allowance, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.transportation_allowance, new { htmlAttributes = new { @class = "form-control", @id = "tran" } })
-            @Html.ValidationMessageFor(model => model.transportation_allowance, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    @*
+        <div class="form-group">
+            @Html.LabelFor(model => model.transportation_allowance, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.transportation_allowance, new { htmlAttributes = new { @class = "form-control", @id = "tran" } })
+                @Html.ValidationMessageFor(model => model.transportation_allowance, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
 
 
     <div class="form-group">
@@ -220,13 +225,13 @@
             @Html.ValidationMessageFor(model => model.salary_details, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+    @*<div class="form-group">
         @Html.LabelFor(model => model.FOT, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.FOT, new { htmlAttributes = new { @class = "form-control", @id = "fot" } })
             @Html.ValidationMessageFor(model => model.FOT, "", new { @class = "text-danger" })
         </div>
-    </div>
+    </div>*@
 
 
     <div class="form-group">

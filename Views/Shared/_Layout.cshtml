@@ -272,7 +272,7 @@
                         if (!User.IsInRole("registration"))
                         {
                             <li>@Html.ActionLink("leave", "Index", "employeeleavesubmitions")</li>
-                            if (User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager"))
+                            if (User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager") || User.IsInRole("employee"))
                             {
                                 
                                 <div class="dropdown dd2" id="dd2">

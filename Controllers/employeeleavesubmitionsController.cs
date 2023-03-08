@@ -21,7 +21,8 @@ namespace HRworks.Controllers
         private HREntities db = new HREntities();
 
         // GET: employeeleavesubmitions
-        [Authorize(Roles = "HOD,employee,Manager,super_admin")]
+        [Authorize]
+        //[Authorize(Roles = "HOD,employee,Manager,super_admin")]
         public ActionResult Index()
         {
             var emprel = db.emprels.ToList();
@@ -46,7 +47,7 @@ namespace HRworks.Controllers
 
             employeeleavesubmitions =
                 db.employeeleavesubmitions.ToList()
-                    .FindAll(x => x.Employee_id == empjd.employee_id && (x.apstatus != "approved"));
+                    .FindAll(x => x.Employee_id == empjd.employee_id && !(x.apstatus == "approved" || x.apstatus == "already exists"));
             leafcon.forfitedbalence(empjd.employee_id);
             var leavecal2020list = db.leavecal2020.ToList();
             var leavebal2020 = new leavecal2020();
@@ -679,7 +680,8 @@ namespace HRworks.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "HOD,Manager,EXTHOD,super_admin")]
+        //[Authorize(Roles = "HOD,Manager,EXTHOD,super_admin")]
+        [Authorize]
         public ActionResult empleaveap()
         {
             var userempnolist = db.usernames
@@ -698,26 +700,23 @@ namespace HRworks.Controllers
             }
 
             var empjd = empuser.master_file;
-            if (User.IsInRole("Manager"))
+            var relationlist = db.emprels.ToList();
+            var logedinsrels = relationlist.FindAll(x => x.line_man == empjd.employee_id || x.HOD == empjd.employee_id);
+            foreach (var emprel in logedinsrels)
             {
-                var relationlist = db.emprels.ToList().FindAll(x => x.line_man == empjd.employee_id);
-                foreach (var emprel in relationlist)
+                if (emprel.line_man == empjd.employee_id)
                 {
                     employeeleavesubmitions.AddRange(db.employeeleavesubmitions.ToList()
                         .FindAll(x => x.Employee_id == emprel.Employee_id && x.apstatus == "submitted"));
                 }
-            }
-
-            if (User.IsInRole("HOD") || User.IsInRole("EXTHOD"))
-            {
-                var relationlist = db.emprels.ToList().FindAll(x => x.HOD == empjd.employee_id);
-                foreach (var emprel in relationlist)
+                if (emprel.HOD.HasValue && emprel.HOD == empjd.employee_id)
                 {
                     employeeleavesubmitions.AddRange(db.employeeleavesubmitions.ToList()
                         .FindAll(x => x.Employee_id == emprel.Employee_id && x.apstatus == "approved by line manager"));
                 }
 
             }
+                
 
             foreach (var empdep in employeeleavesubmitions)
             {
@@ -925,32 +924,88 @@ namespace HRworks.Controllers
             leaveentry.leave_type = employeeleavesubmition.leave_type;
             leaveentry.actualchangeddateby = DateTime.Now;
             leaveentry.imgpath = employeeleavesubmition.imgpath;
-
-            if (User.IsInRole("Manager"))
+            if (User.IsInRole("super_admin"))
+            {
+                var leavedupcheck = db.Leaves.ToList();
+                if (!leavedupcheck.Exists(x => x.Start_leave == leaveentry.Start_leave && x.Employee_id == leaveentry.Employee_id))
+                {
+                    leaveentry.actualchangedby = "added after approval " + User.Identity.Name;
+                    leaveentry.approved_by = User.Identity.Name;
+                    leaveentry.imgpath = employeeleavesubmition.imgpath;
+                    db.Leaves.Add(leaveentry);
+                    db.SaveChanges();
+                    var tempdate = leaveentry.Start_leave.Value.AddDays(-1);
+                    var leavelist = db.Leaves.Where(x => x.Employee_id == leaveentry.Employee_id && x.End_leave == tempdate && x.actual_return_date == null).ToList();
+                    if (leavelist.Count > 0)
+                    {
+                        var leavevar = leavelist[0];
+                        leavevar.actual_return_date = leavevar.Return_leave;
+                        leavevar.actualchangedby = "system";
+                        leavevar.actualchangeddateby = DateTime.Now;
+                        db.Entry(leavevar).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    employeeleavesubmition.approved_byhod = User.Identity.Name;
+                    employeeleavesubmition.apstatus = "approved";
+                    db.Entry(employeeleavesubmition).State = EntityState.Modified;
+                    db.SaveChanges();
+                    SendMail("", "approved", id);
+                }
+                else
+                {
+                    employeeleavesubmition.apstatus = "already exists";
+                    db.Entry(employeeleavesubmition).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                return RedirectToAction("empleaveap");
+            }
+            var userempnolist = db.usernames
+                .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
+            var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
+            var relationlist = db.emprels.ToList();
+            var empjd = empuser.master_file;
+            var logedinsrels = relationlist.FindAll(x => x.line_man == empjd.employee_id || x.HOD == empjd.employee_id);
+            var currentrel = logedinsrels.Find(x => x.Employee_id == employeeleavesubmition.Employee_id);
+            if (currentrel.line_man == empjd.employee_id)
             {
                 if (employeeleavesubmition.apstatus == "approved by line manager")
                 {
                     goto back;
                 }
-
-                var higherupchecklist = db.emprels.ToList();
-                var hihigherupcheck = higherupchecklist.Find(x => x.Employee_id == employeeleavesubmition.Employee_id);
-                if (!hihigherupcheck.HOD.HasValue)
+                
+                if (!currentrel.HOD.HasValue)
                 {
                     var leavedupcheck = db.Leaves.ToList();
                     if (!leavedupcheck.Exists(x=>x.Start_leave == leaveentry.Start_leave && x.Employee_id == leaveentry.Employee_id))
                     {
-                        leaveentry.actualchangedby = "added by system after approval " + User.Identity.Name;
+                        leaveentry.actualchangedby = "added after approval " + User.Identity.Name;
                         leaveentry.approved_by = User.Identity.Name;
                         leaveentry.imgpath = employeeleavesubmition.imgpath;
                         db.Leaves.Add(leaveentry);
                         db.SaveChanges();
+                        var tempdate = leaveentry.Start_leave.Value.AddDays(-1);
+                        var leavelist = db.Leaves.Where(x => x.Employee_id == leaveentry.Employee_id && x.End_leave == tempdate && x.actual_return_date == null).ToList();
+                        if (leavelist.Count > 0)
+                        {
+                            var leavevar = leavelist[0];
+                            leavevar.actual_return_date = leavevar.Return_leave;
+                            leavevar.actualchangedby = "system";
+                            leavevar.actualchangeddateby = DateTime.Now;
+                            db.Entry(leavevar).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
                         employeeleavesubmition.apstatus = "approved";
                         employeeleavesubmition.approved_byline = "N/A";
                         employeeleavesubmition.approved_byhod = User.Identity.Name;
                         db.Entry(employeeleavesubmition).State = EntityState.Modified;
                         db.SaveChanges();
                         SendMail("", "approved", id);
+                    }
+                    else
+                    {
+                        employeeleavesubmition.apstatus = "already exists";
+                        db.Entry(employeeleavesubmition).State = EntityState.Modified;
+                        db.SaveChanges();
                     }
                     return RedirectToAction("empleaveap");
                 }
@@ -962,21 +1017,38 @@ namespace HRworks.Controllers
                 return RedirectToAction("empleaveap");
             }
         back:;
-            if (User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("super_admin"))
+            if (currentrel.HOD == empjd.employee_id )
             {
                 var leavedupcheck = db.Leaves.ToList();
                 if (!leavedupcheck.Exists(x => x.Start_leave == leaveentry.Start_leave && x.Employee_id == leaveentry.Employee_id))
                 {
-                    leaveentry.actualchangedby = "added by system after approval " + User.Identity.Name;
+                    leaveentry.actualchangedby = "added after approval " + User.Identity.Name;
                     leaveentry.approved_by = User.Identity.Name;
                     leaveentry.imgpath = employeeleavesubmition.imgpath;
                     db.Leaves.Add(leaveentry);
                     db.SaveChanges();
+                    var tempdate = leaveentry.Start_leave.Value.AddDays(-1);
+                    var leavelist = db.Leaves.Where(x => x.Employee_id == leaveentry.Employee_id && x.End_leave == tempdate && x.actual_return_date == null).ToList();
+                    if (leavelist.Count > 0)
+                    {
+                        var leavevar = leavelist[0];
+                        leavevar.actual_return_date = leavevar.Return_leave;
+                        leavevar.actualchangedby = "system";
+                        leavevar.actualchangeddateby = DateTime.Now;
+                        db.Entry(leavevar).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
                     employeeleavesubmition.approved_byhod = User.Identity.Name;
                     employeeleavesubmition.apstatus = "approved";
                     db.Entry(employeeleavesubmition).State = EntityState.Modified;
                     db.SaveChanges();
                     SendMail("", "approved", id);
+                }
+                else
+                {
+                    employeeleavesubmition.apstatus = "already exists";
+                    db.Entry(employeeleavesubmition).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
                 return RedirectToAction("empleaveap");
             }
@@ -987,9 +1059,26 @@ namespace HRworks.Controllers
         public ActionResult reject(int id, string message)
         {
             var employeeleavesubmition = db.employeeleavesubmitions.Find(id);
-            if (User.IsInRole("Manager"))
+            var userempnolist = db.usernames
+                .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
+            var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
+            var relationlist = db.emprels.ToList();
+            var empjd = empuser.master_file;
+            var logedinsrels = relationlist.FindAll(x => x.line_man == empjd.employee_id || x.HOD == empjd.employee_id);
+            var currentrel = logedinsrels.Find(x => x.Employee_id == employeeleavesubmition.Employee_id);
+            if (User.IsInRole("super_admin"))
             {
-                if (User.IsInRole("HOD"))
+                employeeleavesubmition.apstatus = "rejected by HR for " + message;
+                employeeleavesubmition.approved_byhod = User.Identity.Name;
+                employeeleavesubmition.approved_byline = "N/A";
+                db.Entry(employeeleavesubmition).State = EntityState.Modified;
+                db.SaveChanges();
+                SendMail(message, "rejected by HR for ", id);
+                return RedirectToAction("empleaveap");
+            }
+            if (currentrel.line_man == empjd.employee_id)
+            {
+                if (currentrel.HOD == empjd.employee_id)
                 {
                     goto hodtra;
                 }
@@ -1002,7 +1091,7 @@ namespace HRworks.Controllers
             }
 
             hodtra: ;
-            if (User.IsInRole("HOD") || User.IsInRole("EXTHOD"))
+            if (currentrel.HOD == empjd.employee_id)
             {
                 employeeleavesubmition.apstatus = "rejected by HOD for " + message;
                 employeeleavesubmition.approved_byhod = User.Identity.Name;
@@ -1012,15 +1101,6 @@ namespace HRworks.Controllers
                 return RedirectToAction("empleaveap");
             }
 
-            if (User.IsInRole("super_admin"))
-            {
-                employeeleavesubmition.apstatus = "rejected by HR for " + message;
-                employeeleavesubmition.approved_byhod = User.Identity.Name;
-                employeeleavesubmition.approved_byline = "N/A";
-                db.Entry(employeeleavesubmition).State = EntityState.Modified;
-                db.SaveChanges();
-                SendMail(message, "rejected by HR for ", id);
-            }
 
             return RedirectToAction("empleaveap");
         }

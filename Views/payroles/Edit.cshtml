@@ -97,13 +97,13 @@
         </div>
     </div>
 
-    <div class="form-group" style="display: none">
+    @*<div class="form-group" style="display: none">
         @Html.LabelFor(model => model.Fot, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Fot, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Fot, "", new { @class = "text-danger" })
         </div>
-    </div>
+    </div>*@
 
     <div class="form-group" style="display: none">
         @Html.LabelFor(model => model.TotalOT, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -137,7 +137,7 @@
         </div>
     </div>
 
-    <div class="form-group"  style="display: none">
+    <div class="form-group"  >
         @Html.LabelFor(model => model.FoodAllow, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.FoodAllow, new { htmlAttributes = new { @class = "form-control", @required = "true" } })
@@ -191,13 +191,13 @@
             @Html.ValidationMessageFor(model => model.amount, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+    @*<div class="form-group">
         @Html.Label("deduction/addition", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("ded_add", new List<SelectListItem>(ViewBag.ded_add), htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.ded_add, "", new { @class = "text-danger" })
         </div>
-    </div>
+    </div>*@
 
     <div class="form-group" style="display: none">
         @Html.LabelFor(model => model.TotalDedution, htmlAttributes: new { @class = "control-label col-md-2" })

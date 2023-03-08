@@ -318,7 +318,8 @@ namespace HRworks.Controllers
 
         public void DownloadExcel()
         {
-            var Ep = new ExcelPackage();
+            /*
+             var Ep = new ExcelPackage();
             var Sheet = Ep.Workbook.Worksheets.Add("CONTRACT");
             Sheet.Cells["A1"].Value = "employee no";
             Sheet.Cells["B1"].Value = "Line Manager";
@@ -332,6 +333,14 @@ namespace HRworks.Controllers
             this.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             this.Response.AddHeader("content-disposition", "filename = relation_template.xlsx");
             this.Response.BinaryWrite(Ep.GetAsByteArray());
+            this.Response.End();
+            */
+            var csv = "employee no,Line Manager,HOD/GM\n";
+            csv += "5386,5342,4997\n";
+            this.Response.Clear();
+            this.Response.ContentType = "text/csv";
+            this.Response.AddHeader("content-disposition", "filename = relation_template.csv");
+            this.Response.Write(csv);
             this.Response.End();
         }
 

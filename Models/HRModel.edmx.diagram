@@ -114,6 +114,8 @@
         <EntityTypeShape EntityType="HRModel.empreturnfromleavesub" Width="1.5" PointX="14.5" PointY="19.25" />
         <AssociationConnector Association="HRModel.FK_empretsub_To_leave" />
         <AssociationConnector Association="HRModel.FK_empretsub_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.leavecalperyear" Width="1.5" PointX="2.875" PointY="108.375" />
+        <AssociationConnector Association="HRModel.FK_leavecallperyear_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

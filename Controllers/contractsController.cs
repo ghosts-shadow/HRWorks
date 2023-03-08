@@ -11,6 +11,7 @@
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Security;
+    using System.Web.UI.WebControls;
 
     using HRworks.Models;
 
@@ -41,6 +42,25 @@
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
 
+            var listItems = new List<ListItem>
+            {
+                new ListItem {Text = "1", Value = "1"},
+                new ListItem {Text = "2", Value = "2"},
+                new ListItem {Text = "3", Value = "3"},
+                new ListItem {Text = "4C", Value = "4C"},
+                new ListItem {Text = "4B", Value = "4B"},
+                new ListItem {Text = "4A", Value = "4A"},
+                new ListItem {Text = "5B", Value = "5B"},
+                new ListItem {Text = "5A", Value = "5A"},
+                new ListItem {Text = "6B", Value = "6B"},
+                new ListItem {Text = "6A ", Value = "6A"},
+                new ListItem {Text = "7B", Value = "7B"},
+                new ListItem {Text = "7A", Value = "7A"},
+                new ListItem {Text = "8B", Value = "8B"},
+                new ListItem {Text = "8A", Value = "8A"},
+                new ListItem {Text = "9", Value = "9"}
+            };
+            this.ViewBag.gradelist = new SelectList(listItems, "Value", "Text");
             this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
             this.ViewBag.employee_no1 = new SelectList(
                 afinallist.OrderBy(e => e.employee_name),
@@ -63,6 +83,25 @@
             HttpPostedFileBase fileBase)
         {
             string serverfile;
+            var listItems = new List<ListItem>
+            {
+                new ListItem {Text = "1", Value = "1"},
+                new ListItem {Text = "2", Value = "2"},
+                new ListItem {Text = "3", Value = "3"},
+                new ListItem {Text = "4C", Value = "4C"},
+                new ListItem {Text = "4B", Value = "4B"},
+                new ListItem {Text = "4A", Value = "4A"},
+                new ListItem {Text = "5B", Value = "5B"},
+                new ListItem {Text = "5A", Value = "5A"},
+                new ListItem {Text = "6B", Value = "6B"},
+                new ListItem {Text = "6A ", Value = "6A"},
+                new ListItem {Text = "7B", Value = "7B"},
+                new ListItem {Text = "7A", Value = "7A"},
+                new ListItem {Text = "8B", Value = "8B"},
+                new ListItem {Text = "8A", Value = "8A"},
+                new ListItem {Text = "9", Value = "9"}
+            };
+            this.ViewBag.gradelist = new SelectList(listItems, "Value", "Text");
             if (fileBase != null)
             {
                 var a = this.db.master_file.Find(contract.employee_no);
@@ -274,6 +313,25 @@
         [Authorize(Roles = "super_admin,admin,payrole,employee_con")]
         public ActionResult Edit(int? id)
         {
+            var listItems = new List<ListItem>
+            {
+                new ListItem {Text = "1", Value = "1"},
+                new ListItem {Text = "2", Value = "2"},
+                new ListItem {Text = "3", Value = "3"},
+                new ListItem {Text = "4C", Value = "4C"},
+                new ListItem {Text = "4B", Value = "4B"},
+                new ListItem {Text = "4A", Value = "4A"},
+                new ListItem {Text = "5B", Value = "5B"},
+                new ListItem {Text = "5A", Value = "5A"},
+                new ListItem {Text = "6B", Value = "6B"},
+                new ListItem {Text = "6A ", Value = "6A"},
+                new ListItem {Text = "7B", Value = "7B"},
+                new ListItem {Text = "7A", Value = "7A"},
+                new ListItem {Text = "8B", Value = "8B"},
+                new ListItem {Text = "8A", Value = "8A"},
+                new ListItem {Text = "9", Value = "9"}
+            };
+            this.ViewBag.gradelist = new SelectList(listItems, "Value", "Text");
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var contract = this.db.contracts.Find(id);
             if (contract == null) return this.HttpNotFound();
@@ -330,6 +388,25 @@
             HttpPostedFileBase fileBase)
         {
             string serverfile = null;
+            var listItems = new List<ListItem>
+            {
+                new ListItem {Text = "1", Value = "1"},
+                new ListItem {Text = "2", Value = "2"},
+                new ListItem {Text = "3", Value = "3"},
+                new ListItem {Text = "4C", Value = "4C"},
+                new ListItem {Text = "4B", Value = "4B"},
+                new ListItem {Text = "4A", Value = "4A"},
+                new ListItem {Text = "5B", Value = "5B"},
+                new ListItem {Text = "5A", Value = "5A"},
+                new ListItem {Text = "6B", Value = "6B"},
+                new ListItem {Text = "6A ", Value = "6A"},
+                new ListItem {Text = "7B", Value = "7B"},
+                new ListItem {Text = "7A", Value = "7A"},
+                new ListItem {Text = "8B", Value = "8B"},
+                new ListItem {Text = "8A", Value = "8A"},
+                new ListItem {Text = "9", Value = "9"}
+            };
+            this.ViewBag.gradelist = new SelectList(listItems, "Value", "Text");
             if (fileBase != null)
             {
                 var a = this.db.master_file.Find(contract.employee_no);
@@ -692,6 +769,10 @@
 
         public string Protect(string unprotectedText)
         {
+            if(unprotectedText.IsNullOrWhiteSpace())
+            {
+                unprotectedText = "0";
+            }
             var unprotectedBytes = Encoding.UTF8.GetBytes(unprotectedText);
             var protectedBytes = MachineKey.Protect(unprotectedBytes, Purpose);
             var protectedText = Convert.ToBase64String(protectedBytes);

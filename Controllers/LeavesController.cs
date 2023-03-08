@@ -1178,6 +1178,7 @@
 
             if (Employee_id != null)
             {
+                leavebalcalperyear(Employee_id.Value);
                 var leavecal2020list = db.leavecal2020.ToList();
                 var leavebal2020 = new leavecal2020();
                 forfitedbalence(empjd.employee_id);
@@ -1664,6 +1665,395 @@
             endfun: ;
         }
 
+        public void leavebalcalperyear(long Employee_id)
+        {
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var empjd = alist.Find(x => x.employee_id == Employee_id);
+
+            if (empjd == null)
+            {
+                goto endfun;
+            }
+            var asf = empjd.date_joined;
+            if (asf == null)
+            {
+                goto endfun;
+            }
+            var leaves = this.db.Leaves.OrderByDescending(x => x.Date).ThenBy(y=>y.Start_leave).Where(
+                x => x.Employee_id == Employee_id && x.Start_leave >= asf).ToList();
+            var anualleavetakentill2020 = 0d;
+            var unpaidtill2020 = 0d;
+            var intsicktill2020 = 0d;
+            var nonintsicktill2020 = 0d;
+            var compastill2020 = 0d;
+            var matertill2020 = 0d;
+            var escorttill2020 = 0d;
+            var hajtill2020 = 0d;
+            var uddahtill2020 = 0d;
+            var patertill2020 = 0d;
+            var sabtill2020 = 0d;
+            var studytill2020 = 0d;
+            var forfited2020 = 0d;
+            var periodtill2020 = (new DateTime(2020, 12, 31) - asf).Value.TotalDays + 1;
+            var leavebalancefor2020 = 0d;
+            var anualleavetakenfor2021 = 0d;
+            var unpaidfor2021 = 0d;
+            var intsickfor2021 = 0d;
+            var nonintsickfor2021 = 0d;
+            var compasfor2021 = 0d;
+            var materfor2021 = 0d;
+            var escortfor2021 = 0d;
+            var hajfor2021 = 0d;
+            var uddahfor2021 = 0d;
+            var paterfor2021 = 0d;
+            var sabfor2021 = 0d;
+            var studyfor2021 = 0d;
+            var periodfor2021 = 365;
+            var forfited2021 = 0d;
+            var leavestill2021 = leaves.FindAll(x => x.Date <= new DateTime(2022, 3, 31));
+            var leavebalancefor2021 = 0d;
+            var anualleavetakenperyear = 0d;
+            var unpaidperyear = 0d;
+            var intsickperyear = 0d;
+            var nonintsickperyear = 0d;
+            var compasperyear = 0d;
+            var materperyear = 0d;
+            var escortperyear = 0d;
+            var hajperyear = 0d;
+            var uddahperyear = 0d;
+            var paterperyear = 0d;
+            var sabperyear = 0d;
+            var studyperyear = 0d;
+            var periodperyear = 365;
+            var forfitedperyear = 0d;
+            var leavesperyear = new List<Leave>();
+            var leavebalanceperyear = 0d;
+            foreach (var leaf in leavestill2021)
+            {
+                var times = new TimeSpan?();
+                times = leaf.End_leave - leaf.Start_leave;
+                if (leaf.leave_type == "1")
+                {
+                    if (leaf.half)
+                    {
+                        if (leaf.Date <= new DateTime(2021, 3, 31))
+                        {
+                            if (times != null) anualleavetakentill2020 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        if (leaf.Date > new DateTime(2021, 3, 31) && leaf.Date <= new DateTime(2022, 3, 31))
+                        {
+                            if (times != null) anualleavetakenfor2021 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                    }
+                    else
+                    {
+                        if (leaf.Date <= new DateTime(2021, 3, 31))
+                        {
+                            if (times != null) anualleavetakentill2020 += times.Value.TotalDays + 1;
+                        }
+                        if (leaf.Date > new DateTime(2021, 3, 31) && leaf.Date <= new DateTime(2022, 3, 31))
+                        {
+                            if (times != null) anualleavetakenfor2021 += times.Value.TotalDays + 1;
+                        }
+                    }
+                }
+
+                if (leaf.leave_type == "2")
+                {
+                    if (leaf.half)
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) nonintsicktill2020 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) nonintsickfor2021 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                    }
+                    else
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) nonintsicktill2020 += times.Value.TotalDays + 1;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) nonintsickfor2021 += times.Value.TotalDays + 1;
+                        }
+                    }
+                }
+
+                if (leaf.leave_type == "3")
+                {
+                    if (leaf.half)
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) compastill2020 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) compasfor2021 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                    }
+                    else
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) compastill2020 += times.Value.TotalDays + 1;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) compasfor2021 += times.Value.TotalDays + 1;
+                        }
+                    }
+                }
+
+                if (leaf.leave_type == "4")
+                {
+                    if (leaf.half)
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) matertill2020 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) materfor2021 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                    }
+                    else
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) matertill2020 += times.Value.TotalDays + 1;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) materfor2021 += times.Value.TotalDays + 1;
+                        }
+                    }
+                }
+
+                if (leaf.leave_type == "5")
+                {
+                    if (leaf.half)
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) hajtill2020 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) hajfor2021 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                    }
+                    else
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) hajtill2020 += times.Value.TotalDays + 1;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) hajfor2021 += times.Value.TotalDays + 1;
+                        }
+                    }
+                }
+
+                if (leaf.leave_type == "6")
+                {
+                    if (leaf.half)
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) unpaidtill2020 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        if (leaf.Date > new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) unpaidfor2021 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                    }
+                    else
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) unpaidtill2020 += times.Value.TotalDays + 1;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) unpaidfor2021 += times.Value.TotalDays + 1;
+                        }
+                    }
+                }
+                if (leaf.leave_type == "7")
+                {
+                    if (leaf.half)
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) intsicktill2020 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) intsickfor2021 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                    }
+                    else
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) intsicktill2020 += times.Value.TotalDays + 1;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) intsickfor2021 += times.Value.TotalDays + 1;
+                        }
+                    }
+                }
+                if (leaf.leave_type == "8")
+                {
+                    if (leaf.half)
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) uddahtill2020 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) uddahfor2021 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                    }
+                    else
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) uddahtill2020 += times.Value.TotalDays + 1;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) uddahfor2021 += times.Value.TotalDays + 1;
+                        }
+                    }
+                }
+                if (leaf.leave_type == "9")
+                {
+                    if (leaf.half)
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) escorttill2020 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) escortfor2021 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                    }
+                    else
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) escorttill2020 += times.Value.TotalDays + 1;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) escortfor2021 += times.Value.TotalDays + 1;
+                        }
+                    }
+                }
+                if (leaf.leave_type == "10")
+                {
+                    if (leaf.half)
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) patertill2020 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) paterfor2021 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                    }
+                    else
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) patertill2020 += times.Value.TotalDays + 1;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) paterfor2021+= times.Value.TotalDays + 1;
+                        }
+                    }
+                }
+                if (leaf.leave_type == "11")
+                {
+                    if (leaf.half)
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) sabtill2020 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) sabfor2021 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                    }
+                    else
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) sabtill2020 += times.Value.TotalDays + 1;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) sabfor2021 += times.Value.TotalDays + 1;
+                        }
+                    }
+                }
+                if (leaf.leave_type == "12")
+                {
+                    if (leaf.half)
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) studytill2020 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) studyfor2021 += times.Value.TotalDays + 1 - 0.5;
+                        }
+                    }
+                    else
+                    {
+                        if (leaf.Date <= new DateTime(2020, 12, 31))
+                        {
+                            if (times != null) studytill2020 += times.Value.TotalDays + 1;
+                        }
+                        if (leaf.Date >= new DateTime(2020, 12, 31) && leaf.Date <= new DateTime(2021, 12, 31))
+                        {
+                            if (times != null) studyfor2021 += times.Value.TotalDays + 1;
+                        }
+                    }
+                }
+            }
+            var netperiodtill2020 = periodtill2020 - unpaidtill2020;
+            var actill2020 = Math.Round(netperiodtill2020 * 30 / 360);
+            leavebalancefor2020 = actill2020 - anualleavetakentill2020;
+            if (leavebalancefor2020 <0)
+            {
+                leavebalancefor2021 = 30 - anualleavetakenfor2021 + leavebalancefor2020;
+            }
+            else
+            {
+                leavebalancefor2021 = 30 - anualleavetakenfor2021;
+                forfited2020 = leavebalancefor2020;
+            }
+
+        endfun: ;
+        }
+
         public ActionResult reportserch(int? days)
         {
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
@@ -1938,7 +2328,7 @@
                     var templeavelist = cllist.FindAll(x => x.Start_leave <= j && x.End_leave >= j);
                     foreach (var leaf in templeavelist)
                     {
-                        if (!leaveconlistfinal.Exists(x=>x.id == leaf.id))
+                        if (!leaveconlistfinal.Exists(x=>x.id == leaf.id) && leaf.leave_type == leave_type.ToString())
                         {
                             leaveconlistfinal.Add(leaf);
                         }

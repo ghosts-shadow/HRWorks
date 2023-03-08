@@ -1,0 +1,22 @@
+﻿@model HRworks.Models.RoleEdit
+@{
+    ViewBag.Title = "Edit";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName)
+        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Users in this role:")
+        <ul>
+            @foreach (var user in Model.Role)
+            {
+                <li>@user</li>
+            }
+        </ul>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+}

@@ -524,6 +524,33 @@
           <Property Name="dateupdated" Type="date" />
           <Property Name="ifslbal" Type="float" />
         </EntityType>
+        <EntityType Name="leavecalperyear">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="balances_of_year" Type="datetime" Nullable="false" />
+          <Property Name="period" Type="int" />
+          <Property Name="unpaid" Type="int" />
+          <Property Name="net_period" Type="int" />
+          <Property Name="accrued" Type="int" />
+          <Property Name="annual_leave_taken" Type="int" />
+          <Property Name="Annual_Leave_Applied" Type="int" />
+          <Property Name="Annual_Leave_total" Type="int" />
+          <Property Name="leave_balance" Type="int" />
+          <Property Name="forfited_balance" Type="int" />
+          <Property Name="sick_leave_balance" Type="int" />
+          <Property Name="compassionate_leave_balance" Type="int" />
+          <Property Name="maternity_leave_balance" Type="int" />
+          <Property Name="haj_leave_balance" Type="int" />
+          <Property Name="UDDAH_leave_balance" Type="int" />
+          <Property Name="escort_leave_balance" Type="int" />
+          <Property Name="paternity_leave_balance" Type="int" />
+          <Property Name="sabbatical_leave_balance" Type="int" />
+          <Property Name="study_leave_balance" Type="int" />
+          <Property Name="date_updated" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
             <PropertyRef Name="Id" />
@@ -1093,7 +1120,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_els_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="employeeleavesubmition" Type="Self.employeeleavesubmition" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1105,7 +1134,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_empretsub_To_leave">
-          <End Role="Leave" Type="Self.Leave" Multiplicity="1" />
+          <End Role="Leave" Type="Self.Leave" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="empreturnfromleavesub" Type="Self.empreturnfromleavesub" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Leave">
@@ -1117,7 +1148,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_empretsub_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="empreturnfromleavesub" Type="Self.empreturnfromleavesub" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1260,6 +1293,18 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="leavecal2020">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_leavecallperyear_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="leavecalperyear" Type="Self.leavecalperyear" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="leavecalperyear">
               <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1518,6 +1563,7 @@
           <EntitySet Name="Leave_approved" EntityType="Self.Leave_approved" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leavecal" EntityType="Self.leavecal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leavecal2020" EntityType="Self.leavecal2020" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="leavecalperyear" EntityType="Self.leavecalperyear" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liqiapproval" EntityType="Self.liqiapproval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation" EntityType="Self.liquidation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liquidation_ref" EntityType="Self.liquidation_ref" Schema="dbo" store:Type="Tables" />
@@ -1654,6 +1700,10 @@
           <AssociationSet Name="FK_leavecal2020_To_master_file" Association="Self.FK_leavecal2020_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="leavecal2020" EntitySet="leavecal2020" />
+          </AssociationSet>
+          <AssociationSet Name="FK_leavecallperyear_To_master_file" Association="Self.FK_leavecallperyear_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="leavecalperyear" EntitySet="leavecalperyear" />
           </AssociationSet>
           <AssociationSet Name="FK_liqui_To_master_file" Association="Self.FK_liqui_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -2005,6 +2055,7 @@
           <NavigationProperty Name="certificatesavingtest_" Relationship="HRModel.FK_certificatereq_To_master_file" FromRole="master_file" ToRole="certificatesavingtest_" />
           <NavigationProperty Name="detailsinarabics" Relationship="HRModel.FK_AR_To_master_file" FromRole="master_file" ToRole="detailsinarabic" />
           <NavigationProperty Name="empreturnfromleavesubs" Relationship="HRModel.FK_empretsub_To_master_file" FromRole="master_file" ToRole="empreturnfromleavesub" />
+          <NavigationProperty Name="leavecalperyears" Relationship="HRModel.FK_leavecallperyear_To_master_file" FromRole="master_file" ToRole="leavecalperyear" />
         </EntityType>
         <EntityType Name="passport">
           <Key>
@@ -2510,6 +2561,11 @@
           <AssociationSet Name="FK_empretsub_To_master_file" Association="HRModel.FK_empretsub_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="empreturnfromleavesub" EntitySet="empreturnfromleavesubs" />
+          </AssociationSet>
+          <EntitySet Name="leavecalperyears" EntityType="HRModel.leavecalperyear" />
+          <AssociationSet Name="FK_leavecallperyear_To_master_file" Association="HRModel.FK_leavecallperyear_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="leavecalperyear" EntitySet="leavecalperyears" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Leave_approved">
@@ -3578,6 +3634,46 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="leavecalperyear">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="balances_of_year" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="period" Type="Int32" />
+          <Property Name="unpaid" Type="Int32" />
+          <Property Name="net_period" Type="Int32" />
+          <Property Name="accrued" Type="Int32" />
+          <Property Name="annual_leave_taken" Type="Int32" />
+          <Property Name="Annual_Leave_Applied" Type="Int32" />
+          <Property Name="Annual_Leave_total" Type="Int32" />
+          <Property Name="leave_balance" Type="Int32" />
+          <Property Name="forfited_balance" Type="Int32" />
+          <Property Name="sick_leave_balance" Type="Int32" />
+          <Property Name="compassionate_leave_balance" Type="Int32" />
+          <Property Name="maternity_leave_balance" Type="Int32" />
+          <Property Name="haj_leave_balance" Type="Int32" />
+          <Property Name="UDDAH_leave_balance" Type="Int32" />
+          <Property Name="escort_leave_balance" Type="Int32" />
+          <Property Name="paternity_leave_balance" Type="Int32" />
+          <Property Name="sabbatical_leave_balance" Type="Int32" />
+          <Property Name="study_leave_balance" Type="Int32" />
+          <Property Name="date_updated" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_leavecallperyear_To_master_file" FromRole="leavecalperyear" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_leavecallperyear_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.leavecalperyear" Role="leavecalperyear" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="leavecalperyear">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4530,6 +4626,34 @@
                 <ScalarProperty Name="actualreturnleave" ColumnName="actualreturnleave" />
                 <ScalarProperty Name="leaveid" ColumnName="leaveid" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="leavecalperyears">
+            <EntityTypeMapping TypeName="HRModel.leavecalperyear">
+              <MappingFragment StoreEntitySet="leavecalperyear">
+                <ScalarProperty Name="date_updated" ColumnName="date_updated" />
+                <ScalarProperty Name="study_leave_balance" ColumnName="study_leave_balance" />
+                <ScalarProperty Name="sabbatical_leave_balance" ColumnName="sabbatical_leave_balance" />
+                <ScalarProperty Name="paternity_leave_balance" ColumnName="paternity_leave_balance" />
+                <ScalarProperty Name="escort_leave_balance" ColumnName="escort_leave_balance" />
+                <ScalarProperty Name="UDDAH_leave_balance" ColumnName="UDDAH_leave_balance" />
+                <ScalarProperty Name="haj_leave_balance" ColumnName="haj_leave_balance" />
+                <ScalarProperty Name="maternity_leave_balance" ColumnName="maternity_leave_balance" />
+                <ScalarProperty Name="compassionate_leave_balance" ColumnName="compassionate_leave_balance" />
+                <ScalarProperty Name="sick_leave_balance" ColumnName="sick_leave_balance" />
+                <ScalarProperty Name="forfited_balance" ColumnName="forfited_balance" />
+                <ScalarProperty Name="leave_balance" ColumnName="leave_balance" />
+                <ScalarProperty Name="Annual_Leave_total" ColumnName="Annual_Leave_total" />
+                <ScalarProperty Name="Annual_Leave_Applied" ColumnName="Annual_Leave_Applied" />
+                <ScalarProperty Name="annual_leave_taken" ColumnName="annual_leave_taken" />
+                <ScalarProperty Name="accrued" ColumnName="accrued" />
+                <ScalarProperty Name="net_period" ColumnName="net_period" />
+                <ScalarProperty Name="unpaid" ColumnName="unpaid" />
+                <ScalarProperty Name="period" ColumnName="period" />
+                <ScalarProperty Name="balances_of_year" ColumnName="balances_of_year" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

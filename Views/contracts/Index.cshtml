@@ -77,76 +77,78 @@
 
     <table class="table"
            id="contract">
-        <tr>@*
-            <th>
-                @Html.DisplayNameFor(model => model.employee_no)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.master_file.employee_no)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.master_file.employee_name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.con_id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.designation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.grade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.departmant_project)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.salary_details)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.basic)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.housing_allowance)
-            </th>
+        <tr>
+            @*
+        <th>
+            @Html.DisplayNameFor(model => model.employee_no)
+        </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.master_file.employee_no)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.master_file.employee_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.con_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.designation)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.grade)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.departmant_project)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.salary_details)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.basic)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.housing_allowance)
+                </th>
+                @*
             <th>
                 @Html.DisplayNameFor(model => model.transportation_allowance)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FOT)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.food_allowance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.living_allowance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ticket_allowance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.others)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.arrears)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.imgpath)
-            </th>
-            @if (User.Identity.IsAuthenticated)
-            {
-                if (User.IsInRole("super_admin") || User.IsInRole("admin"))
+            </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.food_allowance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.living_allowance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ticket_allowance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.others)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.arrears)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.imgpath)
+                </th>
+                @if (User.Identity.IsAuthenticated)
                 {
-                    <th>
-                        @Html.DisplayNameFor(model => model.changed_by)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.date_changed)
-                    </th>
+                    if (User.IsInRole("super_admin") || User.IsInRole("admin"))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.changed_by)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.date_changed)
+                        </th>
+                    }
                 }
-            }
 
                 <th></th>
-        </tr>
+            </tr>
 
         @foreach (var item in Model)
         {
@@ -181,12 +183,12 @@
         <td>
             @Html.DisplayFor(modelItem => item.housing_allowance)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.transportation_allowance)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FOT)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.food_allowance)
         </td>

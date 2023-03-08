@@ -19,6 +19,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.AspNetUser.UserName)
             </th>
+            <th>Roles</th>
             <th></th>
         </tr>
 
@@ -51,6 +52,10 @@
                     }
                     @roles
                 </td>
+                @*<td>
+                    
+                    @Html.ActionLink("Edit", "RoleEdit", "Account", new { id = item.aspnet_uid },"") 
+                </td>*@
             </tr>
         }
 

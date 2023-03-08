@@ -63,7 +63,7 @@ namespace HRworks.Models
         [Display(Name = "Other")]
         public string others { get; set; }
 
-        [Display(Name = "Arrears")]
+        [Display(Name = "UAE social allowance")]
         public string arrears { get; set; }
 
         public int employee_id { get; set; }

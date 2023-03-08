@@ -80,5 +80,6 @@ namespace HRworks.Models
         public virtual DbSet<certificatetype> certificatetypes { get; set; }
         public virtual DbSet<detailsinarabic> detailsinarabics { get; set; }
         public virtual DbSet<empreturnfromleavesub> empreturnfromleavesubs { get; set; }
+        public virtual DbSet<leavecalperyear> leavecalperyears { get; set; }
     }
 }

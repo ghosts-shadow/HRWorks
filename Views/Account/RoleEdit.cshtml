@@ -1,0 +1,61 @@
+﻿@model HRworks.Models.RoleEdit
+
+@{
+    ViewBag.Title = "RoleEdit";
+}
+<style>
+    .form-group {
+          display: flex;
+          align-items: center;
+      }
+
+    .form-group label {
+        font-weight: bold;
+        width: 120px;
+        text-align: right;
+        margin-right: 10px;
+    }
+
+    .form-group label:first-of-type {
+        width: auto;
+        text-align: left;
+        margin-right: 20px;
+    }
+
+    .form-group label:last-of-type {
+        width: auto;
+        text-align: left;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.Label(Model.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Username)
+        @Html.Label(Model.Username)
+    </div>
+    <div class="form-group">
+        <table class="table">
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    roles
+                </td>
+                <td>
+                    @foreach (var item in Model.userroles)
+                    {
+                        @item.rolename
+                        @item.hasrole
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+

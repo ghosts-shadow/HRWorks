@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace HRworks.Models
 {
     using System;
@@ -36,12 +38,15 @@ namespace HRworks.Models
         public string remarks { get; set; }
         public Nullable<int> Absents { get; set; }
         public Nullable<System.DateTime> forthemonth { get; set; }
+        [Display(Name = "Ticket Allowance")]
         public string TicketAllowance_ { get; set; }
         public string Arrears { get; set; }
+        [Display(Name = "Transportation Allowance")]
         public string TransportationAllowance_ { get; set; }
         public string others { get; set; }
         public bool save { get; set; }
         public string Rstate { get; set; }
+        [Display(Name = "Pension")]
         public string amount { get; set; }
         public string ded_add { get; set; }
     
