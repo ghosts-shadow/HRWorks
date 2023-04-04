@@ -1322,7 +1322,7 @@ namespace HRworks.Controllers
                         formattedText.Clear();*/
                         var namelist = certificatesavingtest_.destination.Split(',');
                         formattedText.Append(namelist[0]);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(73, 750));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(73, 735));
                         formattedText.Clear();
                         formattedText.Append(DateTime.Today.ToString("dd MMMM yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(100, 680));
@@ -1438,10 +1438,10 @@ namespace HRworks.Controllers
                         formattedText.FontWeight = PdfFontWeight.Bold;
                         formattedText.Clear();
                         formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(111, 745));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(111, 725));
                         formattedText.Clear();
                         formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(142, 733));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(142, 711));
                         formattedText.Clear();
                         formattedText.Append(certificatesavingtest_.destination);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(110, 690));

@@ -365,6 +365,7 @@
     <Compile Include="Controllers\insurancesController.cs" />
     <Compile Include="Controllers\JOB_INTERVIEW_EVALUATIONController.cs" />
     <Compile Include="Controllers\labour_cardController.cs" />
+    <Compile Include="Controllers\lbperyearsController.cs" />
     <Compile Include="Controllers\LeavesController.cs" />
     <Compile Include="Controllers\leave_absenceController.cs" />
     <Compile Include="Controllers\liquidationsController.cs" />
@@ -424,6 +425,9 @@
     <Compile Include="Models\bank_details.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\business_trip.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\BUSINESS_TRIP_REPORT_.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -463,6 +467,9 @@
     <Compile Include="Models\detailsinarabic.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DISCIPLINARY_ACTION_FORM.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DUTY_HANDOVER.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -489,6 +496,9 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EXIT_INTERVIEW.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FINAL_DEPARTURE_CLEARANCE.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\hik.cs">
@@ -529,6 +539,9 @@
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\labour_card.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\lbperyear.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Leave.cs">
@@ -923,6 +936,10 @@
     <Content Include="arabic certificates\sautinsoft pdfs\Resignation Notice Acceptance.pdf" />
     <Content Include="arabic certificates\sautinsoft pdfs\EXPERIENCE CERTIFICATE - english.pdf" />
     <Content Include="arabic certificates\sautinsoft pdfs\Employment Certificate.pdf" />
+    <Content Include="arabic certificates\Visa request.pdf" />
+    <Content Include="arabic certificates\Salary transfer letter.pdf" />
+    <Content Include="arabic certificates\reference no.pdf" />
+    <Content Include="ApplicationInsights.config" />
     <EntityDeploy Include="Models\HRModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
@@ -930,10 +947,6 @@
     <Content Include="Models\HRModel.edmx.diagram">
       <DependentUpon>HRModel.edmx</DependentUpon>
     </Content>
-    <Content Include="arabic certificates\Visa request.pdf" />
-    <Content Include="arabic certificates\Salary transfer letter.pdf" />
-    <Content Include="arabic certificates\reference no.pdf" />
-    <Content Include="ApplicationInsights.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Models\timesheet.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1350,6 +1363,11 @@
     <Content Include="Views\employeeleavesubmitions\allpendingapprovals.cshtml" />
     <Content Include="Views\usernames\Edit.cshtml" />
     <Content Include="Views\Account\RoleEdit.cshtml" />
+    <Content Include="Views\lbperyears\Create.cshtml" />
+    <Content Include="Views\lbperyears\Delete.cshtml" />
+    <Content Include="Views\lbperyears\Details.cshtml" />
+    <Content Include="Views\lbperyears\Edit.cshtml" />
+    <Content Include="Views\lbperyears\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

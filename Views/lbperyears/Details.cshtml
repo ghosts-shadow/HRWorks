@@ -1,0 +1,58 @@
+﻿@model HRworks.Models.lbperyear
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>lbperyear</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_no)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.total_leave_balance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.total_leave_balance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.year)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.year)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_updated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_updated)
+        </dd>
+
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

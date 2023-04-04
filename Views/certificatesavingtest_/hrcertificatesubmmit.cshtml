@@ -34,8 +34,8 @@
         case "15":
         case "16":
         case "17":
-                document.getElementById('LWDhide').style.display = "";
-                document.getElementById('LWDhide').required = true;
+            document.getElementById('LWDhide').style.display = "";
+            document.getElementById('LWDhide').required = true;
             document.getElementById('reason').required = false;
             document.getElementById('reasonhide').style.display = "none";
             break;
@@ -44,11 +44,12 @@
             document.getElementById('reason').required = true;
             document.getElementById('LWDhide').style.display = "";
             document.getElementById('datepicker').required = true;
+            break;
         case "19":
         case "20":
             document.getElementById('reasonhide').style.display = "";
             document.getElementById('reason').required = true;
-                document.getElementById('LWDhide').style.display = "none";
+            document.getElementById('LWDhide').style.display = "none";
             document.getElementById('datepicker').required = false;
             break;
         default:
@@ -62,7 +63,7 @@
 //                document.getElementById('hide_1').style.display = "none";
 //                document.getElementById('hide_2').style.display = "none";
 //            }
-        
+
         //alert(document.getElementById('reason').attributes.required + " " + document.getElementById('datepicker').required);
     }
 </script>

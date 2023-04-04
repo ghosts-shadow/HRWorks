@@ -17,24 +17,24 @@ namespace HRworks.Models
         public int Id { get; set; }
         public int Employee_id { get; set; }
         public System.DateTime balances_of_year { get; set; }
-        public Nullable<int> period { get; set; }
-        public Nullable<int> unpaid { get; set; }
-        public Nullable<int> net_period { get; set; }
-        public Nullable<int> accrued { get; set; }
-        public Nullable<int> annual_leave_taken { get; set; }
-        public Nullable<int> Annual_Leave_Applied { get; set; }
-        public Nullable<int> Annual_Leave_total { get; set; }
-        public Nullable<int> leave_balance { get; set; }
-        public Nullable<int> forfited_balance { get; set; }
-        public Nullable<int> sick_leave_balance { get; set; }
-        public Nullable<int> compassionate_leave_balance { get; set; }
-        public Nullable<int> maternity_leave_balance { get; set; }
-        public Nullable<int> haj_leave_balance { get; set; }
-        public Nullable<int> UDDAH_leave_balance { get; set; }
-        public Nullable<int> escort_leave_balance { get; set; }
-        public Nullable<int> paternity_leave_balance { get; set; }
-        public Nullable<int> sabbatical_leave_balance { get; set; }
-        public Nullable<int> study_leave_balance { get; set; }
+        public Nullable<double> period { get; set; }
+        public Nullable<double> unpaid { get; set; }
+        public Nullable<double> net_period { get; set; }
+        public Nullable<double> accrued { get; set; }
+        public Nullable<double> annual_leave_taken { get; set; }
+        public Nullable<double> Annual_Leave_Applied { get; set; }
+        public Nullable<double> Annual_Leave_total { get; set; }
+        public Nullable<double> leave_balance { get; set; }
+        public Nullable<double> forfited_balance { get; set; }
+        public Nullable<double> sick_leave_balance { get; set; }
+        public Nullable<double> compassionate_leave_balance { get; set; }
+        public Nullable<double> maternity_leave_balance { get; set; }
+        public Nullable<double> haj_leave_balance { get; set; }
+        public Nullable<double> UDDAH_leave_balance { get; set; }
+        public Nullable<double> escort_leave_balance { get; set; }
+        public Nullable<double> paternity_leave_balance { get; set; }
+        public Nullable<double> sabbatical_leave_balance { get; set; }
+        public Nullable<double> study_leave_balance { get; set; }
         public System.DateTime date_updated { get; set; }
     
         public virtual master_file master_file { get; set; }

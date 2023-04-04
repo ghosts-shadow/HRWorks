@@ -4,118 +4,116 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d587a3b1ebb54aeca10ea2a7eedf8bc7" Name="Diagram1" ZoomLevel="72">
+      <Diagram DiagramId="f06bd0371d07492c84d55c70fefe4585" Name="Diagram1" ZoomLevel="10">
         <EntityTypeShape EntityType="HRModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.AspNetRole" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.AspNetUserClaim" Width="1.5" PointX="13.25" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.AspNetUserLogin" Width="1.5" PointX="13.25" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.AspNetUser" Width="1.5" PointX="11" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.bank_details" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.contract" Width="1.5" PointX="5.5" PointY="0.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.emirates_id" Width="1.5" PointX="8.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.insurance" Width="1.5" PointX="10.75" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.labour_card" Width="1.5" PointX="5" PointY="12.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.Leave" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.liqiapproval" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.liquidation" Width="1.5" PointX="6.25" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.liquidation_ref" Width="1.5" PointX="5.75" PointY="16" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.master_file" Width="1.5" PointX="0.5" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.passport" Width="1.5" PointX="7.75" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.Table" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.username" Width="1.5" PointX="13.25" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.visa" Width="1.5" PointX="3" PointY="14.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.visa_and_labour_card" Width="1.5" PointX="12.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.absencelist" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.AspNetRole" Width="2.875" PointX="11.875" PointY="82.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.AspNetUserClaim" Width="1.5" PointX="11.375" PointY="70" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.AspNetUserLogin" Width="1.5" PointX="5.625" PointY="76.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.AspNetUser" Width="1.5" PointX="11.875" PointY="73.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.ATTENDANCE_ADJUSTMENT" Width="1.5" PointX="3" PointY="21.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.bank_details" Width="1.5" PointX="3" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.business_trip" Width="1.5" PointX="3" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.BUSINESS_TRIP_REPORT_" Width="1.5" PointX="3" PointY="31.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.CERTIFICATE_REQUEST" Width="1.5" PointX="3" PointY="35.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.certificatesavingtest_" Width="1.5" PointX="26.25" PointY="77.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.certificatetype" Width="1.5" PointX="21.5" PointY="78.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.contract" Width="1.5" PointX="87.25" PointY="47.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.contractlogin" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.detailsinarabic" Width="1.5" PointX="3" PointY="50.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.DISCIPLINARY_ACTION_FORM" Width="1.5" PointX="3" PointY="53.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.DUTY_HANDOVER" Width="1.5" PointX="3" PointY="57" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.emirates_id" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.emp_joi_sta_change" Width="1.5" PointX="3" PointY="61.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.employeeleavesubmition" Width="1.5" PointX="3" PointY="67.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.emprel" Width="1.5" PointX="70.25" PointY="74" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.empreturnfromleavesub" Width="1.5" PointX="58.375" PointY="81.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.end_of_service" Width="1.5" PointX="74.75" PointY="97.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.EXIT_INTERVIEW" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.FINAL_DEPARTURE_CLEARANCE" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.hik" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.HRA_requset" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.induction_training" Width="1.5" PointX="15.875" PointY="70.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.insurance" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.JOB_INTERVIEW_EVALUATION" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.labour_card" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.lbperyear" Width="1.5" PointX="19.5" PointY="82.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.Leave" Width="1.5" PointX="63.25" PointY="85.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.leave_absence" Width="1.5" PointX="74.375" PointY="67.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.Leave_approved" Width="1.5" PointX="16.125" PointY="96.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.leavecal" Width="1.5" PointX="66" PointY="100.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.leavecal2020" Width="1.5" PointX="3" PointY="104.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.leavecalperyear" Width="1.5" PointX="3" PointY="109.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.liqiapproval" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.liquidation" Width="1.5" PointX="21" PointY="86.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.liquidation_ref" Width="1.5" PointX="14.875" PointY="86" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.liquiexp" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.MANPOWER_TRANSFER_REQUEST" Width="1.5" PointX="3" PointY="120.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.master_file" Width="21.125" PointX="32.25" PointY="71.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.OT_employee_list" Width="1.5" PointX="75.125" PointY="80.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.OVERTIME_APPROVAL" Width="1.5" PointX="75.25" PointY="85.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.passport" Width="1.5" PointX="6.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.payrole" Width="1.5" PointX="68.375" PointY="57.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.payrolelogin" Width="1.5" PointX="10.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.payrollsaved" Width="1.5" PointX="11.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.PROBATION_ASSESSMENT" Width="1.5" PointX="3" PointY="127.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.rec_req_form" Width="1.5" PointX="8.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.Table" Width="1.5" PointX="2.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.Training_Effectiveness" Width="1.5" PointX="3" PointY="132.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.Training_Evaluation" Width="1.5" PointX="3" PointY="137.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.Training_Request" Width="1.5" PointX="3" PointY="147" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.username" Width="1.5" PointX="18.375" PointY="75.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.visa" Width="1.5" PointX="3" PointY="154.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRModel.visa_and_labour_card" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="HRModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_usernames_To_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_RFAA_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_bank_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_BT_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_BTR_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_certificate_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_certificatereq_To_certificatetype" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_certificatereq_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_con_To_master_file" ManuallyRouted="false" />
-        <AssociationConnector Association="HRModel.FK_em_To_master_file" ManuallyRouted="false" >
-        </AssociationConnector>
-        <AssociationConnector Association="HRModel.FK_in_To_master_file" ManuallyRouted="false" />
-        <AssociationConnector Association="HRModel.FK_labour_card_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_end_of_service_To_contract" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_pay_To_con" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_AR_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_da_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_DHO1_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_DHO2_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_ejsc_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_els_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_ehop_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_ere_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_erl_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_empretsub_To_leave" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_empretsub_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_end_of_service_To_leavecal" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_EOS_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_induction_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_lbperyear_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_le_To_master_file" ManuallyRouted="false" />
-        <AssociationConnector Association="HRModel.FK_liqui_To_master_file" ManuallyRouted="false" >
-        </AssociationConnector>
+        <AssociationConnector Association="HRModel.FK_pay_To_leave" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_la_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_payrole_Toleaveab" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_leap_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_leave_cal_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_leavecal2020_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_leavecallperyear_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_liqui_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_liquidation_To_lref" ManuallyRouted="false" />
-        <AssociationConnector Association="HRModel.FK_pass_To_master_file" ManuallyRouted="false" >
-        </AssociationConnector>
-        <AssociationConnector Association="HRModel.FK_v_l_To_master_file" ManuallyRouted="false" >
-        </AssociationConnector>
+        <AssociationConnector Association="HRModel.FK_MTR_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_ot_list_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_pay_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_probation_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_TE_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_TEva_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_TR_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_usernames_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_visa_To_master_file" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_ot_list_To_OT" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.AspNetUserRoles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="HRModel.Leave_approved" Width="1.5" PointX="3" PointY="19.125" />
-        <AssociationConnector Association="HRModel.FK_leap_To_master_file" />
-        <EntityTypeShape EntityType="HRModel.leavecal" Width="1.5" PointX="3" PointY="23.25" />
-        <AssociationConnector Association="HRModel.FK_leave_cal_To_master_file" />
-        <EntityTypeShape EntityType="HRModel.leave_absence" Width="1.5" PointX="2.75" PointY="27.625" />
-        <AssociationConnector Association="HRModel.FK_la_To_master_file" />
-        <EntityTypeShape EntityType="HRModel.ATTENDANCE_ADJUSTMENT" Width="1.5" PointX="2.75" PointY="39.875" />
-        <EntityTypeShape EntityType="HRModel.BUSINESS_TRIP_REPORT_" Width="1.5" PointX="2.75" PointY="64.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.CERTIFICATE_REQUEST" Width="1.5" PointX="2.75" PointY="34.25" />
-        <EntityTypeShape EntityType="HRModel.DUTY_HANDOVER" Width="1.5" PointX="2.75" PointY="43.125" />
-        <EntityTypeShape EntityType="HRModel.EXIT_INTERVIEW" Width="1.5" PointX="11.375" PointY="14.75" />
-        <EntityTypeShape EntityType="HRModel.HRA_requset" Width="1.5" PointX="13.375" PointY="14.75" />
-        <EntityTypeShape EntityType="HRModel.induction_training" Width="1.5" PointX="2.75" PointY="47.375" />
-        <EntityTypeShape EntityType="HRModel.JOB_INTERVIEW_EVALUATION" Width="1.5" PointX="15.375" PointY="0.75" />
-        <EntityTypeShape EntityType="HRModel.MANPOWER_TRANSFER_REQUEST" Width="1.5" PointX="2.75" PointY="30.875" />
-        <EntityTypeShape EntityType="HRModel.OT_employee_list" Width="1.5" PointX="8.75" PointY="16.375" />
-        <EntityTypeShape EntityType="HRModel.OVERTIME_APPROVAL" Width="1.5" PointX="6.5" PointY="19.5" />
-        <EntityTypeShape EntityType="HRModel.PROBATION_ASSESSMENT" Width="1.5" PointX="2.75" PointY="51.5" />
-        <EntityTypeShape EntityType="HRModel.rec_req_form" Width="1.5" PointX="15.375" PointY="6.75" />
-        <EntityTypeShape EntityType="HRModel.Training_Effectiveness" Width="1.5" PointX="2.75" PointY="68.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="HRModel.Training_Evaluation" Width="1.5" PointX="2.75" PointY="57.125" />
-        <EntityTypeShape EntityType="HRModel.Training_Request" Width="1.5" PointX="2.75" PointY="72.375" />
-        <AssociationConnector Association="HRModel.FK_RFAA_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_BTR_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_certificate_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_DHO1_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_DHO2_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_induction_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_MTR_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_ot_list_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_probation_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_TE_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_TEva_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_TR_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_ot_list_To_OT" />
-        <EntityTypeShape EntityType="HRModel.end_of_service" Width="1.5" PointX="2.75" PointY="79.875" />
-        <AssociationConnector Association="HRModel.FK_EOS_To_master_file" />
-        <EntityTypeShape EntityType="HRModel.emp_joi_sta_change" Width="1.5" PointX="3" PointY="82.625" />
-        <AssociationConnector Association="HRModel.FK_ejsc_To_master_file" />
-        <EntityTypeShape EntityType="HRModel.payrolelogin" Width="1.5" PointX="15.375" PointY="14.75" />
-        <EntityTypeShape EntityType="HRModel.hik" Width="1.5" PointX="17.625" PointY="0.75" />
-        <EntityTypeShape EntityType="HRModel.absencelist" Width="1.5" PointX="17.375" PointY="4.75" />
-        <EntityTypeShape EntityType="HRModel.contractlogin" Width="1.5" PointX="17.375" PointY="7.75" />
-        <EntityTypeShape EntityType="HRModel.payrole" Width="1.5" PointX="15.375" PointY="10.75" />
-        <AssociationConnector Association="HRModel.FK_pay_To_con" />
-        <AssociationConnector Association="HRModel.FK_pay_To_leave" />
-        <AssociationConnector Association="HRModel.FK_pay_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_payrole_Toleaveab" />
-        <AssociationConnector Association="HRModel.FK_end_of_service_To_contract" />
-        <AssociationConnector Association="HRModel.FK_end_of_service_To_leavecal" />
-        <EntityTypeShape EntityType="HRModel.payrollsaved" Width="1.5" PointX="17.625" PointY="10.75" />
-        <EntityTypeShape EntityType="HRModel.liquiexp" Width="1.5" PointX="11.625" PointY="18.75" />
-        <AssociationConnector Association="HRModel.FK_usernames_To_master_file" />
-        <EntityTypeShape EntityType="HRModel.leavecal2020" Width="1.5" PointX="2.75" PointY="89.25" />
-        <AssociationConnector Association="HRModel.FK_leavecal2020_To_master_file" />
-        <EntityTypeShape EntityType="HRModel.employeeleavesubmition" Width="1.5" PointX="2.75" PointY="95.25" />
-        <AssociationConnector Association="HRModel.FK_els_To_master_file" />
-        <EntityTypeShape EntityType="HRModel.emprel" Width="1.5" PointX="2.75" PointY="101.5" />
-        <AssociationConnector Association="HRModel.FK_ehop_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_ere_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_erl_To_master_file" />
-        <EntityTypeShape EntityType="HRModel.certificatesavingtest_" Width="1.5" PointX="8.75" PointY="20.625" />
-        <EntityTypeShape EntityType="HRModel.certificatetype" Width="1.5" PointX="6.5" PointY="23" />
-        <EntityTypeShape EntityType="HRModel.detailsinarabic" Width="1.5" PointX="2.75" PointY="104.875" />
-        <AssociationConnector Association="HRModel.FK_certificatereq_To_certificatetype" />
-        <AssociationConnector Association="HRModel.FK_certificatereq_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_AR_To_master_file" />
-        <EntityTypeShape EntityType="HRModel.empreturnfromleavesub" Width="1.5" PointX="14.5" PointY="19.25" />
-        <AssociationConnector Association="HRModel.FK_empretsub_To_leave" />
-        <AssociationConnector Association="HRModel.FK_empretsub_To_master_file" />
-        <EntityTypeShape EntityType="HRModel.leavecalperyear" Width="1.5" PointX="2.875" PointY="108.375" />
-        <AssociationConnector Association="HRModel.FK_leavecallperyear_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

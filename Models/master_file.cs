@@ -56,6 +56,9 @@ namespace HRworks.Models
             this.detailsinarabics = new HashSet<detailsinarabic>();
             this.empreturnfromleavesubs = new HashSet<empreturnfromleavesub>();
             this.leavecalperyears = new HashSet<leavecalperyear>();
+            this.lbperyears = new HashSet<lbperyear>();
+            this.business_trip = new HashSet<business_trip>();
+            this.DISCIPLINARY_ACTION_FORM = new HashSet<DISCIPLINARY_ACTION_FORM>();
         }
 
 
@@ -96,7 +99,7 @@ namespace HRworks.Models
 
         [Display(Name = "Date Changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<bank_details> bank_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -173,5 +176,11 @@ namespace HRworks.Models
         public virtual ICollection<empreturnfromleavesub> empreturnfromleavesubs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<leavecalperyear> leavecalperyears { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<lbperyear> lbperyears { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<business_trip> business_trip { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DISCIPLINARY_ACTION_FORM> DISCIPLINARY_ACTION_FORM { get; set; }
     }
 }
