@@ -36,6 +36,8 @@ namespace HRworks.Models
         public Nullable<double> sabbatical_leave_balance { get; set; }
         public Nullable<double> study_leave_balance { get; set; }
         public System.DateTime date_updated { get; set; }
+        public Nullable<double> sick_leave_balance_industrial { get; set; }
+        public Nullable<double> sumittedleavebal { get; set; }
     
         public virtual master_file master_file { get; set; }
     }

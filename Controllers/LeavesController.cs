@@ -313,10 +313,12 @@ namespace HRworks.Controllers
             {
                 foreach (var file in afinallist)
                 {
-                    forfitedbalence(file.employee_id);
+                    leavebalcalperyear(file.employee_id);
+                    //forfitedbalence(file.employee_id);
                 }
 
-                var leaveballist = this.db.leavecal2020.Where(x => x.leave_balance >= days.Value).ToList();
+                var leaveballist = this.db.leavecalperyears.Where(x => x.leave_balance >= days.Value).ToList();
+                //var leaveballist = this.db.leavecal2020.Where(x => x.leave_balance >= days.Value).ToList();
                 foreach (var leavecal in leaveballist)
                 {
                     var leaveempid = this.db.Leaves.Where(x => x.Employee_id == leavecal.Employee_id)
@@ -604,13 +606,20 @@ namespace HRworks.Controllers
                     passexel = ump;
                     if (empjd.date_joined != null)
                     {
-                        var forfeitedlist = db.leavecal2020.ToList();
-                        var forfeited = forfeitedlist.Find(x => x.Employee_id == Employee_id);
-                        period = forfeited.periodafter2020.Value + forfeited.periodtill2020.Value;
-                        netperiod = forfeited.net_periodafter2020.Value + forfeited.net_periodtill2020.Value;
-                        ac = forfeited.accruedafter2020.Value + forfeited.accruedtill2020.Value;
-                        lb = forfeited.leave_balance.Value;
-                        forfeitedbal = forfeited.forfitedafter2020.Value + forfeited.forfitedtill2020.Value;
+                        var forfeitedlist = db.leavecalperyears.ToList();
+                        //var forfeitedlist = db.leavecal2020.ToList();
+                        var forfeited = forfeitedlist.OrderByDescending(x=>x.balances_of_year).ToList().FindAll(x => x.Employee_id == Employee_id);
+                        netperiod = forfeited[0].net_period.Value;
+                        lb = forfeited[0].leave_balance.Value;
+                        period = 0;
+                        ac = 0;
+                        forfeitedbal = 0;
+                        foreach (var leavecalperyear in forfeited)
+                        {
+                            period += leavecalperyear.period.Value;
+                            ac += leavecalperyear.accrued.Value;
+                            forfeitedbal += leavecalperyear.forfited_balance.Value;
+                        }
                     }
                 }
             }
@@ -1194,18 +1203,18 @@ namespace HRworks.Controllers
             if (Employee_id != null)
             {
                 leavebalcalperyear(Employee_id.Value);
-                var leavecal2020list = db.leavecal2020.ToList();
-                var leavebal2020 = new leavecal2020();
-                forfitedbalence(empjd.employee_id);
-                leavebal2020 = leavecal2020list.Find(x =>
-                    x.Employee_id == empjd.employee_id && x.dateupdated == DateTime.Today);
+                var leavecal2020list = db.leavecalperyears.OrderByDescending(x=>x.balances_of_year).ToList();
+                //var leavecal2020list = db.leavecal2020.ToList();
+                var leavebal2020 = new List<leavecalperyear>();
+                //forfitedbalence(empjd.employee_id);
+                leavebal2020 = leavecal2020list.FindAll(x =>
+                    x.Employee_id == empjd.employee_id);
 
                 var asf = empjd.date_joined;
-                var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
-                    x => x.Employee_id == Employee_id && x.Start_leave >= asf).ToList();
-                var ump = leaves.ToList();
-                var rdate = new DateTime();
-                var times = new TimeSpan?();
+                var leaves = this.db.Leaves.Include(l => l.master_file).OrderBy(x => x.Id).Where(x => x.Employee_id == Employee_id && x.Start_leave >= asf).ToList();
+                //var ump = leaves.ToList();
+                //var rdate = new DateTime();
+                //var times = new TimeSpan?();
                 double sick = 0;
                 double comp = 0;
                 double mate = 0;
@@ -1217,172 +1226,194 @@ namespace HRworks.Controllers
                 double study = 0;
                 double availed = 0;
                 var favailed = 0d;
-                foreach (var leaf in ump)
+                var ump1 = 0d;
+                var accr = 0d;
+                var forfited = 0d;
+                var per = 0d;
+                foreach (var leavecalperyear in leavebal2020)
                 {
-                    if (leaf.Reference == null)
-                    {
-                        leaf.Reference = DateTime.Now.ToString("F");
-                    }
-
-                    rdate = Convert.ToDateTime(leaf.Reference);
-
-                    if (leaf.leave_type == "1")
-                    {
-                        if (leaf.half)
-                        {
-                            if (DateTime.Today > leaf.Start_leave)
-                            {
-                                times = leaf.End_leave - leaf.Start_leave;
-                                if (times != null) availed += times.Value.TotalDays + 1 - 0.5;
-                            }
-                            else
-                            {
-                                times = leaf.End_leave - leaf.Start_leave;
-                                if (times != null) favailed += times.Value.TotalDays + 1 - 0.5;
-                            }
-                        }
-                        else
-                        {
-                            if (DateTime.Today > leaf.Start_leave)
-                            {
-                                times = leaf.End_leave - leaf.Start_leave;
-                                if (times != null) availed += times.Value.TotalDays + 1;
-                            }
-                            else
-                            {
-                                times = leaf.End_leave - leaf.Start_leave;
-                                if (times != null) favailed += times.Value.TotalDays + 1;
-                            }
-                        }
-                    }
-
-                    if (leaf.leave_type == "2" || leaf.leave_type == "7")
-                    {
-                        if (leaf.half)
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
-                        }
-                        else
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) sick += times.Value.TotalDays + 1;
-                        }
-                    }
-
-                    if (leaf.leave_type == "3")
-                    {
-                        if (leaf.half)
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
-                        }
-                        else
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) comp += times.Value.TotalDays + 1;
-                        }
-                    }
-
-                    if (leaf.leave_type == "4")
-                    {
-                        if (leaf.half)
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
-                        }
-                        else
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) mate += times.Value.TotalDays + 1;
-                        }
-                    }
-
-                    if (leaf.leave_type == "5")
-                    {
-                        if (leaf.half)
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
-                        }
-                        else
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) haj += times.Value.TotalDays + 1;
-                        }
-                    }
-
-                    if (leaf.leave_type == "8")
-                    {
-                        if (leaf.half)
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) udd += times.Value.TotalDays + 1 - 0.5;
-                        }
-                        else
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) udd += times.Value.TotalDays + 1;
-                        }
-                    }
-
-                    if (leaf.leave_type == "9")
-                    {
-                        if (leaf.half)
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) esco += times.Value.TotalDays + 1 - 0.5;
-                        }
-                        else
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) esco += times.Value.TotalDays + 1;
-                        }
-                    }
-
-                    if (leaf.leave_type == "10")
-                    {
-                        if (leaf.half)
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) pater += times.Value.TotalDays + 1 - 0.5;
-                        }
-                        else
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) pater += times.Value.TotalDays + 1;
-                        }
-                    }
-
-                    if (leaf.leave_type == "11")
-                    {
-                        if (leaf.half)
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) sab += times.Value.TotalDays + 1 - 0.5;
-                        }
-                        else
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) sab += times.Value.TotalDays + 1;
-                        }
-                    }
-
-                    if (leaf.leave_type == "12")
-                    {
-                        if (leaf.half)
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) study += times.Value.TotalDays + 1 - 0.5;
-                        }
-                        else
-                        {
-                            times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) study += times.Value.TotalDays + 1;
-                        }
-                    }
+                    ump1 += leavecalperyear.unpaid.Value;
+                    accr += leavecalperyear.accrued.Value;
+                    forfited += leavecalperyear.forfited_balance.Value;
+                    per += leavecalperyear.period.Value;
+                    sick += leavecalperyear.sick_leave_balance_industrial.Value+leavecalperyear.sick_leave_balance.Value;
+                    comp += leavecalperyear.compassionate_leave_balance.Value;
+                    mate += leavecalperyear.maternity_leave_balance.Value;
+                    haj += leavecalperyear.haj_leave_balance.Value;
+                    udd += leavecalperyear.UDDAH_leave_balance.Value;
+                    esco += leavecalperyear.escort_leave_balance.Value;
+                    pater += leavecalperyear.paternity_leave_balance.Value;
+                    sab += leavecalperyear.sabbatical_leave_balance.Value;
+                    availed += leavecalperyear.annual_leave_taken.Value;
+                    favailed += leavecalperyear.Annual_Leave_Applied.Value;
                 }
-
+                {
+                    /*foreach (var leaf in ump)
+                                    {
+                                        if (leaf.Reference == null)
+                                        {
+                                            leaf.Reference = DateTime.Now.ToString("F");
+                                        }
+                    
+                                        rdate = Convert.ToDateTime(leaf.Reference);
+                    
+                                        if (leaf.leave_type == "1")
+                                        {
+                                            if (leaf.half)
+                                            {
+                                                if (DateTime.Today > leaf.Start_leave)
+                                                {
+                                                    times = leaf.End_leave - leaf.Start_leave;
+                                                    if (times != null) availed += times.Value.TotalDays + 1 - 0.5;
+                                                }
+                                                else
+                                                {
+                                                    times = leaf.End_leave - leaf.Start_leave;
+                                                    if (times != null) favailed += times.Value.TotalDays + 1 - 0.5;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (DateTime.Today > leaf.Start_leave)
+                                                {
+                                                    times = leaf.End_leave - leaf.Start_leave;
+                                                    if (times != null) availed += times.Value.TotalDays + 1;
+                                                }
+                                                else
+                                                {
+                                                    times = leaf.End_leave - leaf.Start_leave;
+                                                    if (times != null) favailed += times.Value.TotalDays + 1;
+                                                }
+                                            }
+                                        }
+                    
+                                        if (leaf.leave_type == "2" || leaf.leave_type == "7")
+                                        {
+                                            if (leaf.half)
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
+                                            }
+                                            else
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) sick += times.Value.TotalDays + 1;
+                                            }
+                                        }
+                    
+                                        if (leaf.leave_type == "3")
+                                        {
+                                            if (leaf.half)
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
+                                            }
+                                            else
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) comp += times.Value.TotalDays + 1;
+                                            }
+                                        }
+                    
+                                        if (leaf.leave_type == "4")
+                                        {
+                                            if (leaf.half)
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
+                                            }
+                                            else
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) mate += times.Value.TotalDays + 1;
+                                            }
+                                        }
+                    
+                                        if (leaf.leave_type == "5")
+                                        {
+                                            if (leaf.half)
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
+                                            }
+                                            else
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) haj += times.Value.TotalDays + 1;
+                                            }
+                                        }
+                    
+                                        if (leaf.leave_type == "8")
+                                        {
+                                            if (leaf.half)
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) udd += times.Value.TotalDays + 1 - 0.5;
+                                            }
+                                            else
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) udd += times.Value.TotalDays + 1;
+                                            }
+                                        }
+                    
+                                        if (leaf.leave_type == "9")
+                                        {
+                                            if (leaf.half)
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) esco += times.Value.TotalDays + 1 - 0.5;
+                                            }
+                                            else
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) esco += times.Value.TotalDays + 1;
+                                            }
+                                        }
+                    
+                                        if (leaf.leave_type == "10")
+                                        {
+                                            if (leaf.half)
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) pater += times.Value.TotalDays + 1 - 0.5;
+                                            }
+                                            else
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) pater += times.Value.TotalDays + 1;
+                                            }
+                                        }
+                    
+                                        if (leaf.leave_type == "11")
+                                        {
+                                            if (leaf.half)
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) sab += times.Value.TotalDays + 1 - 0.5;
+                                            }
+                                            else
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) sab += times.Value.TotalDays + 1;
+                                            }
+                                        }
+                    
+                                        if (leaf.leave_type == "12")
+                                        {
+                                            if (leaf.half)
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) study += times.Value.TotalDays + 1 - 0.5;
+                                            }
+                                            else
+                                            {
+                                                times = leaf.End_leave - leaf.Start_leave;
+                                                if (times != null) study += times.Value.TotalDays + 1;
+                                            }
+                                        }
+                                    }*/
+                }
                 this.ViewBag.udd = udd;
                 this.ViewBag.esco = esco;
                 this.ViewBag.pater = pater;
@@ -1392,17 +1423,18 @@ namespace HRworks.Controllers
                 this.ViewBag.comp = comp;
                 this.ViewBag.sab = sab;
                 this.ViewBag.study = study;
-                this.ViewBag.lbal = leavebal2020.leave_balance;
-                this.ViewBag.per = leavebal2020.periodtill2020 + leavebal2020.periodafter2020;
+                this.ViewBag.lbal = leavebal2020[0].leave_balance;
                 this.ViewBag.aval = availed;
                 this.ViewBag.faval = favailed;
                 this.ViewBag.taval = availed + favailed;
-                this.ViewBag.netp = leavebal2020.net_periodtill2020 + leavebal2020.net_periodafter2020;
-                this.ViewBag.ump = leavebal2020.unpaid_leavetill2020 + leavebal2020.unpaid_leaveafter2020;
-                this.ViewBag.accr = leavebal2020.accruedafter2020 + leavebal2020.accruedtill2020;
+                this.ViewBag.netp = leavebal2020[0].net_period;
                 this.ViewBag.name = empjd.employee_name;
                 this.ViewBag.no = empjd.employee_no;
-                this.ViewBag.forfited = leavebal2020.forfitedafter2020 + leavebal2020.forfitedtill2020;
+
+                this.ViewBag.ump = ump1;
+                this.ViewBag.accr = accr;
+                this.ViewBag.forfited = forfited;
+                this.ViewBag.per = per;
                 return this.View(leaves.OrderByDescending(x => x.Start_leave).ToList());
             }
 
@@ -1705,13 +1737,30 @@ namespace HRworks.Controllers
             endfun: ;
         }
 
+        public static double RoundToNearestHalf(double number)
+        {
+            double nearestHalf = Math.Round(number * 2.0, MidpointRounding.AwayFromZero) / 2.0;
+            return nearestHalf;
+        }
+
         public void leavebalcalperyear(long Employee_id)
         {
-            const double lbpd30 = (30.0 / 360.0);
-            const double lbpd24 = (24.0 / 360.0);
-            const double lbpd45 = (45.0 / 360.0);
+            const double lbpd30 = (30.0 / 365.0);
+            const double lbpd24 = (24.0 / 365.0);
+            const double lbpd45 = (45.0 / 365.0);
+            const double lbpd30f20 = (30.0 / 360.0);
+            const double lbpd24f20 = (24.0 / 360.0);
+            const double lbpd45f20 = (45.0 / 360.0);
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
-            var empjd = alist.Find(x => x.employee_id == Employee_id);
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+
+            var empjd = afinallist.Find(x => x.employee_id == Employee_id);
             var maxleaveperyear = new lbperyear();
             if (db.lbperyears.OrderByDescending(y => y.year).ToList().Exists(x => x.Employee_id == Employee_id))
             {
@@ -1736,6 +1785,25 @@ namespace HRworks.Controllers
 
             var leaves = this.db.Leaves.OrderByDescending(x => x.Date).ThenBy(y => y.Start_leave).Where(
                 x => x.Employee_id == Employee_id && x.Start_leave >= asf).ToList();
+            var leaveperyearlist = db.leavecalperyears.Where(x => x.Employee_id == empjd.employee_id).OrderByDescending(x=>x.balances_of_year).ToList();
+            if (leaves.Count > 0)
+            {
+                var datecheck = leaves.First();
+                if (datecheck.actualchangeddateby.HasValue)
+                {
+                    var leavelastupdated = leaves.First().actualchangeddateby.Value;
+                    var leaveperyearlastupdated = leaveperyearlist.First().date_updated;
+                    if (leavelastupdated < leaveperyearlastupdated)
+                    {
+                        goto endfun;
+                    }
+                }
+                else
+                {
+                    goto endfun;
+                }
+            }
+
             var period = 0.0d;
             if (asf.Value.Year <= 2020)
             {
@@ -1760,7 +1828,12 @@ namespace HRworks.Controllers
                 leave2020.AddRange(leaverest2020);
                 foreach (var leaf in leave2020)
                 {
+                    var anltaken = true;
                     if (leaf.End_leave == null || leaf.Start_leave == null) continue;
+                    if (leaf.Start_leave > DateTime.Now)
+                    {
+                        anltaken = false;
+                    }
                     var times = leaf.End_leave - leaf.Start_leave;
                     if (times == null) continue;
                     var days = times.Value.TotalDays + 1;
@@ -1810,12 +1883,12 @@ namespace HRworks.Controllers
                 period = temptime.TotalDays + 1;
                 if (period < 365)
                 {
-                    accleave = Math.Round((period * lbpd24) - (unpaidtill2020 * (lbpd24)));
+                    accleave = Math.Round((period * lbpd24f20) - (unpaidtill2020 * (lbpd24f20)));
                 }
                 else
                 {
-                    var temp1 = (unpaidtill2020 * lbpd30);
-                    var temp2 = (period * lbpd30);
+                    var temp1 = (unpaidtill2020 * lbpd30f20);
+                    var temp2 = (period * lbpd30f20);
                     accleave = Math.Round(temp2 - temp1);
                 }
 
@@ -1841,7 +1914,8 @@ namespace HRworks.Controllers
                     savelbpy.forfited_balance = leavebal2020;
                 }
 
-                savelbpy.sick_leave_balance = intsicktill2020 + nonintsicktill2020;
+                savelbpy.sick_leave_balance = nonintsicktill2020;
+                savelbpy.sick_leave_balance_industrial = intsicktill2020;
                 savelbpy.compassionate_leave_balance = compastill2020;
                 savelbpy.maternity_leave_balance = matertill2020;
                 savelbpy.haj_leave_balance = hajtill2020;
@@ -1869,6 +1943,7 @@ namespace HRworks.Controllers
                     rewritelb.leave_balance = savelbpy.leave_balance;
                     rewritelb.forfited_balance = savelbpy.forfited_balance;
                     rewritelb.sick_leave_balance = savelbpy.sick_leave_balance;
+                    rewritelb.sick_leave_balance_industrial = savelbpy.sick_leave_balance_industrial;
                     rewritelb.compassionate_leave_balance = savelbpy.compassionate_leave_balance;
                     rewritelb.maternity_leave_balance = savelbpy.maternity_leave_balance;
                     rewritelb.haj_leave_balance = savelbpy.haj_leave_balance;
@@ -1896,26 +1971,68 @@ namespace HRworks.Controllers
                 }
             }
 
-            if (asf.Value.Year <= 2022)
+            if (asf.Value.Year <= 2023)
             {
-                for (int i = 2021; i < 2023; i++)
+                for (int i = 2021; i < 2024; i++)
                 {
                     if (asf.Value.Year <= i)
                     {
+                        savecheckleaveperyear = db.leavecalperyears.ToList();
+                        var perviousyearleave = savecheckleaveperyear.Find(x =>
+                            x.balances_of_year == new DateTime(i - 1, 1, 1) && x.Employee_id == empjd.employee_id);
+                        var ifnewleavelist = new List<Leave>();
+                        if (perviousyearleave == null)
+                        {
+                            ifnewleavelist =leaves.FindAll(x =>
+                                x.Date <= new DateTime(i, 3, 31) && x.Date >= new DateTime(i, 1, 1) && (x.leave_type == "1" || x.leave_type == "6"));
+                        }
                         var leaveannualandunpaidpy = leaves.FindAll(x =>
-                            x.Date <= new DateTime(i + 1, 3, 31) && (x.leave_type == "1" || x.leave_type == "6"));
+                            x.Date <= new DateTime(i + 1, 3, 31) && x.Date > new DateTime(i , 3, 31) && (x.leave_type == "1" || x.leave_type == "6"));
                         var leaverestpy = leaves.FindAll(x =>
-                            x.Date <= new DateTime(i, 12, 31) && !(x.leave_type == "1" || x.leave_type == "6"));
+                            x.Date <= new DateTime(i, 12, 31) && x.Date >= new DateTime(i, 1, 1) && !(x.leave_type == "1" || x.leave_type == "6"));
                         var leavepy = new List<Leave>();
-                        var savelbpy = new leavecalperyear();
+                        var savelbpy = new leavecalperyear
+                        {
+                            balances_of_year = DateTime.Now,
+                            period = 0,
+                            unpaid = 0,
+                            net_period = 0,
+                            accrued = 0,
+                            annual_leave_taken = 0,
+                            Annual_Leave_Applied = 0,
+                            Annual_Leave_total = 0,
+                            leave_balance = 0,
+                            forfited_balance = 0,
+                            sick_leave_balance = 0,
+                            compassionate_leave_balance = 0,
+                            maternity_leave_balance = 0,
+                            haj_leave_balance = 0,
+                            UDDAH_leave_balance = 0,
+                            escort_leave_balance = 0,
+                            paternity_leave_balance = 0,
+                            sabbatical_leave_balance = 0,
+                            study_leave_balance = 0,
+                            date_updated = DateTime.Now,
+                            sick_leave_balance_industrial = 0,
+                            sumittedleavebal = 0
+                        }; 
                         savelbpy.Employee_id = empjd.employee_id;
                         savelbpy.balances_of_year = new DateTime(i, 1, 1);
                         savelbpy.date_updated = DateTime.Now;
+                        if (ifnewleavelist.Count != 0)
+                        {
+                            leavepy.AddRange(ifnewleavelist);
+                        }
                         leavepy.AddRange(leaveannualandunpaidpy);
                         leavepy.AddRange(leaverestpy);
                         foreach (var leaf in leavepy)
                         {
+                            var anlnottaken = false;
                             if (leaf.End_leave == null || leaf.Start_leave == null) continue;
+                            if (leaf.Start_leave > DateTime.Now)
+                            {
+                                anlnottaken = true;
+                            }
                             var times = leaf.End_leave - leaf.Start_leave;
                             if (times == null) continue;
                             var days = times.Value.TotalDays + 1;
@@ -1923,7 +2040,14 @@ namespace HRworks.Controllers
                             switch (leaf.leave_type)
                             {
                                 case "1":
-                                    savelbpy.annual_leave_taken += days;
+                                    if (anlnottaken)
+                                    {
+                                        savelbpy.Annual_Leave_Applied += days;
+                                    }
+                                    else
+                                    {
+                                        savelbpy.annual_leave_taken += days;
+                                    }
                                     break;
                                 case "2":
                                     savelbpy.sick_leave_balance += days;
@@ -1941,7 +2065,304 @@ namespace HRworks.Controllers
                                     savelbpy.unpaid += days;
                                     break;
                                 case "7":
+                                    savelbpy.sick_leave_balance_industrial += days;
+                                    break;
+                                case "8":
+                                    savelbpy.UDDAH_leave_balance += days;
+                                    break;
+                                case "9":
+                                    savelbpy.escort_leave_balance += days;
+                                    break;
+                                case "10":
+                                    savelbpy.paternity_leave_balance += days;
+                                    break;
+                                case "11":
+                                    savelbpy.sabbatical_leave_balance += days;
+                                    break;
+                                case "12":
+                                    savelbpy.study_leave_balance += days;
+                                    break;
+                            }
+                        }
+
+                        var temptime = /*new DateTime(i, 12, 31)*/ new DateTime(DateTime.Now.Year,12,31) - asf.Value;
+                        var joiningperiod = temptime.TotalDays + 1;
+                        if (perviousyearleave == null)
+                        {
+                            var temptime1 = new DateTime(i, 12, 31) - asf.Value;
+                            period = temptime1.TotalDays + 1;
+                        }
+                        else
+                        {
+                            period = 365;
+                        }
+
+                        if (joiningperiod < 365)
+                        {
+                            if (!savelbpy.unpaid.HasValue)
+                            {
+                                savelbpy.unpaid = 0;
+                            }
+
+                            accleave = RoundToNearestHalf((joiningperiod * lbpd24) - (savelbpy.unpaid.Value * (lbpd24f20)));
+                        }
+                        else
+                        {
+                            if (!savelbpy.unpaid.HasValue)
+                            {
+                                savelbpy.unpaid = 0;
+                            }
+
+                            var temp1 = (savelbpy.unpaid.Value * lbpd30f20);
+                            var temp2 = (period * lbpd30);
+                            accleave = RoundToNearestHalf(temp2 - temp1);
+                        }
+
+                        savelbpy.accrued = accleave;
+                        savelbpy.Annual_Leave_total = savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied;
+                        savelbpy.period = period;
+                        if (perviousyearleave != null)
+                        {
+                            if (savelbpy.net_period == null)
+                            {
+                                savelbpy.net_period = 0;
+                            }
+
+                            savelbpy.net_period += perviousyearleave.net_period + period;
+                            savelbpy.leave_balance = RoundToNearestHalf(accleave) - savelbpy.Annual_Leave_total + perviousyearleave.leave_balance;
+
+                            if (DateTime.Now >= new DateTime(i + 1, 3, 31))
+                            {
+                                if (savelbpy.leave_balance <= 0)
+                                {
+                                    savelbpy.leave_balance = savelbpy.leave_balance;
+                                    savelbpy.forfited_balance = 0;
+                                }
+                                else
+                                {
+                                    savelbpy.forfited_balance = savelbpy.leave_balance;
+                                    savelbpy.leave_balance = 0;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (savelbpy.net_period == null)
+                            {
+                                savelbpy.net_period = 0;
+                            }
+                            savelbpy.leave_balance = accleave - (savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied);
+
+                            if (DateTime.Now >= new DateTime(i + 1, 3, 31))
+                            {
+                                if (savelbpy.leave_balance <= 0)
+                                {
+                                    savelbpy.leave_balance = savelbpy.leave_balance;
+                                    savelbpy.forfited_balance = 0;
+                                }
+                                else
+                                {
+                                    savelbpy.forfited_balance = savelbpy.leave_balance;
+                                    savelbpy.leave_balance = 0;
+                                }
+                            }
+
+                            savelbpy.net_period += period - savelbpy.unpaid;
+                        }
+
+
+                        if (savecheckleaveperyear.Exists(x =>
+                            x.balances_of_year == new DateTime(i, 1, 1) && x.Employee_id == empjd.employee_id))
+                        {
+                            var rewritelb = savecheckleaveperyear.Find(x =>
+                                x.balances_of_year == new DateTime(i, 1, 1) && x.Employee_id == empjd.employee_id);
+                            rewritelb.Employee_id = empjd.employee_id;
+                            rewritelb.balances_of_year = savelbpy.balances_of_year;
+                            rewritelb.period = savelbpy.period;
+                            rewritelb.unpaid = savelbpy.unpaid;
+                            rewritelb.net_period = savelbpy.net_period;
+                            rewritelb.accrued = savelbpy.accrued;
+                            rewritelb.annual_leave_taken = savelbpy.annual_leave_taken;
+                            rewritelb.Annual_Leave_Applied = savelbpy.Annual_Leave_Applied;
+                            rewritelb.Annual_Leave_total = savelbpy.Annual_Leave_total;
+                            rewritelb.leave_balance = savelbpy.leave_balance;
+                            rewritelb.forfited_balance = savelbpy.forfited_balance;
+                            rewritelb.sick_leave_balance = savelbpy.sick_leave_balance;
+                            rewritelb.sick_leave_balance_industrial = savelbpy.sick_leave_balance_industrial;
+                            rewritelb.compassionate_leave_balance = savelbpy.compassionate_leave_balance;
+                            rewritelb.maternity_leave_balance = savelbpy.maternity_leave_balance;
+                            rewritelb.haj_leave_balance = savelbpy.haj_leave_balance;
+                            rewritelb.UDDAH_leave_balance = savelbpy.UDDAH_leave_balance;
+                            rewritelb.escort_leave_balance = savelbpy.escort_leave_balance;
+                            rewritelb.paternity_leave_balance = savelbpy.paternity_leave_balance;
+                            rewritelb.sabbatical_leave_balance = savelbpy.sabbatical_leave_balance;
+                            rewritelb.study_leave_balance = savelbpy.study_leave_balance;
+                            rewritelb.date_updated = DateTime.Now;
+                            this.db.Entry(rewritelb).State = EntityState.Modified;
+                            this.db.SaveChanges();
+                        }
+                        else
+                        {
+                            this.db.leavecalperyears.Add(savelbpy);
+                            this.db.SaveChanges();
+                        }
+
+                        var submitedleave = db.employeeleavesubmitions.ToList()
+                            .FindAll(x => x.Employee_id == empjd.employee_id && x.apstatus == "submitted" && x.Date <= new DateTime(i+1, 3, 31) && x.Date >= new DateTime(i, 4, 1));
+                        
+                        var ifnewsublist = new List<employeeleavesubmition>();
+                        if (perviousyearleave == null)
+                        {
+                            ifnewsublist = db.employeeleavesubmitions.ToList().FindAll(x =>
+                                x.Date <= new DateTime(i, 3, 31) && x.Date >= new DateTime(i, 1, 1) && (x.leave_type == "1" || x.leave_type == "6"));
+                        }
+                        var yearrecord = db.leavecalperyears.ToList().Find(x =>
+                            x.Employee_id == empjd.employee_id && x.balances_of_year.Year == i);
+                        if (ifnewsublist.Count>0)
+                        {
+                            submitedleave.AddRange(ifnewsublist);
+                        }
+                        if (submitedleave.Count == 0)
+                        {
+                            yearrecord.sumittedleavebal = yearrecord.leave_balance;
+                            this.db.Entry(yearrecord).State = EntityState.Modified;
+                            this.db.SaveChanges();
+                            goto endfun1;
+                        }
+                        var anualleavesub = 0d;
+                        var unpaidsub = 0d;
+                        foreach (var leaf in submitedleave)
+                        {
+                            var anltaken = true;
+                            if (leaf.End_leave == null || leaf.Start_leave == null) continue;
+                            if (leaf.Start_leave > DateTime.Now)
+                            {
+                                anltaken = false;
+                            }
+                            var times = leaf.End_leave - leaf.Start_leave;
+                            if (times == null) continue;
+                            var days = times.Value.TotalDays + 1.0;
+                            if (leaf.half) days -= 0.5;
+                            switch (leaf.leave_type)
+                            {
+                                case "1":
+                                    anualleavesub += days;
+                                    break;
+                                case "6":
+                                    unpaidsub += days;
+                                    break;
+                            }
+                        }
+
+                        if (submitedleave.Count >0)
+                        {
+                            yearrecord.sumittedleavebal = yearrecord.leave_balance - anualleavesub - RoundToNearestHalf(unpaidsub * lbpd30f20);
+                        }
+                        else
+                        {
+                            yearrecord.sumittedleavebal = yearrecord.leave_balance ;
+                        }
+                        this.db.Entry(yearrecord).State = EntityState.Modified;
+                        this.db.SaveChanges();
+                        endfun1: ;
+                    }
+                }
+            }
+
+            if (asf.Value.Year <= 2024)
+            {
+                for (int i = 2024; i <= DateTime.Now.Year; i++)
+                {
+                    if (asf.Value.Year <= i)
+                    {
+                        var leaveannualandunpaidpy = leaves.FindAll(x =>
+                            x.Start_leave <= new DateTime(i + 1, 3, 31) && x.Start_leave > new DateTime(i, 3, 31) && (x.leave_type == "1" || x.leave_type == "6"));
+                        var leaverestpy = leaves.FindAll(x =>
+                            x.Start_leave <= new DateTime(i, 12, 31) && x.Start_leave >= new DateTime(i, 1, 1) && !(x.leave_type == "1" || x.leave_type == "6"));
+                        var ifnewleavelist = new List<Leave>();
+                        var perviousyearleave = savecheckleaveperyear.Find(x =>
+                            x.balances_of_year == new DateTime(i - 1, 1, 1) && x.Employee_id == empjd.employee_id);
+                        if (perviousyearleave == null)
+                        {
+                            ifnewleavelist = leaves.FindAll(x =>
+                                x.Date <= new DateTime(i, 3, 31) && x.Date >= new DateTime(i, 1, 1) && (x.leave_type == "1" || x.leave_type == "6"));
+                        }
+                        var leavepy = new List<Leave>();
+                        var savelbpy = new leavecalperyear
+                        {
+                            balances_of_year = DateTime.Now,
+                            period = 0,
+                            unpaid = 0,
+                            net_period = 0,
+                            accrued = 0,
+                            annual_leave_taken = 0,
+                            Annual_Leave_Applied = 0,
+                            Annual_Leave_total = 0,
+                            leave_balance = 0,
+                            forfited_balance = 0,
+                            sick_leave_balance = 0,
+                            compassionate_leave_balance = 0,
+                            maternity_leave_balance = 0,
+                            haj_leave_balance = 0,
+                            UDDAH_leave_balance = 0,
+                            escort_leave_balance = 0,
+                            paternity_leave_balance = 0,
+                            sabbatical_leave_balance = 0,
+                            study_leave_balance = 0,
+                            date_updated = DateTime.Now,
+                            sick_leave_balance_industrial = 0,
+                            sumittedleavebal = 0
+                        };
+                        savelbpy.Employee_id = empjd.employee_id;
+                        savelbpy.balances_of_year = new DateTime(i, 1, 1);
+                        savelbpy.date_updated = DateTime.Now;
+                        if (ifnewleavelist.Count != 0)
+                        {
+                            leavepy.AddRange(ifnewleavelist);
+                        }
+                        leavepy.AddRange(leaveannualandunpaidpy);
+                        leavepy.AddRange(leaverestpy);
+                        foreach (var leaf in leavepy)
+                        {
+                            var anlnottaken = false;
+                            if (leaf.End_leave == null || leaf.Start_leave == null) continue;
+                            if (leaf.Start_leave > DateTime.Now)
+                            {
+                                anlnottaken = true;
+                            }
+                            var times = leaf.End_leave - leaf.Start_leave;
+                            if (times == null) continue;
+                            var days = times.Value.TotalDays + 1;
+                            if (leaf.half) days -= 0.5;
+                            switch (leaf.leave_type)
+                            {
+                                case "1":
+                                    if (anlnottaken)
+                                    {
+                                        savelbpy.Annual_Leave_Applied += days;
+                                    }
+                                    else
+                                    {
+                                        savelbpy.annual_leave_taken += days;
+                                    }
+                                    break;
+                                case "2":
                                     savelbpy.sick_leave_balance += days;
+                                    break;
+                                case "3":
+                                    savelbpy.compassionate_leave_balance += days;
+                                    break;
+                                case "4":
+                                    savelbpy.maternity_leave_balance += days;
+                                    break;
+                                case "5":
+                                    savelbpy.haj_leave_balance += days;
+                                    break;
+                                case "6":
+                                    savelbpy.unpaid += days;
+                                    break;
+                                case "7":
+                                    savelbpy.sick_leave_balance_industrial += days;
                                     break;
                                 case "8":
                                     savelbpy.UDDAH_leave_balance += days;
@@ -1971,7 +2392,7 @@ namespace HRworks.Controllers
                                 savelbpy.unpaid = 0;
                             }
 
-                            accleave = Math.Round((joiningperiod * lbpd24) - (savelbpy.unpaid.Value * (lbpd24)));
+                            accleave = Math.Round((joiningperiod * lbpd24) - (savelbpy.unpaid.Value * (lbpd24f20)));
                         }
                         else
                         {
@@ -1980,17 +2401,13 @@ namespace HRworks.Controllers
                                 savelbpy.unpaid = 0;
                             }
 
-                            var temp1 = (savelbpy.unpaid.Value * lbpd30);
+                            var temp1 = (savelbpy.unpaid.Value * lbpd30f20);
                             var temp2 = (period * lbpd30);
                             accleave = Math.Round(temp2 - temp1);
                         }
 
                         savelbpy.Annual_Leave_total = savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied;
-                        savelbpy.leave_balance = Math.Round(accleave) -
-                                                 (savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied);
                         savelbpy.period = 365;
-                        var perviousyearleave = savecheckleaveperyear.Find(x =>
-                            x.balances_of_year == new DateTime(i - 1, 1, 1) && x.Employee_id == empjd.employee_id);
                         if (perviousyearleave != null)
                         {
                             if (savelbpy.net_period == null)
@@ -1999,23 +2416,9 @@ namespace HRworks.Controllers
                             }
 
                             savelbpy.net_period += perviousyearleave.net_period;
-                            if (savelbpy.leave_balance <= 0)
-                            {
-                                savelbpy.leave_balance = savelbpy.leave_balance + perviousyearleave.leave_balance;
-                                savelbpy.forfited_balance = 0;
-                            }
-                            else
-                            {
-                                savelbpy.leave_balance = 0;
-                                savelbpy.forfited_balance = savelbpy.leave_balance;
-                            }
-                        }
-                        else
+                        savelbpy.leave_balance = accleave - (savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied) + perviousyearleave.leave_balance;
+                        if (DateTime.Now >= new DateTime(i + 1, 3, 31))
                         {
-                            if (savelbpy.net_period == null)
-                            {
-                                savelbpy.net_period = 0;
-                            }
                             if (savelbpy.leave_balance <= 0)
                             {
                                 savelbpy.leave_balance = savelbpy.leave_balance;
@@ -2023,11 +2426,35 @@ namespace HRworks.Controllers
                             }
                             else
                             {
-                                savelbpy.leave_balance = 0;
                                 savelbpy.forfited_balance = savelbpy.leave_balance;
+                                savelbpy.leave_balance = 0;
+                            }
+                        }
+                        }
+                        else
+                        {
+                            if (savelbpy.net_period == null)
+                            {
+                                savelbpy.net_period = 0;
+                            }
+                            savelbpy.leave_balance = Math.Round(accleave) -
+                                (savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied) ;
+                            if (DateTime.Now >= new DateTime(i + 1, 3, 31))
+                            {
+                                if (savelbpy.leave_balance <= 0)
+                                {
+                                    savelbpy.leave_balance = savelbpy.leave_balance;
+                                    savelbpy.forfited_balance = 0;
+                                }
+                                else
+                                {
+                                    savelbpy.forfited_balance = savelbpy.leave_balance;
+                                    savelbpy.leave_balance = 0;
+                                }
+
                             }
 
-                            savelbpy.net_period += period;
+                            savelbpy.net_period += period - savelbpy.unpaid;
                         }
 
 
@@ -2048,6 +2475,7 @@ namespace HRworks.Controllers
                             rewritelb.leave_balance = savelbpy.leave_balance;
                             rewritelb.forfited_balance = savelbpy.forfited_balance;
                             rewritelb.sick_leave_balance = savelbpy.sick_leave_balance;
+                            rewritelb.sick_leave_balance_industrial = savelbpy.sick_leave_balance_industrial;
                             rewritelb.compassionate_leave_balance = savelbpy.compassionate_leave_balance;
                             rewritelb.maternity_leave_balance = savelbpy.maternity_leave_balance;
                             rewritelb.haj_leave_balance = savelbpy.haj_leave_balance;
@@ -2065,10 +2493,66 @@ namespace HRworks.Controllers
                             this.db.leavecalperyears.Add(savelbpy);
                             this.db.SaveChanges();
                         }
+
+                        var submitedleave = db.employeeleavesubmitions.ToList()
+                            .FindAll(x => x.Employee_id == empjd.employee_id && x.apstatus == "submitted" && x.Date <= new DateTime(i, 3, 31) && x.Date >= new DateTime(i, 1, 1));
+                        if (submitedleave.Count > 0)
+                        {
+                            goto endfun1;
+                        }
+                        var ifnewsublist = new List<employeeleavesubmition>();
+                        if (perviousyearleave == null)
+                        {
+                            ifnewsublist = db.employeeleavesubmitions.ToList().FindAll(x =>
+                                x.Date <= new DateTime(i, 3, 31) && x.Date >= new DateTime(i, 1, 1) && (x.leave_type == "1" || x.leave_type == "6"));
+                        }
+                        var yearrecord = db.leavecalperyears.ToList().Find(x =>
+                            x.Employee_id == empjd.employee_id && x.balances_of_year.Year == i);
+                        if (ifnewsublist.Count > 0)
+                        {
+                            submitedleave.AddRange(ifnewsublist);
+                        }
+                        var anualleavesub = 0d;
+                        var unpaidsub = 0d;
+                        foreach (var leaf in submitedleave)
+                        {
+                            var anltaken = true;
+                            if (leaf.End_leave == null || leaf.Start_leave == null) continue;
+                            if (leaf.Start_leave > DateTime.Now)
+                            {
+                                anltaken = false;
+                            }
+                            var times = leaf.End_leave - leaf.Start_leave;
+                            if (times == null) continue;
+                            var days = times.Value.TotalDays + 1.0;
+                            if (leaf.half) days -= 0.5;
+                            switch (leaf.leave_type)
+                            {
+                                case "1":
+                                    anualleavesub += days;
+                                    break;
+                                case "6":
+                                    unpaidsub += days;
+                                    break;
+                            }
+                        }
+
+                        if (submitedleave.Count > 0)
+                        {
+                            yearrecord.sumittedleavebal = yearrecord.leave_balance - anualleavesub - (unpaidsub * lbpd30f20);
+                        }
+                        else
+                        {
+                            yearrecord.sumittedleavebal = yearrecord.leave_balance;
+                        }
+                        this.db.Entry(yearrecord).State = EntityState.Modified;
+                        this.db.SaveChanges();
+                        endfun1: ;
                     }
                 }
             }
 
+            
             endfun: ;
         }
 
@@ -2105,7 +2589,8 @@ namespace HRworks.Controllers
             {
                 foreach (var file in afinallist)
                 {
-                    this.forfitedbalence(file.employee_id);
+                    this.leavebalcalperyear(file.employee_id);
+                    //this.forfitedbalence(file.employee_id);
                 }
 
                 var leaveballist = this.db.leavecal2020.Where(x => x.leave_balance >= days.Value).ToList();

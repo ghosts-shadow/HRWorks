@@ -612,6 +612,7 @@
           <Property Name="leave_balance" Type="float" />
           <Property Name="forfited_balance" Type="float" />
           <Property Name="sick_leave_balance" Type="float" />
+          <Property Name="sick_leave_balance_industrial" Type="float" />
           <Property Name="compassionate_leave_balance" Type="float" />
           <Property Name="maternity_leave_balance" Type="float" />
           <Property Name="haj_leave_balance" Type="float" />
@@ -620,6 +621,7 @@
           <Property Name="paternity_leave_balance" Type="float" />
           <Property Name="sabbatical_leave_balance" Type="float" />
           <Property Name="study_leave_balance" Type="float" />
+          <Property Name="sumittedleavebal" Type="float" />
           <Property Name="date_updated" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="liqiapproval">
@@ -1202,6 +1204,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_EID_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="emirates_id" Type="Self.emirates_id" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="emirates_id">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ejsc_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="emp_joi_sta_change" Type="Self.emp_joi_sta_change" Multiplicity="*" />
@@ -1316,6 +1330,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_inc_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="insurance" Type="Self.insurance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="insurance">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_induction_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="induction_training" Type="Self.induction_training" Multiplicity="*" />
@@ -1349,6 +1375,18 @@
             </Principal>
             <Dependent Role="lbperyear">
               <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_lc_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="labour_card" Type="Self.labour_card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="labour_card">
+              <PropertyRef Name="emp_no" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1531,6 +1569,18 @@
             </Principal>
             <Dependent Role="payrole">
               <PropertyRef Name="Absents" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pp_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="passport" Type="Self.passport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="passport">
+              <PropertyRef Name="employee_no" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1760,6 +1810,10 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emprel" EntitySet="emprel" />
           </AssociationSet>
+          <AssociationSet Name="FK_EID_To_master_file" Association="Self.FK_EID_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="emirates_id" EntitySet="emirates_id" />
+          </AssociationSet>
           <AssociationSet Name="FK_ejsc_To_master_file" Association="Self.FK_ejsc_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emp_joi_sta_change" EntitySet="emp_joi_sta_change" />
@@ -1796,6 +1850,10 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emprel" EntitySet="emprel" />
           </AssociationSet>
+          <AssociationSet Name="FK_inc_To_master_file" Association="Self.FK_inc_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="insurance" EntitySet="insurance" />
+          </AssociationSet>
           <AssociationSet Name="FK_induction_To_master_file" Association="Self.FK_induction_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="induction_training" EntitySet="induction_training" />
@@ -1807,6 +1865,10 @@
           <AssociationSet Name="FK_lbperyear_To_master_file" Association="Self.FK_lbperyear_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="lbperyear" EntitySet="lbperyear" />
+          </AssociationSet>
+          <AssociationSet Name="FK_lc_To_master_file" Association="Self.FK_lc_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="labour_card" EntitySet="labour_card" />
           </AssociationSet>
           <AssociationSet Name="FK_le_To_master_file" Association="Self.FK_le_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -1863,6 +1925,10 @@
           <AssociationSet Name="FK_payrole_Toleaveab" Association="Self.FK_payrole_Toleaveab">
             <End Role="leave_absence" EntitySet="leave_absence" />
             <End Role="payrole" EntitySet="payrole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pp_To_master_file" Association="Self.FK_pp_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="passport" EntitySet="passport" />
           </AssociationSet>
           <AssociationSet Name="FK_probation_To_master_file" Association="Self.FK_probation_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -2163,6 +2229,7 @@
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_changed" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_EID_To_master_file" FromRole="emirates_id" ToRole="master_file" />
         </EntityType>
         <EntityType Name="emp_joi_sta_change">
           <Key>
@@ -2374,6 +2441,7 @@
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_changed" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_inc_To_master_file" FromRole="insurance" ToRole="master_file" />
         </EntityType>
         <EntityType Name="JOB_INTERVIEW_EVALUATION">
           <Key>
@@ -2414,6 +2482,7 @@
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_changed" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_lc_To_master_file" FromRole="labour_card" ToRole="master_file" />
         </EntityType>
         <EntityType Name="lbperyear">
           <Key>
@@ -2553,6 +2622,8 @@
           <Property Name="study_leave_balance" Type="Double" />
           <Property Name="date_updated" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_leavecallperyear_To_master_file" FromRole="leavecalperyear" ToRole="master_file" />
+          <Property Name="sick_leave_balance_industrial" Type="Double" />
+          <Property Name="sumittedleavebal" Type="Double" />
         </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
@@ -2671,6 +2742,10 @@
           <NavigationProperty Name="Training_Request" Relationship="Self.FK_TR_To_master_file" FromRole="master_file" ToRole="Training_Request" />
           <NavigationProperty Name="usernames" Relationship="Self.FK_usernames_To_master_file" FromRole="master_file" ToRole="usernames" />
           <NavigationProperty Name="visas" Relationship="Self.FK_visa_To_master_file" FromRole="master_file" ToRole="visa" />
+          <NavigationProperty Name="emirates_id" Relationship="HRModel.FK_EID_To_master_file" FromRole="master_file" ToRole="emirates_id" />
+          <NavigationProperty Name="insurances" Relationship="HRModel.FK_inc_To_master_file" FromRole="master_file" ToRole="insurance" />
+          <NavigationProperty Name="labour_card" Relationship="HRModel.FK_lc_To_master_file" FromRole="master_file" ToRole="labour_card" />
+          <NavigationProperty Name="passports" Relationship="HRModel.FK_pp_To_master_file" FromRole="master_file" ToRole="passport" />
         </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
@@ -2715,6 +2790,7 @@
           <Property Name="imgpath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="changed_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="date_changed" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_pp_To_master_file" FromRole="passport" ToRole="master_file" />
         </EntityType>
         <EntityType Name="payrole">
           <Key>
@@ -3853,7 +3929,71 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <AssociationSet Name="FK_EID_To_master_file" Association="HRModel.FK_EID_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="emirates_id" EntitySet="emirates_id" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inc_To_master_file" Association="HRModel.FK_inc_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="insurance" EntitySet="insurances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_lc_To_master_file" Association="HRModel.FK_lc_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="labour_card" EntitySet="labour_card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pp_To_master_file" Association="HRModel.FK_pp_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="passport" EntitySet="passports" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_EID_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.emirates_id" Role="emirates_id" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="emirates_id">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inc_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.insurance" Role="insurance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="insurance">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_lc_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.labour_card" Role="labour_card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="labour_card">
+              <PropertyRef Name="emp_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pp_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.passport" Role="passport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="passport">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4480,6 +4620,8 @@
           <EntitySetMapping Name="leavecalperyears">
             <EntityTypeMapping TypeName="HRModel.leavecalperyear">
               <MappingFragment StoreEntitySet="leavecalperyear">
+                <ScalarProperty Name="sumittedleavebal" ColumnName="sumittedleavebal" />
+                <ScalarProperty Name="sick_leave_balance_industrial" ColumnName="sick_leave_balance_industrial" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="balances_of_year" ColumnName="balances_of_year" />

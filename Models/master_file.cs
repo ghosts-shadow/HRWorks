@@ -18,49 +18,47 @@ namespace HRworks.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public master_file()
         {
-            this.bank_details = new HashSet<bank_details>();
-            this.contracts = new HashSet<contract>();
-            this.emirates_id = new HashSet<emirates_id>();
-            this.insurances = new HashSet<insurance>();
-            this.labour_card = new HashSet<labour_card>();
-            this.Leaves = new HashSet<Leave>();
-            this.liquidations = new HashSet<liquidation>();
-            this.passports = new HashSet<passport>();
-            this.visa_and_labour_card = new HashSet<visa_and_labour_card>();
-            this.visas = new HashSet<visa>();
-            this.Leave_approved = new HashSet<Leave_approved>();
-            this.leavecals = new HashSet<leavecal>();
-            this.leave_absence = new HashSet<leave_absence>();
             this.ATTENDANCE_ADJUSTMENT = new HashSet<ATTENDANCE_ADJUSTMENT>();
+            this.bank_details = new HashSet<bank_details>();
+            this.business_trip = new HashSet<business_trip>();
             this.BUSINESS_TRIP_REPORT_ = new HashSet<BUSINESS_TRIP_REPORT_>();
             this.CERTIFICATE_REQUEST = new HashSet<CERTIFICATE_REQUEST>();
+            this.certificatesavingtest_ = new HashSet<certificatesavingtest_>();
+            this.contracts = new HashSet<contract>();
+            this.detailsinarabics = new HashSet<detailsinarabic>();
+            this.DISCIPLINARY_ACTION_FORM = new HashSet<DISCIPLINARY_ACTION_FORM>();
             this.DUTY_HANDOVER = new HashSet<DUTY_HANDOVER>();
             this.DUTY_HANDOVER1 = new HashSet<DUTY_HANDOVER>();
-            this.induction_training = new HashSet<induction_training>();
-            this.MANPOWER_TRANSFER_REQUEST = new HashSet<MANPOWER_TRANSFER_REQUEST>();
-            this.OT_employee_list = new HashSet<OT_employee_list>();
-            this.PROBATION_ASSESSMENT = new HashSet<PROBATION_ASSESSMENT>();
-            this.Training_Effectiveness = new HashSet<Training_Effectiveness>();
-            this.Training_Evaluation = new HashSet<Training_Evaluation>();
-            this.Training_Request = new HashSet<Training_Request>();
-            this.end_of_service = new HashSet<end_of_service>();
             this.emp_joi_sta_change = new HashSet<emp_joi_sta_change>();
-            this.payroles = new HashSet<payrole>();
-            this.usernames = new HashSet<username>();
-            this.leavecal2020 = new HashSet<leavecal2020>();
             this.employeeleavesubmitions = new HashSet<employeeleavesubmition>();
             this.emprels = new HashSet<emprel>();
             this.emprels1 = new HashSet<emprel>();
             this.emprels2 = new HashSet<emprel>();
-            this.certificatesavingtest_ = new HashSet<certificatesavingtest_>();
-            this.detailsinarabics = new HashSet<detailsinarabic>();
             this.empreturnfromleavesubs = new HashSet<empreturnfromleavesub>();
-            this.leavecalperyears = new HashSet<leavecalperyear>();
+            this.end_of_service = new HashSet<end_of_service>();
+            this.induction_training = new HashSet<induction_training>();
             this.lbperyears = new HashSet<lbperyear>();
-            this.business_trip = new HashSet<business_trip>();
-            this.DISCIPLINARY_ACTION_FORM = new HashSet<DISCIPLINARY_ACTION_FORM>();
+            this.Leaves = new HashSet<Leave>();
+            this.leave_absence = new HashSet<leave_absence>();
+            this.Leave_approved = new HashSet<Leave_approved>();
+            this.leavecals = new HashSet<leavecal>();
+            this.leavecal2020 = new HashSet<leavecal2020>();
+            this.leavecalperyears = new HashSet<leavecalperyear>();
+            this.liquidations = new HashSet<liquidation>();
+            this.MANPOWER_TRANSFER_REQUEST = new HashSet<MANPOWER_TRANSFER_REQUEST>();
+            this.OT_employee_list = new HashSet<OT_employee_list>();
+            this.payroles = new HashSet<payrole>();
+            this.PROBATION_ASSESSMENT = new HashSet<PROBATION_ASSESSMENT>();
+            this.Training_Effectiveness = new HashSet<Training_Effectiveness>();
+            this.Training_Evaluation = new HashSet<Training_Evaluation>();
+            this.Training_Request = new HashSet<Training_Request>();
+            this.usernames = new HashSet<username>();
+            this.visas = new HashSet<visa>();
+            this.emirates_id = new HashSet<emirates_id>();
+            this.insurances = new HashSet<insurance>();
+            this.labour_card = new HashSet<labour_card>();
+            this.passports = new HashSet<passport>();
         }
-
 
         public int employee_id { get; set; }
 
@@ -99,67 +97,31 @@ namespace HRworks.Models
 
         [Display(Name = "Date Changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
-
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ATTENDANCE_ADJUSTMENT> ATTENDANCE_ADJUSTMENT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<bank_details> bank_details { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<contract> contracts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<emirates_id> emirates_id { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<insurance> insurances { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<labour_card> labour_card { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Leave> Leaves { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<liquidation> liquidations { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<passport> passports { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<visa_and_labour_card> visa_and_labour_card { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<visa> visas { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Leave_approved> Leave_approved { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<leavecal> leavecals { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<leave_absence> leave_absence { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ATTENDANCE_ADJUSTMENT> ATTENDANCE_ADJUSTMENT { get; set; }
+        public virtual ICollection<business_trip> business_trip { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BUSINESS_TRIP_REPORT_> BUSINESS_TRIP_REPORT_ { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CERTIFICATE_REQUEST> CERTIFICATE_REQUEST { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<certificatesavingtest_> certificatesavingtest_ { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<contract> contracts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<detailsinarabic> detailsinarabics { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DISCIPLINARY_ACTION_FORM> DISCIPLINARY_ACTION_FORM { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DUTY_HANDOVER> DUTY_HANDOVER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DUTY_HANDOVER> DUTY_HANDOVER1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<induction_training> induction_training { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MANPOWER_TRANSFER_REQUEST> MANPOWER_TRANSFER_REQUEST { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OT_employee_list> OT_employee_list { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PROBATION_ASSESSMENT> PROBATION_ASSESSMENT { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Training_Effectiveness> Training_Effectiveness { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Training_Evaluation> Training_Evaluation { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Training_Request> Training_Request { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<end_of_service> end_of_service { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<emp_joi_sta_change> emp_joi_sta_change { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<payrole> payroles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<username> usernames { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<leavecal2020> leavecal2020 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<employeeleavesubmition> employeeleavesubmitions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -169,18 +131,52 @@ namespace HRworks.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<emprel> emprels2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<certificatesavingtest_> certificatesavingtest_ { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<detailsinarabic> detailsinarabics { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<empreturnfromleavesub> empreturnfromleavesubs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<leavecalperyear> leavecalperyears { get; set; }
+        public virtual ICollection<end_of_service> end_of_service { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<induction_training> induction_training { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<lbperyear> lbperyears { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<business_trip> business_trip { get; set; }
+        public virtual ICollection<Leave> Leaves { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DISCIPLINARY_ACTION_FORM> DISCIPLINARY_ACTION_FORM { get; set; }
+        public virtual ICollection<leave_absence> leave_absence { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Leave_approved> Leave_approved { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<leavecal> leavecals { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<leavecal2020> leavecal2020 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<leavecalperyear> leavecalperyears { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<liquidation> liquidations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MANPOWER_TRANSFER_REQUEST> MANPOWER_TRANSFER_REQUEST { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OT_employee_list> OT_employee_list { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<payrole> payroles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PROBATION_ASSESSMENT> PROBATION_ASSESSMENT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Training_Effectiveness> Training_Effectiveness { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Training_Evaluation> Training_Evaluation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Training_Request> Training_Request { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<username> usernames { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<visa> visas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<emirates_id> emirates_id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<insurance> insurances { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<labour_card> labour_card { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<passport> passports { get; set; }
     }
 }

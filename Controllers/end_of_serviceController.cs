@@ -128,7 +128,8 @@ namespace HRworks.Controllers
                 }
 
                 EOSBvar.abstotal = q;
-                leavcal.forfitedbalence(emp.employee_id);
+                leavcal.leavebalcalperyear(emp.employee_id);
+                //leavcal.forfitedbalence(emp.employee_id);
                 var leavecallist = this.db.leavecals.ToList();
                 var leavecal = leavecallist.Find(x => x.Employee_id == emp.employee_id);
                 EOSBvar.leavecal = leavecal;
@@ -304,7 +305,8 @@ namespace HRworks.Controllers
                 {
                     {
                         afinallist.Add(file);
-                        an.forfitedbalence(file.employee_id);
+                        an.leavebalcalperyear(file.employee_id);
+                        //an.forfitedbalence(file.employee_id);
                     }
                 }
 
@@ -312,7 +314,8 @@ namespace HRworks.Controllers
                 {
                     {
                         afinallist.Add(file);
-                        an.forfitedbalence(file.employee_id);
+                        an.leavebalcalperyear(file.employee_id);
+                        //an.forfitedbalence(file.employee_id);
                     }
                 }
             }

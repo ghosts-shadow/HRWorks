@@ -48,10 +48,12 @@ namespace HRworks.Controllers
             employeeleavesubmitions =
                 db.employeeleavesubmitions.ToList()
                     .FindAll(x => x.Employee_id == empjd.employee_id && !(x.apstatus == "approved" || x.apstatus == "already exists"));
-            leafcon.forfitedbalence(empjd.employee_id);
-            var leavecal2020list = db.leavecal2020.ToList();
-            var leavebal2020 = new leavecal2020();
-            leavebal2020 = leavecal2020list.Find(x =>
+            leafcon.leavebalcalperyear(empjd.employee_id);
+            //leafcon.forfitedbalence(empjd.employee_id);
+            var leavecal2020list = db.leavecalperyears.ToList();
+            //var leavecal2020list = db.leavecal2020.ToList();
+            //var leavebal2020 = new leavecal2020();
+            var leavebal2020 = leavecal2020list.OrderByDescending(x=>x.balances_of_year).ToList().FindAll(x =>
                 x.Employee_id == empjd.employee_id);
             var asf = empjd.date_joined;
             var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).Where(
@@ -282,7 +284,37 @@ namespace HRworks.Controllers
             this.ViewBag.comp = comp;
             this.ViewBag.sab = sab;
             this.ViewBag.study = study;
-            if (leavebal2020.leave_balance < leavebal2020.ifslbal)
+            if (leavebal2020[0].leave_balance < leavebal2020[0].sumittedleavebal)
+            {
+                this.ViewBag.lbal = leavebal2020[0].leave_balance;
+            }
+            else
+            {
+                this.ViewBag.lbal = leavebal2020[0].sumittedleavebal;
+            }
+
+            this.ViewBag.aval = availed;
+            this.ViewBag.faval = favailed;
+            this.ViewBag.taval = availed + favailed;
+            this.ViewBag.name = empjd.employee_name;
+            this.ViewBag.no = empjd.employee_no;
+            this.ViewBag.netp = leavebal2020[0].net_period;
+            var per = 0d;
+            var ump1 = 0d;
+            var accr = 0d;
+            var forfited = 0d;
+            foreach (var leavecalperyear in leavebal2020)
+            {
+                per+=leavecalperyear.period.Value;
+                ump1+=leavecalperyear.unpaid.Value;
+                accr+=leavecalperyear.accrued.Value;
+                forfited+=leavecalperyear.forfited_balance.Value;
+            }
+            this.ViewBag.per = per;
+            this.ViewBag.ump = ump1;
+            this.ViewBag.accr = accr;
+            this.ViewBag.forfited = forfited;
+            /*if (leavebal2020.leave_balance < leavebal2020.ifslbal)
             {
                 this.ViewBag.lbal = leavebal2020.leave_balance;
             }
@@ -300,7 +332,7 @@ namespace HRworks.Controllers
             this.ViewBag.accr = leavebal2020.accruedafter2020 + leavebal2020.accruedtill2020;
             this.ViewBag.name = empjd.employee_name;
             this.ViewBag.no = empjd.employee_no;
-            this.ViewBag.forfited = leavebal2020.forfitedafter2020 + leavebal2020.forfitedtill2020;
+            this.ViewBag.forfited = leavebal2020.forfitedafter2020 + leavebal2020.forfitedtill2020;*/
             return View(employeeleavesubmitions.OrderByDescending(c=>c.Start_leave).ToList());
 
             logend:;
@@ -335,7 +367,8 @@ namespace HRworks.Controllers
             var empusers = userempnolists.Find(x => x.AspNetUser.UserName == User.Identity.Name);
             var leafcon = new LeavesController();
             var empjd = empusers.master_file;
-            leafcon.forfitedbalence(empjd.employee_id);
+            leafcon.leavebalcalperyear(empjd.employee_id);
+            //leafcon.forfitedbalence(empjd.employee_id);
             var listItems = new List<ListItem>
             {
                 new ListItem {Text = "Annual", Value = "1"},
@@ -393,13 +426,14 @@ namespace HRworks.Controllers
             var jd = empuser.master_file.date_joined;
             var leavelistc = this.db.Leaves.ToList();
             var empsubleave = db.employeeleavesubmitions.ToList();
-            var leaveabal = db.leavecal2020.ToList().Find(x => x.Employee_id == empuser.master_file.employee_id);
+            var leaveabal = db.leavecalperyears.ToList().Find(x => x.Employee_id == empuser.master_file.employee_id);
+            //var leaveabal = db.leavecal2020.ToList().Find(x => x.Employee_id == empuser.master_file.employee_id);
             if (employeeleavesubmition.leave_type == "1")
             {
                 var leavebalsub = 0d;
-                if (leaveabal.ifslbal < leaveabal.leave_balance)
+                if (leaveabal.sumittedleavebal < leaveabal.leave_balance)
                 {
-                    if (leaveabal.ifslbal != null) leavebalsub = leaveabal.ifslbal.Value;
+                    if (leaveabal.sumittedleavebal != null) leavebalsub = leaveabal.sumittedleavebal.Value;
                 }
                 else
                 {

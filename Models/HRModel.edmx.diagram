@@ -114,6 +114,10 @@
         <AssociationConnector Association="HRModel.FK_visa_To_master_file" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_ot_list_To_OT" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="HRModel.FK_EID_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_inc_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_lc_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_pp_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
