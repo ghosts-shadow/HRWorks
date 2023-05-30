@@ -1,0 +1,60 @@
+﻿@model IEnumerable<HRworks.Models.Leave>
+
+@{
+    ViewBag.Title = "Dleavereport";
+}
+
+<h2>Department leave report</h2>
+
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-10">
+            <input type="text" id="search" name="search" class="btn btn-default" />
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    </div>
+    <br/>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Start_leave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.End_leave)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Start_leave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.End_leave)
+            </td>
+        </tr>
+    }
+
+</table>

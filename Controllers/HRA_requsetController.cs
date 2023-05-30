@@ -10,6 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class HRA_requsetController : Controller
     {
         private HREntities db = new HREntities();

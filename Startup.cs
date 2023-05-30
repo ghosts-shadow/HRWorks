@@ -129,6 +129,18 @@ namespace HRworks
                 role.Name = "registration";
                 roleManager.Create(role);
             }
+            if (!roleManager.RoleExists("slapproval"))
+            {
+                var role = new IdentityRole();
+                role.Name = "slapproval";
+                roleManager.Create(role);
+            }
+            if (!roleManager.RoleExists("employee_rel"))
+            {
+                var role = new IdentityRole();
+                role.Name = "employee_rel";
+                roleManager.Create(role);
+            }
         }
     }
 }

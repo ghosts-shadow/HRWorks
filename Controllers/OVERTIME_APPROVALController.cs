@@ -10,6 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class OVERTIME_APPROVALController : Controller
     {
         private HREntities db = new HREntities();

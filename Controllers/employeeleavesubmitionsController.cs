@@ -13,6 +13,7 @@ using Microsoft.Ajax.Utilities;
 using MimeKit;
 using MailKit.Net.Smtp;
 using Microsoft.AspNet.Identity;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace HRworks.Controllers
 {
@@ -61,17 +62,6 @@ namespace HRworks.Controllers
             var ump = leaves.ToList();
             var rdate = new DateTime();
             var times = new TimeSpan?();
-            double sick = 0;
-            double comp = 0;
-            double mate = 0;
-            double haj = 0;
-            double udd = 0;
-            double esco = 0;
-            double pater = 0;
-            double sab = 0;
-            double study = 0;
-            double availed = 0;
-            var favailed = 0d;
             foreach (var leaf in ump)
             {
                 var leavetoemp = new employeeleavesubmition();
@@ -87,7 +77,8 @@ namespace HRworks.Controllers
                 leavetoemp.toltal_requested_days = leaf.days;
                 leavetoemp.apstatus = "approved";
                 leavetoemp.empreturnfromleavesubs = new List<empreturnfromleavesub>();
-                var erllist = db.empreturnfromleavesubs.Where(y=>y.leaveid == leaf.Id ).OrderByDescending(x=>x.dateadded).ToList();
+                var erllist = db.empreturnfromleavesubs.Where(y => y.leaveid == leaf.Id)
+                    .OrderByDescending(x => x.dateadded).ToList();
                 var empleavesubcheck = new empreturnfromleavesub();
                 var empreturn = new empreturnfromleavesub();
                 if (erllist.Count != 0)
@@ -100,6 +91,7 @@ namespace HRworks.Controllers
                 {
                     empreturn.actualreturnleave = leaf.actual_return_date;
                 }
+
                 empreturn.Date = leavetoemp.Date;
                 empreturn.Employee_id = leavetoemp.Employee_id;
                 if (empreturn.actualreturnleave.HasValue)
@@ -109,6 +101,7 @@ namespace HRworks.Controllers
                         empreturn.apstatus = "approved";
                     }
                 }
+
                 leavetoemp.empreturnfromleavesubs.Add(empreturn);
                 employeeleavesubmitions.Add(leavetoemp);
                 if (leaf.Reference == null)
@@ -117,164 +110,247 @@ namespace HRworks.Controllers
                 }
 
                 rdate = Convert.ToDateTime(leaf.Reference);
-
-                if (leaf.leave_type == "1")
                 {
-                    if (leaf.half)
+                    /*if (leaf.leave_type == "1")
                     {
-                        if (DateTime.Today > leaf.Start_leave)
+                        if (leaf.half)
+                        {
+                            if (DateTime.Today > leaf.Start_leave)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) availed += times.Value.TotalDays + 1 - 0.5;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) favailed += times.Value.TotalDays + 1 - 0.5;
+                            }
+                        }
+                        else
+                        {
+                            if (DateTime.Today > leaf.Start_leave)
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) availed += times.Value.TotalDays + 1;
+                            }
+                            else
+                            {
+                                times = leaf.End_leave - leaf.Start_leave;
+                                if (times != null) favailed += times.Value.TotalDays + 1;
+                            }
+                        }
+                    }
+    
+                    if (leaf.leave_type == "2" || leaf.leave_type == "7")
+                    {
+                        if (leaf.half)
                         {
                             times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) availed += times.Value.TotalDays + 1 - 0.5;
+                            if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
                         }
                         else
                         {
                             times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) favailed += times.Value.TotalDays + 1 - 0.5;
+                            if (times != null) sick += times.Value.TotalDays + 1;
                         }
                     }
-                    else
+    
+                    if (leaf.leave_type == "3")
                     {
-                        if (DateTime.Today > leaf.Start_leave)
+                        if (leaf.half)
                         {
                             times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) availed += times.Value.TotalDays + 1;
+                            if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
                         }
                         else
                         {
                             times = leaf.End_leave - leaf.Start_leave;
-                            if (times != null) favailed += times.Value.TotalDays + 1;
+                            if (times != null) comp += times.Value.TotalDays + 1;
                         }
                     }
-                }
-
-                if (leaf.leave_type == "2" || leaf.leave_type == "7")
-                {
-                    if (leaf.half)
+    
+                    if (leaf.leave_type == "4")
                     {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) sick += times.Value.TotalDays + 1 - 0.5;
+                        if (leaf.half)
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        else
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) mate += times.Value.TotalDays + 1;
+                        }
                     }
-                    else
+    
+                    if (leaf.leave_type == "5")
                     {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) sick += times.Value.TotalDays + 1;
+                        if (leaf.half)
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        else
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) haj += times.Value.TotalDays + 1;
+                        }
                     }
-                }
-
-                if (leaf.leave_type == "3")
-                {
-                    if (leaf.half)
+    
+                    if (leaf.leave_type == "8")
                     {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) comp += times.Value.TotalDays + 1 - 0.5;
+                        if (leaf.half)
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) udd += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        else
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) udd += times.Value.TotalDays + 1;
+                        }
                     }
-                    else
+    
+                    if (leaf.leave_type == "9")
                     {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) comp += times.Value.TotalDays + 1;
+                        if (leaf.half)
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) esco += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        else
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) esco += times.Value.TotalDays + 1;
+                        }
                     }
-                }
-
-                if (leaf.leave_type == "4")
-                {
-                    if (leaf.half)
+    
+                    if (leaf.leave_type == "10")
                     {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) mate += times.Value.TotalDays + 1 - 0.5;
+                        if (leaf.half)
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) pater += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        else
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) pater += times.Value.TotalDays + 1;
+                        }
                     }
-                    else
+    
+                    if (leaf.leave_type == "11")
                     {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) mate += times.Value.TotalDays + 1;
+                        if (leaf.half)
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) sab += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        else
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) sab += times.Value.TotalDays + 1;
+                        }
                     }
-                }
-
-                if (leaf.leave_type == "5")
-                {
-                    if (leaf.half)
+    
+                    if (leaf.leave_type == "12")
                     {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) haj += times.Value.TotalDays + 1 - 0.5;
-                    }
-                    else
-                    {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) haj += times.Value.TotalDays + 1;
-                    }
-                }
-
-                if (leaf.leave_type == "8")
-                {
-                    if (leaf.half)
-                    {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) udd += times.Value.TotalDays + 1 - 0.5;
-                    }
-                    else
-                    {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) udd += times.Value.TotalDays + 1;
-                    }
-                }
-
-                if (leaf.leave_type == "9")
-                {
-                    if (leaf.half)
-                    {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) esco += times.Value.TotalDays + 1 - 0.5;
-                    }
-                    else
-                    {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) esco += times.Value.TotalDays + 1;
-                    }
-                }
-
-                if (leaf.leave_type == "10")
-                {
-                    if (leaf.half)
-                    {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) pater += times.Value.TotalDays + 1 - 0.5;
-                    }
-                    else
-                    {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) pater += times.Value.TotalDays + 1;
-                    }
-                }
-
-                if (leaf.leave_type == "11")
-                {
-                    if (leaf.half)
-                    {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) sab += times.Value.TotalDays + 1 - 0.5;
-                    }
-                    else
-                    {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) sab += times.Value.TotalDays + 1;
-                    }
-                }
-
-                if (leaf.leave_type == "12")
-                {
-                    if (leaf.half)
-                    {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) study += times.Value.TotalDays + 1 - 0.5;
-                    }
-                    else
-                    {
-                        times = leaf.End_leave - leaf.Start_leave;
-                        if (times != null) study += times.Value.TotalDays + 1;
-                    }
+                        if (leaf.half)
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) study += times.Value.TotalDays + 1 - 0.5;
+                        }
+                        else
+                        {
+                            times = leaf.End_leave - leaf.Start_leave;
+                            if (times != null) study += times.Value.TotalDays + 1;
+                        }
+                    }*/
                 }
             }
 
+            if (DateTime.Today <= new DateTime(DateTime.Today.Year,3,31))
+            {
+                if (leavebal2020.Count > 1 && (leavebal2020[1].leave_balance > 0 || leavebal2020[1].sumittedleavebal > 0))
+                {
+
+                    if (leavebal2020[0].leave_balance + leavebal2020[1].leave_balance <
+                        leavebal2020[0].sumittedleavebal + leavebal2020[1].sumittedleavebal)
+                    {
+                        this.ViewBag.lbal = leavebal2020[0].leave_balance + leavebal2020[1].leave_balance;
+                    }
+                    else
+                    {
+                        this.ViewBag.lbal = leavebal2020[0].sumittedleavebal + leavebal2020[1].sumittedleavebal;
+                    }
+                }
+                else
+                {
+                    if (leavebal2020[0].leave_balance < leavebal2020[0].sumittedleavebal)
+                    {
+                        this.ViewBag.lbal = leavebal2020[0].leave_balance;
+                    }
+                    else
+                    {
+                        this.ViewBag.lbal = leavebal2020[0].sumittedleavebal;
+                    }
+                }
+            }
+            else
+            {
+                if (leavebal2020[0].leave_balance < leavebal2020[0].sumittedleavebal)
+                {
+                    this.ViewBag.lbal = leavebal2020[0].leave_balance;
+                }
+                else
+                {
+                    this.ViewBag.lbal = leavebal2020[0].sumittedleavebal;
+                }
+            }
+
+            var per = 0d;
+            var ump1 = 0d;
+            var accr = 0d;
+            var forfited = 0d;
+            double sick = 0;
+            double comp = 0;
+            double mate = 0;
+            double haj = 0;
+            double udd = 0;
+            double esco = 0;
+            double pater = 0;
+            double sab = 0;
+            double study = 0;
+            double availed = 0;
+            var favailed = 0d;
+            foreach (var leavecalperyear in leavebal2020)
+            {
+                per+=leavecalperyear.period.Value;
+                ump1+=leavecalperyear.unpaid.Value;
+                accr+=leavecalperyear.accrued.Value;
+                forfited+=leavecalperyear.forfited_balance.Value;
+                sick+=leavecalperyear.sick_leave_balance.Value+leavecalperyear.sick_leave_balance_industrial.Value;
+                comp+=leavecalperyear.compassionate_leave_balance.Value;
+                mate+=leavecalperyear.maternity_leave_balance.Value;
+                haj+=leavecalperyear.haj_leave_balance.Value;
+                udd+=leavecalperyear.UDDAH_leave_balance.Value;
+                esco+=leavecalperyear.escort_leave_balance.Value;
+                pater+=leavecalperyear.paternity_leave_balance.Value;
+                sab+=leavecalperyear.sabbatical_leave_balance.Value;
+                study+=leavecalperyear.study_leave_balance.Value;
+                availed+=leavecalperyear.annual_leave_taken.Value;
+                favailed+=leavecalperyear.Annual_Leave_Applied.Value;
+            }
+            this.ViewBag.per = per;
+            this.ViewBag.ump = ump1;
+            this.ViewBag.accr = accr;
+            this.ViewBag.forfited = forfited;
+            this.ViewBag.aval = availed;
+            this.ViewBag.faval = favailed;
+            this.ViewBag.taval = availed + favailed;
+            this.ViewBag.name = empjd.employee_name;
+            this.ViewBag.no = empjd.employee_no;
+            this.ViewBag.netp = leavebal2020[0].net_period;
             this.ViewBag.udd = udd;
             this.ViewBag.esco = esco;
             this.ViewBag.pater = pater;
@@ -284,36 +360,6 @@ namespace HRworks.Controllers
             this.ViewBag.comp = comp;
             this.ViewBag.sab = sab;
             this.ViewBag.study = study;
-            if (leavebal2020[0].leave_balance < leavebal2020[0].sumittedleavebal)
-            {
-                this.ViewBag.lbal = leavebal2020[0].leave_balance;
-            }
-            else
-            {
-                this.ViewBag.lbal = leavebal2020[0].sumittedleavebal;
-            }
-
-            this.ViewBag.aval = availed;
-            this.ViewBag.faval = favailed;
-            this.ViewBag.taval = availed + favailed;
-            this.ViewBag.name = empjd.employee_name;
-            this.ViewBag.no = empjd.employee_no;
-            this.ViewBag.netp = leavebal2020[0].net_period;
-            var per = 0d;
-            var ump1 = 0d;
-            var accr = 0d;
-            var forfited = 0d;
-            foreach (var leavecalperyear in leavebal2020)
-            {
-                per+=leavecalperyear.period.Value;
-                ump1+=leavecalperyear.unpaid.Value;
-                accr+=leavecalperyear.accrued.Value;
-                forfited+=leavecalperyear.forfited_balance.Value;
-            }
-            this.ViewBag.per = per;
-            this.ViewBag.ump = ump1;
-            this.ViewBag.accr = accr;
-            this.ViewBag.forfited = forfited;
             /*if (leavebal2020.leave_balance < leavebal2020.ifslbal)
             {
                 this.ViewBag.lbal = leavebal2020.leave_balance;
@@ -422,22 +468,40 @@ namespace HRworks.Controllers
             var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             employeeleavesubmition.Employee_id = empuser.master_file.employee_id;
+            employeeleavesubmition.dateadded = DateTime.Now;
             this.ViewBag.employee_id = empuser.master_file.employee_id;
             var jd = empuser.master_file.date_joined;
-            var leavelistc = this.db.Leaves.ToList();
+            var leavelistc = this.db.Leaves.Where(x=>x.Employee_id == employeeleavesubmition.Employee_id).ToList();
             var empsubleave = db.employeeleavesubmitions.ToList();
-            var leaveabal = db.leavecalperyears.ToList().Find(x => x.Employee_id == empuser.master_file.employee_id);
+            var leaveabal = db.leavecalperyears.OrderBy(x=>x.balances_of_year).ToList().FindAll(x => x.Employee_id == empuser.master_file.employee_id && (x.balances_of_year.Year == DateTime.Today.Year - 1 || x.balances_of_year.Year == DateTime.Today.Year ));
             //var leaveabal = db.leavecal2020.ToList().Find(x => x.Employee_id == empuser.master_file.employee_id);
-            if (employeeleavesubmition.leave_type == "1")
+            var leaveperyeartemp = new leavecalperyear();
+            leaveperyeartemp.Employee_id = empuser.master_file.employee_id;
+            leaveperyeartemp.sumittedleavebal = 0d;
+            leaveperyeartemp.leave_balance = 0d;
+            foreach (var leavecalperyear in leaveabal)
             {
-                var leavebalsub = 0d;
-                if (leaveabal.sumittedleavebal < leaveabal.leave_balance)
+                if (DateTime.Today <= new DateTime(DateTime.Today.Year, 3 ,31))
                 {
-                    if (leaveabal.sumittedleavebal != null) leavebalsub = leaveabal.sumittedleavebal.Value;
+                    leaveperyeartemp.leave_balance += leavecalperyear.leave_balance;
+                    leaveperyeartemp.sumittedleavebal += leavecalperyear.sumittedleavebal;
                 }
                 else
                 {
-                    if (leaveabal.leave_balance != null) leavebalsub = leaveabal.leave_balance.Value;
+                    leaveperyeartemp.leave_balance = leavecalperyear.leave_balance;
+                    leaveperyeartemp.sumittedleavebal = leavecalperyear.sumittedleavebal;
+                }
+            }
+            if (employeeleavesubmition.leave_type == "1")
+            {
+                var leavebalsub = 0d;
+                if (leaveperyeartemp.sumittedleavebal < leaveperyeartemp.leave_balance)
+                {
+                    if (leaveperyeartemp.sumittedleavebal != null) leavebalsub = leaveperyeartemp.sumittedleavebal.Value;
+                }
+                else
+                {
+                    if (leaveperyeartemp.leave_balance != null) leavebalsub = leaveperyeartemp.leave_balance.Value;
                 }
 
                 if (employeeleavesubmition.toltal_requested_days != null)
@@ -518,17 +582,8 @@ namespace HRworks.Controllers
                       x.End_leave >= employeeleavesubmition.End_leave)) &&
                     x.Employee_id == employeeleavesubmition.Employee_id);
                 ModelState.AddModelError("Start_leave", "already exists");
-
                 goto jderr;
             }
-
-            if (leavelistc.Exists(x => employeeleavesubmition.leave_type == "5" &&
-                                       x.Employee_id == employeeleavesubmition.Employee_id))
-            {
-                ModelState.AddModelError("leave_type", "already taken once");
-                goto jderr;
-            }
-            
             if (employeeleavesubmition.leave_type == "5")
             {
                 var datediff = (employeeleavesubmition.End_leave - employeeleavesubmition.Start_leave).Value.TotalDays +
@@ -538,6 +593,12 @@ namespace HRworks.Controllers
                     ModelState.AddModelError("leave_type", "maximum days allowed for haj are 10 ");
                     goto jderr;
                 }
+                if (leavelistc.Exists(x => x.leave_type == "5" && x.Employee_id == employeeleavesubmition.Employee_id))
+                {
+                    ModelState.AddModelError("leave_type", "already taken once");
+                    goto jderr;
+                }            
+
             }
 
             if (leavelistc.Exists(x =>
@@ -943,11 +1004,58 @@ namespace HRworks.Controllers
             return RedirectToAction("empleaveap");
         }*/
 
+
+
+        [Authorize(Roles = "HOD,employee,Manager")]
+        public ActionResult Dleavereport(string search)
+        {
+            var userempnolist = db.usernames
+                .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
+            var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
+            var empjd = empuser.master_file;
+            var relationlist = db.emprels.ToList();
+            var logedinsrels = relationlist.FindAll(x => x.line_man == empjd.employee_id || x.HOD == empjd.employee_id);
+            var DLR = new List<Leave>();
+            foreach (var emprel in logedinsrels)
+            {
+                var relationlist1 =
+                    relationlist.FindAll(x => x.line_man == emprel.Employee_id || x.HOD == emprel.Employee_id);
+                foreach (var emprel2 in relationlist1)
+                {
+                    var DLRtemp1 = db.Leaves.Where(x =>
+                        x.Employee_id == emprel2.Employee_id && x.Start_leave.Value.Year == DateTime.Now.Year &&
+                        x.leave_type == "1");
+                    DLR.AddRange(DLRtemp1);
+                }
+                var DLRtemp = db.Leaves.Where(x =>
+                    x.Employee_id == emprel.Employee_id && x.Start_leave.Value.Year == DateTime.Now.Year &&
+                    x.leave_type == "1");
+                DLR.AddRange(DLRtemp);
+            }
+
+            if (!string.IsNullOrEmpty(search) && DLR.Count > 0)
+            {
+                if (int.TryParse(search, out var idk))
+                {
+                    DLR = DLR.FindAll(x => x.master_file.employee_no == idk);
+                }
+                else
+                {
+
+                    DLR = DLR.FindAll(x => x.master_file.employee_name.Contains(search));
+                }
+            }
+
+            return View(DLR.OrderByDescending(x=>x.Start_leave).ThenByDescending(x=>x.Date).ThenBy(x=>x.master_file.employee_no).ToList());
+        }
+
+
         [Authorize(Roles = "HOD,employee,Manager,super_admin")]
         public ActionResult approve(int id)
         {
             var employeeleavesubmitionlist = db.employeeleavesubmitions.ToList();
             var employeeleavesubmition = employeeleavesubmitionlist.Find(x=>x.Id == id);
+            employeeleavesubmition.dateadded = DateTime.Now;
             var leaveentry = new Leave();
             leaveentry.Date = employeeleavesubmition.Date;
             leaveentry.Start_leave = employeeleavesubmition.Start_leave;
@@ -1290,7 +1398,7 @@ namespace HRworks.Controllers
                 {
                     client.Connect("outlook.office365.com", 587, false);
                     // Note: only needed if the SMTP server requires authentication
-                    client.Authenticate("hrdepartment@citiscapegroup.com", "Gap91093");
+                    client.Authenticate("hrdepartment@citiscapegroup.com", "Mam43529");
                     client.Send(message);
                     client.Disconnect(true);
                 }

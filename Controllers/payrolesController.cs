@@ -15,7 +15,7 @@ using OfficeOpenXml;
 namespace HRworks.Controllers
 {
     [NoDirectAccess]
-    // [Authorize(Roles = "super_admin,payrole,employee_con")]
+    [Authorize(Roles = "super_admin,payrole,employee_con")]
     public class payrolesController : Controller
     {
         private const string Purpose = "equalizer";

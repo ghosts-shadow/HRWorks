@@ -31,17 +31,28 @@
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("mrv")'" value="Periodic Report" />
                 <br />
                 <br />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("allpendingapprovals","employeeleavesubmitions")'" value="not approved leave" />
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("allpendingapprovals","employeeleavesubmitions")'" value="leave not approved " />
             </div>
             <div class="col-lg-3">
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leave_absence_Index")'" value=" Absence Report" />
                 <br />
                 <br />
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("getallonleave")'" value="On Leave" />
+                <br />
+                <br />
+                @if (User.IsInRole("super_admin") || User.IsInRole("slapproval"))
+                {
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index","lbperyears")'" value="max leave balance"/>
+                }
+            </div>
+            <div class="col-lg-3">
+                <br />
+                <br />
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("allpendingapprovals","empreturnfromleavesubs")'" value="return leave not approved" />
             </div>
         </div>
         </div>
-</div>
+</div> 
 <div class="row">
     <div class="col-lg-5">
     </div>

@@ -10,6 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class leave_absenceController : Controller
     {
         private HREntities db = new HREntities();

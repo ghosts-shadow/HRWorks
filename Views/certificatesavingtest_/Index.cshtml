@@ -10,7 +10,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.certificatetype.certificate_name_)
+            @Html.DisplayName("refrence no")
+        </th>
+        <th>
+            @Html.DisplayName("name")
+        </th>
+        <th>
+            @Html.DisplayName("certificate for")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.destination)/reason
@@ -21,13 +27,28 @@
         <th>
             @Html.DisplayNameFor(model => model.master_file.employee_name)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.certificatetype.certificate_name_)
+        </td>
+        <td>@{
+                var cs_gr = "citiscape";
+                if (item.cs_gr == "GR_certificates")
+                {
+                    cs_gr = "grove";
+                }
+                @cs_gr
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.destination)
@@ -37,6 +58,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_no)
         </td>
         <td>
             @Html.ActionLink("Details", "Details", new { id=item.Id }) 

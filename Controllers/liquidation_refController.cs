@@ -10,6 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class liquidation_refController : Controller
     {
         private HREntities db = new HREntities();

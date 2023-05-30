@@ -13,6 +13,7 @@ using OfficeOpenXml;
 
 namespace HRworks.Controllers
 {
+    [Authorize(Roles = "employee_rel,super_admin")]
     public class emprelsController : Controller
     {
         private HREntities db = new HREntities();

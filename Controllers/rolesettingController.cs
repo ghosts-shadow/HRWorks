@@ -14,6 +14,7 @@ namespace HRworks.Controllers
 {
     public class rolesettingController : Controller
     {
+        [Authorize]
         public ActionResult settingrole(string username,string rolename)
         {
             //Roles.AddUserToRole();

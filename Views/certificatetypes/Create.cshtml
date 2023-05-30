@@ -37,13 +37,17 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.certificsatefor, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                HR : 
+            <div style="padding-top:6px">
                 @Html.RadioButtonFor(x => x.certificsatefor, "HR")
-                 Employee :
-                @Html.RadioButtonFor(x => x.certificsatefor, "Employee")
+                @Html.Label("HR")
+                @Html.RadioButtonFor(x => x.certificsatefor, "Employee_cs")
+                @Html.Label("Employee citiscape")
+                @Html.RadioButtonFor(x => x.certificsatefor, "Employee_gr")
+                @Html.Label("Employee Grove")
+                @Html.RadioButtonFor(x => x.certificsatefor, "both")
+                @Html.Label("Both")
                 @*@Html.EditorFor(model => model.certificsatefor, new { htmlAttributes = new { @class = "form-control", @id = "EMPHR" } })*@
-                @Html.ValidationMessageFor(model => model.certificsatefor, "", new {@class = "text-danger"})
+                @Html.ValidationMessageFor(model => model.certificsatefor, "", new { @class = "text-danger" })
             </div>
         </div>
 

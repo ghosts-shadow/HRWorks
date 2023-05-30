@@ -11,7 +11,7 @@ namespace HRworks.Controllers
     using System.Web.Mvc;
 
     using HRworks.Models;
-
+    [Authorize]
     public class liquidationsController : Controller
     {
         private readonly HREntities db = new HREntities();
@@ -299,6 +299,58 @@ namespace HRworks.Controllers
 
             return this.View(printlist1);
         }
+        public ActionResult print2(DateTime? pdate, int? prefr , int? preli)
+        {
+            var printlist1 = new List<liquidation>();
+            var printlist = new List<liquidation>();
+            var printlist2 = new List<liquidation>();
+            if (pdate.HasValue && prefr.HasValue)
+            {
+                var liqireflist = this.db.liquidation_ref.Where(x => x.date == pdate && x.refr == prefr && x.liq == preli).ToList();
+                var liqilist = this.db.liquidations.ToList();
+                foreach (var liid in liqireflist)
+                {
+                    printlist1 = this.db.liquidations.Where(x => x.refr == liid.Id).ToList();
+                    this.ViewBag.prefr = prefr;
+                    this.ViewBag.preli = preli;
+                    this.ViewBag.pdate = pdate.Value;
+                }
+                decimal ttinsum = 0;
+
+                foreach (var pl in printlist1)
+                {
+                    if (pl.invoice_amount.HasValue) ttinsum += pl.invoice_amount.Value;
+                    pl.discription = "EMP#" + pl.master_file.employee_no;
+                    if (!printlist2.Exists(x => x.expenses == pl.expenses))
+                        printlist2.Add(pl);
+                }
+                    this.ViewBag.ttinsum = ttinsum;
+
+                /*foreach (var pl1 in printlist2)
+                {
+                    decimal insum = 0;
+                    decimal vsum = 0;
+                    decimal tinsum = 0;
+                    var pll = printlist1.FindAll(x => x.expenses == pl1.expenses);
+                    foreach (var liq in pll)
+                    {
+                        if (liq.invoice.HasValue) insum = insum + liq.invoice.Value;
+                        if (liq.VAT.HasValue) vsum = vsum + liq.VAT.Value;
+                        if (liq.invoice_amount.HasValue) tinsum = tinsum + liq.invoice_amount.Value;
+                    }
+
+                    ttinsum += tinsum;
+                    var count = pll.Count();
+                    pl1.discription = $"{pl1.expenses} for {count} employees";
+                    pl1.invoice_date = null;
+                    pl1.VAT = vsum;
+                    pl1.invoice = insum;
+                    pl1.invoice_amount = tinsum;
+                }*/
+            }
+
+            return this.View(printlist1);
+        }
 
         [Authorize(Roles = "super_admin")]
         public ActionResult liquiapprove(DateTime? pdate, int? prefr)
@@ -377,13 +429,13 @@ namespace HRworks.Controllers
             ViewBag.employee_no = new SelectList(
                 db.master_file,
                 "employee_id",
-                "employee_name",
+                "employee_no",
                 liquidation.employee_no);
-            var le = db.liquiexps.ToList().OrderBy(x => x.Id);
-            ViewBag.expenses = new SelectList(le, "expence", "expence");
-            ViewBag.nameofgov = new SelectList(le, "issuer", "issuer");
-            ViewBag.expensesid = new SelectList(le, "Id", "expence");
-            ViewBag.nameofgovid = new SelectList(le, "Id", "issuer");
+            var le = db.liquiexps.OrderBy(x => x.expence).ToList();
+            ViewBag.expenses = new SelectList(le, "expence", "expence", liquidation.expenses);
+            ViewBag.nameofgov = new SelectList(le, "issuer", "issuer", le.Find(x => x.expence == liquidation.expenses).issuer);
+            ViewBag.expensesid = new SelectList(le, "Id", "expence", le.Find(x => x.expence == liquidation.expenses).Id);
+            ViewBag.nameofgovid = new SelectList(le, "Id", "issuer", le.Find(x => x.expence == liquidation.expenses).Id);
             ViewBag.refr = new SelectList(db.liquidation_ref, "Id", "Id", liquidation.refr);
             return View(liquidation);
         }
@@ -396,24 +448,25 @@ namespace HRworks.Controllers
         public ActionResult Edit(
             liquidation liquidation)
         {
+            ViewBag.employee_no = new SelectList(
+                db.master_file,
+                "employee_id",
+                "employee_no",
+                liquidation.employee_no);
+            var le = db.liquiexps.OrderBy(x => x.expence).ToList();
+            ViewBag.expenses = new SelectList(le, "expence", "expence", liquidation.expenses);
+            ViewBag.nameofgov = new SelectList(le, "issuer", "issuer", le.Find(x => x.expence == liquidation.expenses).issuer);
+            ViewBag.expensesid = new SelectList(le, "Id", "expence", le.Find(x => x.expence == liquidation.expenses).Id);
+            ViewBag.nameofgovid = new SelectList(le, "Id", "issuer", le.Find(x => x.expence == liquidation.expenses).Id);
+            ViewBag.refr = new SelectList(db.liquidation_ref, "Id", "Id", liquidation.refr);
             if (ModelState.IsValid)
             {
+                liquidation.nameofgov = le.Find(x => x.expence == liquidation.expenses).issuer;
                 db.Entry(liquidation).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.employee_no = new SelectList(
-                db.master_file,
-                "employee_id",
-                "employee_name",
-                liquidation.employee_no);
-            var le = db.liquiexps.ToList().OrderBy(x => x.Id);
-            ViewBag.expenses = new SelectList(le, "expence", "expence");
-            ViewBag.nameofgov = new SelectList(le, "issuer", "issuer");
-            ViewBag.expensesid = new SelectList(le, "Id", "expence");
-            ViewBag.nameofgovid = new SelectList(le, "Id", "issuer");
-            ViewBag.refr = new SelectList(db.liquidation_ref, "Id", "Id", liquidation.refr);
             return View(liquidation);
         }
 

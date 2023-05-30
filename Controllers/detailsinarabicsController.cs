@@ -14,6 +14,7 @@ using OfficeOpenXml;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class detailsinarabicsController : Controller
     {
         private HREntities db = new HREntities();
@@ -156,8 +157,9 @@ namespace HRworks.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult subcertificatereq(int? certificatetype, string destination, DateTime? from, DateTime? to,string embassy)
+        public ActionResult subcertificatereq(int? certificatetype, string destination, DateTime? from, DateTime? to,string embassy,string certificate_of)
         {
+            
             ViewBag.submmites = "";
             var testdlink = new Dictionary<string, string>();
             {
@@ -389,6 +391,17 @@ namespace HRworks.Controllers
                 testdlink.Add("Republic of Zimbabwe", "Zimbabwe");
             }
             var tempstring = "";
+
+            if (certificate_of.IsNullOrWhiteSpace())
+            {
+                goto end;
+            }
+            else
+            {
+                ViewBag.continueprogram = true;
+                ViewBag.certificate_of = certificate_of;
+            }
+
             if (certificatetype != null)
             {
                 var userempnolists = db.usernames
@@ -412,6 +425,8 @@ namespace HRworks.Controllers
                     }
                     certificatereqsave.destination = destination;
                 }
+
+                certificatereqsave.cs_gr = certificate_of;
                 certificatereqsave.submition_date = DateTime.Today;
                 db.certificatesavingtest_.Add(certificatereqsave);
                 db.SaveChanges();
@@ -430,7 +445,8 @@ namespace HRworks.Controllers
 
             CountryList.Sort();
             ViewBag.CountryList = CountryList;
-            ViewBag.certificatetype = new SelectList(db.certificatetypes.Where(x=>x.certificsatefor == "Employee"), "Id", "certificate_name_");
+            ViewBag.certificatetype = new SelectList(db.certificatetypes.Where(x => x.certificsatefor == "Employee"), "Id", "certificate_name_");
+            end: ;
             return View();
         }
 

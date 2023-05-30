@@ -10,6 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class MANPOWER_TRANSFER_REQUESTController : Controller
     {
         private HREntities db = new HREntities();

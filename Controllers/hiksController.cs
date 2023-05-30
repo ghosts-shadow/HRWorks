@@ -11,6 +11,7 @@ namespace HRworks.Controllers
     using HRworks.Models;
 
     using OfficeOpenXml;
+    [Authorize]
 
     public class hiksController : Controller
     {

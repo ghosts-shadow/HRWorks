@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class HR_formsController : Controller
     {
         // GET: HR_forms

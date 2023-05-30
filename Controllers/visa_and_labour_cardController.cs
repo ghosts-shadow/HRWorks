@@ -13,6 +13,7 @@ using HRworks.Models;
 // date format fun [DisplayFormat(ApplyFormatInEditMode=true, DataFormatString = "{0:d}")]
 namespace TEST2.Controllers
 {
+    [Authorize]
     public class visa_and_labour_cardController : Controller
     {
         private HREntities db = new HREntities();

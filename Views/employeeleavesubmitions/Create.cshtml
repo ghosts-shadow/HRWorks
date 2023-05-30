@@ -52,11 +52,6 @@
                     $("#datepicker2").datepicker({
                         altField: "#alternate",
                         altFormat: "MM,yy",
-                        changeMonth: true,
-                        changeYear: true,
-                        showOtherMonths: true,
-                        selectOtherMonths: true,
-                        showButtonPanel: true,
                         dateFormat: "dd M yy"
                     });
                     $("#datepicker3").datepicker({
@@ -68,21 +63,33 @@
                         selectOtherMonths: true,
                         showButtonPanel: true,
                         dateFormat: "dd M yy",
-                        onSelect: function(date) {
-
+                        onSelect: function (date) {
                             var selectedDate = new Date(date);
                             var msecsInADay = 86400000;
                             var endDate = new Date(selectedDate.getTime() + msecsInADay);
+                            var workDate = new Date(selectedDate.getTime() + msecsInADay + msecsInADay);
+                            var wendDate = new Date(selectedDate.getTime() + msecsInADay + msecsInADay + msecsInADay);
                             dayscount();
-                            //Set Minimum Date of EndDatePicker After Selected Date of StartDatePicker
+
+                            // Set Minimum Date of returnDatePicker After Selected Date of endDatePicker
                             $("#datepicker2").datepicker("option", "minDate", endDate);
-                            if (endDate.getDay() == 6) {
-                                $("#datepicker2").datepicker("setDate", new Date(endDate.getTime() + msecsInADay + msecsInADay));
-                            } else if (endDate.getDay() == 0) {
-                                $("#datepicker2").datepicker("setDate", new Date(endDate.getTime() + msecsInADay));
+
+                            if (endDate.getDay() === 6) {
+                                $("#datepicker2").datepicker("setDate", wendDate);
+                            } else if (endDate.getDay() === 0) {
+                                $("#datepicker2").datepicker("setDate", workDate);
                             } else {
                                 $("#datepicker2").datepicker("setDate", endDate);
                             }
+
+                            // Set Maximum Date of returnDatePicker as endDate, workDate, or wendDate
+                            var maxDate = endDate;
+                            if (endDate.getDay() === 6) {
+                                maxDate = wendDate;
+                            } else if (endDate.getDay() === 0) {
+                                maxDate = workDate;
+                            }
+                            $("#datepicker2").datepicker("option", "maxDate", maxDate);
                         }
                     });
                     $("#datepicker4").datepicker({
@@ -128,23 +135,36 @@
                         selectOtherMonths: true,
                         showButtonPanel: true,
                         dateFormat: "dd M yy",
-                        onSelect: function(date) {
-
+                        onSelect: function (date) {
                             var selectedDate = new Date(date);
                             var msecsInADay = 86400000;
                             var endDate = new Date(selectedDate.getTime() + msecsInADay);
+                            var workDate = new Date(selectedDate.getTime() + msecsInADay + msecsInADay);
+                            var wendDate = new Date(selectedDate.getTime() + msecsInADay + msecsInADay + msecsInADay);
                             dayscount();
-                            //Set Minimum Date of EndDatePicker After Selected Date of StartDatePicker
+
+                            // Set Minimum Date of returnDatePicker After Selected Date of endDatePicker
                             $("#datepicker2").datepicker("option", "minDate", endDate);
-                            if (endDate.getDay() == 6) {
-                                $("#datepicker2").datepicker("setDate", new Date(endDate.getTime() + msecsInADay + msecsInADay));
-                            } else if (endDate.getDay() == 0) {
-                                $("#datepicker2").datepicker("setDate", new Date(endDate.getTime() + msecsInADay));
+
+                            if (endDate.getDay() === 6) {
+                                $("#datepicker2").datepicker("setDate", wendDate);
+                            } else if (endDate.getDay() === 0) {
+                                $("#datepicker2").datepicker("setDate", workDate);
                             } else {
                                 $("#datepicker2").datepicker("setDate", endDate);
                             }
+
+                            // Set Maximum Date of returnDatePicker as endDate, workDate, or wendDate
+                            var maxDate = endDate;
+                            if (endDate.getDay() === 6) {
+                                maxDate = wendDate;
+                            } else if (endDate.getDay() === 0) {
+                                maxDate = workDate;
+                            }
+                            $("#datepicker2").datepicker("option", "maxDate", maxDate);
                         }
                     });
+
                     $("#datepicker4").datepicker({
                         altField: "#alternate",
                         altFormat: "MM,yy",

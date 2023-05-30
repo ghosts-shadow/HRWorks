@@ -160,6 +160,7 @@
           <Property Name="certificate_type" Type="int" Nullable="false" />
           <Property Name="destination" Type="nvarchar(max)" />
           <Property Name="submition_date" Type="date" />
+          <Property Name="cs_gr" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="certificatetype">
           <Key>
@@ -1673,7 +1674,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_visa_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="visa" Type="Self.visa" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -2128,6 +2131,7 @@
           <Property Name="submition_date" Type="DateTime" Precision="0" />
           <NavigationProperty Name="certificatetype" Relationship="Self.FK_certificatereq_To_certificatetype" FromRole="certificatesavingtest_" ToRole="certificatetype" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_certificatereq_To_master_file" FromRole="certificatesavingtest_" ToRole="master_file" />
+          <Property Name="cs_gr" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="certificatetype">
           <Key>
@@ -4149,6 +4153,7 @@
           <EntitySetMapping Name="certificatesavingtest_">
             <EntityTypeMapping TypeName="HRModel.certificatesavingtest_">
               <MappingFragment StoreEntitySet="certificatesavingtest&#x9;">
+                <ScalarProperty Name="cs_gr" ColumnName="cs_gr" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="employee_id" ColumnName="employee_id" />
                 <ScalarProperty Name="certificate_type" ColumnName="certificate_type" />

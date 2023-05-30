@@ -10,6 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class lbperyearsController : Controller
     {
         private HREntities db = new HREntities();

@@ -13,6 +13,7 @@ using MimeKit;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class empreturnfromleavesubsController : Controller
     {
         private HREntities db = new HREntities();
@@ -71,7 +72,7 @@ namespace HRworks.Controllers
                 empreturnfromleavesub.apstatus = "submitted";
                 empreturnfromleavesub.dateadded = DateTime.Now;
                 empreturnfromleavesub.submitted_by = User.Identity.Name;
-                if (exreturnleave.Exists(x=>x.leaveid == els.Id) || !empreturnfromleavesub.actualreturnleave.HasValue)
+                if ((exreturnleave.Exists(x => x.leaveid == els.Id && (x.apstatus == "submitted" || x.apstatus == "approved"))) || !empreturnfromleavesub.actualreturnleave.HasValue)
                 {
                     goto ex;
                 }
@@ -608,6 +609,63 @@ namespace HRworks.Controllers
         }
 
 
+        public ActionResult allpendingapprovals()
+        {
+            var pendingempapp = db.empreturnfromleavesubs
+                .Where(x => x.apstatus == "submitted" || x.apstatus == "approved by line manager" || x.apstatus == "submitted for HR").ToList();
+            var empid = db.master_file.ToList();
+            foreach (var pea in pendingempapp)
+            {
+                var emprellist = db.emprels.ToList();
+                var emprel = emprellist.Find(x => x.Employee_id == pea.Employee_id);
+                var conlist = db.contracts.ToList();
+                var empcon = conlist.Find(x => x.employee_no == pea.Employee_id);
+                if (emprel != null)
+                {
+                    if (emprel.HOD != null)
+                    {
+                        pea.rel = "line_man";
+                    }
+                    else
+                    {
+                        pea.rel = "";
+                    }
+
+                    if (pea.rel == "line_man")
+                    {
+                        if (pea.apstatus == "submitted")
+                        {
+                            pea.relwho = empid.Find(x => x.employee_id == emprel.line_man).employee_name;
+                        }
+                        if (pea.apstatus == "approved by line manager")
+                        {
+                            pea.relwho = empid.Find(x => x.employee_id == emprel.HOD).employee_name;
+                        }
+                    }
+                    else
+                    {
+                        pea.relwho = empid.Find(x => x.employee_id == emprel.line_man).employee_name;
+                    }
+
+                }
+                else
+                {
+                    pea.rel = "";
+                    pea.relwho = "no approval flow";
+                }
+                if (empcon != null)
+                {
+                    pea.dep = empcon.designation;
+                }
+                else
+                {
+                    pea.dep = "";
+                }
+
+            }
+            return View(pendingempapp);
+        }
+
         public void SendMail(string msg, string action, int returnid)
         {
             var empreturn = db.empreturnfromleavesubs.ToList().Find(x => x.Id == returnid);
@@ -764,7 +822,7 @@ namespace HRworks.Controllers
                 {
                     client.Connect("outlook.office365.com", 587, false);
                     // Note: only needed if the SMTP server requires authentication
-                    client.Authenticate("hrdepartment@citiscapegroup.com", "Gap91093");
+                    client.Authenticate("hrdepartment@citiscapegroup.com", "Mam43529");
                     client.Send(message);
                     client.Disconnect(true);
                 }

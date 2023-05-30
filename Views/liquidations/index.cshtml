@@ -26,7 +26,8 @@
 </script>
 <div>
 
-    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("print")'" value="print" />
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("print")'" value="print cash" />
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("print2")'" value="print card" />
     @if (Request.IsAuthenticated)
     {
         if (User.IsInRole("super_admin"))

@@ -28,7 +28,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.expenses, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.expenses, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("expenses",null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.expenses, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -89,7 +89,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="display:none">
             @Html.LabelFor(model => model.refr, "refr", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("refr", null, htmlAttributes: new { @class = "form-control" })
@@ -97,7 +97,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="display:none">
             @Html.LabelFor(model => model.changed_by, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.changed_by, new { htmlAttributes = new { @class = "form-control" } })
@@ -105,7 +105,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="display:none">
             @Html.LabelFor(model => model.date_changed, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.date_changed, new { htmlAttributes = new { @class = "form-control" } })

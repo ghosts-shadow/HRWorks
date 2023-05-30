@@ -32,7 +32,11 @@ namespace HRworks.Models
         public string apstatus { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:dd MMM yyyy}")]
         public Nullable<System.DateTime> dateadded { get; set; }
-    
+
+        public string relwho { get; set; }
+        public string rel { get; set; }
+        public string dep { get; set; }
+
         public virtual Leave Leave { get; set; }
         public virtual master_file master_file { get; set; }
     }

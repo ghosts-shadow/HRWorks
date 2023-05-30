@@ -10,6 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class Training_EffectivenessController : Controller
     {
         private HREntities db = new HREntities();

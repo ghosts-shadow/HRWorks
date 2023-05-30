@@ -272,6 +272,7 @@
                         if (!User.IsInRole("registration"))
                         {
                             <li>@Html.ActionLink("leave", "Index", "employeeleavesubmitions")</li>
+                            <li>@Html.ActionLink("DLR", "Dleavereport", "employeeleavesubmitions")</li>
                             if (User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager") || User.IsInRole("employee"))
                             {
                                 

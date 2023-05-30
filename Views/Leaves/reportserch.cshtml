@@ -68,6 +68,12 @@
         <th>
             @Html.DisplayNameFor(model => model.master_file.employee_no)
         </th>
+        @if (User.Identity.Name == "dinizsneden@gmail.com")
+        {
+            <th>
+                @Html.DisplayName("id")
+            </th>
+        }
         <th>
             @Html.DisplayNameFor(model => model.leave_bal)
         </th>
@@ -92,6 +98,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.master_file.employee_no)
             </td>
+            @if (User.Identity.Name == "dinizsneden@gmail.com")
+            {
+                <td>@item.Employee_id</td>
+}
             <td>
                 @Html.DisplayFor(modelItem => item.leave_bal)
             </td>

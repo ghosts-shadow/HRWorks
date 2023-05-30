@@ -5,13 +5,27 @@
 }
 
 <h2>Certificate Request</h2>
+@{
+    if (ViewBag.continueprogram == null)
+    {
+        @Html.AntiForgeryToken()
+        <hr/>
+        using (Html.BeginForm("hrcertificatesubmmit","certificatesavingtest_", FormMethod.Post))
+        {
+            @Html.Label("certificate of ")
 
+            <button type="submit" name="certificate_of" value="cr_certificates">citiscape</button>
+            <button type="submit" name="certificate_of" value="GR_certificates">grove</button>
+        }
+    }
+    else
+    {
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
     $(function() {
         $("#datepicker").datepicker({
             altField: "#alternate",
@@ -45,6 +59,8 @@
             document.getElementById('LWDhide').style.display = "";
             document.getElementById('datepicker').required = true;
             break;
+        case "7":
+        case "8":
         case "19":
         case "20":
             document.getElementById('reasonhide').style.display = "";
@@ -67,53 +83,59 @@
         //alert(document.getElementById('reason').attributes.required + " " + document.getElementById('datepicker').required);
     }
 </script>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-    <div class="form-horizontal" onclick="hide()">
-        <hr/>
-        @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-        <div class="form-group">
-            @Html.LabelFor(model => model.employee_id, "employee_id", htmlAttributes: new {@class = "control-label col-md-2"})
-            <div class="col-md-10">
-                @Html.DropDownList("employee_id", null, htmlAttributes: new {@class = "form-control"})
-                @Html.ValidationMessageFor(model => model.employee_id, "", new {@class = "text-danger"})
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.certificate_type, "certificate_type", htmlAttributes: new {@class = "control-label col-md-2"})
-            <div class="col-md-10">
-                @Html.DropDownList("certificate_type", null, htmlAttributes: new {@class = "form-control", @id = "certi", @onchange = "hide()"})
-                @Html.ValidationMessageFor(model => model.certificate_type, "", new {@class = "text-danger"})
-            </div>
-        </div>
-
-        <div class="form-group" id="reasonhide">
-            @Html.Label("reason/destination", htmlAttributes: new {@class = "control-label col-md-2"})
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.destination, new {htmlAttributes = new {@class = "form-control", @id = "reason"}})
-                @Html.ValidationMessageFor(model => model.destination, "", new {@class = "text-danger"})
-            </div>
-        </div>
-
-        <div class="form-group" id="LWDhide">
-            @Html.Label("last working day ", htmlAttributes: new {@class = "control-label col-md-2"})
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.submition_date, new {htmlAttributes = new {@class = "form-control", @id = "datepicker"}})
-                @Html.ValidationMessageFor(model => model.submition_date, "", new {@class = "text-danger"})
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default"/>
-            </div>
+<div class="form-horizontal" onclick="hide()">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.employee_id, "employee_id", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("employee_id", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.employee_id, "", new { @class = "text-danger" })
         </div>
     </div>
-}
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    <div class="form-group">
+        @Html.LabelFor(model => model.certificate_type, "certificate_type", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("certificate_type", null, htmlAttributes: new { @class = "form-control", @id = "certi", @onchange = "hide()" })
+            @Html.ValidationMessageFor(model => model.certificate_type, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" id="reasonhide">
+        @Html.Label("reason/destination", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.destination, new { htmlAttributes = new { @class = "form-control", @id = "reason" } })
+            @Html.ValidationMessageFor(model => model.destination, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" id="LWDhide">
+        @Html.Label("last working day ", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.submition_date, new { htmlAttributes = new { @class = "form-control", @id = "datepicker" } })
+            @Html.ValidationMessageFor(model => model.submition_date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div style="display:none;">
+        @Html.Editor("certificate_of")
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("hrcertificatesubmmit")'" value=" new " />
+        </div>
+    </div>
 </div>
+        }
+
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+}

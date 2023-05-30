@@ -22,7 +22,7 @@
             $('#prefr').show();
             $('#search').show();
         }
-        
+
     }
 </script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -39,21 +39,33 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
 <script>
     function print() {
-//        document.getElementById("liqui").style.width = "2480px";
-//        document.getElementById("liqui").style.height = "3508px";
-//        html2canvas(document.getElementById('liqui')).then(function (canvas) {
-//            var base64image = canvas.toDataURL("image/jpeg");
-//            var newWindow = window.open(base64image, "_blank");
-//            newWindow.print();
-//        });
-        html2canvas(document.getElementById('liqui')).then(function(canvas) {         
-                var imgData = canvas.toDataURL(
-                    'image/jpeg',1);
-                //window.open(imgData, "_blank");
-                var doc = new jsPDF('p', 'mm');
-            doc.addImage(imgData, 'jpeg', 0, 0, 210,300);
-                doc.save('sample-file.pdf');
-            
+        @*//        document.getElementById("liqui").style.width = "2480px";
+        //        document.getElementById("liqui").style.height = "3508px";
+        //        html2canvas(document.getElementById('liqui')).then(function (canvas) {
+        //            var base64image = canvas.toDataURL("image/jpeg");
+        //            var newWindow = window.open(base64image, "_blank");
+        //            newWindow.print();
+        //        });
+        html2canvas(document.getElementById('liqui')).then(function (canvas) {
+            var imgData = canvas.toDataURL(
+                'image/jpeg', 1);
+            //window.open(imgData, "_blank");
+            var doc = new jsPDF('p', 'mm');
+            doc.addImage(imgData, 'jpeg', 0, 0, 210, 300);
+            doc.save('sample-file.pdf');
+
+        });*@
+        html2canvas(document.getElementById('liqui'), {
+            scale: 1,
+            dpi: 600, // Set the DPI value to enhance image quality
+            useCORS: true,
+            allowTaint: true,
+            logging: true
+        }).then(function (canvas) {
+            var imgData = canvas.toDataURL('image/png', 1.0);
+            var doc = new jsPDF('p', 'mm', 'a4');
+            doc.addImage(imgData, 'png', 10, 5, 190, 282);
+            doc.save('liquidation.pdf');
         });
     }
 </script>
@@ -86,6 +98,7 @@
     .col-md-2 {
         width: 29.667%
     }
+
     @@page {
         size: A4;
         margin: 0;
@@ -155,9 +168,9 @@
                     <thead onclick="check()">
                         <tr>
                             <th rowspan="2" scope="rowgroup" style="vertical-align: top"> @Html.DisplayNameFor(model => model.bill_no)</th>
-                            <th rowspan="2" scope="rowgroup"style="vertical-align: top"> @Html.DisplayNameFor(model => model.expenses)</th>
-                            <th rowspan="2" scope="rowgroup"style="vertical-align: top"> @Html.DisplayNameFor(model => model.invoice_date)</th>
-                            <th rowspan="2" scope="rowgroup"style="vertical-align: top"> @Html.DisplayNameFor(model => model.discription)</th>
+                            <th rowspan="2" scope="rowgroup" style="vertical-align: top"> @Html.DisplayNameFor(model => model.expenses)</th>
+                            <th rowspan="2" scope="rowgroup" style="vertical-align: top"> @Html.DisplayNameFor(model => model.invoice_date)</th>
+                            <th rowspan="2" scope="rowgroup" style="vertical-align: top"> @Html.DisplayNameFor(model => model.discription)</th>
                             <th colspan="3">debit amount</th>
                         </tr>
                         <tr>
@@ -166,8 +179,11 @@
                             <th scope="col">@Html.DisplayNameFor(model => model.invoice_amount)</th>
                         </tr>
                     </thead>
+
+                    @{ int i = 0;}
                     @foreach (var item in Model)
                     {
+                        i++;
                         <tr>
                             <td>
                                 @Html.DisplayFor(modelItem => item.bill_no)
@@ -191,6 +207,18 @@
                                 @Html.DisplayFor(modelItem => item.invoice_amount)
                             </td>
                         </tr>
+                    }
+                    @if (i < 20)
+                    {
+                        for (var j = i; j <= 20; j++)
+                        {
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        }
                     }
                     <tr>
                         <td colspan="4" style="text-align: right"><b>total</b></td>
@@ -282,13 +310,13 @@
             <div class="row">
 
                 <div class="col-sm-4" style="left: 0%; position: relative;">
-                    <b></b>
+                    <b>Page 1 of 1</b>
                 </div>
                 <div class="col-sm-5" style="left: 13%; position: relative;">
                     <b> CSFIN04 </b>
                 </div>
                 <div class="col-sm-3" style="left: 14%; position: relative;">
-                    <b> Version R4</b>
+                    <b> Version R6</b>
                 </div>
             </div>
         </div>

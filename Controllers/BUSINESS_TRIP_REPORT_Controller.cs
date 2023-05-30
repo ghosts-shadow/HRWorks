@@ -10,6 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class BUSINESS_TRIP_REPORT_Controller : Controller
     {
         private HREntities db = new HREntities();

@@ -19,6 +19,7 @@ namespace HRworks.Models
         public int certificate_type { get; set; }
         public string destination { get; set; }
         public Nullable<System.DateTime> submition_date { get; set; }
+        public string cs_gr { get; set; }
     
         public virtual certificatetype certificatetype { get; set; }
         public virtual master_file master_file { get; set; }

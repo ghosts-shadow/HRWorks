@@ -19,6 +19,7 @@ namespace HRworks.Controllers
     using System.Web.Routing;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    [Authorize]
     public class NoDirectAccessAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -31,7 +32,7 @@ namespace HRworks.Controllers
             }
         }
     }
-
+    [Authorize]
     public class master_fileController : Controller
     {
         private HREntities db = new HREntities();

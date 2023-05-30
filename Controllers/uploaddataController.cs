@@ -10,6 +10,7 @@ using OfficeOpenXml;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class uploaddataController : Controller
     {
         private readonly HREntities db = new HREntities();

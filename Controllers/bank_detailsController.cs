@@ -13,6 +13,7 @@ namespace HRworks.Controllers
 {
     using OfficeOpenXml;
 
+    [Authorize]
     public class bank_detailsController : Controller
     {
         private HREntities db = new HREntities();

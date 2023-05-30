@@ -17,41 +17,39 @@ namespace HRworks.Controllers
         // GET: datacorrection
         public void Index()
         {
-            
-             var con = this.db.payroles.ToList();
-            var master = this.db.contracts.OrderBy(x=>x.employee_no).ThenByDescending(x=>x.date_changed).ToList();
-            foreach (var id1 in con.OrderBy(x=>x.master_file.employee_no))
+            var masterFileEntries = db.master_file.ToList();
+
+            var uniqueEntries = new List<master_file>();
+            var duplicateEntries = new List<master_file>();
+
+            foreach (var entry in masterFileEntries)
             {
-                var cor = master.Find(x => x.employee_id == id1.con_id);
-                if (cor != null)
+                if (uniqueEntries.Any(e => e.employee_no == entry.employee_no))
                 {
-                    var mast = master.FindAll(x => x.employee_no == cor.employee_no).ToList();
-                    if (mast.Count() >=1)
+                    var existingEntry = uniqueEntries.First(e => e.employee_no == entry.employee_no);
+                    if (entry.date_changed > existingEntry.date_changed)
                     {
-                        id1.con_id = mast[0].employee_id;
-                        db.Entry(id1).State = EntityState.Modified;
-                        db.SaveChanges();
+                        uniqueEntries.Remove(existingEntry);
+                        uniqueEntries.Add(entry);
+                        duplicateEntries.Add(existingEntry);
+                    }
+                    else
+                    {
+                        duplicateEntries.Add(entry);
                     }
                 }
+                else
+                {
+                    uniqueEntries.Add(entry);
+                }
             }
-            /*
-            var con = this.db.Leaves.ToList();
-            var master = this.db.master_file.OrderBy(x=>x.employee_no).ThenByDescending(x=>x.date_changed).ToList();
-            foreach (var id1 in con.OrderBy(x=>x.master_file.employee_no))
+            
+            foreach (var duplicateEntry in duplicateEntries)
             {
-                var cor = master.Find(x => x.employee_id == id1.Employee_id);
-                if (cor != null)
-                {
-                var mast = master.FindAll(x => x.employee_no == cor.employee_no).ToList();
-                if (mast.Count() >=1)
-                {
-                    id1.Employee_id = mast[0].employee_id;
-                    db.Entry(id1).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-                    
-                }
-            }*/
+               // duplicateEntry. = uniqueEntries.First(e => e.employee_no == duplicateEntry.employee_no).connection;
+            }
+            
+            //db.SaveChanges();
         }
     }
 }

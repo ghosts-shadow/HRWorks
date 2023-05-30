@@ -10,6 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class emp_joi_sta_changeController : Controller
     {
         private HREntities db = new HREntities();

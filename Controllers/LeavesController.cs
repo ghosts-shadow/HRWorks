@@ -16,7 +16,9 @@ namespace HRworks.Controllers
     using Microsoft.Ajax.Utilities;
     using OfficeOpenXml;
     using PagedList;
+    using static Humanizer.On;
 
+    [Authorize]
     public class LeavesController : Controller
     {
         private readonly HREntities db = new HREntities();
@@ -154,12 +156,6 @@ namespace HRworks.Controllers
                 goto jderr;
             }
 
-            if (leavelistc.Exists(x => x.leave_type == "5" &&
-                                       x.Employee_id == leave.Employee_id))
-            {
-                ModelState.AddModelError("leave_type", "already taken once");
-                goto jderr;
-            }
 
             if (leave.leave_type == "5")
             {
@@ -169,6 +165,20 @@ namespace HRworks.Controllers
                     ModelState.AddModelError("leave_type", "maximum days allowed for haj are 10 ");
                     goto jderr;
                 }
+                if (leavelistc.Exists(x => x.leave_type == "5" && x.Employee_id == leave.Employee_id))
+                {
+                    ModelState.AddModelError("leave_type", "already taken once");
+                    goto jderr;
+                }
+            }
+
+            var leavelist = this.db.Leaves.ToList();
+            if (leavelist.Exists(
+                x => x.Employee_id == leave.Employee_id && x.Start_leave == leave.Start_leave
+                                                        && x.End_leave == leave.End_leave))
+            {
+                ViewBag.exhist = "the entry already exists";
+                return this.View(leave);
             }
 
             if (fileBase != null)
@@ -196,15 +206,6 @@ namespace HRworks.Controllers
             else
             {
                 serverfile = null;
-            }
-
-            var leavelist = this.db.Leaves.ToList();
-            if (leavelist.Exists(
-                x => x.Employee_id == leave.Employee_id && x.Start_leave == leave.Start_leave
-                                                        && x.End_leave == leave.End_leave))
-            {
-                ViewBag.exhist = "the entry already exists";
-                return this.View(leave);
             }
 
             ViewBag.exhist = "";
@@ -1423,14 +1424,28 @@ namespace HRworks.Controllers
                 this.ViewBag.comp = comp;
                 this.ViewBag.sab = sab;
                 this.ViewBag.study = study;
-                this.ViewBag.lbal = leavebal2020[0].leave_balance;
+                if (DateTime.Today <= new DateTime(DateTime.Today.Year, 3, 31))
+                {
+                    if (leavebal2020.Count > 1 && leavebal2020[1].leave_balance > 0)
+                    {
+                        this.ViewBag.lbal = leavebal2020[0].leave_balance + leavebal2020[1].leave_balance;
+                    }
+                    else
+                    {
+                        this.ViewBag.lbal = leavebal2020[0].leave_balance;
+                    }
+                }
+                else
+                {
+                    this.ViewBag.lbal = leavebal2020[0].leave_balance;
+                }
                 this.ViewBag.aval = availed;
                 this.ViewBag.faval = favailed;
                 this.ViewBag.taval = availed + favailed;
                 this.ViewBag.netp = leavebal2020[0].net_period;
                 this.ViewBag.name = empjd.employee_name;
                 this.ViewBag.no = empjd.employee_no;
-
+                ViewBag.datejoined = empjd.date_joined.Value.ToString("dd MMMM yyyy");
                 this.ViewBag.ump = ump1;
                 this.ViewBag.accr = accr;
                 this.ViewBag.forfited = forfited;
@@ -1747,10 +1762,8 @@ namespace HRworks.Controllers
         {
             const double lbpd30 = (30.0 / 365.0);
             const double lbpd24 = (24.0 / 365.0);
-            const double lbpd45 = (45.0 / 365.0);
             const double lbpd30f20 = (30.0 / 360.0);
             const double lbpd24f20 = (24.0 / 360.0);
-            const double lbpd45f20 = (45.0 / 360.0);
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
@@ -1761,11 +1774,11 @@ namespace HRworks.Controllers
             }
 
             var empjd = afinallist.Find(x => x.employee_id == Employee_id);
-            var maxleaveperyear = new lbperyear();
+            var maxleaveperyear = new List<lbperyear>();
             if (db.lbperyears.OrderByDescending(y => y.year).ToList().Exists(x => x.Employee_id == Employee_id))
             {
                 maxleaveperyear = db.lbperyears.OrderByDescending(y => y.year).ToList()
-                    .Find(x => x.Employee_id == Employee_id);
+                    .FindAll(x => x.Employee_id == Employee_id);
             }
 
             var saveleaveperyear = new leavecalperyear();
@@ -1785,17 +1798,38 @@ namespace HRworks.Controllers
 
             var leaves = this.db.Leaves.OrderByDescending(x => x.Date).ThenBy(y => y.Start_leave).Where(
                 x => x.Employee_id == Employee_id && x.Start_leave >= asf).ToList();
+            var submittedleaves = db.employeeleavesubmitions.OrderByDescending(x => x.dateadded)
+                .ThenBy(x => x.Start_leave).Where(x=>x.Employee_id == Employee_id && x.Start_leave >= asf.Value && x.apstatus == "submitted").ToList();
             var leaveperyearlist = db.leavecalperyears.Where(x => x.Employee_id == empjd.employee_id).OrderByDescending(x=>x.balances_of_year).ToList();
-            if (leaves.Count > 0)
+            /*if (leaves.Count > 0)
             {
                 var datecheck = leaves.First();
+                var datecheckempsub = new employeeleavesubmition();
+                if (submittedleaves.Count >0)
+                {
+                    goto frun;
+                }
+                
                 if (datecheck.actualchangeddateby.HasValue)
                 {
                     var leavelastupdated = leaves.First().actualchangeddateby.Value;
-                    var leaveperyearlastupdated = leaveperyearlist.First().date_updated;
-                    if (leavelastupdated < leaveperyearlastupdated)
+                    if (leaveperyearlist.Count > 0)
                     {
-                        goto endfun;
+                        var leaveperyearlastupdated = leaveperyearlist.First().date_updated;
+                        var leaveperyearlastupdatedy = leaveperyearlist.First().balances_of_year;
+                        if ((!(leavelastupdated >= leaveperyearlastupdated.Date) && leavelastupdated.Year <= leaveperyearlastupdatedy.Year) ||
+                            (leaveperyearlastupdated - DateTime.Today).TotalDays > 5)
+                        {
+                            if (maxleaveperyear.Count > 0 && maxleaveperyear[0].modified_date > leaveperyearlastupdated)
+                            {
+                                goto endfun;
+                            }
+
+                            if (maxleaveperyear.Count <= 0)
+                            {
+                                goto endfun;
+                            }
+                        }
                     }
                 }
                 else
@@ -1803,7 +1837,7 @@ namespace HRworks.Controllers
                     goto endfun;
                 }
             }
-
+            frun: ;*/
             var period = 0.0d;
             if (asf.Value.Year <= 2020)
             {
@@ -1881,15 +1915,15 @@ namespace HRworks.Controllers
 
                 var temptime = new DateTime(2020, 12, 31) - asf.Value;
                 period = temptime.TotalDays + 1;
-                if (period < 365)
+                var temptime1 = /*new DateTime(i, 12, 31)*/ new DateTime(DateTime.Now.Year, 12, 31) - asf.Value;
+                var joiningperiod = temptime1.TotalDays + 1;
+                if (joiningperiod < 365)
                 {
-                    accleave = Math.Round((period * lbpd24f20) - (unpaidtill2020 * (lbpd24f20)));
+                    accleave = Math.Round((period-unpaidtill2020) * (lbpd24f20));
                 }
                 else
-                {
-                    var temp1 = (unpaidtill2020 * lbpd30f20);
-                    var temp2 = (period * lbpd30f20);
-                    accleave = Math.Round(temp2 - temp1);
+                {;
+                    accleave = Math.Round((period - unpaidtill2020)* lbpd30f20);
                 }
 
                 var leavebal2020 = Math.Round(accleave) - anualleavetakentill2020;
@@ -1898,7 +1932,7 @@ namespace HRworks.Controllers
                 savelbpy.balances_of_year = new DateTime(2020, 1, 1);
                 savelbpy.period = period;
                 savelbpy.unpaid = unpaidtill2020;
-                savelbpy.net_period = period  ;
+                savelbpy.net_period = period - unpaidtill2020;
                 savelbpy.accrued = accleave;
                 savelbpy.annual_leave_taken = anualleavetakentill2020;
                 savelbpy.Annual_Leave_Applied = 0;
@@ -2104,7 +2138,14 @@ namespace HRworks.Controllers
                                 savelbpy.unpaid = 0;
                             }
 
-                            accleave = RoundToNearestHalf((joiningperiod * lbpd24) - (savelbpy.unpaid.Value * (lbpd24f20)));
+                            if (i == 2023)
+                            {
+                                accleave = RoundToNearestHalf((joiningperiod - savelbpy.unpaid.Value) * (lbpd24f20));
+                            }
+                            else
+                            {
+                                accleave = Math.Round((joiningperiod - savelbpy.unpaid.Value) * (lbpd24f20));
+                            }
                         }
                         else
                         {
@@ -2113,11 +2154,34 @@ namespace HRworks.Controllers
                                 savelbpy.unpaid = 0;
                             }
 
-                            var temp1 = (savelbpy.unpaid.Value * lbpd30f20);
-                            var temp2 = (period * lbpd30);
-                            accleave = RoundToNearestHalf(temp2 - temp1);
+                            var temp1 = (savelbpy.unpaid.Value );
+                            var temp2 = (period );
+                            if (i == 2023)
+                            {
+                                accleave = RoundToNearestHalf((temp2 - temp1) * lbpd30);
+                            }
+                            else
+                            {
+                                accleave = Math.Round((temp2 - temp1)*lbpd30f20);
+                            }
                         }
 
+                        if (maxleaveperyear.Count > 0)
+                        {
+                            if (maxleaveperyear.Exists(x => x.year.Year <= i))
+                            {
+                                var maxleaveperyeartemp = maxleaveperyear.Find(x => x.year.Year <= i);
+                                if (period - savelbpy.unpaid.Value < 365)
+                                {
+                                    accleave = Math.Round((period - savelbpy.unpaid.Value) * maxleaveperyeartemp.total_leave_balance / 365);
+                                }
+                                else
+                                {
+                                    accleave = maxleaveperyeartemp.total_leave_balance;
+                                }
+                                
+                            }
+                        }
                         savelbpy.accrued = accleave;
                         savelbpy.Annual_Leave_total = savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied;
                         savelbpy.period = period;
@@ -2128,8 +2192,8 @@ namespace HRworks.Controllers
                                 savelbpy.net_period = 0;
                             }
 
-                            savelbpy.net_period += perviousyearleave.net_period + period;
-                            savelbpy.leave_balance = RoundToNearestHalf(accleave) - savelbpy.Annual_Leave_total + perviousyearleave.leave_balance;
+                            savelbpy.net_period += perviousyearleave.net_period + period - savelbpy.unpaid;
+                            savelbpy.leave_balance = accleave - savelbpy.Annual_Leave_total + perviousyearleave.leave_balance;
 
                             if (DateTime.Now >= new DateTime(i + 1, 3, 31))
                             {
@@ -2269,7 +2333,7 @@ namespace HRworks.Controllers
                 }
             }
 
-            if (asf.Value.Year <= 2024)
+            if (asf.Value.Year >= 2024)
             {
                 for (int i = 2024; i <= DateTime.Now.Year; i++)
                 {
@@ -2392,7 +2456,7 @@ namespace HRworks.Controllers
                                 savelbpy.unpaid = 0;
                             }
 
-                            accleave = Math.Round((joiningperiod * lbpd24) - (savelbpy.unpaid.Value * (lbpd24f20)));
+                            accleave = Math.Round((joiningperiod)* lbpd24);
                         }
                         else
                         {
@@ -2401,11 +2465,27 @@ namespace HRworks.Controllers
                                 savelbpy.unpaid = 0;
                             }
 
-                            var temp1 = (savelbpy.unpaid.Value * lbpd30f20);
-                            var temp2 = (period * lbpd30);
-                            accleave = Math.Round(temp2 - temp1);
+                            var temp1 = (savelbpy.unpaid.Value);
+                            var temp2 = (period );
+                            accleave = Math.Round((temp2) * lbpd30);
                         }
 
+                        if (maxleaveperyear.Count > 0)
+                        {
+                            if (maxleaveperyear.Exists(x => x.year.Year <= i))
+                            {
+                                var maxleaveperyeartemp = maxleaveperyear.Find(x => x.year.Year <= i);
+                                if (period - savelbpy.unpaid.Value < 365)
+                                {
+                                    accleave = Math.Round((period - savelbpy.unpaid.Value) * maxleaveperyeartemp.total_leave_balance / 365);
+                                }
+                                else
+                                {
+                                    accleave = maxleaveperyeartemp.total_leave_balance;
+                                }
+
+                            }
+                        }
                         savelbpy.Annual_Leave_total = savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied;
                         savelbpy.period = 365;
                         if (perviousyearleave != null)
@@ -2415,7 +2495,7 @@ namespace HRworks.Controllers
                                 savelbpy.net_period = 0;
                             }
 
-                            savelbpy.net_period += perviousyearleave.net_period;
+                            savelbpy.net_period += perviousyearleave.net_period - savelbpy.unpaid;
                         savelbpy.leave_balance = accleave - (savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied) + perviousyearleave.leave_balance;
                         if (DateTime.Now >= new DateTime(i + 1, 3, 31))
                         {
@@ -2593,7 +2673,36 @@ namespace HRworks.Controllers
                     //this.forfitedbalence(file.employee_id);
                 }
 
-                var leaveballist = this.db.leavecal2020.Where(x => x.leave_balance >= days.Value).ToList();
+                var leaveballisttemp = this.db.leavecalperyears.OrderByDescending(x=>x.balances_of_year).ThenBy(x=>x.Employee_id).Where(x =>
+                    (x.balances_of_year.Year == DateTime.Today.Year || x.balances_of_year.Year == DateTime.Today.Year - 1 ) && x.leave_balance >= days.Value).ToList();
+                var leaveballist = new List<leavecalperyear>();
+                foreach (var file in leaveballisttemp)
+                {
+                    if (!leaveballist.Exists(x=>x.Employee_id == file.Employee_id))
+                    {
+                        var templist = leaveballisttemp.FindAll(x => x.Employee_id == file.Employee_id);
+                        var tempver = new leavecalperyear();
+                        foreach (var leavecalperyear in templist)
+                        {
+                            tempver.Employee_id = leavecalperyear.Employee_id;
+                            if (tempver.leave_balance == null)
+                            {
+                                tempver.leave_balance = 0d;
+                            }
+
+                            if (DateTime.Today < new DateTime(DateTime.Today.Year,3,31))
+                            {
+                                tempver.leave_balance += leavecalperyear.leave_balance;
+                            }
+                            else
+                            {
+                                tempver.leave_balance = leavecalperyear.leave_balance;
+                                break;
+                            }
+                        }
+                        leaveballist.Add(tempver);
+                    }
+                }
                 foreach (var leavecal in leaveballist)
                 {
                     var leaveempid = this.db.Leaves.Where(x => x.Employee_id == leavecal.Employee_id)
@@ -2643,6 +2752,26 @@ namespace HRworks.Controllers
         }
 
         HREntities hrdb = new HREntities();
+
+        public ActionResult lbpyindex(string search)
+        {
+            var lbdisplaylist = new List<leavecalperyear>();
+            if (!string.IsNullOrEmpty(search))
+            {
+                var Lbpyearlist = db.leavecalperyears.ToList();
+                if (int.TryParse(search, out var idk))
+                {
+                    lbdisplaylist = Lbpyearlist.FindAll(x => x.master_file.employee_no == idk);
+                }
+                else
+                {
+                    var svalue = search.ToUpperInvariant();
+                    lbdisplaylist = Lbpyearlist.FindAll(x => x.master_file.employee_name.ToUpperInvariant().Contains(svalue));
+                }
+            }
+
+            return View(lbdisplaylist);
+        }
 
         public ActionResult ImportExcel()
         {

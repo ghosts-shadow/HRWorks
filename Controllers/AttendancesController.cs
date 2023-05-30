@@ -10,6 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class AttendancesController : Controller
     {
         private LogisticsSoftEntities db = new LogisticsSoftEntities();

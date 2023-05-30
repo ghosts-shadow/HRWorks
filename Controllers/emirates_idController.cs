@@ -13,6 +13,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class emirates_idController : Controller
     {
         private HREntities db = new HREntities();
