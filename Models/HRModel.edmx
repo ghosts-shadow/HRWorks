@@ -623,6 +623,7 @@
           <Property Name="sabbatical_leave_balance" Type="float" />
           <Property Name="study_leave_balance" Type="float" />
           <Property Name="sumittedleavebal" Type="float" />
+          <Property Name="leave_count" Type="bigint" />
           <Property Name="date_updated" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="liqiapproval">
@@ -2628,6 +2629,7 @@
           <NavigationProperty Name="master_file" Relationship="Self.FK_leavecallperyear_To_master_file" FromRole="leavecalperyear" ToRole="master_file" />
           <Property Name="sick_leave_balance_industrial" Type="Double" />
           <Property Name="sumittedleavebal" Type="Double" />
+          <Property Name="leave_count" Type="Int64" />
         </EntityType>
         <EntityType Name="liqiapproval">
           <Key>
@@ -4625,6 +4627,7 @@
           <EntitySetMapping Name="leavecalperyears">
             <EntityTypeMapping TypeName="HRModel.leavecalperyear">
               <MappingFragment StoreEntitySet="leavecalperyear">
+                <ScalarProperty Name="leave_count" ColumnName="leave_count" />
                 <ScalarProperty Name="sumittedleavebal" ColumnName="sumittedleavebal" />
                 <ScalarProperty Name="sick_leave_balance_industrial" ColumnName="sick_leave_balance_industrial" />
                 <ScalarProperty Name="Id" ColumnName="Id" />

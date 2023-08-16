@@ -1152,7 +1152,6 @@
     <Content Include="arabic certificates\Resignation Notice Acceptance.pdf" />
     <Content Include="arabic certificates\Salary Certificate - Arabic - Female.pdf" />
     <Content Include="arabic certificates\Salary Certificate - Arabic - Male.pdf" />
-    <Content Include="arabic certificates\Salary Certificate - Arabic - Maletest.pdf" />
     <Content Include="arabic certificates\Salary Certificate.pdf" />
     <Content Include="arabic certificates\Salary transfer letter.pdf" />
     <Content Include="arabic certificates\Termination Notice.pdf" />
@@ -1604,6 +1603,8 @@
     <Content Include="Views\employeeleavesubmitions\Dleavereport.cshtml" />
     <Content Include="Views\empreturnfromleavesubs\allpendingapprovals.cshtml" />
     <Content Include="Views\Leaves\lbpyindex.cshtml" />
+    <Content Include="Views\Leaves\periodic.cshtml" />
+    <Content Include="Views\employeeleavesubmitions\displayall.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

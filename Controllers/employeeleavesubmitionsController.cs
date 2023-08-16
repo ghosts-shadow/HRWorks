@@ -386,8 +386,14 @@ namespace HRworks.Controllers
             return View(employeeleavesubmitions);
         }
 
+        public ActionResult displayall()
+        {
+            var leavelist = db.employeeleavesubmitions.OrderByDescending(x=>x.dateadded).ThenBy(x=>x.master_file.employee_no).ToList();
+            return View(leavelist);
+        }
+
         // GET: employeeleavesubmitions/Details/5
-        [Authorize(Roles = "HOD,employee,Manager,super_admin")]
+        [Authorize(Roles = "HOD,employee,Manager,super_admin,slapproval")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -405,7 +411,7 @@ namespace HRworks.Controllers
         }
 
         // GET: employeeleavesubmitions/Create
-        [Authorize(Roles = "HOD,employee,Manager,super_admin")]
+        [Authorize(Roles = "HOD,employee,Manager,super_admin,slapproval")]
         public ActionResult Create()
         {
             var userempnolists = db.usernames
@@ -443,7 +449,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "HOD,employee,Manager,super_admin")]
+        [Authorize(Roles = "HOD,employee,Manager,super_admin,slapproval")]
         public ActionResult Create([Bind(Include =
                 "Id,Employee_id,Date,Start_leave,End_leave,Return_leave,leave_type,toltal_requested_days,submitted_by,apstatus,half,approved_byline,approved_byhod")]
             employeeleavesubmition employeeleavesubmition, HttpPostedFileBase fileBase)
@@ -704,7 +710,7 @@ namespace HRworks.Controllers
         }
 
         // GET: employeeleavesubmitions/Edit/5
-        [Authorize(Roles = "HOD,employee,Manager,super_admin")]
+        [Authorize(Roles = "HOD,employee,Manager,super_admin,slapproval")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -728,7 +734,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "HOD,employee,Manager,super_admin")]
+        [Authorize(Roles = "HOD,employee,Manager,super_admin,slapproval")]
         public ActionResult Edit([Bind(Include =
                 "Id,Employee_id,Date,Start_leave,End_leave,Return_leave,leave_type,toltal_requested_days,submitted_by,apstatus,half,approved_byline,approved_byhod")]
             employeeleavesubmition employeeleavesubmition)
@@ -746,7 +752,7 @@ namespace HRworks.Controllers
         }
 
         // GET: employeeleavesubmitions/Delete/5
-        [Authorize(Roles = "HOD,employee,Manager,super_admin")]
+        [Authorize(Roles = "HOD,employee,Manager,super_admin,slapproval")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -764,7 +770,7 @@ namespace HRworks.Controllers
         }
 
         // POST: employeeleavesubmitions/Delete/5
-        [Authorize(Roles = "HOD,employee,Manager,super_admin")]
+        [Authorize(Roles = "HOD,employee,Manager,super_admin,slapproval")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -784,7 +790,7 @@ namespace HRworks.Controllers
             var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
             var employeeleavesubmitions = new List<employeeleavesubmition>();
             var conlist = db.contracts.ToList();
-            if (User.IsInRole("super_admin"))
+            if (User.IsInRole("super_admin") || User.IsInRole("slapproval"))
             {
                 goto superlogin;
             }
@@ -976,7 +982,7 @@ namespace HRworks.Controllers
                 return RedirectToAction("empleaveap");
             }
 
-            if (User.IsInRole("super_admin"))
+            if (User.IsInRole("super_admin") || User.IsInRole("slapproval"))
             {
                 var employeeleavesubmition = db.employeeleavesubmitions.Find(id);
                 employeeleavesubmition.apstatus = "approved";
@@ -1016,6 +1022,7 @@ namespace HRworks.Controllers
             var relationlist = db.emprels.ToList();
             var logedinsrels = relationlist.FindAll(x => x.line_man == empjd.employee_id || x.HOD == empjd.employee_id);
             var DLR = new List<Leave>();
+            var DLRtemplist = new List<Leave>();
             foreach (var emprel in logedinsrels)
             {
                 var relationlist1 =
@@ -1023,14 +1030,25 @@ namespace HRworks.Controllers
                 foreach (var emprel2 in relationlist1)
                 {
                     var DLRtemp1 = db.Leaves.Where(x =>
-                        x.Employee_id == emprel2.Employee_id && x.Start_leave.Value.Year == DateTime.Now.Year &&
-                        x.leave_type == "1");
-                    DLR.AddRange(DLRtemp1);
+                        x.Employee_id == emprel2.Employee_id && x.Start_leave.Value.Year == DateTime.Now.Year /*&&
+                        x.leave_type == "1"*/);
+                    DLRtemplist.AddRange(DLRtemp1);
                 }
                 var DLRtemp = db.Leaves.Where(x =>
-                    x.Employee_id == emprel.Employee_id && x.Start_leave.Value.Year == DateTime.Now.Year &&
-                    x.leave_type == "1");
-                DLR.AddRange(DLRtemp);
+                    x.Employee_id == emprel.Employee_id && x.Start_leave.Value.Year == DateTime.Now.Year /*&&
+                    x.leave_type == "1"*/);
+                DLRtemplist.AddRange(DLRtemp);
+            }
+            foreach(var empin in DLRtemplist)
+            {
+                if(DLR.Count == 0)
+                {
+                    DLR.Add(empin);
+                }
+                if(!DLR.Exists(x=>x.Id == empin.Id))
+                {
+                    DLR.Add(empin);
+                }
             }
 
             if (!string.IsNullOrEmpty(search) && DLR.Count > 0)
@@ -1050,7 +1068,7 @@ namespace HRworks.Controllers
         }
 
 
-        [Authorize(Roles = "HOD,employee,Manager,super_admin")]
+        [Authorize(Roles = "HOD,employee,Manager,super_admin,slapproval")]
         public ActionResult approve(int id)
         {
             var employeeleavesubmitionlist = db.employeeleavesubmitions.ToList();
@@ -1066,7 +1084,7 @@ namespace HRworks.Controllers
             leaveentry.leave_type = employeeleavesubmition.leave_type;
             leaveentry.actualchangeddateby = DateTime.Now;
             leaveentry.imgpath = employeeleavesubmition.imgpath;
-            if (User.IsInRole("super_admin"))
+            if (User.IsInRole("super_admin") || User.IsInRole("slapproval"))
             {
                 var leavedupcheck = db.Leaves.ToList();
                 if (!leavedupcheck.Exists(x => x.Start_leave == leaveentry.Start_leave && x.Employee_id == leaveentry.Employee_id))
@@ -1197,7 +1215,7 @@ namespace HRworks.Controllers
 
             return RedirectToAction("empleaveap");
         }
-        [Authorize(Roles = "HOD,employee,Manager,super_admin")]
+        [Authorize(Roles = "HOD,employee,Manager,super_admin,slapproval")]
         public ActionResult reject(int id, string message)
         {
             var employeeleavesubmition = db.employeeleavesubmitions.Find(id);
@@ -1205,10 +1223,7 @@ namespace HRworks.Controllers
                 .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
             var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
             var relationlist = db.emprels.ToList();
-            var empjd = empuser.master_file;
-            var logedinsrels = relationlist.FindAll(x => x.line_man == empjd.employee_id || x.HOD == empjd.employee_id);
-            var currentrel = logedinsrels.Find(x => x.Employee_id == employeeleavesubmition.Employee_id);
-            if (User.IsInRole("super_admin"))
+            if (User.IsInRole("super_admin") || User.IsInRole("slapproval"))
             {
                 employeeleavesubmition.apstatus = "rejected by HR for " + message;
                 employeeleavesubmition.approved_byhod = User.Identity.Name;
@@ -1218,6 +1233,9 @@ namespace HRworks.Controllers
                 SendMail(message, "rejected by HR for ", id);
                 return RedirectToAction("empleaveap");
             }
+            var empjd = empuser.master_file;
+            var logedinsrels = relationlist.FindAll(x => x.line_man == empjd.employee_id || x.HOD == empjd.employee_id);
+            var currentrel = logedinsrels.Find(x => x.Employee_id == employeeleavesubmition.Employee_id);
             if (currentrel.line_man == empjd.employee_id)
             {
                 if (currentrel.HOD == empjd.employee_id)
@@ -1247,7 +1265,7 @@ namespace HRworks.Controllers
             return RedirectToAction("empleaveap");
         }
 
-        [Authorize(Roles = "HOD,employee,Manager,super_admin")]
+        [Authorize(Roles = "HOD,employee,Manager,super_admin,slapproval")]
         public FileResult Download(int id)
         {
             var employeeleavesubmition = db.employeeleavesubmitions.Find(id);
@@ -1277,7 +1295,7 @@ namespace HRworks.Controllers
             }
 
             var emplusersname = usernamelist.Find(x => x.employee_no == emprel.Employee_id);
-            message.From.Add(new MailboxAddress("Hrworks", "hrdepartment@citiscapegroup.com"));
+            message.From.Add(new MailboxAddress("Hrworks", "leave@citiscapegroup.com"));
 
             if (action.Equals("submitted"))
             {
@@ -1398,7 +1416,7 @@ namespace HRworks.Controllers
                 {
                     client.Connect("outlook.office365.com", 587, false);
                     // Note: only needed if the SMTP server requires authentication
-                    client.Authenticate("hrdepartment@citiscapegroup.com", "Mam43529");
+                    client.Authenticate("leave@citiscapegroup.com", "Tak98020");
                     client.Send(message);
                     client.Disconnect(true);
                 }

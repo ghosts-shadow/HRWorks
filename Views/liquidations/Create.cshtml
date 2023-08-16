@@ -108,14 +108,23 @@
                 }
             }
         }
+        function addNumbers(a, b) {
+            const getPrecision = (num) => {
+                const str = num.toString();
+                const decimalIndex = str.indexOf('.');
+                return decimalIndex === -1 ? 0 : str.length - decimalIndex - 1;
+            };
+            const precision = Math.max(getPrecision(a), getPrecision(b));
+            const multiplier = Math.pow(10, precision);
+            return (Math.round(a * multiplier) + Math.round(b * multiplier)) / multiplier;
+        }
         function total() {
             var sum = 0;
             var a, b;
             for (var i = 0; i < counter; i++) {
                 a = $("#invoice" + i).val() == '' ? 0 : $("#invoice" + i).val();
                 b = $("#VAT" + i).val() == '' ? 0 : $("#VAT" + i).val();
-                sum = (parseFloat(a) * 100 + parseFloat(b) * 100) / 100;
-                $("#invoice_amount" + i).val(sum);
+                $("#invoice_amount" + i).val(addNumbers(a,b));
             }
             ttotal();
         };
@@ -236,6 +245,9 @@
 
         th, td {
             text-align: center;
+        }
+        li {
+            white-space: initial;
         }
 
         .row {

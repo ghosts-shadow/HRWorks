@@ -19,14 +19,14 @@ namespace HRworks.Controllers
         private HREntities db = new HREntities();
 
         // GET: empreturnfromleavesubs
-        /*public ActionResult Index()
+        public ActionResult Index()
         {
-            var empreturnfromleavesubs = db.empreturnfromleavesubs.Include(e => e.employeeleavesubmition).Include(e => e.master_file);
-            return View(empreturnfromleavesubs.ToList());
+            var empreturnfromleavesubs = db.empreturnfromleavesubs.OrderByDescending(x=>x.Date).ThenByDescending(x=>x.dateadded).ToList();
+            return View(empreturnfromleavesubs);
         }
 
         // GET: empreturnfromleavesubs/Details/5
-        public ActionResult Details(int? id)
+       /* public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -608,7 +608,6 @@ namespace HRworks.Controllers
             return RedirectToAction("empreturnap");
         }
 
-
         public ActionResult allpendingapprovals()
         {
             var pendingempapp = db.empreturnfromleavesubs
@@ -686,7 +685,7 @@ namespace HRworks.Controllers
             }
 
             var emplusersname = usernamelist.Find(x => x.employee_no == emprel.Employee_id);
-            message.From.Add(new MailboxAddress("Hrworks", "hrdepartment@citiscapegroup.com"));
+            message.From.Add(new MailboxAddress("Hrworks", "leave@citiscapegroup.com"));
 
             if (action.Equals("submitted"))
             {
@@ -822,7 +821,7 @@ namespace HRworks.Controllers
                 {
                     client.Connect("outlook.office365.com", 587, false);
                     // Note: only needed if the SMTP server requires authentication
-                    client.Authenticate("hrdepartment@citiscapegroup.com", "Mam43529");
+                    client.Authenticate("leave@citiscapegroup.com", "Tak98020");
                     client.Send(message);
                     client.Disconnect(true);
                 }

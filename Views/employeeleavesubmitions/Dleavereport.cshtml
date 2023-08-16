@@ -29,6 +29,9 @@
             @Html.DisplayNameFor(model => model.master_file.employee_name)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.leave_type)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Start_leave)
         </th>
         <th>
@@ -48,6 +51,51 @@
             <td>
                 @Html.DisplayFor(modelItem => item.master_file.employee_name)
             </td>
+            <td>
+                @switch (item.leave_type)
+                {
+                    case "1":
+                        <i>Annual</i>
+                        break;
+                    case "2":
+                        <i>Sick(non industrial)</i>
+                        break;
+                    case "3":
+                        <i>Compassionate</i>
+                        break;
+                    case "4":
+                        <i>Maternity</i>
+                        break;
+                    case "5":
+                        <i>Haj</i>
+                        break;
+                    case "6":
+                        <i>Unpaid</i>
+                        break;
+                    case "7":
+                        <i>Sick(industrial)</i>
+                        break;
+                    case "8":
+                        <i>UDDAH</i>
+                        break;
+                    case "9":
+                        <i>ESCORT</i>
+                        break;
+                    case "10":
+                        <i>PATERNITY</i>
+                        break;
+                    case "11":
+                        <i>SABBATICAL</i>
+                        break;
+                    case "12":
+                        <i>STUDY</i>
+                        break;
+                    default:
+                        <i>&nbsp; </i>
+                        break;
+                }
+            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Start_leave)
             </td>

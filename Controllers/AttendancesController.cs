@@ -43,7 +43,7 @@ namespace HRworks.Controllers
             if (month.HasValue)
             {
                 var maintim = maintime.FindAll(
-                    x => x.ManPowerSupplier == 1 && x.TMonth.Month == month.Value.Month
+                    x => (x.ManPowerSupplier == 1 || x.ManPowerSupplier == 8 || x.ManPowerSupplier == 9  ) && x.TMonth.Month == month.Value.Month
                                                  && x.TMonth.Year == month.Value.Year);
                 foreach (var sheet in maintim)
                 {
@@ -462,7 +462,7 @@ namespace HRworks.Controllers
             if (month.HasValue)
             {
                 var maintim = maintime.FindAll(
-                    x => (x.ManPowerSupplier == 1 || x.ManPowerSupplier == 8) && x.TMonth.Month == month.Value.Month
+                    x => (x.ManPowerSupplier == 1 || x.ManPowerSupplier == 8 || x.ManPowerSupplier == 9) && x.TMonth.Month == month.Value.Month
                                                                               && x.TMonth.Year == month.Value.Year);
                 foreach (var sheet in maintim)
                 {

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
@@ -9,7 +9,7 @@
     @Scripts.Render("~/favicon.ico")
     <script type="text/javascript">
         var i = 0;
-        $(document).ready(function() {
+        $(document).ready(function () {
             ShowCurrentTime();
         });
         $(document).body.onclick(reset());
@@ -40,7 +40,7 @@
         }
     </script>
     <script>
-        document.onkeydown = function(e) {
+        document.onkeydown = function (e) {
 
             if (e.ctrlKey && e.keyCode == 'P'.charCodeAt(0)) {
                 $('.btn ').hide();
@@ -73,7 +73,16 @@
             background-color: #eeeeee;
             border-collapse: collapse;
         }
+        .navbar-container {
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+        }
 
+        .navbar {
+            display: inline-block;
+            white-space: nowrap;
+        }
         th, .navbar, .nav {
             background-color: #152939 !important;
             color: white !important;
@@ -81,7 +90,8 @@
 
         th, tr, td {
             border: 1px solid black !important;
-            padding: 0.3%
+            padding: 0.3%;
+            white-space: nowrap;
         }
 
         button {
@@ -190,128 +200,135 @@
     </script>
 </head>
 <body onload="navpos()" style="text-transform: capitalize; padding-top: 0px" onclick="navpos()">
-<div class="navbar navbar-inverse navbar-fixed-top" style="position: sticky; top: 0px; padding: 0px !important" id="navpos">
-    <div class="navbar-header">
-        <button type="button"
-                class="navbar-toggle"
-                data-toggle="collapse"
-                data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="@Url.Action("index", "Home")" style="margin-top: -12px; padding-right: 0px;">
-            <div>
-                <img src="~/img/navlogo.png" class="img-fluid" width="60px" height="60px">
+    <div class="navbar-container">
+        <div class="navbar navbar-inverse navbar-fixed-top" style=" padding: 0px !important ;" id="navpos">
+            <div class="navbar-header">
+                <button type="button"
+                        class="navbar-toggle"
+                        data-toggle="collapse"
+                        data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.Action("index", "Home")" style="margin-top: -12px; padding-right: 0px;">
+                    <div>
+                        <img src="~/img/navlogo.png" class="img-fluid" width="60px" height="60px">
+                    </div>
+                </a>
             </div>
-        </a>
-    </div>
-    <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse">
 
-        <ul class="nav navbar-nav " style="font-size: 11px;">
-            @if (Request.IsAuthenticated)
-            {
-                if (User.Identity.IsAuthenticated)
-                {
-                    if (!(User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager") || User.IsInRole("employee") || User.IsInRole("registration")))
+                <ul class="nav navbar-nav " style="font-size: 11px;">
+                    @if (Request.IsAuthenticated)
                     {
-                        <div class="dropdown dd1" id="dd1">
-                            <button class="btn btn-primary dropdown-toggle" type="button" onclick='dd1()' style="background-color: #152939 !important; border-color: #152939">
-                                Employee Details
-                                <span class="caret"></span>
-                            </button>
-
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
-                                <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
-                                <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
-                                <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
-                                <li>@Html.ActionLink("master file", "Index", "master_file")</li>
-                                <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
-                                <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
-                                @if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
-                                {
-                                    <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
-                                }
-                                @if (User.IsInRole("super_admin"))
-                                {
-                                    <li>@Html.ActionLink("employee relations", "Index", "emprels")</li>
-                                }
-                            </ul>
-                        </div>
-                        if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
+                        if (User.Identity.IsAuthenticated)
                         {
-                            <div class="dropdown dd2" id="dd2">
-                                <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd2()" style="background-color: #152939 !important; border-color: #152939">
-                                    Financial
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>@Html.ActionLink("payroll", "Report", "Attendances")</li>
-                                    <li>@Html.ActionLink("end of service", "EOSB", "end_of_service")</li>
-                                </ul>
-                            </div>
-                        }
-                        <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
-                        <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
-                        <li>@Html.ActionLink("attendance", "Index1", "hiks")</li>
-
-                        if (User.Identity.Name == "dinizsneden@gmail.com")
-                        {
-                            <li>@Html.ActionLink("HR forms", "HR_Forms", "HR_forms")</li>
-                        }
-                        if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
-                        {
-                            <li>@Html.ActionLink("uploaddata", "Index", "uploaddata")</li>
-                            <li>@Html.ActionLink("user name", "index", "usernames")</li>
-                            //<li>@Html.ActionLink("certificates", "Index", "certificatesavingtest_")</li>
-                        }
-                    }
-                    else
-                    {
-                        if (!User.IsInRole("registration"))
-                        {
-                            <li>@Html.ActionLink("leave", "Index", "employeeleavesubmitions")</li>
-                            <li>@Html.ActionLink("DLR", "Dleavereport", "employeeleavesubmitions")</li>
-                            if (User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager") || User.IsInRole("employee"))
+                            if (!(User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager") || User.IsInRole("employee") || User.IsInRole("registration")))
                             {
-                                
-                                <div class="dropdown dd2" id="dd2">
-                                    <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd2()" style="background-color: #152939 !important; border-color: #152939">
-                                        approvals
+                                <div class="dropdown dd1" id="dd1">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" onclick='dd1()' style="background-color: #152939 !important; border-color: #152939">
+                                        Employee Details
                                         <span class="caret"></span>
                                     </button>
+
                                     <ul class="dropdown-menu">
-                                        <li>@Html.ActionLink("leave approvals", "empleaveap", "employeeleavesubmitions")</li>
-                                        <li>@Html.ActionLink("return approvals", "empreturnap", "empreturnfromleavesubs")</li>
+                                        <li>@Html.ActionLink("Bank Details", "Index", "bank_details")</li>
+                                        <li>@Html.ActionLink("Emirates ID", "Index", "emirates_id")</li>
+                                        <li>@Html.ActionLink("Insurance", "Index", "insurances")</li>
+                                        <li>@Html.ActionLink("Labor Card", "Index", "labour_card")</li>
+                                        <li>@Html.ActionLink("master file", "Index", "master_file")</li>
+                                        <li>@Html.ActionLink("Passport ", "Index", "passports")</li>
+                                        <li>@Html.ActionLink("Visa ", "Index", "visas")</li>
+                                        @if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
+                                        {
+                                            <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
+                                        }
+                                        @if (User.IsInRole("super_admin"))
+                                        {
+                                            <li>@Html.ActionLink("employee relations", "Index", "emprels")</li>
+                                        }
                                     </ul>
                                 </div>
+                                if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
+                                {
+                                    <div class="dropdown dd2" id="dd2">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd2()" style="background-color: #152939 !important; border-color: #152939">
+                                            Financial
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("payroll", "Report", "Attendances")</li>
+                                            <li>@Html.ActionLink("end of service", "EOSB", "end_of_service")</li>
+                                        </ul>
+                                    </div>
+                                }
+                                <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
+                                <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
+                                <li>@Html.ActionLink("attendance", "Index1", "hiks")</li>
+
+                                if (User.Identity.Name == "dinizsneden@gmail.com")
+                                {
+                                    <li>@Html.ActionLink("HR forms", "HR_Forms", "HR_forms")</li>
+                                }
+                                if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
+                                {
+                                    <li>@Html.ActionLink("uploaddata", "Index", "uploaddata")</li>
+                                    <li>@Html.ActionLink("user name", "index", "usernames")</li>
+                                    //<li>@Html.ActionLink("certificates", "Index", "certificatesavingtest_")</li>
+                                }
                             }
-                            //<li>@Html.ActionLink("certificate request", "subcertificatereq", "detailsinarabics")</li>
+                            else
+                            {
+                                if (!User.IsInRole("registration"))
+                                {
+                                    <li>@Html.ActionLink("leave", "Index", "employeeleavesubmitions")</li>
+                                    <li>@Html.ActionLink("DLR", "Dleavereport", "employeeleavesubmitions")</li>
+                                    if (User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager") || User.IsInRole("employee"))
+                                    {
+
+                                        <div class="dropdown dd2" id="dd2">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd2()" style="background-color: #152939 !important; border-color: #152939">
+                                                approvals
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>@Html.ActionLink("leave approvals", "empleaveap", "employeeleavesubmitions")</li>
+                                                <li>@Html.ActionLink("return approvals", "empreturnap", "empreturnfromleavesubs")</li>
+                                            </ul>
+                                        </div>
+                                    }
+                                    //<li>@Html.ActionLink("certificate request", "subcertificatereq", "detailsinarabics")</li>
+                                }
+                            }
                         }
                     }
-                }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="body-content row" style="text-transform: capitalize; margin-left: 2%; margin-right: 2%; position: relative; top: 5%" onclick="ddremove()">
+        <div id="bodyloder">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            @RenderBody()
+        </div>
+        <hr />
+        <footer id="foot" style="bottom: 0; left: 0; position: fixed; text-align: center; background-color: #152939; color: #fff; width: 100%; vertical-align: bottom">
+            <p>&copy; @DateTime.Now.Year - CITISCAPE L.L.C.</p>
+            @if (Request.IsAuthenticated)
+            {
+                <label id="lblTime" style="display: none"></label>
             }
-        </ul>
-        @Html.Partial("_LoginPartial")
+        </footer>
+        <div class="se-pre-con"></div>
     </div>
-</div>
-<div class="body-content row" style="text-transform: capitalize; margin-left: 2%; margin-right: 2%; position: relative; top: 5%" onclick="ddremove()">
-    <div id="bodyloder">
-        @RenderBody()
-    </div>
-    <hr/>
-    <footer id="foot" style="bottom: 0; left: 0; position: fixed; text-align: center; background-color: #152939; color: #fff; width: 100%; vertical-align: bottom">
-        <p>&copy; @DateTime.Now.Year - CITISCAPE L.L.C.</p>
-        @if (Request.IsAuthenticated)
-        {
-            <label id="lblTime" style="display: none"></label>
-        }
-    </footer>
-    <div class="se-pre-con"></div>
-</div>
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-@RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
 </body>
 </html>

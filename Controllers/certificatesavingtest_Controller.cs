@@ -84,59 +84,12 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Salary Certificate - Arabic - Male.pdf"); 
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Salary Certificate - Arabic - Male.pdf");
+                var csorgr = "CS-HRDCRT-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                      filepath = Server.MapPath("~/arabic certificates/Salary Certificate - Arabic - Male - Grove.pdf");
                      filepathout = Server.MapPath("~/arabic certificates/tempstore/Salary Certificate - Arabic - Male - Grove.pdf");
-                }
-                {
-
-                    /*
-                //use for english pdfs
-                {
-                    string filepath = Server.MapPath("~/arabic certificates/Salary Certificate - Arabic - Male.pdf");
-                    string filepathut = Server.MapPath("~/arabic certificates/tempstore/Salary Certificate - Arabic - Male.pdf");
-                    DocumentCore dc = DocumentCore.Load(filepath,new PdfLoadOptions());
-                    ContentRange cr = dc.Content.Find("@").First();
-                    if (cr != null)
-                    {
-                        cr.Replace("this test is not working");
-                    }
-                    dc.Save(filepathut);
-                    Response.Clear();
-                    Response.ContentType = "application/pdf";
-                    Response.AddHeader("Content-Disposition", "attachment;filename=\"Salary Certificate - Arabic - Male.pdf\"");
-                    Response.BinaryWrite(System.IO.File.ReadAllBytes(Server.MapPath("~/arabic certificates/Salary Certificate - Arabic - Male.pdf")));
-                    Response.Flush();
-                    Response.End();
-                    // return View("cer1",certificatesavingtest_);
-                }
-                
-                string filepath = Server.MapPath("~/arabic certificates/Salary Certificate - Arabic - Male.pdf");
-                string filepathout = Server.MapPath("~/arabic certificates/tempstore/Salary Certificate - Arabic - Male.pdf");
-                PdfDocument pfddoc = new PdfDocument(new PdfReader(filepath), new PdfWriter(filepathout));
-                pfddoc.RemovePage(2);
-                var newdoc = new Document(pfddoc);
-                var fontfamilies = new List<string>();
-                //fontfamilies.Add("Arial Typesetting");
-                fontfamilies.Add("Arial");
-                FontProvider provider = new FontProvider();
-                //Load in fonts in the directory into the provider
-                provider.AddDirectory(Server.MapPath("~/Content/fonts"));
-                provider.AddDirectory("c:/windows/fonts");
-                newdoc.ShowTextAligned(new Paragraph("serial no"), 130, 672, TextAlignment.LEFT);
-                newdoc.ShowTextAligned(new Paragraph(certificatesavingtest_.destination), 510, 632, TextAlignment.LEFT);
-                var ARname = nameinar.ARname; 
-                Encoding utf8 = Encoding.UTF8;
-                var nameAR = utf8.GetString(utf8.GetBytes(ARname));
-                var paraAR = new Paragraph(Bidi.BidiText(nameAR, 1).Text);
-                var test = Bidi.BidiText(nameAR, 10).Text;
-                FontSelectorStrategy strategy = provider.GetStrategy(ARname, fontfamilies);
-                strategy.NextGlyphs();
-                PdfFont arabicFont = strategy.GetCurrentFont(); 
-                paraAR.SetFont(arabicFont);
-                newdoc.ShowTextAligned((paraAR), 300, 100, TextAlignment.RIGHT);
-                newdoc.Close(); */
+                    csorgr = "GR-HRDCRT-";
                 }
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
                 using (var document = PdfDocument.Load(filepath))
@@ -158,31 +111,7 @@ namespace HRworks.Controllers
                             document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 398));
 
                     }
-                    /*
-                    using (var formattedText = new PdfFormattedText())
-                    {
 
-                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
-                        formattedText.TextAlignment = PdfTextAlignment.Left;
-                        formattedText.Language = new PdfLanguage("English");
-                        formattedText.FontSize = 11;
-                        formattedText.Clear();
-                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(364, 338));
-                        formattedText.Clear();
-                        formattedText.Append(passport.passport_no);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(365, 428));
-                        // formattedText.Clear();
-                        // formattedText.Append(Unprotect(contract.salary_details));
-                        // document.Pages[0].Content.DrawText(formattedText, new PdfPoint(364, 368));
-                        formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.destination);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(500, 635));
-                        formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(65, 685));
-
-                    }*/
                     using (var formattedText = new PdfFormattedText())
                     {
 
@@ -223,8 +152,9 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(130, 672));
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(65, 672));
                         formattedText.Clear();
                     }
                     document.Save(filepathout);
@@ -254,11 +184,13 @@ namespace HRworks.Controllers
             {
                     string filepath = Server.MapPath("~/arabic certificates/Salary Certificate - Arabic - Female.pdf");
                     string filepathout = Server.MapPath("~/arabic certificates/tempstore/Salary Certificate - Arabic - Female.pdf");
+                    var csorgr = "CS-HRDCRT-";
                     if (certificatesavingtest_.cs_gr == "GR_certificates")
                     {
                         filepath = Server.MapPath("~/arabic certificates/Salary Certificate - Arabic - Female.pdf");
                         filepathout =
                             Server.MapPath("~/arabic certificates/tempstore/Salary Certificate - Arabic - Female.pdf");
+                         csorgr = "GR-HRDCRT-";
                     }
 
                     ComponentInfo.SetLicense("FREE-LIMITED-KEY");
@@ -319,8 +251,9 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(130, 695));
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(65, 695));
                         formattedText.Clear();
                     }
                     document.Save(filepathout);
@@ -351,14 +284,16 @@ namespace HRworks.Controllers
             {
                     string filepath = Server.MapPath("~/arabic certificates/Employment Certificate - Arabic - Male.pdf");
                     string filepathout = Server.MapPath("~/arabic certificates/tempstore/Employment Certificate - Arabic - Male.pdf");
-                    if (certificatesavingtest_.cs_gr == "GR_certificates")
+                var csorgr = "CS-HRDCRT-";
+                if (certificatesavingtest_.cs_gr == "GR_certificates")
                     {
                         filepath =
                             Server.MapPath("~/arabic certificates/Employment Certificate - Arabic - Male - Grove.pdf");
                         filepathout =
                             Server.MapPath(
                                 "~/arabic certificates/tempstore/Employment Certificate - Arabic - Male - Grove.pdf");
-                    }
+                    csorgr = "GR-HRDCRT-";
+                }
 
                     ComponentInfo.SetLicense("FREE-LIMITED-KEY");
                 using (var document = PdfDocument.Load(filepath))
@@ -404,8 +339,9 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(120, 704));
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(50, 704));
                         formattedText.Clear();
                     }
                     document.Save(filepathout);
@@ -436,11 +372,13 @@ namespace HRworks.Controllers
             {
                     string filepath = Server.MapPath("~/arabic certificates/Employment Certificate - Arabic - female.pdf");
                     string filepathout = Server.MapPath("~/arabic certificates/tempstore/Employment Certificate - Arabic - Female.pdf");
-                    if (certificatesavingtest_.cs_gr == "GR_certificates")
+                var csorgr = "CS-HRDCRT-";
+                if (certificatesavingtest_.cs_gr == "GR_certificates")
                     {
                         filepath = Server.MapPath("~/arabic certificates/Employment Certificate - Arabic - female - Grove.pdf");
                         filepathout = Server.MapPath( "~/arabic certificates/tempstore/Employment Certificate - Arabic - Female - Grove.pdf");
-                    }
+                    csorgr = "GR-HRDCRT-";
+                }
 
                     ComponentInfo.SetLicense("FREE-LIMITED-KEY");
                 using (var document = PdfDocument.Load(filepath))
@@ -486,8 +424,9 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 653));
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(50, 653));
                         formattedText.Clear();
                     }
                     document.Save(filepathout);
@@ -516,10 +455,12 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Salary Certificate.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Salary Certificate.pdf");
+                var csorgr = "CS-HRDCRT-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath = Server.MapPath("~/arabic certificates/Salary Certificate - Grove.pdf");
                     filepathout = Server.MapPath("~/arabic certificates/tempstore/Salary Certificate - Grove.pdf");
+                    csorgr = "GR-HRDCRT-";
                 }
 
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
@@ -534,8 +475,9 @@ namespace HRworks.Controllers
                         formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(152, 728));
                         formattedText.Clear();
-                        formattedText.Append("-"+certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(205, 711));
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(150, 710));
                         formattedText.Clear();
                         formattedText.Append(certificatesavingtest_.destination);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(100, 675));
@@ -591,10 +533,12 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Employment Certificate.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Employment Certificate.pdf");
+                var csorgr = "CS-HRDCRT-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath = Server.MapPath("~/arabic certificates/Employment Certificate - Grove.pdf");
                     filepathout = Server.MapPath("~/arabic certificates/tempstore/Employment Certificate - Grove.pdf");
+                    csorgr = "GR-HRDCRT-";
                 }
 
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
@@ -609,8 +553,9 @@ namespace HRworks.Controllers
                         formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(175, 722));
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(250, 705));
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(175, 705));
                         formattedText.Clear();
                         formattedText.Append(masterfile.employee_name);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(172, 528));
@@ -661,10 +606,12 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Letter to Immigration - Male.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Letter to Immigration - Male.pdf");
+                var csorgr = "CS-HRDLTR-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath = Server.MapPath("~/arabic certificates/Letter to Immigration - Male - Grove .pdf");
-                    filepathout = Server.MapPath("~/arabic certificates/tempstore/Letter to Immigration - Male - Grove .pdf");
+                    filepathout = Server.MapPath("~/arabic certificates/tempstore/Letter to Immigration - Male - Grove .pdf"); 
+                    csorgr = "GR-HRDLTR-";
                 }
 
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
@@ -721,8 +668,9 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(120, 716));
+                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(55, 715));
                         formattedText.Clear();
                     }
 
@@ -740,11 +688,13 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Letter to Immigration - Female.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Letter to Immigration - Female.pdf");
+                var csorgr = "CS-HRDLTR-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath = Server.MapPath("~/arabic certificates/Letter to Immigration - Female - Grove.pdf");
                     filepathout =
                         Server.MapPath("~/arabic certificates/tempstore/Letter to Immigration - Female - Grove.pdf");
+                    csorgr = "GR-HRDLTR-";
                 }
 
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
@@ -800,8 +750,9 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(120, 692));
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(50, 692));
                         formattedText.Clear();
                     }
 
@@ -819,12 +770,13 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Driving License - Light - Male.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Driving License - Light - Male.pdf");
-
+                var csorgr = "CS-HRDLTR-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath = Server.MapPath("~/arabic certificates/Driving License - Light - Male - Grove.pdf");
                     filepathout =
                         Server.MapPath("~/arabic certificates/tempstore/Driving License - Light - Male - Grove.pdf");
+                    csorgr = "GR-HRDLTR-";
                 }
 
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
@@ -866,8 +818,9 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(135, 729));
+                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(71, 729));
                         formattedText.Clear();
                     }
 
@@ -885,11 +838,13 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Driving License - Light - Female.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Driving License - Light - Female.pdf");
+                var csorgr = "CS-HRDLTR-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath = Server.MapPath("~/arabic certificates/Driving License - Light - Female - Grove.pdf");
                     filepathout =
                         Server.MapPath("~/arabic certificates/tempstore/Driving License - Light - Female - Grove.pdf");
+                    csorgr = "GR-HRDLTR-";
                 }
 
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
@@ -931,8 +886,9 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(135, 719));
+                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(67, 719));
                         formattedText.Clear();
                     }
 
@@ -950,11 +906,13 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Driving Licence - Heavy - Male.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Driving Licence - Heavy - Male.pdf");
+                var csorgr = "CS-HRDLTR-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath = Server.MapPath("~/arabic certificates/Driving Licence - Heavy - Male - Grove.pdf");
                     filepathout =
                         Server.MapPath("~/arabic certificates/tempstore/Driving Licence - Heavy - Male - Grove.pdf");
+                    csorgr = "GR-HRDLTR-";
                 }
 
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
@@ -996,8 +954,9 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 700));
+                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(55, 700));
                         formattedText.Clear();
                     }
 
@@ -1011,85 +970,18 @@ namespace HRworks.Controllers
                 Response.Flush();
                 Response.End();
             }
-            {
-                /*
-                 if (certificatesavingtest_.certificate_type == 12)
-                {
-                    string filepath = Server.MapPath("~/arabic certificates/Driving Licence - Heavy - female.pdf");
-                    string filepathout = Server.MapPath("~/arabic certificates/tempstore/Driving Licence - Heavy - female.pdf");
-                    if (certificatesavingtest_.cs_gr == "GR_certificates")
-                    {
-                         filepath = Server.MapPath("~/arabic certificates/Driving Licence - Heavy - female - Grove.pdf");
-                         filepathout =
-                            Server.MapPath("~/arabic certificates/tempstore/Driving Licence - Heavy - female - Grove.pdf");
-                    }
-    
-                    ComponentInfo.SetLicense("FREE-LIMITED-KEY");
-                    using (var document = PdfDocument.Load(filepath))
-                    {
-                        using (var formattedText = new PdfFormattedText())
-                        {
-    
-                            formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
-                            formattedText.TextAlignment = PdfTextAlignment.Right;
-                            formattedText.Language = new PdfLanguage("Arabic");
-                            formattedText.FontSize = 15.17;
-                            formattedText.Append(nameinar.ARname);
-                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 480));
-                            formattedText.Clear();
-                            formattedText.Append(nameinar.ARnationality);
-                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 456));
-    
-                        }
-                        using (var formattedText = new PdfFormattedText())
-                        {
-                            formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
-                            formattedText.TextAlignment = PdfTextAlignment.Right;
-                            formattedText.Language = new PdfLanguage("English");
-                            formattedText.FontSize = 11;
-                            formattedText.Clear();
-                            formattedText.Append(passport.passport_no);
-                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 436));
-                           formattedText.Clear();
-                            formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(105, 710));
-    
-                        }
-    
-                        using (var formattedText = new PdfFormattedText())
-                        {
-                            formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
-                            formattedText.TextAlignment = PdfTextAlignment.Left;
-                            formattedText.Language = new PdfLanguage("English");
-                            formattedText.FontSize = 11;
-                            formattedText.Clear();
-                            formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 700));
-                            formattedText.Clear();
-                        }
-    
-                        document.Save(filepathout);
-                        document.Close();
-                    }
-                    Response.Clear();
-                    Response.ContentType = "application/pdf";
-                    Response.AddHeader("Content-Disposition", "attachment;filename=\"Driving Licence - Heavy - female.pdf\"");
-                    Response.BinaryWrite(System.IO.File.ReadAllBytes(filepathout));
-                    Response.Flush();
-                    Response.End();
-                }
-                */
-            }
             if (certificatesavingtest_.certificate_type == 13)
             {
                 string filepath = Server.MapPath("~/arabic certificates/EXPERIENCE CERTIFICATE - english.pdf");
                 string filepathout =
                     Server.MapPath("~/arabic certificates/tempstore/EXPERIENCE CERTIFICATE - english.pdf");
+                var csorgr = "CS-HRDCRT-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath = Server.MapPath("~/arabic certificates/EXPERIENCE CERTIFICATE - english - Grove.pdf");
                     filepathout =
                         Server.MapPath("~/arabic certificates/tempstore/EXPERIENCE CERTIFICATE - english - Grove.pdf");
+                    csorgr = "GR-HRDCRT-";
                 }
 
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
@@ -1103,8 +995,9 @@ namespace HRworks.Controllers
                         formattedText.FontSize = 11;
                         formattedText.FontWeight = PdfFontWeight.Bold;
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(229, 695));
+                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(155, 695));
                         formattedText.Clear();
                         formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(155, 715));
@@ -1203,10 +1096,12 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Termination Notice.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Termination Notice.pdf");
+                var csorgr = "CS-HRDLTR-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath = Server.MapPath("~/arabic certificates/Termination Notice - Grove.pdf");
                     filepathout = Server.MapPath("~/arabic certificates/tempstore/Termination Notice - Grove.pdf");
+                    csorgr = "GR-HRDLTR-";
                 }
 
                 using (var document = PdfDocument.Load(filepath))
@@ -1219,6 +1114,9 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.FontWeight = PdfFontWeight.Bold;
+                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(155, 658));
                         formattedText.Clear();
                         formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(155, 638));
@@ -1320,39 +1218,55 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Resignation Notice Acceptance.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Resignation Notice Acceptance.pdf");
+                var csorgr = "CS-HRDLTR-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                      filepath = Server.MapPath("~/arabic certificates/Resignation Notice Acceptance - Grove.pdf");
                      filepathout =
                         Server.MapPath("~/arabic certificates/tempstore/Resignation Notice Acceptance - Grove.pdf");
+                    csorgr = "GR-HRDLTR-";
                 }
 
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
                 using (var document = PdfDocument.Load(filepath))
                 {
+                    var page = document.Pages[0];
+                    double margins = 72;
+                    double maxWidth = page.CropBox.Width - margins * 2;
+                    double maxHeight = page.CropBox.Height - margins * 2;
+                    double heightOffset = maxHeight + margins;
                     using (var formattedText = new PdfFormattedText())
                     {
-                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                        formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Calibri");
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
-                        formattedText.FontSize = 11;
+                        formattedText.FontSize = 12.48;
+                        formattedText.Clear();
+                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(130, 553));
                         formattedText.Clear();
                         formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 660));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(130, 535));
                         formattedText.Clear();
                         formattedText.Append(masterfile.employee_name);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 630));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(130, 489));
                         formattedText.Clear();
                         if (contract != null)
                         {
-                            formattedText.Append(contract.departmant_project);
-                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 612));
-                            formattedText.Clear();
                             formattedText.Append(contract.designation);
-                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 592));
+                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(130, 472));
                             formattedText.Clear();
                         }
 
+                        formattedText.Append("This letter is to acknowledge the receipt and acceptance of your letter of resignation, received on ");
+                        formattedText.Append(certificatesavingtest_.submition_date.Value.ToString("dd MMM yy"));
+                        formattedText.Append(" from the position of ");
+                        if (contract != null)
+                        {
+                            formattedText.Append(contract.designation);
+                        }
+                        formattedText.Append(" and your last working day with the Company would be on ");
                         var enddatewof = certificatesavingtest_.destination;
                         var srtinglenth = enddatewof.Length;
                         var temp = 0;
@@ -1361,10 +1275,30 @@ namespace HRworks.Controllers
                             temp = enddatewof.IndexOf("@") + 1;
                             var endate = Convert.ToDateTime(enddatewof.Substring(temp));
                             formattedText.Append(endate.ToString("dd MMM yy"));
-                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(205, 461));
-                            formattedText.Clear();
                         }
-                        
+                        double y = 320;
+                        int lineIndex = 0, charIndex = 0;
+                        while (charIndex < formattedText.Length)
+                        {
+                            var line = formattedText.FormatLine(charIndex, maxWidth);
+                            y += line.Height;
+
+                            // If line cannot fit on the current page, write it on a new page.
+                            bool lineCannotFit = y > maxHeight;
+                            if (lineCannotFit)
+                            {
+                                page = document.Pages.Add();
+                                y = line.Height;
+                            }
+
+                            page.Content.DrawText(line, new PdfPoint(margins, heightOffset - y));
+
+                            ++lineIndex;
+                            charIndex += line.Length;
+                        }
+                        formattedText.Clear();
+
+
                     }
                     document.Save(filepathout);
                     document.Close();
@@ -1380,11 +1314,13 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Experience Certificate - Arabic Male.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Experience Certificate - Arabic Male.pdf");
+                var csorgr = "CS-HRDCRT-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath = Server.MapPath("~/arabic certificates/Experience Certificate - Arabic Male.pdf");
                     filepathout =
                         Server.MapPath("~/arabic certificates/tempstore/Experience Certificate - Arabic Male.pdf");
+                    csorgr = "GR-HRDCRT-";
                 }
 
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
@@ -1439,8 +1375,9 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(215, 685));
+                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(145, 686));
                         formattedText.Clear();
                     }
 
@@ -1458,12 +1395,14 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Experience Certificate - Arabic Female.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Experience Certificate - Arabic Female.pdf");
+                var csorgr = "CS-HRDCRT-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath =
                         Server.MapPath("~/arabic certificates/Experience Certificate - Arabic Female - Grove.pdf");
                     filepathout =
                         Server.MapPath("~/arabic certificates/tempstore/Experience Certificate - Arabic Female - Grove.pdf");
+                    csorgr = "GR-HRDCRT-";
                 }
 
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
@@ -1518,8 +1457,9 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(215, 685));
+                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(140, 686));
                         formattedText.Clear();
                     }
 
@@ -1537,9 +1477,11 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Visa request.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Visa request.pdf");
+                var csorgr = "CS-HRDLTR-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath = Server.MapPath("~/arabic certificates/Visa request - Grove.pdf");
+                    csorgr = "GR-HRDLTR-";
                     filepathout = Server.MapPath("~/arabic certificates/tempstore/Visa request - Grove.pdf");
                 }
 
@@ -1573,6 +1515,10 @@ namespace HRworks.Controllers
                         formattedText.Append(DateTime.Today.ToString("dd MMMM yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(100, 680));
                         formattedText.Clear();
+                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(100, 695));
+                        formattedText.Clear();
                         formattedText.Append(masterfile.employee_name);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(150, 590));
                         formattedText.Clear();
@@ -1592,7 +1538,6 @@ namespace HRworks.Controllers
                             formattedText.FontWeight = PdfFontWeight.Bold;
                             formattedText.Append(contract.designation);
                         }
-                        formattedText.Append(contract.designation);
                         formattedText.FontWeight = PdfFontWeight.Normal;
                         formattedText.Append(" since ");
                         formattedText.FontWeight = PdfFontWeight.Bold;
@@ -1675,10 +1620,12 @@ namespace HRworks.Controllers
             {
                 string filepath = Server.MapPath("~/arabic certificates/Salary transfer letter.pdf");
                 string filepathout = Server.MapPath("~/arabic certificates/tempstore/Salary transfer letter.pdf");
+                var csorgr = "CS-HRDLTR-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     filepath = Server.MapPath("~/arabic certificates/Salary transfer letter - Grove.pdf");
                     filepathout = Server.MapPath("~/arabic certificates/tempstore/Salary transfer letter - Grove.pdf");
+                    csorgr = "GR-HRDLTR-";
                 }
 
                 ComponentInfo.SetLicense("FREE-LIMITED-KEY");
@@ -1695,7 +1642,8 @@ namespace HRworks.Controllers
                         formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(111, 725));
                         formattedText.Clear();
-                        formattedText.Append(certificatesavingtest_.Id.ToString("D"));
+                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(142, 711));
                         formattedText.Clear();
                         formattedText.Append(certificatesavingtest_.destination);
@@ -1813,68 +1761,8 @@ namespace HRworks.Controllers
             ViewBag.employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
             return View();
         }
-
-        /*
-        // GET: certificatesavingtest_/Create
-        public ActionResult Create()
-        {
-            ViewBag.employee_id = new SelectList(db.master_file, "employee_id", "employee_name");
-            return View();
-        }
-
-        // POST: certificatesavingtest_/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,employee_id,certificate_type,destination,submition_date")] certificatesavingtest_ certificatesavingtest_)
-        {
-            if (ModelState.IsValid)
-            {
-                db.certificatesavingtest_.Add(certificatesavingtest_);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.employee_id = new SelectList(db.master_file, "employee_id", "employee_name", certificatesavingtest_.employee_id);
-            return View(certificatesavingtest_);
-        }
-
-        // GET: certificatesavingtest_/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            certificatesavingtest_ certificatesavingtest_ = db.certificatesavingtest_.Find(id);
-            if (certificatesavingtest_ == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.employee_id = new SelectList(db.master_file, "employee_id", "employee_name", certificatesavingtest_.employee_id);
-            return View(certificatesavingtest_);
-        }
-
-        // POST: certificatesavingtest_/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,employee_id,certificate_type,destination,submition_date")] certificatesavingtest_ certificatesavingtest_)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(certificatesavingtest_).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.employee_id = new SelectList(db.master_file, "employee_id", "employee_name", certificatesavingtest_.employee_id);
-            return View(certificatesavingtest_);
-        }*/
-
-        // GET: certificatesavingtest_/Delete/5
-        public ActionResult Delete(int? id)
+        
+    public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -1909,3 +1797,205 @@ namespace HRworks.Controllers
         }
     }
 }
+/*
+// {
+
+{
+    
+     if (certificatesavingtest_.certificate_type == 12)
+    {
+        string filepath = Server.MapPath("~/arabic certificates/Driving Licence - Heavy - female.pdf");
+        string filepathout = Server.MapPath("~/arabic certificates/tempstore/Driving Licence - Heavy - female.pdf");
+        if (certificatesavingtest_.cs_gr == "GR_certificates")
+        {
+             filepath = Server.MapPath("~/arabic certificates/Driving Licence - Heavy - female - Grove.pdf");
+             filepathout =
+                Server.MapPath("~/arabic certificates/tempstore/Driving Licence - Heavy - female - Grove.pdf");
+        }
+
+        ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+        using (var document = PdfDocument.Load(filepath))
+        {
+            using (var formattedText = new PdfFormattedText())
+            {
+
+                formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                formattedText.TextAlignment = PdfTextAlignment.Right;
+                formattedText.Language = new PdfLanguage("Arabic");
+                formattedText.FontSize = 15.17;
+                formattedText.Append(nameinar.ARname);
+                document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 480));
+                formattedText.Clear();
+                formattedText.Append(nameinar.ARnationality);
+                document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 456));
+
+            }
+            using (var formattedText = new PdfFormattedText())
+            {
+                formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                formattedText.TextAlignment = PdfTextAlignment.Right;
+                formattedText.Language = new PdfLanguage("English");
+                formattedText.FontSize = 11;
+                formattedText.Clear();
+                formattedText.Append(passport.passport_no);
+                document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 436));
+               formattedText.Clear();
+                formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+                document.Pages[0].Content.DrawText(formattedText, new PdfPoint(105, 710));
+
+            }
+
+            using (var formattedText = new PdfFormattedText())
+            {
+                formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+                formattedText.TextAlignment = PdfTextAlignment.Left;
+                formattedText.Language = new PdfLanguage("English");
+                formattedText.FontSize = 11;
+                formattedText.Clear();
+                formattedText.Append(certificatesavingtest_.Id.ToString("D"));
+                document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 700));
+                formattedText.Clear();
+            }
+
+            document.Save(filepathout);
+            document.Close();
+        }
+        Response.Clear();
+        Response.ContentType = "application/pdf";
+        Response.AddHeader("Content-Disposition", "attachment;filename=\"Driving Licence - Heavy - female.pdf\"");
+        Response.BinaryWrite(System.IO.File.ReadAllBytes(filepathout));
+        Response.Flush();
+        Response.End();
+    }
+    
+}
+
+//use for english pdfs
+{
+string filepath = Server.MapPath("~/arabic certificates/Salary Certificate - Arabic - Male.pdf");
+string filepathut = Server.MapPath("~/arabic certificates/tempstore/Salary Certificate - Arabic - Male.pdf");
+DocumentCore dc = DocumentCore.Load(filepath,new PdfLoadOptions());
+ContentRange cr = dc.Content.Find("@").First();
+if (cr != null)
+{
+    cr.Replace("this test is not working");
+}
+dc.Save(filepathut);
+Response.Clear();
+Response.ContentType = "application/pdf";
+Response.AddHeader("Content-Disposition", "attachment;filename=\"Salary Certificate - Arabic - Male.pdf\"");
+Response.BinaryWrite(System.IO.File.ReadAllBytes(Server.MapPath("~/arabic certificates/Salary Certificate - Arabic - Male.pdf")));
+Response.Flush();
+Response.End();
+// return View("cer1",certificatesavingtest_);
+}
+
+string filepath = Server.MapPath("~/arabic certificates/Salary Certificate - Arabic - Male.pdf");
+string filepathout = Server.MapPath("~/arabic certificates/tempstore/Salary Certificate - Arabic - Male.pdf");
+PdfDocument pfddoc = new PdfDocument(new PdfReader(filepath), new PdfWriter(filepathout));
+pfddoc.RemovePage(2);
+var newdoc = new Document(pfddoc);
+var fontfamilies = new List<string>();
+//fontfamilies.Add("Arial Typesetting");
+fontfamilies.Add("Arial");
+FontProvider provider = new FontProvider();
+//Load in fonts in the directory into the provider
+provider.AddDirectory(Server.MapPath("~/Content/fonts"));
+provider.AddDirectory("c:/windows/fonts");
+newdoc.ShowTextAligned(new Paragraph("serial no"), 130, 672, TextAlignment.LEFT);
+newdoc.ShowTextAligned(new Paragraph(certificatesavingtest_.destination), 510, 632, TextAlignment.LEFT);
+var ARname = nameinar.ARname; 
+Encoding utf8 = Encoding.UTF8;
+var nameAR = utf8.GetString(utf8.GetBytes(ARname));
+var paraAR = new Paragraph(Bidi.BidiText(nameAR, 1).Text);
+var test = Bidi.BidiText(nameAR, 10).Text;
+FontSelectorStrategy strategy = provider.GetStrategy(ARname, fontfamilies);
+strategy.NextGlyphs();
+PdfFont arabicFont = strategy.GetCurrentFont(); 
+paraAR.SetFont(arabicFont);
+newdoc.ShowTextAligned((paraAR), 300, 100, TextAlignment.RIGHT);
+newdoc.Close();
+// }
+using (var formattedText = new PdfFormattedText())
+{
+
+    formattedText.FontFamily = new PdfFontFamily("c:/windows/fonts", "Arial");
+    formattedText.TextAlignment = PdfTextAlignment.Left;
+    formattedText.Language = new PdfLanguage("English");
+    formattedText.FontSize = 11;
+    formattedText.Clear();
+    formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+    document.Pages[0].Content.DrawText(formattedText, new PdfPoint(364, 338));
+    formattedText.Clear();
+    formattedText.Append(passport.passport_no);
+    document.Pages[0].Content.DrawText(formattedText, new PdfPoint(365, 428));
+    // formattedText.Clear();
+    // formattedText.Append(Unprotect(contract.salary_details));
+    // document.Pages[0].Content.DrawText(formattedText, new PdfPoint(364, 368));
+    formattedText.Clear();
+    formattedText.Append(certificatesavingtest_.destination);
+    document.Pages[0].Content.DrawText(formattedText, new PdfPoint(500, 635));
+    formattedText.Clear();
+    formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+    document.Pages[0].Content.DrawText(formattedText, new PdfPoint(65, 685));
+
+}
+// GET: certificatesavingtest_/Create
+public ActionResult Create()
+{
+    ViewBag.employee_id = new SelectList(db.master_file, "employee_id", "employee_name");
+    return View();
+}
+
+// POST: certificatesavingtest_/Create
+// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+[HttpPost]
+[ValidateAntiForgeryToken]
+public ActionResult Create([Bind(Include = "Id,employee_id,certificate_type,destination,submition_date")] certificatesavingtest_ certificatesavingtest_)
+{
+    if (ModelState.IsValid)
+    {
+        db.certificatesavingtest_.Add(certificatesavingtest_);
+        db.SaveChanges();
+        return RedirectToAction("Index");
+    }
+
+    ViewBag.employee_id = new SelectList(db.master_file, "employee_id", "employee_name", certificatesavingtest_.employee_id);
+    return View(certificatesavingtest_);
+}
+
+// GET: certificatesavingtest_/Edit/5
+public ActionResult Edit(int? id)
+{
+    if (id == null)
+    {
+        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+    }
+    certificatesavingtest_ certificatesavingtest_ = db.certificatesavingtest_.Find(id);
+    if (certificatesavingtest_ == null)
+    {
+        return HttpNotFound();
+    }
+    ViewBag.employee_id = new SelectList(db.master_file, "employee_id", "employee_name", certificatesavingtest_.employee_id);
+    return View(certificatesavingtest_);
+}
+
+// POST: certificatesavingtest_/Edit/5
+// To protect from overposting attacks, enable the specific properties you want to bind to, for 
+// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+[HttpPost]
+[ValidateAntiForgeryToken]
+public ActionResult Edit([Bind(Include = "Id,employee_id,certificate_type,destination,submition_date")] certificatesavingtest_ certificatesavingtest_)
+{
+    if (ModelState.IsValid)
+    {
+        db.Entry(certificatesavingtest_).State = EntityState.Modified;
+        db.SaveChanges();
+        return RedirectToAction("Index");
+    }
+    ViewBag.employee_id = new SelectList(db.master_file, "employee_id", "employee_name", certificatesavingtest_.employee_id);
+    return View(certificatesavingtest_);
+}
+
+// GET: certificatesavingtest_/Delete/5*/

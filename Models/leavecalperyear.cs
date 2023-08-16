@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace HRworks.Models
 {
     using System;
@@ -16,28 +18,48 @@ namespace HRworks.Models
     {
         public int Id { get; set; }
         public int Employee_id { get; set; }
+        [Display(Name = "year")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public System.DateTime balances_of_year { get; set; }
         public Nullable<double> period { get; set; }
         public Nullable<double> unpaid { get; set; }
+        [Display(Name = "net")]
         public Nullable<double> net_period { get; set; }
         public Nullable<double> accrued { get; set; }
+        [Display(Name = "taken")]
         public Nullable<double> annual_leave_taken { get; set; }
+        [Display(Name = "applied")]
         public Nullable<double> Annual_Leave_Applied { get; set; }
+        [Display(Name = "total")]
         public Nullable<double> Annual_Leave_total { get; set; }
+        [Display(Name = "LB")]
         public Nullable<double> leave_balance { get; set; }
+        [Display(Name = "F")]
         public Nullable<double> forfited_balance { get; set; }
+        [Display(Name = "S(non-in)")]
         public Nullable<double> sick_leave_balance { get; set; }
+        [Display(Name = "comp")]
         public Nullable<double> compassionate_leave_balance { get; set; }
+        [Display(Name = "mater")]
         public Nullable<double> maternity_leave_balance { get; set; }
+        [Display(Name = "haj")]
         public Nullable<double> haj_leave_balance { get; set; }
+        [Display(Name = "UDD")]
         public Nullable<double> UDDAH_leave_balance { get; set; }
+        [Display(Name = "esc")]
         public Nullable<double> escort_leave_balance { get; set; }
+        [Display(Name = "pat")]
         public Nullable<double> paternity_leave_balance { get; set; }
+        [Display(Name = "sab")]
         public Nullable<double> sabbatical_leave_balance { get; set; }
+        [Display(Name = "stu")]
         public Nullable<double> study_leave_balance { get; set; }
         public System.DateTime date_updated { get; set; }
+        [Display(Name = "S(in)")]
         public Nullable<double> sick_leave_balance_industrial { get; set; }
+        [Display(Name = "sumitted")]
         public Nullable<double> sumittedleavebal { get; set; }
+        public Nullable<long> leave_count { get; set; }
     
         public virtual master_file master_file { get; set; }
     }

@@ -32,7 +32,8 @@ namespace HRworks.Controllers
             }
             var unprotectedBytes = Encoding.UTF8.GetBytes(unprotectedText);
             var protectedBytes = MachineKey.Protect(unprotectedBytes, Purpose);
-            var protectedText = Convert.ToBase64String(protectedBytes);
+            var protectedText = "";
+            protectedText = Convert.ToBase64String(protectedBytes);
             return protectedText;
         }
 
@@ -61,9 +62,15 @@ namespace HRworks.Controllers
 
         public static string Unprotect(string protectedText)
         {
+
+            if (protectedText.IsNullOrWhiteSpace())
+            {
+                return "0";
+            }
             var protectedBytes = Convert.FromBase64String(protectedText);
-            var unprotectedBytes = MachineKey.Unprotect(protectedBytes, Purpose);
-            var unprotectedText = Encoding.UTF8.GetString(unprotectedBytes);
+            var unprotectedText = "";
+             var unprotectedBytes = MachineKey.Unprotect(protectedBytes, Purpose);
+             unprotectedText = Encoding.UTF8.GetString(unprotectedBytes);
             return unprotectedText;
         }
 
@@ -313,19 +320,23 @@ namespace HRworks.Controllers
         public ActionResult Edit(
             payrole payrole, string whichfun)
         {
+            if (payrole == null)
+            {
+                goto endf;
+            }
             if (ModelState.IsValid)
             {
-                if (!payrole.totalpayable.Contains(" ") && IsBase64Encoded(payrole.totalpayable))
+                if (payrole.totalpayable != null && !payrole.totalpayable.Contains(" ") && IsBase64Encoded(payrole.totalpayable))
                     payrole.totalpayable = Unprotect(payrole.totalpayable);
-                if (!payrole.OTRegular.Contains(" ") && IsBase64Encoded(payrole.OTRegular))
+                if (payrole.OTRegular != null && !payrole.OTRegular.Contains(" ") && IsBase64Encoded(payrole.OTRegular))
                     payrole.OTRegular = Unprotect(payrole.OTRegular);
-                if (!payrole.OTFriday.Contains(" ") && IsBase64Encoded(payrole.OTFriday))
+                if (payrole.OTFriday != null && !payrole.OTFriday.Contains(" ") && IsBase64Encoded(payrole.OTFriday))
                     payrole.OTFriday = Unprotect(payrole.OTFriday);
-                if (!payrole.OTNight.Contains(" ") && IsBase64Encoded(payrole.OTNight))
+                if (payrole.OTNight != null && !payrole.OTNight.Contains(" ") && IsBase64Encoded(payrole.OTNight))
                     payrole.OTNight = Unprotect(payrole.OTNight);
-                if (!payrole.HolidayOT.Contains(" ") && IsBase64Encoded(payrole.HolidayOT))
+                if (payrole.HolidayOT != null && !payrole.HolidayOT.Contains(" ") && IsBase64Encoded(payrole.HolidayOT))
                     payrole.HolidayOT = Unprotect(payrole.HolidayOT);
-                if (!payrole.TotalOT.Contains(" ") && IsBase64Encoded(payrole.TotalOT))
+                if (payrole.TotalOT != null && !payrole.TotalOT.Contains(" ") && IsBase64Encoded(payrole.TotalOT))
                     payrole.TotalOT = Unprotect(payrole.TotalOT);
 
                 if (payrole.NetPay != null)
@@ -400,7 +411,7 @@ namespace HRworks.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", new {month = payrole.forthemonth});
             }
-
+            
             ViewBag.con_id = new SelectList(db.contracts, "employee_id", "employee_id", payrole.con_id);
             ViewBag.Absents = new SelectList(db.leave_absence, "Id", "Id", payrole.Absents);
             ViewBag.LWOP = new SelectList(db.Leaves, "Id", "ID", payrole.LWOP);
@@ -410,6 +421,8 @@ namespace HRworks.Controllers
                 "employee_name",
                 payrole.employee_no);
             return View(payrole);
+            endf: ;
+            return RedirectToAction("Index");
         }
 
         public List<int> GetAll(DateTime date,Attendance id)
@@ -1378,7 +1391,7 @@ namespace HRworks.Controllers
                             }
                         }
 
-                        hlistday1 = GetAllholi(month.Value);
+                        hlistday1 = GetAllholi(newdate);
                         foreach (var i in hlistday1)
                         {
                             var dt1 = new DateTime(datestart.Year, datestart.Month, i);
@@ -4042,7 +4055,7 @@ namespace HRworks.Controllers
                                 }
                             }
 
-                            hlistday1 = GetAllholi(month.Value);
+                            hlistday1 = GetAllholi(newdate);
                             foreach (var i in hlistday1)
                             {
                                 var dt1 = new DateTime(datestart.Year, datestart.Month, i);

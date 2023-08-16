@@ -1959,6 +1959,7 @@ namespace HRworks.Controllers
                 savelbpy.sabbatical_leave_balance = sabtill2020;
                 savelbpy.study_leave_balance = sabtill2020;
                 savelbpy.date_updated = DateTime.Now;
+                savelbpy.leave_count = leave2020.Count;
 
                 if (savecheckleaveperyear.Exists(x =>
                     x.balances_of_year == new DateTime(2020, 1, 1) && x.Employee_id == empjd.employee_id))
@@ -1987,6 +1988,7 @@ namespace HRworks.Controllers
                     rewritelb.sabbatical_leave_balance = savelbpy.sabbatical_leave_balance;
                     rewritelb.study_leave_balance = savelbpy.study_leave_balance;
                     rewritelb.date_updated = DateTime.Now;
+                    rewritelb.leave_count = savelbpy.leave_count;
                     this.db.Entry(rewritelb).State = EntityState.Modified;
                     try
                     {
@@ -2185,6 +2187,7 @@ namespace HRworks.Controllers
                         savelbpy.accrued = accleave;
                         savelbpy.Annual_Leave_total = savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied;
                         savelbpy.period = period;
+                        savelbpy.leave_count = leavepy.Count;
                         if (perviousyearleave != null)
                         {
                             if (savelbpy.net_period == null)
@@ -2262,6 +2265,7 @@ namespace HRworks.Controllers
                             rewritelb.sabbatical_leave_balance = savelbpy.sabbatical_leave_balance;
                             rewritelb.study_leave_balance = savelbpy.study_leave_balance;
                             rewritelb.date_updated = DateTime.Now;
+                            rewritelb.leave_count = savelbpy.leave_count;
                             this.db.Entry(rewritelb).State = EntityState.Modified;
                             this.db.SaveChanges();
                         }
@@ -2278,7 +2282,7 @@ namespace HRworks.Controllers
                         if (perviousyearleave == null)
                         {
                             ifnewsublist = db.employeeleavesubmitions.ToList().FindAll(x =>
-                                x.Date <= new DateTime(i, 3, 31) && x.Date >= new DateTime(i, 1, 1) && (x.leave_type == "1" || x.leave_type == "6"));
+                                x.Employee_id == empjd.employee_id && x.apstatus == "submitted" && x.Date <= new DateTime(i, 3, 31) && x.Date >= new DateTime(i, 1, 1));
                         }
                         var yearrecord = db.leavecalperyears.ToList().Find(x =>
                             x.Employee_id == empjd.employee_id && x.balances_of_year.Year == i);
@@ -2386,6 +2390,7 @@ namespace HRworks.Controllers
                         }
                         leavepy.AddRange(leaveannualandunpaidpy);
                         leavepy.AddRange(leaverestpy);
+                        savelbpy.leave_count = leavepy.Count;
                         foreach (var leaf in leavepy)
                         {
                             var anlnottaken = false;
@@ -2754,6 +2759,7 @@ namespace HRworks.Controllers
         HREntities hrdb = new HREntities();
 
         public ActionResult lbpyindex(string search)
+        
         {
             var lbdisplaylist = new List<leavecalperyear>();
             if (!string.IsNullOrEmpty(search))
@@ -2762,11 +2768,19 @@ namespace HRworks.Controllers
                 if (int.TryParse(search, out var idk))
                 {
                     lbdisplaylist = Lbpyearlist.FindAll(x => x.master_file.employee_no == idk);
+                    if (lbdisplaylist.Count > 0)
+                    {
+                        leavebalcalperyear(lbdisplaylist.First().Employee_id);
+                    }
                 }
                 else
                 {
-                    var svalue = search.ToUpperInvariant();
-                    lbdisplaylist = Lbpyearlist.FindAll(x => x.master_file.employee_name.ToUpperInvariant().Contains(svalue));
+                    // var svalue = search.ToUpperInvariant();
+                    // lbdisplaylist = Lbpyearlist.FindAll(x => x.master_file.employee_name.ToUpperInvariant().Contains(svalue));
+                    // if (lbdisplaylist.Count > 0)
+                    // {
+                    //     leavebalcalperyear(lbdisplaylist.First().Employee_id);
+                    // }
                 }
             }
 
@@ -2976,6 +2990,44 @@ namespace HRworks.Controllers
             }
 
             return this.View(new List<con_leavemodel>());
+        }
+
+        public ActionResult periodic(DateTime? eddate, DateTime? eddate1, int? leave_type)
+        {
+            var listItems = new List<ListItem>
+            {
+                new ListItem {Text = "Annual", Value = "1"},
+                new ListItem {Text = "Sick(non industrial)", Value = "2"},
+                new ListItem {Text = "Compassionate", Value = "3"},
+                new ListItem {Text = "Maternity", Value = "4"},
+                new ListItem {Text = "Haj", Value = "5"},
+                new ListItem {Text = "Unpaid", Value = "6"},
+                new ListItem {Text = "Sick(industrial)", Value = "7"},
+                new ListItem {Text = "UDDAH", Value = "8"},
+                new ListItem {Text = "ESCORT", Value = "9"},
+                new ListItem {Text = "PATERNITY ", Value = "10"},
+                new ListItem {Text = "SABBATICAL", Value = "11"},
+                new ListItem {Text = "STUDY LEAVE ", Value = "12"}
+            };
+            this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
+            var leavelist = this.db.Leaves.ToList();
+            var searchresults = new List<Leave>();
+            if (eddate.HasValue && !eddate1.HasValue)
+            {
+                searchresults = leavelist.FindAll(x => x.Start_leave <= eddate && x.End_leave >= eddate && x.leave_type == leave_type.ToString() && x.master_file != null && !x.master_file.last_working_day.HasValue);
+            }
+            if (eddate.HasValue && eddate1.HasValue)
+            {
+
+                // searchresults = leavelist.FindAll(x => x.Start_leave <= eddate1 && x.Start_leave >= eddate); 
+                searchresults = leavelist.FindAll(x => x.Start_leave <= eddate1 && x.End_leave >= eddate && x.leave_type == leave_type.ToString() && x.master_file != null && !x.master_file.last_working_day.HasValue);
+            }
+
+            if (!eddate.HasValue && !eddate1.HasValue && leave_type.HasValue)
+            {
+                searchresults = leavelist.FindAll(x => x.leave_type == leave_type.ToString());
+            }
+            return View(searchresults.OrderByDescending(x=>x.Start_leave).ToList());
         }
 
         protected override void Dispose(bool disposing)

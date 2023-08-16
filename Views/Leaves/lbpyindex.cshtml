@@ -14,14 +14,19 @@
     </div>
     <br />
 }
+@if (Model.Count() > 0)
+{
+    var a = Model.First().master_file.employee_no.ToString();
+    var b = Model.First().master_file.employee_name;
+    <b>
+        <p>
+            @Html.DisplayNameFor(model => model.master_file.employee_no): @a <br />
+            @Html.DisplayNameFor(model => model.master_file.employee_name) : @b
+        </p>
+    </b>
+}
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.master_file.employee_no)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.master_file.employee_name)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.balances_of_year)
         </th>
@@ -82,24 +87,11 @@
         <th>
             @Html.DisplayNameFor(model => model.study_leave_balance)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.sumittedleavebal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.date_updated)
-        </th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.master_file.employee_no)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.master_file.employee_name)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.balances_of_year)
             </td>
@@ -159,12 +151,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.study_leave_balance)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.sumittedleavebal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.date_updated)
             </td>
         </tr>
     }

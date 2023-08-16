@@ -28,7 +28,7 @@
                 }
                 <br />
                 <br />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("mrv")'" value="Periodic Report" />
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("periodic")'" value="Periodic Report" />
                 <br />
                 <br />
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("allpendingapprovals","employeeleavesubmitions")'" value="leave not approved " />
@@ -49,6 +49,12 @@
                 <br />
                 <br />
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("allpendingapprovals","empreturnfromleavesubs")'" value="return leave not approved" />
+                <br />
+                <br />
+                @if (User.IsInRole("super_admin") || User.IsInRole("slapproval"))
+                {
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("lbpyindex")'" value="leave balance per year breakup" />
+                }
             </div>
         </div>
         </div>
