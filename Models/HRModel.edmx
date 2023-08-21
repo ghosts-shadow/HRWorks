@@ -161,6 +161,10 @@
           <Property Name="destination" Type="nvarchar(max)" />
           <Property Name="submition_date" Type="date" />
           <Property Name="cs_gr" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="status" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="approved_by" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="modifieddate_by" Type="datetime" Nullable="false" />
+          <Property Name="submited_by" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="certificatetype">
           <Key>
@@ -2133,6 +2137,10 @@
           <NavigationProperty Name="certificatetype" Relationship="Self.FK_certificatereq_To_certificatetype" FromRole="certificatesavingtest_" ToRole="certificatetype" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_certificatereq_To_master_file" FromRole="certificatesavingtest_" ToRole="master_file" />
           <Property Name="cs_gr" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="approved_by" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="modifieddate_by" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="submited_by" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="certificatetype">
           <Key>
@@ -4155,6 +4163,10 @@
           <EntitySetMapping Name="certificatesavingtest_">
             <EntityTypeMapping TypeName="HRModel.certificatesavingtest_">
               <MappingFragment StoreEntitySet="certificatesavingtest&#x9;">
+                <ScalarProperty Name="submited_by" ColumnName="submited_by" />
+                <ScalarProperty Name="modifieddate_by" ColumnName="modifieddate_by" />
+                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
+                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="cs_gr" ColumnName="cs_gr" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="employee_id" ColumnName="employee_id" />

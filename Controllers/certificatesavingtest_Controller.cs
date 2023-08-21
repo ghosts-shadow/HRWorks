@@ -23,6 +23,9 @@ using Microsoft.Ajax.Utilities;
 using Paragraph = iText.Layout.Element.Paragraph;
 using PdfDocument = GemBox.Pdf.PdfDocument;
 using PdfLoadOptions = SautinSoft.Document.PdfLoadOptions;
+using MimeKit;
+using MailKit.Net.Smtp;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace HRworks.Controllers
 {
@@ -36,9 +39,32 @@ namespace HRworks.Controllers
         public ActionResult Index()
         {
             var certificatesavingtest_ = db.certificatesavingtest_.Include(c => c.master_file);
-            return View(certificatesavingtest_.ToList());
+            return View(certificatesavingtest_.OrderByDescending(x=>x.Id).ToList());
         }
 
+        public ActionResult hrapproval() 
+        {
+            var certificatesavingtest = db.certificatesavingtest_.Where(x=>x.status.Contains("new")).ToList();
+            return View(certificatesavingtest);
+        }
+        
+        public ActionResult Approve(int id) 
+        {
+            var cstvar = db.certificatesavingtest_.ToList().Find(x=>x.Id == id);
+            cstvar.status = "approved";
+            db.Entry(cstvar).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("hrapproval");
+        }
+
+        public ActionResult reject(int id,string message)
+        {
+            var cstvar = db.certificatesavingtest_.ToList().Find(x => x.Id == id);
+            cstvar.status = "rejected for: "+ message; 
+            db.Entry(cstvar).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("hrapproval");
+        }
 
         public string Unprotect(string protectedText)
         {
@@ -48,7 +74,7 @@ namespace HRworks.Controllers
             return unprotectedText;
         }
         // GET: certificatesavingtest_/Details/5
-        public void Details(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -76,6 +102,12 @@ namespace HRworks.Controllers
                 .Find(y => y.employee_no == masterfile.employee_id);
             var nameinarlist = db.detailsinarabics.ToList();
             var nameinar = nameinarlist.Find(x => x.employee_id == certificatesavingtest_.employee_id);
+            if(nameinar == null)
+            {
+                nameinar.ARname = "";
+                nameinar.ARnationality = "";
+                nameinar.ARposition = "";
+            }
             var banklist = db.bank_details.ToList();
             var bankvar = banklist.Find(x => x.employee_no == certificatesavingtest_.employee_id);
 
@@ -1713,10 +1745,16 @@ namespace HRworks.Controllers
                 Response.Flush();
                 Response.End();
             }
+            var cstvar = db.certificatesavingtest_.ToList().Find(x => x.Id == id);
+            cstvar.status = "downloaded";
+            db.Entry(cstvar).State = EntityState.Modified;
+            db.SaveChanges();
         end:;
+
+            return RedirectToAction("Index");
         }
 
-        public ActionResult hrcertificatesubmmit( certificatesavingtest_ certificatesavingtest_,string certificate_of)
+        public ActionResult hrcertificatesubmmit( certificatesavingtest_ certificatesavingtest_,string certificate_of,DateTime? resignationsubdate)
         {
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
@@ -1746,13 +1784,28 @@ namespace HRworks.Controllers
                     {
                         certificatesavingtest_.destination = "";
                     }
+                    if (resignationsubdate.HasValue) 
+                    {
+                        certificatesavingtest_.destination = resignationsubdate.Value.ToString("dd MMM yy"); 
+                    }
                     certificatesavingtest_.destination = certificatesavingtest_.destination + "@"+
                                                        certificatesavingtest_.submition_date.Value.ToString("dd MMM yy");
                 }
+                if (certificatesavingtest_.certificate_type == 20)
+                {
+                    certificatesavingtest_.status = "approved";
+                }
+                else{ 
+                certificatesavingtest_.status = "new HR";}
+                certificatesavingtest_.submited_by = User.Identity.Name;
+                certificatesavingtest_.modifieddate_by = DateTime.Now;
                 certificatesavingtest_.submition_date = DateTime.Today;
+                certificatesavingtest_.approved_by = "";
                 certificatesavingtest_.cs_gr = certificate_of;
                 db.certificatesavingtest_.Add(certificatesavingtest_);
                 db.SaveChanges();
+                var lastcerid = db.certificatesavingtest_.ToList().Last();
+                SendMail(lastcerid.Id);
                 return RedirectToAction("Index");
             }
             end: ;
@@ -1761,8 +1814,48 @@ namespace HRworks.Controllers
             ViewBag.employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
             return View();
         }
-        
-    public ActionResult Delete(int? id)
+
+
+        public void SendMail(int id)
+        {
+            var message = new MimeMessage();
+            var desig = "";
+            var cstvar = db.certificatesavingtest_.ToList().Find(x => x.Id == id);
+            var usernamelist = db.usernames.ToList();
+            var contractlist = db.contracts.OrderByDescending(x => x.date_changed).ToList();
+            message.From.Add(new MailboxAddress("Hrworks", "leave@citiscapegroup.com"));
+            var emplusersname = usernamelist.Find(x => x.employee_no == cstvar.master_file.employee_id);
+            if (contractlist.Exists(x => x.employee_no == cstvar.master_file.employee_id))
+            {
+                var temp = contractlist.Find(x => x.employee_no == cstvar.master_file.employee_id);
+                if (!temp.designation.IsNullOrWhiteSpace())
+                {
+                    desig = temp.designation;
+                }
+            }
+            message.To.Add((new MailboxAddress("Yahya Rashid", "yrashid@citiscapegroup.com")));
+            message.Subject = "certificate request approval";
+            message.Body = new TextPart("plain")
+            {
+                Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that certificate request for   (" +
+                cstvar.master_file.employee_no + ") " +
+                emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
+                "http://hrworks.ddns.net:6333/citiworks/certificatesavingtest_/hrapproval" + "\n\n\n" +
+                "Thanks Best Regards, "
+            };
+            if (message.To.Count != 0)
+            {
+                using (var client = new SmtpClient())
+                {
+                    client.Connect("outlook.office365.com", 587, false);
+                    // Note: only needed if the SMTP server requires authentication
+                    client.Authenticate("leave@citiscapegroup.com", "Tak98020");
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+            }
+        }
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {

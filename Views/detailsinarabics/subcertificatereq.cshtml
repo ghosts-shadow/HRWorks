@@ -11,10 +11,10 @@
         <hr />
         using (Html.BeginForm("subcertificatereq", "detailsinarabics", FormMethod.Post))
         {
-            @Html.Label("certificate of ")
+            @Html.Label("certificate for ")
 
-            <button type="submit" name="certificate_of" value="cr_certificates">citiscape</button>
-            <button type="submit" name="certificate_of" value="GR_certificates">grove</button>
+            <button type="submit" class="btn btn-default" name="certificate_of" value="cr_certificates" id="cer">citiscape</button>
+            <button type="submit" class="btn btn-default" name="certificate_of" value="GR_certificates" id="cer">grove</button>
         }
     }
     else

@@ -20,7 +20,13 @@ namespace HRworks.Models
         public string destination { get; set; }
         public Nullable<System.DateTime> submition_date { get; set; }
         public string cs_gr { get; set; }
-    
+        public string status { get; set; }
+        public string approved_by { get; set; }
+        public System.DateTime modifieddate_by { get; set; }
+        public string submited_by { get; set; }
+        
+
+
         public virtual certificatetype certificatetype { get; set; }
         public virtual master_file master_file { get; set; }
     }

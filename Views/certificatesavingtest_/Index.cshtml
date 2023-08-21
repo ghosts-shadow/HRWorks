@@ -30,6 +30,9 @@
         <th>
             @Html.DisplayNameFor(model => model.master_file.employee_no)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
         <th></th>
     </tr>
 
@@ -63,7 +66,15 @@
             @Html.DisplayFor(modelItem => item.master_file.employee_no)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) 
+            @Html.DisplayFor(modelItem => item.status)
+        </td>
+        <td>
+            @{
+                if(item.status.Contains("approved"))
+                {
+                    @Html.ActionLink("download", "Details", new { id = item.Id }) 
+                }
+            }
         </td>
     </tr>
 }

@@ -26,51 +26,78 @@
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
-    $(function() {
-        $("#datepicker").datepicker({
-            altField: "#alternate",
-            altFormat: "MM,yy",
-            changeMonth: true,
-            changeYear: true,
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            showButtonPanel: true,
-            dateFormat: "dd M yy"
-        });
-        document.getElementById('reasonhide').style.display = "none";
-        document.getElementById('LWDhide').style.display = "none";
-    });
+            $(function () {
+                $("#datepicker").datepicker({
+                    altField: "#alternate",
+                    altFormat: "MM,yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    showOtherMonths: true,
+                    selectOtherMonths: true,
+                    showButtonPanel: true,
+                    dateFormat: "dd M yy"
+                });
+                $("#datepicker1").datepicker({
+                    altField: "#alternate",
+                    altFormat: "MM,yy",
+                    changeMonth: true,
+                    changeYear: true,
+                    showOtherMonths: true,
+                    selectOtherMonths: true,
+                    showButtonPanel: true,
+                    dateFormat: "dd M yy"
+                });
+                $("#certi").chosen({ no_results_text: "Oops, nothing found!" });
+                $("#employee_id").chosen({ no_results_text: "Oops, nothing found!" });
+                document.getElementById('reasonhide').style.display = "none";
+                document.getElementById('LWDhide').style.display = "none";
+                document.getElementById('RSDhide').style.display = "none";
+            });
 
     function hide() {
         var cerid = document.getElementById('certi').value;
         switch (cerid) {
-        case "13":
-        case "15":
-        case "16":
-        case "17":
-            document.getElementById('LWDhide').style.display = "";
-            document.getElementById('LWDhide').required = true;
-            document.getElementById('reason').required = false;
-            document.getElementById('reasonhide').style.display = "none";
-            break;
-        case "14":
-            document.getElementById('reasonhide').style.display = "";
-            document.getElementById('reason').required = true;
-            document.getElementById('LWDhide').style.display = "";
-            document.getElementById('datepicker').required = true;
-            break;
-        case "7":
-        case "8":
-        case "19":
-        case "20":
-            document.getElementById('reasonhide').style.display = "";
-            document.getElementById('reason').required = true;
-            document.getElementById('LWDhide').style.display = "none";
-            document.getElementById('datepicker').required = false;
-            break;
+            case "13":
+            case "16":
+            case "17":
+                document.getElementById('LWDhide').style.display = "";
+                document.getElementById('LWDhide').required = true;
+                document.getElementById('reason').required = false;
+                document.getElementById('reasonhide').style.display = "none";
+                document.getElementById('RSDhide').style.display = "none";
+                document.getElementById('RSDhide').required = false;
+                break;
+            case "14":
+                document.getElementById('reasonhide').style.display = "";
+                document.getElementById('reason').required = true;
+                document.getElementById('LWDhide').style.display = "";
+                document.getElementById('datepicker').required = true;
+                document.getElementById('RSDhide').style.display = "none";
+                document.getElementById('RSDhide').required = false;
+                break;
+            case "7":
+            case "8":
+            case "19":
+            case "20":
+                document.getElementById('reasonhide').style.display = "";
+                document.getElementById('reason').required = true;
+                document.getElementById('LWDhide').style.display = "none";
+                document.getElementById('datepicker').required = false;
+                document.getElementById('RSDhide').style.display = "none";
+                document.getElementById('RSDhide').required = false;
+                break;
+            case "15":
+                document.getElementById('LWDhide').style.display = "";
+                document.getElementById('LWDhide').required = true;
+                document.getElementById('RSDhide').style.display = "";
+                document.getElementById('RSDhide').required = true;
+                document.getElementById('reason').required = false;
+                document.getElementById('reasonhide').style.display = "none";
+                break;
         default:
             document.getElementById('reasonhide').style.display = "none";
-            document.getElementById('LWDhide').style.display = "none";
+                document.getElementById('LWDhide').style.display = "none";
+                document.getElementById('RSDhide').style.display = "none";
         }
 //            if (displaytogle == "none") {
 //                document.getElementById('hide_1').style.display = "";
@@ -119,6 +146,13 @@
         <div class="col-md-10">
             @Html.EditorFor(model => model.submition_date, new { htmlAttributes = new { @class = "form-control", @id = "datepicker" } })
             @Html.ValidationMessageFor(model => model.submition_date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" id="RSDhide">
+        @Html.Label("Resignation submission date", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.Editor("resignationsubdate", new { htmlAttributes = new { @class = "form-control", @id = "datepicker1" } })
         </div>
     </div>
 

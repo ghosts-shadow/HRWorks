@@ -138,7 +138,7 @@
             position: sticky;
         }
 
-        .dd1, .dd2 {
+        .dd1, .dd2, .dd3{
             background-color: #152939 !important;
             float: left;
             margin-top: 14px;
@@ -148,7 +148,8 @@
 
         .dropdown-menu {
             background-color: #152939 !important;
-            color: #ffffff !important
+            color: #ffffff !important;
+            margin-top: 0px !important;
         }
 
         .dropdown-menu > li > a { color: #fff !important; }
@@ -176,6 +177,9 @@
             if ($("#dd2").hasClass("open")) {
                 $(".dd2").removeClass("open");
             }
+            if ($("#dd3").hasClass("open")) {
+                $(".dd3").removeClass("open");
+            }
         }
 
         function dd2() {
@@ -187,6 +191,22 @@
             if ($("#dd1").hasClass("open")) {
                 $(".dd1").removeClass("open");
             }
+            if ($("#dd3").hasClass("open")) {
+                $(".dd3").removeClass("open");
+            }
+        }
+        function dd3() {
+            if ($("#dd3").hasClass("open")) {
+                $(".dd3").removeClass("open");
+            } else {
+                $(".dd3").addClass("open");
+            }
+            if ($("#dd1").hasClass("open")) {
+                $(".dd1").removeClass("open");
+            }
+            if ($("#dd2").hasClass("open")) {
+                $(".dd2").removeClass("open");
+            }
         }
 
         function ddremove() {
@@ -195,6 +215,9 @@
             }
             if ($("#dd2").hasClass("open")) {
                 $(".dd2").removeClass("open");
+            }
+            if ($("#dd3").hasClass("open")) {
+                $(".dd3").removeClass("open");
             }
         }
     </script>
@@ -263,6 +286,23 @@
                                         </ul>
                                     </div>
                                 }
+                                if (User.IsInRole("super_admin") || User.IsInRole("admin") || User.IsInRole("payrole"))
+                                {
+                                    <div class="dropdown dd3" id="dd3">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd3()" style="background-color: #152939 !important; border-color: #152939">
+                                            certificates
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("requests", "Index", "certificatesavingtest_")</li>
+                                            @if (User.IsInRole("super_admin"))
+                                            {
+                                                <li>@Html.ActionLink("approvals", "hrapproval", "certificatesavingtest_")</li>
+                                                <li>@Html.ActionLink("certificates", "index", "detailsinarabics")</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
                                 <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
                                 <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
                                 <li>@Html.ActionLink("attendance", "Index1", "hiks")</li>
@@ -284,6 +324,7 @@
                                 {
                                     <li>@Html.ActionLink("leave", "Index", "employeeleavesubmitions")</li>
                                     <li>@Html.ActionLink("DLR", "Dleavereport", "employeeleavesubmitions")</li>
+                                    <li>@Html.ActionLink("certificates", "subcertificatereq", "detailsinarabics")</li>
                                     if (User.IsInRole("HOD") || User.IsInRole("EXTHOD") || User.IsInRole("Manager") || User.IsInRole("employee"))
                                     {
 

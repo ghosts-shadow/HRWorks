@@ -10,6 +10,8 @@ using System.Web;
 using System.Web.Mvc;
 using HRworks.Models;
 using Microsoft.Ajax.Utilities;
+using MimeKit;
+using MailKit.Net.Smtp;
 using OfficeOpenXml;
 
 namespace HRworks.Controllers
@@ -67,6 +69,8 @@ namespace HRworks.Controllers
             {
                 db.detailsinarabics.Add(detailsinarabic);
                 db.SaveChanges();
+                var lastcerid = db.certificatesavingtest_.ToList().Last();
+                //SendMail(lastcerid.Id);
                 return RedirectToAction("Index");
             }
 
@@ -426,6 +430,11 @@ namespace HRworks.Controllers
                     certificatereqsave.destination = destination;
                 }
 
+                certificatereqsave.status = "new EMP";
+                certificatereqsave.submited_by = User.Identity.Name;
+                certificatereqsave.approved_by = "";
+                certificatereqsave.modifieddate_by = DateTime.Now;
+                certificatereqsave.submition_date = DateTime.Today;
                 certificatereqsave.cs_gr = certificate_of;
                 certificatereqsave.submition_date = DateTime.Today;
                 db.certificatesavingtest_.Add(certificatereqsave);
@@ -450,6 +459,46 @@ namespace HRworks.Controllers
             return View();
         }
 
+
+        public void SendMail(int id)
+        {
+            var message = new MimeMessage();
+            var desig = "";
+            var cstvar = db.certificatesavingtest_.ToList().Find(x=>x.Id == id);
+            var usernamelist = db.usernames.ToList();
+            var contractlist = db.contracts.OrderByDescending(x => x.date_changed).ToList();
+            message.From.Add(new MailboxAddress("Hrworks", "leave@citiscapegroup.com"));
+            var emplusersname = usernamelist.Find(x => x.employee_no == cstvar.master_file.employee_id);
+            if (contractlist.Exists(x => x.employee_no == cstvar.master_file.employee_id))
+            {
+                var temp = contractlist.Find(x => x.employee_no == cstvar.master_file.employee_id);
+                if (!temp.designation.IsNullOrWhiteSpace())
+                {
+                    desig = temp.designation;
+                }
+            }
+            message.To.Add((new MailboxAddress("Yahya Rashid", "yrashid@citiscapegroup.com")));
+            message.Subject = "certificate request approval";
+            message.Body = new TextPart("plain")
+            {
+                Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that certificate request for   (" +
+                cstvar.master_file.employee_no + ") " +
+                emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
+                "http://hrworks.ddns.net:6333/citiworks/certificatesavingtest_/hrapproval" + "\n\n\n" +
+                "Thanks Best Regards, "
+            };
+            if (message.To.Count != 0)
+            {
+                using (var client = new SmtpClient())
+                {
+                    client.Connect("outlook.office365.com", 587, false);
+                    // Note: only needed if the SMTP server requires authentication
+                    client.Authenticate("leave@citiscapegroup.com", "Tak98020");
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+            }
+        }
 
         [ActionName("Importexcel")]
         [HttpPost]
