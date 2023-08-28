@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Authentication";
+}
+
+
+<div>@ViewBag.Message</div>
+<div>
+    <img src="@ViewBag.BarcodeImageUrl" width="300" height="300" />
+
+</div>
+<div>
+    Manual Setup Code : @ViewBag.SetupCode
+</div>
+<div>
+    @using (Html.BeginForm("TwoFactorAuthenticate", "Googleauth", FormMethod.Post))
+    {
+        <input type="text" name="CodeDigit" />
+        <input type="submit" class="btn btn-success" />
+    }
+</div>
+

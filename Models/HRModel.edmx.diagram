@@ -118,6 +118,9 @@
         <AssociationConnector Association="HRModel.FK_inc_To_master_file" />
         <AssociationConnector Association="HRModel.FK_lc_To_master_file" />
         <AssociationConnector Association="HRModel.FK_pp_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.certificatesavinggrove" Width="1.5" PointX="54.125" PointY="75.25" />
+        <AssociationConnector Association="HRModel.FK_certificatereqG_To_certificatetype" />
+        <AssociationConnector Association="HRModel.FK_certificatereqG_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

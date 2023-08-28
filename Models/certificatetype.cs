@@ -18,6 +18,7 @@ namespace HRworks.Models
         public certificatetype()
         {
             this.certificatesavingtest_ = new HashSet<certificatesavingtest_>();
+            this.certificatesavinggroves = new HashSet<certificatesavinggrove>();
         }
     
         public int Id { get; set; }
@@ -26,5 +27,7 @@ namespace HRworks.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<certificatesavingtest_> certificatesavingtest_ { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<certificatesavinggrove> certificatesavinggroves { get; set; }
     }
 }

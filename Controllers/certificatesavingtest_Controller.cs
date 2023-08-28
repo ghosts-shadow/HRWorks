@@ -26,6 +26,7 @@ using PdfLoadOptions = SautinSoft.Document.PdfLoadOptions;
 using MimeKit;
 using MailKit.Net.Smtp;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using System.Web.Services.Description;
 
 namespace HRworks.Controllers
 {
@@ -38,31 +39,93 @@ namespace HRworks.Controllers
         // GET: certificatesavingtest_
         public ActionResult Index()
         {
-            var certificatesavingtest_ = db.certificatesavingtest_.Include(c => c.master_file);
-            return View(certificatesavingtest_.OrderByDescending(x=>x.Id).ToList());
+            var certificatesavingtest_ = db.certificatesavingtest_.OrderByDescending(x => x.Id).ToList();
+            var certificatesavinggrove = db.certificatesavinggroves.OrderByDescending(x => x.Id).ToList();
+            List<ICertificate> combinedCertificates = new List<ICertificate>();
+
+            // Assuming you have a list of certificatesavinggrove objects
+            List<certificatesavinggrove> groveCertificates = certificatesavinggrove; 
+
+            foreach (var groveCertificate in groveCertificates)
+            {
+                CertificateAdapter groveAdapter = new CertificateAdapter(groveCertificate);
+                combinedCertificates.Add(groveAdapter);
+            }
+
+            // Assuming you have a list of certificatesavingtest_ objects
+            List<certificatesavingtest_> testCertificates = certificatesavingtest_; // Replace with actual data retrieval
+
+            foreach (var testCertificate in testCertificates)
+            {
+                CertificateTestAdapter testAdapter = new CertificateTestAdapter(testCertificate);
+                combinedCertificates.Add(testAdapter);
+            }
+
+            return View(combinedCertificates);
         }
 
         public ActionResult hrapproval() 
         {
-            var certificatesavingtest = db.certificatesavingtest_.Where(x=>x.status.Contains("new")).ToList();
-            return View(certificatesavingtest);
+            var certificatesavingtest = db.certificatesavingtest_.Where(x=>x.status.Contains("new")).ToList(); 
+            var certificatesavinggrove = db.certificatesavinggroves.Where(x => x.status.Contains("new")).ToList();
+            List<ICertificate> combinedCertificates = new List<ICertificate>();
+
+            // Assuming you have a list of certificatesavinggrove objects
+            List<certificatesavinggrove> groveCertificates = certificatesavinggrove;
+
+            foreach (var groveCertificate in groveCertificates)
+            {
+                CertificateAdapter groveAdapter = new CertificateAdapter(groveCertificate);
+                combinedCertificates.Add(groveAdapter);
+            }
+
+            // Assuming you have a list of certificatesavingtest_ objects
+            List<certificatesavingtest_> testCertificates = certificatesavingtest; // Replace with actual data retrieval
+
+            foreach (var testCertificate in testCertificates)
+            {
+                CertificateTestAdapter testAdapter = new CertificateTestAdapter(testCertificate);
+                combinedCertificates.Add(testAdapter);
+            }
+
+            return View(combinedCertificates);
         }
         
-        public ActionResult Approve(int id) 
+        public ActionResult Approve(int id,bool CS) 
         {
-            var cstvar = db.certificatesavingtest_.ToList().Find(x=>x.Id == id);
-            cstvar.status = "approved";
-            db.Entry(cstvar).State = EntityState.Modified;
-            db.SaveChanges();
+            if (CS)
+            {
+                var cstvar = db.certificatesavingtest_.ToList().Find(x => x.Id == id);
+                cstvar.status = "approved";
+                db.Entry(cstvar).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            else
+            {
+                var cstvar = db.certificatesavinggroves.ToList().Find(x => x.Id == id);
+                cstvar.status = "approved";
+                db.Entry(cstvar).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             return RedirectToAction("hrapproval");
         }
 
-        public ActionResult reject(int id,string message)
+        public ActionResult reject(int id,string message, bool CS)
         {
-            var cstvar = db.certificatesavingtest_.ToList().Find(x => x.Id == id);
-            cstvar.status = "rejected for: "+ message; 
-            db.Entry(cstvar).State = EntityState.Modified;
-            db.SaveChanges();
+            if (CS)
+            {
+                var cstvar = db.certificatesavingtest_.ToList().Find(x => x.Id == id);
+                cstvar.status = "rejected for: " + message;
+                db.Entry(cstvar).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            else
+            {
+                var cstvar = db.certificatesavinggroves.ToList().Find(x => x.Id == id);
+                cstvar.status = "rejected for: " + message;
+                db.Entry(cstvar).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             return RedirectToAction("hrapproval");
         }
 
@@ -74,13 +137,21 @@ namespace HRworks.Controllers
             return unprotectedText;
         }
         // GET: certificatesavingtest_/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, bool CS)
         {
             if (id == null)
             {
                 goto end;
             }
-            certificatesavingtest_ certificatesavingtest_ = db.certificatesavingtest_.Find(id);
+            ICertificate certificatesavingtest_;
+            if (CS)
+            {
+                 certificatesavingtest_ = new CertificateTestAdapter(db.certificatesavingtest_.Find(id));
+            }
+            else
+            {
+                 certificatesavingtest_ = new CertificateAdapter(db.certificatesavinggroves.Find(id));
+            }
             if (certificatesavingtest_ == null)
             {
                 goto end;
@@ -104,6 +175,7 @@ namespace HRworks.Controllers
             var nameinar = nameinarlist.Find(x => x.employee_id == certificatesavingtest_.employee_id);
             if(nameinar == null)
             {
+                nameinar = new detailsinarabic();
                 nameinar.ARname = "";
                 nameinar.ARnationality = "";
                 nameinar.ARposition = "";
@@ -700,7 +772,7 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(55, 715));
                         formattedText.Clear();
@@ -850,7 +922,7 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(71, 729));
                         formattedText.Clear();
@@ -918,7 +990,7 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(67, 719));
                         formattedText.Clear();
@@ -986,7 +1058,7 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(55, 700));
                         formattedText.Clear();
@@ -1027,7 +1099,7 @@ namespace HRworks.Controllers
                         formattedText.FontSize = 11;
                         formattedText.FontWeight = PdfFontWeight.Bold;
                         formattedText.Clear();
-                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(155, 695));
                         formattedText.Clear();
@@ -1146,7 +1218,7 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.FontWeight = PdfFontWeight.Bold;
-                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(155, 658));
                         formattedText.Clear();
@@ -1274,7 +1346,7 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 12.48;
                         formattedText.Clear();
-                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(130, 553));
                         formattedText.Clear();
@@ -1407,7 +1479,7 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(145, 686));
                         formattedText.Clear();
@@ -1489,7 +1561,7 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(140, 686));
                         formattedText.Clear();
@@ -1547,7 +1619,7 @@ namespace HRworks.Controllers
                         formattedText.Append(DateTime.Today.ToString("dd MMMM yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(100, 680));
                         formattedText.Clear();
-                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(100, 695));
                         formattedText.Clear();
@@ -1674,7 +1746,7 @@ namespace HRworks.Controllers
                         formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(111, 725));
                         formattedText.Clear();
-                        var refstr = "CS-HRDLRT-" + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(142, 711));
                         formattedText.Clear();
@@ -1745,10 +1817,20 @@ namespace HRworks.Controllers
                 Response.Flush();
                 Response.End();
             }
-            var cstvar = db.certificatesavingtest_.ToList().Find(x => x.Id == id);
-            cstvar.status = "downloaded";
-            db.Entry(cstvar).State = EntityState.Modified;
-            db.SaveChanges();
+            if (CS)
+            {
+                var cstvar = db.certificatesavingtest_.ToList().Find(x => x.Id == id);
+                cstvar.status = "downloaded";
+                db.Entry(cstvar).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            else
+            {
+                var cstvar = db.certificatesavinggroves.ToList().Find(x => x.Id == id);
+                cstvar.status = "downloaded";
+                db.Entry(cstvar).State = EntityState.Modified;
+                db.SaveChanges();
+            }
         end:;
 
             return RedirectToAction("Index");
@@ -1802,10 +1884,22 @@ namespace HRworks.Controllers
                 certificatesavingtest_.submition_date = DateTime.Today;
                 certificatesavingtest_.approved_by = "";
                 certificatesavingtest_.cs_gr = certificate_of;
-                db.certificatesavingtest_.Add(certificatesavingtest_);
-                db.SaveChanges();
+                if (certificate_of == "GR_certificates")
+                {
+                    certificatesavinggrove certificatesavingG = new certificatesavinggrove();
+                    certificatesavingG = concertificatesavinggrove(certificatesavingtest_);
+                    db.certificatesavinggroves.Add(certificatesavingG);
+                    db.SaveChanges();
+                    var lastcerid = db.certificatesavinggroves.ToList().Last();
+                    SendMail(lastcerid.Id,"GR");
+                }
+                else
+                {
+                    db.certificatesavingtest_.Add(certificatesavingtest_);
+                    db.SaveChanges();
                 var lastcerid = db.certificatesavingtest_.ToList().Last();
-                SendMail(lastcerid.Id);
+                SendMail(lastcerid.Id,"CS");
+                }
                 return RedirectToAction("Index");
             }
             end: ;
@@ -1816,44 +1910,111 @@ namespace HRworks.Controllers
         }
 
 
-        public void SendMail(int id)
+        public certificatesavinggrove concertificatesavinggrove(certificatesavingtest_ v)
+        {
+            var v1 = new certificatesavinggrove();
+            v1.employee_id = v.employee_id;
+            v1.certificate_type = v.certificate_type;
+            v1.destination = v.destination;
+            v1.submition_date = v.submition_date;
+            v1.cs_gr = v.cs_gr;
+            v1.status = v.status;
+            v1.approved_by = v.approved_by;
+            v1.modifieddate_by = v.modifieddate_by;
+            v1.submited_by = v.submited_by;
+            return v1;
+        }
+
+        public void SendMail(int id,string cs_gr)
         {
             var message = new MimeMessage();
             var desig = "";
-            var cstvar = db.certificatesavingtest_.ToList().Find(x => x.Id == id);
-            var usernamelist = db.usernames.ToList();
-            var contractlist = db.contracts.OrderByDescending(x => x.date_changed).ToList();
-            message.From.Add(new MailboxAddress("Hrworks", "leave@citiscapegroup.com"));
-            var emplusersname = usernamelist.Find(x => x.employee_no == cstvar.master_file.employee_id);
-            if (contractlist.Exists(x => x.employee_no == cstvar.master_file.employee_id))
+
+            if (cs_gr == "GR")
             {
-                var temp = contractlist.Find(x => x.employee_no == cstvar.master_file.employee_id);
-                if (!temp.designation.IsNullOrWhiteSpace())
+                var cstvar = db.certificatesavinggroves.FirstOrDefault(x => x.Id == id);
+                if (cstvar == null)
                 {
-                    desig = temp.designation;
+                    // Handle the scenario where the certificate is not found
+                    return;
+                }
+                var usernamelist = db.usernames.ToList();
+                var contractlist = db.contracts.OrderByDescending(x => x.date_changed).ToList();
+                message.From.Add(new MailboxAddress("Hrworks", "leave@citiscapegroup.com"));
+                var emplusersname = usernamelist.Find(x => x.employee_no == cstvar.master_file.employee_id);
+                if (contractlist.Exists(x => x.employee_no == cstvar.master_file.employee_id))
+                {
+                    var temp = contractlist.Find(x => x.employee_no == cstvar.master_file.employee_id);
+                    if (!temp.designation.IsNullOrWhiteSpace())
+                    {
+                        desig = temp.designation;
+                    }
+                }
+                message.To.Add((new MailboxAddress("Yahya Rashid", "yrashid@citiscapegroup.com")));
+                message.Subject = "certificate request approval";
+                message.Body = new TextPart("plain")
+                {
+                    Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that certificate request for   (" +
+                    cstvar.master_file.employee_no + ") " +
+                    emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
+                    "http://hrworks.ddns.net:6333/citiworks/certificatesavingtest_/hrapproval" + "\n\n\n" +
+                    "Thanks Best Regards, "
+                };
+                if (message.To.Count != 0)
+                {
+                    using (var client = new SmtpClient())
+                    {
+                        client.Connect("outlook.office365.com", 587, false);
+                        // Note: only needed if the SMTP server requires authentication
+                        client.Authenticate("leave@citiscapegroup.com", "Tak98020");
+                        client.Send(message);
+                        client.Disconnect(true);
+                    }
                 }
             }
-            message.To.Add((new MailboxAddress("Yahya Rashid", "yrashid@citiscapegroup.com")));
-            message.Subject = "certificate request approval";
-            message.Body = new TextPart("plain")
+            else
             {
-                Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that certificate request for   (" +
-                cstvar.master_file.employee_no + ") " +
-                emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
-                "http://hrworks.ddns.net:6333/citiworks/certificatesavingtest_/hrapproval" + "\n\n\n" +
-                "Thanks Best Regards, "
-            };
-            if (message.To.Count != 0)
-            {
-                using (var client = new SmtpClient())
+                var cstvar = db.certificatesavingtest_.FirstOrDefault(x => x.Id == id);
+                if (cstvar == null)
                 {
-                    client.Connect("outlook.office365.com", 587, false);
-                    // Note: only needed if the SMTP server requires authentication
-                    client.Authenticate("leave@citiscapegroup.com", "Tak98020");
-                    client.Send(message);
-                    client.Disconnect(true);
+                    // Handle the scenario where the certificate is not found
+                    return;
+                }
+                var usernamelist = db.usernames.ToList();
+                var contractlist = db.contracts.OrderByDescending(x => x.date_changed).ToList();
+                message.From.Add(new MailboxAddress("Hrworks", "leave@citiscapegroup.com"));
+                var emplusersname = usernamelist.Find(x => x.employee_no == cstvar.master_file.employee_id);
+                if (contractlist.Exists(x => x.employee_no == cstvar.master_file.employee_id))
+                {
+                    var temp = contractlist.Find(x => x.employee_no == cstvar.master_file.employee_id);
+                    if (!temp.designation.IsNullOrWhiteSpace())
+                    {
+                        desig = temp.designation;
+                    }
+                }
+                message.To.Add((new MailboxAddress("Yahya Rashid", "yrashid@citiscapegroup.com")));
+                message.Subject = "certificate request approval";
+                message.Body = new TextPart("plain")
+                {
+                    Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that certificate request for   (" +
+                    cstvar.master_file.employee_no + ") " +
+                    emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
+                    "http://hrworks.ddns.net:6333/citiworks/certificatesavingtest_/hrapproval" + "\n\n\n" +
+                    "Thanks Best Regards, "
+                };
+                if (message.To.Count != 0)
+                {
+                    using (var client = new SmtpClient())
+                    {
+                        client.Connect("outlook.office365.com", 587, false);
+                        // Note: only needed if the SMTP server requires authentication
+                        client.Authenticate("leave@citiscapegroup.com", "Tak98020");
+                        client.Send(message);
+                        client.Disconnect(true);
+                    }
                 }
             }
+
         }
         public ActionResult Delete(int? id)
         {

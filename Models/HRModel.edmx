@@ -151,6 +151,21 @@
           <Property Name="Mawaqif" Type="nvarchar(max)" />
           <Property Name="Immigration" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="certificatesavinggrove">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_id" Type="int" Nullable="false" />
+          <Property Name="certificate_type" Type="int" Nullable="false" />
+          <Property Name="destination" Type="nvarchar(max)" />
+          <Property Name="submition_date" Type="date" />
+          <Property Name="cs_gr" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="status" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="approved_by" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="modifieddate_by" Type="datetime" Nullable="false" />
+          <Property Name="submited_by" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="certificatesavingtest&#x9;">
           <Key>
             <PropertyRef Name="Id" />
@@ -1094,6 +1109,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_certificatereqG_To_certificatetype">
+          <End Role="certificatetype" Type="Self.certificatetype" Multiplicity="1" />
+          <End Role="certificatesavinggrove" Type="Self.certificatesavinggrove" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="certificatetype">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="certificatesavinggrove">
+              <PropertyRef Name="certificate_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_certificatereqG_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="certificatesavinggrove" Type="Self.certificatesavinggrove" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="certificatesavinggrove">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_con_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="contract" Type="Self.contract" Multiplicity="*" />
@@ -1705,6 +1744,7 @@
           <EntitySet Name="business_trip" EntityType="Self.business_trip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BUSINESS_TRIP_REPORT " EntityType="Self.BUSINESS_TRIP_REPORT " Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CERTIFICATE_REQUEST" EntityType="Self.CERTIFICATE_REQUEST" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="certificatesavinggrove" EntityType="Self.certificatesavinggrove" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="certificatesavingtest&#x9;" EntityType="Self.certificatesavingtest&#x9;" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="certificatetype" EntityType="Self.certificatetype" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="contract" EntityType="Self.contract" Schema="dbo" store:Type="Tables" />
@@ -1781,6 +1821,14 @@
           <AssociationSet Name="FK_certificatereq_To_master_file" Association="Self.FK_certificatereq_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="certificatesavingtest&#x9;" EntitySet="certificatesavingtest&#x9;" />
+          </AssociationSet>
+          <AssociationSet Name="FK_certificatereqG_To_certificatetype" Association="Self.FK_certificatereqG_To_certificatetype">
+            <End Role="certificatetype" EntitySet="certificatetype" />
+            <End Role="certificatesavinggrove" EntitySet="certificatesavinggrove" />
+          </AssociationSet>
+          <AssociationSet Name="FK_certificatereqG_To_master_file" Association="Self.FK_certificatereqG_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="certificatesavinggrove" EntitySet="certificatesavinggrove" />
           </AssociationSet>
           <AssociationSet Name="FK_con_To_master_file" Association="Self.FK_con_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -2150,6 +2198,7 @@
           <Property Name="certificate_name_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="certificsatefor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="certificatesavingtest_" Relationship="Self.FK_certificatereq_To_certificatetype" FromRole="certificatetype" ToRole="certificatesavingtest_" />
+          <NavigationProperty Name="certificatesavinggroves" Relationship="HRModel.FK_certificatereqG_To_certificatetype" FromRole="certificatetype" ToRole="certificatesavinggrove" />
         </EntityType>
         <EntityType Name="contract">
           <Key>
@@ -2760,6 +2809,7 @@
           <NavigationProperty Name="insurances" Relationship="HRModel.FK_inc_To_master_file" FromRole="master_file" ToRole="insurance" />
           <NavigationProperty Name="labour_card" Relationship="HRModel.FK_lc_To_master_file" FromRole="master_file" ToRole="labour_card" />
           <NavigationProperty Name="passports" Relationship="HRModel.FK_pp_To_master_file" FromRole="master_file" ToRole="passport" />
+          <NavigationProperty Name="certificatesavinggroves" Relationship="HRModel.FK_certificatereqG_To_master_file" FromRole="master_file" ToRole="certificatesavinggrove" />
         </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
@@ -3959,6 +4009,15 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="passport" EntitySet="passports" />
           </AssociationSet>
+          <EntitySet Name="certificatesavinggroves" EntityType="HRModel.certificatesavinggrove" />
+          <AssociationSet Name="FK_certificatereqG_To_certificatetype" Association="HRModel.FK_certificatereqG_To_certificatetype">
+            <End Role="certificatetype" EntitySet="certificatetypes" />
+            <End Role="certificatesavinggrove" EntitySet="certificatesavinggroves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_certificatereqG_To_master_file" Association="HRModel.FK_certificatereqG_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="certificatesavinggrove" EntitySet="certificatesavinggroves" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_EID_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -4005,6 +4064,47 @@
             </Principal>
             <Dependent Role="passport">
               <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="certificatesavinggrove">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_id" Type="Int32" Nullable="false" />
+          <Property Name="certificate_type" Type="Int32" Nullable="false" />
+          <Property Name="destination" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="submition_date" Type="DateTime" Precision="0" />
+          <Property Name="cs_gr" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="approved_by" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="modifieddate_by" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="submited_by" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="certificatetype" Relationship="HRModel.FK_certificatereqG_To_certificatetype" FromRole="certificatesavinggrove" ToRole="certificatetype" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_certificatereqG_To_master_file" FromRole="certificatesavinggrove" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_certificatereqG_To_certificatetype">
+          <End Type="HRModel.certificatetype" Role="certificatetype" Multiplicity="1" />
+          <End Type="HRModel.certificatesavinggrove" Role="certificatesavinggrove" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="certificatetype">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="certificatesavinggrove">
+              <PropertyRef Name="certificate_type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_certificatereqG_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.certificatesavinggrove" Role="certificatesavinggrove" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="certificatesavinggrove">
+              <PropertyRef Name="employee_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5076,6 +5176,22 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="certificatesavinggroves">
+            <EntityTypeMapping TypeName="HRModel.certificatesavinggrove">
+              <MappingFragment StoreEntitySet="certificatesavinggrove">
+                <ScalarProperty Name="submited_by" ColumnName="submited_by" />
+                <ScalarProperty Name="modifieddate_by" ColumnName="modifieddate_by" />
+                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="cs_gr" ColumnName="cs_gr" />
+                <ScalarProperty Name="submition_date" ColumnName="submition_date" />
+                <ScalarProperty Name="destination" ColumnName="destination" />
+                <ScalarProperty Name="certificate_type" ColumnName="certificate_type" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -58,6 +58,7 @@ namespace HRworks.Models
             this.insurances = new HashSet<insurance>();
             this.labour_card = new HashSet<labour_card>();
             this.passports = new HashSet<passport>();
+            this.certificatesavinggroves = new HashSet<certificatesavinggrove>();
         }
 
         public int employee_id { get; set; }
@@ -178,5 +179,7 @@ namespace HRworks.Models
         public virtual ICollection<labour_card> labour_card { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<passport> passports { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<certificatesavinggrove> certificatesavinggroves { get; set; }
     }
 }

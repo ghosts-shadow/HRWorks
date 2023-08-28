@@ -29,6 +29,15 @@
 
         private readonly HREntities db = new HREntities();
 
+        public ActionResult seccheck()
+        {
+            if (!(bool)Session["IsValidTwoFactorAuthentication"])
+            {
+                RedirectToAction("Create", "contractlogins");
+            }
+            return null;
+        }
+
         // GET: contracts/Create
         public ActionResult Create()
         {
@@ -644,6 +653,7 @@
 
         public ActionResult Index(string search, int? page, int? pagesize)
         {
+            seccheck();
             var pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             var defaSize = 10;

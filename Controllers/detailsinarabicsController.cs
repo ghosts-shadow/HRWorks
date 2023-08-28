@@ -437,8 +437,29 @@ namespace HRworks.Controllers
                 certificatereqsave.submition_date = DateTime.Today;
                 certificatereqsave.cs_gr = certificate_of;
                 certificatereqsave.submition_date = DateTime.Today;
-                db.certificatesavingtest_.Add(certificatereqsave);
-                db.SaveChanges();
+                if (certificate_of == "GR_certificates")
+                {
+                    certificatesavinggrove certificatesavingG = new certificatesavinggrove();
+                    var certogr = new certificatesavingtest_Controller();
+                    certificatesavingG = certogr.concertificatesavinggrove(certificatereqsave);
+                    var grcrtlist = db.certificatesavinggroves.ToList();
+                    if (!grcrtlist.Exists(x=>x.employee_id == certificatesavingG.employee_id && x.certificate_type == certificatesavingG.certificate_type && x.submition_date == certificatesavingG.submition_date))
+                    {
+                        db.certificatesavinggroves.Add(certificatesavingG);
+                        db.SaveChanges();
+                    }
+                    
+                }
+                else
+                {
+
+                    var grcrtlist = db.certificatesavingtest_.ToList();
+                    if (!grcrtlist.Exists(x => x.employee_id == certificatereqsave.employee_id && x.certificate_type == certificatereqsave.certificate_type && x.submition_date == certificatereqsave.submition_date))
+                    {
+                        db.certificatesavingtest_.Add(certificatereqsave);
+                        db.SaveChanges();
+                    }
+                }
                 ViewBag.submmites = "certificate request has been successfully submitted";
             }
             List<string> CountryList = new List<string>();
