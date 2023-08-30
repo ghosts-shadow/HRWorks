@@ -1621,6 +1621,7 @@
     <Content Include="Views\employeeleavesubmitions\displayall.cshtml" />
     <Content Include="Views\certificatesavingtest_\hrapproval.cshtml" />
     <Content Include="Views\Googleauth\TwoFactorAuthenticate.cshtml" />
+    <Content Include="Views\contractlogins\conacces.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

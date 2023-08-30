@@ -11,14 +11,12 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class contractlogin
     {
         public int Id { get; set; }
         public string pro_username { get; set; }
-
-        [Display(Name = "password")]
         public string pro_password { get; set; }
+        public bool Gauth { get; set; }
     }
 }

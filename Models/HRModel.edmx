@@ -220,6 +220,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="pro_username" Type="nvarchar(max)" />
           <Property Name="pro_password" Type="nvarchar(max)" />
+          <Property Name="Gauth" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="detailsinarabic">
           <Key>
@@ -2234,6 +2235,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="pro_username" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="pro_password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Gauth" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="detailsinarabic">
           <Key>
@@ -4313,6 +4315,7 @@
           <EntitySetMapping Name="contractlogins">
             <EntityTypeMapping TypeName="HRModel.contractlogin">
               <MappingFragment StoreEntitySet="contractlogin">
+                <ScalarProperty Name="Gauth" ColumnName="Gauth" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="pro_username" ColumnName="pro_username" />
                 <ScalarProperty Name="pro_password" ColumnName="pro_password" />
