@@ -1028,6 +1028,7 @@
     <Content Include="Content\testbootstrap\bootstrap.min.css.map" />
     <Content Include="Content\chosen\composer.json" />
     <Content Include="Content\chosen\LICENSE.md" />
+    <Content Include="img\logo_Grove.png" />
     <Content Include="img\navlogo.png" />
     <Content Include="img\payslip-1\payslip.jpg" />
     <Content Include="img\pettycashbar.jpg" />

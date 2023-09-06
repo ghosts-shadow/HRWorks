@@ -21,7 +21,6 @@
 
     using PagedList;
 
-    [NoDirectAccess]
     [Authorize(Roles = "super_admin,payrole,employee_con")]
     public class contractsController : Controller
     {
@@ -29,13 +28,22 @@
 
         private readonly HREntities db = new HREntities();
 
-        public ActionResult seccheck()
+        public bool seccheck()
         {
-            if (!(bool)Session["IsValidTwoFactorAuthentication"])
+            if (Session["IsValidTwoFactorAuthentication"] != null)
             {
-                RedirectToAction("Create", "contractlogins");
+                if (!(bool)Session["IsValidTwoFactorAuthentication"])
+                {
+                    //RedirectToAction("Create", "contractlogins");
+                    return false;
+                }
             }
-            return null;
+            else
+            {
+                //RedirectToAction("Create", "contractlogins");
+                return false;
+            }
+            return true;
         }
 
         // GET: contracts/Create
@@ -636,6 +644,127 @@
                             }
                         }
                     }
+                    else if (extension == ".xls" || extension == ".xlsx")
+                    {
+                        using (var package = new ExcelPackage(new FileInfo(path1)))
+                        {
+                            ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                            var dt = new DataTable();
+
+                            for (int row = 1; row <= worksheet.Dimension.Rows; row++)
+                            {
+                                if (row == 1) 
+                                {
+                                    foreach (var cell in worksheet.Cells[row, 1, row, worksheet.Dimension.Columns])
+                                    {
+                                        dt.Columns.Add(cell.Text);
+                                    }
+                                }
+                                else
+                                {
+                                    var newRow = dt.NewRow();
+                                    for (int col = 1; col <= worksheet.Dimension.Columns; col++)
+                                    {
+                                        newRow[col - 1] = worksheet.Cells[row, col].Text;
+                                    }
+                                    dt.Rows.Add(newRow);
+                                }
+                            }
+
+                            this.ViewBag.Data = dt;
+                            if (dt.Rows.Count > 0)
+                            {
+                                var leavecheck = this.db.contracts.ToList();
+                                var pro = new contract();
+                                foreach (DataRow dr in dt.Rows)
+                                {
+                                    foreach (DataColumn column in dt.Columns)
+                                    {
+                                        if (dr[column] == null || dr[column].ToString() == " ") goto e;
+
+                                        if (column.ColumnName == "designation") pro.designation = dr[column].ToString();
+                                        if (column.ColumnName == "grade") pro.grade = dr[column].ToString();
+                                        if (column.ColumnName == "department/project")
+                                            pro.departmant_project = dr[column].ToString();
+                                        if (column.ColumnName == "salary_details")
+                                        {
+                                            var dtt = this.Protect(dr[column].ToString());
+                                            pro.salary_details = dtt;
+                                        }
+
+                                        if (column.ColumnName == "basic")
+                                        {
+                                            var dtt = this.Protect(dr[column].ToString());
+                                            pro.basic = dtt;
+                                        }
+
+                                        if (column.ColumnName == "housing_allowance")
+                                        {
+                                            var dtt = this.Protect(dr[column].ToString());
+                                            pro.housing_allowance = dtt;
+                                        }
+
+                                        if (column.ColumnName == "transportation_allowance")
+                                        {
+                                            var dtt = this.Protect(dr[column].ToString());
+                                            pro.transportation_allowance = dtt;
+                                        }
+
+                                        if (column.ColumnName == "FOT")
+                                        {
+                                            var dtt = this.Protect(dr[column].ToString());
+                                            pro.FOT = dtt;
+                                        }
+
+                                        if (column.ColumnName == "food_allowance")
+                                        {
+                                            var dtt = this.Protect(dr[column].ToString());
+                                            pro.food_allowance = dtt;
+                                        }
+
+                                        if (column.ColumnName == "living_allowance")
+                                        {
+                                            var dtt = this.Protect(dr[column].ToString());
+                                            pro.living_allowance = dtt;
+                                        }
+
+                                        if (column.ColumnName == "ticket_allowance")
+                                        {
+                                            var dtt = this.Protect(dr[column].ToString());
+                                            pro.ticket_allowance = dtt;
+                                        }
+
+                                        if (column.ColumnName == "others")
+                                        {
+                                            var dtt = this.Protect(dr[column].ToString());
+                                            pro.others = dtt;
+                                        }
+
+                                        if (column.ColumnName == "arrears")
+                                        {
+                                            var dtt = this.Protect(dr[column].ToString());
+                                            pro.arrears = dtt;
+                                        }
+
+                                        if (column.ColumnName == "employee_no")
+                                        {
+                                            int.TryParse(dr[column].ToString(), out var idm);
+                                            if (idm != 0)
+                                            {
+                                                var epid = afinallist.Find(x => x.employee_no == idm);
+                                                if (epid == null) goto e;
+                                                pro.employee_no = epid.employee_id;
+                                            }
+                                        }
+                                    }
+
+                                    this.db.contracts.Add(pro);
+                                    this.db.SaveChanges();
+                                e:;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             else
@@ -653,7 +782,10 @@
 
         public ActionResult Index(string search, int? page, int? pagesize)
         {
-            seccheck();
+            if (!seccheck())
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
             var defaSize = 10;

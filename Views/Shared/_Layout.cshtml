@@ -295,10 +295,10 @@
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li>@Html.ActionLink("requests", "Index", "certificatesavingtest_")</li>
+                                            <li>@Html.ActionLink("details in arabic", "index", "detailsinarabics")</li>
                                             @if (User.IsInRole("super_admin"))
                                             {
                                                 <li>@Html.ActionLink("approvals", "hrapproval", "certificatesavingtest_")</li>
-                                                <li>@Html.ActionLink("details in arabic", "index", "detailsinarabics")</li>
                                             }
                                         </ul>
                                     </div>

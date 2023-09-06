@@ -97,6 +97,8 @@ namespace HRworks.Controllers
             {
                 var cstvar = db.certificatesavingtest_.ToList().Find(x => x.Id == id);
                 cstvar.status = "approved";
+                cstvar.approved_by = User.Identity.Name;
+                cstvar.modifieddate_by = DateTime.Now;
                 db.Entry(cstvar).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -104,6 +106,8 @@ namespace HRworks.Controllers
             {
                 var cstvar = db.certificatesavinggroves.ToList().Find(x => x.Id == id);
                 cstvar.status = "approved";
+                cstvar.approved_by = User.Identity.Name;
+                cstvar.modifieddate_by = DateTime.Now;
                 db.Entry(cstvar).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -116,6 +120,8 @@ namespace HRworks.Controllers
             {
                 var cstvar = db.certificatesavingtest_.ToList().Find(x => x.Id == id);
                 cstvar.status = "rejected for: " + message;
+                cstvar.approved_by = User.Identity.Name;
+                cstvar.modifieddate_by = DateTime.Now;
                 db.Entry(cstvar).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -123,6 +129,8 @@ namespace HRworks.Controllers
             {
                 var cstvar = db.certificatesavinggroves.ToList().Find(x => x.Id == id);
                 cstvar.status = "rejected for: " + message;
+                cstvar.approved_by = User.Identity.Name;
+                cstvar.modifieddate_by = DateTime.Now;
                 db.Entry(cstvar).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -224,7 +232,7 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 338));
                         formattedText.Clear();
                         if (passport != null)
@@ -244,8 +252,6 @@ namespace HRworks.Controllers
                         formattedText.Append(certificatesavingtest_.destination);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(522, 633));
                         formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(114, 684));
 
                     }
 
@@ -255,10 +261,12 @@ namespace HRworks.Controllers
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
+                        formattedText.Append("Date: "+DateTime.Today.ToString("dd MMM  yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(65, 685));
                         formattedText.Clear();
-                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = "Reference No.: " + csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(65, 672));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(65, 670));
                         formattedText.Clear();
                     }
                     document.Save(filepathout);
@@ -324,7 +332,7 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 357));
                         formattedText.Clear();
                         if (passport != null)
@@ -344,8 +352,6 @@ namespace HRworks.Controllers
                         formattedText.Append(certificatesavingtest_.destination);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(515, 706));
                         formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 706));
 
                     }
                     using (var formattedText = new PdfFormattedText())
@@ -354,8 +360,10 @@ namespace HRworks.Controllers
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
+                        formattedText.Append("Date: " + DateTime.Today.ToString("dd MMM  yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(65, 710));
                         formattedText.Clear();
-                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = "Reference No.: " + csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(65, 695));
                         formattedText.Clear();
@@ -429,9 +437,6 @@ namespace HRworks.Controllers
                         formattedText.Append(certificatesavingtest_.destination);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(465, 721));
                         formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(100, 721));
-                        formattedText.Clear();
                         formattedText.Append(passport.passport_no);
                         document.Pages[0].Content.DrawText(formattedText,new PdfPoint(420,461));
 
@@ -443,9 +448,12 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        formattedText.Append("Date: " + DateTime.Today.ToString("dd MMM  yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(50, 720));
+                        formattedText.Clear();
+                        var refstr = "Reference No.: " + csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(50, 704));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(50, 705));
                         formattedText.Clear();
                     }
                     document.Save(filepathout);
@@ -514,11 +522,9 @@ namespace HRworks.Controllers
                         formattedText.Append(certificatesavingtest_.destination);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(475, 657));
                         formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(100, 665));
-                        formattedText.Clear();
                         formattedText.Append(passport.passport_no);
                         document.Pages[0].Content.DrawText(formattedText,new PdfPoint(420,423));
+                        formattedText.Clear();
 
                     }
                     using (var formattedText = new PdfFormattedText())
@@ -527,10 +533,12 @@ namespace HRworks.Controllers
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
+                        formattedText.Append("Date: " + DateTime.Today.ToString("dd MMM  yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(50, 665));
                         formattedText.Clear();
-                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = "Reference No.: " + csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(50, 653));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(50, 650));
                         formattedText.Clear();
                     }
                     document.Save(filepathout);
@@ -576,7 +584,7 @@ namespace HRworks.Controllers
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+                        formattedText.Append(DateTime.Today.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(152, 728));
                         formattedText.Clear();
                         var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
@@ -608,7 +616,7 @@ namespace HRworks.Controllers
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(192, 431));
                         formattedText.Clear();
                         }
-                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(160, 410));
 
                     }
@@ -654,7 +662,7 @@ namespace HRworks.Controllers
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+                        formattedText.Append(DateTime.Today.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(175, 722));
                         formattedText.Clear();
                         var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
@@ -681,7 +689,7 @@ namespace HRworks.Controllers
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(172, 465));
                         formattedText.Clear();
                         }
-                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(200, 445));
 
                     }
@@ -760,8 +768,6 @@ namespace HRworks.Controllers
                         formattedText.Clear();
                             
                         }
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(107, 726));
 
                     }
 
@@ -771,8 +777,10 @@ namespace HRworks.Controllers
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
+                        formattedText.Append("Date: " + DateTime.Today.ToString("dd MMM  yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(55, 730));
                         formattedText.Clear();
-                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = "Reference No.: " + csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(55, 715));
                         formattedText.Clear();
@@ -842,8 +850,6 @@ namespace HRworks.Controllers
                        formattedText.Clear();
                                     
                         }
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(100, 701));
 
                     }
 
@@ -853,10 +859,12 @@ namespace HRworks.Controllers
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
+                        formattedText.Append("Date: " + DateTime.Today.ToString("dd MMM  yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(50, 705));
                         formattedText.Clear();
-                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = "Reference No.: " + csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(50, 692));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(50, 690));
                         formattedText.Clear();
                     }
 
@@ -910,8 +918,6 @@ namespace HRworks.Controllers
                         formattedText.Append(passport.passport_no);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 481));
                        formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(120, 741));
 
                     }
 
@@ -921,10 +927,12 @@ namespace HRworks.Controllers
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
+                        formattedText.Append("Date: " + DateTime.Today.ToString("dd MMM  yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(71, 745));
                         formattedText.Clear();
-                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = "Reference No.: " + csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(71, 729));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(71, 730));
                         formattedText.Clear();
                     }
 
@@ -978,8 +986,6 @@ namespace HRworks.Controllers
                         formattedText.Append(passport.passport_no);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 456));
                        formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(115, 731));
 
                     }
 
@@ -989,10 +995,12 @@ namespace HRworks.Controllers
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
+                        formattedText.Append("Date: " + DateTime.Today.ToString("dd MMM  yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(67, 735));
                         formattedText.Clear();
-                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = "Reference No.: " + csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(67, 719));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(67, 720));
                         formattedText.Clear();
                     }
 
@@ -1046,8 +1054,6 @@ namespace HRworks.Controllers
                         formattedText.Append(passport.passport_no);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 436));
                        formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(105, 710));
 
                     }
 
@@ -1057,8 +1063,10 @@ namespace HRworks.Controllers
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
+                        formattedText.Append("Date: " + DateTime.Today.ToString("dd MMM  yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(55, 715));
                         formattedText.Clear();
-                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = "Reference No.: " + csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(55, 700));
                         formattedText.Clear();
@@ -1103,7 +1111,7 @@ namespace HRworks.Controllers
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(155, 695));
                         formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+                        formattedText.Append(DateTime.Today.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(155, 715));
                         formattedText.Clear();
                         formattedText.Append(masterfile.employee_name);
@@ -1119,7 +1127,7 @@ namespace HRworks.Controllers
                         formattedText.Clear();
                             
                         }
-                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(210, 426));
                         formattedText.Clear();
                         var enddatewof = certificatesavingtest_.destination;
@@ -1129,7 +1137,7 @@ namespace HRworks.Controllers
                         {
                             temp = enddatewof.IndexOf("@") + 1;
                             var endate = Convert.ToDateTime(enddatewof.Substring(temp));
-                            formattedText.Append(endate.ToString("dd MMM yy"));
+                            formattedText.Append(endate.ToString("dd MMM  yyyy"));
                             document.Pages[0].Content.DrawText(formattedText, new PdfPoint(335, 426));
                             formattedText.Clear();
                         }
@@ -1146,7 +1154,7 @@ namespace HRworks.Controllers
                 ContentRange cr = dc.Content.Find("@date").First();
                 if (cr != null)
                 {
-                    cr.Replace(DateTime.Today.ToString("dd MMM yy"));
+                    cr.Replace(DateTime.Today.ToString("dd MMM  yyyy"));
                 }
                 cr = dc.Content.Find("@ref").First();
                 if (cr != null)
@@ -1171,7 +1179,7 @@ namespace HRworks.Controllers
                 cr = dc.Content.Find("@from").First();
                 if (cr != null)
                 {
-                    cr.Replace(masterfile.date_joined.Value.ToString("dd MMM yy"));
+                    cr.Replace(masterfile.date_joined.Value.ToString("dd MMM  yyyy"));
                 }
                 cr = dc.Content.Find("@to").First();
                 if (cr != null)
@@ -1183,7 +1191,7 @@ namespace HRworks.Controllers
                     {
                         temp = enddatewof.IndexOf("@")+1;
                         var endate = Convert.ToDateTime(enddatewof.Substring(temp));
-                        cr.Replace(endate.ToString("dd MMM yy"));
+                        cr.Replace(endate.ToString("dd MMM  yyyy"));
                     }
 
                 }
@@ -1222,7 +1230,7 @@ namespace HRworks.Controllers
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(155, 658));
                         formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+                        formattedText.Append(DateTime.Today.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(155, 638));
                         formattedText.Clear();
                         formattedText.Append(masterfile.employee_name);
@@ -1245,7 +1253,7 @@ namespace HRworks.Controllers
                         {
                             temp = enddatewof.IndexOf("@") + 1;
                             var endate = Convert.ToDateTime(enddatewof.Substring(temp));
-                            formattedText.Append(endate.ToString("dd MMM yy"));
+                            formattedText.Append(endate.ToString("dd MMM  yyyy"));
                             document.Pages[0].Content.DrawText(formattedText, new PdfPoint(155, 433));
                             formattedText.Clear();
                         }
@@ -1270,7 +1278,7 @@ namespace HRworks.Controllers
                     ContentRange cr = dc.Content.Find("@date").First();
                     if (cr != null)
                     {
-                        cr.Replace(DateTime.Today.ToString("dd MMM yy"));
+                        cr.Replace(DateTime.Today.ToString("dd MMM  yyyy"));
                     }
 
                     cr = dc.Content.Find("@name").First();
@@ -1307,7 +1315,7 @@ namespace HRworks.Controllers
                         var temp = enddatewof.IndexOf("@") + 1;
                         var temp2 = enddatewof.Substring(temp);
                         var endate = Convert.ToDateTime(temp2);
-                        cr.Replace(endate.ToString("dd MMM yy"));
+                        cr.Replace(endate.ToString("dd MMM  yyyy"));
                     }
                 dc.Save(filepathout);*/
                 }
@@ -1350,7 +1358,7 @@ namespace HRworks.Controllers
                         formattedText.Append(refstr);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(130, 553));
                         formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+                        formattedText.Append(DateTime.Today.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(130, 535));
                         formattedText.Clear();
                         formattedText.Append(masterfile.employee_name);
@@ -1364,7 +1372,7 @@ namespace HRworks.Controllers
                         }
 
                         formattedText.Append("This letter is to acknowledge the receipt and acceptance of your letter of resignation, received on ");
-                        formattedText.Append(certificatesavingtest_.submition_date.Value.ToString("dd MMM yy"));
+                        formattedText.Append(certificatesavingtest_.submition_date.Value.ToString("dd MMM  yyyy"));
                         formattedText.Append(" from the position of ");
                         if (contract != null)
                         {
@@ -1378,7 +1386,7 @@ namespace HRworks.Controllers
                         {
                             temp = enddatewof.IndexOf("@") + 1;
                             var endate = Convert.ToDateTime(enddatewof.Substring(temp));
-                            formattedText.Append(endate.ToString("dd MMM yy"));
+                            formattedText.Append(endate.ToString("dd MMM  yyyy"));
                         }
                         double y = 320;
                         int lineIndex = 0, charIndex = 0;
@@ -1454,21 +1462,19 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 360));
                         formattedText.Clear();
                         var enddatewof = certificatesavingtest_.destination;
                         var temp = enddatewof.IndexOf("@") + 1;
                         var temp2 = enddatewof.Substring(temp);
                         var endate = Convert.ToDateTime(temp2);
-                        formattedText.Append(endate.ToString("dd MMM yy"));
+                        formattedText.Append(endate.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(315, 360));
                         formattedText.Clear();
                         formattedText.Append(passport.passport_no);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 425));
                         formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(150, 710));
 
                     }
 
@@ -1478,10 +1484,12 @@ namespace HRworks.Controllers
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
+                        formattedText.Append("Date: " + DateTime.Today.ToString("dd MMM  yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(85, 710));
                         formattedText.Clear();
-                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = "Reference No.: " + csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(145, 686));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(85, 695));
                         formattedText.Clear();
                     }
 
@@ -1536,21 +1544,19 @@ namespace HRworks.Controllers
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
                         formattedText.Clear();
-                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 360));
                         formattedText.Clear();
                         var enddatewof = certificatesavingtest_.destination;
                         var temp = enddatewof.IndexOf("@") + 1;
                         var temp2 = enddatewof.Substring(temp);
                         var endate = Convert.ToDateTime(temp2);
-                        formattedText.Append(endate.ToString("dd MMM yy"));
+                        formattedText.Append(endate.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(315, 360));
                         formattedText.Clear();
                         formattedText.Append(passport.passport_no);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 425));
                         formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(150, 710));
 
                     }
 
@@ -1560,10 +1566,12 @@ namespace HRworks.Controllers
                         formattedText.TextAlignment = PdfTextAlignment.Left;
                         formattedText.Language = new PdfLanguage("English");
                         formattedText.FontSize = 11;
+                        formattedText.Append("Date: " + DateTime.Today.ToString("dd MMM  yyyy"));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(85, 710));
                         formattedText.Clear();
-                        var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
+                        var refstr = "Reference No.: " + csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(140, 686));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(85, 695));
                         formattedText.Clear();
                     }
 
@@ -1609,7 +1617,7 @@ namespace HRworks.Controllers
                         var temp = enddatewof.IndexOf("@") + 1;
                         var temp2 = enddatewof.Substring(temp);
                         var endate = Convert.ToDateTime(temp2);
-                        formattedText.Append(endate.ToString("dd MMM yy"));
+                        formattedText.Append(endate.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(315, 360));
                         formattedText.Clear();*/
                         var namelist = certificatesavingtest_.destination.Split(',');
@@ -1743,7 +1751,7 @@ namespace HRworks.Controllers
                         formattedText.FontSize = 11;
                         formattedText.FontWeight = PdfFontWeight.Bold;
                         formattedText.Clear();
-                        formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+                        formattedText.Append(DateTime.Today.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(111, 725));
                         formattedText.Clear();
                         var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
@@ -1768,7 +1776,7 @@ namespace HRworks.Controllers
                             document.Pages[0].Content.DrawText(formattedText, new PdfPoint(240, 440));
                             formattedText.Clear();
                         }
-                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+                        formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(215, 410));
                         formattedText.Clear();
                         formattedText.Append(bankvar.IBAN);
@@ -1820,14 +1828,16 @@ namespace HRworks.Controllers
             if (CS)
             {
                 var cstvar = db.certificatesavingtest_.ToList().Find(x => x.Id == id);
-                cstvar.status = "downloaded";
+                cstvar.status = "downloaded by " + User.Identity.Name;;
+                cstvar.modifieddate_by =   DateTime.Now;
                 db.Entry(cstvar).State = EntityState.Modified;
                 db.SaveChanges();
             }
             else
             {
                 var cstvar = db.certificatesavinggroves.ToList().Find(x => x.Id == id);
-                cstvar.status = "downloaded";
+                cstvar.status = "downloaded by " + User.Identity.Name;
+                cstvar.modifieddate_by = DateTime.Now;
                 db.Entry(cstvar).State = EntityState.Modified;
                 db.SaveChanges();
             }
@@ -2094,7 +2104,7 @@ namespace HRworks.Controllers
                 formattedText.Append(passport.passport_no);
                 document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 436));
                formattedText.Clear();
-                formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+                formattedText.Append(DateTime.Today.ToString("dd MMM  yyyy"));
                 document.Pages[0].Content.DrawText(formattedText, new PdfPoint(105, 710));
 
             }
@@ -2178,7 +2188,7 @@ using (var formattedText = new PdfFormattedText())
     formattedText.Language = new PdfLanguage("English");
     formattedText.FontSize = 11;
     formattedText.Clear();
-    formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM yy"));
+    formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM  yyyy"));
     document.Pages[0].Content.DrawText(formattedText, new PdfPoint(364, 338));
     formattedText.Clear();
     formattedText.Append(passport.passport_no);
@@ -2190,7 +2200,7 @@ using (var formattedText = new PdfFormattedText())
     formattedText.Append(certificatesavingtest_.destination);
     document.Pages[0].Content.DrawText(formattedText, new PdfPoint(500, 635));
     formattedText.Clear();
-    formattedText.Append(DateTime.Today.ToString("dd MMM yy"));
+    formattedText.Append(DateTime.Today.ToString("dd MMM  yyyy"));
     document.Pages[0].Content.DrawText(formattedText, new PdfPoint(65, 685));
 
 }
