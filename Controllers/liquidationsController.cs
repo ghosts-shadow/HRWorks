@@ -247,11 +247,19 @@ namespace HRworks.Controllers
             return this.View(sumlq.OrderBy(x => x.ldate));
         }
 
-        public ActionResult print(DateTime? pdate, int? prefr , int? preli)
+        public ActionResult print(DateTime? pdate, int? prefr , int? preli,bool? gr_cs)
         {
             var printlist1 = new List<liquidation>();
             var printlist = new List<liquidation>();
             var printlist2 = new List<liquidation>();
+            if (gr_cs.HasValue && gr_cs.Value)
+            {
+                ViewBag.gr_cs = true;
+            }
+            else
+            {
+                ViewBag.gr_cs = false;
+            }
             if (pdate.HasValue && prefr.HasValue)
             {
                 var liqireflist = this.db.liquidation_ref.Where(x => x.date == pdate && x.refr == prefr && x.liq == preli).ToList();
@@ -299,11 +307,19 @@ namespace HRworks.Controllers
 
             return this.View(printlist1);
         }
-        public ActionResult print2(DateTime? pdate, int? prefr , int? preli)
+        public ActionResult print2(DateTime? pdate, int? prefr , int? preli, bool? gr_cs)
         {
             var printlist1 = new List<liquidation>();
             var printlist = new List<liquidation>();
             var printlist2 = new List<liquidation>();
+            if (gr_cs.HasValue && gr_cs.Value)
+            {
+                ViewBag.gr_cs = true;
+            }
+            else
+            {
+                ViewBag.gr_cs = false;
+            }
             if (pdate.HasValue && prefr.HasValue)
             {
                 var liqireflist = this.db.liquidation_ref.Where(x => x.date == pdate && x.refr == prefr && x.liq == preli).ToList();

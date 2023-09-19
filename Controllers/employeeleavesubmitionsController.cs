@@ -1276,6 +1276,7 @@ namespace HRworks.Controllers
         
         public void SendMail(string msg, string action, int elsid)
         {
+
             var empleavelist = db.employeeleavesubmitions.ToList();
             var empleave = empleavelist.Find(x => x.Id == elsid);
             var message = new MimeMessage();
@@ -1410,7 +1411,7 @@ namespace HRworks.Controllers
                 }
             }
 
-            if (message.To.Count != 0)
+            /*if (message.To.Count != 0)
             {
                 using (var client = new SmtpClient())
                 {
@@ -1420,7 +1421,7 @@ namespace HRworks.Controllers
                     client.Send(message);
                     client.Disconnect(true);
                 }
-            }
+            }*/
         }
 
         protected override void Dispose(bool disposing)

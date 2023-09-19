@@ -25,7 +25,7 @@ namespace HRworks.Controllers
         public ActionResult Index()
         {
             var detailsinarabics = db.detailsinarabics.Include(d => d.master_file);
-            return View(detailsinarabics.ToList());
+            return View(detailsinarabics.OrderBy(x=>x.master_file.employee_no).ToList());
         }
 
         // GET: detailsinarabics/Details/5
@@ -54,7 +54,7 @@ namespace HRworks.Controllers
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
-            ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_name");
+            ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no");
             return View();
         }
 
@@ -69,8 +69,6 @@ namespace HRworks.Controllers
             {
                 db.detailsinarabics.Add(detailsinarabic);
                 db.SaveChanges();
-                var lastcerid = db.certificatesavingtest_.ToList().Last();
-                //SendMail(lastcerid.Id);
                 return RedirectToAction("Index");
             }
 
@@ -82,7 +80,7 @@ namespace HRworks.Controllers
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
-            ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_name", detailsinarabic.employee_id);
+            ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no", detailsinarabic.employee_id);
             return View(detailsinarabic);
         }
 
@@ -106,7 +104,7 @@ namespace HRworks.Controllers
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
-            ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_name", detailsinarabic.employee_id);
+            ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no", detailsinarabic.employee_id);
             return View(detailsinarabic);
         }
 
@@ -131,7 +129,7 @@ namespace HRworks.Controllers
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
-            ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_name", detailsinarabic.employee_id);
+            ViewBag.employee_id = new SelectList(afinallist, "employee_id", "employee_no", detailsinarabic.employee_id);
             return View(detailsinarabic);
         }
 

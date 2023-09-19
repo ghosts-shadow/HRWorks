@@ -923,10 +923,17 @@
 
         public string Unprotect(string protectedText)
         {
-            var protectedBytes = Convert.FromBase64String(protectedText);
-            var unprotectedBytes = MachineKey.Unprotect(protectedBytes, Purpose);
-            var unprotectedText = Encoding.UTF8.GetString(unprotectedBytes);
-            return unprotectedText;
+            try
+            {
+                var protectedBytes = Convert.FromBase64String(protectedText);
+                var unprotectedBytes = MachineKey.Unprotect(protectedBytes, Purpose);
+                var unprotectedText = Encoding.UTF8.GetString(unprotectedBytes);
+                return unprotectedText;
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
         }
 
         protected override void Dispose(bool disposing)

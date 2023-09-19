@@ -137,12 +137,26 @@ namespace HRworks.Controllers
             return RedirectToAction("hrapproval");
         }
 
-        public string Unprotect(string protectedText)
+        /*public string Unprotect(string protectedText)
         {
             var protectedBytes = Convert.FromBase64String(protectedText);
             var unprotectedBytes = MachineKey.Unprotect(protectedBytes, Purpose);
             var unprotectedText = Encoding.UTF8.GetString(unprotectedBytes);
             return unprotectedText;
+        }*/
+        public string Unprotect(string protectedText)
+        {
+            try
+            {
+                var protectedBytes = Convert.FromBase64String(protectedText);
+                var unprotectedBytes = MachineKey.Unprotect(protectedBytes, Purpose);
+                var unprotectedText = Encoding.UTF8.GetString(unprotectedBytes);
+                return unprotectedText;
+            }
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
         }
         // GET: certificatesavingtest_/Details/5
         public ActionResult Details(int? id, bool CS)
@@ -176,7 +190,7 @@ namespace HRworks.Controllers
 
             var masterfile = afinallist.Find(x => x.employee_id == certificatesavingtest_.employee_id);
             var passport = db.passports.ToList().OrderByDescending(x => x.date_changed).ToList()
-                .Find(y => y.employee_id == masterfile.employee_id);
+                .Find(y => y.employee_no == masterfile.employee_id);
             var contract = db.contracts.ToList().OrderByDescending(x => x.date_changed).ToList()
                 .Find(y => y.employee_no == masterfile.employee_id);
             var nameinarlist = db.detailsinarabics.ToList();
@@ -190,6 +204,16 @@ namespace HRworks.Controllers
             }
             var banklist = db.bank_details.ToList();
             var bankvar = banklist.Find(x => x.employee_no == certificatesavingtest_.employee_id);
+            if (bankvar == null)
+            {
+                bankvar = new bank_details();
+                bankvar.IBAN = "";
+            }
+            if(passport == null)
+            {
+                passport = new passport();
+                passport.passport_no = "";
+            }
 
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
             if (certificatesavingtest_.certificate_type == 1)
@@ -609,12 +633,12 @@ namespace HRworks.Controllers
 
                         if (contract != null)
                         {
-                        formattedText.Append(contract.designation);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(160, 455));
-                        formattedText.Clear();
-                        formattedText.Append(Unprotect(contract.salary_details));
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(192, 431));
-                        formattedText.Clear();
+                            formattedText.Append(contract.designation);
+                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(160, 455));
+                            formattedText.Clear();
+                            formattedText.Append(Unprotect(contract.salary_details));
+                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(192, 431));
+                            formattedText.Clear();
                         }
                         formattedText.Append(masterfile.date_joined.Value.ToString("dd MMM  yyyy"));
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(160, 410));
@@ -1756,7 +1780,7 @@ namespace HRworks.Controllers
                         formattedText.Clear();
                         var refstr = csorgr + certificatesavingtest_.Id.ToString("D") + "-" + DateTime.Now.ToString("yy");
                         formattedText.Append(refstr);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(142, 711));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(111, 710));
                         formattedText.Clear();
                         formattedText.Append(certificatesavingtest_.destination);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(110, 690));
@@ -1838,7 +1862,7 @@ namespace HRworks.Controllers
                 var cstvar = db.certificatesavinggroves.ToList().Find(x => x.Id == id);
                 cstvar.status = "downloaded by " + User.Identity.Name;
                 cstvar.modifieddate_by = DateTime.Now;
-                db.Entry(cstvar).State = EntityState.Modified;
+               db.Entry(cstvar).State = EntityState.Modified;
                 db.SaveChanges();
             }
         end:;
@@ -1955,7 +1979,7 @@ namespace HRworks.Controllers
                 if (contractlist.Exists(x => x.employee_no == cstvar.master_file.employee_id))
                 {
                     var temp = contractlist.Find(x => x.employee_no == cstvar.master_file.employee_id);
-                    if (!temp.designation.IsNullOrWhiteSpace())
+                    if (temp != null && !temp.designation.IsNullOrWhiteSpace())
                     {
                         desig = temp.designation;
                     }

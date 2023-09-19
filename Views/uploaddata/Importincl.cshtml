@@ -80,7 +80,7 @@
 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value=" back to main"/>
 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Downloadincsample")'" value="download incsample"/>
 <br/>
-@using (Html.BeginForm("ImportExcel", "contracts", FormMethod.Post, new {enctype = "multipart/form-data"}))
+@using (Html.BeginForm("importincl", "uploaddata", FormMethod.Post, new {enctype = "multipart/form-data"}))
 
 {
     <table>

@@ -1623,6 +1623,7 @@
     <Content Include="Views\certificatesavingtest_\hrapproval.cshtml" />
     <Content Include="Views\Googleauth\TwoFactorAuthenticate.cshtml" />
     <Content Include="Views\contractlogins\conacces.cshtml" />
+    <Content Include="Views\uploaddata\ImportbankDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

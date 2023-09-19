@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -64,9 +65,9 @@ namespace HRworks.Controllers
                         if (dt.Rows.Count > 0)
                         {
                             var leavecheck = this.db.contracts.ToList();
-                            var pro = new  insurance();
                             foreach (DataRow dr in dt.Rows)
                             {
+                            var pro = new  insurance();
                                 foreach (DataColumn column in dt.Columns)
                                 {
                                     if (dr[column] == null || dr[column].ToString() == " ") goto e;
@@ -155,6 +156,111 @@ namespace HRworks.Controllers
         }
 
 
+
+        public ActionResult Importbankdetails()
+        {
+            return this.View();
+        }
+        [ActionName("Importbankdetails")]
+        [HttpPost]
+        public ActionResult ImportbankDetails()
+        {
+            if (this.Request.Files["FileUpload1"].ContentLength > 0)
+            {
+                var extension = Path.GetExtension(this.Request.Files["FileUpload1"].FileName).ToLower();
+                string query = null;
+                var connString = string.Empty;
+
+                string[] validFileTypes = { ".csv" };
+
+                var path1 = string.Format(
+                    "{0}/{1}",
+                    this.Server.MapPath("~/Content/Uploads"),
+                    this.Request.Files["FileUpload1"].FileName);
+                if (!Directory.Exists(path1)) Directory.CreateDirectory(this.Server.MapPath("~/Content/Uploads"));
+                var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed)
+                    .ToList();
+                var afinallist = new List<master_file>();
+                foreach (var file in alist)
+                {
+                    if (afinallist.Count == 0) afinallist.Add(file);
+
+                    if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+                }
+
+                if (validFileTypes.Contains(extension))
+                {
+                    if (System.IO.File.Exists(path1)) System.IO.File.Delete(path1);
+
+                    this.Request.Files["FileUpload1"].SaveAs(path1);
+                    if (extension == ".csv")
+                    {
+                        var dt = Utility.ConvertCSVtoDataTable(path1);
+                        this.ViewBag.Data = dt;
+                        if (dt.Rows.Count > 0)
+                        {
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                var pro = new bank_details();
+                                foreach (DataColumn column in dt.Columns)
+                                {
+                                    if (dr[column] == null || dr[column].ToString() == " ") goto e;
+                                    if (column.ColumnName == "IBAN")
+                                    {
+                                        var dtt = dr[column].ToString();
+                                        pro.IBAN = dtt;
+                                    }
+
+                                    if (column.ColumnName == "Bank Name")
+                                    {
+                                        var dtt = dr[column].ToString();
+                                        pro.bank_name = dtt;
+                                    }
+
+                                    if (column.ColumnName == "EMPNO")
+                                    {
+                                        int.TryParse(dr[column].ToString(), out var idm);
+                                        if (idm != 0)
+                                        {
+                                            var epid = afinallist.Find(x => x.employee_no == idm);
+                                            if (epid == null) goto e;
+                                            pro.employee_no = epid.employee_id;
+                                            var dob = epid.dob.Value;
+                                            var age = 0;
+                                            age = DateTime.Now.Year - dob.Year;
+                                            if (DateTime.Now.DayOfYear < dob.DayOfYear)
+                                                age = age - 1;
+                                        }
+                                    }
+                                }
+                                var banklist = db.bank_details.ToList();
+                                if (banklist.Exists(x => x.employee_no == pro.employee_no))
+                                {
+                                    var bankvar = banklist.Find(x => x.employee_no.Equals(pro.employee_no));
+                                    bankvar.bank_name = pro.bank_name;
+                                    bankvar.IBAN = pro.IBAN;
+                                    db.Entry(bankvar).State = EntityState.Modified;
+                                    db.SaveChanges();
+                                }
+                                else
+                                {
+                                    this.db.bank_details.Add(pro);
+                                    this.db.SaveChanges();
+                                }
+
+                            e:;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                this.ViewBag.Error = "Please Upload Files in .csv format";
+            }
+
+            return this.View();
+        }
 
         public void Downloadincsample()
         {

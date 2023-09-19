@@ -139,14 +139,25 @@
             <input type="number" name="prefr" id="prefr" />
             liq.:
             <input type="number" name="preli" id="preli" />
+            @Html.Label("grove"):
+            @Html.CheckBox("gr_cs", new { @class = "radio-inline" })
             <input type="submit" value="search" class="btn btn-default" id="search" />
             <input type="button" value="print" class="btn btn-default" onclick="print();" />
         </div>
     }
     <div id="liqui" style="padding: 3%; background-color: white; font-family: Calibri !important; font-size: 20px !important;">
         <div style="border: 1px solid black; padding: 3%;">
-            <div class="row" style="left: 35%; position: relative; top: 0%">
-                <img src="~/img/logo.jpg" height="150" width="200" />
+            <div class="row" style="left: 35%; position: relative; top: 0%; left: 40%">
+                @{
+                    if ((bool)ViewBag.gr_cs)
+                    {
+                        <img src="~/img/logo_Grove.png" height="100" width="150" />
+                    }
+                    else
+                    {
+                        <img src="~/img/CITI SCAPE LOGO.png" height="100" width="150" />
+                    }
+                }
             </div>
             <br />
             <div class="row">
