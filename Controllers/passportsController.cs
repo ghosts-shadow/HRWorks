@@ -225,7 +225,7 @@ namespace HRworks.Controllers
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
             {

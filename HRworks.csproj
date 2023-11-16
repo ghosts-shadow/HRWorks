@@ -1624,6 +1624,7 @@
     <Content Include="Views\Googleauth\TwoFactorAuthenticate.cshtml" />
     <Content Include="Views\contractlogins\conacces.cshtml" />
     <Content Include="Views\uploaddata\ImportbankDetails.cshtml" />
+    <Content Include="Views\Leaves\leavebaltill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

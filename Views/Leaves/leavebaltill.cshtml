@@ -1,0 +1,197 @@
+﻿@model IEnumerable<HRworks.Models.leavecalperyear>
+
+@{
+    ViewBag.Title = "leavebaltill";
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#datepicker").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy"
+        });
+    });
+</script>
+<h2>leave balance till</h2>
+
+@using (Html.BeginForm())
+{
+    <input type="text" id="datepicker" name="caltill" class="form-control" />
+    <br />
+    <input type="submit" value="Search" class="btn btn-default" />
+}
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.balances_of_year)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.period)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.unpaid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.net_period)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.accrued)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.annual_leave_taken)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Annual_Leave_Applied)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Annual_Leave_total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.leave_balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.forfited_balance)
+        </th>
+        @*
+        <th>
+            @Html.DisplayNameFor(model => model.sick_leave_balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.compassionate_leave_balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.maternity_leave_balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.haj_leave_balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UDDAH_leave_balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.escort_leave_balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.paternity_leave_balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sabbatical_leave_balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.study_leave_balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_updated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sick_leave_balance_industrial)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sumittedleavebal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.leave_count)
+        </th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.balances_of_year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.period)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.unpaid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.net_period)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.accrued)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.annual_leave_taken)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Annual_Leave_Applied)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Annual_Leave_total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.leave_balance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.forfited_balance)
+            </td>
+            @*
+        <td>
+            @Html.DisplayFor(modelItem => item.sick_leave_balance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.compassionate_leave_balance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.maternity_leave_balance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.haj_leave_balance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UDDAH_leave_balance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.escort_leave_balance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.paternity_leave_balance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sabbatical_leave_balance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.study_leave_balance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date_updated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sick_leave_balance_industrial)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sumittedleavebal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.leave_count)
+        </td>*@
+        </tr>
+    }
+
+</table>

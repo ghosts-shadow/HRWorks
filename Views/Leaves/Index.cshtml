@@ -54,6 +54,9 @@
                 @if (User.IsInRole("super_admin") || User.IsInRole("slapproval"))
                 {
                     <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("lbpyindex")'" value="leave balance per year breakup" />
+                    <br />
+                    <br />
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leavebaltill")'" value="leave balance till" />
                 }
             </div>
         </div>
