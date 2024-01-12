@@ -269,6 +269,7 @@ namespace HRworks.Controllers
                 }
             }
 
+            /*
             if (DateTime.Today <= new DateTime(DateTime.Today.Year,3,31))
             {
                 if (leavebal2020.Count > 1 && (leavebal2020[1].leave_balance > 0 || leavebal2020[1].sumittedleavebal > 0))
@@ -298,6 +299,7 @@ namespace HRworks.Controllers
             }
             else
             {
+            }*/
                 if (leavebal2020[0].leave_balance < leavebal2020[0].sumittedleavebal)
                 {
                     this.ViewBag.lbal = leavebal2020[0].leave_balance;
@@ -306,7 +308,6 @@ namespace HRworks.Controllers
                 {
                     this.ViewBag.lbal = leavebal2020[0].sumittedleavebal;
                 }
-            }
 
             var per = 0d;
             var ump1 = 0d;
@@ -479,25 +480,12 @@ namespace HRworks.Controllers
             var jd = empuser.master_file.date_joined;
             var leavelistc = this.db.Leaves.Where(x=>x.Employee_id == employeeleavesubmition.Employee_id).ToList();
             var empsubleave = db.employeeleavesubmitions.ToList();
-            var leaveabal = db.leavecalperyears.OrderBy(x=>x.balances_of_year).ToList().FindAll(x => x.Employee_id == empuser.master_file.employee_id && (x.balances_of_year.Year == DateTime.Today.Year - 1 || x.balances_of_year.Year == DateTime.Today.Year ));
+            var leaveabal = db.leavecalperyears.OrderBy(x=>x.balances_of_year).ToList().FindAll(x => x.Employee_id == empuser.master_file.employee_id /*&& (x.balances_of_year.Year == DateTime.Today.Year - 1 || x.balances_of_year.Year == DateTime.Today.Year )*/).Last();
             //var leaveabal = db.leavecal2020.ToList().Find(x => x.Employee_id == empuser.master_file.employee_id);
             var leaveperyeartemp = new leavecalperyear();
             leaveperyeartemp.Employee_id = empuser.master_file.employee_id;
-            leaveperyeartemp.sumittedleavebal = 0d;
-            leaveperyeartemp.leave_balance = 0d;
-            foreach (var leavecalperyear in leaveabal)
-            {
-                if (DateTime.Today <= new DateTime(DateTime.Today.Year, 3 ,31))
-                {
-                    leaveperyeartemp.leave_balance += leavecalperyear.leave_balance;
-                    leaveperyeartemp.sumittedleavebal += leavecalperyear.sumittedleavebal;
-                }
-                else
-                {
-                    leaveperyeartemp.leave_balance = leavecalperyear.leave_balance;
-                    leaveperyeartemp.sumittedleavebal = leavecalperyear.sumittedleavebal;
-                }
-            }
+            leaveperyeartemp.leave_balance = leaveabal.leave_balance;
+            leaveperyeartemp.sumittedleavebal = leaveabal.sumittedleavebal;
             if (employeeleavesubmition.leave_type == "1")
             {
                 var leavebalsub = 0d;
@@ -1030,14 +1018,17 @@ namespace HRworks.Controllers
                 foreach (var emprel2 in relationlist1)
                 {
                     var DLRtemp1 = db.Leaves.Where(x =>
-                        x.Employee_id == emprel2.Employee_id && x.Start_leave.Value.Year == DateTime.Now.Year /*&&
+                        x.Employee_id == emprel2.Employee_id && x.Start_leave.Value.Year <= DateTime.Now.Year && x.End_leave.Value.Year >= DateTime.Now.Year /*&&
                         x.leave_type == "1"*/);
                     DLRtemplist.AddRange(DLRtemp1);
                 }
                 var DLRtemp = db.Leaves.Where(x =>
-                    x.Employee_id == emprel.Employee_id && x.Start_leave.Value.Year == DateTime.Now.Year /*&&
-                    x.leave_type == "1"*/);
-                DLRtemplist.AddRange(DLRtemp);
+                    x.Employee_id == emprel.Employee_id && x.Start_leave.Value.Year <= DateTime.Now.Year && x.End_leave.Value.Year >= DateTime.Now.Year /*&&
+                    x.leave_type == "1"*/).ToList();
+                if (DLRtemp.Count > 0)
+                {
+                    DLRtemplist.AddRange(DLRtemp);
+                }
             }
             foreach(var empin in DLRtemplist)
             {
@@ -1064,7 +1055,7 @@ namespace HRworks.Controllers
                 }
             }
 
-            return View(DLR.OrderByDescending(x=>x.Start_leave).ThenByDescending(x=>x.Date).ThenBy(x=>x.master_file.employee_no).ToList());
+            return View(DLR.OrderBy(x=>x.End_leave).ThenByDescending(x=>x.Date).ThenBy(x=>x.master_file.employee_no).ToList());
         }
 
 

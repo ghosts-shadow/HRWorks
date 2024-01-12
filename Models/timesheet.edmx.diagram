@@ -70,6 +70,9 @@
         <AssociationConnector Association="LogisticsSoftModel.FK_towemp_Toref" />
         <AssociationConnector Association="LogisticsSoftModel.FK_towemp_To" />
         <AssociationConnector Association="LogisticsSoftModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="LogisticsSoftModel.access_date" Width="1.5" PointX="18.375" PointY="14.75" />
+        <EntityTypeShape EntityType="LogisticsSoftModel.Pattendence" Width="1.5" PointX="18.375" PointY="18.75" />
+        <EntityTypeShape EntityType="LogisticsSoftModel.sharepointatt" Width="1.5" PointX="19.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

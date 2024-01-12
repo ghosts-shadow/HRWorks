@@ -374,402 +374,430 @@
 @using (Html.BeginForm())
 {
     @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "empno" })
-    <br />
-    <br />
-    <input type="text" id="datepicker1" name="eddate" class="form-control" />
-    <br />
-    <input type="submit" value="Search" class="btn btn-default" />
-    <input type="button" class="btn btn-default" value="print" onclick="print()" />
-
+    <br/>
+    <br/>
+    <input type="text" id="datepicker1" name="eddate" class="form-control"/>
+    <br/>
+    <input type="submit" value="Search" class="btn btn-default"/>
+    <input type="button" class="btn btn-default" value="print" onclick="print()"/>
 }
-<br />
-<br />
-<br />
-<br />
+<br/>
+<br/>
+<br/>
+<br/>
 @if (ViewBag.Employee_id != null && ViewBag.eddate != null)
 {
     <div class="container" id="Payslip1">
-        <img src="~/img/payslip-1/payslip.jpg" style="width: 100%; height: 100%" />
-        <div class="payslip">
-            <b>
-                Payslip for the month of
-                @if (ViewBag.eddate != null)
-                {@ViewBag.eddate.ToString("MMMM yyyy")
+    <img src="~/img/payslip-1/payslip.jpg" style="width: 100%; height: 100%"/>
+    <div class="payslip">
+        <b>
+            Payslip for the month of
+            @if (ViewBag.eddate != null)
+            {
+                @ViewBag.eddate.ToString("MMMM yyyy")
             }
-            </b>
-            
-        </div>
-        <div class="Project">@Html.DisplayFor(modelItem => modelItem.contract.departmant_project) </div>
-        <div class="Employee">@Html.DisplayFor(model => model.master_file.employee_no) </div>
-        <div class="Employee1">
-            
-                @{
-                    var str = Model.master_file.employee_name;
-                    var index = str.IndexOf(' ', str.IndexOf(' ') + 1);
-                    var firstChunk = str.Substring(0, index); @firstChunk
-                }
-            
-        </div>
-        <div class="position">@Html.DisplayFor(modelItem => modelItem.contract.designation)</div>
-        <div class="DateJoin">@Html.DisplayFor(modelItem => modelItem.master_file.date_joined)</div>
-        <div class="Grade">@Html.DisplayFor(modelItem => modelItem.contract.grade)</div>
-        <div class="basic">
-            
-                @{
-                    var a = 0d;
-                    var basperh = 0d;
-                    if (Model.contract != null)
-                    {
-                        var bas = payrolesController.Unprotect(Model.contract.basic);
-                        double.TryParse(bas, out var bas1);
-                        basperh = ((bas1 * 12) / 365) / 8;
-                        @bas1.ToString("#,##0.00")
-                    }
-                }
-            
-        </div>
-        <div class="food_allowance">
-            
-                @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.contract.food_allowance), out a);@a.ToString("#,##0.00")
-                }
-            
-        </div>
-        <div class="Arrears">
-            
-                @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.contract.arrears), out a);@a.ToString("#,##0.00")
-                }
-            
-        </div>
-        <div class="Housing">
-            
-                @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.contract.housing_allowance), out a);@a.ToString("#,##0.00")
-                }
-            
-        </div>
-        <div class="FOT">
-            
-            @{
-                var leave = 0d;
-                if (Model.paysaved.LWOP != null)
-                {
-                    leave = (double) Model.paysaved.LWOP;
-                }
-                var abs = 0d;
-                if (Model.paysaved.Absents != null)
-                {
-                    abs = (double) Model.paysaved.Absents;
-                }
-                var ldaysf = leave + abs;
-                var daysleft = DateTime.DaysInMonth(Model.paysaved.forthemonth.Value.Year, Model.paysaved.forthemonth.Value.Month) - leave - abs - ViewBag.al;
-            }
-            @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.contract.FOT), out a);
-                    if (ldaysf != 0)
-                    {
-                        a = (a * 12 / 365) * (daysleft);
-                    }
-                    @a.ToString("#,##0.00")
-                }
-                else
-                {
-                    var z = 0;
-                    @z.ToString("#,##0.00")
-                }
-            
-        </div>
-        <div class="Ticket">
-            
-                @if (Model.paysaved.TicketAllowance_ != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.TicketAllowance_), out a);@a.ToString("#,##0.00")
-                }
-                else
-                {
-                    var z = 0;
-                    @z.ToString("#,##0.00")
-                }
-            
-        </div>
-        <div class="transportation">
-            
-                @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.contract.transportation_allowance), out a);@a.ToString("#,##0.00")
-                }
-                else
-                {
-                    var z = 0;
-                    @z.ToString("#,##0.00")
-                }
-            
-        </div>
-        <div class="LAllow">
-            
-                @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.contract.living_allowance), out a);@a.ToString("#,##0.00")
-                }
-                else
-                {
-                    var z = 0;
-                    @z.ToString("#,##0.00")
-                }
-            
-        </div>
-        <div class="OTT">
-            
-                @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.TotalOT), out var a1);
-                    @a1.ToString("#,##0.00")
-                }
-            
-        </div>
-        <div class="OTR">
-            
-                @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.OTRegular), out var a1);
-                    @a1
-                }
-            
-        </div>
-        <div class="OTF">
-            
-                @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.OTFriday), out var a1);
-                    @a1
-                }
-            
-        </div>
-        <div class="OTH">
-            
-                @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.HolidayOT), out var a1);
-                    @a1
-                }
-            
-        </div>
-        <div class="OTR1">
-            
-                @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.OTRegular), out var z);
-                    var adays = z;
-                    z = z * 1.25 * basperh;@z.ToString("#,##0.00")
-                }
-            
-        </div>
-        <div class="OTF1">
-            
-                @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.OTFriday), out var c);
-                    var cdays = c;
-                    c = c * 1.5 * basperh;@c.ToString("#,##0.00")
-                }
-            
-        </div>
-        <div class="OTH1">
-            
-                @if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.HolidayOT), out var b);
-                    var bdays = b;
-                    b = b * 2.5 * basperh;@b.ToString("#,##0.00")
-                }
-            
-        </div>
-        <div class="Gross">
-            
-                @{
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.TotalOT), out var a2);
-                    var ttp = payrolesController.Unprotect(Model.paysaved.totalpayable);
-                    double.TryParse(ttp, out var a3);
-                    var gro = a3 + a2;
-                    @gro.ToString("#,##0.00")
-                }
-            
-        </div>
-        <div class="AnnualLeave">@ViewBag.al</div><div class="AnnualLeave1">@ViewBag.lbal</div>
-        <div class="Absent">@if(Model.paysaved.Absents != null){@Html.DisplayFor(modelItem => modelItem.paysaved.Absents)}
-                            else
-                            {
-                                var z = 0d;@z
-                            }</div>
-        <div class="LWOP">@if (Model.paysaved.LWOP== null)
-                             {
-                                 var z = 0d;@z
-                             }
-                             else
-                             {
-                                 @Html.DisplayFor(modelItem => modelItem.paysaved.LWOP)
-                             } </div>
-        <div class="SL">
-            
-                @ViewBag.sl
-            
-        </div>
-        <div class="mat">
-            
-                @ViewBag.mat
-            
-        </div>
-        <div class="haj">
-            
-                @ViewBag.haj
-            
-        </div>
-        <div class="com">
-            
-                @ViewBag.com
-            
-        </div>
-        <div class="Holiday">
-            
-                @ViewBag.holi
-            
-        </div>
-                                                             <div class="days">
-                                                                 @daysleft
+        </b>
 
-                                                             </div>
-        <div class="Absentval">
-            @{
-                var labs = 0d;
-                var ldays = 0d;
-                var ldaysamt = 0d;
-                if (Model.contract != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.contract.salary_details), out var gross);
-                    if (Model.paysaved.Absents != null)
-                    {
-                        labs = (double) Model.paysaved.Absents;
-                    }
-                    if (Model.paysaved.LWOP != null)
-                    {
-                        ldays = (double) Model.paysaved.LWOP;
-                    }
-                    var absamt = (labs) * (gross * 12 / 365);
-                    ldaysamt = (ldays) * (gross * 12 / 365);
-                    @absamt.ToString("#,##0.00")
-                }
-            }
-        </div>
-        <div class="Late">
-            @{
-                if (Model.paysaved.Timekeeping != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.Timekeeping), out var tk);@tk.ToString("#,##0.00")
-                }
-                else
-                {
-                    var z = 0;
-                    @z.ToString("#,##0.00")
-                }
-            }
-        </div>
-        <div class="traffic">
-            @{
-                if (Model.paysaved.TrafficFines != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.TrafficFines), out var tf);@tf.ToString("#,##0.00")
-                }
-                else
-                {
-                    var z = 0;
-                    @z.ToString("#,##0.00")
-                }
-            }
-        </div>
-        <div class="Housing1">
-            @{
-                if (Model.paysaved.TrafficFines != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.HouseAllow), out var tf);@tf.ToString("#,##0.00")
-                }
-                else
-                {
-                    var z = 0;
-                    @z.ToString("#,##0.00")
-                }
-            }
-        </div>
-        <div class="LWOPamt">@ldaysamt.ToString("#,##0.00")</div>
-        <div class="communication">
-            @{
-                if (Model.paysaved.Communication != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.Communication), out var co);@co.ToString("#,##0.00")
-                }
-                else
-                {
-                    var z = 0;
-                    @z.ToString("#,##0.00")
-                }
+    </div>
+    <div class="Project">@Html.DisplayFor(modelItem => modelItem.contract.departmant_project) </div>
+    <div class="Employee">@Html.DisplayFor(model => model.master_file.employee_no) </div>
+    <div class="Employee1">
 
+        @{
+            var str = Model.master_file.employee_name;
+            var index = str.IndexOf(' ', str.IndexOf(' ') + 1);
+            var firstChunk = str.Substring(0, index);
+            @firstChunk
+        }
+
+    </div>
+    <div class="position">@Html.DisplayFor(modelItem => modelItem.contract.designation)</div>
+    <div class="DateJoin">@Html.DisplayFor(modelItem => modelItem.master_file.date_joined)</div>
+    <div class="Grade">@Html.DisplayFor(modelItem => modelItem.contract.grade)</div>
+    <div class="basic">
+
+        @{
+            var a = 0d;
+            var basperh = 0d;
+            if (Model.contract != null)
+            {
+                var bas = payrolesController.Unprotect(Model.contract.basic);
+                double.TryParse(bas, out var bas1);
+                basperh = ((bas1 * 12) / 365) / 8;
+                @bas1.ToString("#,##0.00")
             }
-        </div>
-        <div class="CashAdvanc">
-            @{
-                if (Model.paysaved.cashAdvances != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.cashAdvances), out var ca);@ca.ToString("#,##0.00")
-                }
-                else
-                {
-                    var z = 0;
-                    @z.ToString("#,##0.00")
-                }
-            }
-        </div>
-        <div class="Adjustments">
-            @{
-                if (Model.paysaved.others != null)
-                {
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.others), out var ot);@ot.ToString("#,##0.00")
-                }
-                else
-                {
-                    var z = 0;
-                    @z.ToString("#,##0.00")
-                }
-            }
-        </div>
-        <div class="TotalDeduction">
-    @{
-        if (Model.paysaved.TotalDedution != null)
+        }
+
+    </div>
+    <div class="food_allowance">
+
+        @if (Model.contract != null)
         {
-            double.TryParse(payrolesController.Unprotect(Model.paysaved.TotalDedution), out var tot);@tot.ToString("#,##0.00")
+            double.TryParse(payrolesController.Unprotect(Model.contract.food_allowance), out a);
+            @a.ToString("#,##0.00")
+        }
+
+    </div>
+    <div class="Arrears">
+
+        @if (Model.contract != null)
+        {
+            double.TryParse(payrolesController.Unprotect(Model.contract.arrears), out a);
+            @a.ToString("#,##0.00")
+        }
+
+    </div>
+    <div class="Housing">
+
+        @if (Model.contract != null)
+        {
+            double.TryParse(payrolesController.Unprotect(Model.contract.housing_allowance), out a);
+            @a.ToString("#,##0.00")
+        }
+
+    </div>
+    <div class="FOT">
+
+        @{
+            var leave = 0d;
+            if (Model.paysaved.LWOP != null)
+            {
+                leave = (double)Model.paysaved.LWOP;
+            }
+            var abs = 0d;
+            if (Model.paysaved.Absents != null)
+            {
+                abs = (double)Model.paysaved.Absents;
+            }
+            var ldaysf = leave + abs;
+            var daysleft = DateTime.DaysInMonth(Model.paysaved.forthemonth.Value.Year, Model.paysaved.forthemonth.Value.Month) - leave - abs - ViewBag.al;
+        }
+        @if (Model.contract != null)
+        {
+            double.TryParse(payrolesController.Unprotect(Model.contract.FOT), out a);
+            if (ldaysf != 0)
+            {
+                a = (a * 12 / 365) * (daysleft);
+            }
+            @a.ToString("#,##0.00")
         }
         else
         {
             var z = 0;
+            @z.ToString("#,##0.00")
+        }
+
+    </div>
+    <div class="Ticket">
+
+
+        @if (Model.paysaved.TicketAllowance_ != null && payrolesController.IsBase64Encoded(Model.paysaved.TicketAllowance_))
+        {
+            double.TryParse(payrolesController.Unprotect(Model.paysaved.TicketAllowance_), out a);
+            @a.ToString("#,##0.00")
+        }
+        else
+        {
+            var z = 0;
+            @z.ToString("#,##0.00")
+        }
+
+    </div>
+    <div class="transportation">
+
+        @if (Model.contract != null)
+        {
+            double.TryParse(payrolesController.Unprotect(Model.contract.transportation_allowance), out a);
+            @a.ToString("#,##0.00")
+        }
+        else
+        {
+            var z = 0;
+            @z.ToString("#,##0.00")
+        }
+
+    </div>
+    <div class="LAllow">
+
+        @if (Model.contract != null)
+        {
+            double.TryParse(payrolesController.Unprotect(Model.contract.living_allowance), out a);
+            @a.ToString("#,##0.00")
+        }
+        else
+        {
+            var z = 0;
+            @z.ToString("#,##0.00")
+        }
+
+    </div>
+    <div class="OTT">
+
+        @if (Model.contract != null)
+        {
+            double.TryParse(payrolesController.Unprotect(Model.paysaved.TotalOT), out var a1);
+            @a1.ToString("#,##0.00")
+        }
+
+    </div>
+    <div class="OTR">
+
+        @if (Model.contract != null)
+        {
+            double.TryParse(payrolesController.Unprotect(Model.paysaved.OTRegular), out var a1);
+            @a1
+        }
+
+    </div>
+    <div class="OTF">
+
+        @if (Model.contract != null)
+        {
+            double.TryParse(payrolesController.Unprotect(Model.paysaved.OTFriday), out var a1);
+            @a1
+        }
+
+    </div>
+    <div class="OTH">
+
+        @if (Model.contract != null)
+        {
+            double.TryParse(payrolesController.Unprotect(Model.paysaved.HolidayOT), out var a1);
+            @a1
+        }
+
+    </div>
+    <div class="OTR1">
+
+        @if (Model.contract != null)
+        {
+            double.TryParse(payrolesController.Unprotect(Model.paysaved.OTRegular), out var z);
+            var adays = z;
+            z = z * 1.25 * basperh;
+            @z.ToString("#,##0.00")
+        }
+
+    </div>
+    <div class="OTF1">
+
+        @if (Model.contract != null)
+        {
+            double.TryParse(payrolesController.Unprotect(Model.paysaved.OTFriday), out var c);
+            var cdays = c;
+            c = c * 1.5 * basperh;
+            @c.ToString("#,##0.00")
+        }
+
+    </div>
+    <div class="OTH1">
+
+        @if (Model.contract != null)
+        {
+            double.TryParse(payrolesController.Unprotect(Model.paysaved.HolidayOT), out var b);
+            var bdays = b;
+            b = b * 2.5 * basperh;
+            @b.ToString("#,##0.00")
+        }
+
+    </div>
+    <div class="Gross">
+
+        @{
+            double.TryParse(payrolesController.Unprotect(Model.paysaved.TotalOT), out var a2);
+            var ttp = payrolesController.Unprotect(Model.paysaved.totalpayable);
+            double.TryParse(ttp, out var a3);
+            var gro = a3 + a2;
+            @gro.ToString("#,##0.00")
+        }
+
+    </div>
+    <div class="AnnualLeave">@ViewBag.al</div>
+    <div class="AnnualLeave1">@ViewBag.lbal</div>
+    <div class="Absent">
+        @if (Model.paysaved.Absents != null)
+        {
+            @Html.DisplayFor(modelItem => modelItem.paysaved.Absents)
+        }
+        else
+        {
+            var z = 0d;
             @z
         }
-    }
-
-        </div>
-        <div class="NET">
-            
-                @{
-                    double.TryParse(payrolesController.Unprotect(Model.paysaved.NetPay), out var np);@np.ToString("AED #,##0.00")
-                }
-            
-        </div>
     </div>
+    <div class="LWOP">
+        @if (Model.paysaved.LWOP == null)
+        {
+            var z = 0d;
+            @z
+        }
+        else
+        {
+            @Html.DisplayFor(modelItem => modelItem.paysaved.LWOP)
+        }
+    </div>
+    <div class="SL">
 
+        @ViewBag.sl
+
+    </div>
+    <div class="mat">
+
+        @ViewBag.mat
+
+    </div>
+    <div class="haj">
+
+        @ViewBag.haj
+
+    </div>
+    <div class="com">
+
+        @ViewBag.com
+
+    </div>
+    <div class="Holiday">
+
+        @ViewBag.holi
+
+    </div>
+    <div class="days">
+        @daysleft
+
+    </div>
+    <div class="Absentval">
+        @{
+            var labs = 0d;
+            var ldays = 0d;
+            var ldaysamt = 0d;
+            if (Model.contract != null)
+            {
+                double.TryParse(payrolesController.Unprotect(Model.contract.salary_details), out var gross);
+                if (Model.paysaved.Absents != null)
+                {
+                    labs = (double)Model.paysaved.Absents;
+                }
+                if (Model.paysaved.LWOP != null)
+                {
+                    ldays = (double)Model.paysaved.LWOP;
+                }
+                var absamt = (labs) * (gross * 12 / 365);
+                ldaysamt = (ldays) * (gross * 12 / 365);
+                @absamt.ToString("#,##0.00")
+            }
+        }
+    </div>
+    <div class="Late">
+        @{
+            if (Model.paysaved.Timekeeping != null && payrolesController.IsBase64Encoded(Model.paysaved.Timekeeping))
+            {
+                double.TryParse(payrolesController.Unprotect(Model.paysaved.Timekeeping), out var tk);
+                @tk.ToString("#,##0.00")
+            }
+            else
+            {
+                var z = 0;
+                @z.ToString("#,##0.00")
+            }
+        }
+    </div>
+    <div class="traffic">
+        @{
+            if (Model.paysaved.TrafficFines != null && payrolesController.IsBase64Encoded(Model.paysaved.TrafficFines))
+            {
+                double.TryParse(payrolesController.Unprotect(Model.paysaved.TrafficFines), out var tf);
+                @tf.ToString("#,##0.00")
+            }
+            else
+            {
+                var z = 0;
+                @z.ToString("#,##0.00")
+            }
+        }
+    </div>
+    <div class="Housing1">
+        @{
+            if (Model.paysaved.HouseAllow != null && payrolesController.IsBase64Encoded(Model.paysaved.HouseAllow))
+            {
+                double.TryParse(payrolesController.Unprotect(Model.paysaved.HouseAllow), out var tf);
+                @tf.ToString("#,##0.00")
+            }
+            else
+            {
+                var z = 0;
+                @z.ToString("#,##0.00")
+            }
+        }
+    </div>
+    <div class="LWOPamt">@ldaysamt.ToString("#,##0.00")</div>
+    <div class="communication">
+        @{
+            if (Model.paysaved.Communication != null && payrolesController.IsBase64Encoded(Model.paysaved.Communication))
+            {
+                double.TryParse(payrolesController.Unprotect(Model.paysaved.Communication), out var co);
+                @co.ToString("#,##0.00")
+            }
+            else
+            {
+                var z = 0;
+                @z.ToString("#,##0.00")
+            }
+
+        }
+    </div>
+    <div class="CashAdvanc">
+        @{
+            if (Model.paysaved.cashAdvances != null && payrolesController.IsBase64Encoded(Model.paysaved.cashAdvances))
+            {
+                double.TryParse(payrolesController.Unprotect(Model.paysaved.cashAdvances), out var ca);
+                @ca.ToString("#,##0.00")
+            }
+            else
+            {
+                var z = 0;
+                @z.ToString("#,##0.00")
+            }
+        }
+    </div>
+    <div class="Adjustments">
+        @{
+            if (Model.paysaved.others != null && payrolesController.IsBase64Encoded(Model.paysaved.others))
+            {
+                double.TryParse(payrolesController.Unprotect(Model.paysaved.others), out var ot);
+                @ot.ToString("#,##0.00")
+            }
+            else
+            {
+                var z = 0;
+                @z.ToString("#,##0.00")
+            }
+        }
+    </div>
+    <div class="TotalDeduction">
+        @{
+            if (Model.paysaved.TotalDedution != null && payrolesController.IsBase64Encoded(Model.paysaved.TotalDedution))
+            {
+                double.TryParse(payrolesController.Unprotect(Model.paysaved.TotalDedution), out var tot);
+                @tot.ToString("#,##0.00")
+            }
+            else
+            {
+                var z = 0;
+                @z
+            }
+        }
+
+    </div>
+    <div class="NET">
+
+        @{
+            double.TryParse(payrolesController.Unprotect(Model.paysaved.NetPay), out var np);
+            @np.ToString("AED #,##0.00")
+        }
+
+    </div>
+    </div>
 }
-<br />
-<br />
-<br />
-<br />
+<br/>
+<br/>
+<br/>
+<br/>

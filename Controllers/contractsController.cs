@@ -32,23 +32,28 @@
         {
             if (Session["IsValidTwoFactorAuthentication"] != null)
             {
-                if (!(bool)Session["IsValidTwoFactorAuthentication"])
+                if ((bool)Session["IsValidTwoFactorAuthentication"])
                 {
                     //RedirectToAction("Create", "contractlogins");
+                    return true;
+                }
+                else
+                {
                     return false;
                 }
             }
             else
             {
                 //RedirectToAction("Create", "contractlogins");
-                return false;
+                return true;
             }
-            return true;
+           // return true;
         }
 
         // GET: contracts/Create
         public ActionResult Create()
         {
+
             this.ViewBag.gender = new SelectList(this.db.Tables, "gender", "gender");
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
             var afinallist = new List<master_file>();
@@ -83,6 +88,16 @@
                 afinallist.OrderBy(e => e.employee_name),
                 "employee_id",
                 "employee_name");
+
+            if (seccheck())
+            {
+                Session["IsValidTwoFactorAuthentication"] = true;
+                Session["isactive"] = true;
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return this.View();
         }
 
@@ -166,6 +181,16 @@
                 img.date_changed = DateTime.Now;
                 this.db.contracts.Add(img);
                 this.db.SaveChanges();
+
+                if (seccheck())
+                {
+                    Session["IsValidTwoFactorAuthentication"] = true;
+                    Session["isactive"] = true;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
                 return this.RedirectToAction("Index");
             }
 
@@ -184,6 +209,16 @@
                 afinallist.OrderBy(e => e.employee_name),
                 "employee_id",
                 "employee_name");
+
+            if (seccheck())
+            {
+                Session["IsValidTwoFactorAuthentication"] = true;
+                Session["isactive"] = true;
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return this.View(contract);
         }
 
@@ -231,6 +266,15 @@
             var contract = this.db.contracts.Find(id);
             this.db.contracts.Remove(contract);
             this.db.SaveChanges();
+            if (seccheck())
+            {
+                Session["IsValidTwoFactorAuthentication"] = true;
+                Session["isactive"] = true;
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return this.RedirectToAction("Index");
         }
 
@@ -264,6 +308,16 @@
             if (contract.salary_details != null) contract.salary_details = this.Unprotect(contract.salary_details);
 
             if (contract.FOT != null) contract.FOT = this.Unprotect(contract.FOT);
+
+            if (seccheck())
+            {
+                Session["IsValidTwoFactorAuthentication"] = true;
+                Session["isactive"] = true;
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return this.View(contract);
         }
 
@@ -391,6 +445,15 @@
                 afinallist.OrderBy(e => e.employee_name),
                 "employee_id",
                 "employee_name");
+            if (seccheck())
+            {
+                Session["IsValidTwoFactorAuthentication"] = true;
+                Session["isactive"] = true;
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return this.View(contract);
         }
 
@@ -495,6 +558,15 @@
                 img.date_changed = DateTime.Now;
                 db.Entry(img).State = EntityState.Modified;
                 db.SaveChanges();
+                if (seccheck())
+                {
+                    Session["IsValidTwoFactorAuthentication"] = true;
+                    Session["isactive"] = true;
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
                 return this.RedirectToAction("Index");
             }
 
@@ -782,7 +854,12 @@
 
         public ActionResult Index(string search, int? page, int? pagesize)
         {
-            if (!seccheck())
+            if (seccheck())
+            {
+                Session["IsValidTwoFactorAuthentication"] = true;
+                Session["isactive"] = true;
+            }
+            else
             {
                 return RedirectToAction("Index", "Home");
             }

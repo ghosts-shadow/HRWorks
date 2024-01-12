@@ -1759,10 +1759,10 @@ namespace HRworks.Controllers
                         if (contract != null)
                         {
                             formattedText.FontWeight = PdfFontWeight.Bold;
-                            int.TryParse(contract.salary_details, out int con);
+                            int.TryParse(Unprotect(contract.salary_details), out int con);
                             formattedText.Append(ConvertToWords(con));
                             formattedText.Append(" Dirhams (AED ");
-                            formattedText.Append(contract.salary_details);
+                            formattedText.Append(Unprotect(contract.salary_details));
                             formattedText.Append(") including allowances.");
                         }
 

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using HRworks.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace HRworks.Controllers
 {
@@ -1356,6 +1357,136 @@ namespace HRworks.Controllers
 
             return RedirectToAction("Index", new {variable = var1, month = var2, idstr = var3});
         }
+
+        public ActionResult approveabsn(DateTime? month)
+        {
+            var abslistt= new List<hik>();
+            if (!month.HasValue)
+            {
+                goto end;
+            }
+            ViewBag.eddate = month;
+            var monthstart = new DateTime(month.Value.Year, month.Value.Month, 1);
+            var startdate = new DateTime(month.Value.Month == 1 ? month.Value.Year - 1 : month.Value.Year, month.Value.Month - 1, 21);
+            var enddate = new DateTime(month.Value.Year, month.Value.Month, 20);
+            var hikplist = db1.hiks.Where(x =>x.date >= startdate && x.date<=enddate).ToList();
+            var leaveabslist = db1.leave_absence.Where(x=>x.month == monthstart).ToList();
+            var alist = this.db1.master_file.Where(x=>x.contracts.Count()!=0).OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var inalist = this.db1.master_file.Where(x => x.last_working_day.HasValue == true).OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                {
+                    if (!inalist.Exists(x=>x.employee_no == file.employee_no))
+                    {
+                        afinallist.Add(file);
+                    }
+                }
+            }
+
+            var timesheetlist = db.access_date.Where(x =>x.entrydate > startdate && x.entrydate <= enddate).ToList();
+            var leavelist = db1.Leaves.ToList();
+            foreach (var file in afinallist)
+            {
+                var tempdate = startdate;
+                do
+                {
+                    if (tempdate.DayOfWeek == DayOfWeek.Saturday || tempdate.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        goto weekend;
+                    }
+                    var temphik = new hik();
+                    if (hikplist.FindAll(x => x.ID == file.employee_no.ToString() && x.date == tempdate).Count() < 2)
+                    {
+                        temphik.date = tempdate;
+                        temphik.ID = file.employee_no.ToString();
+                        temphik.EMPID = file.employee_no;
+                        temphik.Person = file.employee_name;
+                        temphik.Status = "Absent";
+                        abslistt.Add(temphik);
+                        goto skip;
+                    }
+                    if (!hikplist.Exists(x=>x.ID == file.employee_no.ToString() && x.date == tempdate))
+                    {
+                        temphik.date= tempdate;
+                        temphik.ID = file.employee_no.ToString();
+                        temphik.EMPID = file.employee_no;
+                        temphik.Person = file.employee_name;
+                        temphik.Status = "Absent";
+                        abslistt.Add(temphik);
+                    }
+                    skip: ;
+                    if (timesheetlist.Exists(x => x.emp_no == file.employee_no && x.entrydate == tempdate))
+                    {
+                        abslistt.Remove(temphik);
+                        goto weekend;
+                    }
+                    if (leavelist.Exists(x => x.Employee_id == file.employee_id && x.Start_leave <= tempdate && x.End_leave >= tempdate))
+                    {
+                        abslistt.Remove(temphik);
+                        goto weekend;
+                    }
+
+                    if (leaveabslist.Exists(x=>x.Employee_id == file.employee_id && x.fromd <= tempdate && x.tod >= tempdate))
+                    {
+                        abslistt.Remove(temphik);
+                        goto weekend;
+                    }
+                    weekend: ;
+                    tempdate = tempdate.AddDays(1);
+                    if (tempdate > DateTime.Now)
+                    {
+                        goto fend;
+                    }
+                } while (tempdate <= enddate);
+                fend: ;
+            }
+            end: ;
+            return View(abslistt.OrderBy(x=>x.EMPID).ToList());
+        }
+
+        public ActionResult Abstransfer(int? id, DateTime? date1,DateTime? month)
+        {
+            var newlistemo = new List<int>();
+            var neweos = "";
+            var monthstart = new DateTime(month.Value.Year, month.Value.Month, 1);
+            var abslist = db1.leave_absence.ToList();
+            var mastervar = db1.master_file.OrderByDescending(x => x.date_changed).ToList();
+            if (!abslist.Exists(x => x.master_file.employee_no == id && x.fromd <= date1 && x.tod >= date1))
+            {
+                var absvar = new leave_absence();
+                var emp = mastervar.Find(x => x.employee_no == id);
+                if (emp != null)
+                {
+                    var date2 = date1.Value.AddDays(-1);
+                    if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
+                    {
+                        var abs1 = abslist.Find(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2);
+                        abs1.tod = date1;
+                        abs1.absence = (abs1.tod - abs1.fromd).Value.Days + 1;
+                        this.db1.Entry(abs1).State = EntityState.Modified;
+                        this.db1.SaveChanges();
+                    }
+                    else
+                    {
+                        absvar.Employee_id = emp.employee_id;
+                        absvar.fromd = date1;
+                        absvar.tod = date1;
+                        absvar.absence = 1;
+                        absvar.month = monthstart;
+                        this.db1.leave_absence.Add(absvar);
+                        this.db1.SaveChanges();
+                    }
+                    
+                }
+            }
+
+            return RedirectToAction("approveabsn", new { month = monthstart});
+        }
+
 
         protected override void Dispose(bool disposing)
         {

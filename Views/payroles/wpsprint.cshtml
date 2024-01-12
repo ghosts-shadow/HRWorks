@@ -220,15 +220,15 @@
                         @{
                             double a = 0, b = 0, c = 0;
 
-                            if (item.Payrollsaved.TotalOT != null)
+                            if (item.Payrollsaved.TotalOT != null && payrolesController.IsBase64Encoded(item.Payrollsaved.TotalOT))
                             {
                                 double.TryParse(payrolesController.Unprotect(item.Payrollsaved.TotalOT), out a);
                             }
-                            if (item.Payrollsaved.Arrears != null)
+                            if (item.Payrollsaved.Arrears != null && payrolesController.IsBase64Encoded(item.Payrollsaved.Arrears))
                             {
                                 double.TryParse(payrolesController.Unprotect(item.Payrollsaved.Arrears), out b);
                             }
-                            if (item.Payrollsaved.TicketAllowance_ != null)
+                            if (item.Payrollsaved.TicketAllowance_ != null && payrolesController.IsBase64Encoded(item.Payrollsaved.TicketAllowance_))
                             {
                                 double.TryParse(payrolesController.Unprotect(item.Payrollsaved.TicketAllowance_), out c);
                             }

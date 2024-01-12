@@ -15,6 +15,19 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
+        <EntityType Name="access_date">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="emp_no" Type="int" />
+          <Property Name="entrydate" Type="datetime" />
+          <Property Name="hours" Type="nvarchar(max)" />
+          <Property Name="project_id" Type="int" />
+          <Property Name="modified_date" Type="datetime" Nullable="false" />
+          <Property Name="uplodaded" Type="bit" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="approval">
           <Key>
             <PropertyRef Name="Id" />
@@ -462,7 +475,7 @@ warning 6002: The table/view 'LogisticsSoft.dbo.MainShifting' does not have a pr
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ShortName" Type="nvarchar" MaxLength="255" />
           <Property Name="Supplier" Type="nvarchar" MaxLength="255" />
           <Property Name="SkilledRat" Type="float" />
@@ -528,6 +541,47 @@ warning 6002: The table/view 'LogisticsSoft.dbo.MyCompanyInfo' does not have a p
           <Property Name="overtimedate" Type="date" />
           <Property Name="overtimeref" Type="nvarchar(max)" />
           <Property Name="overtimepro" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Pattendence">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MyDate" Type="date" Nullable="false" />
+          <Property Name="ManPowerSupplier" Type="bigint" Nullable="false" />
+          <Property Name="Project" Type="bigint" Nullable="false" />
+          <Property Name="EmpID" Type="bigint" Nullable="false" />
+          <Property Name="1" Type="nvarchar" MaxLength="50" />
+          <Property Name="2" Type="nvarchar" MaxLength="50" />
+          <Property Name="3" Type="nvarchar" MaxLength="50" />
+          <Property Name="4" Type="nvarchar" MaxLength="50" />
+          <Property Name="5" Type="nvarchar" MaxLength="50" />
+          <Property Name="6" Type="nvarchar" MaxLength="50" />
+          <Property Name="7" Type="nvarchar" MaxLength="50" />
+          <Property Name="8" Type="nvarchar" MaxLength="50" />
+          <Property Name="9" Type="nvarchar" MaxLength="50" />
+          <Property Name="10" Type="nvarchar" MaxLength="50" />
+          <Property Name="11" Type="nvarchar" MaxLength="50" />
+          <Property Name="12" Type="nvarchar" MaxLength="50" />
+          <Property Name="13" Type="nvarchar" MaxLength="50" />
+          <Property Name="14" Type="nvarchar" MaxLength="50" />
+          <Property Name="15" Type="nvarchar" MaxLength="50" />
+          <Property Name="16" Type="nvarchar" MaxLength="50" />
+          <Property Name="17" Type="nvarchar" MaxLength="50" />
+          <Property Name="18" Type="nvarchar" MaxLength="50" />
+          <Property Name="19" Type="nvarchar" MaxLength="50" />
+          <Property Name="20" Type="nvarchar" MaxLength="50" />
+          <Property Name="21" Type="nvarchar" MaxLength="50" />
+          <Property Name="22" Type="nvarchar" MaxLength="50" />
+          <Property Name="23" Type="nvarchar" MaxLength="50" />
+          <Property Name="24" Type="nvarchar" MaxLength="50" />
+          <Property Name="25" Type="nvarchar" MaxLength="50" />
+          <Property Name="26" Type="nvarchar" MaxLength="50" />
+          <Property Name="27" Type="nvarchar" MaxLength="50" />
+          <Property Name="28" Type="nvarchar" MaxLength="50" />
+          <Property Name="29" Type="nvarchar" MaxLength="50" />
+          <Property Name="30" Type="nvarchar" MaxLength="50" />
+          <Property Name="31" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'LogisticsSoft.dbo.PPP' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -630,6 +684,47 @@ warning 6013: The table/view 'LogisticsSoft.dbo.Segate_Users' does not have a pr
           <Property Name="Link Access 2" Type="nvarchar" MaxLength="255" />
           <Property Name="Quote Size" Type="nvarchar" MaxLength="255" />
         </EntityType>-->
+        <EntityType Name="sharepointatt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TMonth" Type="date" Nullable="false" />
+          <Property Name="ManPowerSupplier" Type="bigint" Nullable="false" />
+          <Property Name="Project" Type="bigint" Nullable="false" />
+          <Property Name="EmpID" Type="bigint" Nullable="false" />
+          <Property Name="1" Type="nvarchar" MaxLength="50" />
+          <Property Name="2" Type="nvarchar" MaxLength="50" />
+          <Property Name="3" Type="nvarchar" MaxLength="50" />
+          <Property Name="4" Type="nvarchar" MaxLength="50" />
+          <Property Name="5" Type="nvarchar" MaxLength="50" />
+          <Property Name="6" Type="nvarchar" MaxLength="50" />
+          <Property Name="7" Type="nvarchar" MaxLength="50" />
+          <Property Name="8" Type="nvarchar" MaxLength="50" />
+          <Property Name="9" Type="nvarchar" MaxLength="50" />
+          <Property Name="10" Type="nvarchar" MaxLength="50" />
+          <Property Name="11" Type="nvarchar" MaxLength="50" />
+          <Property Name="12" Type="nvarchar" MaxLength="50" />
+          <Property Name="13" Type="nvarchar" MaxLength="50" />
+          <Property Name="14" Type="nvarchar" MaxLength="50" />
+          <Property Name="15" Type="nvarchar" MaxLength="50" />
+          <Property Name="16" Type="nvarchar" MaxLength="50" />
+          <Property Name="17" Type="nvarchar" MaxLength="50" />
+          <Property Name="18" Type="nvarchar" MaxLength="50" />
+          <Property Name="19" Type="nvarchar" MaxLength="50" />
+          <Property Name="20" Type="nvarchar" MaxLength="50" />
+          <Property Name="21" Type="nvarchar" MaxLength="50" />
+          <Property Name="22" Type="nvarchar" MaxLength="50" />
+          <Property Name="23" Type="nvarchar" MaxLength="50" />
+          <Property Name="24" Type="nvarchar" MaxLength="50" />
+          <Property Name="25" Type="nvarchar" MaxLength="50" />
+          <Property Name="26" Type="nvarchar" MaxLength="50" />
+          <Property Name="27" Type="nvarchar" MaxLength="50" />
+          <Property Name="28" Type="nvarchar" MaxLength="50" />
+          <Property Name="29" Type="nvarchar" MaxLength="50" />
+          <Property Name="30" Type="nvarchar" MaxLength="50" />
+          <Property Name="31" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'LogisticsSoft.dbo.ShiftingFile' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ShiftingFile">
@@ -1135,6 +1230,7 @@ warning 6013: The table/view 'LogisticsSoft.dbo.Users_Email' does not have a pri
         </Association>
         <EntityContainer Name="LogisticsSoftModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="access_date" EntityType="Self.access_date" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="approval" EntityType="Self.approval" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="asignproject" EntityType="Self.asignproject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -1153,8 +1249,10 @@ warning 6013: The table/view 'LogisticsSoft.dbo.Users_Email' does not have a pri
           <EntitySet Name="ManPowerSupplier" EntityType="Self.ManPowerSupplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="overtimeemployeelist" EntityType="Self.overtimeemployeelist" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="overtimeref" EntityType="Self.overtimeref" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pattendence" EntityType="Self.Pattendence" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProjectList" EntityType="Self.ProjectList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="promanlist" EntityType="Self.promanlist" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sharepointatt" EntityType="Self.sharepointatt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="towemp" EntityType="Self.towemp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="towref" EntityType="Self.towref" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="trattfile" EntityType="Self.trattfile" Schema="dbo" store:Type="Tables" />
@@ -1776,6 +1874,9 @@ warning 6013: The table/view 'LogisticsSoft.dbo.Users_Email' does not have a pri
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="access_date" EntityType="LogisticsSoftModel.access_date" />
+          <EntitySet Name="Pattendences" EntityType="LogisticsSoftModel.Pattendence" />
+          <EntitySet Name="sharepointatts" EntityType="LogisticsSoftModel.sharepointatt" />
         </EntityContainer>
         <EntityType Name="LabourMaster">
           <Key>
@@ -2730,6 +2831,101 @@ warning 6013: The table/view 'LogisticsSoft.dbo.Users_Email' does not have a pri
           <End Type="LogisticsSoftModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="LogisticsSoftModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
+        <EntityType Name="access_date">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="emp_no" Type="Int32" />
+          <Property Name="entrydate" Type="DateTime" Precision="3" />
+          <Property Name="hours" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="project_id" Type="Int32" />
+          <Property Name="modified_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="uplodaded" Type="Boolean" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Pattendence">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MyDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ManPowerSupplier" Type="Int64" Nullable="false" />
+          <Property Name="Project" Type="Int64" Nullable="false" />
+          <Property Name="EmpID" Type="Int64" Nullable="false" />
+          <Property Name="C1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C5" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C6" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C7" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C8" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C11" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C12" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C13" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C14" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C15" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C16" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C17" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C18" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C19" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C20" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C21" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C22" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C23" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C24" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C25" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C26" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C27" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C28" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C29" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C30" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C31" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="sharepointatt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TMonth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ManPowerSupplier" Type="Int64" Nullable="false" />
+          <Property Name="Project" Type="Int64" Nullable="false" />
+          <Property Name="EmpID" Type="Int64" Nullable="false" />
+          <Property Name="C1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C5" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C6" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C7" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C8" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C9" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C10" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C11" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C12" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C13" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C14" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C15" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C16" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C17" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C18" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C19" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C20" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C21" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C22" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C23" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C24" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C25" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C26" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C27" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C28" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C29" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C30" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="C31" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3478,6 +3674,104 @@ warning 6013: The table/view 'LogisticsSoft.dbo.Users_Email' does not have a pri
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="access_date">
+            <EntityTypeMapping TypeName="LogisticsSoftModel.access_date">
+              <MappingFragment StoreEntitySet="access_date">
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="uplodaded" ColumnName="uplodaded" />
+                <ScalarProperty Name="modified_date" ColumnName="modified_date" />
+                <ScalarProperty Name="project_id" ColumnName="project_id" />
+                <ScalarProperty Name="hours" ColumnName="hours" />
+                <ScalarProperty Name="entrydate" ColumnName="entrydate" />
+                <ScalarProperty Name="emp_no" ColumnName="emp_no" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pattendences">
+            <EntityTypeMapping TypeName="LogisticsSoftModel.Pattendence">
+              <MappingFragment StoreEntitySet="Pattendence">
+                <ScalarProperty Name="C31" ColumnName="31" />
+                <ScalarProperty Name="C30" ColumnName="30" />
+                <ScalarProperty Name="C29" ColumnName="29" />
+                <ScalarProperty Name="C28" ColumnName="28" />
+                <ScalarProperty Name="C27" ColumnName="27" />
+                <ScalarProperty Name="C26" ColumnName="26" />
+                <ScalarProperty Name="C25" ColumnName="25" />
+                <ScalarProperty Name="C24" ColumnName="24" />
+                <ScalarProperty Name="C23" ColumnName="23" />
+                <ScalarProperty Name="C22" ColumnName="22" />
+                <ScalarProperty Name="C21" ColumnName="21" />
+                <ScalarProperty Name="C20" ColumnName="20" />
+                <ScalarProperty Name="C19" ColumnName="19" />
+                <ScalarProperty Name="C18" ColumnName="18" />
+                <ScalarProperty Name="C17" ColumnName="17" />
+                <ScalarProperty Name="C16" ColumnName="16" />
+                <ScalarProperty Name="C15" ColumnName="15" />
+                <ScalarProperty Name="C14" ColumnName="14" />
+                <ScalarProperty Name="C13" ColumnName="13" />
+                <ScalarProperty Name="C12" ColumnName="12" />
+                <ScalarProperty Name="C11" ColumnName="11" />
+                <ScalarProperty Name="C10" ColumnName="10" />
+                <ScalarProperty Name="C9" ColumnName="9" />
+                <ScalarProperty Name="C8" ColumnName="8" />
+                <ScalarProperty Name="C7" ColumnName="7" />
+                <ScalarProperty Name="C6" ColumnName="6" />
+                <ScalarProperty Name="C5" ColumnName="5" />
+                <ScalarProperty Name="C4" ColumnName="4" />
+                <ScalarProperty Name="C3" ColumnName="3" />
+                <ScalarProperty Name="C2" ColumnName="2" />
+                <ScalarProperty Name="C1" ColumnName="1" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="Project" ColumnName="Project" />
+                <ScalarProperty Name="ManPowerSupplier" ColumnName="ManPowerSupplier" />
+                <ScalarProperty Name="MyDate" ColumnName="MyDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sharepointatts">
+            <EntityTypeMapping TypeName="LogisticsSoftModel.sharepointatt">
+              <MappingFragment StoreEntitySet="sharepointatt">
+                <ScalarProperty Name="C31" ColumnName="31" />
+                <ScalarProperty Name="C30" ColumnName="30" />
+                <ScalarProperty Name="C29" ColumnName="29" />
+                <ScalarProperty Name="C28" ColumnName="28" />
+                <ScalarProperty Name="C27" ColumnName="27" />
+                <ScalarProperty Name="C26" ColumnName="26" />
+                <ScalarProperty Name="C25" ColumnName="25" />
+                <ScalarProperty Name="C24" ColumnName="24" />
+                <ScalarProperty Name="C23" ColumnName="23" />
+                <ScalarProperty Name="C22" ColumnName="22" />
+                <ScalarProperty Name="C21" ColumnName="21" />
+                <ScalarProperty Name="C20" ColumnName="20" />
+                <ScalarProperty Name="C19" ColumnName="19" />
+                <ScalarProperty Name="C18" ColumnName="18" />
+                <ScalarProperty Name="C17" ColumnName="17" />
+                <ScalarProperty Name="C16" ColumnName="16" />
+                <ScalarProperty Name="C15" ColumnName="15" />
+                <ScalarProperty Name="C14" ColumnName="14" />
+                <ScalarProperty Name="C13" ColumnName="13" />
+                <ScalarProperty Name="C12" ColumnName="12" />
+                <ScalarProperty Name="C11" ColumnName="11" />
+                <ScalarProperty Name="C10" ColumnName="10" />
+                <ScalarProperty Name="C9" ColumnName="9" />
+                <ScalarProperty Name="C8" ColumnName="8" />
+                <ScalarProperty Name="C7" ColumnName="7" />
+                <ScalarProperty Name="C6" ColumnName="6" />
+                <ScalarProperty Name="C5" ColumnName="5" />
+                <ScalarProperty Name="C4" ColumnName="4" />
+                <ScalarProperty Name="C3" ColumnName="3" />
+                <ScalarProperty Name="C2" ColumnName="2" />
+                <ScalarProperty Name="C1" ColumnName="1" />
+                <ScalarProperty Name="EmpID" ColumnName="EmpID" />
+                <ScalarProperty Name="Project" ColumnName="Project" />
+                <ScalarProperty Name="ManPowerSupplier" ColumnName="ManPowerSupplier" />
+                <ScalarProperty Name="TMonth" ColumnName="TMonth" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

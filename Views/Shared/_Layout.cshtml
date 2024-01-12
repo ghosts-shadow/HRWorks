@@ -267,7 +267,7 @@
                                         {
                                             <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
                                         }
-                                        @if (User.IsInRole("super_admin"))
+                                        @if (User.IsInRole("super_admin")||User.IsInRole("employee_rel"))
                                         {
                                             <li>@Html.ActionLink("employee relations", "Index", "emprels")</li>
                                         }

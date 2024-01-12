@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -8,9 +9,11 @@ using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.Services.Description;
+using System.Web.UI;
 using HRworks.Models;
 using Microsoft.Ajax.Utilities;
 using OfficeOpenXml;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace HRworks.Controllers
 {
@@ -425,9 +428,9 @@ namespace HRworks.Controllers
             return RedirectToAction("Index");
         }
 
-        public List<int> GetAll(DateTime date,Attendance id)
+        public List<int> GetAll(DateTime date,long id)
         {
-            var atweekendpro = id.MainTimeSheet.Project;
+            var atweekendpro = id;
             var weekdaylist = db1.weekendlists.Where(x=>x.project_id == atweekendpro).ToList(); 
             var month = date.Month;
             var lastDayOfMonth = new DateTime(date.Year, date.Month, 1);
@@ -1404,7 +1407,7 @@ namespace HRworks.Controllers
                         foreach (var aq in attd_final1)
                         {
                             var fdaylist = new List<int>();
-                            var fdaylist1 = GetAll(month.Value,aq);
+                            var fdaylist1 = GetAll(month.Value,aq.MainTimeSheet.Project);
                             foreach (var i in fdaylist1)
                             {
                                 var dt1 = new DateTime(dateend.Year, dateend.Month, i);
@@ -1414,7 +1417,7 @@ namespace HRworks.Controllers
                                 }
                             }
 
-                            fdaylist1 = GetAll(newdate, aq);
+                            fdaylist1 = GetAll(newdate, aq.MainTimeSheet.Project);
                             foreach (var i in fdaylist1)
                             {
                                 var dt1 = new DateTime(datestart.Year, datestart.Month, i);
@@ -4069,7 +4072,7 @@ namespace HRworks.Controllers
                             {
 
                                 var fdaylist = new List<int>();
-                                var fdaylist1 = GetAll(month.Value,aq);
+                                var fdaylist1 = GetAll(month.Value,aq.MainTimeSheet.Project);
                                 foreach (var i in fdaylist1)
                                 {
                                     var dt1 = new DateTime(dateend.Year, dateend.Month, i);
@@ -4079,7 +4082,7 @@ namespace HRworks.Controllers
                                     }
                                 }
 
-                                fdaylist1 = GetAll(newdate,aq);
+                                fdaylist1 = GetAll(newdate,aq.MainTimeSheet.Project);
                                 foreach (var i in fdaylist1)
                                 {
                                     var dt1 = new DateTime(datestart.Year, datestart.Month, i);
@@ -5955,8 +5958,8 @@ namespace HRworks.Controllers
                 payslip = pay.Find(x => x.employee_no == empname10.employee_no && x.forthemonth == eddate);
                 if (payslip == null)
                 {
-                    ViewBag.eddate = null;
-                    goto xe;
+                        ViewBag.eddate = null;
+                        goto xe;
                 }
 
                 var leave1 = db.Leaves.Where(
@@ -6741,6 +6744,1016 @@ namespace HRworks.Controllers
 
             return RedirectToAction("wpsprint", month);
         }
+
+        public ActionResult payroll(DateTime? month, string save, string refresh)
+        {
+            var paylist = new List<payrole>();
+            var conlist = db.contracts.OrderByDescending(x=>x.date_changed).ToList();
+            if (month == null)
+            {
+                goto end;
+            }
+
+            ViewBag.payday = month;
+            var payrolllist = db.payroles.ToList();
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            var duplist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                var temp = file.employee_no;
+                var temp2 = file.last_working_day;
+                var temp3 = file.status;
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                {
+                    if ((file.last_working_day.HasValue && file.last_working_day > month) ||
+                        (file.status != "inactive" && !file.last_working_day.HasValue))
+                    {
+                        if (!duplist.Exists(x => x.employee_no == file.employee_no))
+                        {
+                            afinallist.Add(file);
+                        }
+                    }
+                    else
+                    {
+                        duplist.Add(file);
+                    }
+                }
+            }
+            // var temp31 =afinallist[0];
+            // var temp11 =afinallist[1];
+            // var temp21 =afinallist[2];
+            // afinallist.Remove(temp31);
+            // afinallist.Remove(temp11);
+            // afinallist.Remove(temp21);
+            
+            var startdate = new DateTime();
+            if (month.Value.Month == 1)
+            {
+                startdate = new DateTime(month.Value.Year - 1, 12, 21);
+            }
+            else
+            {
+                startdate = new DateTime(month.Value.Year, month.Value.Month - 1, 21);
+            }
+
+            var enddate = new DateTime(month.Value.Year, month.Value.Month, 20);
+            var access_datalist = db1.access_date.Where(x =>
+                x.entrydate >= startdate &&
+                x.entrydate <= enddate).ToList();
+            var monthnew = new DateTime(month.Value.Year, month.Value.Month, 1);
+            var tempdate = startdate;
+            
+            foreach (var masterFile in afinallist)
+            {
+                var payr = new payrole();
+                var newtemp = new bool();
+                if (payrolllist.Exists(x => x.forthemonth == monthnew
+                                            && x.employee_no == masterFile.employee_id))
+                {
+
+                    payr = payrolllist.Find(
+                        x => x.forthemonth == monthnew
+                             && x.employee_no == masterFile.employee_id);
+                    newtemp= false;
+                }
+                else
+                {
+                    payr = new payrole();
+                    payr.save = false;
+                    payr.master_file = masterFile;
+                    payr.employee_no = masterFile.employee_id;
+                    payr.forthemonth = new DateTime(month.Value.Year, month.Value.Month, 1);
+                    var conid = conlist.Find(x => x.employee_no == payr.employee_no);
+                    payr.Rstate = "R";
+                    if (conid == null)
+                    {
+                        goto funend;
+                    }
+                    payr.con_id = conid.employee_id;
+                    payr.contract = conid;
+                    payr.totalpayable = "0";
+                    payr.OTRegular = "0";
+                    payr.OTFriday = "0";
+                    payr.OTNight = "0";
+                    payr.HolidayOT = "0";
+                    payr.Fot = "0";
+                    payr.TotalOT = "0";
+                    payr.cashAdvances = "0";
+                    payr.HouseAllow = "0";
+                    payr.FoodAllow = "0";
+                    payr.Timekeeping = "0";
+                    payr.Communication = "0";
+                    payr.TrafficFines = "0";
+                    payr.TotalDedution = "0";
+                    payr.NetPay = "0";
+                    payr.remarks = "0";
+                    payr.TicketAllowance_ = "0";
+                    payr.Arrears = "0";
+                    payr.TransportationAllowance_ = "0";
+                    payr.others = "0";
+                    payr.amount = "0";
+                    payr.ded_add = "0";
+                    newtemp = true;
+                }
+
+                if (payr.save) goto sav;
+                if (!refresh.IsNullOrWhiteSpace())
+                {
+                    payr.Rstate = "C";
+                }
+                
+                if (payr.Rstate == "R" && !newtemp)
+                {
+                    goto R;
+                }
+                var leavedate1 = new DateTime();
+                if (payr.forthemonth.Value.Month == 1)
+                {
+                    leavedate1 = new DateTime(payr.forthemonth.Value.Year - 1, 12, 21);
+                }
+                else
+                {
+                    leavedate1 = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month - 1,
+                        21);
+                }
+
+                var leavedateend = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month,
+                    20);
+                var leave1 = new List<Leave>();
+                var leave2 = new List<Leave>();
+                var abslist1 = new List<leave_absence>();
+                var currentyear = DateTime.Today.Year;
+                var sickleaveind = new List<Leave>();
+                var sickleavenonind = new List<Leave>();
+                var sickleaveindhp = new List<Leave>();
+                var sickleavenonindhp = new List<Leave>();
+                var sickleaveindup = new List<Leave>();
+                var sickleavenonindup = new List<Leave>();
+                var maternityleave = new List<Leave>();
+                var maternityleavehp = new List<Leave>();
+                var maternityleaveup = new List<Leave>();
+                var yearstart = new DateTime(currentyear, 1, 1);
+                var yearend = new DateTime(currentyear, 12, 31);
+                var sickleaveindlist = new List<Leave>();
+                var sickleavenonindlist = new List<Leave>();
+                var datecount = yearstart;
+                var slindcount = 0d;
+                var slindcounthalfex = 0d;
+                var slnonindcount = 0d;
+                var slnonindcounthalfex = 0d;
+                var mlcount = 0d;
+                var mlcounthalfex = 0d;
+                do
+                {
+                    var sickleaveindlist1 = db.Leaves.Where(
+                        x => x.Employee_id == masterFile.employee_id && x.leave_type == "7"
+                                                                     && x.Start_leave <= datecount
+                                                                     && x.End_leave >= datecount).ToList();
+                    var sickleavenonindlist1 = db.Leaves.Where(
+                        x => x.Employee_id == masterFile.employee_id && x.leave_type == "2"
+                                                                     && x.Start_leave <= datecount
+                                                                     && x.End_leave >= datecount).ToList();
+                    var maternityleavelist1 = db.Leaves.Where(
+                        x => x.Employee_id == masterFile.employee_id && x.leave_type == "4"
+                                                                     && x.Start_leave <= datecount
+                                                                     && x.End_leave >= datecount).ToList();
+                    foreach (var leaf in sickleaveindlist1)
+                    {
+                        slindcount++;
+                        slindcounthalfex++;
+                        if (!sickleaveind.Exists(x => x.Id == leaf.Id))
+                        {
+                            sickleaveind.Add(leaf);
+                            if (leaf.half)
+                            {
+                                slindcount -= 0.5;
+                                slindcounthalfex -= 0.5;
+                            }
+                        }
+
+                        if (slindcount > 180)
+                        {
+                            var slindcounttemp = slindcount - 180;
+                            var slindcounthalfextemp = slindcounthalfex - 180;
+                            if (slindcounttemp > 180)
+                            {
+                                if (sickleaveindup.Exists(x => x.Start_leave == leaf.Start_leave))
+                                {
+                                    var daysepleave = new Leave();
+                                    daysepleave.Start_leave = datecount;
+                                    daysepleave.End_leave = datecount;
+                                    daysepleave.leave_type = leaf.leave_type;
+                                    if ((slindcounthalfextemp % 1) == 0)
+                                    {
+                                        daysepleave.half = false;
+                                    }
+                                    else
+                                    {
+                                        daysepleave.half = true;
+                                        slindcounthalfextemp -= 0.5;
+                                    }
+
+                                    sickleaveindup.Add(daysepleave);
+                                }
+                            }
+                            else
+                            {
+                                if (sickleaveindhp.Exists(x => x.Start_leave == leaf.Start_leave))
+                                {
+                                    var daysepleave = new Leave();
+                                    daysepleave.Start_leave = datecount;
+                                    daysepleave.End_leave = datecount;
+                                    daysepleave.leave_type = leaf.leave_type;
+                                    if ((slindcounthalfex % 1) == 0)
+                                    {
+                                        daysepleave.half = false;
+                                    }
+                                    else
+                                    {
+                                        daysepleave.half = true;
+                                        slindcounthalfex -= 0.5;
+                                    }
+
+                                    sickleaveindhp.Add(daysepleave);
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (var leaf in sickleavenonindlist1)
+                    {
+                        slnonindcount++;
+                        slnonindcounthalfex++;
+                        if (!sickleavenonind.Exists(x => x.Id == leaf.Id))
+                        {
+                            sickleavenonind.Add(leaf);
+                            if (leaf.half)
+                            {
+                                slnonindcount -= 0.5;
+                                slnonindcounthalfex -= 0.5;
+                            }
+                        }
+
+                        if (slnonindcount > 15)
+                        {
+                            var slnonindcounttemp = slindcount - 15;
+                            var slnonindcounthalfextemp = slnonindcounthalfex - 15;
+                            if (slnonindcounttemp > 30)
+                            {
+                                if (sickleaveindup.Exists(x => x.Start_leave == leaf.Start_leave))
+                                {
+                                    var daysepleave = new Leave();
+                                    daysepleave.Start_leave = datecount;
+                                    daysepleave.End_leave = datecount;
+                                    daysepleave.leave_type = leaf.leave_type;
+                                    if ((slnonindcounthalfextemp % 1) == 0)
+                                    {
+                                        daysepleave.half = false;
+                                    }
+                                    else
+                                    {
+                                        daysepleave.half = true;
+                                        slnonindcounthalfextemp -= 0.5;
+                                    }
+
+                                    sickleaveindup.Add(daysepleave);
+                                }
+                            }
+                            else
+                            {
+                                if (sickleaveindhp.Exists(x => x.Start_leave == leaf.Start_leave))
+                                {
+                                    var daysepleave = new Leave();
+                                    daysepleave.Start_leave = datecount;
+                                    daysepleave.End_leave = datecount;
+                                    daysepleave.leave_type = leaf.leave_type;
+                                    if ((slnonindcounthalfex % 1) == 0)
+                                    {
+                                        daysepleave.half = false;
+                                    }
+                                    else
+                                    {
+                                        daysepleave.half = true;
+                                        slnonindcounthalfex -= 0.5;
+                                    }
+
+                                    sickleaveindhp.Add(daysepleave);
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (var leaf in maternityleavelist1)
+                    {
+                        mlcount++;
+                        mlcounthalfex++;
+                        if (!maternityleave.Exists(x => x.Id == leaf.Id))
+                        {
+                            maternityleave.Add(leaf);
+                            if (leaf.half)
+                            {
+                                mlcount -= 0.5;
+                                mlcounthalfex -= 0.5;
+                            }
+                        }
+
+                        if (mlcount > 45)
+                        {
+                            var mlcounttemp = mlcount - 45;
+                            var mlcounthalfextemp = mlcounthalfex - 45;
+                            if (mlcounttemp > 15)
+                            {
+                                if (maternityleaveup.Exists(x => x.Start_leave == leaf.Start_leave))
+                                {
+                                    var daysepleave = new Leave();
+                                    daysepleave.Start_leave = datecount;
+                                    daysepleave.End_leave = datecount;
+                                    daysepleave.leave_type = leaf.leave_type;
+                                    if ((mlcounthalfextemp % 1) == 0)
+                                    {
+                                        daysepleave.half = false;
+                                    }
+                                    else
+                                    {
+                                        daysepleave.half = true;
+                                        mlcounthalfextemp -= 0.5;
+                                    }
+
+                                    maternityleaveup.Add(daysepleave);
+                                }
+                            }
+                            else
+                            {
+                                if (maternityleavehp.Exists(x => x.Start_leave == leaf.Start_leave))
+                                {
+                                    var daysepleave = new Leave();
+                                    daysepleave.Start_leave = datecount;
+                                    daysepleave.End_leave = datecount;
+                                    daysepleave.leave_type = leaf.leave_type;
+                                    if ((mlcounthalfex % 1) == 0)
+                                    {
+                                        daysepleave.half = false;
+                                    }
+                                    else
+                                    {
+                                        daysepleave.half = true;
+                                        mlcounthalfex -= 0.5;
+                                    }
+
+                                    maternityleavehp.Add(daysepleave);
+                                }
+                            }
+                        }
+                    }
+
+                    datecount = datecount.AddDays(1);
+                } while (datecount < yearend);
+
+                var absd = 0;
+                var mlcounthp = 0d;
+                var mlcountup = 0d;
+                var slindcounthp = 0d;
+                var slindcountup = 0d;
+                var slnonindcounthp = 0d;
+                var slnonindcountup = 0d;
+                var datestart = new DateTime();
+                var dateend = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month, 20);
+                if (payr.forthemonth.Value.Month == 1)
+                {
+                    datestart = new DateTime(payr.forthemonth.Value.Year - 1, 12, 21);
+                }
+                else
+                {
+                    datestart = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month - 1, 21);
+                }
+
+                var aqt = 0L;
+                var aqf = 0L;
+                var aqh = 0L;
+                if (masterFile == null) goto tos1;
+                var attd1 = access_datalist.FindAll(x => x.emp_no == masterFile.employee_no).OrderBy(x=>x.entrydate).ThenByDescending(x=>x.modified_date).ToList();
+                var attd2 = access_datalist.FindAll(x => x.emp_no == masterFile.employee_no).OrderBy(x => x.entrydate).ThenByDescending(x => x.modified_date).ToList();
+                var atd = new List<access_date>();
+                foreach (var atq in attd1)
+                {
+                    var sameday = attd1.FindAll(x => x.entrydate == atq.entrydate && x.emp_no == atq.emp_no);
+                    if (sameday.Count() > 1)
+                    {
+                        sameday.Remove(atq);
+
+                        if (sameday != null && sameday.Count() > 0)
+                        {
+                            var temp = attd2.Find(x => x != null && x.Id == atq.Id);
+
+                            if (temp != null)
+                            {
+                                foreach (var atq1 in sameday)
+                                {
+                                    if (atq1.project_id !=atq.project_id )
+                                    {
+                                        
+                                    if (long.TryParse(atq1.hours, out long tempvar))
+                                    {
+                                        var temphrp = 0l;
+                                        long.TryParse(temp.hours, out temphrp);
+                                        temphrp += tempvar;
+                                        temp.hours = temphrp.ToString();
+                                    }
+                                    else
+                                    {
+                                        temp.hours = atq1.hours;
+                                    }
+
+                                    
+                                    }
+                                    attd2.Remove(atq1);
+                                }
+
+                                if (attd2.Exists(x => x != null && x.Id == atq.Id))
+                                {
+                                    atd.Add(temp);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        atd.Add(atq);
+                    }
+                }
+                var abslisttimesheettemp = atd.FindAll(x => x.hours == "A");
+                var abslisttimesheet = new List<leave_absence>();
+                var mastervar = db.master_file.OrderByDescending(x => x.date_changed).ToList();
+                foreach (var file in abslisttimesheettemp)
+                {
+
+                    var monthstart = new DateTime(month.Value.Year, month.Value.Month, 1);
+                    if (!abslisttimesheet.Exists(x => x.master_file.employee_no == file.emp_no && x.fromd <= file.entrydate && x.tod >= file.entrydate))
+                    {
+                        var absvar = new leave_absence();
+                        var emp = mastervar.Find(x => x.employee_no == file.emp_no);
+                        if (emp != null)
+                        {
+                            var date2 = file.entrydate.Value.AddDays(-1);
+                            if (abslisttimesheet.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
+                            {
+                                var abs1 = abslisttimesheet.Find(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2);
+                                abs1.tod = file.entrydate;
+                                abs1.absence = (abs1.tod - abs1.fromd).Value.Days + 1;
+                                this.db.Entry(abs1).State = EntityState.Modified;
+                                this.db.SaveChanges();;
+                            }
+                            else
+                            {
+                                absvar.Employee_id = emp.employee_id;
+                                absvar.fromd = file.entrydate;
+                                absvar.tod = file.entrydate;
+                                absvar.absence = 1;
+                                absvar.month = monthstart;
+                                this.db.leave_absence.Add(absvar);
+                                this.db.SaveChanges();
+                            }
+
+                        }
+
+                    }
+                }
+
+
+                var newdate = new DateTime();
+                if (payr.forthemonth.Value.Month == 1)
+                {
+                    newdate = new DateTime(payr.forthemonth.Value.Year - 1, 12, 1);
+                }
+                else
+                {
+                    newdate = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month - 1, 1);
+                }
+
+                var hlistday = new List<int>();
+                var hlistday1 = GetAllholi(month.Value);
+                foreach (var i in hlistday1)
+                {
+                    var dt1 = new DateTime(dateend.Year, dateend.Month, i);
+                    if (datestart <= dt1 && dt1 <= dateend)
+                    {
+                        hlistday.Add(i);
+                    }
+                }
+
+                hlistday1 = GetAllholi(newdate);
+                foreach (var i in hlistday1)
+                {
+                    var dt1 = new DateTime(datestart.Year, datestart.Month, i);
+                    if (datestart <= dt1 && dt1 <= dateend)
+                    {
+                        hlistday.Add(i);
+                    }
+                }
+
+                foreach (var atq in atd)
+                {
+                    var fdaylist = new List<int>();
+                    long.TryParse(atq.project_id.ToString(), out long tempatq);
+                    var fdaylist1 = GetAll(month.Value, tempatq);
+                    foreach (var i in fdaylist1)
+                    {
+                        var dt1 = new DateTime(dateend.Year, dateend.Month, i);
+                        if (datestart <= dt1 && dt1 <= dateend)
+                        {
+                            fdaylist.Add(i);
+                        }
+                    }
+
+                    long.TryParse(atq.project_id.ToString(), out long tempatq1);
+                    fdaylist1 = GetAll(newdate, tempatq1);
+                    foreach (var i in fdaylist1)
+                    {
+                        var dt1 = new DateTime(datestart.Year, datestart.Month, i);
+                        if (datestart <= dt1 && dt1 <= dateend)
+                        {
+                            fdaylist.Add(i);
+                        }
+                    }
+
+                    var y = 0l;
+                    long.TryParse(atq.hours, out y);
+                    if (!leave2.Exists(z => z.Start_leave <= atq.entrydate && z.End_leave >= atq.entrydate))
+                    {
+
+                        if (atq.entrydate.HasValue && !fdaylist.Exists(x =>
+                                x.Equals(atq.entrydate.Value.Day) &&
+                                !hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day))))
+                        {
+                            if (y > 8) aqt += y - 8;
+                        }
+                        else if (atq.entrydate.HasValue && fdaylist.Exists(x =>
+                                     x.Equals(atq.entrydate.Value.Day) &&
+                                     !hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day))))
+                        {
+                            aqf += y;
+                        }
+                        else if (atq.entrydate.HasValue && !fdaylist.Exists(x =>
+                                     x.Equals(atq.entrydate.Value.Day) &&
+                                     hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day))))
+                        {
+                            aqh += y;
+                        }
+                        else if (atq.entrydate.HasValue && fdaylist.Exists(x =>
+                                     x.Equals(atq.entrydate.Value.Day) &&
+                                     hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day))))
+                        {
+                            aqh += y;
+                        }
+                    }
+                }
+
+            tos1:;
+
+                do
+                {
+                    var leave1_1 = db.Leaves.Where(
+                        x => x.Employee_id == masterFile.employee_id && x.leave_type == "6"
+                                                                     && x.Start_leave <= leavedate1
+                                                                     && x.End_leave >= leavedate1).ToList();
+                    var leave2_1 = db.Leaves.Where(
+                        x => x.Employee_id == masterFile.employee_id && x.Start_leave <= leavedate1
+                                                                     && x.End_leave >= leavedate1).ToList();
+                    var abslist1_1 = db.leave_absence.Where(
+                        x => x.Employee_id == masterFile.employee_id && x.fromd <= leavedate1
+                                                                     && x.tod >= leavedate1).ToList();
+
+                    if (maternityleavehp.Exists(x =>
+                            x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                    {
+                        var temp = maternityleavehp.Find(x =>
+                            x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                        mlcounthp++;
+                        if (temp.half)
+                        {
+                            mlcounthp -= 0.5;
+                        }
+                    }
+
+                    if (maternityleaveup.Exists(x =>
+                            x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                    {
+                        var temp = maternityleaveup.Find(x =>
+                            x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                        mlcountup++;
+                        if (temp.half)
+                        {
+                            mlcountup -= 0.5;
+                        }
+                    }
+
+                    if (sickleaveindhp.Exists(x =>
+                            x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                    {
+                        var temp = sickleaveindhp.Find(x =>
+                            x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                        slindcounthp++;
+                        if (temp.half)
+                        {
+                            slindcounthp -= 0.5;
+                        }
+                    }
+
+                    if (sickleaveindup.Exists(x =>
+                            x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                    {
+                        var temp = sickleaveindup.Find(x =>
+                            x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                        slindcountup++;
+                        if (temp.half)
+                        {
+                            slindcountup -= 0.5;
+                        }
+                    }
+
+                    if (sickleavenonindhp.Exists(x =>
+                            x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                    {
+                        var temp = sickleavenonindhp.Find(x =>
+                            x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                        slnonindcounthp++;
+                        if (temp.half)
+                        {
+                            slnonindcounthp -= 0.5;
+                        }
+                    }
+
+                    if (sickleavenonindup.Exists(x =>
+                            x.Start_leave <= leavedate1 && x.End_leave >= leavedate1))
+                    {
+                        var temp = sickleavenonindup.Find(x =>
+                            x.Start_leave <= leavedate1 && x.End_leave >= leavedate1);
+                        slnonindcountup++;
+                        if (temp.half)
+                        {
+                            slnonindcountup -= 0.5;
+                        }
+                    }
+
+                    foreach (var leaf in leave1_1)
+                        if (!leave1.Exists(x => x.Id == leaf.Id))
+                            leave1.Add(leaf);
+                    foreach (var leaf1 in abslist1_1)
+                        if (!leave1.Exists(x => x.Id == leaf1.Id))
+                            abslist1.Add(leaf1);
+                    foreach (var leaf in leave2_1)
+                        if (!leave2.Exists(x => x.Id == leaf.Id))
+                            leave2.Add(leaf);
+
+                    leavedate1 = leavedate1.AddDays(1);
+                } while (leavedate1 < leavedateend);
+
+                var lowp =0;
+                var datediff = (enddate - startdate).Days + 1;
+                foreach (var leaf in leave1)
+                {
+                    var dif = leaf.End_leave - leaf.Start_leave;
+                    var date1 = leaf.Start_leave;
+                    var date2 = leaf.End_leave;
+                    while (date1 != date2)
+                    {
+                        if (date1 >= startdate && date1 < enddate) lowp += 1;
+                        date1 = date1.Value.AddDays(1);
+                    }
+
+                    // var daysinm = DateTime.DaysInMonth(payr.forthemonth.Value.Year,
+                    //   payr.forthemonth.Value.Month);
+                    //if (lowp != datediff) lowp += 1;
+                    //lowp += dif.Value.Days + 1;
+                }
+
+
+                foreach (var absence in abslist1)
+                {
+                    var dif = absence.tod - absence.fromd;
+                    var date1 = absence.fromd;
+                    var date2 = absence.tod;
+                    while (date1 != date2)
+                    {
+                        if (date1 >= date1 && date1 < date2) absd += 1;
+                        date1 = date1.Value.AddDays(1);
+                    }
+                    // var daysinm = DateTime.DaysInMonth(payr.forthemonth.Value.Year,
+                    //     payr.forthemonth.Value.Month);
+                    // if (absd != diff) absd += 1;
+                }
+
+
+
+                if (leave1.Count != 0)
+                {
+                    payr.LWOP = leave1.OrderByDescending(x => x.Start_leave).First().Id;
+                    payr.Leave = leave1.OrderByDescending(x => x.Start_leave).First();
+                    payr.Leave.days = lowp;
+                }
+
+                payr.OTRegular = aqt.ToString();
+                payr.OTFriday = aqf.ToString();
+                payr.HolidayOT = aqh.ToString();
+                var ant = 0d;
+                var m = 0d;
+                if (payr.OTNight != null && IsBase64Encoded(payr.OTNight))
+                {
+                    double.TryParse(Unprotect(payr.OTNight), out ant);
+                }
+
+                var comrat = 0d;
+                var totded = 0d;
+                if (payr.cashAdvances != null && IsBase64Encoded(payr.cashAdvances))
+                {
+                    double.TryParse(Unprotect(payr.cashAdvances), out comrat);
+                    totded += comrat;
+                }
+
+                if (payr.HouseAllow != null && IsBase64Encoded(payr.HouseAllow))
+                {
+                    double.TryParse(Unprotect(payr.HouseAllow), out comrat);
+                    totded += comrat;
+                }
+
+                if (payr.TrafficFines != null && IsBase64Encoded(payr.TrafficFines))
+                {
+                    double.TryParse(Unprotect(payr.TrafficFines), out comrat);
+                    totded += comrat;
+                }
+
+                if (payr.TransportationAllowance_ != null && IsBase64Encoded(payr.TransportationAllowance_))
+                {
+                    double.TryParse(Unprotect(payr.TransportationAllowance_), out comrat);
+                    totded += comrat;
+                }
+
+                if (payr.Timekeeping != null && IsBase64Encoded(payr.Timekeeping))
+                {
+                    double.TryParse(Unprotect(payr.Timekeeping), out comrat);
+                    totded += comrat;
+                }
+
+                if (payr.Communication != null && IsBase64Encoded(payr.Communication))
+                {
+                    double.TryParse(Unprotect(payr.Communication), out comrat);
+                    totded += comrat;
+                }
+
+                if (payr.amount != null && IsBase64Encoded(payr.amount))
+                {
+                    double.TryParse(Unprotect(payr.others), out comrat);
+                    totded += comrat;
+                }
+
+                if (payr.amount != null && IsBase64Encoded(payr.amount))
+                {
+                    double.TryParse(Unprotect(payr.amount), out comrat);
+                    totded += comrat;
+                }
+
+                if (payr.leave_absence != null ) payr.leave_absence.absence = absd;
+
+                if (payr.Leave != null )
+                {
+                    payr.Leave.days = lowp;
+                }
+
+                var gross1 = 0d;
+
+                double.TryParse(Unprotect(payr.contract.salary_details), out gross1);
+                var TLWOP1 = (absd + lowp) * (gross1 * 12 / 365);
+                totded += TLWOP1;
+
+                payr.TotalDedution = totded.ToString();
+                var con = conlist.Find(c1 => c1.employee_no == masterFile.employee_id);
+                if (con == null)
+                {
+                    goto funend;
+                }
+                var bac = 0d;
+                double.TryParse(Unprotect(con.basic), out bac);
+                var basperh = bac * 12 / 365 / 8;
+                var leave21 = leave2.FindAll(
+                    x => x.leave_type == "1").ToList();
+                var al = 0;
+                foreach (var leaf in leave21)
+                {
+                    //var dif = leaf.End_leave - leaf.Start_leave;
+                    //al += dif.Value.Days + 1;
+                    var date1 = leaf.Start_leave;
+                    var date2 = leaf.End_leave;
+                    while (date1 != date2)
+                    {
+                        if (date1.Value.Month == payr.forthemonth.Value.Month) al += 1;
+                        date1 = date1.Value.AddDays(1);
+                    }
+
+                    al += 1;
+                }
+
+                payr.TotalOT =
+                    (aqf * 1.5 * basperh + aqh * 2.5 * basperh + aqt * 1.25 * basperh + ant)
+                    .ToString();
+                var sal = 0d;
+                double.TryParse(Unprotect(con.salary_details), out sal);
+                var tac = 0d;
+                var arr = 0d;
+                var foo = 0d;
+                if (payr.TicketAllowance_ != null && IsBase64Encoded(payr.TicketAllowance_))
+                    double.TryParse(Unprotect(payr.TicketAllowance_), out tac);
+
+                if (payr.Arrears != null && IsBase64Encoded(payr.Arrears))
+                    double.TryParse(Unprotect(payr.Arrears), out arr);
+                if (payr.FoodAllow != null && IsBase64Encoded(payr.FoodAllow))
+                    double.TryParse(Unprotect(payr.FoodAllow), out foo);
+                payr.totalpayable = (sal + tac + arr + foo).ToString();
+                double.TryParse(payr.totalpayable, out var a);
+                double.TryParse(payr.TotalOT, out var b);
+                double.TryParse(payr.TotalDedution, out var c);
+                var endday = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month,
+                    DateTime.DaysInMonth(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month));
+                var stday = new DateTime(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month, 1);
+                var d = 0d;
+                if (payr.amount != null && IsBase64Encoded(payr.amount))
+                    double.TryParse(Unprotect(payr.amount), out d);
+                if (absd + lowp >=
+                    DateTime.DaysInMonth(payr.forthemonth.Value.Year, payr.forthemonth.Value.Month))
+                    payr.NetPay = 0.ToString();
+                else
+                    payr.NetPay = (a + b - c - d).ToString();
+
+                if (save.IsNullOrWhiteSpace())
+                    payr.save = false;
+                else
+                    payr.save = true;
+                if (newtemp)
+                {
+                    Create(payr);
+                }
+                else
+                {
+                    Edit(payr, "edit");
+                }
+                R: ;
+                if (payr.Rstate == "R")
+                {
+                    paylist.Add(payr);
+                }
+            sav:;
+                if (!save.IsNullOrWhiteSpace())
+                {
+                    var paysavedlist = db.payrollsaveds.ToList();
+                    if (paysavedlist.Exists(x =>
+                        x.forthemonth == payr.forthemonth && x.employee_no == payr.master_file.employee_no))
+                        goto save_end;
+                    var paysave = new payrollsaved();
+                    if (payr.master_file != null)
+                    {
+                        paysave.employee_no = payr.master_file.employee_no;
+                        paysave.employee_name = payr.master_file.employee_name;
+                        if (payr.master_file.labour_card.Count > 0)
+                        {
+                            paysave.establishment = payr.master_file.labour_card.Last().establishment;
+                        }
+                    }
+
+                    var a1 = 0d;
+                    var b1 = 0d;
+                    var c1 = 0d;
+                    var d1 = 0d;
+                    var e1 = 0d;
+                    var f1 = 0d;
+                    if (payr.contract != null)
+                    {
+                        if (payr.HolidayOT != null)
+                        {
+                            double.TryParse(Unprotect(payr.HolidayOT), out b1);
+                        }
+
+                        if (payr.contract != null)
+                        {
+                            var bas = "0";
+                            bas = Unprotect(payr.contract.basic);
+                            double.TryParse(bas, out var bas1);
+                            var basperh1 = bas1 * 12 / 365 / 8;
+                            var bdays = b1;
+                            b1 = b1 * 2.5 * basperh1;
+                            if (payr.HolidayOT != null)
+                            {
+                                double.TryParse(Unprotect(payr.OTFriday), out c1);
+                            }
+
+                            var cdays1 = c1;
+                            c1 = c1 * 1.5 * basperh1;
+                            if (payr.HolidayOT != null)
+                            {
+                                double.TryParse(Unprotect(payr.OTRegular), out a1);
+                            }
+
+                            var adays1 = a1;
+                            a1 = a1 * 1.25 * basperh1;
+                        }
+
+                        if (payr.contract.basic != null)
+                            paysave.Basic = payr.contract.basic;
+                        if (payr.contract.housing_allowance != null)
+                            paysave.CHouseAllow = payr.contract.housing_allowance;
+                        if (payr.contract.transportation_allowance != null)
+                            paysave.CTransportationAllowance = payr.contract.transportation_allowance;
+                        if (payr.contract.food_allowance != null)
+                            paysave.CFoodAllow = payr.contract.food_allowance;
+                        if (payr.amount != null)
+                            paysave.amount = payr.amount;
+                        if (payr.ded_add != null)
+                            paysave.ded_add = payr.ded_add;
+                        if (payr.contract.salary_details != null)
+                        {
+                            paysave.Gross = payr.contract.salary_details;
+                            double.TryParse(Unprotect(payr.contract.salary_details), out d1);
+                            double.TryParse(Unprotect(payr.TotalOT), out e1);
+                            paysave.Grosstotal = Protect((d1 + e1).ToString());
+                        }
+                    }
+
+                    paysave.TicketAllowance_ = payr.TicketAllowance_;
+                    paysave.Arrears = payr.Arrears;
+                    paysave.totalpayable = payr.totalpayable;
+                    paysave.OTRegular = payr.OTRegular;
+                    paysave.OTRegularamt = a1.ToString();
+                    paysave.OTFriday = payr.OTFriday;
+                    paysave.OTFridayamt = c1.ToString();
+                    paysave.OTNight = payr.OTNight;
+                    paysave.HolidayOT = payr.HolidayOT;
+                    paysave.HolidayOTamt = b1.ToString();
+                    paysave.TotalOT = payr.TotalOT;
+                    paysave.cashAdvances = payr.cashAdvances;
+                    paysave.HouseAllow = payr.HouseAllow;
+                    paysave.TransportationAllowance_ = payr.TransportationAllowance_;
+                    paysave.FoodAllow = payr.FoodAllow;
+                    paysave.Timekeeping = payr.Timekeeping;
+                    paysave.Communication = payr.Communication;
+                    paysave.TrafficFines = payr.TrafficFines;
+                    if (payr.leave_absence != null)
+                        paysave.Absents = (int?)payr.leave_absence.absence;
+                    else
+                        paysave.Absents = 0;
+
+                    if (payr.Leave != null)
+                        paysave.LWOP = payr.Leave.days;
+                    else
+                        paysave.LWOP = 0;
+
+                    if (payr.amount != null)
+                        paysave.amount = payr.amount;
+                    var gross = 0d;
+                    double.TryParse(Unprotect(payr.contract.salary_details), out gross);
+                    var TLWOP = (paysave.Absents + paysave.LWOP) * (gross * 12 / 365);
+                    paysave.TotalLWOP = TLWOP.ToString();
+                    paysave.others = payr.others;
+                    paysave.TotalDedution = payr.TotalDedution;
+                    paysave.NetPay = payr.NetPay;
+                    paysave.remarks = payr.remarks;
+                    paysave.forthemonth = payr.forthemonth;
+                    payr.save = true;
+                    db.Entry(payr).State = EntityState.Modified;
+                    db.SaveChanges();
+                    db.payrollsaveds.Add(paysave);
+                    db.SaveChanges();
+                save_end:;
+                }
+                funend: ;
+
+            }
+
+            var model12 = new paysavedlist();
+            var savedlist1 = db.payrollsaveds.ToList();
+            var savedlist = savedlist1
+                .FindAll(x => x.forthemonth == new DateTime(month.Value.Year, month.Value.Month, 1)).ToList();
+            if (savedlist.Count != 0)
+                model12 = new paysavedlist
+                {
+                    Payrollsaved = savedlist.OrderBy(x => x.employee_no),
+                    Payroll = paylist.OrderBy(x => x.master_file.employee_no)
+                };
+            else
+                model12 = new paysavedlist
+                {
+                    Payroll = paylist.OrderBy(x => x.master_file.employee_no),
+                    Payrollsaved = savedlist.OrderBy(x => x.employee_no)
+                };
+            return View(model12);
+        end: ;
+            var model11 = new paysavedlist
+            {
+                Payroll = new List<payrole>(),
+                Payrollsaved = new List<payrollsaved>()
+            };
+            return View(model11);
+        }
+
+
 
         protected override void Dispose(bool disposing)
         {

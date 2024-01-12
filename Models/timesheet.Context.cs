@@ -66,5 +66,8 @@ namespace HRworks.Models
         public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<USER_ROLES> USER_ROLES { get; set; }
         public virtual DbSet<UserInfo> UserInfoes { get; set; }
+        public virtual DbSet<access_date> access_date { get; set; }
+        public virtual DbSet<Pattendence> Pattendences { get; set; }
+        public virtual DbSet<sharepointatt> sharepointatts { get; set; }
     }
 }

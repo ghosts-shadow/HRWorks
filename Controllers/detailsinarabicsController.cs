@@ -416,8 +416,8 @@ namespace HRworks.Controllers
                 certificatereqsave.certificate_type = certificatetype.Value;
                 if (!embassy.IsNullOrWhiteSpace())
                 {
-                    testdlink.TryGetValue(embassy,out tempstring);
-                    certificatereqsave.destination = embassy+","+tempstring+","+from+","+to;
+                    testdlink.TryGetValue(embassy, out tempstring);
+                    certificatereqsave.destination = embassy + "," + tempstring + "," + from + "," + to;
                 }
                 else
                 {
@@ -425,6 +425,7 @@ namespace HRworks.Controllers
                     {
                         destination = " ";
                     }
+
                     certificatereqsave.destination = destination;
                 }
 
@@ -441,25 +442,35 @@ namespace HRworks.Controllers
                     var certogr = new certificatesavingtest_Controller();
                     certificatesavingG = certogr.concertificatesavinggrove(certificatereqsave);
                     var grcrtlist = db.certificatesavinggroves.ToList();
-                    if (!grcrtlist.Exists(x=>x.employee_id == certificatesavingG.employee_id && x.certificate_type == certificatesavingG.certificate_type && x.submition_date == certificatesavingG.submition_date))
+                    if (!grcrtlist.Exists(x =>
+                            x.employee_id == certificatesavingG.employee_id &&
+                            x.certificate_type == certificatesavingG.certificate_type &&
+                            x.submition_date == certificatesavingG.submition_date && !x.status.Contains("rejected")))
                     {
                         db.certificatesavinggroves.Add(certificatesavingG);
                         db.SaveChanges();
+                    ViewBag.submmites = "certificate request has been successfully submitted";
                     }
-                    
+
+
                 }
                 else
                 {
 
                     var grcrtlist = db.certificatesavingtest_.ToList();
-                    if (!grcrtlist.Exists(x => x.employee_id == certificatereqsave.employee_id && x.certificate_type == certificatereqsave.certificate_type && x.submition_date == certificatereqsave.submition_date))
+                    if (!grcrtlist.Exists(x =>
+                            x.employee_id == certificatereqsave.employee_id &&
+                            x.certificate_type == certificatereqsave.certificate_type &&
+                            x.submition_date == certificatereqsave.submition_date && !x.status.Contains("rejected")))
                     {
                         db.certificatesavingtest_.Add(certificatereqsave);
                         db.SaveChanges();
+                    ViewBag.submmites = "certificate request has been successfully submitted";
                     }
+
                 }
-                ViewBag.submmites = "certificate request has been successfully submitted";
             }
+
             List<string> CountryList = new List<string>();
             CultureInfo[] CInfoList = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
             foreach (CultureInfo CInfo in CInfoList)
