@@ -107,11 +107,7 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "super_admin,admin,payrole,employee_con")]
-        public ActionResult Create(
-            [Bind(
-                Include =
-                    "con_id,employee_no,designation,grade,departmant_project,salary_details,basic,housing_allowance,transportation_allowance,FOT,food_allowance,living_allowance,ticket_allowance,others,arrears,employee_id")]
-            contract contract,
+        public ActionResult Create(contract contract,
             HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -179,6 +175,8 @@
                 img.imgpath = serverfile;
                 img.changed_by = this.User.Identity.Name;
                 img.date_changed = DateTime.Now;
+                img.category = contract.category;
+                img.company = contract.company;
                 this.db.contracts.Add(img);
                 this.db.SaveChanges();
 
@@ -546,6 +544,8 @@
                 img.ticket_allowance = this.Protect(contract.ticket_allowance);
                 img.others = this.Protect(contract.others);
                 img.arrears = this.Protect(contract.arrears);
+                img.category = contract.category;
+                img.company = contract.company;
                 if (serverfile != null)
                 {
                     img.imgpath = serverfile;

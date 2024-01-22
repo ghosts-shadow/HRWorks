@@ -198,6 +198,8 @@
           <Property Name="designation" Type="nvarchar" MaxLength="50" />
           <Property Name="grade" Type="nvarchar" MaxLength="50" />
           <Property Name="departmant/project" Type="nvarchar" MaxLength="50" />
+          <Property Name="company" Type="nvarchar(max)" />
+          <Property Name="category" Type="nvarchar(max)" />
           <Property Name="salary_details" Type="nvarchar(max)" />
           <Property Name="basic" Type="nvarchar(max)" />
           <Property Name="housing_allowance" Type="nvarchar(max)" />
@@ -771,6 +773,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="employee_no" Type="int" Nullable="false" />
+          <Property Name="forthemonth" Type="date" />
           <Property Name="con_id" Type="int" Nullable="false" />
           <Property Name="totalpayable" Type="nvarchar(max)" />
           <Property Name="OTRegular" Type="nvarchar(max)" />
@@ -790,7 +793,6 @@
           <Property Name="TotalDedution" Type="nvarchar(max)" />
           <Property Name="NetPay" Type="nvarchar(max)" />
           <Property Name="remarks" Type="nvarchar(max)" />
-          <Property Name="forthemonth" Type="date" />
           <Property Name="TicketAllowance " Type="nvarchar(max)" />
           <Property Name="Arrears" Type="nvarchar(max)" />
           <Property Name="TransportationAllowance " Type="nvarchar(max)" />
@@ -2227,6 +2229,8 @@
           <NavigationProperty Name="master_file" Relationship="Self.FK_con_To_master_file" FromRole="contract" ToRole="master_file" />
           <NavigationProperty Name="end_of_service" Relationship="Self.FK_end_of_service_To_contract" FromRole="contract" ToRole="end_of_service" />
           <NavigationProperty Name="payroles" Relationship="Self.FK_pay_To_con" FromRole="contract" ToRole="payrole" />
+          <Property Name="company" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="contractlogin">
           <Key>
@@ -4290,6 +4294,8 @@
           <EntitySetMapping Name="contracts">
             <EntityTypeMapping TypeName="HRModel.contract">
               <MappingFragment StoreEntitySet="contract">
+                <ScalarProperty Name="category" ColumnName="category" />
+                <ScalarProperty Name="company" ColumnName="company" />
                 <ScalarProperty Name="con_id" ColumnName="con_id" />
                 <ScalarProperty Name="employee_no" ColumnName="employee_no" />
                 <ScalarProperty Name="designation" ColumnName="designation" />

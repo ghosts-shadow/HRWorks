@@ -1386,8 +1386,15 @@ namespace HRworks.Controllers
                     }
                 }
             }
+            /*
+            var temp = afinallist.Find(x=>x.employee_no == 5426);
+            afinallist.RemoveAll(x =>x.employee_no != null );
+            afinallist.Add(temp);
+            */
 
-            var timesheetlist = db.access_date.Where(x =>x.entrydate > startdate && x.entrydate <= enddate).ToList();
+            var hikplistin = hikplist.Where(x=>x.Status == "");
+
+            var timesheetlist = db.access_date.Where(x =>x.entrydate > startdate && x.entrydate <= enddate).OrderBy(x=>x.Id).ToList();
             var leavelist = db1.Leaves.ToList();
             foreach (var file in afinallist)
             {
@@ -1419,7 +1426,7 @@ namespace HRworks.Controllers
                         abslistt.Add(temphik);
                     }
                     skip: ;
-                    if (timesheetlist.Exists(x => x.emp_no == file.employee_no && x.entrydate == tempdate))
+                    if (timesheetlist.Exists(x => x.emp_no == file.employee_no && x.entrydate == tempdate ))
                     {
                         abslistt.Remove(temphik);
                         goto weekend;

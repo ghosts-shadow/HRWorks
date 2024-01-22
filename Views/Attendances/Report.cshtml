@@ -7,25 +7,30 @@
 <h2>Reports</h2>
 
 <div class="row">
-    <div class="col-md-4">
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("payroll","payroles")'" value="Payroll" />
+    @*<div class="col">*@
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("payroll","payroles")'" value="Payroll Generation" />
         @{
             if (User.Identity.Name == "dinizsneden@gmail.com")
             {
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","payroles")'" value="Payroll old" />
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","payroles")'" value="Payroll Old" />
             }
         }
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("payslip","payroles")'" value="Payslip" />
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("approveabsn","Attendances")'" value="absence report(HQ)" />
-    </div>
-    <div class="col-md-6">
-        timesheet reports<br/>
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index", "Attendances", new { month = DateTime.Now })'" value="NULL Report "/>
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index", "Attendances", new { variable = "S", month = DateTime.Now })'" value="Sick Report "/>
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index", "Attendances", new { variable = "A", month = DateTime.Now })'" value="Absence Report "/>
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index", "Attendances", new { variable = "V", month = DateTime.Now })'" value="Vacation Report "/>
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index", "Attendances", new { variable = "T", month = DateTime.Now })'" value="Transfer Report "/>
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("notintimesheet", "Attendances", new { month = DateTime.Now })'" value="not in timesheet"/>
-    </div>
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("payslip","payroles")'" value="Payslip" />
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("payrollReport","payroles")'" value="Payroll Report" />
+    <br/>
+    <br/>
+    <br/>
+        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("approveabsn","Attendances")'" value="absence report approval" /> <br/><br/><br/>
+    @*</div>*@
+    @*
+                <div class="col-md-6">
+                    timesheet reports<br/
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index", "Attendances", new { month = DateTime.Now })'" value="NULL Report "/>
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index", "Attendances", new { variable = "S", month = DateTime.Now })'" value="Sick Report "/>
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index", "Attendances", new { variable = "A", month = DateTime.Now })'" value="Absence Report "/>
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index", "Attendances", new { variable = "V", month = DateTime.Now })'" value="Vacation Report "/>
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index", "Attendances", new { variable = "T", month = DateTime.Now })'" value="Transfer Report "/>
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("notintimesheet", "Attendances", new { month = DateTime.Now })'" value="not in timesheet"/>
+        </div>*@
 </div>
 

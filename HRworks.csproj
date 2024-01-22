@@ -604,16 +604,16 @@
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetRole.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUser.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserClaim.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserLogin.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Attendance.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
@@ -665,7 +665,7 @@
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\C__MigrationHistory.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\decrycontracts.cs" />
     <Compile Include="Models\decrymodel.cs" />
@@ -917,7 +917,7 @@
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\username.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\USER_ROLES.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
@@ -1636,6 +1636,7 @@
     <Content Include="Views\Leaves\leavebaltill.cshtml" />
     <Content Include="Views\payroles\payroll.cshtml" />
     <Content Include="Views\Attendances\approveabsn.cshtml" />
+    <Content Include="Views\payroles\payrollReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

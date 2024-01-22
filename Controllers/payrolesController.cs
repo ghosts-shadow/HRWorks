@@ -35,8 +35,7 @@ namespace HRworks.Controllers
             }
             var unprotectedBytes = Encoding.UTF8.GetBytes(unprotectedText);
             var protectedBytes = MachineKey.Protect(unprotectedBytes, Purpose);
-            var protectedText = "";
-            protectedText = Convert.ToBase64String(protectedBytes);
+            var protectedText = Convert.ToBase64String(protectedBytes);
             return protectedText;
         }
 
@@ -65,16 +64,17 @@ namespace HRworks.Controllers
 
         public static string Unprotect(string protectedText)
         {
-
-            if (protectedText.IsNullOrWhiteSpace())
+            try
             {
-                return "0";
+                var protectedBytes = Convert.FromBase64String(protectedText);
+                var unprotectedBytes = MachineKey.Unprotect(protectedBytes, Purpose);
+                var unprotectedText = Encoding.UTF8.GetString(unprotectedBytes);
+                return unprotectedText;
             }
-            var protectedBytes = Convert.FromBase64String(protectedText);
-            var unprotectedText = "";
-             var unprotectedBytes = MachineKey.Unprotect(protectedBytes, Purpose);
-             unprotectedText = Encoding.UTF8.GetString(unprotectedBytes);
-            return unprotectedText;
+            catch (Exception ex)
+            {
+                return string.Empty;
+            }
         }
 
         // GET: payroles/Create
@@ -6175,7 +6175,11 @@ namespace HRworks.Controllers
             List<payrole> passexel;
             if (month != null)
                 passexel = db.payroles.Where(x => x.forthemonth.Value.Month == month.Value.Month).ToList();
-            else passexel = db.payroles.ToList();
+            else
+            {
+                goto end;
+            }
+            //else passexel = db.payroles.ToList();
             var Ep = new ExcelPackage();
             var Sheet = Ep.Workbook.Worksheets.Add("payroll");
             Sheet.Cells["A1"].Value = "employee no";
@@ -6212,7 +6216,7 @@ namespace HRworks.Controllers
                 double.TryParse(Unprotect(item.HolidayOT), out var b1);
                 var bas = Unprotect(item.contract.basic);
                 double.TryParse(bas, out var bas1);
-                var basperh1 = bas1 * 12 / 365 / 8;
+                var basperh1 = ((bas1 * 12) / 365 )/ 8;
                 var bdays = b1;
                 b1 = b1 * 2.5 * basperh1;
                 double.TryParse(Unprotect(item.OTFriday), out var c1);
@@ -6329,18 +6333,29 @@ namespace HRworks.Controllers
             Response.AddHeader("content-disposition", "filename = payroll.xlsx");
             Response.BinaryWrite(Ep.GetAsByteArray());
             Response.End();
+            end: ;
         }
 
-        public ActionResult wpsprint(DateTime? month)
+        public ActionResult wpsprint(DateTime? month, string company)
         {
             ViewBag.month1 = month;
             var wpslist = new List<Wpsmodel>();
+            // if (!company.IsNullOrWhiteSpace())
+            // {
+            //     ViewBag.company = company;
+            // }
+            // else
+            // {
+            //     return View(wpslist);
+            // }
             if (month.HasValue)
             {
                 var payrolllist = db.payrollsaveds.ToList();
                 var labourcardlist = db.labour_card.ToList();
                 var masterfilelist = db.master_file.ToList();
                 var banklist = db.bank_details.ToList();
+                var passportlist = db.passports.ToList();
+                var emidlist = db.emirates_id.ToList();
                 var parollformonth = payrolllist.FindAll(x =>
                     x.forthemonth.Value.Year == month.Value.Year && x.forthemonth.Value.Month == month.Value.Month);
                 var i = 0;
@@ -6353,6 +6368,10 @@ namespace HRworks.Controllers
                         .OrderByDescending(x => x.date_changed).ToList();
                     var bd = banklist.FindAll(x => x.employee_no == mf.First().employee_id)
                         .OrderByDescending(x => x.Employee_Id).ToList();
+                    var emid = emidlist.FindAll(x => x.employee_no == mf.First().employee_id)
+                        .OrderByDescending(x => x.employee_no).ToList();
+                    var pass = passportlist.FindAll(x => x.employee_no == mf.First().employee_id)
+                        .OrderByDescending(x => x.employee_no).ToList();
                     i++;
                     new_wps.srno = i;
                     if (bd.Count > 0)
@@ -6367,11 +6386,37 @@ namespace HRworks.Controllers
                         new_wps.MasterFileid = mf.First().employee_id;
                     }
 
+                    if (emid.Count > 0)
+                    {
+                        new_wps.passportoremiratesid = emid.First().eid_no.ToString();
+                    }
+                    else
+                    {
+                        if (pass.Count > 0)
+                        {
+                            new_wps.passportoremiratesid = pass.First().passport_no;
+                        }
+                    }
 
                     if (lc.Count > 0)
                     {
                         new_wps.LabourCard = lc.First();
                         new_wps.LabourCardid = lc.First().employee_id;
+                        if ( new_wps.LabourCard.establishment != null && !new_wps.LabourCard.personal_no.HasValue)
+                        {
+                            new_wps.LabourCard.establishment += " NON WPS";
+                        }else if (new_wps.LabourCard.establishment != null && new_wps.LabourCard.personal_no.HasValue)
+                        {
+                            new_wps.LabourCard.establishment = new_wps.LabourCard.establishment;
+                        }
+                        else
+                        {
+                            new_wps.LabourCard = null;
+                        }
+                    }
+                    else
+                    {
+                        new_wps.LabourCard = null;
                     }
 
                     new_wps.Payrollsaved = pa;
@@ -6383,7 +6428,7 @@ namespace HRworks.Controllers
 
                     wpslist.Add(new_wps);
                 }
-
+                
                 return View(wpslist.OrderBy(x => x.panet));
             }
 
@@ -7753,7 +7798,117 @@ namespace HRworks.Controllers
             return View(model11);
         }
 
+        public ActionResult payrollReport(DateTime? month, string company)
+        {
+            if (!company.IsNullOrWhiteSpace())
+            {
+                ViewBag.company = company;
+            }
+            else
+            {
 
+                ViewBag.company = "new";
+                var model11 = new paysavedlist
+                {
+                    Payroll = new List<payrole>(),
+                    Payrollsaved = new List<payrollsaved>()
+                };
+                return View(model11);
+            }
+
+            if (!month.HasValue)
+            {
+                var model11 = new paysavedlist
+                {
+                    Payroll = new List<payrole>(),
+                    Payrollsaved = new List<payrollsaved>()
+                };
+                return View(model11);
+            }
+
+            ViewBag.month = month.Value.ToString("MMMM yyyy");
+
+            var con = db.contracts.ToList();
+            var bank = db.bank_details.ToList();
+            var paylist = db.payroles.ToList()
+                .FindAll(x => x.forthemonth == new DateTime(month.Value.Year, month.Value.Month, 1));
+            var model12 = new paysavedlist();
+            var savedlist1 = db.payrollsaveds.ToList();
+            var labor = db.labour_card.ToList();
+            foreach (var payrole in paylist)
+            {
+                var temp = labor.Find(x => x.emp_no == payrole.employee_no);
+                var temp2 = bank.Find(x => x.employee_no == payrole.employee_no);
+                if (temp != null)
+                {
+                    payrole.establishment = temp.establishment;
+                    if (temp2 == null)
+                    {
+                        payrole.establishment = "CHEQUE" + " "+ temp.establishment;
+                    }
+                }
+                else
+                {
+                    payrole.establishment = "NON WPS";
+                }
+            }
+
+            if (company == "citiscape")
+            {
+                var savedlist = savedlist1
+                    .FindAll(x =>
+                        x.forthemonth == new DateTime(month.Value.Year, month.Value.Month, 1) &&
+                        con.Exists(y => y.company == null || y.company == "citiscape")).ToList();
+                if (savedlist.Count != 0)
+                {
+                    model12 = new paysavedlist
+                    {
+                        Payrollsaved = savedlist.OrderBy(y => y.establishment).ThenBy(x => x.employee_no),
+                        Payroll = paylist.OrderBy(x => x.establishment).ThenBy(x => x.master_file.employee_no)
+                    };
+                }
+                else
+                {
+                    model12 = new paysavedlist
+                    {
+                        Payroll = paylist.OrderBy(x => x.master_file.employee_no).ThenBy(x => x.establishment),
+                        Payrollsaved = new List<payrollsaved>()
+                    };
+                }
+
+                return View(model12);
+
+            }
+            else if (company == "grove")
+            {
+                var savedlist = savedlist1
+                    .FindAll(x =>
+                        x.forthemonth == new DateTime(month.Value.Year, month.Value.Month, 1) &&
+                        con.Exists(y => y.company != null && y.company == "grove")).ToList();
+                if (savedlist.Count != 0)
+                    model12 = new paysavedlist
+                    {
+                        Payrollsaved = savedlist.OrderBy(y => y.establishment).ThenBy(x => x.employee_no),
+                        Payroll = paylist.OrderBy(x => x.establishment).ThenBy(x => x.master_file.employee_no)
+                    };
+                else
+                    model12 = new paysavedlist
+                    {
+                        Payroll = paylist.OrderBy(x => x.master_file.employee_no),
+                        Payrollsaved = new List<payrollsaved>()
+                    };
+                return View(model12);
+            }
+            else
+            {
+                var model11 = new paysavedlist
+                {
+                    Payroll = new List<payrole>(),
+                    Payrollsaved = new List<payrollsaved>()
+                };
+                return View(model11);
+            }
+        }
 
         protected override void Dispose(bool disposing)
         {

@@ -18,6 +18,7 @@ namespace HRworks.Controllers
     using PagedList;
     using static Humanizer.On;
     using static Microsoft.Isam.Esent.Interop.EnumeratedColumn;
+    using System.Collections;
 
     [Authorize]
     public class LeavesController : Controller
@@ -41,7 +42,8 @@ namespace HRworks.Controllers
                 new ListItem { Text = "ESCORT", Value = "9" },
                 new ListItem { Text = "PATERNITY ", Value = "10" },
                 new ListItem { Text = "SABBATICAL", Value = "11" },
-                new ListItem { Text = "STUDY LEAVE ", Value = "12" }
+                new ListItem { Text = "STUDY LEAVE ", Value = "12" },
+                new ListItem { Text = "Compensatory", Value = "13" }
             };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
@@ -89,7 +91,8 @@ namespace HRworks.Controllers
                 new ListItem { Text = "ESCORT", Value = "9" },
                 new ListItem { Text = "PATERNITY ", Value = "10" },
                 new ListItem { Text = "SABBATICAL", Value = "11" },
-                new ListItem { Text = "STUDY LEAVE ", Value = "12" }
+                new ListItem { Text = "STUDY LEAVE ", Value = "12" },
+                new ListItem { Text = "Compensatory", Value = "13" }
             };
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
@@ -733,6 +736,10 @@ namespace HRworks.Controllers
                 {
                     Sheet.Cells[string.Format("h{0}", row)].Value = "study";
                 }
+                if (item.leave_type == "13")
+                {
+                    Sheet.Cells[string.Format("h{0}", row)].Value = "Compensatory";
+                }
 
                 if (item.half)
                 {
@@ -786,7 +793,8 @@ namespace HRworks.Controllers
                 new ListItem { Text = "ESCORT", Value = "9" },
                 new ListItem { Text = "PATERNITY ", Value = "10" },
                 new ListItem { Text = "SABBATICAL", Value = "11" },
-                new ListItem { Text = "STUDY LEAVE ", Value = "12" }
+                new ListItem { Text = "STUDY LEAVE ", Value = "12" },
+                new ListItem { Text = "Compensatory", Value = "13" }
             };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text", leave.leave_type);
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
@@ -823,7 +831,8 @@ namespace HRworks.Controllers
                 new ListItem { Text = "ESCORT", Value = "9" },
                 new ListItem { Text = "PATERNITY ", Value = "10" },
                 new ListItem { Text = "SABBATICAL", Value = "11" },
-                new ListItem { Text = "STUDY LEAVE ", Value = "12" }
+                new ListItem { Text = "STUDY LEAVE ", Value = "12" },
+                new ListItem { Text = "Compensatory", Value = "13" }
             };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             ViewBag.search = search;
@@ -3142,12 +3151,19 @@ namespace HRworks.Controllers
             const double lbpd30f20 = (30.0 / 360.0);
             const double lbpd24f20 = (24.0 / 360.0);
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var inalist = this.db.master_file.Where(x => x.last_working_day.HasValue == true).OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
             {
                 if (afinallist.Count == 0) afinallist.Add(file);
 
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                {
+                    if (!inalist.Exists(x => x.employee_no == file.employee_no))
+                    {
+                        afinallist.Add(file);
+                    }
+                }
             }
 
 
@@ -3674,9 +3690,14 @@ namespace HRworks.Controllers
                     }
                 }
 
-                if (asf.Value.Year >= 2024)
+                if (asf.Value.Year <= 2024)
                 {
-                    for (int i = 2024; i <= DateTime.Now.Year; i++)
+                    var nextyearleave = 0;
+                    if (DateTime.Now.Month == 12)
+                    {
+                        nextyearleave = 1;
+                    }
+                    for (int i = 2024; i <= DateTime.Now.Year + nextyearleave; i++)
                     {
                         if (asf.Value.Year <= i)
                         {
@@ -3893,6 +3914,7 @@ namespace HRworks.Controllers
 
                             savelbpy.Annual_Leave_total = savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied;
                             savelbpy.period = 365;
+                            savelbpy.accrued = accleave;
                             if (perviousyearleave != null)
                             {
                                 if (savelbpy.net_period == null)
@@ -3900,7 +3922,7 @@ namespace HRworks.Controllers
                                     savelbpy.net_period = 0;
                                 }
 
-                                savelbpy.net_period += perviousyearleave.net_period - savelbpy.unpaid;
+                                savelbpy.net_period += perviousyearleave.net_period + savelbpy.period - savelbpy.unpaid;
                                 savelbpy.leave_balance = accleave -
                                                          (savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied) +
                                                          perviousyearleave.leave_balance;
@@ -3945,7 +3967,7 @@ namespace HRworks.Controllers
                             }
                             savelbpy.master_file = file;
                             leavelist.Add(savelbpy);
-                            if (submitedleave.Count > 0)
+                            if (submitedleave.Count == 0)
                             {
                                 goto endfun1;
                             }

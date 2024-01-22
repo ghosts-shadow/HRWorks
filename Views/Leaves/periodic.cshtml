@@ -153,6 +153,10 @@
                 {
                     <i>STUDY</i>
                 }
+                @if (item.leave_type == "13")
+                {
+                    <i>Compensatory</i>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Start_leave)

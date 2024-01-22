@@ -34,7 +34,7 @@
                value="Get records" ondblclick="norc()" class="btn btn-default" />
         @if (ViewBag.payday != null)
         {
-            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel", new{ViewBag.payday})'" value="Download Excel" />
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel", new{month =ViewBag.payday})'" value="Download Excel" />
             if (!Model.Payrollsaved.Any() && Model.Payroll.Count() != 0)
             {
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("payroll", "payroles",new{month = @ViewBag.payday,refresh = "C"})'" value="Recalculate" />
@@ -49,7 +49,7 @@
         @if (ViewBag.payday != null && Model.Payrollsaved.Count() != 0)
         {
             <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("wpsprint", "payroles", new {month = newdate})'" value="wps" />
-            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reconsilation", "payroles", new {month = newdate})'" value="reconsilation" />
+            @*<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reconsilation", "payroles", new {month = newdate})'" value="reconsilation" />*@
         }
     </div>
 }
@@ -672,6 +672,7 @@
                 }
                 @tod.ToString("#,##0.00")
             </td>
+            <td></td>
             <td>
                 @{
                     var net = 0d;

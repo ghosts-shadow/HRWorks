@@ -49,7 +49,8 @@ namespace HRworks.Models
         [Display(Name = "Pension")]
         public string amount { get; set; }
         public string ded_add { get; set; }
-    
+        public string establishment { get; set; }
+
         public virtual contract contract { get; set; }
         public virtual Leave Leave { get; set; }
         public virtual master_file master_file { get; set; }

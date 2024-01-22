@@ -76,7 +76,9 @@ namespace HRworks.Models
 
         [Display(Name = "Date changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
-
+        public string company { get; set; }
+        public string category { get; set; }
+    
         public virtual master_file master_file { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<payrole> payroles { get; set; }

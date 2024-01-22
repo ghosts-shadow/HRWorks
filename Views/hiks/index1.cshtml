@@ -57,8 +57,8 @@
         @if (ViewBag.eddate != null)
         {
             <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel1", "hiks", new { getdate = ViewBag.eddate ,todate =  ViewBag.eddate2})'" value="Export"/>
-            @*<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Absent", "hiks", new { getdate = ViewBag.eddate })'" value="Absences Report"/>*@
-        }
+            
+        }<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Absent", "hiks")'" value="Absences Report" />
         </div>
     </div>
     <br />

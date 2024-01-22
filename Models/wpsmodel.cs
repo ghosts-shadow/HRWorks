@@ -19,6 +19,7 @@ namespace HRworks.Models
         public int MasterFileid { get; set; }
         public int contractid { get; set; }
         public double panet { get; set; }
+        public string passportoremiratesid { get; set; }
     }
     
 }

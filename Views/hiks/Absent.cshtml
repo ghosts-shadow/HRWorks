@@ -58,7 +58,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Person)
         </th>
-        <th></th>
+        @*<th></th>*@
     </tr>
     @{
         var i = 0;
@@ -76,13 +76,13 @@
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Person)
-    </td>
+    </td>@*
     @if (item.absence_approved != true)
     {
         <td>
             <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Abstransfer", "hiks", new {id=@item.ID , date1=@item.date,empnos=@ViewBag.absapp })'" value="approve" />
         </td>
-    }
+    }*@
 </tr>
     }
 
