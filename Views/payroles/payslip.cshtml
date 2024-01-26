@@ -419,11 +419,13 @@
         @{
             var a = 0d;
             var basperh = 0d;
+            var basperd = 0d;
             if (Model.contract != null)
             {
                 var bas = payrolesController.Unprotect(Model.contract.basic);
                 double.TryParse(bas, out var bas1);
                 basperh = ((bas1 * 12) / 365) / 8;
+                basperd = ((bas1 * 12) / 365);
                 @bas1.ToString("#,##0.00")
             }
         }
@@ -584,7 +586,7 @@
         {
             double.TryParse(payrolesController.Unprotect(Model.paysaved.OTFriday), out var c);
             var cdays = c;
-            c = c * 1.5 * basperh;
+            c = c * 0.5 * basperd;
             @c.ToString("#,##0.00")
         }
 
@@ -595,7 +597,7 @@
         {
             double.TryParse(payrolesController.Unprotect(Model.paysaved.HolidayOT), out var b);
             var bdays = b;
-            b = b * 2.5 * basperh;
+            b = b * 0.5 * basperd;
             @b.ToString("#,##0.00")
         }
 

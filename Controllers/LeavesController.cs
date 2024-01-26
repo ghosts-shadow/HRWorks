@@ -43,7 +43,8 @@ namespace HRworks.Controllers
                 new ListItem { Text = "PATERNITY ", Value = "10" },
                 new ListItem { Text = "SABBATICAL", Value = "11" },
                 new ListItem { Text = "STUDY LEAVE ", Value = "12" },
-                new ListItem { Text = "Compensatory", Value = "13" }
+                new ListItem { Text = "Compensatory", Value = "13" },
+                new ListItem { Text = "balance rectification", Value = "14" }
             };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
@@ -92,7 +93,8 @@ namespace HRworks.Controllers
                 new ListItem { Text = "PATERNITY ", Value = "10" },
                 new ListItem { Text = "SABBATICAL", Value = "11" },
                 new ListItem { Text = "STUDY LEAVE ", Value = "12" },
-                new ListItem { Text = "Compensatory", Value = "13" }
+                new ListItem { Text = "Compensatory", Value = "13" },
+                new ListItem { Text = "balance rectification", Value = "14" }
             };
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
@@ -740,6 +742,10 @@ namespace HRworks.Controllers
                 {
                     Sheet.Cells[string.Format("h{0}", row)].Value = "Compensatory";
                 }
+                if (item.leave_type == "14")
+                {
+                    Sheet.Cells[string.Format("h{0}", row)].Value = "balance rectificatiom";
+                }
 
                 if (item.half)
                 {
@@ -794,7 +800,8 @@ namespace HRworks.Controllers
                 new ListItem { Text = "PATERNITY ", Value = "10" },
                 new ListItem { Text = "SABBATICAL", Value = "11" },
                 new ListItem { Text = "STUDY LEAVE ", Value = "12" },
-                new ListItem { Text = "Compensatory", Value = "13" }
+                new ListItem { Text = "Compensatory", Value = "13" },
+                new ListItem { Text = "balance rectification", Value = "14" }
             };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text", leave.leave_type);
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
@@ -832,7 +839,8 @@ namespace HRworks.Controllers
                 new ListItem { Text = "PATERNITY ", Value = "10" },
                 new ListItem { Text = "SABBATICAL", Value = "11" },
                 new ListItem { Text = "STUDY LEAVE ", Value = "12" },
-                new ListItem { Text = "Compensatory", Value = "13" }
+                new ListItem { Text = "Compensatory", Value = "13" },
+                new ListItem { Text = "balance rectification", Value = "14" }
             };
             this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
             ViewBag.search = search;

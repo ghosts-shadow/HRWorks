@@ -12,10 +12,12 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class weekendlist
+    public partial class access_datenew
     {
         public int Id { get; set; }
-        public string weekend { get; set; }
+        public Nullable<int> emp_no { get; set; }
+        public Nullable<System.DateTime> entrydate { get; set; }
+        public string hours { get; set; }
         public Nullable<int> project_id { get; set; }
     }
 }

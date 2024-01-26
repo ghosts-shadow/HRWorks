@@ -89,10 +89,10 @@
             OTR Hrs
         </th>
         <th style=" position: sticky;top: 0; width: 51px;">
-            OTF AMT
+            OTW AMT
         </th>
         <th style=" position: sticky;top: 0; width: 51px;">
-            OTF Hrs
+            OTW days
         </th>
         <th style=" position: sticky;top: 0; width: 51px;">
             OTN
@@ -101,7 +101,7 @@
             OTH AMT
         </th>
         <th style=" position: sticky;top: 0; width: 51px;">
-            OTH Hrs
+            OTH days
         </th>
         <th style=" position: sticky;top: 0; width: 55px;">
             <b style="color: #006400">	TotalOT</b>
@@ -172,6 +172,7 @@
                     var bas = payrolesController.Unprotect(item.contract.basic);
                     double.TryParse(bas, out var bas1);
                     var basperh = ((bas1 * 12) / 365) / 8;
+                    var basperd = ((bas1 * 12) / 365) ;
 
                 }
                 @bas1.ToString("#,##0.00")
@@ -238,7 +239,7 @@
                 @{
                     double.TryParse(payrolesController.Unprotect(item.OTFriday), out var c);
                     var cdays = c;
-                    c = c * 1.5 * basperh;
+                    c = c * 0.5 * basperd;
                 }
                 @c.ToString("#,##0.00")
             </td>
@@ -260,7 +261,7 @@
                 @{
                     double.TryParse(payrolesController.Unprotect(item.HolidayOT), out var b);
                     var bdays = b;
-                    b = b * 2.5 * basperh;
+                    b = b * 0.5 * basperd;
                 }
                 @b.ToString("#,##0.00")
             </td>

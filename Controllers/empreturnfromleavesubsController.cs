@@ -1021,6 +1021,7 @@ namespace HRworks.Controllers
                         db.Entry(empreturnapp).State = EntityState.Modified;
                         db.SaveChanges();
                         SendMail("", "approved", id);
+                        goto end;
                     }
                     else if (empreturnapp.actualreturnleave > empreturnapp.Leave.Return_leave)
                     {
@@ -1056,6 +1057,7 @@ namespace HRworks.Controllers
                         db.Entry(empreturnapp).State = EntityState.Modified;
                         db.SaveChanges();
                         SendMail("", "approved", id);
+                        goto end;
                     }
                 }
             }

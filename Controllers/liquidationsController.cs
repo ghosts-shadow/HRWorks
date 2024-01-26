@@ -326,7 +326,14 @@ namespace HRworks.Controllers
                 var liqilist = this.db.liquidations.ToList();
                 foreach (var liid in liqireflist)
                 {
-                    printlist1 = this.db.liquidations.Where(x => x.refr == liid.Id).ToList();
+                    var tempList = this.db.liquidations.Where(x => x.refr == liid.Id).ToList();
+                    foreach (var li in tempList)
+                    {
+                        if (!printlist1.Exists(x=>x.employee_no == li.employee_no && x.bill_no == li.bill_no))
+                        {
+                            printlist1.Add(li);
+                        }
+                    }
                     this.ViewBag.prefr = prefr;
                     this.ViewBag.preli = preli;
                     this.ViewBag.pdate = pdate.Value;

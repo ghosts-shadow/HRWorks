@@ -49,7 +49,6 @@ namespace HRworks.Models
         public virtual DbSet<towref> towrefs { get; set; }
         public virtual DbSet<trattfile> trattfiles { get; set; }
         public virtual DbSet<username> usernames { get; set; }
-        public virtual DbSet<weekendlist> weekendlists { get; set; }
         public virtual DbSet<ControlRoom> ControlRooms { get; set; }
         public virtual DbSet<Copy_of_Attendance> Copy_of_Attendances { get; set; }
         public virtual DbSet<EmpPromise> EmpPromises { get; set; }
@@ -69,5 +68,7 @@ namespace HRworks.Models
         public virtual DbSet<access_date> access_date { get; set; }
         public virtual DbSet<Pattendence> Pattendences { get; set; }
         public virtual DbSet<sharepointatt> sharepointatts { get; set; }
+        public virtual DbSet<access_datenew> access_datenew { get; set; }
+        public virtual DbSet<weekendlist> weekendlists { get; set; }
     }
 }

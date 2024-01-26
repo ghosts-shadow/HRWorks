@@ -444,9 +444,10 @@ namespace HRworks.Controllers
                 if (weekdaylist.Count != 0)
                 {
                     foreach (var weekend in weekdaylist)
-                    {
+                    {/*
                         int.TryParse(weekend.weekend, out var weekendday);
-                        if (day.ToString() == Enum.GetName(typeof(DayOfWeek), weekendday))
+                        if (day.ToString() == Enum.GetName(typeof(DayOfWeek), weekendday))*/
+                        if (day.ToString() == weekend.weekend)
                         {
                             count++;
                             var dd = temp.Day;
@@ -6843,7 +6844,7 @@ namespace HRworks.Controllers
             }
 
             var enddate = new DateTime(month.Value.Year, month.Value.Month, 20);
-            var access_datalist = db1.access_date.Where(x =>
+            var access_datalist = db1.access_datenew.Where(x =>
                 x.entrydate >= startdate &&
                 x.entrydate <= enddate).ToList();
             var monthnew = new DateTime(month.Value.Year, month.Value.Month, 1);
@@ -7177,9 +7178,9 @@ namespace HRworks.Controllers
                 var aqf = 0L;
                 var aqh = 0L;
                 if (masterFile == null) goto tos1;
-                var attd1 = access_datalist.FindAll(x => x.emp_no == masterFile.employee_no).OrderBy(x=>x.entrydate).ThenByDescending(x=>x.modified_date).ToList();
-                var attd2 = access_datalist.FindAll(x => x.emp_no == masterFile.employee_no).OrderBy(x => x.entrydate).ThenByDescending(x => x.modified_date).ToList();
-                var atd = new List<access_date>();
+                var attd1 = access_datalist.FindAll(x => x.emp_no == masterFile.employee_no).OrderBy(x=>x.entrydate).ToList();
+                var attd2 = access_datalist.FindAll(x => x.emp_no == masterFile.employee_no).OrderBy(x => x.entrydate).ToList();
+                var atd = new List<access_datenew>();
                 foreach (var atq in attd1)
                 {
                     var sameday = attd1.FindAll(x => x.entrydate == atq.entrydate && x.emp_no == atq.emp_no);
@@ -7328,28 +7329,28 @@ namespace HRworks.Controllers
                     {
 
                         if (atq.entrydate.HasValue && !fdaylist.Exists(x =>
-                                x.Equals(atq.entrydate.Value.Day) &&
-                                !hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day))))
+                                x.Equals(atq.entrydate.Value.Day)) &&
+                                !hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day)))
                         {
                             if (y > 8) aqt += y - 8;
                         }
                         else if (atq.entrydate.HasValue && fdaylist.Exists(x =>
-                                     x.Equals(atq.entrydate.Value.Day) &&
-                                     !hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day))))
+                                     x.Equals(atq.entrydate.Value.Day)) &&
+                                     !hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day)))
                         {
-                            aqf += y;
+                            aqf += 1;
                         }
                         else if (atq.entrydate.HasValue && !fdaylist.Exists(x =>
-                                     x.Equals(atq.entrydate.Value.Day) &&
-                                     hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day))))
+                                     x.Equals(atq.entrydate.Value.Day)) &&
+                                     hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day)))
                         {
-                            aqh += y;
+                            aqh += 1;
                         }
                         else if (atq.entrydate.HasValue && fdaylist.Exists(x =>
-                                     x.Equals(atq.entrydate.Value.Day) &&
-                                     hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day))))
+                                     x.Equals(atq.entrydate.Value.Day)) &&
+                                     hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day)))
                         {
-                            aqh += y;
+                            aqh += 1;
                         }
                     }
                 }
@@ -7580,6 +7581,7 @@ namespace HRworks.Controllers
                 var bac = 0d;
                 double.TryParse(Unprotect(con.basic), out bac);
                 var basperh = bac * 12 / 365 / 8;
+                var basperd = bac * 12 / 365 ;
                 var leave21 = leave2.FindAll(
                     x => x.leave_type == "1").ToList();
                 var al = 0;
@@ -7598,8 +7600,11 @@ namespace HRworks.Controllers
                     al += 1;
                 }
 
+                // payr.TotalOT =
+                //     (aqf * 1.5 * basperh + aqh * 2.5 * basperh + aqt * 1.25 * basperh + ant)
+                //     .ToString();
                 payr.TotalOT =
-                    (aqf * 1.5 * basperh + aqh * 2.5 * basperh + aqt * 1.25 * basperh + ant)
+                    (aqf * 0.5 * basperd + aqh * 0.5 * basperd + aqt * 1.25 * basperh + ant)
                     .ToString();
                 var sal = 0d;
                 double.TryParse(Unprotect(con.salary_details), out sal);
@@ -7683,15 +7688,16 @@ namespace HRworks.Controllers
                             bas = Unprotect(payr.contract.basic);
                             double.TryParse(bas, out var bas1);
                             var basperh1 = bas1 * 12 / 365 / 8;
+                            var basperd1 = bas1 * 12 / 365 ;
                             var bdays = b1;
-                            b1 = b1 * 2.5 * basperh1;
-                            if (payr.HolidayOT != null)
+                            b1 = b1 * 0.5 * basperd1;
+                            if (payr.OTFriday != null)
                             {
                                 double.TryParse(Unprotect(payr.OTFriday), out c1);
                             }
 
                             var cdays1 = c1;
-                            c1 = c1 * 1.5 * basperh1;
+                            c1 = c1 * 0.5 * basperd1;
                             if (payr.HolidayOT != null)
                             {
                                 double.TryParse(Unprotect(payr.OTRegular), out a1);

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b91374722a95408eaf6319e58b92b274" Name="Diagram1" ZoomLevel="60">
+      <Diagram DiagramId="b91374722a95408eaf6319e58b92b274" Name="Diagram1" ZoomLevel="62">
         <EntityTypeShape EntityType="LogisticsSoftModel.Attendance" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="LogisticsSoftModel.MainTimeSheet" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
         <AssociationConnector Association="LogisticsSoftModel.FK_Attendance_ToMainTimeSheet" ManuallyRouted="false" />
@@ -35,7 +35,6 @@
         <EntityTypeShape EntityType="LogisticsSoftModel.towref" Width="1.5" PointX="3" PointY="25" />
         <EntityTypeShape EntityType="LogisticsSoftModel.trattfile" Width="1.5" PointX="5.25" PointY="28.75" />
         <EntityTypeShape EntityType="LogisticsSoftModel.username" Width="1.5" PointX="11.375" PointY="6.75" />
-        <EntityTypeShape EntityType="LogisticsSoftModel.weekendlist" Width="1.5" PointX="3" PointY="31.625" />
         <EntityTypeShape EntityType="LogisticsSoftModel.ControlRoom" Width="1.5" PointX="12.375" PointY="9.75" />
         <EntityTypeShape EntityType="LogisticsSoftModel.Copy_of_Attendance" Width="1.5" PointX="12.375" PointY="12.75" />
         <EntityTypeShape EntityType="LogisticsSoftModel.EmpPromise" Width="1.5" PointX="14.375" PointY="0.75" />
@@ -66,13 +65,14 @@
         <AssociationConnector Association="LogisticsSoftModel.FK_MainTimeSheet_Topro" />
         <AssociationConnector Association="LogisticsSoftModel.FK_towref_Topro1" />
         <AssociationConnector Association="LogisticsSoftModel.FK_towref_Topro2" />
-        <AssociationConnector Association="LogisticsSoftModel.FK_weekendlist_Toprojects_1" />
         <AssociationConnector Association="LogisticsSoftModel.FK_towemp_Toref" />
         <AssociationConnector Association="LogisticsSoftModel.FK_towemp_To" />
         <AssociationConnector Association="LogisticsSoftModel.AspNetUserRoles" />
         <EntityTypeShape EntityType="LogisticsSoftModel.access_date" Width="1.5" PointX="18.375" PointY="14.75" />
         <EntityTypeShape EntityType="LogisticsSoftModel.Pattendence" Width="1.5" PointX="18.375" PointY="18.75" />
         <EntityTypeShape EntityType="LogisticsSoftModel.sharepointatt" Width="1.5" PointX="19.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LogisticsSoftModel.access_datenew" Width="1.5" PointX="20.375" PointY="9.75" />
+        <EntityTypeShape EntityType="LogisticsSoftModel.weekendlist" Width="1.5" PointX="20.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
