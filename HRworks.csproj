@@ -1640,6 +1640,7 @@
     <Content Include="Views\payroles\payroll.cshtml" />
     <Content Include="Views\Attendances\approveabsn.cshtml" />
     <Content Include="Views\payroles\payrollReport.cshtml" />
+    <Content Include="Views\uploaddata\Importconlcbdppeid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

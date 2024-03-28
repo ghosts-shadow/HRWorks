@@ -3010,7 +3010,7 @@ namespace HRworks.Controllers
                                         }
                                     }
 
-                                    var fadamountpday = 250d * 12d / 365d;
+                                    var fadamountpday = 250d * 12d / 360d;
                                     fadamount = fadamountpday * (datediff - faddays);
                                     //fadamount = fadamountpday * faddays;
                                     if (fadamount > 250)
@@ -3066,7 +3066,7 @@ namespace HRworks.Controllers
                         var gross1 = 0d;
 
                         double.TryParse(Unprotect(payr.contract.salary_details), out gross1);
-                        var TLWOP1 = (absd + lowp) * (gross1 * 12 / 365);
+                        var TLWOP1 = (absd + lowp) * (gross1 * 12 / 360);
                         totded += TLWOP1;
 
                         payr.TotalDedution = totded.ToString();
@@ -3075,7 +3075,7 @@ namespace HRworks.Controllers
                         var con = conlist.Find(c1 => c1.employee_no == masterFile.employee_id);
                         var bac = 0d;
                         double.TryParse(Unprotect(con.basic), out bac);
-                        var basperh = bac * 12 / 365 / 8;
+                        var basperh = bac * 12 / 360 / 8;
                         var leave21 = leave2.FindAll(
                             x => x.leave_type == "1").ToList();
                         var al = 0;
@@ -3172,7 +3172,7 @@ namespace HRworks.Controllers
                                     var bas = "0";
                                     bas = Unprotect(payr.contract.basic);
                                     double.TryParse(bas, out var bas1);
-                                    var basperh1 = bas1 * 12 / 365 / 8;
+                                    var basperh1 = bas1 * 12 / 360 / 8;
                                     var bdays = b1;
                                     b1 = b1 * 2.5 * basperh1;
                                     if (payr.HolidayOT != null)
@@ -3244,7 +3244,7 @@ namespace HRworks.Controllers
                                 paysave.amount = payr.amount;
                             var gross = 0d;
                             double.TryParse(Unprotect(payr.contract.salary_details), out gross);
-                            var TLWOP = (paysave.Absents + paysave.LWOP) * (gross * 12 / 365);
+                            var TLWOP = (paysave.Absents + paysave.LWOP) * (gross * 12 / 360);
                             paysave.TotalLWOP = TLWOP.ToString();
                             paysave.others = payr.others;
                             paysave.TotalDedution = payr.TotalDedution;
@@ -5675,7 +5675,7 @@ namespace HRworks.Controllers
 
                             var bac = 0d;
                             double.TryParse(Unprotect(con.basic), out bac);
-                            var basperh = bac * 12 / 365 / 8;
+                            var basperh = bac * 12 / 360 / 8;
                             var leave21 = leave2.FindAll(
                                 x => x.leave_type == "1").ToList();
                             var al = 0;
@@ -5711,7 +5711,7 @@ namespace HRworks.Controllers
                                 }
                             }
 
-                            var TLWOP = (labs + ldays) * (sal * 12 / 365);
+                            var TLWOP = (labs + ldays) * (sal * 12 / 360);
                             var fad = 0d;
 
                             /*var fadamount = 0d;
@@ -5794,7 +5794,7 @@ namespace HRworks.Controllers
                                         }
                                     }
 
-                                    var fadamountpday = 250d * 12d / 365d;
+                                    var fadamountpday = 250d * 12d / 360d;
                                     //fadamount = fadamountpday * faddays;
                                     fadamount = fadamountpday * (datediff - faddays);
                                     if (fadamount > 250)
@@ -6217,7 +6217,7 @@ namespace HRworks.Controllers
                 double.TryParse(Unprotect(item.HolidayOT), out var b1);
                 var bas = Unprotect(item.contract.basic);
                 double.TryParse(bas, out var bas1);
-                var basperh1 = ((bas1 * 12) / 365 )/ 8;
+                var basperh1 = ((bas1 * 12) / 360 )/ 8;
                 var bdays = b1;
                 b1 = b1 * 2.5 * basperh1;
                 double.TryParse(Unprotect(item.OTFriday), out var c1);
@@ -6235,7 +6235,7 @@ namespace HRworks.Controllers
                 if (item.Leave?.days != null)
                     ldays = item.Leave.days.Value;
 
-                var TLWOP = (labs + ldays) * (sal * 12 / 365);
+                var TLWOP = (labs + ldays) * (sal * 12 / 360);
                 Sheet.Cells[string.Format("A{0}", row)].Value = item.master_file.employee_no;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.master_file.employee_name;
                 Sheet.Cells[string.Format("C{0}", row)].Value = Unprotect(item.contract.basic);
@@ -6911,7 +6911,7 @@ namespace HRworks.Controllers
                 
                 if (payr.Rstate == "R" && !newtemp)
                 {
-                    goto R;
+                    //goto R;
                 }
                 var leavedate1 = new DateTime();
                 if (payr.forthemonth.Value.Month == 1)
@@ -7196,7 +7196,7 @@ namespace HRworks.Controllers
                             {
                                 foreach (var atq1 in sameday)
                                 {
-                                    if (atq1.project_id !=atq.project_id )
+                                    if (atq1.project_id !=atq.project_id && atq1.project_id.HasValue)
                                     {
                                         
                                     if (long.TryParse(atq1.hours, out long tempvar))
@@ -7338,19 +7338,29 @@ namespace HRworks.Controllers
                                      x.Equals(atq.entrydate.Value.Day)) &&
                                      !hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day)))
                         {
-                            aqf += 1;
+                            if (y != 0)
+                            {
+                                aqf += 1;
+                            }
                         }
                         else if (atq.entrydate.HasValue && !fdaylist.Exists(x =>
                                      x.Equals(atq.entrydate.Value.Day)) &&
                                      hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day)))
                         {
-                            aqh += 1;
+                            if (y != 0)
+                            {
+                                aqh += 1;
+                            }
                         }
                         else if (atq.entrydate.HasValue && fdaylist.Exists(x =>
                                      x.Equals(atq.entrydate.Value.Day)) &&
                                      hlistday.Exists(q => q.Equals(atq.entrydate.Value.Day)))
                         {
-                            aqh += 1;
+                            if (y != 0)
+                            {
+                                aqh += 1;
+                            }
+
                         }
                     }
                 }
@@ -7569,7 +7579,7 @@ namespace HRworks.Controllers
                 var gross1 = 0d;
 
                 double.TryParse(Unprotect(payr.contract.salary_details), out gross1);
-                var TLWOP1 = (absd + lowp) * (gross1 * 12 / 365);
+                var TLWOP1 = (absd + lowp) * (gross1 * 12 / 360);
                 totded += TLWOP1;
 
                 payr.TotalDedution = totded.ToString();
@@ -7580,8 +7590,8 @@ namespace HRworks.Controllers
                 }
                 var bac = 0d;
                 double.TryParse(Unprotect(con.basic), out bac);
-                var basperh = bac * 12 / 365 / 8;
-                var basperd = bac * 12 / 365 ;
+                var basperh = bac * 12 / 360 / 8;
+                var basperd = bac * 12 / 360 ;
                 var leave21 = leave2.FindAll(
                     x => x.leave_type == "1").ToList();
                 var al = 0;
@@ -7638,6 +7648,10 @@ namespace HRworks.Controllers
                     payr.save = false;
                 else
                     payr.save = true;
+                if (payr.Rstate == "C")
+                {
+                    payr.Rstate = "R";
+                }
                 if (newtemp)
                 {
                     Create(payr);
@@ -7646,6 +7660,7 @@ namespace HRworks.Controllers
                 {
                     Edit(payr, "edit");
                 }
+
                 R: ;
                 if (payr.Rstate == "R")
                 {
@@ -7687,8 +7702,8 @@ namespace HRworks.Controllers
                             var bas = "0";
                             bas = Unprotect(payr.contract.basic);
                             double.TryParse(bas, out var bas1);
-                            var basperh1 = bas1 * 12 / 365 / 8;
-                            var basperd1 = bas1 * 12 / 365 ;
+                            var basperh1 = bas1 * 12 / 360 / 8;
+                            var basperd1 = bas1 * 12 / 360 ;
                             var bdays = b1;
                             b1 = b1 * 0.5 * basperd1;
                             if (payr.OTFriday != null)
@@ -7760,7 +7775,7 @@ namespace HRworks.Controllers
                         paysave.amount = payr.amount;
                     var gross = 0d;
                     double.TryParse(Unprotect(payr.contract.salary_details), out gross);
-                    var TLWOP = (paysave.Absents + paysave.LWOP) * (gross * 12 / 365);
+                    var TLWOP = (paysave.Absents + paysave.LWOP) * (gross * 12 / 360);
                     paysave.TotalLWOP = TLWOP.ToString();
                     paysave.others = payr.others;
                     paysave.TotalDedution = payr.TotalDedution;

@@ -562,7 +562,7 @@ namespace HRworks.Controllers
             return this.View(hiklist.OrderBy(x => x.Employee_id).ThenBy(x => x.datetime1));
         }
 
-        public ActionResult index1(DateTime? getdate, DateTime? todate)
+        public ActionResult index1(DateTime? getdate, DateTime? todate,string empno)
         {
             if (!todate.HasValue && getdate.HasValue)
             {
@@ -624,6 +624,12 @@ namespace HRworks.Controllers
             passexel.AddRange(schinout);
             passexel.AddRange(schin);
             passexel.AddRange(schout);
+            if (!empno.IsNullOrWhiteSpace())
+            {
+                var empnotemp = 0;
+                int.TryParse(empno, out empnotemp);
+                return this.View(passexel.FindAll(x=>x.EMPID == empnotemp).OrderBy(x => x.date).ThenBy(x => x.EMPID));
+            }
             return this.View(passexel.OrderBy(x => x.date).ThenBy(x => x.EMPID));
         }
 
