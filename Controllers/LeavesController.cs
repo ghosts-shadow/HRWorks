@@ -2654,7 +2654,7 @@ namespace HRworks.Controllers
                         var ifnewsublist = new List<employeeleavesubmition>();
                         if (perviousyearleave == null)
                         {
-                            ifnewsublist = db.employeeleavesubmitions.ToList().FindAll(x =>
+                            ifnewsublist = db.employeeleavesubmitions.ToList().FindAll(x => x.Employee_id == empjd.employee_id &&
                                 x.Date <= new DateTime(i, 3, 31) && x.Date >= new DateTime(i, 1, 1) &&
                                 (x.leave_type == "1" || x.leave_type == "6"));
                         }
@@ -2668,17 +2668,27 @@ namespace HRworks.Controllers
 
                         if (submitedleave.Count == 0)
                         {
-                            if (perviousyearleave.leave_balance <= perviousyearleave.sumittedleavebal)
+                            if (perviousyearleave != null)
+                            {
+
+                                if (perviousyearleave.leave_balance <= perviousyearleave.sumittedleavebal)
+                                {
+                                    yearrecord.sumittedleavebal = yearrecord.leave_balance;
+                                    this.db.Entry(yearrecord).State = EntityState.Modified;
+                                    this.db.SaveChanges();
+                                }
+                                else
+                                {
+                                    yearrecord.sumittedleavebal = yearrecord.leave_balance - perviousyearleave.leave_balance + perviousyearleave.sumittedleavebal;
+                                    this.db.Entry(yearrecord).State = EntityState.Modified;
+                                    this.db.SaveChanges();
+                                }
+                            }
+                            else
                             {
                                 yearrecord.sumittedleavebal = yearrecord.leave_balance;
                                 this.db.Entry(yearrecord).State = EntityState.Modified;
                                 this.db.SaveChanges();
-                            }
-                            else
-                            {
-                                    yearrecord.sumittedleavebal = yearrecord.leave_balance - perviousyearleave.leave_balance + perviousyearleave.sumittedleavebal;
-                                    this.db.Entry(yearrecord).State = EntityState.Modified;
-                                    this.db.SaveChanges();
                             }
                             goto endfun1;
                         }
