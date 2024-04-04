@@ -1,0 +1,89 @@
+﻿@model IEnumerable<HRworks.Models.companLeaveR>
+
+@{
+    ViewBag.Title = "compansatory leave ";
+}
+
+<h2>records</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        @if (User.Identity.Name == "dinizsneden@gmail.com")
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.master_file.employee_id)
+            </th>
+        }
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ForWhichDate)
+        </th>
+        @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.dateModified)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.addedBy)
+            </th>
+        }
+        @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
+        {
+            <th></th>
+        }
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        @if (User.Identity.Name == "dinizsneden@gmail.com")
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_id)
+            </td>
+        }
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_no)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ForWhichDate)
+        </td>
+
+        @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.dateModified)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.addedBy)
+            </td>
+
+        }
+
+        @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
+        {
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        }
+    </tr>
+}
+
+</table>

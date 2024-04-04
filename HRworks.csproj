@@ -543,6 +543,7 @@
     <Compile Include="Controllers\certificatesavingtest_Controller.cs" />
     <Compile Include="Controllers\certificatetypesController.cs" />
     <Compile Include="Controllers\CERTIFICATE_REQUESTController.cs" />
+    <Compile Include="Controllers\companLeaveRsController.cs" />
     <Compile Include="Controllers\contractloginsController.cs" />
     <Compile Include="Controllers\contractsController.cs" />
     <Compile Include="Controllers\datacorrectionController.cs" />
@@ -607,16 +608,16 @@
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetRole.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUser.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserClaim.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserLogin.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Attendance.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
@@ -651,6 +652,12 @@
     <Compile Include="Models\CERTIFICATE_REQUEST.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\companleaveBal.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\companLeaveR.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\contract.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -668,7 +675,7 @@
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\C__MigrationHistory.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\decrycontracts.cs" />
     <Compile Include="Models\decrymodel.cs" />
@@ -920,7 +927,7 @@
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\username.cs">
-      <DependentUpon>timesheet.tt</DependentUpon>
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\USER_ROLES.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
@@ -1641,6 +1648,11 @@
     <Content Include="Views\Attendances\approveabsn.cshtml" />
     <Content Include="Views\payroles\payrollReport.cshtml" />
     <Content Include="Views\uploaddata\Importconlcbdppeid.cshtml" />
+    <Content Include="Views\companLeaveRs\Create.cshtml" />
+    <Content Include="Views\companLeaveRs\Delete.cshtml" />
+    <Content Include="Views\companLeaveRs\Details.cshtml" />
+    <Content Include="Views\companLeaveRs\Edit.cshtml" />
+    <Content Include="Views\companLeaveRs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

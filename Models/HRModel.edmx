@@ -189,6 +189,25 @@
           <Property Name="certificate name " Type="nvarchar(max)" />
           <Property Name="certificsatefor" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="companleaveBal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpNo" Type="int" Nullable="false" />
+          <Property Name="dateModified" Type="datetime" Nullable="false" />
+          <Property Name="balance" Type="bigint" />
+        </EntityType>
+        <EntityType Name="companLeaveRs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ForWhichDate" Type="datetime" Nullable="false" />
+          <Property Name="dateModified" Type="datetime" />
+          <Property Name="addedBy" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EmpNo" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="contract">
           <Key>
             <PropertyRef Name="employee_id" />
@@ -1136,6 +1155,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_clb_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="companleaveBal" Type="Self.companleaveBal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="companleaveBal">
+              <PropertyRef Name="EmpNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_clrs_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="companLeaveRs" Type="Self.companLeaveRs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="companLeaveRs">
+              <PropertyRef Name="EmpNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_con_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="contract" Type="Self.contract" Multiplicity="*" />
@@ -1750,6 +1793,8 @@
           <EntitySet Name="certificatesavinggrove" EntityType="Self.certificatesavinggrove" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="certificatesavingtest&#x9;" EntityType="Self.certificatesavingtest&#x9;" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="certificatetype" EntityType="Self.certificatetype" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="companleaveBal" EntityType="Self.companleaveBal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="companLeaveRs" EntityType="Self.companLeaveRs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="contract" EntityType="Self.contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="contractlogin" EntityType="Self.contractlogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="detailsinarabic" EntityType="Self.detailsinarabic" Schema="dbo" store:Type="Tables" />
@@ -1832,6 +1877,14 @@
           <AssociationSet Name="FK_certificatereqG_To_master_file" Association="Self.FK_certificatereqG_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="certificatesavinggrove" EntitySet="certificatesavinggrove" />
+          </AssociationSet>
+          <AssociationSet Name="FK_clb_To_master_file" Association="Self.FK_clb_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="companleaveBal" EntitySet="companleaveBal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_clrs_To_master_file" Association="Self.FK_clrs_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="companLeaveRs" EntitySet="companLeaveRs" />
           </AssociationSet>
           <AssociationSet Name="FK_con_To_master_file" Association="Self.FK_con_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -2816,6 +2869,8 @@
           <NavigationProperty Name="labour_card" Relationship="HRModel.FK_lc_To_master_file" FromRole="master_file" ToRole="labour_card" />
           <NavigationProperty Name="passports" Relationship="HRModel.FK_pp_To_master_file" FromRole="master_file" ToRole="passport" />
           <NavigationProperty Name="certificatesavinggroves" Relationship="HRModel.FK_certificatereqG_To_master_file" FromRole="master_file" ToRole="certificatesavinggrove" />
+          <NavigationProperty Name="companleaveBals" Relationship="HRModel.FK_clb_To_master_file" FromRole="master_file" ToRole="companleaveBal" />
+          <NavigationProperty Name="companLeaveRs" Relationship="HRModel.FK_clrs_To_master_file" FromRole="master_file" ToRole="companLeaveR" />
         </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
@@ -4024,6 +4079,16 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="certificatesavinggrove" EntitySet="certificatesavinggroves" />
           </AssociationSet>
+          <EntitySet Name="companleaveBals" EntityType="HRModel.companleaveBal" />
+          <EntitySet Name="companLeaveRs" EntityType="HRModel.companLeaveR" />
+          <AssociationSet Name="FK_clb_To_master_file" Association="HRModel.FK_clb_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="companleaveBal" EntitySet="companleaveBals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_clrs_To_master_file" Association="HRModel.FK_clrs_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="companLeaveR" EntitySet="companLeaveRs" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_EID_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -4111,6 +4176,51 @@
             </Principal>
             <Dependent Role="certificatesavinggrove">
               <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="companleaveBal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpNo" Type="Int32" Nullable="false" />
+          <Property Name="dateModified" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="balance" Type="Int64" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_clb_To_master_file" FromRole="companleaveBal" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="companLeaveR">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ForWhichDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dateModified" Type="DateTime" Precision="3" />
+          <Property Name="addedBy" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmpNo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_clrs_To_master_file" FromRole="companLeaveR" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_clb_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.companleaveBal" Role="companleaveBal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="companleaveBal">
+              <PropertyRef Name="EmpNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_clrs_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.companLeaveR" Role="companLeaveR" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="companLeaveR">
+              <PropertyRef Name="EmpNo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5197,6 +5307,27 @@
                 <ScalarProperty Name="destination" ColumnName="destination" />
                 <ScalarProperty Name="certificate_type" ColumnName="certificate_type" />
                 <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="companleaveBals">
+            <EntityTypeMapping TypeName="HRModel.companleaveBal">
+              <MappingFragment StoreEntitySet="companleaveBal">
+                <ScalarProperty Name="balance" ColumnName="balance" />
+                <ScalarProperty Name="dateModified" ColumnName="dateModified" />
+                <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="companLeaveRs">
+            <EntityTypeMapping TypeName="HRModel.companLeaveR">
+              <MappingFragment StoreEntitySet="companLeaveRs">
+                <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+                <ScalarProperty Name="addedBy" ColumnName="addedBy" />
+                <ScalarProperty Name="dateModified" ColumnName="dateModified" />
+                <ScalarProperty Name="ForWhichDate" ColumnName="ForWhichDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

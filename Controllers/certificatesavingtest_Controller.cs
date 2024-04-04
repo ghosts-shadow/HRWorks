@@ -337,7 +337,7 @@ namespace HRworks.Controllers
                 var csorgr = "CS-HRDCRT-";
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
-                    filepath = Server.MapPath("~/arabic certificates/Salary Certificate - Arabic - Female.pdf");
+                    filepath = Server.MapPath("~/arabic certificates/Salary Certificate - Arabic - Female - Grove.pdf");
                     filepathout =
                         Server.MapPath("~/arabic certificates/tempstore/Salary Certificate - Arabic - Female.pdf");
                     csorgr = "GR-HRDCRT-";
@@ -356,7 +356,7 @@ namespace HRworks.Controllers
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 518));
                         formattedText.Clear();
                         formattedText.Append(nameinar.ARnationality);
-                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 456));
+                        document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 485));
                         formattedText.Clear();
                         formattedText.Append(nameinar.ARposition);
                         document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 422));
@@ -375,7 +375,7 @@ namespace HRworks.Controllers
                         if (passport != null)
                         {
                             formattedText.Append(passport.passport_no);
-                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 485));
+                            document.Pages[0].Content.DrawText(formattedText, new PdfPoint(420, 456));
                             formattedText.Clear();
                         }
 
@@ -416,7 +416,7 @@ namespace HRworks.Controllers
                 if (certificatesavingtest_.cs_gr == "GR_certificates")
                 {
                     Response.AddHeader("Content-Disposition",
-                        "attachment;filename=\"Salary Certificate - Arabic - Female.pdf\"");
+                        "attachment;filename=\"Salary Certificate - Arabic - Female - Grove.pdf\"");
                     Response.BinaryWrite(System.IO.File.ReadAllBytes(
                         Server.MapPath(
                             "~/arabic certificates/tempstore/Salary Certificate - Arabic - Female.pdf")));

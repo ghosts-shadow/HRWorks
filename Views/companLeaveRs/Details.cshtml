@@ -1,0 +1,50 @@
+﻿@model HRworks.Models.companLeaveR
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>companLeaveR</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ForWhichDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ForWhichDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateModified)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateModified)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.addedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.addedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

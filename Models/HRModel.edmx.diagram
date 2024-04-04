@@ -121,6 +121,10 @@
         <EntityTypeShape EntityType="HRModel.certificatesavinggrove" Width="1.5" PointX="54.125" PointY="75.25" />
         <AssociationConnector Association="HRModel.FK_certificatereqG_To_certificatetype" />
         <AssociationConnector Association="HRModel.FK_certificatereqG_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.companleaveBal" Width="1.5" PointX="54.125" PointY="79.625" />
+        <EntityTypeShape EntityType="HRModel.companLeaveR" Width="1.5" PointX="54.125" PointY="71.75" />
+        <AssociationConnector Association="HRModel.FK_clb_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_clrs_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

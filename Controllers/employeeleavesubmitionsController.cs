@@ -435,7 +435,8 @@ namespace HRworks.Controllers
                 new ListItem {Text = "ESCORT", Value = "9"},
                 new ListItem {Text = "PATERNITY ", Value = "10"},
                 new ListItem {Text = "SABBATICAL", Value = "11"},
-                new ListItem {Text = "STUDY LEAVE ", Value = "12"}
+                new ListItem {Text = "STUDY LEAVE ", Value = "12"},
+                new ListItem { Text = "Compensatory", Value = "13" }
             };
             var userempnolist = db.usernames
                 .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
@@ -468,7 +469,8 @@ namespace HRworks.Controllers
                 new ListItem {Text = "ESCORT", Value = "9"},
                 new ListItem {Text = "PATERNITY ", Value = "10"},
                 new ListItem {Text = "SABBATICAL", Value = "11"},
-                new ListItem {Text = "STUDY LEAVE ", Value = "12"}
+                new ListItem {Text = "STUDY LEAVE ", Value = "12"},
+                new ListItem { Text = "Compensatory", Value = "13" }
             };
             var userempnolist = db.usernames
                 .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
@@ -511,6 +513,35 @@ namespace HRworks.Controllers
                         ModelState.AddModelError("toltal_requested_days", "insufficient balance");
                         goto jderr;
                     }
+                }
+            }
+                var compballist = db.companleaveBals.ToList();
+
+            if (employeeleavesubmition.leave_type == "13")
+            {
+                if (compballist.Count > 0)
+                {
+                    var compbalcheck = compballist.Find(x=>x.EmpNo == employeeleavesubmition.Employee_id);
+                    
+                    if (compbalcheck != null ||employeeleavesubmition.toltal_requested_days != null)
+                    {
+                        var compbalhalfif = employeeleavesubmition.toltal_requested_days;
+                        if (true)
+                        {
+                            compbalhalfif -= 0.5;
+                        }
+
+                        if (compbalcheck.balance - compbalhalfif < 0)
+                        {
+                            ModelState.AddModelError("toltal_requested_days", "insufficient balance");
+                            goto jderr;
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("toltal_requested_days", "insufficient balance");
+                    goto jderr;
                 }
             }
             
@@ -684,6 +715,11 @@ namespace HRworks.Controllers
                     return RedirectToAction("Index");
                 }
 
+                if (employeeleavesubmition.leave_type == "13")
+                {
+                    var compbalcheck = compballist.Find(x => x.EmpNo == employeeleavesubmition.Employee_id);
+                    //compbalcheck.balance -= employeeleavesubmition.toltal_requested_days
+                }
                 employeeleavesubmition.apstatus = "submitted";
                 employeeleavesubmition.imgpath = serverfile;
                 db.employeeleavesubmitions.Add(employeeleavesubmition);

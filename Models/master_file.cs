@@ -59,6 +59,8 @@ namespace HRworks.Models
             this.labour_card = new HashSet<labour_card>();
             this.passports = new HashSet<passport>();
             this.certificatesavinggroves = new HashSet<certificatesavinggrove>();
+            this.companleaveBals = new HashSet<companleaveBal>();
+            this.companLeaveRs = new HashSet<companLeaveR>();
         }
 
         public int employee_id { get; set; }
@@ -181,5 +183,9 @@ namespace HRworks.Models
         public virtual ICollection<passport> passports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<certificatesavinggrove> certificatesavinggroves { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<companleaveBal> companleaveBals { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<companLeaveR> companLeaveRs { get; set; }
     }
 }
