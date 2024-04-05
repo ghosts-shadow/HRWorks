@@ -324,6 +324,14 @@ namespace HRworks.Controllers
             double study = 0;
             double availed = 0;
             var favailed = 0d;
+            var companbal = 0d;
+            var complist = db.companleaveBals.ToList();
+            if (complist.Exists(x=>x.EmpNo == empjd.employee_id))
+            {
+                var compbalance = complist.Find(x => x.EmpNo == empjd.employee_id).balance;
+                if (compbalance != null)
+                    companbal = compbalance.Value;
+            }
             foreach (var leavecalperyear in leavebal2020)
             {
                 per+=leavecalperyear.period.Value;
@@ -361,6 +369,7 @@ namespace HRworks.Controllers
             this.ViewBag.comp = comp;
             this.ViewBag.sab = sab;
             this.ViewBag.study = study;
+            this.ViewBag.companbal = companbal;
             /*if (leavebal2020.leave_balance < leavebal2020.ifslbal)
             {
                 this.ViewBag.lbal = leavebal2020.leave_balance;
@@ -526,7 +535,7 @@ namespace HRworks.Controllers
                     if (compbalcheck != null ||employeeleavesubmition.toltal_requested_days != null)
                     {
                         var compbalhalfif = employeeleavesubmition.toltal_requested_days;
-                        if (true)
+                        if (employeeleavesubmition.half)
                         {
                             compbalhalfif -= 0.5;
                         }
@@ -718,7 +727,15 @@ namespace HRworks.Controllers
                 if (employeeleavesubmition.leave_type == "13")
                 {
                     var compbalcheck = compballist.Find(x => x.EmpNo == employeeleavesubmition.Employee_id);
-                    //compbalcheck.balance -= employeeleavesubmition.toltal_requested_days
+
+                    var compbalhalfif = employeeleavesubmition.toltal_requested_days;
+                    if (employeeleavesubmition.half)
+                    {
+                        compbalhalfif -= 0.5;
+                    }
+                    compbalcheck.balance -= compbalhalfif;
+                    db.Entry(compbalcheck).State = EntityState.Modified;
+                    db.SaveChanges();
                 }
                 employeeleavesubmition.apstatus = "submitted";
                 employeeleavesubmition.imgpath = serverfile;
@@ -1263,6 +1280,7 @@ namespace HRworks.Controllers
             var empjd = empuser.master_file;
             var logedinsrels = relationlist.FindAll(x => x.line_man == empjd.employee_id || x.HOD == empjd.employee_id);
             var currentrel = logedinsrels.Find(x => x.Employee_id == employeeleavesubmition.Employee_id);
+            var compballist = db.companleaveBals.ToList();
             if (currentrel.line_man == empjd.employee_id)
             {
                 if (currentrel.HOD == empjd.employee_id)
@@ -1271,6 +1289,20 @@ namespace HRworks.Controllers
                 }
                 employeeleavesubmition.apstatus = "rejected by line manager for " + message;
                 employeeleavesubmition.approved_byline = User.Identity.Name;
+
+                if (employeeleavesubmition.leave_type == "13")
+                {
+                    var compbalcheck = compballist.Find(x => x.EmpNo == employeeleavesubmition.Employee_id);
+
+                    var compbalhalfif = employeeleavesubmition.toltal_requested_days;
+                    if (employeeleavesubmition.half)
+                    {
+                        compbalhalfif -= 0.5;
+                    }
+                    compbalcheck.balance += compbalhalfif;
+                    db.Entry(compbalcheck).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
                 db.Entry(employeeleavesubmition).State = EntityState.Modified;
                 db.SaveChanges();
                 SendMail(message, "rejected by line manager for ", id);
@@ -1282,6 +1314,19 @@ namespace HRworks.Controllers
             {
                 employeeleavesubmition.apstatus = "rejected by HOD for " + message;
                 employeeleavesubmition.approved_byhod = User.Identity.Name;
+                if (employeeleavesubmition.leave_type == "13")
+                {
+                    var compbalcheck = compballist.Find(x => x.EmpNo == employeeleavesubmition.Employee_id);
+
+                    var compbalhalfif = employeeleavesubmition.toltal_requested_days;
+                    if (employeeleavesubmition.half)
+                    {
+                        compbalhalfif -= 0.5;
+                    }
+                    compbalcheck.balance += compbalhalfif;
+                    db.Entry(compbalcheck).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
                 db.Entry(employeeleavesubmition).State = EntityState.Modified;
                 db.SaveChanges();
                 SendMail(message, "rejected by HOD for ", id);

@@ -59,6 +59,17 @@
                     <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leavebaltill")'" value="leave balance till" />
                 }
             </div>
+            <div class="col-lg-3">
+                <br />
+                <br />
+                
+            @if (User.IsInRole("super_admin") || User.IsInRole("payrole"))
+            {
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "companLeaveRs")'" value="compensatory leave record"/>
+            }
+                
+            </div>
+            
         </div>
         </div>
 </div> 

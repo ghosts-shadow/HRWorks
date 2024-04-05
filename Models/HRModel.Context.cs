@@ -86,7 +86,7 @@ namespace HRworks.Models
         public virtual DbSet<visa> visas { get; set; }
         public virtual DbSet<visa_and_labour_card> visa_and_labour_card { get; set; }
         public virtual DbSet<certificatesavinggrove> certificatesavinggroves { get; set; }
-        public virtual DbSet<companleaveBal> companleaveBals { get; set; }
         public virtual DbSet<companLeaveR> companLeaveRs { get; set; }
+        public virtual DbSet<companleaveBal> companleaveBals { get; set; }
     }
 }
