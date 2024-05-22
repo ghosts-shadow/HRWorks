@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace HRworks.Models
 {
     using System;
@@ -15,6 +17,8 @@ namespace HRworks.Models
     public partial class liquiexp
     {
         public int Id { get; set; }
+
+        [Display(Name = "expense")]
         public string expence { get; set; }
         public string issuer { get; set; }
     }

@@ -1050,6 +1050,7 @@
     <Content Include="img\logo_Grove.png" />
     <Content Include="img\navlogo.png" />
     <Content Include="img\payslip-1\payslip.jpg" />
+    <Content Include="img\payslip-1\payslip.png" />
     <Content Include="img\pettycashbar.jpg" />
     <EntityDeploy Include="Models\timesheet.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1653,6 +1654,7 @@
     <Content Include="Views\companLeaveRs\Details.cshtml" />
     <Content Include="Views\companLeaveRs\Edit.cshtml" />
     <Content Include="Views\companLeaveRs\Index.cshtml" />
+    <Content Include="Views\uploaddata\Importlaborcard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

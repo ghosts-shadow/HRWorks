@@ -82,83 +82,84 @@
         <th>
             @Html.DisplayNameFor(model => model.employee_no)
         </th>*@
-                <th>
-                    @Html.DisplayNameFor(model => model.master_file.employee_no)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.master_file.employee_name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.con_id)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.designation)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.company)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.category)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.grade)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.departmant_project)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.salary_details)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.basic)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.housing_allowance)
-                </th>
-                @*
             <th>
-                @Html.DisplayNameFor(model => model.transportation_allowance)
+                @Html.DisplayNameFor(model => model.master_file.employee_no)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FOT)
-            </th>*@
-                <th>
-                    @Html.DisplayNameFor(model => model.food_allowance)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.living_allowance)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ticket_allowance)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.others)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.arrears)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.imgpath)
-                </th>
-                @if (User.Identity.IsAuthenticated)
+                @Html.DisplayNameFor(model => model.master_file.employee_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.con_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.designation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.company)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.grade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.departmant_project)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.salary_details)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.basic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.housing_allowance)
+            </th>
+            @*
+        <th>
+            <th>
+                @Html.DisplayNameFor(model => model.category)
+            </th>
+            @Html.DisplayNameFor(model => model.transportation_allowance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FOT)
+        </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.food_allowance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.living_allowance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ticket_allowance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.others)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.arrears)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.imgpath)
+            </th>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("super_admin") || User.IsInRole("admin"))
                 {
-                    if (User.IsInRole("super_admin") || User.IsInRole("admin"))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.changed_by)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.date_changed)
-                        </th>
-                    }
+                    <th>
+                        @Html.DisplayNameFor(model => model.changed_by)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.date_changed)
+                    </th>
                 }
+            }
 
-                <th></th>
-            </tr>
+            <th></th>
+        </tr>
 
         @foreach (var item in Model)
         {
-    <tr>@*
+    <tr>
+        @*
         <td>
             @Html.DisplayFor(modelItem => item.employee_no)
         </td>*@
@@ -178,9 +179,6 @@
             @Html.DisplayFor(modelItem => item.company)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.category)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.grade)
         </td>
         <td>
@@ -195,7 +193,10 @@
         <td>
             @Html.DisplayFor(modelItem => item.housing_allowance)
         </td>
-        @*<td>
+        @*
+        <td>
+            @Html.DisplayFor(modelItem => item.category)
+        </td><td>
             @Html.DisplayFor(modelItem => item.transportation_allowance)
         </td>
         <td>
@@ -231,7 +232,7 @@
                 </td>
             }
         }
-            <td>
+        <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.employee_id }) |
             @Html.ActionLink("Details", "Details", new { id = item.employee_id }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.employee_id })

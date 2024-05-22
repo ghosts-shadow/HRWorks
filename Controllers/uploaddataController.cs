@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using HRworks.Models;
 using Microsoft.Ajax.Utilities;
+using Microsoft.AspNet.Identity;
 using Microsoft.CodeAnalysis;
 using OfficeOpenXml;
 
@@ -308,477 +309,706 @@ namespace HRworks.Controllers
         [HttpPost]
         public ActionResult ImportConlcbdppeid()
         {
-            if (this.Request.Files["FileUpload1"].ContentLength > 0)
+            var path1 = "";
+            try
             {
-                var extension = Path.GetExtension(this.Request.Files["FileUpload1"].FileName).ToLower();
-                string query = null;
-                var connString = string.Empty;
-
-                string[] validFileTypes = { ".csv" };
-
-                var path1 = string.Format(
-                    "{0}/{1}",
-                    this.Server.MapPath("~/Content/Uploads"),
-                    this.Request.Files["FileUpload1"].FileName);
-                if (!Directory.Exists(path1)) Directory.CreateDirectory(this.Server.MapPath("~/Content/Uploads"));
-                var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed)
-                    .ToList();
-                var afinallist = new List<master_file>();
-                var duplist = new List<master_file>();
-                foreach (var file in alist)
+                if (this.Request.Files["FileUpload1"].ContentLength > 0)
                 {
-                    var temp = file.employee_no;
-                    var temp2 = file.last_working_day;
-                    var temp3 = file.status;
-                    if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                    var extension = Path.GetExtension(this.Request.Files["FileUpload1"].FileName).ToLower();
+                    string query = null;
+                    var connString = string.Empty;
+
+                    string[] validFileTypes = { ".csv" };
+
+                    path1 = string.Format(
+                        "{0}/{1}",
+                        this.Server.MapPath("~/Content/Uploads"),
+                        this.Request.Files["FileUpload1"].FileName);
+                    if (!Directory.Exists(path1)) Directory.CreateDirectory(this.Server.MapPath("~/Content/Uploads"));
+                    var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed)
+                        .ToList();
+                    var afinallist = new List<master_file>();
+                    var duplist = new List<master_file>();
+                    foreach (var file in alist)
                     {
-                        if ((file.last_working_day.HasValue) ||
-                            (file.status != "inactive" && !file.last_working_day.HasValue))
+                        var temp = file.employee_no;
+                        var temp2 = file.last_working_day;
+                        var temp3 = file.status;
+                        if (!afinallist.Exists(x => x.employee_no == file.employee_no))
                         {
-                            if (!duplist.Exists(x => x.employee_no == file.employee_no))
+                            if ((file.last_working_day.HasValue) ||
+                                (file.status != "inactive" && !file.last_working_day.HasValue))
                             {
-                                afinallist.Add(file);
+                                if (!duplist.Exists(x => x.employee_no == file.employee_no))
+                                {
+                                    afinallist.Add(file);
+                                }
+                            }
+                            else
+                            {
+                                duplist.Add(file);
                             }
                         }
-                        else
+                    }
+
+                    if (validFileTypes.Contains(extension))
+                    {
+                        if (System.IO.File.Exists(path1)) System.IO.File.Delete(path1);
+
+                        this.Request.Files["FileUpload1"].SaveAs(path1);
+                        if (extension == ".csv")
                         {
-                            duplist.Add(file);
+                            var dt = Utility.ConvertCSVtoDataTable(path1);
+                            this.ViewBag.Data = dt;
+                            if (dt.Rows.Count > 0)
+                            {
+                                foreach (DataRow dr in dt.Rows)
+                                {
+                                    var probk = new bank_details();
+                                    var prolc = new labour_card();
+                                    var propp = new passport();
+                                    var proeid = new emirates_id();
+                                    var procon = new contract();
+                                    foreach (DataColumn column in dt.Columns)
+                                    {
+                                        if (dr[column] == null || dr[column].ToString() == " ") goto e;
+                                        //bank details
+                                        {
+                                            if (column.ColumnName == "IBAN")
+                                            {
+                                                var dtt = dr[column].ToString();
+                                                probk.IBAN = dtt;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "Bank Name")
+                                            {
+                                                var dtt = dr[column].ToString();
+                                                probk.bank_name = dtt;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "Account no")
+                                            {
+                                                var dtt = dr[column].ToString();
+                                                long.TryParse(dtt, out long temp);
+                                                probk.Account_no = temp;
+                                                goto nextcol;
+                                            }
+                                        }
+                                        //contract
+                                        {
+                                            if (column.ColumnName == "designation")
+                                            {
+                                                procon.designation = dr[column].ToString();
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "grade")
+                                            {
+                                                procon.grade = dr[column].ToString();
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "department/project")
+                                            {
+                                                procon.departmant_project = dr[column].ToString();
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "salary_details")
+                                            {
+                                                var dtt = this.Protect(dr[column].ToString());
+                                                procon.salary_details = dtt;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "basic")
+                                            {
+                                                var dtt = this.Protect(dr[column].ToString());
+                                                procon.basic = dtt;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "company")
+                                            {
+                                                procon.company = dr[column].ToString();
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "category")
+                                            {
+                                                procon.category = dr[column].ToString();
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "housing_allowance")
+                                            {
+                                                var dtt = this.Protect(dr[column].ToString());
+                                                procon.housing_allowance = dtt;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "transportation_allowance")
+                                            {
+                                                var dtt = this.Protect(dr[column].ToString());
+                                                procon.transportation_allowance = dtt;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "FOT")
+                                            {
+                                                var dtt = this.Protect(dr[column].ToString());
+                                                procon.FOT = dtt;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "food_allowance")
+                                            {
+                                                var dtt = this.Protect(dr[column].ToString());
+                                                procon.food_allowance = dtt;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "living_allowance")
+                                            {
+                                                var dtt = this.Protect(dr[column].ToString());
+                                                procon.living_allowance = dtt;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "ticket_allowance")
+                                            {
+                                                var dtt = this.Protect(dr[column].ToString());
+                                                procon.ticket_allowance = dtt;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "others")
+                                            {
+                                                var dtt = this.Protect(dr[column].ToString());
+                                                procon.others = dtt;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "arrears")
+                                            {
+                                                var dtt = this.Protect(dr[column].ToString());
+                                                procon.arrears = dtt;
+                                                goto nextcol;
+                                            }
+                                        }
+                                        //emid
+                                        {
+                                            if (column.ColumnName == "eid no")
+                                            {
+                                                var dtt = dr[column].ToString();
+                                                long.TryParse(dtt, out var a);
+                                                proeid.eid_no = a;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "eid expiry")
+                                            {
+                                                var dtt = dr[column].ToString();
+                                                DateTime.TryParse(dtt, out var a);
+                                                proeid.eid_expiry = a;
+                                                goto nextcol;
+                                            }
+                                        }
+                                        //passport
+                                        {
+                                            if (column.ColumnName == "company code")
+                                            {
+                                                propp.company_code = dr[column].ToString();
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "passport_no")
+                                            {
+                                                propp.passport_no = dr[column].ToString();
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "passport expiry")
+                                            {
+                                                var dtt = dr[column].ToString();
+                                                DateTime.TryParse(dtt, out var a);
+                                                propp.passport_expiry = a;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "Passport Issue Date")
+                                            {
+                                                var dtt = dr[column].ToString();
+                                                DateTime.TryParse(dtt, out var a);
+                                                propp.passport_issue_date = a;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "Passport Return Date")
+                                            {
+                                                var dtt = dr[column].ToString();
+                                                DateTime.TryParse(dtt, out var a);
+                                                propp.passport_return_date = a;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "Passport Remarks")
+                                            {
+                                                propp.passport_remarks = dr[column].ToString();
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "status")
+                                            {
+                                                propp.status = dr[column].ToString();
+                                                goto nextcol;
+                                            }
+                                        }
+                                        //labourcard
+                                        {
+                                            if (column.ColumnName == "work_permit_no")
+                                            {
+                                                var dtt = dr[column].ToString();
+                                                long.TryParse(dtt, out var a);
+                                                prolc.work_permit_no = a;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "personal_no")
+                                            {
+                                                var dtt = dr[column].ToString();
+                                                long.TryParse(dtt, out var a);
+                                                prolc.personal_no = a;
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "proffession")
+                                            {
+                                                prolc.proffession = dr[column].ToString();
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "establishment")
+                                            {
+                                                prolc.establishment = dr[column].ToString();
+                                                goto nextcol;
+                                            }
+
+                                            if (column.ColumnName == "lc expiry")
+                                            {
+                                                var dtt = dr[column].ToString();
+                                                DateTime.TryParse(dtt, out var a);
+                                                prolc.lc_expiry = a;
+                                                goto nextcol;
+                                            }
+                                        }
+                                        if (column.ColumnName == "EMPNO")
+                                        {
+                                            int.TryParse(dr[column].ToString(), out var idm);
+                                            if (idm != 0)
+                                            {
+                                                var epid = afinallist.Find(x => x.employee_no == idm);
+                                                if (epid == null) goto e;
+                                                probk.employee_no = epid.employee_id;
+                                                prolc.emp_no = epid.employee_id;
+                                                propp.employee_no = epid.employee_id;
+                                                proeid.employee_no = epid.employee_id;
+                                                procon.employee_no = epid.employee_id;
+                                            }
+                                            else goto e;
+                                        }
+
+                                        nextcol: ;
+                                    }
+
+
+                                    var banklist = db.bank_details.ToList();
+                                    if (banklist.Exists(x => x.employee_no == probk.employee_no))
+                                    {
+                                        var bankvar = banklist.Find(x => x.employee_no.Equals(probk.employee_no));
+                                        bankvar.bank_name = probk.bank_name;
+                                        bankvar.IBAN = probk.IBAN;
+                                        db.Entry(bankvar).State = EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+                                    else
+                                    {
+                                        if (probk != null)
+                                        {
+                                            this.db.bank_details.Add(probk);
+                                            this.db.SaveChanges();
+                                        }
+                                    }
+
+                                    var contractList = db.contracts.ToList();
+                                    if (contractList.Exists(x => x.employee_no == probk.employee_no))
+                                    {
+                                        var convar = contractList.Find(x => x.employee_no.Equals(probk.employee_no));
+                                        if (procon.con_id.HasValue && convar.con_id != procon.con_id)
+                                        {
+                                            convar.con_id = procon.con_id;
+                                        }
+
+                                        if (!procon.designation.IsNullOrWhiteSpace() &&
+                                            convar.designation != procon.designation)
+                                        {
+                                            convar.designation = procon.designation;
+                                        }
+
+                                        if (!procon.grade.IsNullOrWhiteSpace() && convar.grade != procon.grade)
+                                        {
+                                            convar.grade = procon.grade;
+                                        }
+
+                                        if (!procon.departmant_project.IsNullOrWhiteSpace() &&
+                                            convar.departmant_project != procon.departmant_project)
+                                        {
+                                            convar.departmant_project = procon.departmant_project;
+                                        }
+
+                                        if (!procon.company.IsNullOrWhiteSpace() &&
+                                            convar.company != procon.designation)
+                                        {
+                                            convar.company = procon.company;
+                                        }
+
+                                        if (!procon.category.IsNullOrWhiteSpace() && convar.category != procon.category)
+                                        {
+                                            convar.category = procon.category;
+                                        }
+
+                                        if (!procon.salary_details.IsNullOrWhiteSpace() &&
+                                            convar.salary_details != procon.salary_details)
+                                        {
+                                            convar.salary_details = procon.salary_details;
+                                        }
+
+                                        if (!procon.basic.IsNullOrWhiteSpace() && convar.basic != procon.basic)
+                                        {
+                                            convar.basic = procon.basic;
+                                        }
+
+                                        if (!procon.housing_allowance.IsNullOrWhiteSpace() &&
+                                            convar.housing_allowance != procon.housing_allowance)
+                                        {
+                                            convar.housing_allowance = procon.housing_allowance;
+                                        }
+
+                                        if (!procon.transportation_allowance.IsNullOrWhiteSpace() &&
+                                            convar.transportation_allowance != procon.transportation_allowance)
+                                        {
+                                            convar.transportation_allowance = procon.transportation_allowance;
+                                        }
+
+                                        if (!procon.FOT.IsNullOrWhiteSpace() && convar.FOT != procon.FOT)
+                                        {
+                                            convar.FOT = procon.FOT;
+                                        }
+
+                                        if (!procon.food_allowance.IsNullOrWhiteSpace() &&
+                                            convar.food_allowance != procon.food_allowance)
+                                        {
+                                            convar.food_allowance = procon.food_allowance;
+                                        }
+
+                                        if (!procon.living_allowance.IsNullOrWhiteSpace() &&
+                                            convar.living_allowance != procon.living_allowance)
+                                        {
+                                            convar.living_allowance = procon.living_allowance;
+                                        }
+
+                                        if (!procon.ticket_allowance.IsNullOrWhiteSpace() &&
+                                            convar.ticket_allowance != procon.ticket_allowance)
+                                        {
+                                            convar.ticket_allowance = procon.ticket_allowance;
+                                        }
+
+                                        if (!procon.others.IsNullOrWhiteSpace() && convar.others != procon.others)
+                                        {
+                                            convar.others = procon.others;
+                                        }
+
+                                        if (!procon.arrears.IsNullOrWhiteSpace() && convar.arrears != procon.arrears)
+                                        {
+                                            convar.arrears = procon.arrears;
+                                        }
+
+                                        if (!procon.imgpath.IsNullOrWhiteSpace() && convar.imgpath != procon.imgpath)
+                                        {
+                                            convar.imgpath = procon.imgpath;
+                                        }
+
+                                        db.Entry(convar).State = EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+                                    else
+                                    {
+                                        if (procon != null)
+                                        {
+                                            this.db.contracts.Add(procon);
+                                            this.db.SaveChanges();
+                                        }
+                                    }
+
+                                    var emidlist = db.emirates_id.ToList();
+                                    if (emidlist.Exists(x => x.employee_no == probk.employee_no))
+                                    {
+                                        var eidvar = emidlist.Find(x => x.employee_no.Equals(probk.employee_no));
+
+                                        if (eidvar.eid_no != proeid.eid_no)
+                                            eidvar.eid_no = proeid.eid_no;
+                                        if (eidvar.eid_expiry != proeid.eid_expiry)
+                                            eidvar.eid_expiry = proeid.eid_expiry;
+                                        db.Entry(eidvar).State = EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+                                    else
+                                    {
+                                        if (proeid != null)
+                                        {
+                                            this.db.emirates_id.Add(proeid);
+                                            this.db.SaveChanges();
+                                        }
+                                    }
+
+                                    var pplist = db.passports.ToList();
+                                    if (pplist.Exists(x => x.employee_no == probk.employee_no))
+                                    {
+                                        var ppvar = pplist.Find(x => x.employee_no.Equals(probk.employee_no));
+                                        if (ppvar.company_code != propp.company_code)
+                                            ppvar.company_code = propp.company_code;
+                                        if (ppvar.passport_no != propp.passport_no)
+                                            ppvar.passport_no = propp.passport_no;
+                                        if (!propp.passport_expiry.HasValue &&
+                                            ppvar.passport_expiry != propp.passport_expiry)
+                                            ppvar.passport_expiry = propp.passport_expiry;
+                                        db.Entry(ppvar).State = EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+                                    else
+                                    {
+                                        if (propp != null)
+                                        {
+                                            this.db.passports.Add(propp);
+                                            this.db.SaveChanges();
+                                        }
+                                    }
+
+                                    var lclist = db.labour_card.ToList();
+                                    if (lclist.Exists(x => x.emp_no == prolc.emp_no))
+                                    {
+                                        var lcvar = lclist.Find(x => x.emp_no.Equals(probk.employee_no));
+                                        if (!prolc.work_permit_no.HasValue && lcvar.imgpath != procon.imgpath)
+                                            lcvar.work_permit_no = prolc.work_permit_no;
+                                        if (!prolc.personal_no.HasValue && lcvar.personal_no != prolc.personal_no)
+                                            lcvar.personal_no = prolc.personal_no;
+                                        if (!prolc.proffession.IsNullOrWhiteSpace() &&
+                                            lcvar.proffession != prolc.proffession)
+                                            lcvar.proffession = prolc.proffession;
+                                        if (!prolc.establishment.IsNullOrWhiteSpace() &&
+                                            lcvar.establishment != prolc.establishment)
+                                            lcvar.establishment = prolc.establishment;
+                                        if (!prolc.lc_expiry.HasValue && lcvar.lc_expiry != prolc.lc_expiry)
+                                            lcvar.lc_expiry = prolc.lc_expiry;
+                                        db.Entry(lcvar).State = EntityState.Modified;
+                                        db.SaveChanges();
+                                    }
+                                    else
+                                    {
+                                        if (prolc != null)
+                                        {
+                                            this.db.labour_card.Add(prolc);
+                                            this.db.SaveChanges();
+                                        }
+                                    }
+
+                                    e: ;
+                                }
+                            }
                         }
                     }
                 }
-
-                if (validFileTypes.Contains(extension))
+                else
                 {
-                    if (System.IO.File.Exists(path1)) System.IO.File.Delete(path1);
-
-                    this.Request.Files["FileUpload1"].SaveAs(path1);
-                    if (extension == ".csv")
-                    {
-                        var dt = Utility.ConvertCSVtoDataTable(path1);
-                        this.ViewBag.Data = dt;
-                        if (dt.Rows.Count > 0)
-                        {
-                            foreach (DataRow dr in dt.Rows)
-                            {
-                                var probk = new bank_details();
-                                var prolc = new labour_card();
-                                var propp = new passport();
-                                var proeid = new emirates_id();
-                                var procon = new contract();
-                                foreach (DataColumn column in dt.Columns)
-                                {
-                                    if (dr[column] == null || dr[column].ToString() == " ") goto e;
-                                    //bank details
-                                    {
-                                        if (column.ColumnName == "IBAN")
-                                        {
-                                            var dtt = dr[column].ToString();
-                                            probk.IBAN = dtt;
-                                        }
-
-                                        if (column.ColumnName == "Bank Name")
-                                        {
-                                            var dtt = dr[column].ToString();
-                                            probk.bank_name = dtt;
-                                        }
-
-                                        if (column.ColumnName == "Account no")
-                                        {
-                                            var dtt = dr[column].ToString();
-                                            long.TryParse(dtt, out long temp);
-                                            probk.Account_no = temp;
-                                        }
-                                    }
-                                    //contract
-                                    {
-                                        if (column.ColumnName == "designation")
-                                            procon.designation = dr[column].ToString();
-                                        if (column.ColumnName == "grade") procon.grade = dr[column].ToString();
-                                        if (column.ColumnName == "department/project")
-                                            procon.departmant_project = dr[column].ToString();
-                                        if (column.ColumnName == "salary_details")
-                                        {
-                                            var dtt = this.Protect(dr[column].ToString());
-                                            procon.salary_details = dtt;
-                                        }
-
-                                        if (column.ColumnName == "basic")
-                                        {
-                                            var dtt = this.Protect(dr[column].ToString());
-                                            procon.basic = dtt;
-                                        }
-
-                                        if (column.ColumnName == "company")
-                                        {
-                                            procon.basic = dr[column].ToString();
-                                        }
-
-                                        if (column.ColumnName == "category")
-                                        {
-                                            procon.basic = dr[column].ToString();
-                                        }
-
-                                        if (column.ColumnName == "housing_allowance")
-                                        {
-                                            var dtt = this.Protect(dr[column].ToString());
-                                            procon.housing_allowance = dtt;
-                                        }
-
-                                        if (column.ColumnName == "transportation_allowance")
-                                        {
-                                            var dtt = this.Protect(dr[column].ToString());
-                                            procon.transportation_allowance = dtt;
-                                        }
-
-                                        if (column.ColumnName == "FOT")
-                                        {
-                                            var dtt = this.Protect(dr[column].ToString());
-                                            procon.FOT = dtt;
-                                        }
-
-                                        if (column.ColumnName == "food_allowance")
-                                        {
-                                            var dtt = this.Protect(dr[column].ToString());
-                                            procon.food_allowance = dtt;
-                                        }
-
-                                        if (column.ColumnName == "living_allowance")
-                                        {
-                                            var dtt = this.Protect(dr[column].ToString());
-                                            procon.living_allowance = dtt;
-                                        }
-
-                                        if (column.ColumnName == "ticket_allowance")
-                                        {
-                                            var dtt = this.Protect(dr[column].ToString());
-                                            procon.ticket_allowance = dtt;
-                                        }
-
-                                        if (column.ColumnName == "others")
-                                        {
-                                            var dtt = this.Protect(dr[column].ToString());
-                                            procon.others = dtt;
-                                        }
-
-                                        if (column.ColumnName == "arrears")
-                                        {
-                                            var dtt = this.Protect(dr[column].ToString());
-                                            procon.arrears = dtt;
-                                        }
-                                    }
-                                    //emid
-                                    {
-
-                                        if (column.ColumnName == "eid no")
-                                        {
-
-                                            var dtt = dr[column].ToString();
-                                            int.TryParse(dtt, out var a);
-                                            proeid.eid_no = a;
-                                        }
-
-                                        if (column.ColumnName == "eid expiry")
-                                        {
-
-                                            var dtt = dr[column].ToString();
-                                            DateTime.TryParse(dtt, out var a);
-                                            proeid.eid_expiry = a;
-                                        }
-
-                                    }
-                                    //passport
-                                    {
-
-                                        if (column.ColumnName == "company code")
-                                        {
-                                            propp.company_code = dr[column].ToString();
-                                        }
-
-                                        if (column.ColumnName == "passport_no")
-                                        {
-                                            propp.passport_no = dr[column].ToString();
-                                        }
-
-                                        if (column.ColumnName == "passport expiry")
-                                        {
-                                            var dtt = dr[column].ToString();
-                                            DateTime.TryParse(dtt, out var a);
-                                            propp.passport_expiry = a;
-                                        }
-
-                                    }
-                                    //labourcard
-                                    {
-
-
-                                        if (column.ColumnName == "work_permit_no")
-                                        {
-
-                                            var dtt = dr[column].ToString();
-                                            int.TryParse(dtt, out var a);
-                                            prolc.work_permit_no = a;
-                                        }
-
-                                        if (column.ColumnName == "personal_no")
-                                        {
-
-                                            var dtt = dr[column].ToString();
-                                            int.TryParse(dtt, out var a);
-                                            prolc.personal_no = a;
-                                        }
-
-                                        if (column.ColumnName == "proffession")
-                                        {
-                                            prolc.proffession = dr[column].ToString();
-                                        }
-
-                                        if (column.ColumnName == "establishment")
-                                        {
-                                            prolc.establishment = dr[column].ToString();
-                                        }
-
-                                        if (column.ColumnName == "lc expiry")
-                                        {
-
-                                            var dtt = dr[column].ToString();
-                                            DateTime.TryParse(dtt, out var a);
-                                            prolc.lc_expiry = a;
-                                        }
-
-                                    }
-                                    if (column.ColumnName == "EMPNO")
-                                    {
-                                        int.TryParse(dr[column].ToString(), out var idm);
-                                        if (idm != 0)
-                                        {
-                                            var epid = afinallist.Find(x => x.employee_no == idm);
-                                            if (epid == null) goto e;
-                                            probk.employee_no = epid.employee_id;
-                                            prolc.emp_no = epid.employee_id;
-                                            propp.employee_no = epid.employee_id;
-                                            proeid.employee_no = epid.employee_id;
-                                            procon.employee_no = epid.employee_id;
-                                        }
-                                    }
-                                }
-
-                                var banklist = db.bank_details.ToList();
-                                if (banklist.Exists(x => x.employee_no == probk.employee_no))
-                                {
-                                    var bankvar = banklist.Find(x => x.employee_no.Equals(probk.employee_no));
-                                    bankvar.bank_name = probk.bank_name;
-                                    bankvar.IBAN = probk.IBAN;
-                                    db.Entry(bankvar).State = EntityState.Modified;
-                                    db.SaveChanges();
-                                }
-                                else
-                                {
-                                    if (probk != null)
-                                    {
-                                        this.db.bank_details.Add(probk);
-                                        this.db.SaveChanges();
-
-                                    }
-                                }
-
-                                var contractList = db.contracts.ToList();
-                                if (contractList.Exists(x => x.employee_no == probk.employee_no))
-                                {
-                                    var convar = contractList.Find(x => x.employee_no.Equals(probk.employee_no));
-                                    convar.employee_no = procon.employee_no;
-                                    convar.employee_id = procon.employee_id;
-                                    if (procon.con_id.HasValue && convar.con_id != procon.con_id)
-                                    {
-                                        convar.con_id = procon.con_id;
-                                    }
-
-                                    if (!procon.designation.IsNullOrWhiteSpace() &&
-                                        convar.designation != procon.designation)
-                                    {
-                                        convar.designation = procon.designation;
-                                    }
-
-                                    if (!procon.grade.IsNullOrWhiteSpace() && convar.grade != procon.grade)
-                                    {
-                                        convar.grade = procon.grade;
-                                    }
-
-                                    if (!procon.departmant_project.IsNullOrWhiteSpace() &&
-                                        convar.departmant_project != procon.departmant_project)
-                                    {
-                                        convar.departmant_project = procon.departmant_project;
-                                    }
-
-                                    if (!procon.company.IsNullOrWhiteSpace() && convar.company != procon.designation)
-                                    {
-                                        convar.company = procon.company;
-                                    }
-
-                                    if (!procon.category.IsNullOrWhiteSpace() && convar.category != procon.category)
-                                    {
-                                        convar.category = procon.category;
-                                    }
-
-                                    if (!procon.salary_details.IsNullOrWhiteSpace() &&
-                                        convar.salary_details != procon.salary_details)
-                                    {
-                                        convar.salary_details = procon.salary_details;
-                                    }
-
-                                    if (!procon.basic.IsNullOrWhiteSpace() && convar.basic != procon.basic)
-                                    {
-                                        convar.basic = procon.basic;
-                                    }
-
-                                    if (!procon.housing_allowance.IsNullOrWhiteSpace() &&
-                                        convar.housing_allowance != procon.housing_allowance)
-                                    {
-                                        convar.housing_allowance = procon.housing_allowance;
-                                    }
-
-                                    if (!procon.transportation_allowance.IsNullOrWhiteSpace() &&
-                                        convar.transportation_allowance != procon.transportation_allowance)
-                                    {
-                                        convar.transportation_allowance = procon.transportation_allowance;
-                                    }
-
-                                    if (!procon.FOT.IsNullOrWhiteSpace() && convar.FOT != procon.FOT)
-                                    {
-                                        convar.FOT = procon.FOT;
-                                    }
-
-                                    if (!procon.food_allowance.IsNullOrWhiteSpace() &&
-                                        convar.food_allowance != procon.food_allowance)
-                                    {
-                                        convar.food_allowance = procon.food_allowance;
-                                    }
-
-                                    if (!procon.living_allowance.IsNullOrWhiteSpace() &&
-                                        convar.living_allowance != procon.living_allowance)
-                                    {
-                                        convar.living_allowance = procon.living_allowance;
-                                    }
-
-                                    if (!procon.ticket_allowance.IsNullOrWhiteSpace() &&
-                                        convar.ticket_allowance != procon.ticket_allowance)
-                                    {
-                                        convar.ticket_allowance = procon.ticket_allowance;
-                                    }
-
-                                    if (!procon.others.IsNullOrWhiteSpace() && convar.others != procon.others)
-                                    {
-                                        convar.others = procon.others;
-                                    }
-
-                                    if (!procon.arrears.IsNullOrWhiteSpace() && convar.arrears != procon.arrears)
-                                    {
-                                        convar.arrears = procon.arrears;
-                                    }
-
-                                    if (!procon.imgpath.IsNullOrWhiteSpace() && convar.imgpath != procon.imgpath)
-                                    {
-                                        convar.imgpath = procon.imgpath;
-                                    }
-
-                                    db.Entry(convar).State = EntityState.Modified;
-                                    db.SaveChanges();
-                                }
-                                else
-                                {
-                                    if (procon != null)
-                                    {
-                                        this.db.contracts.Add(procon);
-                                        this.db.SaveChanges();
-                                    }
-                                }
-
-                                var emidlist = db.emirates_id.ToList();
-                                if (emidlist.Exists(x => x.employee_no == probk.employee_no))
-                                {
-                                    var eidvar = emidlist.Find(x => x.employee_no.Equals(probk.employee_no));
-
-                                    if (eidvar.eid_no != proeid.eid_no)
-                                        eidvar.eid_no = proeid.eid_no;
-                                    if (eidvar.eid_expiry != proeid.eid_expiry)
-                                        eidvar.eid_expiry = proeid.eid_expiry;
-                                    db.Entry(eidvar).State = EntityState.Modified;
-                                    db.SaveChanges();
-                                }
-                                else
-                                {
-                                    if (proeid != null)
-                                    {
-                                        this.db.emirates_id.Add(proeid);
-                                        this.db.SaveChanges();
-
-                                    }
-                                }
-
-                                var pplist = db.passports.ToList();
-                                if (pplist.Exists(x => x.employee_no == probk.employee_no))
-                                {
-                                    var ppvar = pplist.Find(x => x.employee_no.Equals(probk.employee_no));
-                                    if (ppvar.company_code != propp.company_code)
-                                        ppvar.company_code = propp.company_code;
-                                    if (ppvar.passport_no != propp.passport_no)
-                                        ppvar.passport_no = propp.passport_no;
-                                    if (!propp.passport_expiry.HasValue && ppvar.passport_expiry != propp.passport_expiry)
-                                        ppvar.passport_expiry = propp.passport_expiry;
-                                    db.Entry(ppvar).State = EntityState.Modified;
-                                    db.SaveChanges();
-                                }
-                                else
-                                {
-                                    if (propp != null)
-                                    {
-                                        this.db.passports.Add(propp);
-                                        this.db.SaveChanges();
-
-                                    }
-                                }
-
-                                var lclist = db.labour_card.ToList();
-                                if (lclist.Exists(x => x.emp_no == prolc.emp_no))
-                                {
-                                    var lcvar = lclist.Find(x => x.emp_no.Equals(probk.employee_no));
-                                    if (!prolc.work_permit_no.HasValue && lcvar.imgpath != procon.imgpath)
-                                        lcvar.work_permit_no = prolc.work_permit_no;
-                                    if (!prolc.personal_no.HasValue && lcvar.personal_no != prolc.personal_no)
-                                        lcvar.personal_no = prolc.personal_no;
-                                    if (!prolc.proffession.IsNullOrWhiteSpace() &&
-                                        lcvar.proffession != prolc.proffession)
-                                        lcvar.proffession = prolc.proffession;
-                                    if (!prolc.establishment.IsNullOrWhiteSpace() &&
-                                        lcvar.establishment != prolc.establishment)
-                                        lcvar.establishment = prolc.establishment;
-                                    if (!prolc.lc_expiry.HasValue && lcvar.lc_expiry != prolc.lc_expiry)
-                                        lcvar.lc_expiry = prolc.lc_expiry;
-                                    db.Entry(lcvar).State = EntityState.Modified;
-                                    db.SaveChanges();
-                                }
-                                else
-                                {
-                                    if (prolc != null)
-                                    {
-                                        this.db.labour_card.Add(prolc);
-                                        this.db.SaveChanges();
-                                    }
-                                }
-
-                                e: ;
-                            }
-                        }
-                    }
+                    this.ViewBag.Error = "Please Upload Files in .csv format";
                 }
             }
-            else
+            finally
             {
-                this.ViewBag.Error = "Please Upload Files in .csv format";
+                if (System.IO.File.Exists(path1))
+                {
+                    System.IO.File.Delete(path1);
+                }
             }
 
             return this.View();
         }
 
+
+        public ActionResult Importlaborcard()
+        {
+            return this.View();
+        }
+
+        [ActionName("Importlaborcard")]
+        [HttpPost]
+        public ActionResult ImportLaborcard()
+        {
+            var path1 = "";
+            try
+            {
+                if (this.Request.Files["FileUpload1"].ContentLength > 0)
+                {
+                    var extension = Path.GetExtension(this.Request.Files["FileUpload1"].FileName).ToLower();
+                    string query = null;
+                    var connString = string.Empty;
+
+                    string[] validFileTypes = { ".csv" };
+
+                    path1 = string.Format(
+                        "{0}/{1}",
+                        this.Server.MapPath("~/Content/Uploads"),
+                        this.Request.Files["FileUpload1"].FileName);
+                    if (!Directory.Exists(path1)) Directory.CreateDirectory(this.Server.MapPath("~/Content/Uploads"));
+                    var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed)
+                        .ToList();
+                    var afinallist = new List<master_file>();
+                    var duplist = new List<master_file>();
+                    foreach (var file in alist)
+                    {
+                        var temp = file.employee_no;
+                        var temp2 = file.last_working_day;
+                        var temp3 = file.status;
+                        if (!afinallist.Exists(x => x.employee_no == file.employee_no))
+                        {
+                            if ((file.last_working_day.HasValue) ||
+                                (file.status != "inactive" && !file.last_working_day.HasValue))
+                            {
+                                if (!duplist.Exists(x => x.employee_no == file.employee_no))
+                                {
+                                    afinallist.Add(file);
+                                }
+                            }
+                            else
+                            {
+                                duplist.Add(file);
+                            }
+                        }
+                    }
+
+                    if (validFileTypes.Contains(extension))
+                    {
+                        if (System.IO.File.Exists(path1)) System.IO.File.Delete(path1);
+
+                        this.Request.Files["FileUpload1"].SaveAs(path1);
+                        if (extension == ".csv")
+                        {
+                            var dt = Utility.ConvertCSVtoDataTable(path1);
+                            this.ViewBag.Data = dt;
+                            if (dt.Rows.Count > 0)
+                            {
+                                foreach (DataRow dr in dt.Rows)
+                                {
+                                        var prolc = new labour_card();
+                                    foreach (DataColumn column in dt.Columns)
+                                    {
+                                        if (dr[column] == null || dr[column].ToString() == " ")
+                                        {
+                                            goto e;
+                                        }
+                                        else if (column.ColumnName == "work_permit_no")
+                                        {
+                                            var dtt = dr[column].ToString();
+                                            long.TryParse(dtt, out var a);
+                                            prolc.work_permit_no = a;
+                                        }
+
+                                        else if (column.ColumnName == "personal_no")
+                                        {
+                                            var dtt = dr[column].ToString();
+                                            long.TryParse(dtt, out var a);
+                                            prolc.personal_no = a;
+                                        }
+
+                                        else if (column.ColumnName == "proffession")
+                                        {
+                                            prolc.proffession = dr[column].ToString();
+                                        }
+
+                                        else if (column.ColumnName == "establishment")
+                                        {
+                                            prolc.establishment = dr[column].ToString();
+                                        }
+
+                                        else if (column.ColumnName == "lc expiry")
+                                        {
+                                            var dtt = dr[column].ToString();
+                                            DateTime.TryParse(dtt, out var a);
+                                            prolc.lc_expiry = a;
+                                        }
+
+                                        else if (column.ColumnName == "EMPNO")
+                                        {
+                                            int.TryParse(dr[column].ToString(), out var idm);
+                                            if (idm != 0)
+                                            {
+                                                var epid = afinallist.Find(x => x.employee_no == idm);
+                                                if (epid == null) goto e;
+                                                prolc.emp_no = epid.employee_id;
+                                            }
+                                            else goto e;
+                                        }
+                                    }
+
+                                        var lclist = db.labour_card.ToList();
+                                        if (lclist.Exists(x => x.emp_no == prolc.emp_no))
+                                        {
+                                            var lcvar = lclist.Find(x => x.emp_no.Equals(prolc.emp_no));
+                                            if (prolc.work_permit_no.HasValue && lcvar.work_permit_no != prolc.work_permit_no)
+                                                lcvar.work_permit_no = prolc.work_permit_no;
+                                            if (prolc.personal_no.HasValue && lcvar.personal_no != prolc.personal_no)
+                                                lcvar.personal_no = prolc.personal_no;
+                                            if (!prolc.proffession.IsNullOrWhiteSpace() && lcvar.proffession != prolc.proffession)
+                                                lcvar.proffession = prolc.proffession;
+                                            if (!prolc.establishment.IsNullOrWhiteSpace() && lcvar.establishment != prolc.establishment)
+                                                lcvar.establishment = prolc.establishment;
+                                            if (prolc.lc_expiry.HasValue && lcvar.lc_expiry != prolc.lc_expiry)
+                                                lcvar.lc_expiry = prolc.lc_expiry;
+                                            db.Entry(lcvar).State = EntityState.Modified;
+                                            db.SaveChanges();
+                                        }
+                                        else
+                                        {
+                                            if (prolc != null)
+                                            {
+                                                this.db.labour_card.Add(prolc);
+                                                this.db.SaveChanges();
+                                            }
+                                        }
+
+                                        e: ;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    this.ViewBag.Error = "Please Upload Files in .csv format";
+                }
+            }
+            finally
+            {
+                if (System.IO.File.Exists(path1))
+                {
+                    System.IO.File.Delete(path1);
+                }
+            }
+
+            return this.View();
+        }
 
         public void Downloadincsample()
         {
@@ -801,6 +1031,7 @@ namespace HRworks.Controllers
             this.Response.BinaryWrite(Ep.GetAsByteArray());
             this.Response.End();
         }
+
         /*public void Downloadallsample()
         {
             var Ep = new ExcelPackage();
@@ -845,7 +1076,8 @@ namespace HRworks.Controllers
         public void Downloadallsample()
         {
             StringBuilder csvData = new StringBuilder();
-            csvData.AppendLine("EMPNO,IBAN,Bank Name,Account no,designation,grade,department/project,salary_details,basic,company,category,housing_allowance,transportation_allowance,FOT,food_allowance,living_allowance,ticket_allowance,others,arrears,eid no,eid expiry,company code,passport_no,passport expiry,work_permit_no,personal_no,proffession,establishment,lc expiry");
+            csvData.AppendLine(
+                "EMPNO,IBAN,Bank Name,Account no,designation,grade,department/project,salary_details,basic,company,category,housing_allowance,transportation_allowance,FOT,food_allowance,living_allowance,ticket_allowance,others,arrears,eid no,eid expiry,company code,passport_no,passport expiry,Passport Issue Date,Passport Return Date,Passport Remarks,status,work_permit_no,personal_no,proffession,establishment,lc expiry");
             Response.Clear();
             Response.ContentType = "text/csv";
             Response.AddHeader("content-disposition", "attachment;filename=sample.csv");

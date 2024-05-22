@@ -85,14 +85,32 @@ namespace HRworks.Controllers
         public void DownloadExcel(string search)
         {
             List<master_file> passexel;
+
+            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var afinallist = new List<master_file>();
+            foreach (var file in alist)
+            {
+                if (afinallist.Count == 0) afinallist.Add(file);
+
+                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
+            }
+
             if (search != null)
             {
-                passexel = db.master_file
-                    .Where(x => x.employee_name.Contains(search)).ToList();
+                int idk;
+                if (int.TryParse(search, out idk))
+                {
+                    passexel = afinallist.FindAll(x => x.employee_no.Equals(idk)).ToList();
+                }
+                else
+                {
+                    passexel = afinallist.FindAll(x => x.employee_name.Contains(search)).ToList();
+                }
+
             }
             else
             {
-                passexel = db.master_file.ToList();
+                passexel = afinallist;
             }
 
             ExcelPackage Ep = new ExcelPackage();

@@ -68,11 +68,10 @@
 
     .payslip {
         position: absolute;
-        top: 215px;
-        left: 7cm;
-        color: white;
-        font-size: 10pt;
-        font-weight: 300;
+        top: 217px;
+        left: 13cm;
+        font-size: 12pt !important;
+        font-weight: 1000 !important;
     }
 
     .Employee {
@@ -91,8 +90,8 @@
 
     .DateJoin {
         position: absolute;
-        top: 316px;
-        left: 16.2cm;
+        top: 317px;
+        left: 14cm;
         font-size: 10pt
     }
 
@@ -106,14 +105,14 @@
     .Grade {
         position: absolute;
         top: 278px;
-        left: 16.2cm;
+        left: 14cm;
         font-size: 10pt
     }
 
     .Project {
         position: absolute;
         top: 298px;
-        left: 16.2cm;
+        left: 14cm;
         font-size: 10pt
     }
 
@@ -388,15 +387,13 @@
 @if (ViewBag.Employee_id != null && ViewBag.eddate != null)
 {
     <div class="container" id="Payslip1">
-    <img src="~/img/payslip-1/payslip.jpg" style="width: 100%; height: 100%"/>
+    <img src="~/img/payslip-1/payslip.png" style="width: 100%; height: 100%"/>
     <div class="payslip">
-        <b>
-            Payslip for the month of
-            @if (ViewBag.eddate != null)
-            {
-                @ViewBag.eddate.ToString("MMMM yyyy")
-            }
-        </b>
+
+        @if (ViewBag.eddate != null)
+        {
+            @ViewBag.eddate.ToString("MMMM yyyy")
+        }
 
     </div>
     <div class="Project">@Html.DisplayFor(modelItem => modelItem.contract.departmant_project) </div>
@@ -612,8 +609,8 @@
             @gro.ToString("#,##0.00")
         }
 
-    </div>
-    <div class="AnnualLeave">@ViewBag.al</div>
+    </div>@*
+    <div class="AnnualLeave">@ViewBag.al</div>*@
     <div class="AnnualLeave1">@ViewBag.lbal</div>
     <div class="Absent">
         @if (Model.paysaved.Absents != null)

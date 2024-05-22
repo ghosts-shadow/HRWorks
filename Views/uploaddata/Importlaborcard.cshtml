@@ -1,7 +1,9 @@
-﻿@using System.Data
+﻿
+@using System.Data
 @{
-    ViewBag.Title = "Importconlcbdppeid";
+    ViewBag.Title = "upload labor card";
 }
+
 
 <h2>UPLOAD DATA</h2>
 
@@ -74,10 +76,6 @@
                 padding-right: 10px;
                 white-space: nowrap;
             }
-            /*
-     Label the data
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Downloadincsample")'" value="download incsample" />
-     */
             td:before {
                 content: attr(data-title);
             }
@@ -86,10 +84,10 @@
 
 <!--<![endif]-->
 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value=" back to main" />
-<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Downloadallsample")'" value="download sample" />
+<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Downloadlaborsample")'" value="download sample" />
 
 <br />
-@using (Html.BeginForm("Importconlcbdppeid", "uploaddata", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Importlaborcard", "uploaddata", FormMethod.Post, new { enctype = "multipart/form-data" }))
 
 {
     <table>
