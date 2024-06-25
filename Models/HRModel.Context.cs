@@ -88,5 +88,7 @@ namespace HRworks.Models
         public virtual DbSet<certificatesavinggrove> certificatesavinggroves { get; set; }
         public virtual DbSet<companLeaveR> companLeaveRs { get; set; }
         public virtual DbSet<companleaveBal> companleaveBals { get; set; }
+        public virtual DbSet<HRprojectlist> HRprojectlists { get; set; }
+        public virtual DbSet<project_attendence> project_attendence { get; set; }
     }
 }

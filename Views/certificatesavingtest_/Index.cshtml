@@ -7,6 +7,8 @@
 <h2>certificate requests</h2>
 
 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("hrcertificatesubmmit")'" value="create new" />
+<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index",new {downornot = "all"})'" value="get all" />
+<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value="get new" />
 <table class="table">
     <tr>
         <th>
@@ -40,6 +42,7 @@
     {
 
         <tr>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
@@ -59,32 +62,33 @@
                         cs_grcrt = false;
                     }
                     @cs_gr
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.destination)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.submition_date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.master_file.employee_name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.master_file.employee_no)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.status)
-        </td>
-        <td>
-            @{
-                if (item.status.Contains("approved"))
-                {
-                    @Html.ActionLink("download", "Details", new { id = item.Id,CS = cs_grcrt })
                 }
-            }
-        </td>
-    </tr>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.destination)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.submition_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                @{
+                    //if (!item.status.Contains("new EMP") || !item.status.Contains("new HR") || !item.status.Contains("rejected for"))
+                    if (item.status.Contains("approved") || item.status.Contains("downloaded"))
+                    {
+                        @Html.ActionLink("download", "Details", new { id = item.Id, CS = cs_grcrt })
+                    }
+                }
+            </td>
+        </tr>
 }
 
 </table>

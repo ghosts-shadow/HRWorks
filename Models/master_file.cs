@@ -61,8 +61,9 @@ namespace HRworks.Models
             this.certificatesavinggroves = new HashSet<certificatesavinggrove>();
             this.companleaveBals = new HashSet<companleaveBal>();
             this.companLeaveRs = new HashSet<companLeaveR>();
+            this.project_attendence = new HashSet<project_attendence>();
         }
-
+    
         public int employee_id { get; set; }
 
         [Display(Name = "Employee NO")]
@@ -187,5 +188,7 @@ namespace HRworks.Models
         public virtual ICollection<companleaveBal> companleaveBals { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<companLeaveR> companLeaveRs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<project_attendence> project_attendence { get; set; }
     }
 }

@@ -451,6 +451,10 @@ namespace HRworks.Controllers
                         db.SaveChanges();
                     ViewBag.submmites = "certificate request has been successfully submitted";
                     }
+                    else
+                    {
+                        ViewBag.submmites = "certificate already exists";
+                    }
 
 
                 }
@@ -466,6 +470,11 @@ namespace HRworks.Controllers
                         db.certificatesavingtest_.Add(certificatereqsave);
                         db.SaveChanges();
                     ViewBag.submmites = "certificate request has been successfully submitted";
+                    }
+                    else
+                    {
+
+                        ViewBag.submmites = "certificate already exists";
                     }
 
                 }

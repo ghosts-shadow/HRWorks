@@ -1,0 +1,82 @@
+﻿@model HRworks.Models.project_attendence
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>project_attendence</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.at_datetime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.at_datetime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.at_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.at_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.at_time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.at_time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.at_status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.at_status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.uploaded_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uploaded_by)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.modified_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modified_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HRprojectlist.project_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HRprojectlist.project_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

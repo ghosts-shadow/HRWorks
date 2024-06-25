@@ -579,6 +579,7 @@
     <Compile Include="Controllers\payroleloginsController.cs" />
     <Compile Include="Controllers\payrolesController.cs" />
     <Compile Include="Controllers\PROBATION_ASSESSMENTController.cs" />
+    <Compile Include="Controllers\project_attendenceController.cs" />
     <Compile Include="Controllers\rec_req_formController.cs" />
     <Compile Include="Controllers\rolesettingController.cs" />
     <Compile Include="Controllers\Training_EffectivenessController.cs" />
@@ -741,6 +742,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HRModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\HRprojectlist.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\HRworksinterfaces.cs" />
     <Compile Include="Models\induction_training.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -860,6 +864,9 @@
     </Compile>
     <Compile Include="Models\ProjectList.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\project_attendence.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\promanlist.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
@@ -1655,6 +1662,12 @@
     <Content Include="Views\companLeaveRs\Edit.cshtml" />
     <Content Include="Views\companLeaveRs\Index.cshtml" />
     <Content Include="Views\uploaddata\Importlaborcard.cshtml" />
+    <Content Include="Views\project_attendence\Create.cshtml" />
+    <Content Include="Views\project_attendence\Delete.cshtml" />
+    <Content Include="Views\project_attendence\Details.cshtml" />
+    <Content Include="Views\project_attendence\Edit.cshtml" />
+    <Content Include="Views\project_attendence\Index.cshtml" />
+    <Content Include="Views\project_attendence\ImportpAttendance.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1674,8 +1687,8 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+    <Analyzer Include="packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="packages\Microsoft.CodeAnalysis.Analyzers.3.3.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

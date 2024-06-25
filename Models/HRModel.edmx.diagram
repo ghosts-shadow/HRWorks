@@ -125,6 +125,10 @@
         <AssociationConnector Association="HRModel.FK_clrs_To_master_file" />
         <EntityTypeShape EntityType="HRModel.companleaveBal" Width="1.5" PointX="54.125" PointY="80.125" />
         <AssociationConnector Association="HRModel.FK_clb_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.HRprojectlist" Width="1.5" PointX="54.875" PointY="83.5" />
+        <EntityTypeShape EntityType="HRModel.project_attendence" Width="1.5" PointX="57.125" PointY="75.625" />
+        <AssociationConnector Association="HRModel.FK_HRproatt_To_projectlist" />
+        <AssociationConnector Association="HRModel.FK_proatt_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

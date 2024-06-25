@@ -1,7 +1,7 @@
 ﻿@using HRworks.Controllers
 @model IEnumerable<HRworks.Models.Wpsmodel>
 @{
-    var molnolist = new List<string>() {"549959", "575203", "663119", "1115891"};
+    var molnolist = new List<string>() { "549959 - AUH", "575203 - DXB", "663119 - Al Ain", "Grove - 1115891", null };
     ViewBag.Title = "wpsprint";
     var i = 0;
 }
@@ -79,7 +79,7 @@
         }
         @if (payrollsavedForthemonth != null)
         {
-            @payrollsavedForthemonth.Value.ToString("M")
+            @payrollsavedForthemonth.Value.ToString("MMMM")
         }
     </div>
     <table>

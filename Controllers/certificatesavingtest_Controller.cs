@@ -37,7 +37,7 @@ namespace HRworks.Controllers
         private const string Purpose = "equalizer";
 
         // GET: certificatesavingtest_
-        public ActionResult Index()
+        public ActionResult Index(string downornot)
         {
             var certificatesavingtest_ = db.certificatesavingtest_.OrderByDescending(x => x.Id).ToList();
             var certificatesavinggrove = db.certificatesavinggroves.OrderByDescending(x => x.Id).ToList();
@@ -61,8 +61,17 @@ namespace HRworks.Controllers
                 CertificateTestAdapter testAdapter = new CertificateTestAdapter(testCertificate);
                 combinedCertificates.Add(testAdapter);
             }
+            List<ICertificate> combinedCertificatesfinal = new List<ICertificate>();
+            if (downornot == "all")
+            {
+                combinedCertificatesfinal = combinedCertificates;
+            }
+            else
+            {
+                combinedCertificatesfinal = combinedCertificates.FindAll(x=>x.status == "new EMP" ||x.status == "new HR" || x.status == "approved");
+            }
 
-            return View(combinedCertificates);
+            return View(combinedCertificatesfinal.OrderByDescending(x => x.modifieddate_by).ToList());
         }
 
         public ActionResult hrapproval()

@@ -2,7 +2,7 @@
 @using Microsoft.Ajax.Utilities
 @model IEnumerable<HRworks.Models.Wpsmodel>
 @{
-    var molnolist = new List<string>() { "549959", "575203", "663119", "1115891", "549959 NON WPS", "575203 NON WPS", "663119 NON WPS", "1115891 NON WPS", null };
+    var molnolist = new List<string>() { "549959 - AUH", "575203 - DXB", "663119 - Al Ain", "Grove - 1115891", "549959 - AUH NON WPS", "575203 - DXB NON WPS", "663119 - Al Ain NON WPS", "Grove - 1115891 NON WPS", null };
     ViewBag.Title = "wpsprint";
     var i = 0;
 }
@@ -114,8 +114,7 @@
 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("wpssub", "payroles", new { month = ViewBag.month1 })'" value="Wps Summary" />
 @foreach (var molno in molnolist)
 {
-    if (Model.Where(x => x.LabourCard != null && x.LabourCard.establishment == molno && !x.LabourCard.establishment.Contains("NON WPS")).Count() <= 0 || Model.Where(x => x.LabourCard != null && x.LabourCard.establishment == molno && !x.LabourCard.establishment.Contains("NON WPS")).Count() <= 0)
-    {
+    if (Model.Where(x => x.LabourCard != null && x.LabourCard.establishment == molno && !x.LabourCard.establishment.Contains("NON WPS")).Count() <= 0){
         goto end;
     }
     var srno = 0;
@@ -132,7 +131,7 @@
             }
             @if (payrollsavedForthemonth != null)
             {
-                @payrollsavedForthemonth.Value.ToString("m")
+                @payrollsavedForthemonth.Value.ToString("MMMM")
             }
         </div>
         <table>

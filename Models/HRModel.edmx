@@ -461,6 +461,13 @@
           <Property Name="house_RA" Type="bigint" />
           <Property Name="HRA_advance_com" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="HRprojectlist">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="project_name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="induction_training">
           <Key>
             <PropertyRef Name="Id" />
@@ -896,6 +903,20 @@
           <Property Name="confirming" Type="nvarchar(max)" />
           <Property Name="Line_Managers_Comments" Type="nvarchar(max)" />
           <Property Name="Directors_Comments" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="project_attendence">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_id" Type="int" Nullable="false" />
+          <Property Name="project_id" Type="int" Nullable="false" />
+          <Property Name="at_datetime" Type="datetime" />
+          <Property Name="at_date" Type="date" />
+          <Property Name="at_time" Type="time" Precision="7" />
+          <Property Name="at_status" Type="nvarchar(max)" />
+          <Property Name="uploaded_by" Type="nvarchar(max)" />
+          <Property Name="modified_date" Type="datetime" />
         </EntityType>
         <EntityType Name="rec_req_form">
           <Key>
@@ -1421,6 +1442,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_HRproatt_To_projectlist">
+          <End Role="HRprojectlist" Type="Self.HRprojectlist" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="project_attendence" Type="Self.project_attendence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HRprojectlist">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="project_attendence">
+              <PropertyRef Name="project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_inc_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="insurance" Type="Self.insurance" Multiplicity="*" />
@@ -1675,6 +1710,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_proatt_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="project_attendence" Type="Self.project_attendence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="project_attendence">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_probation_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="PROBATION_ASSESSMENT" Type="Self.PROBATION_ASSESSMENT" Multiplicity="*" />
@@ -1810,6 +1859,7 @@
           <EntitySet Name="FINAL_DEPARTURE_CLEARANCE" EntityType="Self.FINAL_DEPARTURE_CLEARANCE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hik" EntityType="Self.hik" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HRA_requset" EntityType="Self.HRA_requset" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HRprojectlist" EntityType="Self.HRprojectlist" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="induction_training" EntityType="Self.induction_training" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="insurance" EntityType="Self.insurance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JOB_INTERVIEW_EVALUATION" EntityType="Self.JOB_INTERVIEW_EVALUATION" Schema="dbo" store:Type="Tables" />
@@ -1834,6 +1884,7 @@
           <EntitySet Name="payrolelogin" EntityType="Self.payrolelogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrollsaved" EntityType="Self.payrollsaved" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROBATION_ASSESSMENT" EntityType="Self.PROBATION_ASSESSMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="project_attendence" EntityType="Self.project_attendence" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rec_req_form" EntityType="Self.rec_req_form" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Training_Effectiveness" EntityType="Self.Training_Effectiveness" Schema="dbo" store:Type="Tables" />
@@ -1962,6 +2013,10 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emprel" EntitySet="emprel" />
           </AssociationSet>
+          <AssociationSet Name="FK_HRproatt_To_projectlist" Association="Self.FK_HRproatt_To_projectlist">
+            <End Role="HRprojectlist" EntitySet="HRprojectlist" />
+            <End Role="project_attendence" EntitySet="project_attendence" />
+          </AssociationSet>
           <AssociationSet Name="FK_inc_To_master_file" Association="Self.FK_inc_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="insurance" EntitySet="insurance" />
@@ -2041,6 +2096,10 @@
           <AssociationSet Name="FK_pp_To_master_file" Association="Self.FK_pp_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="passport" EntitySet="passport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_proatt_To_master_file" Association="Self.FK_proatt_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="project_attendence" EntitySet="project_attendence" />
           </AssociationSet>
           <AssociationSet Name="FK_probation_To_master_file" Association="Self.FK_probation_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -2871,6 +2930,7 @@
           <NavigationProperty Name="certificatesavinggroves" Relationship="HRModel.FK_certificatereqG_To_master_file" FromRole="master_file" ToRole="certificatesavinggrove" />
           <NavigationProperty Name="companLeaveRs" Relationship="HRModel.FK_clrs_To_master_file" FromRole="master_file" ToRole="companLeaveR" />
           <NavigationProperty Name="companleaveBals" Relationship="HRModel.FK_clb_To_master_file" FromRole="master_file" ToRole="companleaveBal" />
+          <NavigationProperty Name="project_attendence" Relationship="HRModel.FK_proatt_To_master_file" FromRole="master_file" ToRole="project_attendence" />
         </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
@@ -4089,6 +4149,16 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="companleaveBal" EntitySet="companleaveBals" />
           </AssociationSet>
+          <EntitySet Name="HRprojectlists" EntityType="HRModel.HRprojectlist" />
+          <EntitySet Name="project_attendence" EntityType="HRModel.project_attendence" />
+          <AssociationSet Name="FK_HRproatt_To_projectlist" Association="HRModel.FK_HRproatt_To_projectlist">
+            <End Role="HRprojectlist" EntitySet="HRprojectlists" />
+            <End Role="project_attendence" EntitySet="project_attendence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_proatt_To_master_file" Association="HRModel.FK_proatt_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="project_attendence" EntitySet="project_attendence" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_EID_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -4221,6 +4291,58 @@
             </Principal>
             <Dependent Role="companleaveBal">
               <PropertyRef Name="EmpNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HRprojectlist">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="project_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="project_attendence" Relationship="HRModel.FK_HRproatt_To_projectlist" FromRole="HRprojectlist" ToRole="project_attendence" />
+        </EntityType>
+        <EntityType Name="project_attendence">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_id" Type="Int32" Nullable="false" />
+          <Property Name="project_id" Type="Int32" Nullable="false" />
+          <Property Name="at_datetime" Type="DateTime" Precision="3" />
+          <Property Name="at_date" Type="DateTime" Precision="0" />
+          <Property Name="at_time" Type="Time" Precision="7" />
+          <Property Name="at_status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="uploaded_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="modified_date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="HRprojectlist" Relationship="HRModel.FK_HRproatt_To_projectlist" FromRole="project_attendence" ToRole="HRprojectlist" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_proatt_To_master_file" FromRole="project_attendence" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_HRproatt_To_projectlist">
+          <End Type="HRModel.HRprojectlist" Role="HRprojectlist" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HRModel.project_attendence" Role="project_attendence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HRprojectlist">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="project_attendence">
+              <PropertyRef Name="project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_proatt_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HRModel.project_attendence" Role="project_attendence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="project_attendence">
+              <PropertyRef Name="employee_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5328,6 +5450,29 @@
                 <ScalarProperty Name="balance" ColumnName="balance" />
                 <ScalarProperty Name="dateModified" ColumnName="dateModified" />
                 <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HRprojectlists">
+            <EntityTypeMapping TypeName="HRModel.HRprojectlist">
+              <MappingFragment StoreEntitySet="HRprojectlist">
+                <ScalarProperty Name="project_name" ColumnName="project_name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="project_attendence">
+            <EntityTypeMapping TypeName="HRModel.project_attendence">
+              <MappingFragment StoreEntitySet="project_attendence">
+                <ScalarProperty Name="modified_date" ColumnName="modified_date" />
+                <ScalarProperty Name="uploaded_by" ColumnName="uploaded_by" />
+                <ScalarProperty Name="at_status" ColumnName="at_status" />
+                <ScalarProperty Name="at_time" ColumnName="at_time" />
+                <ScalarProperty Name="at_date" ColumnName="at_date" />
+                <ScalarProperty Name="at_datetime" ColumnName="at_datetime" />
+                <ScalarProperty Name="project_id" ColumnName="project_id" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

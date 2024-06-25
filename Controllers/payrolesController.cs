@@ -6911,7 +6911,7 @@ namespace HRworks.Controllers
                 
                 if (payr.Rstate == "R" && !newtemp)
                 {
-                    //goto R;
+                    goto R;
                 }
                 var leavedate1 = new DateTime();
                 if (payr.forthemonth.Value.Month == 1)
@@ -7930,6 +7930,9 @@ namespace HRworks.Controllers
                 return View(model11);
             }
         }
+
+
+
 
         protected override void Dispose(bool disposing)
         {
