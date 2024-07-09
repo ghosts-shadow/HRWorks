@@ -558,6 +558,7 @@
     <Compile Include="Controllers\EXIT_INTERVIEWController.cs" />
     <Compile Include="Controllers\GoogleauthController.cs" />
     <Compile Include="Controllers\hiksController.cs" />
+    <Compile Include="Controllers\HolidaysController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HRA_requsetController.cs" />
     <Compile Include="Controllers\HR_formsController.cs" />
@@ -593,6 +594,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\absencelist.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\absexception.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\access_date.cs">
@@ -636,6 +640,15 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BUSINESS_TRIP_REPORT_.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\calab.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\cal_lwop.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\cal_ot.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Camp_Details.cs">
@@ -742,7 +755,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HRModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\HRotapp.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\HRprojectlist.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HRweekend.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HRworksinterfaces.cs" />
@@ -1668,6 +1687,12 @@
     <Content Include="Views\project_attendence\Edit.cshtml" />
     <Content Include="Views\project_attendence\Index.cshtml" />
     <Content Include="Views\project_attendence\ImportpAttendance.cshtml" />
+    <Content Include="Views\payroles\cal_absence.cshtml" />
+    <Content Include="Views\Holidays\Create.cshtml" />
+    <Content Include="Views\Holidays\Delete.cshtml" />
+    <Content Include="Views\Holidays\Details.cshtml" />
+    <Content Include="Views\Holidays\Edit.cshtml" />
+    <Content Include="Views\Holidays\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

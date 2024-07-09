@@ -1,0 +1,79 @@
+﻿@model IEnumerable<HRworks.Models.calab>
+
+@{
+    ViewBag.Title = "calculate absence";
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#getdate").datepicker({
+            altField: "#alternate",
+            altFormat: "MM,yy",
+            changeMonth: true,
+            changeYear: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true,
+            dateFormat: "dd M yy"
+        });
+    });
+
+
+</script>
+<h2>calculate absence</h2>
+
+
+@using (Html.BeginForm("cal_absence", "payroles"))
+{
+    <div class="row">
+        <div class=" col-md-2">
+            <input type="text" name="payrollmonth" id="getdate" class="form-control" @*value="@ViewBag.eddate"*@ />
+        </div>
+        <div class=" col-md-1">
+            <input type="submit" value="search" class="btn btn-default" />
+        </div>
+    </div>
+    <br />
+
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.absdays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.absmonth)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.absdays)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.absmonth)
+            </td>
+        </tr>
+    }
+
+</table>

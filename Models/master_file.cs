@@ -62,6 +62,11 @@ namespace HRworks.Models
             this.companleaveBals = new HashSet<companleaveBal>();
             this.companLeaveRs = new HashSet<companLeaveR>();
             this.project_attendence = new HashSet<project_attendence>();
+            this.absexceptions = new HashSet<absexception>();
+            this.cal_lwop = new HashSet<cal_lwop>();
+            this.cal_ot = new HashSet<cal_ot>();
+            this.calabs = new HashSet<calab>();
+            this.HRotapps = new HashSet<HRotapp>();
         }
     
         public int employee_id { get; set; }
@@ -190,5 +195,15 @@ namespace HRworks.Models
         public virtual ICollection<companLeaveR> companLeaveRs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<project_attendence> project_attendence { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<absexception> absexceptions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<cal_lwop> cal_lwop { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<cal_ot> cal_ot { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<calab> calabs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<HRotapp> HRotapps { get; set; }
     }
 }

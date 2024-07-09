@@ -23,6 +23,16 @@
           <Property Name="emp_id" Type="int" />
           <Property Name="abs_date" Type="datetime" />
         </EntityType>
+        <EntityType Name="absexception">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="exc_date" Type="date" Nullable="false" />
+          <Property Name="exc_reason" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="abs_id" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -126,6 +136,35 @@
           <Property Name="Return_Date" Type="date" />
           <Property Name="TRIP_OBJECTIVE" Type="nvarchar(max)" />
           <Property Name="Objectives" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="cal_lwop">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="lwop_days" Type="int" Nullable="false" />
+          <Property Name="lwop_month" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="cal_ot">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="ROT" Type="int" Nullable="false" />
+          <Property Name="HOT" Type="int" Nullable="false" />
+          <Property Name="WOT" Type="int" Nullable="false" />
+          <Property Name="OT_month" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="calabs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="absdays" Type="int" Nullable="false" />
+          <Property Name="absmonth" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="CERTIFICATE_REQUEST">
           <Key>
@@ -461,12 +500,36 @@
           <Property Name="house_RA" Type="bigint" />
           <Property Name="HRA_advance_com" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="HRotapp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="otdate" Type="date" Nullable="false" />
+          <Property Name="othrs" Type="int" Nullable="false" />
+          <Property Name="sumby" Type="nvarchar(max)" />
+          <Property Name="appby" Type="nvarchar(max)" />
+          <Property Name="reason" Type="nvarchar(max)" />
+          <Property Name="status" Type="nvarchar(max)" />
+          <Property Name="dateadded" Type="datetime" Nullable="false" />
+          <Property Name="datemodfied" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="HRprojectlist">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="project_name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HRweekend">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pro_id" Type="int" Nullable="false" />
+          <Property Name="dweek" Type="date" Nullable="false" />
+          <Property Name="wdate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="induction_training">
           <Key>
@@ -1068,6 +1131,30 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
+        <Association Name="FK_abs_exception_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="absexception" Type="Self.absexception" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="absexception">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_absexception_To_calabs">
+          <End Role="calabs" Type="Self.calabs" Multiplicity="1" />
+          <End Role="absexception" Type="Self.absexception" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="calabs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="absexception">
+              <PropertyRef Name="abs_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AR_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="detailsinarabic" Type="Self.detailsinarabic" Multiplicity="*" />
@@ -1112,6 +1199,42 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="BUSINESS_TRIP_REPORT ">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cal_lwop_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="cal_lwop" Type="Self.cal_lwop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="cal_lwop">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cal_ot_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="cal_ot" Type="Self.cal_ot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="cal_ot">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_calabs_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="calabs" Type="Self.calabs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="calabs">
               <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1442,6 +1565,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_HRotapp_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="HRotapp" Type="Self.HRotapp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="HRotapp">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_HRproatt_To_projectlist">
           <End Role="HRprojectlist" Type="Self.HRprojectlist" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1453,6 +1588,18 @@
             </Principal>
             <Dependent Role="project_attendence">
               <PropertyRef Name="project_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HRweekend_ToTable">
+          <End Role="HRprojectlist" Type="Self.HRprojectlist" Multiplicity="1" />
+          <End Role="HRweekend" Type="Self.HRweekend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HRprojectlist">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HRweekend">
+              <PropertyRef Name="pro_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1710,20 +1857,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_proatt_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="project_attendence" Type="Self.project_attendence" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="master_file">
-              <PropertyRef Name="employee_id" />
-            </Principal>
-            <Dependent Role="project_attendence">
-              <PropertyRef Name="employee_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_probation_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="PROBATION_ASSESSMENT" Type="Self.PROBATION_ASSESSMENT" Multiplicity="*" />
@@ -1829,6 +1962,7 @@
         <EntityContainer Name="HRModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="absencelist" EntityType="Self.absencelist" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="absexception" EntityType="Self.absexception" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -1838,6 +1972,9 @@
           <EntitySet Name="bank_details" EntityType="Self.bank_details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="business_trip" EntityType="Self.business_trip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BUSINESS_TRIP_REPORT " EntityType="Self.BUSINESS_TRIP_REPORT " Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cal_lwop" EntityType="Self.cal_lwop" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="cal_ot" EntityType="Self.cal_ot" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="calabs" EntityType="Self.calabs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CERTIFICATE_REQUEST" EntityType="Self.CERTIFICATE_REQUEST" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="certificatesavinggrove" EntityType="Self.certificatesavinggrove" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="certificatesavingtest&#x9;" EntityType="Self.certificatesavingtest&#x9;" Schema="dbo" store:Type="Tables" />
@@ -1859,7 +1996,9 @@
           <EntitySet Name="FINAL_DEPARTURE_CLEARANCE" EntityType="Self.FINAL_DEPARTURE_CLEARANCE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hik" EntityType="Self.hik" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HRA_requset" EntityType="Self.HRA_requset" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HRotapp" EntityType="Self.HRotapp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HRprojectlist" EntityType="Self.HRprojectlist" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HRweekend" EntityType="Self.HRweekend" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="induction_training" EntityType="Self.induction_training" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="insurance" EntityType="Self.insurance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="JOB_INTERVIEW_EVALUATION" EntityType="Self.JOB_INTERVIEW_EVALUATION" Schema="dbo" store:Type="Tables" />
@@ -1893,6 +2032,14 @@
           <EntitySet Name="usernames" EntityType="Self.usernames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa" EntityType="Self.visa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_abs_exception_To_master_file" Association="Self.FK_abs_exception_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="absexception" EntitySet="absexception" />
+          </AssociationSet>
+          <AssociationSet Name="FK_absexception_To_calabs" Association="Self.FK_absexception_To_calabs">
+            <End Role="calabs" EntitySet="calabs" />
+            <End Role="absexception" EntitySet="absexception" />
+          </AssociationSet>
           <AssociationSet Name="FK_AR_To_master_file" Association="Self.FK_AR_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="detailsinarabic" EntitySet="detailsinarabic" />
@@ -1908,6 +2055,18 @@
           <AssociationSet Name="FK_BTR_To_master_file" Association="Self.FK_BTR_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="BUSINESS_TRIP_REPORT " EntitySet="BUSINESS_TRIP_REPORT " />
+          </AssociationSet>
+          <AssociationSet Name="FK_cal_lwop_To_master_file" Association="Self.FK_cal_lwop_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="cal_lwop" EntitySet="cal_lwop" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cal_ot_To_master_file" Association="Self.FK_cal_ot_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="cal_ot" EntitySet="cal_ot" />
+          </AssociationSet>
+          <AssociationSet Name="FK_calabs_To_master_file" Association="Self.FK_calabs_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="calabs" EntitySet="calabs" />
           </AssociationSet>
           <AssociationSet Name="FK_certificate_To_master_file" Association="Self.FK_certificate_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -2013,9 +2172,17 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emprel" EntitySet="emprel" />
           </AssociationSet>
+          <AssociationSet Name="FK_HRotapp_To_master_file" Association="Self.FK_HRotapp_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="HRotapp" EntitySet="HRotapp" />
+          </AssociationSet>
           <AssociationSet Name="FK_HRproatt_To_projectlist" Association="Self.FK_HRproatt_To_projectlist">
             <End Role="HRprojectlist" EntitySet="HRprojectlist" />
             <End Role="project_attendence" EntitySet="project_attendence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HRweekend_ToTable" Association="Self.FK_HRweekend_ToTable">
+            <End Role="HRprojectlist" EntitySet="HRprojectlist" />
+            <End Role="HRweekend" EntitySet="HRweekend" />
           </AssociationSet>
           <AssociationSet Name="FK_inc_To_master_file" Association="Self.FK_inc_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -2096,10 +2263,6 @@
           <AssociationSet Name="FK_pp_To_master_file" Association="Self.FK_pp_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="passport" EntitySet="passport" />
-          </AssociationSet>
-          <AssociationSet Name="FK_proatt_To_master_file" Association="Self.FK_proatt_To_master_file">
-            <End Role="master_file" EntitySet="master_file" />
-            <End Role="project_attendence" EntitySet="project_attendence" />
           </AssociationSet>
           <AssociationSet Name="FK_probation_To_master_file" Association="Self.FK_probation_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -2931,6 +3094,11 @@
           <NavigationProperty Name="companLeaveRs" Relationship="HRModel.FK_clrs_To_master_file" FromRole="master_file" ToRole="companLeaveR" />
           <NavigationProperty Name="companleaveBals" Relationship="HRModel.FK_clb_To_master_file" FromRole="master_file" ToRole="companleaveBal" />
           <NavigationProperty Name="project_attendence" Relationship="HRModel.FK_proatt_To_master_file" FromRole="master_file" ToRole="project_attendence" />
+          <NavigationProperty Name="absexceptions" Relationship="HRModel.FK_abs_exception_To_master_file" FromRole="master_file" ToRole="absexception" />
+          <NavigationProperty Name="cal_lwop" Relationship="HRModel.FK_cal_lwop_To_master_file" FromRole="master_file" ToRole="cal_lwop" />
+          <NavigationProperty Name="cal_ot" Relationship="HRModel.FK_cal_ot_To_master_file" FromRole="master_file" ToRole="cal_ot" />
+          <NavigationProperty Name="calabs" Relationship="HRModel.FK_calabs_To_master_file" FromRole="master_file" ToRole="calab" />
+          <NavigationProperty Name="HRotapps" Relationship="HRModel.FK_HRotapp_To_master_file" FromRole="master_file" ToRole="HRotapp" />
         </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
@@ -4159,6 +4327,40 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="project_attendence" EntitySet="project_attendence" />
           </AssociationSet>
+          <EntitySet Name="absexceptions" EntityType="HRModel.absexception" />
+          <EntitySet Name="cal_lwop" EntityType="HRModel.cal_lwop" />
+          <EntitySet Name="cal_ot" EntityType="HRModel.cal_ot" />
+          <EntitySet Name="calabs" EntityType="HRModel.calab" />
+          <EntitySet Name="HRotapps" EntityType="HRModel.HRotapp" />
+          <EntitySet Name="HRweekends" EntityType="HRModel.HRweekend" />
+          <AssociationSet Name="FK_abs_exception_To_master_file" Association="HRModel.FK_abs_exception_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="absexception" EntitySet="absexceptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_absexception_To_calabs" Association="HRModel.FK_absexception_To_calabs">
+            <End Role="calab" EntitySet="calabs" />
+            <End Role="absexception" EntitySet="absexceptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cal_lwop_To_master_file" Association="HRModel.FK_cal_lwop_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="cal_lwop" EntitySet="cal_lwop" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cal_ot_To_master_file" Association="HRModel.FK_cal_ot_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="cal_ot" EntitySet="cal_ot" />
+          </AssociationSet>
+          <AssociationSet Name="FK_calabs_To_master_file" Association="HRModel.FK_calabs_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="calab" EntitySet="calabs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HRotapp_To_master_file" Association="HRModel.FK_HRotapp_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="HRotapp" EntitySet="HRotapps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HRweekend_ToTable" Association="HRModel.FK_HRweekend_ToTable">
+            <End Role="HRprojectlist" EntitySet="HRprojectlists" />
+            <End Role="HRweekend" EntitySet="HRweekends" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_EID_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -4301,6 +4503,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="project_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="project_attendence" Relationship="HRModel.FK_HRproatt_To_projectlist" FromRole="HRprojectlist" ToRole="project_attendence" />
+          <NavigationProperty Name="HRweekends" Relationship="HRModel.FK_HRweekend_ToTable" FromRole="HRprojectlist" ToRole="HRweekend" />
         </EntityType>
         <EntityType Name="project_attendence">
           <Key>
@@ -4343,6 +4546,161 @@
             </Principal>
             <Dependent Role="project_attendence">
               <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="absexception">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="exc_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="exc_reason" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="abs_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_abs_exception_To_master_file" FromRole="absexception" ToRole="master_file" />
+          <NavigationProperty Name="calab" Relationship="HRModel.FK_absexception_To_calabs" FromRole="absexception" ToRole="calab" />
+        </EntityType>
+        <EntityType Name="cal_lwop">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="lwop_days" Type="Int32" Nullable="false" />
+          <Property Name="lwop_month" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_cal_lwop_To_master_file" FromRole="cal_lwop" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="cal_ot">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="ROT" Type="Int32" Nullable="false" />
+          <Property Name="HOT" Type="Int32" Nullable="false" />
+          <Property Name="WOT" Type="Int32" Nullable="false" />
+          <Property Name="OT_month" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_cal_ot_To_master_file" FromRole="cal_ot" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="calab">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="absdays" Type="Int32" Nullable="false" />
+          <Property Name="absmonth" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="absexceptions" Relationship="HRModel.FK_absexception_To_calabs" FromRole="calab" ToRole="absexception" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_calabs_To_master_file" FromRole="calab" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="HRotapp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="otdate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="othrs" Type="Int32" Nullable="false" />
+          <Property Name="sumby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="appby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dateadded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="datemodfied" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_HRotapp_To_master_file" FromRole="HRotapp" ToRole="master_file" />
+        </EntityType>
+        <EntityType Name="HRweekend">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pro_id" Type="Int32" Nullable="false" />
+          <Property Name="dweek" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="wdate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="HRprojectlist" Relationship="HRModel.FK_HRweekend_ToTable" FromRole="HRweekend" ToRole="HRprojectlist" />
+        </EntityType>
+        <Association Name="FK_abs_exception_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.absexception" Role="absexception" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="absexception">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_absexception_To_calabs">
+          <End Type="HRModel.calab" Role="calab" Multiplicity="1" />
+          <End Type="HRModel.absexception" Role="absexception" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="calab">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="absexception">
+              <PropertyRef Name="abs_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cal_lwop_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.cal_lwop" Role="cal_lwop" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="cal_lwop">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cal_ot_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.cal_ot" Role="cal_ot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="cal_ot">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_calabs_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.calab" Role="calab" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="calab">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HRotapp_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.HRotapp" Role="HRotapp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="HRotapp">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HRweekend_ToTable">
+          <End Type="HRModel.HRprojectlist" Role="HRprojectlist" Multiplicity="1" />
+          <End Type="HRModel.HRweekend" Role="HRweekend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HRprojectlist">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HRweekend">
+              <PropertyRef Name="pro_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5473,6 +5831,75 @@
                 <ScalarProperty Name="at_datetime" ColumnName="at_datetime" />
                 <ScalarProperty Name="project_id" ColumnName="project_id" />
                 <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="absexceptions">
+            <EntityTypeMapping TypeName="HRModel.absexception">
+              <MappingFragment StoreEntitySet="absexception">
+                <ScalarProperty Name="abs_id" ColumnName="abs_id" />
+                <ScalarProperty Name="exc_reason" ColumnName="exc_reason" />
+                <ScalarProperty Name="exc_date" ColumnName="exc_date" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cal_lwop">
+            <EntityTypeMapping TypeName="HRModel.cal_lwop">
+              <MappingFragment StoreEntitySet="cal_lwop">
+                <ScalarProperty Name="lwop_month" ColumnName="lwop_month" />
+                <ScalarProperty Name="lwop_days" ColumnName="lwop_days" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cal_ot">
+            <EntityTypeMapping TypeName="HRModel.cal_ot">
+              <MappingFragment StoreEntitySet="cal_ot">
+                <ScalarProperty Name="OT_month" ColumnName="OT_month" />
+                <ScalarProperty Name="WOT" ColumnName="WOT" />
+                <ScalarProperty Name="HOT" ColumnName="HOT" />
+                <ScalarProperty Name="ROT" ColumnName="ROT" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="calabs">
+            <EntityTypeMapping TypeName="HRModel.calab">
+              <MappingFragment StoreEntitySet="calabs">
+                <ScalarProperty Name="absmonth" ColumnName="absmonth" />
+                <ScalarProperty Name="absdays" ColumnName="absdays" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HRotapps">
+            <EntityTypeMapping TypeName="HRModel.HRotapp">
+              <MappingFragment StoreEntitySet="HRotapp">
+                <ScalarProperty Name="datemodfied" ColumnName="datemodfied" />
+                <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="appby" ColumnName="appby" />
+                <ScalarProperty Name="sumby" ColumnName="sumby" />
+                <ScalarProperty Name="othrs" ColumnName="othrs" />
+                <ScalarProperty Name="otdate" ColumnName="otdate" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HRweekends">
+            <EntityTypeMapping TypeName="HRModel.HRweekend">
+              <MappingFragment StoreEntitySet="HRweekend">
+                <ScalarProperty Name="wdate" ColumnName="wdate" />
+                <ScalarProperty Name="dweek" ColumnName="dweek" />
+                <ScalarProperty Name="pro_id" ColumnName="pro_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

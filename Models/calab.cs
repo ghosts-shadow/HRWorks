@@ -12,21 +12,21 @@ namespace HRworks.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class HRprojectlist
+    public partial class calab
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public HRprojectlist()
+        public calab()
         {
-            this.project_attendence = new HashSet<project_attendence>();
-            this.HRweekends = new HashSet<HRweekend>();
+            this.absexceptions = new HashSet<absexception>();
         }
     
         public int Id { get; set; }
-        public string project_name { get; set; }
+        public int Employee_id { get; set; }
+        public int absdays { get; set; }
+        public System.DateTime absmonth { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<project_attendence> project_attendence { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<HRweekend> HRweekends { get; set; }
+        public virtual ICollection<absexception> absexceptions { get; set; }
+        public virtual master_file master_file { get; set; }
     }
 }
