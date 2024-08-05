@@ -142,6 +142,10 @@
         <AssociationConnector Association="HRModel.FK_calabs_To_master_file" />
         <AssociationConnector Association="HRModel.FK_HRotapp_To_master_file" />
         <AssociationConnector Association="HRModel.FK_HRweekend_ToTable" />
+        <EntityTypeShape EntityType="HRModel.transferlist" Width="1.5" PointX="57.125" PointY="93" />
+        <AssociationConnector Association="HRModel.FK_trnp1_Toproject" />
+        <AssociationConnector Association="HRModel.FK_trnp2_Toproject" />
+        <AssociationConnector Association="HRModel.FK_trflist_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

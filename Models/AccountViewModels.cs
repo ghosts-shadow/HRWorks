@@ -44,6 +44,10 @@ namespace HRworks.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "employee no")]
+        public int emp_no { get; set; }
     }
 
     public class LoginViewModel
@@ -117,5 +121,9 @@ namespace HRworks.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "employee no")]
+        public int emp_no { get; set; }
     }
 }

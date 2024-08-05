@@ -2162,7 +2162,7 @@ namespace HRworks.Controllers
                     Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that certificate request for   (" +
                            cstvar.master_file.employee_no + ") " +
                            emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
-                           "http://hrworks.ddns.net:6333/citiworks/certificatesavingtest_/hrapproval" + "\n\n\n" +
+                           "http://ess.citiscapegroup.com" + "\n\n\n" +
                            "Thanks Best Regards, "
                 };
                 if (message.To.Count != 0)
@@ -2206,7 +2206,7 @@ namespace HRworks.Controllers
                     Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that certificate request for   (" +
                            cstvar.master_file.employee_no + ") " +
                            emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
-                           "http://hrworks.ddns.net:6333/citiworks/certificatesavingtest_/hrapproval" + "\n\n\n" +
+                           "http://ess.citiscapegroup.com" + "\n\n\n" +
                            "Thanks Best Regards, "
                 };
                 if (message.To.Count != 0)

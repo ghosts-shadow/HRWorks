@@ -19,7 +19,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="emp_id" Type="int" />
           <Property Name="abs_date" Type="datetime" />
         </EntityType>
@@ -1089,6 +1089,21 @@
           <Property Name="TE_total_price" Type="bigint" />
           <Property Name="HR_comments" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="transferlist">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="cpro_id" Type="int" Nullable="false" />
+          <Property Name="npro_id" Type="int" Nullable="false" />
+          <Property Name="effectivedate" Type="nvarchar(max)" />
+          <Property Name="requested_by" Type="nvarchar(max)" />
+          <Property Name="approved_by" Type="nvarchar" MaxLength="50" />
+          <Property Name="reason" Type="nvarchar(max)" />
+          <Property Name="dateadded" Type="datetime" />
+          <Property Name="datemodifief" Type="datetime" />
+        </EntityType>
         <EntityType Name="usernames">
           <Key>
             <PropertyRef Name="aspnet_uid" />
@@ -1917,6 +1932,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_trflist_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="transferlist" Type="Self.transferlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="transferlist">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_trnp1_Toproject">
+          <End Role="HRprojectlist" Type="Self.HRprojectlist" Multiplicity="1" />
+          <End Role="transferlist" Type="Self.transferlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HRprojectlist">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="transferlist">
+              <PropertyRef Name="cpro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_trnp2_Toproject">
+          <End Role="HRprojectlist" Type="Self.HRprojectlist" Multiplicity="1" />
+          <End Role="transferlist" Type="Self.transferlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HRprojectlist">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="transferlist">
+              <PropertyRef Name="npro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_usernames_To_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2029,6 +2080,7 @@
           <EntitySet Name="Training_Effectiveness" EntityType="Self.Training_Effectiveness" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Training_Evaluation" EntityType="Self.Training_Evaluation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Training_Request" EntityType="Self.Training_Request" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transferlist" EntityType="Self.transferlist" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usernames" EntityType="Self.usernames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa" EntityType="Self.visa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" Schema="dbo" store:Type="Tables" />
@@ -2283,6 +2335,18 @@
           <AssociationSet Name="FK_TR_To_master_file" Association="Self.FK_TR_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="Training_Request" EntitySet="Training_Request" />
+          </AssociationSet>
+          <AssociationSet Name="FK_trflist_To_master_file" Association="Self.FK_trflist_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="transferlist" EntitySet="transferlist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_trnp1_Toproject" Association="Self.FK_trnp1_Toproject">
+            <End Role="HRprojectlist" EntitySet="HRprojectlist" />
+            <End Role="transferlist" EntitySet="transferlist" />
+          </AssociationSet>
+          <AssociationSet Name="FK_trnp2_Toproject" Association="Self.FK_trnp2_Toproject">
+            <End Role="HRprojectlist" EntitySet="HRprojectlist" />
+            <End Role="transferlist" EntitySet="transferlist" />
           </AssociationSet>
           <AssociationSet Name="FK_usernames_To_AspNetUsers" Association="Self.FK_usernames_To_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -3099,6 +3163,7 @@
           <NavigationProperty Name="cal_ot" Relationship="HRModel.FK_cal_ot_To_master_file" FromRole="master_file" ToRole="cal_ot" />
           <NavigationProperty Name="calabs" Relationship="HRModel.FK_calabs_To_master_file" FromRole="master_file" ToRole="calab" />
           <NavigationProperty Name="HRotapps" Relationship="HRModel.FK_HRotapp_To_master_file" FromRole="master_file" ToRole="HRotapp" />
+          <NavigationProperty Name="transferlists" Relationship="HRModel.FK_trflist_To_master_file" FromRole="master_file" ToRole="transferlist" />
         </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
@@ -4361,6 +4426,19 @@
             <End Role="HRprojectlist" EntitySet="HRprojectlists" />
             <End Role="HRweekend" EntitySet="HRweekends" />
           </AssociationSet>
+          <EntitySet Name="transferlists" EntityType="HRModel.transferlist" />
+          <AssociationSet Name="FK_trnp1_Toproject" Association="HRModel.FK_trnp1_Toproject">
+            <End Role="HRprojectlist" EntitySet="HRprojectlists" />
+            <End Role="transferlist" EntitySet="transferlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_trnp2_Toproject" Association="HRModel.FK_trnp2_Toproject">
+            <End Role="HRprojectlist" EntitySet="HRprojectlists" />
+            <End Role="transferlist" EntitySet="transferlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_trflist_To_master_file" Association="HRModel.FK_trflist_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="transferlist" EntitySet="transferlists" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_EID_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -4504,6 +4582,8 @@
           <Property Name="project_name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="project_attendence" Relationship="HRModel.FK_HRproatt_To_projectlist" FromRole="HRprojectlist" ToRole="project_attendence" />
           <NavigationProperty Name="HRweekends" Relationship="HRModel.FK_HRweekend_ToTable" FromRole="HRprojectlist" ToRole="HRweekend" />
+          <NavigationProperty Name="transferlists" Relationship="HRModel.FK_trnp1_Toproject" FromRole="HRprojectlist" ToRole="transferlist" />
+          <NavigationProperty Name="transferlists1" Relationship="HRModel.FK_trnp2_Toproject" FromRole="HRprojectlist" ToRole="transferlist" />
         </EntityType>
         <EntityType Name="project_attendence">
           <Key>
@@ -4701,6 +4781,60 @@
             </Principal>
             <Dependent Role="HRweekend">
               <PropertyRef Name="pro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="transferlist">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="cpro_id" Type="Int32" Nullable="false" />
+          <Property Name="npro_id" Type="Int32" Nullable="false" />
+          <Property Name="requested_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="approved_by" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="effectivedate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dateadded" Type="DateTime" Precision="3" />
+          <Property Name="datemodifief" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="HRprojectlist" Relationship="HRModel.FK_trnp1_Toproject" FromRole="transferlist" ToRole="HRprojectlist" />
+          <NavigationProperty Name="HRprojectlist1" Relationship="HRModel.FK_trnp2_Toproject" FromRole="transferlist" ToRole="HRprojectlist" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_trflist_To_master_file" FromRole="transferlist" ToRole="master_file" />
+          <Property Name="reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_trnp1_Toproject">
+          <End Type="HRModel.HRprojectlist" Role="HRprojectlist" Multiplicity="1" />
+          <End Type="HRModel.transferlist" Role="transferlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HRprojectlist">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="transferlist">
+              <PropertyRef Name="cpro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_trnp2_Toproject">
+          <End Type="HRModel.HRprojectlist" Role="HRprojectlist" Multiplicity="1" />
+          <End Type="HRModel.transferlist" Role="transferlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HRprojectlist">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="transferlist">
+              <PropertyRef Name="npro_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_trflist_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.transferlist" Role="transferlist" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="transferlist">
+              <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5900,6 +6034,22 @@
                 <ScalarProperty Name="wdate" ColumnName="wdate" />
                 <ScalarProperty Name="dweek" ColumnName="dweek" />
                 <ScalarProperty Name="pro_id" ColumnName="pro_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transferlists">
+            <EntityTypeMapping TypeName="HRModel.transferlist">
+              <MappingFragment StoreEntitySet="transferlist">
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="datemodifief" ColumnName="datemodifief" />
+                <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+                <ScalarProperty Name="effectivedate" ColumnName="effectivedate" />
+                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
+                <ScalarProperty Name="requested_by" ColumnName="requested_by" />
+                <ScalarProperty Name="npro_id" ColumnName="npro_id" />
+                <ScalarProperty Name="cpro_id" ColumnName="cpro_id" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

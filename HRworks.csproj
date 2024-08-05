@@ -946,6 +946,9 @@
     <Compile Include="Models\Training_Request.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\transferlist.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\trattfile.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
@@ -1693,6 +1696,8 @@
     <Content Include="Views\Holidays\Details.cshtml" />
     <Content Include="Views\Holidays\Edit.cshtml" />
     <Content Include="Views\Holidays\Index.cshtml" />
+    <Content Include="Views\payroles\cal_lwop.cshtml" />
+    <Content Include="Views\payroles\calovertime.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

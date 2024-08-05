@@ -96,5 +96,6 @@ namespace HRworks.Models
         public virtual DbSet<calab> calabs { get; set; }
         public virtual DbSet<HRotapp> HRotapps { get; set; }
         public virtual DbSet<HRweekend> HRweekends { get; set; }
+        public virtual DbSet<transferlist> transferlists { get; set; }
     }
 }

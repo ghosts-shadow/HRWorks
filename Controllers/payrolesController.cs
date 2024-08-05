@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.Services.Description;
 using System.Web.UI;
+using System.Windows.Navigation;
 using HRworks.Models;
 using Microsoft.Ajax.Utilities;
 using OfficeOpenXml;
@@ -8006,20 +8007,20 @@ namespace HRworks.Controllers
                 .GroupBy(x => x.employee_no)
                 .Select(g => g.First())
                 .Where(file => file.employee_no != 0 && file.employee_no != 1 && file.employee_no != 100001)
-                .ToList();
+                .ToList().FindAll(x=>x.contracts.Count > 0 && (x.contracts.First().departmant_project != "Procurement" ));
+            afinallist.RemoveAll(x => x.contracts.First().designation.Contains("Procurement"));
 
             var HObioatt = db.hiks
                 .Where(x => x.date >= startdate && x.date <= enddate)
                 .ToList();
             var leaveList = db.Leaves
-                .Where(x => x.Start_leave >= startdate && x.Start_leave <= enddate)
+                .Where(x => x.Start_leave <= enddate && x.End_leave >= startdate)
                 .ToList();
             var holidayList = db1.Holidays.Where(x => x.Date >= startdate && x.Date <= enddate).ToList();
 
             var proatt = db.project_attendence
                 .Where(x => x.at_date >= startdate && x.at_date <= enddate)
                 .ToList();
-
 
             var abslist = new List<absencelist>();
             var calabslist = new List<calab>();
@@ -8037,6 +8038,7 @@ namespace HRworks.Controllers
                     master_file = file
                 };
 
+                var tranferlist = db.transferlists.Where(x=>x.Employee_id == file.employee_id && x.reason == "approved").OrderByDescending(x=>x.datemodifief).ToList();
                 while (tempdate <= enddate)
                 {
                     var tempHOattlist = HObioatt
@@ -8049,15 +8051,76 @@ namespace HRworks.Controllers
 
                     if (!tempHOattlist.Any() && !tempproattlist.Any())
                     {
-                        if (tempdate.DayOfWeek != DayOfWeek.Saturday && tempdate.DayOfWeek != DayOfWeek.Sunday && !leaveList.Exists(x => x.Start_leave >= tempdate && x.Start_leave <= tempdate && x.Employee_id == file.employee_id) && !holidayList.Exists(x => x.Date >= tempdate && x.Date <= tempdate))
+                        if (!tranferlist.Any())
                         {
-                            abslist.Add(new absencelist
+                            if (tempdate.DayOfWeek != DayOfWeek.Saturday && tempdate.DayOfWeek != DayOfWeek.Sunday &&
+                                !leaveList.Exists(x =>
+                                    x.End_leave >= tempdate && x.Start_leave <= tempdate &&
+                                    x.Employee_id == file.employee_id) &&
+                                !holidayList.Exists(x => x.Date >= tempdate && x.Date <= tempdate))
                             {
-                                emp_id = file.employee_id,
-                                abs_date = tempdate
-                            });
-                            tempcalabs.absdays++;
+                                abslist.Add(new absencelist
+                                {
+                                    emp_id = file.employee_id,
+                                    abs_date = tempdate
+                                });
+                                tempcalabs.absdays++;
+                            }
                         }
+                        else
+                        {
+                            if (tranferlist.Count > 1)
+                            {
+                                var proweekend = new List<HRweekend>();
+                                foreach (var transferlist in tranferlist)
+                                {
+                                    proweekend.AddRange( db.HRweekends.Where(x => x.pro_id == transferlist.npro_id).ToList());
+                                }
+                                
+                                var tempproj = new List<HRweekend>();
+
+                                foreach (var weekend in proweekend)
+                                {
+                                    if (!tempproj.Exists(x=>x.dweek.DayOfWeek == weekend.dweek.DayOfWeek))
+                                    {
+                                        tempproj.Add(weekend);
+                                    }
+                                }
+
+                                if (!tempproj.Exists(x=>x.dweek.DayOfWeek == tempdate.DayOfWeek) &&
+                                    !leaveList.Exists(x =>
+                                        x.End_leave >= tempdate && x.Start_leave <= tempdate &&
+                                        x.Employee_id == file.employee_id) &&
+                                    !holidayList.Exists(x => x.Date >= tempdate && x.Date <= tempdate))
+                                {
+                                    abslist.Add(new absencelist
+                                    {
+                                        emp_id = file.employee_id,
+                                        abs_date = tempdate
+                                    });
+                                    tempcalabs.absdays++;
+                                }
+
+                            }
+                            else
+                            {
+                                var proweekend = db.HRweekends.Where(x => x.pro_id == tranferlist[0].npro_id).ToList();
+                                if (!proweekend.Exists(x => x.dweek.DayOfWeek == tempdate.DayOfWeek) &&
+                                    !leaveList.Exists(x =>
+                                        x.End_leave >= tempdate && x.Start_leave <= tempdate &&
+                                        x.Employee_id == file.employee_id) &&
+                                    !holidayList.Exists(x => x.Date >= tempdate && x.Date <= tempdate))
+                                {
+                                    abslist.Add(new absencelist
+                                    {
+                                        emp_id = file.employee_id,
+                                        abs_date = tempdate
+                                    });
+                                    tempcalabs.absdays++;
+                                }
+                            }
+                        }
+
                     }
 
                     tempdate = tempdate.AddDays(1);
@@ -8066,17 +8129,242 @@ namespace HRworks.Controllers
                 calabslist.Add(tempcalabs);
             }
 
+            /*
             foreach (var calab in calabslist)
             {
-                
+                var savetest = db.calabs.ToList();
+                if (savetest.Exists(x => x.absmonth == calab.absmonth && x.Employee_id == calab.Employee_id))
+                {
+                    var tempsavevar = savetest.Find(x =>
+                        x.absmonth == calab.absmonth && x.Employee_id == calab.Employee_id);
+                    if (tempsavevar != null)
+                    {
+                        tempsavevar.absdays = calab.absdays;
+                        db.Entry(tempsavevar).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    db.calabs.Add(calab);
+                    db.SaveChanges();
+                }
             }
 
             foreach (var absencelist in abslist)
             {
-                
-            }
+                var savetest = db.absencelists.ToList();
+                if (savetest.Exists(x => x.abs_date == absencelist.abs_date && x.emp_id == absencelist.emp_id))
+                {
+                    var tempsavevar = savetest.Find(x =>
+                        x.abs_date == absencelist.abs_date && x.emp_id == absencelist.emp_id);
+                    if (tempsavevar != null)
+                    {
+                        tempsavevar.abs_date = absencelist.abs_date;
+                        db.Entry(tempsavevar).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    db.absencelists.Add(absencelist);
+                    db.SaveChanges();
+                }
+            }*/
 
             return View(calabslist);
+        }
+
+        public ActionResult cal_lwop(DateTime? payrollmonth)
+        {
+            var callowplist = new List<cal_lwop>();
+            if (payrollmonth.HasValue)
+            {
+                var startdate = new DateTime(payrollmonth.Value.Year, payrollmonth.Value.Month - 1, 21);
+                if (payrollmonth.Value.Month == 1)
+                {
+                    startdate = new DateTime(payrollmonth.Value.Year - 1, 12, 21);
+                }
+
+                var enddate = new DateTime(payrollmonth.Value.Year, payrollmonth.Value.Month, 20);
+
+                var leave_list = db.Leaves.Where(x =>
+                    (x.End_leave >= startdate && x.Start_leave <= enddate && x.End_leave >= startdate && x.leave_type == "6") ||
+                    (x.actual_return_date == null && x.Return_leave >= startdate)).ToList();
+
+
+                var alist = this.db.master_file
+                    .Where(e => e.last_working_day == null)
+                    .OrderBy(e => e.employee_no)
+                    .ThenByDescending(x => x.date_changed)
+                    .ToList();
+
+                var afinallist = alist
+                    .GroupBy(x => x.employee_no)
+                    .Select(g => g.First())
+                    .Where(file => file.employee_no != 0 && file.employee_no != 1 && file.employee_no != 100001)
+                    .ToList();
+                foreach (var file in afinallist)
+                {
+                    var tempdate = startdate;
+                    var leave_listemp = leave_list.FindAll(x => x.Employee_id == file.employee_id).ToList();
+                    var emplowp = new cal_lwop
+                    {
+                        Employee_id = file.employee_id,
+                        lwop_days = 0,
+                        lwop_month = new DateTime(payrollmonth.Value.Year,
+                            payrollmonth.Value.Month,
+                            1),
+                        master_file = file
+                    };
+                    while (tempdate <= enddate )
+                    {
+                        if (leave_listemp.Exists(x=>x.leave_type == "6" && x.End_leave >= tempdate && x.Start_leave <= tempdate ))
+                        {
+                            emplowp.lwop_days++;
+                        }
+                        else if(leave_listemp.Exists(x => !x.actual_return_date.HasValue && x.Return_leave <= enddate))
+                        {
+                            emplowp.lwop_days++;
+                        }
+
+                        tempdate = tempdate.AddDays(1);
+                    }
+                    callowplist.Add(emplowp);
+
+                }
+
+                /*foreach (var callw in callowplist)
+                {
+                    var savetest = db.cal_lwop.ToList();
+                    if (savetest.Exists(x => x.lwop_month == callw.lwop_month && x.Employee_id == callw.Employee_id))
+                    {
+                        var tempsavevar = savetest.Find(x =>
+                            x.lwop_month == callw.lwop_month && x.Employee_id == callw.Employee_id);
+                        if (tempsavevar != null)
+                        {
+                            tempsavevar.lwop_days = callw.lwop_days;
+                            db.Entry(tempsavevar).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        db.cal_lwop.Add(callw);
+                        db.SaveChanges();
+                    }
+                }*/
+            }
+
+            return View(callowplist);
+        }
+
+        public ActionResult calovertime(DateTime? payrollmonth)
+        {
+            var calotlist = new List<cal_ot>();
+            if (!payrollmonth.HasValue)
+            {
+                return View(calotlist);
+            }
+
+            var startdate = new DateTime(payrollmonth.Value.Year, payrollmonth.Value.Month - 1, 21);
+            if (payrollmonth.Value.Month == 1)
+            {
+                startdate = new DateTime(payrollmonth.Value.Year - 1, 12, 21);
+            }
+
+            var enddate = new DateTime(payrollmonth.Value.Year, payrollmonth.Value.Month, 20);
+
+            var overtimeaplist = db.HRotapps.Where(x=>x.otdate >= startdate).ToList();
+            var projectatt = db.project_attendence.Where(x => x.at_date >= startdate).ToList();
+            var alist = this.db.master_file
+                .Where(e => e.last_working_day == null)
+                .OrderBy(e => e.employee_no)
+                .ThenByDescending(x => x.date_changed)
+                .ToList();
+            var afinallist = alist
+                .GroupBy(x => x.employee_no)
+                .Select(g => g.First())
+                .Where(x => x.employee_no != 0 && x.employee_no != 1 && x.employee_no != 100001)
+                .ToList();
+            var opapped = db.HRotapps.Where(x => x.otdate <= enddate && x.otdate >= startdate && x.status == "approved").ToList();
+            var holidaylist = db1.Holidays.Where(x => x.Date <= enddate && x.Date >= startdate).ToList();
+            var leaveList = db.Leaves
+                .Where(x => x.Start_leave <= enddate && x.End_leave >= startdate)
+                .ToList();
+
+            var emplist = afinallist.FindAll(x => projectatt.Exists(y => y.employee_id == x.employee_id) && opapped.Exists(y=>y.Employee_id == x.employee_id));
+            foreach (var file in emplist)
+            {
+                var tranferlist = db.transferlists.Where(x => x.Employee_id == file.employee_id && x.reason == "approved").OrderByDescending(x => x.datemodifief).ToList();
+                var calot = new cal_ot
+                {
+                    Employee_id = file.employee_id,
+                    ROT = 0,
+                    HOT = 0,
+                    WOT = 0,
+                    OT_month = payrollmonth.Value,
+                    master_file = file
+                };
+                var tempdate = startdate;
+                while (tempdate<= enddate)
+                {
+                    if (!leaveList.Exists(x => x.Start_leave <= tempdate && x.End_leave >= tempdate))
+                    {
+                        if (!tranferlist.Any())
+                        {
+
+                            if (holidaylist.Exists(x => x.Date == tempdate))
+                            {
+                                calot.HOT++;
+                            }
+                            else if(tempdate.DayOfWeek != DayOfWeek.Saturday && tempdate.DayOfWeek != DayOfWeek.Sunday)
+                            {
+                                calot.WOT++;
+                            }
+                            else
+                            {
+                                var projectattday = projectatt.FindAll(x => x.at_date == tempdate).OrderBy(x=>x.at_datetime).ToList();
+                                var starttime = projectattday.First().at_datetime.Value;
+                                var endtime = projectattday.Last().at_datetime.Value;
+                                var totaltime = endtime - startdate;
+                                if (totaltime.TotalHours >8)
+                                {
+                                    var otr = totaltime.TotalHours - 8;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (holidaylist.Exists(x => x.Date == tempdate))
+                            {
+
+                                calot.HOT++;
+                            }
+                            else if(true)//put a condition
+                            {
+                                calot.WOT++;
+                            }
+                            else
+                            {
+                                var projectattday = projectatt.FindAll(x => x.at_date == tempdate).OrderBy(x => x.at_datetime).ToList();
+                                var starttime = projectattday.First().at_datetime.Value;
+                                var endtime = projectattday.Last().at_datetime.Value;
+                                var totaltime = endtime - startdate;
+                                if (totaltime.TotalHours > 8)
+                                {
+                                    var otr = totaltime.TotalHours - 8;
+                                }
+                            }
+                        }
+
+                    }
+
+                    tempdate = tempdate.AddDays(1);
+                }
+                calotlist.Add(calot);
+            }
+            return View(calotlist);
         }
 
 

@@ -19,6 +19,8 @@ namespace HRworks.Models
         {
             this.project_attendence = new HashSet<project_attendence>();
             this.HRweekends = new HashSet<HRweekend>();
+            this.transferlists = new HashSet<transferlist>();
+            this.transferlists1 = new HashSet<transferlist>();
         }
     
         public int Id { get; set; }
@@ -28,5 +30,9 @@ namespace HRworks.Models
         public virtual ICollection<project_attendence> project_attendence { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HRweekend> HRweekends { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<transferlist> transferlists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<transferlist> transferlists1 { get; set; }
     }
 }

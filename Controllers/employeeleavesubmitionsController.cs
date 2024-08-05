@@ -1381,7 +1381,7 @@ namespace HRworks.Controllers
                     Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for   (" +
                            emplusersname.master_file.employee_no + ") " +
                            emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
-                           "http://hrworks.ddns.net:6333/citiworks/employeeleavesubmitions" + "\n\n\n" +
+                           "http://ess.citiscapegroup.com" + "\n\n\n" +
                            "Thanks Best Regards, "
                 };
             }
@@ -1395,7 +1395,7 @@ namespace HRworks.Controllers
                     Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for   (" +
                            emplusersname.master_file.employee_no + ") " +
                            emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
-                           "http://hrworks.ddns.net:6333/citiworks/employeeleavesubmitions" + "\n\n\n" +
+                           "http://ess.citiscapegroup.com" + "\n\n\n" +
                            "Thanks Best Regards, "
                 };
             }
@@ -1416,7 +1416,7 @@ namespace HRworks.Controllers
                                emplusersname.full_name + "-"  + desig + " has been approved by line manager " +
                                previoususersname.master_file.employee_name + " and forwarded for your approval" +
                                "\n\n\n" +
-                               "http://hrworks.ddns.net:6333/citiworks/employeeleavesubmitions" + "\n\n\n" +
+                               "http://ess.citiscapegroup.com" + "\n\n\n" +
                                "Thanks Best Regards, "
                     };
                 }
@@ -1431,7 +1431,7 @@ namespace HRworks.Controllers
                         Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  (" +
                                emplusersname.master_file.employee_no + ") " +
                                emplusersname.full_name + "-" + desig + " has been approved" + "\n\n\n" +
-                               "http://hrworks.ddns.net:6333/citiworks/employeeleavesubmitions" + "\n\n\n" +
+                               "http://ess.citiscapegroup.com" + "\n\n\n" +
                                "Thanks Best Regards, "
                     };
                 }
@@ -1483,7 +1483,7 @@ namespace HRworks.Controllers
                 }
             }
 
-            /*if (message.To.Count != 0)
+            if (message.To.Count != 0)
             {
                 using (var client = new SmtpClient())
                 {
@@ -1493,7 +1493,7 @@ namespace HRworks.Controllers
                     client.Send(message);
                     client.Disconnect(true);
                 }
-            }*/
+            }
         }
 
         protected override void Dispose(bool disposing)
