@@ -258,7 +258,23 @@
                             </td>
                             <td>
                                 @{
-                                    var tempstring = item.bill_no + " - " + item.invoice_date.Value.ToString("dd/MM/yyyy");
+                                    var tempstring = "";
+                                    if (item.bill_no != null )
+                                    {
+                                        if (item.invoice_date.HasValue)
+                                        {
+                                            tempstring = item.bill_no + " - " + item.invoice_date.Value.ToString("dd/MM/yyyy");
+                                        }
+                                        else
+                                        {
+                                            tempstring = item.bill_no;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        tempstring = "no bill number";
+                                    }
+
                                 }
                                 @tempstring
 

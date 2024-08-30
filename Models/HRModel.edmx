@@ -152,7 +152,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Employee_id" Type="int" Nullable="false" />
-          <Property Name="ROT" Type="int" Nullable="false" />
+          <Property Name="ROT" Type="float" Nullable="false" />
           <Property Name="HOT" Type="int" Nullable="false" />
           <Property Name="WOT" Type="int" Nullable="false" />
           <Property Name="OT_month" Type="date" Nullable="false" />
@@ -3160,10 +3160,10 @@
           <NavigationProperty Name="project_attendence" Relationship="HRModel.FK_proatt_To_master_file" FromRole="master_file" ToRole="project_attendence" />
           <NavigationProperty Name="absexceptions" Relationship="HRModel.FK_abs_exception_To_master_file" FromRole="master_file" ToRole="absexception" />
           <NavigationProperty Name="cal_lwop" Relationship="HRModel.FK_cal_lwop_To_master_file" FromRole="master_file" ToRole="cal_lwop" />
-          <NavigationProperty Name="cal_ot" Relationship="HRModel.FK_cal_ot_To_master_file" FromRole="master_file" ToRole="cal_ot" />
           <NavigationProperty Name="calabs" Relationship="HRModel.FK_calabs_To_master_file" FromRole="master_file" ToRole="calab" />
           <NavigationProperty Name="HRotapps" Relationship="HRModel.FK_HRotapp_To_master_file" FromRole="master_file" ToRole="HRotapp" />
           <NavigationProperty Name="transferlists" Relationship="HRModel.FK_trflist_To_master_file" FromRole="master_file" ToRole="transferlist" />
+          <NavigationProperty Name="cal_ot" Relationship="HRModel.FK_cal_ot_To_master_file" FromRole="master_file" ToRole="cal_ot" />
         </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
@@ -4394,7 +4394,6 @@
           </AssociationSet>
           <EntitySet Name="absexceptions" EntityType="HRModel.absexception" />
           <EntitySet Name="cal_lwop" EntityType="HRModel.cal_lwop" />
-          <EntitySet Name="cal_ot" EntityType="HRModel.cal_ot" />
           <EntitySet Name="calabs" EntityType="HRModel.calab" />
           <EntitySet Name="HRotapps" EntityType="HRModel.HRotapp" />
           <EntitySet Name="HRweekends" EntityType="HRModel.HRweekend" />
@@ -4409,10 +4408,6 @@
           <AssociationSet Name="FK_cal_lwop_To_master_file" Association="HRModel.FK_cal_lwop_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="cal_lwop" EntitySet="cal_lwop" />
-          </AssociationSet>
-          <AssociationSet Name="FK_cal_ot_To_master_file" Association="HRModel.FK_cal_ot_To_master_file">
-            <End Role="master_file" EntitySet="master_file" />
-            <End Role="cal_ot" EntitySet="cal_ot" />
           </AssociationSet>
           <AssociationSet Name="FK_calabs_To_master_file" Association="HRModel.FK_calabs_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -4438,6 +4433,11 @@
           <AssociationSet Name="FK_trflist_To_master_file" Association="HRModel.FK_trflist_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="transferlist" EntitySet="transferlists" />
+          </AssociationSet>
+          <EntitySet Name="cal_ot" EntityType="HRModel.cal_ot" />
+          <AssociationSet Name="FK_cal_ot_To_master_file" Association="HRModel.FK_cal_ot_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="cal_ot" EntitySet="cal_ot" />
           </AssociationSet>
         </EntityContainer>
         <Association Name="FK_EID_To_master_file">
@@ -4651,18 +4651,6 @@
           <Property Name="lwop_month" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_cal_lwop_To_master_file" FromRole="cal_lwop" ToRole="master_file" />
         </EntityType>
-        <EntityType Name="cal_ot">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Employee_id" Type="Int32" Nullable="false" />
-          <Property Name="ROT" Type="Int32" Nullable="false" />
-          <Property Name="HOT" Type="Int32" Nullable="false" />
-          <Property Name="WOT" Type="Int32" Nullable="false" />
-          <Property Name="OT_month" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="master_file" Relationship="HRModel.FK_cal_ot_To_master_file" FromRole="cal_ot" ToRole="master_file" />
-        </EntityType>
         <EntityType Name="calab">
           <Key>
             <PropertyRef Name="Id" />
@@ -4732,18 +4720,6 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="cal_lwop">
-              <PropertyRef Name="Employee_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_cal_ot_To_master_file">
-          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
-          <End Type="HRModel.cal_ot" Role="cal_ot" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="master_file">
-              <PropertyRef Name="employee_id" />
-            </Principal>
-            <Dependent Role="cal_ot">
               <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -4834,6 +4810,30 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="transferlist">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="cal_ot">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="ROT" Type="Double" Nullable="false" />
+          <Property Name="HOT" Type="Int32" Nullable="false" />
+          <Property Name="WOT" Type="Int32" Nullable="false" />
+          <Property Name="OT_month" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_cal_ot_To_master_file" FromRole="cal_ot" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_cal_ot_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.cal_ot" Role="cal_ot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="cal_ot">
               <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -5990,18 +5990,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="cal_ot">
-            <EntityTypeMapping TypeName="HRModel.cal_ot">
-              <MappingFragment StoreEntitySet="cal_ot">
-                <ScalarProperty Name="OT_month" ColumnName="OT_month" />
-                <ScalarProperty Name="WOT" ColumnName="WOT" />
-                <ScalarProperty Name="HOT" ColumnName="HOT" />
-                <ScalarProperty Name="ROT" ColumnName="ROT" />
-                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="calabs">
             <EntityTypeMapping TypeName="HRModel.calab">
               <MappingFragment StoreEntitySet="calabs">
@@ -6049,6 +6037,18 @@
                 <ScalarProperty Name="requested_by" ColumnName="requested_by" />
                 <ScalarProperty Name="npro_id" ColumnName="npro_id" />
                 <ScalarProperty Name="cpro_id" ColumnName="cpro_id" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cal_ot">
+            <EntityTypeMapping TypeName="HRModel.cal_ot">
+              <MappingFragment StoreEntitySet="cal_ot">
+                <ScalarProperty Name="OT_month" ColumnName="OT_month" />
+                <ScalarProperty Name="WOT" ColumnName="WOT" />
+                <ScalarProperty Name="HOT" ColumnName="HOT" />
+                <ScalarProperty Name="ROT" ColumnName="ROT" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

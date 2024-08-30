@@ -8102,7 +8102,7 @@ namespace HRworks.Controllers
                                 }
 
                             }
-                            else
+                            else     
                             {
                                 var proweekend = db.HRweekends.Where(x => x.pro_id == tranferlist[0].npro_id).ToList();
                                 if (!proweekend.Exists(x => x.dweek.DayOfWeek == tempdate.DayOfWeek) &&
@@ -8190,10 +8190,17 @@ namespace HRworks.Controllers
 
                 var leave_list = db.Leaves.Where(x =>
                     (x.End_leave >= startdate && x.Start_leave <= enddate && x.End_leave >= startdate && x.leave_type == "6") ||
-                    (x.actual_return_date == null && x.Return_leave >= startdate)).ToList();
+                    (x.actual_return_date == null && x.Return_leave <= enddate)).ToList();
 
 
+                var proatt = db.project_attendence
+                    .Where(x => x.at_date >= startdate && x.at_date <= enddate)
+                    .ToList();
+                var HObioatt = db.hiks
+                    .Where(x => x.date >= startdate && x.date <= enddate)
+                    .ToList();
                 var alist = this.db.master_file
+
                     .Where(e => e.last_working_day == null)
                     .OrderBy(e => e.employee_no)
                     .ThenByDescending(x => x.date_changed)
@@ -8219,13 +8226,28 @@ namespace HRworks.Controllers
                     };
                     while (tempdate <= enddate )
                     {
-                        if (leave_listemp.Exists(x=>x.leave_type == "6" && x.End_leave >= tempdate && x.Start_leave <= tempdate ))
+                        if (leave_listemp.Exists(x=>x.leave_type == "6" && x.End_leave >= tempdate && x.Start_leave <= tempdate))
                         {
                             emplowp.lwop_days++;
                         }
-                        else if(leave_listemp.Exists(x => !x.actual_return_date.HasValue && x.Return_leave <= enddate))
+                        else if(leave_listemp.Exists(x => !x.actual_return_date.HasValue && x.Return_leave <= tempdate))
                         {
-                            emplowp.lwop_days++;
+                            if (!HObioatt.Exists(x=>x.ID == file.employee_no.ToString() && x.date == tempdate) && !proatt.Exists(x=>x.employee_id == file.employee_id && x.at_date == tempdate))
+                            {
+                                emplowp.lwop_days++;
+                            }
+                            else
+                            {
+                                var templeave = leave_listemp.Find(x =>
+                                    !x.actual_return_date.HasValue && x.Return_leave <= tempdate);
+                                if (HObioatt.Exists(x => x.ID == file.employee_no.ToString() && x.date == templeave.Return_leave) || proatt.Exists(x => x.employee_id == file.employee_id && x.at_date == templeave.Return_leave))
+                                {
+                                leave_listemp.Remove(templeave);
+                                templeave.actual_return_date = templeave.Return_leave;
+                                leave_listemp.Add(templeave);
+                                }
+
+                            }
                         }
 
                         tempdate = tempdate.AddDays(1);
@@ -8256,9 +8278,9 @@ namespace HRworks.Controllers
                 }*/
             }
 
-            return View(callowplist);
+            return View(callowplist.Where(x=>x.lwop_days > 0).ToList());
         }
-
+        
         public ActionResult calovertime(DateTime? payrollmonth)
         {
             var calotlist = new List<cal_ot>();
@@ -8276,6 +8298,9 @@ namespace HRworks.Controllers
             var enddate = new DateTime(payrollmonth.Value.Year, payrollmonth.Value.Month, 20);
 
             var overtimeaplist = db.HRotapps.Where(x=>x.otdate >= startdate).ToList();
+            var HObioatt = db.hiks
+                .Where(x => x.date >= startdate && x.date <= enddate)
+                .ToList();
             var projectatt = db.project_attendence.Where(x => x.at_date >= startdate).ToList();
             var alist = this.db.master_file
                 .Where(e => e.last_working_day == null)
@@ -8309,6 +8334,17 @@ namespace HRworks.Controllers
                 var tempdate = startdate;
                 while (tempdate<= enddate)
                 {
+                    var otday = new HRotapp();
+                    if (!overtimeaplist.Exists(x => x.Employee_id == file.employee_no && x.otdate == tempdate && x.status == "approved"))
+                    {
+                        goto nextday;
+                    }
+                    else
+                    {
+                        otday = overtimeaplist.Find(x =>
+                            x.Employee_id == file.employee_no && x.otdate == tempdate && x.status == "approved");
+                    }
+
                     if (!leaveList.Exists(x => x.Start_leave <= tempdate && x.End_leave >= tempdate))
                     {
                         if (!tranferlist.Any())
@@ -8336,12 +8372,13 @@ namespace HRworks.Controllers
                         }
                         else
                         {
+                            var otweekday = db.HRweekends.Where(x =>
+                                x.pro_id == 23 && x.dweek.DayOfWeek == tempdate.DayOfWeek);
                             if (holidaylist.Exists(x => x.Date == tempdate))
-                            {
-
+                            { 
                                 calot.HOT++;
                             }
-                            else if(true)//put a condition
+                            else if(true)
                             {
                                 calot.WOT++;
                             }
@@ -8359,7 +8396,7 @@ namespace HRworks.Controllers
                         }
 
                     }
-
+                    nextday: ;
                     tempdate = tempdate.AddDays(1);
                 }
                 calotlist.Add(calot);

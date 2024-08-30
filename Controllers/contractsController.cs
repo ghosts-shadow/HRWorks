@@ -82,7 +82,7 @@
                 new ListItem {Text = "8A", Value = "8A"},
                 new ListItem {Text = "9", Value = "9"}
             };
-            this.ViewBag.gradelist = new SelectList(listItems, "Value", "Text");
+            this.ViewBag.grade = new SelectList(listItems, "Value", "Text");
             this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
             this.ViewBag.employee_no1 = new SelectList(
                 afinallist.OrderBy(e => e.employee_name),
@@ -129,7 +129,7 @@
                 new ListItem {Text = "8A", Value = "8A"},
                 new ListItem {Text = "9", Value = "9"}
             };
-            this.ViewBag.gradelist = new SelectList(listItems, "Value", "Text");
+            this.ViewBag.grade = new SelectList(listItems, "Value", "Text");
             if (fileBase != null)
             {
                 var a = this.db.master_file.Find(contract.employee_no);
@@ -400,7 +400,7 @@
                 new ListItem {Text = "8A", Value = "8A"},
                 new ListItem {Text = "9", Value = "9"}
             };
-            this.ViewBag.gradelist = new SelectList(listItems, "Value", "Text");
+            this.ViewBag.grade = new SelectList(listItems, "Value", "Text");
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var contract = this.db.contracts.Find(id);
             if (contract == null) return this.HttpNotFound();
@@ -484,7 +484,7 @@
                 new ListItem {Text = "8A", Value = "8A"},
                 new ListItem {Text = "9", Value = "9"}
             };
-            this.ViewBag.gradelist = new SelectList(listItems, "Value", "Text");
+            this.ViewBag.grade = new SelectList(listItems, "Value", "Text");
             if (fileBase != null)
             {
                 var a = this.db.master_file.Find(contract.employee_no);
@@ -865,8 +865,8 @@
             }
             var pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            var defaSize = 10;
-            if (pagesize != 0) defaSize = pagesize ?? 10;
+            var defaSize = 100;
+            if (pagesize != 0) defaSize = pagesize ?? 100;
 
             this.ViewBag.PageSize = new List<SelectListItem>
                                         {

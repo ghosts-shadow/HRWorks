@@ -58,13 +58,13 @@
     </script>
     <script>
         function grostol() {
-            var bas = parseFloat($("#bas").val());
-            var hou = parseFloat($("#hou").val());
-            var tran = parseFloat($("#tran").val());
-            var liv = parseFloat($("#liv").val()); 
-            var foo = parseFloat($("#foo").val()); 
-            var oth = parseFloat($("#oth").val()); 
-            var arr = parseFloat($("#arr").val());
+            var bas = parseFloat($("#bas").val()) || 0;
+            var hou = parseFloat($("#hou").val()) || 0;
+            var tran = parseFloat($("#tran").val()) || 0;
+            var liv = parseFloat($("#liv").val()) || 0;
+            var foo = parseFloat($("#foo").val()) || 0;
+            var oth = parseFloat($("#oth").val()) || 0;
+            var arr = parseFloat($("#arr").val()) || 0;
             var gradevalue = $("#gradelist").val();
             if (gradevalue == "1" ||gradevalue == "2" ||gradevalue == "3" ||gradevalue == "4C" ||gradevalue == "4B" ) {
                 $("#gro").val(bas + liv + oth + arr);
@@ -153,7 +153,7 @@
         @Html.LabelFor(model => model.grade, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @*@Html.EditorFor(model => model.grade, new { htmlAttributes = new { @class = "form-control" } })*@
-            @Html.DropDownList("gradelist", null, new { @class = "form-control", @id = "gradelist" })
+            @Html.DropDownList("grade", null, new { @class = "form-control", @id = "gradelist" })
             @Html.ValidationMessageFor(model => model.grade, "", new { @class = "text-danger" })
         </div>
     </div>

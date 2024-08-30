@@ -8,22 +8,24 @@
 
 <div class="row">
     @*<div class="col">*@
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("payroll","payroles")'" value="Payroll Generation" />
-        @{
-            if (User.Identity.Name == "dinizsneden@gmail.com")
-            {
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","payroles")'" value="Payroll Old" />
-            }
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("payroll","payroles")'" value="Payroll Generation" />
+    @{
+        if (User.Identity.Name == "dinizsneden@gmail.com")
+        {
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index","payroles")'" value="Payroll Old" />
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("cal_absence","payroles")'" value="Calculate Absences" />
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("cal_lwop","payroles")'" value="Calculate LWOP" />
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("calovertime","payroles")'" value="Calculate Overtime" />
         }
-    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("cal_absence","payroles")'" value="calculate absences" />
+    }
     <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("payslip","payroles")'" value="Payslip" />
     <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("payrollReport","payroles")'" value="Payroll Report" />
-    <br/>
-    <br/>
-    <br/>
+    <br />
+    <br />
+    <br />
     <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("approveabsn","Attendances")'" value="absence report approval" />
-    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index","Holidays")'" value="Holidays" /> 
-    <br/><br/><br/>
+    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index","Holidays")'" value="Holidays" />
+    <br /><br /><br />
     @*</div>*@
     @*
                 <div class="col-md-6">

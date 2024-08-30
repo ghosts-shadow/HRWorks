@@ -605,7 +605,31 @@
     <Compile Include="Models\access_datenew.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\accounts_adminbiodata.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\accounts_usernotification.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\acc_acccombination.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\acc_accgroups.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\acc_accholiday.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\acc_accprivilege.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\acc_accterminal.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\acc_acctimezone.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\approval.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
@@ -633,8 +657,254 @@
     <Compile Include="Models\ATTENDANCE_ADJUSTMENT.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\attparam.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_attcalclog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_attcode.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_attemployee.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_attgroup.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_attpolicy.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_attreportsetting.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_attrule.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_attschedule.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_attshift.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_breaktime.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_calculatelastdate.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_calculatetask.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_changeschedule.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_departmentpolicy.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_departmentschedule.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_deptattrule.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_grouppolicy.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_groupschedule.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_holiday.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_leave.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_leavegroup.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_leavegroupdetail.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_leaveyearbalance.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_manuallog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_overtime.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_overtimepolicy.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_paycode.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_payloadattcode.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_payloadbase.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_payloadbreak.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_payloadeffectpunch.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_payloadexception.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_payloadmulpunchset.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_payloadovertime.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_payloadparing.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_payloadpaycode.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_payloadpunch.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_payloadtimecard.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_reportparam.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_reporttemplate.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_shiftdetail.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_temporaryschedule.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_tempschedule.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_timeinterval.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_timeinterval_break_time.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_training.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\att_webpunch.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\authtoken_token.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\auth_group.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\auth_group_permissions.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\auth_permission.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\auth_user.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\auth_user_auth_area.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\auth_user_auth_dept.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\auth_user_groups.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\auth_user_profile.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\auth_user_user_permissions.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\bank_details.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_adminlog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_attparamdepts.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_autoattexporttask.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_autoexporttask.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_autoimporttask.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_bookmark.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_dbbackuplog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_emailtemplate.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_eventalertsetting.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_fixedexporttask.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_linenotifysetting.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_securitypolicy.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_sendemail.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_sftpsetting.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_sysparam.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_sysparamdept.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_systemlog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_systemsetting.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\base_whatsapplog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\biotime.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>biotime.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\biotime.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\biotime.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>biotime.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\business_trip.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -699,6 +969,36 @@
     <Compile Include="Models\DISCIPLINARY_ACTION_FORM.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\django_admin_log.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\django_celery_beat_clockedschedule.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\django_celery_beat_crontabschedule.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\django_celery_beat_intervalschedule.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\django_celery_beat_periodictask.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\django_celery_beat_periodictasks.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\django_celery_beat_solarschedule.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\django_content_type.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\django_migrations.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\django_session.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DUTY_HANDOVER.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -724,11 +1024,23 @@
     <Compile Include="Models\end_of_service.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ep_epsetup.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ep_eptransaction.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EXIT_INTERVIEW.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FINAL_DEPARTURE_CLEARANCE.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\guardian_groupobjectpermission.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\guardian_userobjectpermission.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\hik.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -765,6 +1077,57 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\HRworksinterfaces.cs" />
+    <Compile Include="Models\iclock_biodata.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_biophoto.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_devicemoduleconfig.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_errorcommandlog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_privatemessage.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_publicmessage.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_shortmessage.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_terminal.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_terminalcommand.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_terminalcommandlog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_terminalemployee.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_terminallog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_terminalparameter.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_terminaluploadlog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_terminalworkcode.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_transaction.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iclock_transactionproofcmd.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\induction_training.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -838,8 +1201,59 @@
     <Compile Include="Models\master_file.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\meeting_meetingentity.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\meeting_meetingentity_attender.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\meeting_meetingmanuallog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\meeting_meetingpayloadbase.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\meeting_meetingroom.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\meeting_meetingroomdevice.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\meeting_meetingtransaction.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Mnth.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mobile_announcement.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mobile_appactionlog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mobile_applist.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mobile_appnotification.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mobile_gpsfordepartment.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mobile_gpsfordepartment_location.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mobile_gpsforemployee.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mobile_gpsforemployee_location.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mobile_gpslocation.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\mobile_mobileapirequestlog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MyCompanyInfo.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
@@ -871,7 +1285,112 @@
     <Compile Include="Models\payrollsaved.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\payroll_deductionformula.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_emploan.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_emppayrollprofile.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_exceptionformula.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_extradeduction.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_extraincrease.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_increasementformula.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_leaveformula.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_overtimeformula.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_payrollpayload.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_payrollpayloadpaycode.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_reimbursement.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_salaryadvance.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_salarystructure.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_salarystructure_deductionformula.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_salarystructure_exceptionformula.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_salarystructure_increasementformula.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_salarystructure_leaveformula.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\payroll_salarystructure_overtimeformula.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\paysavedlist.cs" />
+    <Compile Include="Models\personnel_area.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_assignareaemployee.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_certification.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_company.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_department.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_employee.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_employeecalendar.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_employeecertification.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_employeecustomattribute.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_employeeextrainfo.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_employeeprofile.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_employee_area.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_employee_flow_role.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_employment.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_position.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\personnel_resign.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PPP.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
@@ -897,6 +1416,9 @@
     <Compile Include="Models\RefsList.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\rest_framework_tracking_apirequestlog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RoleEdit.cs" />
     <Compile Include="Models\Room_Details.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
@@ -907,8 +1429,23 @@
     <Compile Include="Models\ShiftingFile.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\staff_stafftoken.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Switchboard_Item.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sync_area.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sync_department.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sync_employee.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sync_job.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Table.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
@@ -968,8 +1505,62 @@
     <Compile Include="Models\visa_and_labour_card.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\visitor_reason.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\visitor_reservation.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\visitor_visitor.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\visitor_visitorbiodata.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\visitor_visitorbiophoto.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\visitor_visitorconfig.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\visitor_visitorlog.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\visitor_visitortransaction.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\visitor_visitor_acc_groups.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\visitor_visitor_area.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\weekendlist.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\workflow_nodeinstance.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\workflow_workflowengine.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\workflow_workflowengine_employee.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\workflow_workflowinstance.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\workflow_workflownode.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\workflow_workflownode_approver.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\workflow_workflownode_notifier.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\workflow_workflowrole.cs">
+      <DependentUpon>biotime.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\wpsmodel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1085,6 +1676,16 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>timesheet.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Models\biotime.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>biotime.edmx</DependentUpon>
+      <LastGenOutput>biotime.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\biotime.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>biotime.edmx</DependentUpon>
+      <LastGenOutput>biotime.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\HRModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HRModel.edmx</DependentUpon>
@@ -1240,6 +1841,13 @@
     <Content Include="arabic certificates\Visa request - Grove.pdf" />
     <Content Include="arabic certificates\kjic\Driving Licence - Heavy - Female - Grove.pdf" />
     <Content Include="arabic certificates\kjic\Driving Licence - Heavy - Female.pdf" />
+    <EntityDeploy Include="Models\biotime.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>biotime.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\biotime.edmx.diagram">
+      <DependentUpon>biotime.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Models\timesheet.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

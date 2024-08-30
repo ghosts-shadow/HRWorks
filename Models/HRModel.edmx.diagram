@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f06bd0371d07492c84d55c70fefe4585" Name="Diagram1" ZoomLevel="10">
+      <Diagram DiagramId="f06bd0371d07492c84d55c70fefe4585" Name="Diagram1" ZoomLevel="63">
         <EntityTypeShape EntityType="HRModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.absencelist" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HRModel.AspNetRole" Width="2.875" PointX="11.875" PointY="82.75" IsExpanded="true" />
@@ -131,14 +131,12 @@
         <AssociationConnector Association="HRModel.FK_proatt_To_master_file" />
         <EntityTypeShape EntityType="HRModel.absexception" Width="1.5" PointX="57.375" PointY="85.875" />
         <EntityTypeShape EntityType="HRModel.cal_lwop" Width="1.5" PointX="54.125" PointY="89.875" />
-        <EntityTypeShape EntityType="HRModel.cal_ot" Width="1.5" PointX="54.125" PointY="86.625" />
         <EntityTypeShape EntityType="HRModel.calab" Width="1.5" PointX="54.125" PointY="92.625" />
         <EntityTypeShape EntityType="HRModel.HRotapp" Width="1.5" PointX="54.125" PointY="67.75" />
         <EntityTypeShape EntityType="HRModel.HRweekend" Width="1.5" PointX="57.125" PointY="89.375" />
         <AssociationConnector Association="HRModel.FK_abs_exception_To_master_file" />
         <AssociationConnector Association="HRModel.FK_absexception_To_calabs" />
         <AssociationConnector Association="HRModel.FK_cal_lwop_To_master_file" />
-        <AssociationConnector Association="HRModel.FK_cal_ot_To_master_file" />
         <AssociationConnector Association="HRModel.FK_calabs_To_master_file" />
         <AssociationConnector Association="HRModel.FK_HRotapp_To_master_file" />
         <AssociationConnector Association="HRModel.FK_HRweekend_ToTable" />
@@ -146,6 +144,8 @@
         <AssociationConnector Association="HRModel.FK_trnp1_Toproject" />
         <AssociationConnector Association="HRModel.FK_trnp2_Toproject" />
         <AssociationConnector Association="HRModel.FK_trflist_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.cal_ot" Width="1.5" PointX="54.125" PointY="86.625" />
+        <AssociationConnector Association="HRModel.FK_cal_ot_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

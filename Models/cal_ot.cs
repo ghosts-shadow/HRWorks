@@ -16,7 +16,7 @@ namespace HRworks.Models
     {
         public int Id { get; set; }
         public int Employee_id { get; set; }
-        public int ROT { get; set; }
+        public double ROT { get; set; }
         public int HOT { get; set; }
         public int WOT { get; set; }
         public System.DateTime OT_month { get; set; }

@@ -92,10 +92,10 @@ namespace HRworks.Models
         public virtual DbSet<project_attendence> project_attendence { get; set; }
         public virtual DbSet<absexception> absexceptions { get; set; }
         public virtual DbSet<cal_lwop> cal_lwop { get; set; }
-        public virtual DbSet<cal_ot> cal_ot { get; set; }
         public virtual DbSet<calab> calabs { get; set; }
         public virtual DbSet<HRotapp> HRotapps { get; set; }
         public virtual DbSet<HRweekend> HRweekends { get; set; }
         public virtual DbSet<transferlist> transferlists { get; set; }
+        public virtual DbSet<cal_ot> cal_ot { get; set; }
     }
 }

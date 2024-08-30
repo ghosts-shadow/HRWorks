@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2c3a3e5d53f143e391f0a4c526000bb1" Name="Diagram1" ZoomLevel="57">
+        <EntityTypeShape EntityType="biometrics_DBModel.acc_acccombination" Width="1.5" PointX="5.25" PointY="184.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.acc_accgroups" Width="1.5" PointX="5.25" PointY="189.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.acc_accholiday" Width="1.5" PointX="7.5" PointY="204.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.acc_accprivilege" Width="1.5" PointX="7.5" PointY="198.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.acc_accterminal" Width="1.5" PointX="7.5" PointY="210" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.acc_acctimezone" Width="1.5" PointX="5.25" PointY="198.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.accounts_adminbiodata" Width="1.5" PointX="13.25" PointY="160.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.accounts_usernotification" Width="1.5" PointX="13.25" PointY="156.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_attcalclog" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_attcode" Width="1.5" PointX="19.25" PointY="193.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_attemployee" Width="1.5" PointX="24.5" PointY="218.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_attgroup" Width="1.5" PointX="8" PointY="193.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_attpolicy" Width="1.5" PointX="13.25" PointY="170.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_attreportsetting" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_attrule" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_attschedule" Width="1.5" PointX="24.5" PointY="215.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_attshift" Width="1.5" PointX="8" PointY="184.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_breaktime" Width="1.5" PointX="13.25" PointY="180.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_calculatelastdate" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_calculatetask" Width="1.5" PointX="7.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_changeschedule" Width="1.5" PointX="32.75" PointY="228.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_departmentpolicy" Width="1.5" PointX="13.25" PointY="198.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_departmentschedule" Width="1.5" PointX="10.25" PointY="200.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_deptattrule" Width="1.5" PointX="5.25" PointY="195.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_grouppolicy" Width="1.5" PointX="16.25" PointY="179.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_groupschedule" Width="1.5" PointX="19.25" PointY="180.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_holiday" Width="1.5" PointX="10.25" PointY="195.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_leave" Width="1.5" PointX="35.75" PointY="228.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_leavegroup" Width="1.5" PointX="14" PointY="165.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_leavegroupdetail" Width="1.5" PointX="16.25" PointY="172.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_leaveyearbalance" Width="1.5" PointX="24.5" PointY="223.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_manuallog" Width="1.5" PointX="32.75" PointY="234.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_overtime" Width="1.5" PointX="32.75" PointY="224.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_overtimepolicy" Width="1.5" PointX="13.25" PointY="230.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_paycode" Width="1.5" PointX="11" PointY="175.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_payloadattcode" Width="1.5" PointX="21.5" PointY="210.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_payloadbase" Width="1.5" PointX="21.5" PointY="226.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_payloadbreak" Width="1.5" PointX="24.5" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_payloadeffectpunch" Width="1.5" PointX="18.5" PointY="218.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_payloadexception" Width="1.5" PointX="38" PointY="235.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_payloadmulpunchset" Width="1.5" PointX="18.5" PointY="203.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_payloadovertime" Width="1.5" PointX="20.5" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_payloadparing" Width="1.5" PointX="21.5" PointY="219.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_payloadpaycode" Width="1.5" PointX="27.5" PointY="218.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_payloadpunch" Width="1.5" PointX="21.5" PointY="216.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_payloadtimecard" Width="1.5" PointX="18.5" PointY="223.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_reportparam" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_reporttemplate" Width="1.5" PointX="24.5" PointY="209.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_shiftdetail" Width="1.5" PointX="33.5" PointY="220" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_temporaryschedule" Width="1.5" PointX="18.5" PointY="214.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_tempschedule" Width="1.5" PointX="18.5" PointY="230.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_timeinterval" Width="1.5" PointX="19.25" PointY="245.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_timeinterval_break_time" Width="1.5" PointX="30.5" PointY="210" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_training" Width="1.5" PointX="35.75" PointY="224.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.att_webpunch" Width="1.5" PointX="32.75" PointY="244.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.attparam" Width="1.5" PointX="9.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.auth_group" Width="1.5" PointX="13.25" PointY="186.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.auth_group_permissions" Width="1.5" PointX="15.5" PointY="201.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.auth_permission" Width="1.5" PointX="13.25" PointY="212.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.auth_user" Width="1.5" PointX="11" PointY="185.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.auth_user_auth_area" Width="1.5" PointX="5.25" PointY="208.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.auth_user_auth_dept" Width="1.5" PointX="13.25" PointY="195.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.auth_user_groups" Width="1.5" PointX="18.5" PointY="185.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.auth_user_profile" Width="1.5" PointX="13.25" PointY="153" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.auth_user_user_permissions" Width="1.5" PointX="15.5" PointY="198.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.authtoken_token" Width="1.5" PointX="13.25" PointY="209.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_adminlog" Width="1.5" PointX="13.25" PointY="190.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_attparamdepts" Width="1.5" PointX="9.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_autoattexporttask" Width="1.5" PointX="9.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_autoexporttask" Width="1.5" PointX="6.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_autoimporttask" Width="1.5" PointX="3" PointY="176.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_bookmark" Width="1.5" PointX="16.25" PointY="190.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_dbbackuplog" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_emailtemplate" Width="1.5" PointX="11.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_eventalertsetting" Width="1.5" PointX="11.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_fixedexporttask" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_linenotifysetting" Width="1.5" PointX="5.25" PointY="214.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_securitypolicy" Width="1.5" PointX="23.125" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_sendemail" Width="1.5" PointX="13.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_sftpsetting" Width="1.5" PointX="8.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_sysparam" Width="1.5" PointX="13.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_sysparamdept" Width="1.5" PointX="13.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_systemlog" Width="1.5" PointX="4.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_systemsetting" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.base_whatsapplog" Width="1.5" PointX="15.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.django_admin_log" Width="1.5" PointX="22.25" PointY="193.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.django_celery_beat_clockedschedule" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.django_celery_beat_crontabschedule" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.django_celery_beat_intervalschedule" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.django_celery_beat_periodictask" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.django_celery_beat_periodictasks" Width="1.5" PointX="15.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.django_celery_beat_solarschedule" Width="1.5" PointX="0.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.django_content_type" Width="1.5" PointX="11" PointY="213.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.django_migrations" Width="1.5" PointX="15.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.django_session" Width="1.5" PointX="10.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.ep_epsetup" Width="1.5" PointX="12.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.ep_eptransaction" Width="1.5" PointX="10.5" PointY="223.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.guardian_groupobjectpermission" Width="1.5" PointX="28.5" PointY="205" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.guardian_userobjectpermission" Width="1.5" PointX="15.5" PointY="194.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_biodata" Width="1.5" PointX="18.5" PointY="234.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_biophoto" Width="1.5" PointX="18.5" PointY="239.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_devicemoduleconfig" Width="1.5" PointX="15.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_errorcommandlog" Width="1.5" PointX="7.5" PointY="222.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_privatemessage" Width="1.5" PointX="27.5" PointY="214.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_publicmessage" Width="1.5" PointX="7.5" PointY="226" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_shortmessage" Width="1.5" PointX="25.25" PointY="233.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_terminal" Width="1.5" PointX="5.25" PointY="218.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_terminalcommand" Width="1.5" PointX="7.5" PointY="229.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_terminalcommandlog" Width="1.5" PointX="7.5" PointY="233.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_terminalemployee" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_terminallog" Width="1.5" PointX="7.5" PointY="237.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_terminalparameter" Width="1.5" PointX="7.5" PointY="241.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_terminaluploadlog" Width="1.5" PointX="7.5" PointY="244.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_terminalworkcode" Width="1.5" PointX="3" PointY="180.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_transaction" Width="1.5" PointX="13.5" PointY="221.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.iclock_transactionproofcmd" Width="1.5" PointX="7.5" PointY="247.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.meeting_meetingentity" Width="1.5" PointX="38.75" PointY="225.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.meeting_meetingentity_attender" Width="1.5" PointX="18.5" PointY="211.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.meeting_meetingmanuallog" Width="1.5" PointX="41" PointY="228.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.meeting_meetingpayloadbase" Width="1.5" PointX="27.5" PointY="224.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.meeting_meetingroom" Width="1.5" PointX="36.5" PointY="218.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.meeting_meetingroomdevice" Width="1.5" PointX="7.5" PointY="219.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.meeting_meetingtransaction" Width="1.5" PointX="10.5" PointY="217.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.mobile_announcement" Width="1.5" PointX="24.5" PointY="228.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.mobile_appactionlog" Width="1.5" PointX="17.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.mobile_applist" Width="1.5" PointX="4.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.mobile_appnotification" Width="1.5" PointX="27.5" PointY="208.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.mobile_gpsfordepartment" Width="1.5" PointX="5.25" PointY="233.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.mobile_gpsfordepartment_location" Width="1.5" PointX="10.5" PointY="235.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.mobile_gpsforemployee" Width="1.5" PointX="18.5" PointY="257.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.mobile_gpsforemployee_location" Width="1.5" PointX="20.75" PointY="258" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.mobile_gpslocation" Width="1.5" PointX="18.5" PointY="188.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.mobile_mobileapirequestlog" Width="1.5" PointX="18.5" PointY="261.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_deductionformula" Width="1.5" PointX="18.5" PointY="309" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_emploan" Width="1.5" PointX="18.5" PointY="266.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_emppayrollprofile" Width="1.5" PointX="18.5" PointY="270.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_exceptionformula" Width="1.5" PointX="18.5" PointY="326.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_extradeduction" Width="1.5" PointX="18.5" PointY="274.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_extraincrease" Width="1.5" PointX="18.5" PointY="278.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_increasementformula" Width="1.5" PointX="18.5" PointY="330" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_leaveformula" Width="1.5" PointX="21.5" PointY="303.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_overtimeformula" Width="1.5" PointX="21.5" PointY="291.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_payrollpayload" Width="1.5" PointX="18.5" PointY="282.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_payrollpayloadpaycode" Width="1.5" PointX="20.75" PointY="285" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_reimbursement" Width="1.5" PointX="18.5" PointY="290.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_salaryadvance" Width="1.5" PointX="18.5" PointY="294" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_salarystructure" Width="1.5" PointX="18.5" PointY="296.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_salarystructure_deductionformula" Width="1.5" PointX="20.75" PointY="298" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_salarystructure_exceptionformula" Width="1.5" PointX="20.75" PointY="295" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_salarystructure_increasementformula" Width="1.5" PointX="20.75" PointY="301" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_salarystructure_leaveformula" Width="1.5" PointX="23.75" PointY="298" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.payroll_salarystructure_overtimeformula" Width="1.5" PointX="23.75" PointY="295" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_area" Width="1.5" PointX="3" PointY="206.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_assignareaemployee" Width="1.5" PointX="5.25" PointY="211.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_certification" Width="1.5" PointX="21.25" PointY="201.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_company" Width="1.5" PointX="0.75" PointY="205.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_department" Width="1.5" PointX="3" PointY="200.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_employee" Width="1.5" PointX="16.25" PointY="209.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_employee_area" Width="1.5" PointX="10.25" PointY="208.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_employee_flow_role" Width="1.5" PointX="27.5" PointY="229.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_employeecalendar" Width="1.5" PointX="18.5" PointY="304.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_employeecertification" Width="1.5" PointX="30.5" PointY="219.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_employeecustomattribute" Width="1.5" PointX="6.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_employeeextrainfo" Width="1.5" PointX="18.5" PointY="311.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_employeeprofile" Width="1.5" PointX="18.5" PointY="314.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_employment" Width="1.5" PointX="18.5" PointY="317.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_position" Width="1.5" PointX="3" PointY="245.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.personnel_resign" Width="1.5" PointX="18.5" PointY="320.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.rest_framework_tracking_apirequestlog" Width="1.5" PointX="13.25" PointY="235" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.staff_stafftoken" Width="1.5" PointX="18.5" PointY="324" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.sync_area" Width="1.5" PointX="17.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.sync_department" Width="1.5" PointX="17.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.sync_employee" Width="1.5" PointX="17.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.sync_job" Width="1.5" PointX="8.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.visitor_reason" Width="1.5" PointX="21.25" PointY="197.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.visitor_reservation" Width="1.5" PointX="32.75" PointY="214" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.visitor_visitor" Width="1.5" PointX="23.5" PointY="199.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.visitor_visitor_acc_groups" Width="1.5" PointX="7.5" PointY="190.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.visitor_visitor_area" Width="1.5" PointX="10.25" PointY="205.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.visitor_visitorbiodata" Width="1.5" PointX="25.75" PointY="197.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.visitor_visitorbiophoto" Width="1.5" PointX="25.75" PointY="202.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.visitor_visitorconfig" Width="1.5" PointX="19.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.visitor_visitorlog" Width="1.5" PointX="25.75" PointY="193" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.visitor_visitortransaction" Width="1.5" PointX="10.5" PointY="229" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.workflow_nodeinstance" Width="1.5" PointX="30.5" PointY="213.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.workflow_workflowengine" Width="1.5" PointX="13.25" PointY="216.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.workflow_workflowengine_employee" Width="1.5" PointX="30.5" PointY="223.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.workflow_workflowinstance" Width="1.5" PointX="30.5" PointY="227.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.workflow_workflownode" Width="1.5" PointX="15.5" PointY="205.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.workflow_workflownode_approver" Width="1.5" PointX="18.75" PointY="208.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.workflow_workflownode_notifier" Width="1.5" PointX="20.75" PointY="205.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="biometrics_DBModel.workflow_workflowrole" Width="1.5" PointX="18.5" PointY="200.5" IsExpanded="true" />
+        <AssociationConnector Association="biometrics_DBModel.acc_acccombination_area_id_0d22c34e_fk_personnel_area_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.acc_accgroups_area_id_b83745c3_fk_personnel_area_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.acc_accprivilege_group_id_c5ed7003_fk_acc_accgroups_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitor_acc_groups_accgroups_id_b1487149_fk_acc_accgroups_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.acc_accholiday_area_id_d15c19da_fk_personnel_area_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.acc_accholiday_holiday_id_a9efe924_fk_att_holiday_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.acc_accholiday_timezone_id_450d2d1e_fk_acc_acctimezone_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.acc_accprivilege_area_id_2123ff6f_fk_personnel_area_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.acc_accprivilege_employee_id_5fc55f95_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.acc_accterminal_terminal_id_fc92cce2_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.acc_acctimezone_area_id_e9ce7a7a_fk_personnel_area_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.accounts_adminbiodata_admin_id_1e6d2d45_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.accounts_usernotification_user_id_b86755b3_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadattcode_att_code_id_0d635efd_fk_att_attcode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_attemployee_emp_id_52457e3c_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_attemployee_group_id_18d3954d_fk_att_attgroup_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_grouppolicy_group_id_b2e4dfe8_fk_att_attgroup_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_groupschedule_group_id_c341493f_fk_att_attgroup_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_holiday_att_group_id_9ddf13ba_fk_att_attgroup_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_attpolicy_ot_pay_code_id_b189b952_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_attschedule_employee_id_caa61686_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_attschedule_shift_id_13d2db9a_fk_att_attshift_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_departmentschedule_shift_id_c37d5ade_fk_att_attshift_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_groupschedule_shift_id_287e7fc0_fk_att_attshift_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadattcode_shift_id_731faddf_fk_att_attshift_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadpaycode_shift_id_79a0901e_fk_att_attshift_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_shiftdetail_shift_id_7d694501_fk_att_attshift_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_breaktime_loss_code_id_2ffb5432_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_breaktime_profit_code_id_63cdbbcc_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_timeinterval_break_time_breaktime_id_08462308_fk_att_breaktime_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_changeschedule_timeinterval_id_d41ac077_fk_att_timeinterval_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_changeschedule_workflowinstance_ptr_id_cee602bb_fk_workflow_workflowinstance_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_departmentpolicy_department_id_77059a9d_fk_personnel_department_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_departmentpolicy_ot_pay_code_id_390411dd_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_departmentschedule_department_id_c68fca3d_fk_personnel_department_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_deptattrule_department_id_f333c8f0_fk_personnel_department_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_grouppolicy_ot_pay_code_id_1ec83080_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_holiday_department_id_fbbbd185_fk_personnel_department_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_leave_pay_code_id_2fadf493_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_leave_workflowinstance_ptr_id_39aaa9d9_fk_workflow_workflowinstance_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadexception_item_id_a08bfe48_fk_att_leave_workflowinstance_ptr_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_leavegroupdetail_leave_group_id_28f69ada_fk_att_leavegroup_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_leavegroupdetail_pay_code_id_5013b373_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_leaveyearbalance_employee_id_14febdb3_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_leaveyearbalance_pay_code_id_82632aca_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_manuallog_workflowinstance_ptr_id_22a3fbd0_fk_workflow_workflowinstance_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_overtime_pay_code_id_05600ee0_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_overtime_workflowinstance_ptr_id_6bd6a6f4_fk_workflow_workflowinstance_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_overtimepolicy_overnight_pay_code_id_274ce1b0_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_overtimepolicy_pay_code_id_285b0a61_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadparing_pay_code_id_aa241cca_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadpaycode_pay_code_id_4a096cc7_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_timeinterval_ot_pay_code_id_17438af8_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_training_pay_code_id_5790afdd_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_exceptionformula_pay_code_id_97609b51_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_leaveformula_pay_code_id_63c7b4bd_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_overtimeformula_pay_code_id_36d2f10e_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_payrollpayloadpaycode_pay_code_id_c057af1f_fk_att_paycode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadattcode_emp_id_36569f54_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadbase_emp_id_2c0f6a7b_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadbase_timetable_id_a389e3d8_fk_att_timeinterval_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadeffectpunch_emp_id_67e28e01_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadeffectpunch_trans_id_94affbe6_fk_iclock_transaction_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadmulpunchset_emp_id_f47610c8_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadparing_emp_id_c5daac4f_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadparing_in_trans_id_50a8040e_fk_iclock_transaction_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadparing_out_trans_id_8b2375b9_fk_iclock_transaction_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadpaycode_emp_id_78e75279_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadpunch_emp_id_053da2f0_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadpunch_orig_id_16b26416_fk_iclock_transaction_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadtimecard_emp_id_47caeab4_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadtimecard_in_trans_id_d0e9c411_fk_iclock_transaction_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadtimecard_out_trans_id_aff7023d_fk_iclock_transaction_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_payloadtimecard_time_table_id_6e0b0137_fk_att_timeinterval_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_reporttemplate_builder_id_e1bb15c6_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_reporttemplate_employee_id_4f80d866_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_shiftdetail_time_interval_id_777dde8f_fk_att_timeinterval_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_temporaryschedule_employee_id_2b2b94c2_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_tempschedule_employee_id_b89c7e54_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_timeinterval_break_time_timeinterval_id_2287017e_fk_att_timeinterval_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_training_workflowinstance_ptr_id_0aef1508_fk_workflow_workflowinstance_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.att_webpunch_workflowinstance_ptr_id_c5f1c02e_fk_workflow_workflowinstance_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.auth_group_permissions_group_id_b120cbf9_fk_auth_group_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.auth_user_groups_group_id_97559544_fk_auth_group_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.guardian_groupobjectpermission_group_id_4bbbfb62_fk_auth_group_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.auth_group_permissions_permission_id_84c5c92e_fk_auth_permission_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.auth_permission_content_type_id_2f476e4b_fk_django_content_type_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.auth_user_user_permissions_permission_id_1fbb5f2c_fk_auth_permission_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.guardian_groupobjectpermission_permission_id_36572738_fk_auth_permission_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.guardian_userobjectpermission_permission_id_71807bfc_fk_auth_permission_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.auth_user_auth_area_myuser_id_5fb9a803_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.auth_user_auth_dept_myuser_id_18a51b27_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.auth_user_groups_myuser_id_d03e8dcc_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.auth_user_profile_user_id_f9aded29_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.auth_user_user_permissions_myuser_id_679b1527_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.authtoken_token_user_id_35299eff_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.base_adminlog_user_id_ecf659f8_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.base_bookmark_user_id_5f2d5ca2_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.django_admin_log_user_id_c564eba6_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.guardian_userobjectpermission_user_id_d5c1e964_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_announcement_admin_id_6af3868c_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_appnotification_admin_id_29c27197_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.rest_framework_tracking_apirequestlog_user_id_671b70b7_fk_auth_user_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.auth_user_auth_area_area_id_d1e54c70_fk_personnel_area_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.auth_user_auth_dept_department_id_5866c514_fk_personnel_department_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.base_adminlog_content_type_id_3e553c30_fk_django_content_type_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.base_autoimporttask_company_id_d18431a1_fk_personnel_company_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.base_bookmark_content_type_id_b6a0e799_fk_django_content_type_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.base_linenotifysetting_line_notify_dept_id_0643a5ed_fk_personnel_department_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.django_admin_log_content_type_id_c4bce8eb_fk_django_content_type_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.django_celery_beat_periodictask_clocked_id_47a69f82_fk_django_celery_beat_clockedschedule_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.django_celery_beat_periodictask_crontab_id_d3cba168_fk_django_celery_beat_crontabschedule_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.django_celery_beat_periodictask_interval_id_a8ca27da_fk_django_celery_beat_intervalschedule_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.django_celery_beat_periodictask_solar_id_a87ce72c_fk_django_celery_beat_solarschedule_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.guardian_groupobjectpermission_content_type_id_7ade36b8_fk_django_content_type_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.guardian_userobjectpermission_content_type_id_2e892405_fk_django_content_type_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_workflowengine_content_type_id_f7345c20_fk_django_content_type_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.ep_eptransaction_emp_id_1006883f_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.ep_eptransaction_terminal_id_4490b209_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_biodata_employee_id_ff748ea7_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_biophoto_employee_id_3dba5819_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_errorcommandlog_terminal_id_3b2d7cbd_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_privatemessage_employee_id_e84a34c0_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_privatemessage_message_id_e3145d3b_fk_iclock_shortmessage_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_publicmessage_message_id_7d125e28_fk_iclock_shortmessage_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_publicmessage_terminal_id_c3b5e4cf_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_terminal_area_id_c019c6f0_fk_personnel_area_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_terminalcommand_terminal_id_3dcf836f_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_terminalcommandlog_terminal_id_35ea8b2b_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_terminallog_terminal_id_667b3ea7_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_terminalparameter_terminal_id_443872e3_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_terminaluploadlog_terminal_id_9c9a7664_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_transaction_terminal_id_451c81c2_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_transactionproofcmd_terminal_id_08b81e1e_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingroomdevice_device_id_a09e8a7d_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingtransaction_terminal_id_047426f2_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitortransaction_terminal_id_7527ef69_fk_iclock_terminal_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_terminalworkcode_company_id_77625f26_fk_personnel_company_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.iclock_transaction_emp_id_60fa3521_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingentity_attender_meetingentity_id_b96dbc7d_fk_meeting_meetingentity_workflowinstance_ptr_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingentity_room_id_bc2c738e_fk_meeting_meetingroom_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingentity_workflowinstance_ptr_id_dbd9ab40_fk_workflow_workflowinstance_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingmanuallog_meeting_id_a672eaaf_fk_meeting_meetingentity_workflowinstance_ptr_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingpayloadbase_meeting_id_ca9d20cc_fk_meeting_meetingentity_workflowinstance_ptr_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingtransaction_meeting_id_e4e505e5_fk_meeting_meetingentity_workflowinstance_ptr_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingentity_attender_employee_id_ee898064_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingmanuallog_workflowinstance_ptr_id_bd514862_fk_workflow_workflowinstance_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingpayloadbase_emp_id_ed6ec148_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingroomdevice_room_id_e000d78d_fk_meeting_meetingroom_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.meeting_meetingtransaction_emp_id_fbcdd686_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_announcement_init_sender_id_2f5e35bd_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_announcement_receiver_id_ddf2a860_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_appnotification_init_sender_id_d8aff845_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_appnotification_receiver_id_90c4a355_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_gpsfordepartment_department_id_988ccf22_fk_personnel_department_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_gpsfordepartment_location_gpsfordepartment_id_23e9af3a_fk_mobile_gpsfordepartment_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_gpsfordepartment_location_gpslocation_id_48b82e9e_fk_mobile_gpslocation_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_gpsforemployee_employee_id_982b7cef_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_gpsforemployee_location_gpsforemployee_id_a52023d5_fk_mobile_gpsforemployee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_gpsforemployee_location_gpslocation_id_497a214f_fk_mobile_gpslocation_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.mobile_mobileapirequestlog_user_id_dfd3ded1_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_salarystructure_deductionformula_deductionformula_id_b174d5b6_fk_payroll_deductionformula_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_emploan_employee_id_97a251ef_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_emppayrollprofile_employee_id_6c97078c_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_salarystructure_exceptionformula_exceptionformula_id_8f6dadb3_fk_payroll_exceptionformula_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_extradeduction_employee_id_53072441_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_extraincrease_employee_id_f902e6bb_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_salarystructure_increasementformula_increasementformula_id_3cd77082_fk_payroll_increasementformula_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_salarystructure_leaveformula_leaveformula_id_049f9024_fk_payroll_leaveformula_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_salarystructure_overtimeformula_overtimeformula_id_40ad89ef_fk_payroll_overtimeformula_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_payrollpayload_employee_id_bc868f2b_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_payrollpayloadpaycode_payload_id_f085c4e8_fk_payroll_payrollpayload_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_reimbursement_employee_id_c4bbde36_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_salaryadvance_employee_id_2abd43e5_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_salarystructure_deductionformula_salarystructure_id_5ca7cdb5_fk_payroll_salarystructure_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_salarystructure_employee_id_98996e15_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_salarystructure_exceptionformula_salarystructure_id_3c087208_fk_payroll_salarystructure_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_salarystructure_increasementformula_salarystructure_id_8752401c_fk_payroll_salarystructure_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_salarystructure_leaveformula_salarystructure_id_cf98fdd7_fk_payroll_salarystructure_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.payroll_salarystructure_overtimeformula_salarystructure_id_64f75042_fk_payroll_salarystructure_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_area_company_id_59750eb5_fk_personnel_company_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_area_parent_area_id_39028fda_fk_personnel_area_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_assignareaemployee_area_id_6f049d6a_fk_personnel_area_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employee_area_area_id_64c21925_fk_personnel_area_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitor_area_area_id_b402c047_fk_personnel_area_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_assignareaemployee_employee_id_a3d4dd25_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employeecertification_certification_id_faabed40_fk_personnel_certification_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_reservation_cert_type_id_4f047f2a_fk_personnel_certification_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitor_cert_type_id_f62ea604_fk_personnel_certification_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_department_company_id_00867fd8_fk_personnel_company_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employee_company_id_95b3fd72_fk_personnel_company_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_position_company_id_f06c5d2a_fk_personnel_company_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_department_dept_manager_id_c5124a7d_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_department_parent_dept_id_d0b44024_fk_personnel_department_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employee_department_id_068bbd08_fk_personnel_department_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_reservation_visit_department_id_2d293e10_fk_personnel_department_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitor_visit_department_id_f7dbdcb4_fk_personnel_department_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_workflowengine_departments_id_0f06d4c7_fk_personnel_department_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employee_area_employee_id_8e5cec21_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employee_flow_role_employee_id_c27f8a56_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employee_position_id_c9321343_fk_personnel_position_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employee_superior_id_ad6e1c47_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employeecalendar_employee_id_165e0779_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employeecertification_employee_id_b7bd3867_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employeeextrainfo_employee_id_41e2b04d_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employeeprofile_emp_id_3a69c313_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employment_employee_id_f797c7d9_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_resign_employee_id_dd9b7e08_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.staff_stafftoken_user_id_39c937fa_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitor_visited_id_8043a7ea_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_nodeinstance_approver_employee_id_d36cd45d_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_workflowengine_employee_employee_id_803a409e_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_workflowinstance_employee_id_c7cff08e_fk_personnel_employee_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_employee_flow_role_workflowrole_id_4704db32_fk_workflow_workflowrole_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.personnel_position_parent_position_id_a496a36b_fk_personnel_position_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_workflowengine_applicant_position_id_8a65e03a_fk_personnel_position_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_reservation_visit_reason_id_c9ac83ac_fk_visitor_reason_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitor_visit_reason_id_4b9a2d23_fk_visitor_reason_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_reservation_workflowinstance_ptr_id_3787bcd6_fk_workflow_workflowinstance_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitor_acc_groups_visitor_id_8ce09562_fk_visitor_visitor_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitor_area_visitor_id_98d7ed05_fk_visitor_visitor_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitorbiodata_visitor_id_b944ed37_fk_visitor_visitor_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitorbiophoto_visitor_id_9816daf7_fk_visitor_visitor_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitorlog_visitor_id_ebaafde1_fk_visitor_visitor_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.visitor_visitortransaction_visitor_id_0ee95624_fk_visitor_visitor_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_nodeinstance_workflow_instance_id_afe84fe4_fk_workflow_workflowinstance_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_nodeinstance_workflow_node_id_166f36c4_fk_workflow_workflownode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_workflowengine_employee_workflowengine_id_6ebcc5f2_fk_workflow_workflowengine_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_workflowinstance_workflow_engine_id_1e6ac40f_fk_workflow_workflowengine_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_workflownode_workflow_engine_id_04c8f470_fk_workflow_workflowengine_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_workflownode_approver_workflownode_id_d814c941_fk_workflow_workflownode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_workflownode_notifier_workflownode_id_57298016_fk_workflow_workflownode_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_workflownode_approver_workflowrole_id_c8e00d42_fk_workflow_workflowrole_id" ManuallyRouted="false" />
+        <AssociationConnector Association="biometrics_DBModel.workflow_workflownode_notifier_workflowrole_id_73de7fc2_fk_workflow_workflowrole_id" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
