@@ -19,6 +19,7 @@ namespace HRworks.Models
         public double ROT { get; set; }
         public int HOT { get; set; }
         public int WOT { get; set; }
+        public int NOT { get; set; }
         public System.DateTime OT_month { get; set; }
     
         public virtual master_file master_file { get; set; }

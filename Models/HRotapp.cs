@@ -16,6 +16,7 @@ namespace HRworks.Models
     {
         public int Id { get; set; }
         public int Employee_id { get; set; }
+        public int project_id { get; set; }
         public System.DateTime otdate { get; set; }
         public int othrs { get; set; }
         public string sumby { get; set; }

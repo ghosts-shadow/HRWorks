@@ -1084,5 +1084,87 @@ namespace HRworks.Controllers
             Response.Write(csvData.ToString());
             Response.End();
         }
+
+        public ActionResult contractupdate()
+        {
+            return View();
+        }
+
+        [ActionName("contractupdate")]
+        [HttpPost]
+        public ActionResult contractUpdate()
+        {
+            var path1 = "";
+            try
+            {
+                if (this.Request.Files["FileUpload1"].ContentLength > 0)
+                {
+                    var extension = Path.GetExtension(this.Request.Files["FileUpload1"].FileName).ToLower();
+                    string query = null;
+                    var connString = string.Empty;
+
+                    string[] validFileTypes = { ".csv" };
+
+                    path1 = string.Format(
+                        "{0}/{1}",
+                        this.Server.MapPath("~/Content/Uploads"),
+                        this.Request.Files["FileUpload1"].FileName);
+                    if (!Directory.Exists(path1)) Directory.CreateDirectory(this.Server.MapPath("~/Content/Uploads"));
+                    if (validFileTypes.Contains(extension))
+                    {
+                        if (System.IO.File.Exists(path1)) System.IO.File.Delete(path1);
+                        this.Request.Files["FileUpload1"].SaveAs(path1);
+                        if (extension == ".csv")
+                        {
+                            var dt = Utility.ConvertCSVtoDataTable(path1);
+                            this.ViewBag.Data = dt;
+                            if (dt.Rows.Count > 0)
+                            {
+                                var contractlist = db.contracts.ToList();
+                                foreach (DataRow dr in dt.Rows)
+                                {
+                                    var contract = new contract();
+                                    foreach (DataColumn column in dt.Columns)
+                                    {
+                                        if (dr[column] == null || dr[column].ToString() == " ") goto e;
+                                        if (column.ColumnName == "EMPNO")
+                                        {
+                                            int.TryParse(dr[column].ToString(), out var idm);
+                                            contract = contractlist.Find(x => x.master_file.employee_no == idm);
+                                            if (contract == null)
+                                            {
+                                                goto e;
+                                            }
+                                        }else if (column.ColumnName == "grade")
+                                        {
+                                            contract.grade = dr[column].ToString();
+                                        }
+
+
+                                    }
+
+                                    db.Entry(contract).State = EntityState.Modified;
+                                    db.SaveChanges();
+                                e:;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    this.ViewBag.Error = "Please Upload Files in .csv format";
+                }
+            }
+            finally
+            {
+                if (System.IO.File.Exists(path1))
+                {
+                    System.IO.File.Delete(path1);
+                }
+            }
+
+            return this.View();
+        }
     }
 }

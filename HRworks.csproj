@@ -1282,6 +1282,9 @@
     <Compile Include="Models\payrolelogin.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\payroll.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\payrollsaved.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -1429,6 +1432,7 @@
     <Compile Include="Models\ShiftingFile.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SickLeaveR.cs" />
     <Compile Include="Models\staff_stafftoken.cs">
       <DependentUpon>biotime.tt</DependentUpon>
     </Compile>
@@ -1986,6 +1990,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\momentjs.js" />
+    <Content Include="TextFile1.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2306,6 +2311,9 @@
     <Content Include="Views\Holidays\Index.cshtml" />
     <Content Include="Views\payroles\cal_lwop.cshtml" />
     <Content Include="Views\payroles\calovertime.cshtml" />
+    <Content Include="Views\View.cshtml" />
+    <Content Include="Views\Leaves\SickLeaveReport.cshtml" />
+    <Content Include="Views\uploaddata\contractupdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

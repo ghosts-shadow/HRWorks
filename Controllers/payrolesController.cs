@@ -13,6 +13,7 @@ using System.Web.UI;
 using System.Windows.Navigation;
 using HRworks.Models;
 using Microsoft.Ajax.Utilities;
+using Microsoft.Office.Interop.Word;
 using OfficeOpenXml;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
@@ -25,6 +26,8 @@ namespace HRworks.Controllers
         private const string Purpose = "equalizer";
 
         private readonly HREntities db = new HREntities();
+
+        private readonly biometrics_DBEntities dbbio = new biometrics_DBEntities();
 
         private readonly LogisticsSoftEntities db1 = new LogisticsSoftEntities();
 
@@ -8018,8 +8021,8 @@ namespace HRworks.Controllers
                 .ToList();
             var holidayList = db1.Holidays.Where(x => x.Date >= startdate && x.Date <= enddate).ToList();
 
-            var proatt = db.project_attendence
-                .Where(x => x.at_date >= startdate && x.at_date <= enddate)
+            var proatt = dbbio.iclock_transaction
+                .Where(x => x.punch_time >= startdate && x.punch_time <= enddate)
                 .ToList();
 
             var abslist = new List<absencelist>();
@@ -8046,7 +8049,7 @@ namespace HRworks.Controllers
                         .ToList();
 
                     var tempproattlist = proatt
-                        .Where(x => x.employee_id == file.employee_id && x.at_date == tempdate)
+                        .Where(x => x.emp_code == file.employee_no.ToString() && x.punch_time.Date == tempdate)
                         .ToList();
 
                     if (!tempHOattlist.Any() && !tempproattlist.Any())
@@ -8193,12 +8196,6 @@ namespace HRworks.Controllers
                     (x.actual_return_date == null && x.Return_leave <= enddate)).ToList();
 
 
-                var proatt = db.project_attendence
-                    .Where(x => x.at_date >= startdate && x.at_date <= enddate)
-                    .ToList();
-                var HObioatt = db.hiks
-                    .Where(x => x.date >= startdate && x.date <= enddate)
-                    .ToList();
                 var alist = this.db.master_file
 
                     .Where(e => e.last_working_day == null)
@@ -8209,12 +8206,31 @@ namespace HRworks.Controllers
                 var afinallist = alist
                     .GroupBy(x => x.employee_no)
                     .Select(g => g.First())
-                    .Where(file => file.employee_no != 0 && file.employee_no != 1 && file.employee_no != 100001)
+                    .Where(file => file.employee_no != 0 && file.employee_no != 1 && file.employee_no != 100001 /*&& file.employee_no == 5411*/)
                     .ToList();
                 foreach (var file in afinallist)
                 {
+                    var HObioatt = db.hiks
+                        .Where(x => x.ID == file.employee_no.ToString())
+                        .ToList();
+                    var proatt = dbbio.iclock_transaction
+                        .Where(x => x.emp_code == file.employee_no.ToString())
+                        .ToList();
                     var tempdate = startdate;
                     var leave_listemp = leave_list.FindAll(x => x.Employee_id == file.employee_id).ToList();
+                    if (leave_listemp.Exists(x => !x.actual_return_date.HasValue))
+                    {
+                        var templeavelist = leave_listemp.FindAll(x => !x.actual_return_date.HasValue).ToList();
+                        foreach (var leaf in templeavelist)
+                        {
+                            if (HObioatt.Exists(x => x.date == leaf.Return_leave) || proatt.Exists(x =>  x.punch_time.Date == leaf.Return_leave))
+                            {
+                                leave_listemp.Remove(leaf);
+                                leaf.actual_return_date = leaf.Return_leave;
+                                leave_listemp.Add(leaf);
+                            }
+                        }
+                    }
                     var emplowp = new cal_lwop
                     {
                         Employee_id = file.employee_id,
@@ -8230,24 +8246,9 @@ namespace HRworks.Controllers
                         {
                             emplowp.lwop_days++;
                         }
-                        else if(leave_listemp.Exists(x => !x.actual_return_date.HasValue && x.Return_leave <= tempdate))
+                        else if (leave_listemp.Exists(x => !x.actual_return_date.HasValue))
                         {
-                            if (!HObioatt.Exists(x=>x.ID == file.employee_no.ToString() && x.date == tempdate) && !proatt.Exists(x=>x.employee_id == file.employee_id && x.at_date == tempdate))
-                            {
-                                emplowp.lwop_days++;
-                            }
-                            else
-                            {
-                                var templeave = leave_listemp.Find(x =>
-                                    !x.actual_return_date.HasValue && x.Return_leave <= tempdate);
-                                if (HObioatt.Exists(x => x.ID == file.employee_no.ToString() && x.date == templeave.Return_leave) || proatt.Exists(x => x.employee_id == file.employee_id && x.at_date == templeave.Return_leave))
-                                {
-                                leave_listemp.Remove(templeave);
-                                templeave.actual_return_date = templeave.Return_leave;
-                                leave_listemp.Add(templeave);
-                                }
-
-                            }
+                            emplowp.lwop_days++;
                         }
 
                         tempdate = tempdate.AddDays(1);
@@ -8296,12 +8297,10 @@ namespace HRworks.Controllers
             }
 
             var enddate = new DateTime(payrollmonth.Value.Year, payrollmonth.Value.Month, 20);
-
-            var overtimeaplist = db.HRotapps.Where(x=>x.otdate >= startdate).ToList();
             var HObioatt = db.hiks
                 .Where(x => x.date >= startdate && x.date <= enddate)
                 .ToList();
-            var projectatt = db.project_attendence.Where(x => x.at_date >= startdate).ToList();
+            var projectatt = dbbio.iclock_transaction.Where(x => x.punch_time >= startdate && x.punch_time <= enddate).ToList();
             var alist = this.db.master_file
                 .Where(e => e.last_working_day == null)
                 .OrderBy(e => e.employee_no)
@@ -8318,7 +8317,7 @@ namespace HRworks.Controllers
                 .Where(x => x.Start_leave <= enddate && x.End_leave >= startdate)
                 .ToList();
 
-            var emplist = afinallist.FindAll(x => projectatt.Exists(y => y.employee_id == x.employee_id) && opapped.Exists(y=>y.Employee_id == x.employee_id));
+            var emplist = afinallist.FindAll(x => projectatt.Exists(y => y.emp_code == x.employee_no.ToString()) && opapped.Exists(y=>y.Employee_id == x.employee_id));
             foreach (var file in emplist)
             {
                 var tranferlist = db.transferlists.Where(x => x.Employee_id == file.employee_id && x.reason == "approved").OrderByDescending(x => x.datemodifief).ToList();
@@ -8332,79 +8331,278 @@ namespace HRworks.Controllers
                     master_file = file
                 };
                 var tempdate = startdate;
-                while (tempdate<= enddate)
+                while (tempdate <= enddate)
                 {
                     var otday = new HRotapp();
-                    if (!overtimeaplist.Exists(x => x.Employee_id == file.employee_no && x.otdate == tempdate && x.status == "approved"))
+                    if (!opapped.Exists(x =>
+                            x.Employee_id == file.employee_no && x.otdate == tempdate && x.status == "approved"))
                     {
                         goto nextday;
                     }
                     else
                     {
-                        otday = overtimeaplist.Find(x =>
+                        otday = opapped.Find(x =>
                             x.Employee_id == file.employee_no && x.otdate == tempdate && x.status == "approved");
+                    }
+
+                    var otweekday = db.HRweekends
+                        .Where(x => x.pro_id == otday.project_id && x.dweek.DayOfWeek == tempdate.DayOfWeek)
+                        .OrderByDescending(y => y.wdate).ToList();
+                    var weekendcondition = new bool();
+                    if (otweekday.Count() > 0)
+                    {
+                        var tempweeklist = new List<HRweekend>();
+                        foreach (var week in otweekday)
+                        {
+                            if(!tempweeklist.Exists(x => x.pro_id == week.pro_id));
+                            {
+                                tempweeklist.Add(week);
+                            }
+                        }
+
+                        if (tempweeklist.Exists(x=>x.dweek.DayOfWeek == tempdate.DayOfWeek))
+                        {
+                            weekendcondition = true;
+                        }
+                        else
+                        {
+                            weekendcondition=false;
+                        }
+
+                    }
+                    else
+                    {
+                        weekendcondition = (tempdate.DayOfWeek != DayOfWeek.Saturday &&
+                                            tempdate.DayOfWeek != DayOfWeek.Sunday);
                     }
 
                     if (!leaveList.Exists(x => x.Start_leave <= tempdate && x.End_leave >= tempdate))
                     {
-                        if (!tranferlist.Any())
+                        if (holidaylist.Exists(x => x.Date == tempdate))
                         {
-
-                            if (holidaylist.Exists(x => x.Date == tempdate))
-                            {
-                                calot.HOT++;
-                            }
-                            else if(tempdate.DayOfWeek != DayOfWeek.Saturday && tempdate.DayOfWeek != DayOfWeek.Sunday)
-                            {
-                                calot.WOT++;
-                            }
-                            else
-                            {
-                                var projectattday = projectatt.FindAll(x => x.at_date == tempdate).OrderBy(x=>x.at_datetime).ToList();
-                                var starttime = projectattday.First().at_datetime.Value;
-                                var endtime = projectattday.Last().at_datetime.Value;
-                                var totaltime = endtime - startdate;
-                                if (totaltime.TotalHours >8)
-                                {
-                                    var otr = totaltime.TotalHours - 8;
-                                }
-                            }
+                            calot.HOT++;
+                        }
+                        else if (weekendcondition)
+                        {
+                            calot.WOT++;
                         }
                         else
                         {
-                            var otweekday = db.HRweekends.Where(x =>
-                                x.pro_id == 23 && x.dweek.DayOfWeek == tempdate.DayOfWeek);
-                            if (holidaylist.Exists(x => x.Date == tempdate))
-                            { 
-                                calot.HOT++;
-                            }
-                            else if(true)
+                            var projectattday = projectatt.FindAll(x => x.punch_time.Date == tempdate)
+                                .OrderBy(x => x.punch_time).ToList();
+                            var starttime = projectattday.First().punch_time;
+                            var endtime = projectattday.Last().punch_time;
+                            var totaltime = endtime - startdate;
+                            var nightOvertimeHours = 0d;
+                            var  regularOvertimeHours = 0d;
+                            if (totaltime.TotalHours > 8)
                             {
-                                calot.WOT++;
-                            }
-                            else
-                            {
-                                var projectattday = projectatt.FindAll(x => x.at_date == tempdate).OrderBy(x => x.at_datetime).ToList();
-                                var starttime = projectattday.First().at_datetime.Value;
-                                var endtime = projectattday.Last().at_datetime.Value;
-                                var totaltime = endtime - startdate;
-                                if (totaltime.TotalHours > 8)
+                                var otr = totaltime.TotalHours - 8;
+                                var Otstarttime = starttime.AddHours(8);
+                                var nightStartTime = new TimeSpan(22, 0, 0); 
+                                var nightEndTime = new TimeSpan(4, 0, 0);
+                                if ((Otstarttime.TimeOfDay >= nightStartTime && Otstarttime.TimeOfDay < new TimeSpan(24, 0, 0)) ||
+                                    (endtime.TimeOfDay >= new TimeSpan(0, 0, 0) && endtime.TimeOfDay < nightEndTime))
                                 {
-                                    var otr = totaltime.TotalHours - 8;
+                                    if (Otstarttime.TimeOfDay >= nightStartTime)
+                                    {
+                                        nightOvertimeHours += (TimeSpan.FromHours(24) - Otstarttime.TimeOfDay).TotalHours;
+                                    }
+
+                                    if (endtime.TimeOfDay < nightEndTime)
+                                    {
+                                        nightOvertimeHours += endtime.TimeOfDay.TotalHours;
+                                    }
+                                    
+                                    regularOvertimeHours = otr - nightOvertimeHours;
                                 }
+                                else
+                                {
+                                    regularOvertimeHours = otr;
+                                }
+                                calot.ROT = regularOvertimeHours;
+                                //calot.NOT = nightOvertimeHours;
                             }
                         }
 
                     }
+
                     nextday: ;
                     tempdate = tempdate.AddDays(1);
                 }
+
                 calotlist.Add(calot);
             }
+
+            /*
+            foreach (var ot in calotlist)
+            {
+                    var savetest = db.cal_ot.ToList();
+                    if (savetest.Exists(x => x.OT_month == ot.OT_month && x.Employee_id == ot.Employee_id))
+                    {
+                        var tempsavevar = savetest.Find(x =>
+                            x.OT_month == ot.OT_month && x.Employee_id == ot.Employee_id);
+                        if (tempsavevar != null)
+                        {
+                            tempsavevar.HOT = ot.HOT;
+                            tempsavevar.ROT = ot.ROT;
+                            tempsavevar.WOT = ot.WOT;
+                            tempsavevar.NOT = ot.NOT;
+                            db.Entry(tempsavevar).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        db.cal_ot.Add(ot);
+                        db.SaveChanges();
+                    }
+            }
+            */
+
             return View(calotlist);
         }
+        public ActionResult payroll_index(DateTime? payrollmonth /*string message*/)
+        {
 
+            return View();
+        }
 
+        [HttpPost]
+        public ActionResult calnewPayroll(DateTime? payrollmonth)
+        {
+            var paylist = new List<payrole>();
+            if (!payrollmonth.HasValue)
+            {
+                var calot = db.cal_ot.Where(x => x.OT_month == payrollmonth.Value).OrderBy(x => x.Employee_id).ToList();
+                var calabs = db.calabs.Where(x => x.absmonth == payrollmonth.Value).OrderBy(x => x.Employee_id).ToList();
+                var callwop = db.cal_lwop.Where(x => x.lwop_month == payrollmonth.Value).OrderBy(x=>x.Employee_id).ToList();
+                var contract = db.contracts.OrderByDescending(x=>x.date_changed).ThenBy(x=>x.employee_no).ToList();
+                var alist = this.db.master_file
+                    .Where(e => e.last_working_day == null)
+                    .OrderBy(e => e.employee_no)
+                    .ThenByDescending(x => x.date_changed)
+                    .ToList();
+                var afinallist = alist
+                    .GroupBy(x => x.employee_no)
+                    .Select(g => g.First())
+                    .Where(x => x.employee_no != 0 && x.employee_no != 1 && x.employee_no != 100001)
+                    .ToList();
+                payrollmonth = new DateTime(payrollmonth.Value.Year, payrollmonth.Value.Month, 1);
+                var payrolllist = db.payrolls.Where(x => x.forthemonth == payrollmonth.Value).ToList();
+                foreach (var masterFile in afinallist)
+                {
+                    var conemp = contract.Find(x => x.employee_id == masterFile.employee_id);
+                    var calotemp = calot.Find(x => x.Employee_id == masterFile.employee_id);
+                    var calabsemp = calabs.Find(x => x.Employee_id == masterFile.employee_id);
+                    var callwopemp = callwop.Find(x => x.Employee_id == masterFile.employee_id);
+                    var pay = new payroll
+                    {
+                        employee_no = masterFile.employee_id, forthemonth = payrollmonth,
+                        con_id = conemp.employee_id,
+                        TicketAllowance_ = "0",
+                        Arrears = "0",
+                        FoodAllow = "0",
+                        totalpayable = "0",
+                        OTRegular = "0",
+                        OTRegularAmt = "0",
+                        OTFriday = "0",
+                        OTFridayAmt = "0",
+                        OTNight = "0",
+                        OTNightAmt = "0",
+                        HolidayOT = "0",
+                        HolidayOTAmt = "0",
+                        cashAdvances = "0",
+                        HouseAllow = "0",
+                        TransportationAllowance_ = "0",
+                        Timekeeping = "0",
+                        Communication = "0",
+                        TrafficFines = "0",
+                        Absents = "0",
+                        AbsentsAmt = "0",
+                        LWOP = "0",
+                        LWOPAmt = "0",
+                        TotalLWOP = "0",
+                        others = "0",
+                        Pension = "0",
+                        TotalDedution = "0",
+                        NetPay = "0",
+                        remarks = null,
+                        extra = null,
+                        extra1 = null,
+                        extra2 = null,
+                        contract = conemp,
+                        master_file = masterFile
+                    };
+                    if (payrolllist.Count() > 0 && payrolllist.Exists(x => x.employee_no == masterFile.employee_id))
+                    {
+                        pay = payrolllist.Find(x => x.employee_no == masterFile.employee_id);
+                    }
+
+                    var bas = "0";
+                    bas = Unprotect(pay.contract.basic);
+                    double.TryParse(bas, out var bas1);
+                    var gros = "0";
+                    gros = Unprotect(pay.contract.basic);
+                    double.TryParse(gros, out var gros1);
+
+                    var temp = 0d;
+                    if (calotemp != null)
+                    {
+                        var tot = 0d;
+                        pay.OTRegular = calotemp.ROT.ToString();
+                        temp = bas1 / 8 * 1.25 * calotemp.ROT;
+                        tot += temp;
+                        pay.OTRegular = temp.ToString();
+                        pay.OTNight = calotemp.NOT.ToString();
+                        temp = bas1 / 8 * 1.5 * calotemp.NOT;
+                        tot += temp;
+                        pay.OTNightAmt = temp.ToString();
+                        pay.OTFriday = calotemp.WOT.ToString();
+                        double.TryParse(calotemp.WOT.ToString(), out var result);
+                        temp = ((gros1 / 30d) * calotemp.WOT) + ((bas1 / 2d) * result);
+                        tot += temp;
+                        pay.OTFriday = temp.ToString();
+                        pay.HolidayOT = calotemp.HOT.ToString();
+                        double.TryParse(calotemp.HOT.ToString(), out var result1);
+                        temp = ((gros1 / 30d) * calotemp.HOT) + ((bas1 / 2d) * result1);
+                        tot += temp;
+                        pay.HolidayOTAmt = temp.ToString();
+                        pay.extra = tot.ToString(); //used extra for total overtime amount
+
+                    }
+
+                    if (calabsemp != null)
+                    {
+                        pay.Absents = calabsemp.absdays.ToString();
+                        pay.AbsentsAmt = calabsemp.absdays.ToString();//need to put calculations 
+                        
+                    }
+
+                    if (callwopemp != null)
+                    {
+                        pay.LWOP = callwopemp.lwop_days.ToString();
+                        pay.LWOPAmt = callwopemp.lwop_days.ToString();//need to put calculations 
+
+                    }
+
+                    temp = 0d;
+                    var tp = 0d;
+                    double.TryParse(pay.contract.salary_details, out temp);
+                    tp += temp;
+                    double.TryParse(pay.TicketAllowance_, out temp);// we'll change to be automated
+                    tp += temp;
+                    double.TryParse(pay.FoodAllow, out temp);// we'll change to be automated
+                    tp += temp;
+                    double.TryParse(pay.Arrears, out temp);
+                    tp += temp;
+                    pay.totalpayable = temp.ToString();
+
+                }
+            }
+
+            return RedirectToAction("payroll_index");
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing) db.Dispose();

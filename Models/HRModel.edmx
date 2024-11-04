@@ -155,6 +155,7 @@
           <Property Name="ROT" Type="float" Nullable="false" />
           <Property Name="HOT" Type="int" Nullable="false" />
           <Property Name="WOT" Type="int" Nullable="false" />
+          <Property Name="NOT" Type="float" Nullable="false" />
           <Property Name="OT_month" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="calabs">
@@ -506,6 +507,7 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Employee_id" Type="int" Nullable="false" />
+          <Property Name="project_id" Type="int" Nullable="false" />
           <Property Name="otdate" Type="date" Nullable="false" />
           <Property Name="othrs" Type="int" Nullable="false" />
           <Property Name="sumby" Type="nvarchar(max)" />
@@ -898,6 +900,46 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="pro_username" Type="nvarchar(max)" />
           <Property Name="pro_password" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="payroll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_no" Type="int" Nullable="false" />
+          <Property Name="forthemonth" Type="date" />
+          <Property Name="con_id" Type="int" Nullable="false" />
+          <Property Name="TicketAllowance " Type="nvarchar(max)" />
+          <Property Name="Arrears" Type="nvarchar(max)" />
+          <Property Name="FoodAllow" Type="nvarchar(max)" />
+          <Property Name="totalpayable" Type="nvarchar(max)" />
+          <Property Name="OTRegular" Type="nvarchar(max)" />
+          <Property Name="OTRegularAmt" Type="nvarchar(max)" />
+          <Property Name="OTFriday" Type="nvarchar(max)" />
+          <Property Name="OTFridayAmt" Type="nvarchar(max)" />
+          <Property Name="OTNight" Type="nvarchar(max)" />
+          <Property Name="OTNightAmt" Type="nvarchar(max)" />
+          <Property Name="HolidayOT" Type="nvarchar(max)" />
+          <Property Name="HolidayOTAmt" Type="nvarchar(max)" />
+          <Property Name="cashAdvances" Type="nvarchar(max)" />
+          <Property Name="HouseAllow" Type="nvarchar(max)" />
+          <Property Name="TransportationAllowance " Type="nvarchar(max)" />
+          <Property Name="Timekeeping" Type="nvarchar(max)" />
+          <Property Name="Communication" Type="nvarchar(max)" />
+          <Property Name="TrafficFines" Type="nvarchar(max)" />
+          <Property Name="Absents" Type="nvarchar(max)" />
+          <Property Name="AbsentsAmt" Type="nvarchar(max)" />
+          <Property Name="LWOP" Type="nvarchar(max)" />
+          <Property Name="LWOPAmt" Type="nvarchar(max)" />
+          <Property Name="TotalLWOP" Type="nvarchar(max)" />
+          <Property Name="others" Type="nvarchar(max)" />
+          <Property Name="Pension" Type="nvarchar(max)" />
+          <Property Name="TotalDedution" Type="nvarchar(max)" />
+          <Property Name="NetPay" Type="nvarchar(max)" />
+          <Property Name="remarks" Type="nvarchar(max)" />
+          <Property Name="extra" Type="nvarchar(max)" />
+          <Property Name="extra1" Type="nvarchar(max)" />
+          <Property Name="extra2" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="payrollsaved">
           <Key>
@@ -1860,6 +1902,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_payroll_To_con">
+          <End Role="contract" Type="Self.contract" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="payroll" Type="Self.payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contract">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="payroll">
+              <PropertyRef Name="con_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_payroll_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="payroll" Type="Self.payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="payroll">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_pp_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="passport" Type="Self.passport" Multiplicity="*" />
@@ -2072,6 +2142,7 @@
           <EntitySet Name="passport" EntityType="Self.passport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrole" EntityType="Self.payrole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrolelogin" EntityType="Self.payrolelogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="payroll" EntityType="Self.payroll" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payrollsaved" EntityType="Self.payrollsaved" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROBATION_ASSESSMENT" EntityType="Self.PROBATION_ASSESSMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="project_attendence" EntityType="Self.project_attendence" Schema="dbo" store:Type="Tables" />
@@ -2311,6 +2382,14 @@
           <AssociationSet Name="FK_payrole_Toleaveab" Association="Self.FK_payrole_Toleaveab">
             <End Role="leave_absence" EntitySet="leave_absence" />
             <End Role="payrole" EntitySet="payrole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_payroll_To_con" Association="Self.FK_payroll_To_con">
+            <End Role="contract" EntitySet="contract" />
+            <End Role="payroll" EntitySet="payroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_payroll_To_master_file" Association="Self.FK_payroll_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="payroll" EntitySet="payroll" />
           </AssociationSet>
           <AssociationSet Name="FK_pp_To_master_file" Association="Self.FK_pp_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -2570,6 +2649,7 @@
           <NavigationProperty Name="payroles" Relationship="Self.FK_pay_To_con" FromRole="contract" ToRole="payrole" />
           <Property Name="company" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="category" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="payrolls" Relationship="HRModel.FK_payroll_To_con" FromRole="contract" ToRole="payroll" />
         </EntityType>
         <EntityType Name="contractlogin">
           <Key>
@@ -3161,9 +3241,10 @@
           <NavigationProperty Name="absexceptions" Relationship="HRModel.FK_abs_exception_To_master_file" FromRole="master_file" ToRole="absexception" />
           <NavigationProperty Name="cal_lwop" Relationship="HRModel.FK_cal_lwop_To_master_file" FromRole="master_file" ToRole="cal_lwop" />
           <NavigationProperty Name="calabs" Relationship="HRModel.FK_calabs_To_master_file" FromRole="master_file" ToRole="calab" />
-          <NavigationProperty Name="HRotapps" Relationship="HRModel.FK_HRotapp_To_master_file" FromRole="master_file" ToRole="HRotapp" />
           <NavigationProperty Name="transferlists" Relationship="HRModel.FK_trflist_To_master_file" FromRole="master_file" ToRole="transferlist" />
+          <NavigationProperty Name="payrolls" Relationship="HRModel.FK_payroll_To_master_file" FromRole="master_file" ToRole="payroll" />
           <NavigationProperty Name="cal_ot" Relationship="HRModel.FK_cal_ot_To_master_file" FromRole="master_file" ToRole="cal_ot" />
+          <NavigationProperty Name="HRotapps" Relationship="HRModel.FK_HRotapp_To_master_file" FromRole="master_file" ToRole="HRotapp" />
         </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
@@ -4395,7 +4476,6 @@
           <EntitySet Name="absexceptions" EntityType="HRModel.absexception" />
           <EntitySet Name="cal_lwop" EntityType="HRModel.cal_lwop" />
           <EntitySet Name="calabs" EntityType="HRModel.calab" />
-          <EntitySet Name="HRotapps" EntityType="HRModel.HRotapp" />
           <EntitySet Name="HRweekends" EntityType="HRModel.HRweekend" />
           <AssociationSet Name="FK_abs_exception_To_master_file" Association="HRModel.FK_abs_exception_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -4412,10 +4492,6 @@
           <AssociationSet Name="FK_calabs_To_master_file" Association="HRModel.FK_calabs_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="calab" EntitySet="calabs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_HRotapp_To_master_file" Association="HRModel.FK_HRotapp_To_master_file">
-            <End Role="master_file" EntitySet="master_file" />
-            <End Role="HRotapp" EntitySet="HRotapps" />
           </AssociationSet>
           <AssociationSet Name="FK_HRweekend_ToTable" Association="HRModel.FK_HRweekend_ToTable">
             <End Role="HRprojectlist" EntitySet="HRprojectlists" />
@@ -4434,10 +4510,24 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="transferlist" EntitySet="transferlists" />
           </AssociationSet>
+          <EntitySet Name="payrolls" EntityType="HRModel.payroll" />
+          <AssociationSet Name="FK_payroll_To_con" Association="HRModel.FK_payroll_To_con">
+            <End Role="contract" EntitySet="contracts" />
+            <End Role="payroll" EntitySet="payrolls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_payroll_To_master_file" Association="HRModel.FK_payroll_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="payroll" EntitySet="payrolls" />
+          </AssociationSet>
           <EntitySet Name="cal_ot" EntityType="HRModel.cal_ot" />
           <AssociationSet Name="FK_cal_ot_To_master_file" Association="HRModel.FK_cal_ot_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="cal_ot" EntitySet="cal_ot" />
+          </AssociationSet>
+          <EntitySet Name="HRotapps" EntityType="HRModel.HRotapp" />
+          <AssociationSet Name="FK_HRotapp_To_master_file" Association="HRModel.FK_HRotapp_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="HRotapp" EntitySet="HRotapps" />
           </AssociationSet>
         </EntityContainer>
         <Association Name="FK_EID_To_master_file">
@@ -4662,22 +4752,6 @@
           <NavigationProperty Name="absexceptions" Relationship="HRModel.FK_absexception_To_calabs" FromRole="calab" ToRole="absexception" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_calabs_To_master_file" FromRole="calab" ToRole="master_file" />
         </EntityType>
-        <EntityType Name="HRotapp">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Employee_id" Type="Int32" Nullable="false" />
-          <Property Name="otdate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="othrs" Type="Int32" Nullable="false" />
-          <Property Name="sumby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="appby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="dateadded" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="datemodfied" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="master_file" Relationship="HRModel.FK_HRotapp_To_master_file" FromRole="HRotapp" ToRole="master_file" />
-        </EntityType>
         <EntityType Name="HRweekend">
           <Key>
             <PropertyRef Name="Id" />
@@ -4732,18 +4806,6 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="calab">
-              <PropertyRef Name="Employee_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_HRotapp_To_master_file">
-          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
-          <End Type="HRModel.HRotapp" Role="HRotapp" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="master_file">
-              <PropertyRef Name="employee_id" />
-            </Principal>
-            <Dependent Role="HRotapp">
               <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -4814,6 +4876,76 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="payroll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_no" Type="Int32" Nullable="false" />
+          <Property Name="forthemonth" Type="DateTime" Precision="0" />
+          <Property Name="con_id" Type="Int32" Nullable="false" />
+          <Property Name="TicketAllowance_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Arrears" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FoodAllow" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="totalpayable" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTRegular" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTRegularAmt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTFriday" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTFridayAmt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTNight" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OTNightAmt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HolidayOT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HolidayOTAmt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="cashAdvances" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HouseAllow" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TransportationAllowance_" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Timekeeping" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Communication" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TrafficFines" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Absents" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AbsentsAmt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LWOP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LWOPAmt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalLWOP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="others" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Pension" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalDedution" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NetPay" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="extra" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="extra1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="extra2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="contract" Relationship="HRModel.FK_payroll_To_con" FromRole="payroll" ToRole="contract" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_payroll_To_master_file" FromRole="payroll" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_payroll_To_con">
+          <End Type="HRModel.contract" Role="contract" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HRModel.payroll" Role="payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="contract">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="payroll">
+              <PropertyRef Name="con_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_payroll_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HRModel.payroll" Role="payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="payroll">
+              <PropertyRef Name="employee_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="cal_ot">
           <Key>
             <PropertyRef Name="Id" />
@@ -4823,6 +4955,7 @@
           <Property Name="ROT" Type="Double" Nullable="false" />
           <Property Name="HOT" Type="Int32" Nullable="false" />
           <Property Name="WOT" Type="Int32" Nullable="false" />
+          <Property Name="NOT" Type="Int32" Nullable="false" />
           <Property Name="OT_month" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_cal_ot_To_master_file" FromRole="cal_ot" ToRole="master_file" />
         </EntityType>
@@ -4834,6 +4967,35 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="cal_ot">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="HRotapp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Employee_id" Type="Int32" Nullable="false" />
+          <Property Name="project_id" Type="Int32" Nullable="false" />
+          <Property Name="otdate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="othrs" Type="Int32" Nullable="false" />
+          <Property Name="sumby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="appby" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="reason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="dateadded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="datemodfied" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_HRotapp_To_master_file" FromRole="HRotapp" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_HRotapp_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
+          <End Type="HRModel.HRotapp" Role="HRotapp" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="HRotapp">
               <PropertyRef Name="Employee_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -6000,22 +6162,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HRotapps">
-            <EntityTypeMapping TypeName="HRModel.HRotapp">
-              <MappingFragment StoreEntitySet="HRotapp">
-                <ScalarProperty Name="datemodfied" ColumnName="datemodfied" />
-                <ScalarProperty Name="dateadded" ColumnName="dateadded" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="reason" ColumnName="reason" />
-                <ScalarProperty Name="appby" ColumnName="appby" />
-                <ScalarProperty Name="sumby" ColumnName="sumby" />
-                <ScalarProperty Name="othrs" ColumnName="othrs" />
-                <ScalarProperty Name="otdate" ColumnName="otdate" />
-                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="HRweekends">
             <EntityTypeMapping TypeName="HRModel.HRweekend">
               <MappingFragment StoreEntitySet="HRweekend">
@@ -6042,13 +6188,72 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="payrolls">
+            <EntityTypeMapping TypeName="HRModel.payroll">
+              <MappingFragment StoreEntitySet="payroll">
+                <ScalarProperty Name="extra2" ColumnName="extra2" />
+                <ScalarProperty Name="extra1" ColumnName="extra1" />
+                <ScalarProperty Name="extra" ColumnName="extra" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="NetPay" ColumnName="NetPay" />
+                <ScalarProperty Name="TotalDedution" ColumnName="TotalDedution" />
+                <ScalarProperty Name="Pension" ColumnName="Pension" />
+                <ScalarProperty Name="others" ColumnName="others" />
+                <ScalarProperty Name="TotalLWOP" ColumnName="TotalLWOP" />
+                <ScalarProperty Name="LWOPAmt" ColumnName="LWOPAmt" />
+                <ScalarProperty Name="LWOP" ColumnName="LWOP" />
+                <ScalarProperty Name="AbsentsAmt" ColumnName="AbsentsAmt" />
+                <ScalarProperty Name="Absents" ColumnName="Absents" />
+                <ScalarProperty Name="TrafficFines" ColumnName="TrafficFines" />
+                <ScalarProperty Name="Communication" ColumnName="Communication" />
+                <ScalarProperty Name="Timekeeping" ColumnName="Timekeeping" />
+                <ScalarProperty Name="TransportationAllowance_" ColumnName="TransportationAllowance " />
+                <ScalarProperty Name="HouseAllow" ColumnName="HouseAllow" />
+                <ScalarProperty Name="cashAdvances" ColumnName="cashAdvances" />
+                <ScalarProperty Name="HolidayOTAmt" ColumnName="HolidayOTAmt" />
+                <ScalarProperty Name="HolidayOT" ColumnName="HolidayOT" />
+                <ScalarProperty Name="OTNightAmt" ColumnName="OTNightAmt" />
+                <ScalarProperty Name="OTNight" ColumnName="OTNight" />
+                <ScalarProperty Name="OTFridayAmt" ColumnName="OTFridayAmt" />
+                <ScalarProperty Name="OTFriday" ColumnName="OTFriday" />
+                <ScalarProperty Name="OTRegularAmt" ColumnName="OTRegularAmt" />
+                <ScalarProperty Name="OTRegular" ColumnName="OTRegular" />
+                <ScalarProperty Name="totalpayable" ColumnName="totalpayable" />
+                <ScalarProperty Name="FoodAllow" ColumnName="FoodAllow" />
+                <ScalarProperty Name="Arrears" ColumnName="Arrears" />
+                <ScalarProperty Name="TicketAllowance_" ColumnName="TicketAllowance " />
+                <ScalarProperty Name="con_id" ColumnName="con_id" />
+                <ScalarProperty Name="forthemonth" ColumnName="forthemonth" />
+                <ScalarProperty Name="employee_no" ColumnName="employee_no" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="cal_ot">
             <EntityTypeMapping TypeName="HRModel.cal_ot">
               <MappingFragment StoreEntitySet="cal_ot">
                 <ScalarProperty Name="OT_month" ColumnName="OT_month" />
+                <ScalarProperty Name="NOT" ColumnName="NOT" />
                 <ScalarProperty Name="WOT" ColumnName="WOT" />
                 <ScalarProperty Name="HOT" ColumnName="HOT" />
                 <ScalarProperty Name="ROT" ColumnName="ROT" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HRotapps">
+            <EntityTypeMapping TypeName="HRModel.HRotapp">
+              <MappingFragment StoreEntitySet="HRotapp">
+                <ScalarProperty Name="datemodfied" ColumnName="datemodfied" />
+                <ScalarProperty Name="dateadded" ColumnName="dateadded" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="appby" ColumnName="appby" />
+                <ScalarProperty Name="sumby" ColumnName="sumby" />
+                <ScalarProperty Name="othrs" ColumnName="othrs" />
+                <ScalarProperty Name="otdate" ColumnName="otdate" />
+                <ScalarProperty Name="project_id" ColumnName="project_id" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

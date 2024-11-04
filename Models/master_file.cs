@@ -68,6 +68,7 @@ namespace HRworks.Models
             this.calabs = new HashSet<calab>();
             this.HRotapps = new HashSet<HRotapp>();
             this.transferlists = new HashSet<transferlist>();
+            this.payrolls = new HashSet<payroll>();
         }
     
         public int employee_id { get; set; }
@@ -107,7 +108,7 @@ namespace HRworks.Models
 
         [Display(Name = "Date Changed")]
         public Nullable<System.DateTime> date_changed { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ATTENDANCE_ADJUSTMENT> ATTENDANCE_ADJUSTMENT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -208,5 +209,7 @@ namespace HRworks.Models
         public virtual ICollection<HRotapp> HRotapps { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<transferlist> transferlists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<payroll> payrolls { get; set; }
     }
 }

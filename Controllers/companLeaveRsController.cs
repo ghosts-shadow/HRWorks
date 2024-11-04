@@ -157,7 +157,9 @@ namespace HRworks.Controllers
             if (compballist.Exists(x => x.EmpNo == companLeaveR.EmpNo))
             {
                 var combal = compballist.Find(x => x.EmpNo == companLeaveR.EmpNo);
-                combal.balance -= 1;
+                if (combal.balance != 0) {
+                    combal.balance -= 1;
+                }
             }
             db.companLeaveRs.Remove(companLeaveR);
             db.SaveChanges();

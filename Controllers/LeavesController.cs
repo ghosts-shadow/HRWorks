@@ -1054,8 +1054,8 @@ namespace HRworks.Controllers
         // GET: Leaves
         public ActionResult Index()
         {
-            var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).ToList();
-            return this.View(leaves);
+           // var leaves = this.db.Leaves.Include(l => l.master_file).OrderByDescending(x => x.Id).ToList();
+            return this.View();
         }
 
         public ActionResult getallorone(string search, int? page, int? pagesize, int? idsearch)
@@ -2874,6 +2874,90 @@ namespace HRworks.Controllers
 
         HREntities hrdb = new HREntities();
 
+        public ActionResult SickLeaveReport(string year)
+        {
+            var SLRyear = new DateTime();
+            DateTime.TryParse(year, out SLRyear);
+            var leavelist = db.Leaves.Where(x => x.leave_type == "2").ToList();
+            var alist = this.db.master_file
+                .Where(e => e.last_working_day == null)
+                .OrderBy(e => e.employee_no)
+                .ThenByDescending(x => x.date_changed)
+                .ToList();
+            var afinallist = alist
+                .GroupBy(x => x.employee_no)
+                .Select(g => g.First())
+                .Where(x => x.employee_no != 0 && x.employee_no != 1 && x.employee_no != 100001)
+                .ToList();
+            var SLRlist = new List<SickLeaveR>();
+
+            if (year == null)
+            {
+                SLRyear = DateTime.Now;
+            }
+            ViewBag.SLRyear = SLRyear.Year;
+            var startdate = new DateTime(SLRyear.Year,1,1);
+            var enddate = new DateTime(SLRyear.Year,12,31);
+
+            foreach (var file in afinallist)
+            {
+                var tempSL = leavelist.FindAll(x => x.Employee_id == file.employee_id && x.Start_leave<= enddate && x.End_leave >= startdate);
+                var slrvar = new SickLeaveR
+                {
+                    EmpID = file.employee_id,
+                    SLTaken = 0,
+                    HalfPaid = 0,
+                    unpaid = 0,
+                    master_file = file
+                };
+                foreach (var leaf in tempSL)
+                {
+                    if (leaf.Start_leave < startdate)
+                    {
+                        var tempdate = leaf.Start_leave.Value;
+                        do
+                        {
+                            if (tempdate >= startdate)
+                            {
+                                slrvar.SLTaken++;
+                            }
+                            tempdate.AddDays(1);
+                        } while (tempdate > leaf.End_leave);
+                    }
+                    else if (leaf.End_leave > enddate)
+                    {
+                        var tempdate = leaf.Start_leave.Value;
+                        do
+                        {
+                            if (tempdate <= enddate)
+                            {
+                                slrvar.SLTaken++;
+                            }
+                            tempdate.AddDays(1);
+                        } while (tempdate > leaf.End_leave);
+
+                    }
+                    else
+                    {
+                        slrvar.SLTaken += (leaf.End_leave.Value - leaf.Start_leave.Value).Days +1;
+                    }
+
+                }
+                    if (slrvar.SLTaken > 15 && slrvar.SLTaken <= 45)
+                    {
+                        slrvar.HalfPaid = (slrvar.SLTaken-15);
+                    }
+                    else if(slrvar.SLTaken > 45)
+                    {
+                        slrvar.HalfPaid = 30;
+                        slrvar.unpaid = slrvar.SLTaken - 45;
+                    }
+                    SLRlist.Add(slrvar);
+            }
+
+            return View(SLRlist.FindAll(x => x.SLTaken != 0));
+        }
+
         public ActionResult lbpyindex(string search)
 
         {
@@ -4055,6 +4139,9 @@ namespace HRworks.Controllers
         end: ;
         return View(new List<leavecalperyear>());
         }
+
+
+
 
         protected override void Dispose(bool disposing)
         {

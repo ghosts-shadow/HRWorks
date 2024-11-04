@@ -1,0 +1,95 @@
+﻿@model IEnumerable<HRworks.Models.SickLeaveR>
+@{
+    ViewBag.Title = "Sick Leave Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sick Leave Report Of Year @ViewBag.SLRyear</h2>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        $('#datepicker').datepicker({
+            changeYear: true
+        });
+    });
+</script>
+<style>
+    @*.ui-datepicker-calendar {
+        display: none;
+    },
+            onClose: function (dateText, inst) {
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(year, 0, 1));
+            }
+    *@
+
+
+</style>
+@using (Html.BeginForm("SickLeaveReport","Leaves"))
+{
+    <p>SL for year</p>
+    <input type="text" id="datepicker" name="year" class="form-control" />
+    <br />
+    <input type="submit" value="Search" class="btn btn-default" />
+    <br />
+    <br />
+    <br />
+}
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.master_file.employee_no)</th>
+        <th>@Html.DisplayNameFor(model => model.master_file.employee_name)</th>
+        <th>@Html.DisplayNameFor(model => model.SLTaken)</th>
+        <th>@Html.DisplayNameFor(model => model.HalfPaid)</th>
+        <th>@Html.DisplayNameFor(model => model.unpaid)</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+
+        if (item.HalfPaid > 0 || item.unpaid > 0)
+        {
+            <tr style="background-color: #9c2002; color: white; ">
+                <td>
+                    @Html.DisplayFor(modelItem => item.master_file.employee_no)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.master_file.employee_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SLTaken)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HalfPaid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.unpaid)
+                </td>
+            </tr>
+
+        }
+        else
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.master_file.employee_no)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.master_file.employee_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SLTaken)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HalfPaid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.unpaid)
+                </td>
+            </tr>
+        }
+    }
+</table>

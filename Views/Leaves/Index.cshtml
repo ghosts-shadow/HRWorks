@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HRworks.Models.Leave>
+﻿@*model IEnumerable<HRworks.Models.Leave>*@
 
 @{
     ViewBag.Title = "Index";
@@ -62,12 +62,15 @@
             <div class="col-lg-3">
                 <br />
                 <br />
-                
-            @if (User.IsInRole("super_admin") || User.IsInRole("payrole"))
-            {
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "companLeaveRs")'" value="compensatory leave record"/>
-            }
-                
+
+                @if (User.IsInRole("super_admin") || User.IsInRole("payrole"))
+                {
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "companLeaveRs")'" value="compensatory leave record" />
+                }
+                <br />
+                <br />
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("SickLeaveReport", "Leaves")'" value="Sick leave record" />
+
             </div>
             
         </div>

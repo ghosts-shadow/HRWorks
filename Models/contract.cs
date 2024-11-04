@@ -21,6 +21,7 @@ namespace HRworks.Models
         {
             this.payroles = new HashSet<payrole>();
             this.end_of_service = new HashSet<end_of_service>();
+            this.payrolls = new HashSet<payroll>();
         }
 
         [Display(Name = "Contract ID")]
@@ -84,5 +85,7 @@ namespace HRworks.Models
         public virtual ICollection<payrole> payroles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<end_of_service> end_of_service { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<payroll> payrolls { get; set; }
     }
 }
