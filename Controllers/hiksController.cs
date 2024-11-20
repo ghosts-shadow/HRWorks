@@ -630,7 +630,7 @@ namespace HRworks.Controllers
                 int.TryParse(empno, out empnotemp);
                 return this.View(passexel.FindAll(x=>x.EMPID == empnotemp).OrderBy(x => x.date).ThenBy(x => x.EMPID));
             }
-            return this.View(passexel.OrderBy(x => x.date).ThenBy(x => x.EMPID));
+            return this.View(passexel.OrderBy(x => x.date).ThenBy(x => x.EMPID).ThenBy(x=>x.time));
         }
 
         protected override void Dispose(bool disposing)

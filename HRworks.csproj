@@ -586,6 +586,7 @@
     <Compile Include="Controllers\Training_EffectivenessController.cs" />
     <Compile Include="Controllers\Training_EvaluationController.cs" />
     <Compile Include="Controllers\Training_RequestController.cs" />
+    <Compile Include="Controllers\transferlistsController.cs" />
     <Compile Include="Controllers\uploaddataController.cs" />
     <Compile Include="Controllers\usernamesController.cs" />
     <Compile Include="Controllers\visasController.cs" />
@@ -2314,6 +2315,13 @@
     <Content Include="Views\View.cshtml" />
     <Content Include="Views\Leaves\SickLeaveReport.cshtml" />
     <Content Include="Views\uploaddata\contractupdate.cshtml" />
+    <Content Include="Views\Attendances\ProjectAtt.cshtml" />
+    <Content Include="Views\Attendances\absreport.cshtml" />
+    <Content Include="Views\transferlists\Create.cshtml" />
+    <Content Include="Views\transferlists\Delete.cshtml" />
+    <Content Include="Views\transferlists\Details.cshtml" />
+    <Content Include="Views\transferlists\Edit.cshtml" />
+    <Content Include="Views\transferlists\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

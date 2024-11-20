@@ -1,0 +1,90 @@
+﻿@model HRworks.Models.transferlist
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>transferlist</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.requested_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.requested_by)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.approved_by)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.approved_by)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.effectivedate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.effectivedate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateadded)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateadded)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.datemodifief)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.datemodifief)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.reason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HRprojectlist.project_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HRprojectlist.project_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HRprojectlist1.project_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HRprojectlist1.project_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,132 @@
+﻿@model IEnumerable<HRworks.Models.iclock_transaction>
+
+@{
+    ViewBag.Title = "Project Attendance";
+    string projectname = null;
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        var dateFormat = "mm/dd/yy",
+            from = $("#from")
+                .datepicker({
+                    changeMonth: true
+                })
+                .on("change",
+                    function () {
+                        to.datepicker("option", "minDate", getDate(this));
+                    }),
+            to = $("#to").datepicker({
+                changeMonth: true
+            })
+                .on("change",
+                    function () {
+                        from.datepicker("option", "maxDate", getDate(this));
+                    });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+
+            return date;
+        }
+    });
+</script>
+<h2>Project Attendance </h2>
+@using (Html.BeginForm("ProjectAtt", "Attendances"))
+{
+
+    <div class="row">
+        <div class=" col-md-2">
+            <input type="text" name="empno" class="form-control" placeholder="Employee No" />
+        </div>
+        <div class=" col-md-2">
+            <input type="text" id="form" name="dayfrom" class="form-control" placeholder=" From" />
+        </div>
+        <div class=" col-md-2">
+            <input type="text" id="to" name="dayto" class="form-control" placeholder="To" />
+        </div>
+        <div class=" col-md-6">
+            <input type="submit" value="Search" class="btn btn-default" />
+        </div>
+    </div>
+    <br />
+    <br />
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("employee no")
+        </th>
+        <th>
+            @Html.DisplayName("employee name")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.punch_time)
+        </th>
+        <th>
+            @Html.DisplayName("project")
+        </th>
+        <th>
+            @Html.DisplayName("Status")
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (projectname == null)
+        {
+            projectname = item.area_alias;
+        }
+        else
+        {
+            if (projectname != item.area_alias)
+            {
+                projectname = item.area_alias;
+                <tr style="background-color: #152939; color: white; ">
+                    <td colspan="5">&nbsp;</td>
+                </tr>
+            }
+        }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.emp_code)
+            </td>
+            <td>
+                @*Html.DisplayFor(modelItem => item.mobile)*@
+                @{
+                    string temp = item.mobile;
+                    @temp.ToLower();
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.punch_time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.area_alias)
+            </td>
+            <td>
+                @if (item.punch_state == "0")
+                {
+                    var ps = "check in";
+                    @ps
+                }
+                else
+                {
+                    var ps = "check out";
+                    @ps
+                }
+            </td>
+        </tr>
+    }
+
+</table>

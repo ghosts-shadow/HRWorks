@@ -217,5 +217,7 @@ namespace HRworks.Models
         public virtual DbSet<workflow_workflownode_approver> workflow_workflownode_approver { get; set; }
         public virtual DbSet<workflow_workflownode_notifier> workflow_workflownode_notifier { get; set; }
         public virtual DbSet<workflow_workflowrole> workflow_workflowrole { get; set; }
+
+        public System.Data.Entity.DbSet<HRworks.Models.hik> hiks { get; set; }
     }
 }

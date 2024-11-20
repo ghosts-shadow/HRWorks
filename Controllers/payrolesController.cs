@@ -8072,7 +8072,7 @@ namespace HRworks.Controllers
                         }
                         else
                         {
-                            if (tranferlist.Count > 1)
+                            if (tranferlist.Count() > 1)
                             {
                                 var proweekend = new List<HRweekend>();
                                 foreach (var transferlist in tranferlist)

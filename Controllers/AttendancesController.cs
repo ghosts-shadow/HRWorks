@@ -6,8 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using HRworks.Models;
 using Microsoft.Ajax.Utilities;
+using Microsoft.Office.Interop.Word;
 
 namespace HRworks.Controllers
 {
@@ -16,6 +18,7 @@ namespace HRworks.Controllers
     {
         private LogisticsSoftEntities db = new LogisticsSoftEntities();
         private HREntities db1 = new HREntities();
+        private biometrics_DBEntities db2 = new biometrics_DBEntities();
 
         // GET: Attendances
         public ActionResult Index(string variable, DateTime? month, string idstr)
@@ -1493,6 +1496,194 @@ namespace HRworks.Controllers
 
             return RedirectToAction("approveabsn", new { month = monthstart});
         }
+
+        public ActionResult ProjectAtt(DateTime? dayfrom, DateTime? dayto, string empno)
+        {
+            var patt = new List<iclock_transaction>();
+            if (dayfrom == null)
+            {
+                dayfrom = DateTime.Today;
+            }
+
+            if (dayto == null)
+            {
+                dayto = dayfrom.Value.AddDays(1);
+            }
+            else
+            {
+                dayto = dayto.Value.AddDays(1);
+            }
+
+            var alist = this.db1.master_file
+                .Where(e => e.last_working_day == null)
+                .OrderBy(e => e.employee_no)
+                .ThenByDescending(x => x.date_changed)
+                .ToList();
+            var afinallist = alist
+                .GroupBy(x => x.employee_no)
+                .Select(g => g.First())
+                .Where(x => x.employee_no != 0 && x.employee_no != 1 && x.employee_no != 100001)
+                .ToList();
+
+
+            do
+            {
+                var startDate = dayfrom.Value.Date;
+                var endDate = startDate.AddDays(1);
+
+
+                var iclocklist = db2.iclock_transaction
+                    .Where(x => x.punch_time >= startDate && x.punch_time < endDate)
+                    .ToList();
+                if (iclocklist.Count() < 0)
+                {
+                    goto end;
+                }
+
+
+
+                foreach (var file in afinallist)
+                {
+                    if (iclocklist.Exists(x => x.emp_code == file.employee_no.ToString()))
+                    {
+                        var empatt = iclocklist.FindAll(x => x.emp_code == file.employee_no.ToString())
+                            .OrderBy(x => x.punch_time).ToList();
+                        var firstin = empatt.First();
+                        firstin.mobile = file.employee_name;
+                        if (empatt.Count() > 1)
+                        {
+                            var lastout = empatt.Last();
+                            lastout.punch_state = "1";
+                            lastout.mobile = file.employee_name;
+                            patt.Add(lastout);
+
+                        }
+
+                        patt.Add(firstin);
+                    }
+                }
+
+                end: ;
+                dayfrom = dayfrom.Value.AddDays(1);
+            } while (dayfrom != dayto);
+
+            if (!empno.IsNullOrWhiteSpace())
+            {
+                patt = patt.FindAll(x => x.emp_code == empno);
+            }
+
+            return View(patt.OrderBy(x => x.area_alias).ThenBy(x => x.emp_code).ThenBy(x => x.punch_time).ToList());
+        }
+
+        public ActionResult absreport(DateTime? dayfrom, DateTime? dayto, string empno)
+        {
+            var gradelist = new List<string>
+            {
+                "4C","4B","4A","5B","5A","6B","6A","7B","7A","8B","8A","9"
+            };
+            
+            var alist = this.db1.master_file
+                .Where(e => e.last_working_day == null)
+                .OrderBy(e => e.employee_no)
+                .ThenByDescending(x => x.date_changed)
+                .ToList().FindAll(x => x.contracts.Count > 0 && (x.contracts.First().departmant_project != "Procurement" && gradelist.Exists(y=>y == x.contracts.First().grade))); ;
+            var afinallist = alist
+                .GroupBy(x => x.employee_no)
+                .Select(g => g.First())
+                .Where(x => x.employee_no != 0 && x.employee_no != 1 && x.employee_no != 100001)
+                .ToList();
+            if (dayfrom == null)
+            {
+                dayfrom = DateTime.Today;
+            }
+
+            if (dayto == null)
+            {
+                dayto = dayfrom.Value.AddDays(1);
+            }
+            else
+            {
+                dayto = dayto.Value.AddDays(1);
+            }
+
+            var HObioatt = db1.hiks
+                .Where(x => x.date >= dayfrom && x.date <= dayto)
+                .ToList();
+            var leaveList = db1.Leaves
+                .Where(x => x.Start_leave <= dayto && x.End_leave >= dayfrom)
+                .ToList();
+            var holidayList = db.Holidays.Where(x => x.Date >= dayfrom && x.Date <= dayto).ToList();
+
+            var proatt = db2.iclock_transaction
+                .Where(x => x.punch_time >= dayfrom && x.punch_time <= dayto)
+                .ToList();
+            var abslist = new List<hik>();
+                var datereset = dayfrom;
+
+                if (!empno.IsNullOrWhiteSpace())
+                {
+                    int.TryParse(empno, out var tempResult);
+                    afinallist = afinallist.FindAll(x => x.employee_no == tempResult);
+                }
+            foreach (var file in afinallist)
+            {
+                dayfrom = datereset;
+                do
+                {
+                    var tempHOattlist = HObioatt
+                        .Where(x => x.ID == file.employee_no.ToString() && x.date == dayfrom)
+                        .ToList();
+
+                    var tempproattlist = proatt
+                        .Where(x => x.emp_code == file.employee_no.ToString() && x.punch_time.Date == dayfrom)
+                        .ToList();
+
+                    var tranferlist = db1.transferlists
+                        .Where(x => x.Employee_id == file.employee_id && x.reason == "approved")
+                        .OrderByDescending(x => x.datemodifief).ToList();
+                    var weekends = new List<DayOfWeek>();
+                    if (tranferlist.Any())
+                    {
+
+                        var proweekend = new List<HRweekend>();
+                        foreach (var trvar in tranferlist)
+                        {
+                            proweekend.AddRange(db1.HRweekends.Where(x => x.pro_id == trvar.npro_id).ToList());
+                        }
+
+                        foreach (var weekend in proweekend)
+                        {
+                            if (!weekends.Contains(weekend.dweek.DayOfWeek))
+                            {
+                                weekends.Add(weekend.dweek.DayOfWeek);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        weekends.Add(DayOfWeek.Sunday);
+                        weekends.Add(DayOfWeek.Saturday);
+
+                    }
+                    if (!tempHOattlist.Any() && !tempproattlist.Any() && !leaveList.Exists(x =>
+                            x.End_leave >= dayfrom && x.Start_leave <= dayfrom &&
+                            x.Employee_id == file.employee_id) && !weekends.Contains(dayfrom.Value.DayOfWeek))
+                    {
+                        var absvar = new hik();
+                        absvar.ID = file.employee_no.ToString();
+                        absvar.Person = file.employee_name;
+                        absvar.date = dayfrom;
+                        abslist.Add(absvar);
+                    }
+
+                    end: ;
+                    dayfrom = dayfrom.Value.AddDays(1);
+                } while (dayto > dayfrom);
+            }
+            
+            return View(abslist);
+        }
+
 
 
         protected override void Dispose(bool disposing)

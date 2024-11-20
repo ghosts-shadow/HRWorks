@@ -138,7 +138,7 @@
             position: sticky;
         }
 
-        .dd1, .dd2, .dd3{
+        .dd1, .dd2, .dd3,.dd4{
             background-color: #152939 !important;
             float: left;
             margin-top: 14px;
@@ -180,6 +180,9 @@
             if ($("#dd3").hasClass("open")) {
                 $(".dd3").removeClass("open");
             }
+            if ($("#dd4").hasClass("open")) {
+                $(".dd4").removeClass("open");
+            }
         }
 
         function dd2() {
@@ -194,6 +197,9 @@
             if ($("#dd3").hasClass("open")) {
                 $(".dd3").removeClass("open");
             }
+            if ($("#dd4").hasClass("open")) {
+                $(".dd4").removeClass("open");
+            }
         }
         function dd3() {
             if ($("#dd3").hasClass("open")) {
@@ -207,6 +213,26 @@
             if ($("#dd2").hasClass("open")) {
                 $(".dd2").removeClass("open");
             }
+            if ($("#dd4").hasClass("open")) {
+                $(".dd4").removeClass("open");
+            }
+        }
+
+        function dd4() {
+            if ($("#dd4").hasClass("open")) {
+                $(".dd4").removeClass("open");
+            } else {
+                $(".dd4").addClass("open");
+            }
+            if ($("#dd1").hasClass("open")) {
+                $(".dd1").removeClass("open");
+            }
+            if ($("#dd2").hasClass("open")) {
+                $(".dd2").removeClass("open");
+            }
+            if ($("#dd3").hasClass("open")) {
+                $(".dd3").removeClass("open");
+            } 
         }
 
         function ddremove() {
@@ -218,6 +244,9 @@
             }
             if ($("#dd3").hasClass("open")) {
                 $(".dd3").removeClass("open");
+            }
+            if ($("#dd4").hasClass("open")) {
+                $(".dd4").removeClass("open");
             }
         }
     </script>
@@ -306,7 +335,18 @@
                                 }
                                 <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
                                 <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
-                                <li>@Html.ActionLink("attendance", "Index1", "hiks")</li>
+                                                                                            
+                                <div class="dropdown dd4" id="dd4">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd4()" style="background-color: #152939 !important; border-color: #152939">
+                                        Attendance
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink("attendance(HO)", "Index1", "hiks")</li>
+                                        <li>@Html.ActionLink("attendance(project)", "ProjectAtt", "Attendances")</li>
+                                        <li>@Html.ActionLink("absence report", "absreport", "Attendances")</li>
+                                    </ul>
+                                </div>
 
                                 if (User.Identity.Name == "dinizsneden@gmail.com")
                                 {
