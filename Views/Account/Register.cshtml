@@ -70,7 +70,7 @@
             </div>
         </div>
     }
-    if (User.IsInRole("registration"))
+    if (User.IsInRole("registration") || User.IsInRole("registration_HR"))
     {
         <div class="form-group">
             @Html.LabelFor(m => m.UserRole, new { @class = "col-md-2 control-label" })

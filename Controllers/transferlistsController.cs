@@ -13,6 +13,7 @@ namespace HRworks.Controllers
     public class transferlistsController : Controller
     {
         private HREntities db = new HREntities();
+        private biometrics_DBEntities db1 = new biometrics_DBEntities();
 
         // GET: transferlists
         public ActionResult Index()
@@ -128,6 +129,17 @@ namespace HRworks.Controllers
             return RedirectToAction("Index");
         }*/
 
+        public ActionResult weekends()
+        {
+            var hrprojectlist= db.HRprojectlists.ToList();
+            var biopeojectlisticlock = db1.iclock_terminal.ToList();
+            var biopeojectlist = db1.personnel_area.ToList();
+            if (hrprojectlist.Count() != biopeojectlist.Count())
+            {
+                
+            }
+            return View();
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -136,5 +148,7 @@ namespace HRworks.Controllers
             }
             base.Dispose(disposing);
         }
+
+
     }
 }
