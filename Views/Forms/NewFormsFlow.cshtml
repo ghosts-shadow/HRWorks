@@ -1,0 +1,212 @@
+﻿@model HRworks.Models.FormsFlow
+
+@{
+    ViewBag.Title = "New Forms Flow";
+}
+
+<h2>New Forms Flow</h2>
+<script>
+    function addnext() {
+        const authlist = document.getElementById("authlist");
+        const empno = document.getElementById("employee_no");
+        const authText = authlist.options[authlist.selectedIndex].text;
+        var empnoText = empno.options[empno.selectedIndex].text;
+        if (authText == "line manager") {
+            empnoText = "";
+
+        } else {
+            empnoText = empno.options[empno.selectedIndex].text;
+        }
+        const selectedValue = `${authText} ${empnoText}`;
+
+        for (let i = 1; i <= 15; i++) {
+            const authDiv = document.getElementById(`Auth${i}div`);
+            const authInput = document.getElementById(`Auth${i}`);
+
+            if (authDiv && authInput && authDiv.style.display === "none") {
+                authInput.value = selectedValue;
+                authDiv.style.display = "block";
+                break;
+            }
+        }
+    }
+
+    function getname() {
+        const empnoElement = document.getElementById("employee_no");
+        const newTextbox = document.getElementById("empname");
+        if (empnoElement && newTextbox) {
+            const empno = empnoElement.value;
+            newTextbox.value = empno;
+        }
+    }
+
+</script>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal" onclick="getname()">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationMessageFor(model => model.originator, "", new { @class = "text-danger" })
+    <div class="form-group" style="display:none">
+        @Html.LabelFor(model => model.originator, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="text" name="originator" value="Employee" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("employee no", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("employee_no", null, new { @class = "form-control col-md-5", @id = "employee_no" ,@onchange = "getname()"})
+            &nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control col-md-5" id="empname"/>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("asdas", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("authlist", null, new { @class = "form-control col-md-5", @id = "authlist" })
+            &nbsp;&nbsp;&nbsp;&nbsp;<input class="btn btn-default col-md-0.5" type="button" value="add next in flow" onclick="addnext()" />
+        </div>
+    </div>
+    <div class="form-group" style="display:none" id="Auth1div">
+        @Html.LabelFor(model => model.Auth1, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth1, new { htmlAttributes = new { @class = "form-control", @id = "Auth1" ,@readonly = "readonly"} })
+            @Html.ValidationMessageFor(model => model.Auth1, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth2div">
+        @Html.LabelFor(model => model.Auth2, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth2, new { htmlAttributes = new { @class = "form-control", @id = "Auth2", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.Auth2, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth3div">
+        @Html.LabelFor(model => model.Auth3, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth3, new { htmlAttributes = new { @class = "form-control", @id = "Auth3", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.Auth3, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth4div">
+        @Html.LabelFor(model => model.Auth4, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth4, new { htmlAttributes = new { @class = "form-control", @id = "Auth4", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.Auth4, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth5div">
+        @Html.LabelFor(model => model.Auth5, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth5, new { htmlAttributes = new { @class = "form-control", @id = "Auth5" ,@readonly = "readonly"}})
+            @Html.ValidationMessageFor(model => model.Auth5, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth6div">
+        @Html.LabelFor(model => model.Auth6, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth6, new { htmlAttributes = new { @class = "form-control", @id = "Auth6" ,@readonly = "readonly"}})
+            @Html.ValidationMessageFor(model => model.Auth6, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth7div">
+        @Html.LabelFor(model => model.Auth7, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth7, new { htmlAttributes = new { @class = "form-control", @id = "Auth7" ,@readonly = "readonly"}})
+            @Html.ValidationMessageFor(model => model.Auth7, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth8div">
+        @Html.LabelFor(model => model.Auth8, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth8, new { htmlAttributes = new { @class = "form-control", @id = "Auth8" ,@readonly = "readonly"}})
+            @Html.ValidationMessageFor(model => model.Auth8, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth9div">
+        @Html.LabelFor(model => model.Auth9, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth9, new { htmlAttributes = new { @class = "form-control", @id = "Auth9" ,@readonly = "readonly"}})
+            @Html.ValidationMessageFor(model => model.Auth9, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth10div">
+        @Html.LabelFor(model => model.Auth10, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth10, new { htmlAttributes = new { @class = "form-control", @id = "Auth10" ,@readonly = "readonly"}})
+            @Html.ValidationMessageFor(model => model.Auth10, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth11div">
+        @Html.LabelFor(model => model.Auth11, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth11, new { htmlAttributes = new { @class = "form-control", @id = "Auth11" ,@readonly = "readonly"}})
+            @Html.ValidationMessageFor(model => model.Auth11, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth12div">
+        @Html.LabelFor(model => model.Auth12, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth12, new { htmlAttributes = new { @class = "form-control", @id = "Auth12" ,@readonly = "readonly"}})
+            @Html.ValidationMessageFor(model => model.Auth12, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth13div">
+        @Html.LabelFor(model => model.Auth13, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth13, new { htmlAttributes = new { @class = "form-control", @id = "Auth13" ,@readonly = "readonly"}})
+            @Html.ValidationMessageFor(model => model.Auth13, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth14div">
+        @Html.LabelFor(model => model.Auth14, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth14, new { htmlAttributes = new { @class = "form-control", @id = "Auth14" ,@readonly = "readonly"}})
+            @Html.ValidationMessageFor(model => model.Auth14, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none" id="Auth15div">
+        @Html.LabelFor(model => model.Auth15, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Auth15, new { htmlAttributes = new { @class = "form-control", @id = "Auth15" ,@readonly = "readonly"}})
+            @Html.ValidationMessageFor(model => model.Auth15, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group" style="display:none">
+        @Html.LabelFor(model => model.form_ID, "form_ID", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="number" name="form_ID" value="@ViewBag.formID" />
+            @Html.ValidationMessageFor(model => model.form_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="save flow" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

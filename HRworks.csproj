@@ -556,6 +556,7 @@
     <Compile Include="Controllers\emp_joi_sta_changeController.cs" />
     <Compile Include="Controllers\end_of_serviceController.cs" />
     <Compile Include="Controllers\EXIT_INTERVIEWController.cs" />
+    <Compile Include="Controllers\FormsController.cs" />
     <Compile Include="Controllers\GoogleauthController.cs" />
     <Compile Include="Controllers\hiksController.cs" />
     <Compile Include="Controllers\HolidaysController.cs" />
@@ -1035,6 +1036,12 @@
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FINAL_DEPARTURE_CLEARANCE.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Form.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormsFlow.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\guardian_groupobjectpermission.cs">
@@ -2322,6 +2329,12 @@
     <Content Include="Views\transferlists\Details.cshtml" />
     <Content Include="Views\transferlists\Edit.cshtml" />
     <Content Include="Views\transferlists\Index.cshtml" />
+    <Content Include="Views\Forms\Create.cshtml" />
+    <Content Include="Views\Forms\Delete.cshtml" />
+    <Content Include="Views\Forms\Details.cshtml" />
+    <Content Include="Views\Forms\Edit.cshtml" />
+    <Content Include="Views\Forms\Index.cshtml" />
+    <Content Include="Views\Forms\NewFormsFlow.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

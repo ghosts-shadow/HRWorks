@@ -473,6 +473,37 @@
           <Property Name="Clearance_Details" Type="nvarchar(max)" />
           <Property Name="hr_date" Type="date" />
         </EntityType>
+        <EntityType Name="Forms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="form_name" Type="nvarchar(max)" />
+          <Property Name="department" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="FormsFlow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="originator" Type="int" />
+          <Property Name="Auth1" Type="nvarchar(max)" />
+          <Property Name="Auth2" Type="nvarchar(max)" />
+          <Property Name="Auth3" Type="nvarchar(max)" />
+          <Property Name="Auth4" Type="nvarchar(max)" />
+          <Property Name="Auth5" Type="nvarchar(max)" />
+          <Property Name="Auth6" Type="nvarchar(max)" />
+          <Property Name="Auth7" Type="nvarchar(max)" />
+          <Property Name="Auth8" Type="nvarchar(max)" />
+          <Property Name="Auth9" Type="nvarchar(max)" />
+          <Property Name="Auth10" Type="nvarchar(max)" />
+          <Property Name="Auth11" Type="nvarchar(max)" />
+          <Property Name="Auth12" Type="nvarchar(max)" />
+          <Property Name="Auth13" Type="nvarchar(max)" />
+          <Property Name="Auth14" Type="nvarchar(max)" />
+          <Property Name="Auth15" Type="nvarchar(max)" />
+          <Property Name="form_ID" Type="int" />
+        </EntityType>
         <EntityType Name="hik">
           <Key>
             <PropertyRef Name="SID" />
@@ -1622,6 +1653,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_FormsFlow_ToForms">
+          <End Role="Forms" Type="Self.Forms" Multiplicity="0..1" />
+          <End Role="FormsFlow" Type="Self.FormsFlow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Forms">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FormsFlow">
+              <PropertyRef Name="form_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_HRotapp_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="HRotapp" Type="Self.HRotapp" Multiplicity="*" />
@@ -2115,6 +2158,8 @@
           <EntitySet Name="end_of_service" EntityType="Self.end_of_service" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EXIT_INTERVIEW" EntityType="Self.EXIT_INTERVIEW" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FINAL_DEPARTURE_CLEARANCE" EntityType="Self.FINAL_DEPARTURE_CLEARANCE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Forms" EntityType="Self.Forms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FormsFlow" EntityType="Self.FormsFlow" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hik" EntityType="Self.hik" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HRA_requset" EntityType="Self.HRA_requset" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HRotapp" EntityType="Self.HRotapp" Schema="dbo" store:Type="Tables" />
@@ -2294,6 +2339,10 @@
           <AssociationSet Name="FK_erl_To_master_file" Association="Self.FK_erl_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="emprel" EntitySet="emprel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FormsFlow_ToForms" Association="Self.FK_FormsFlow_ToForms">
+            <End Role="Forms" EntitySet="Forms" />
+            <End Role="FormsFlow" EntitySet="FormsFlow" />
           </AssociationSet>
           <AssociationSet Name="FK_HRotapp_To_master_file" Association="Self.FK_HRotapp_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -4529,6 +4578,12 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="HRotapp" EntitySet="HRotapps" />
           </AssociationSet>
+          <EntitySet Name="Forms" EntityType="HRModel.Form" />
+          <EntitySet Name="FormsFlows" EntityType="HRModel.FormsFlow" />
+          <AssociationSet Name="FK_FormsFlow_ToForms" Association="HRModel.FK_FormsFlow_ToForms">
+            <End Role="Form" EntitySet="Forms" />
+            <End Role="FormsFlow" EntitySet="FormsFlows" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_EID_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -4997,6 +5052,51 @@
             </Principal>
             <Dependent Role="HRotapp">
               <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Form">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="form_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FormsFlows" Relationship="HRModel.FK_FormsFlow_ToForms" FromRole="Form" ToRole="FormsFlow" />
+        </EntityType>
+        <EntityType Name="FormsFlow">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="originator" Type="Int32" />
+          <Property Name="Auth1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth5" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth6" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth7" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth8" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth9" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth10" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth11" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth12" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth13" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth14" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Auth15" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="form_ID" Type="Int32" />
+          <NavigationProperty Name="Form" Relationship="HRModel.FK_FormsFlow_ToForms" FromRole="FormsFlow" ToRole="Form" />
+        </EntityType>
+        <Association Name="FK_FormsFlow_ToForms">
+          <End Type="HRModel.Form" Role="Form" Multiplicity="0..1" />
+          <End Type="HRModel.FormsFlow" Role="FormsFlow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Form">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FormsFlow">
+              <PropertyRef Name="form_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6255,6 +6355,39 @@
                 <ScalarProperty Name="otdate" ColumnName="otdate" />
                 <ScalarProperty Name="project_id" ColumnName="project_id" />
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Forms">
+            <EntityTypeMapping TypeName="HRModel.Form">
+              <MappingFragment StoreEntitySet="Forms">
+                <ScalarProperty Name="department" ColumnName="department" />
+                <ScalarProperty Name="form_name" ColumnName="form_name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FormsFlows">
+            <EntityTypeMapping TypeName="HRModel.FormsFlow">
+              <MappingFragment StoreEntitySet="FormsFlow">
+                <ScalarProperty Name="form_ID" ColumnName="form_ID" />
+                <ScalarProperty Name="Auth15" ColumnName="Auth15" />
+                <ScalarProperty Name="Auth14" ColumnName="Auth14" />
+                <ScalarProperty Name="Auth13" ColumnName="Auth13" />
+                <ScalarProperty Name="Auth12" ColumnName="Auth12" />
+                <ScalarProperty Name="Auth11" ColumnName="Auth11" />
+                <ScalarProperty Name="Auth10" ColumnName="Auth10" />
+                <ScalarProperty Name="Auth9" ColumnName="Auth9" />
+                <ScalarProperty Name="Auth8" ColumnName="Auth8" />
+                <ScalarProperty Name="Auth7" ColumnName="Auth7" />
+                <ScalarProperty Name="Auth6" ColumnName="Auth6" />
+                <ScalarProperty Name="Auth5" ColumnName="Auth5" />
+                <ScalarProperty Name="Auth4" ColumnName="Auth4" />
+                <ScalarProperty Name="Auth3" ColumnName="Auth3" />
+                <ScalarProperty Name="Auth2" ColumnName="Auth2" />
+                <ScalarProperty Name="Auth1" ColumnName="Auth1" />
+                <ScalarProperty Name="originator" ColumnName="originator" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

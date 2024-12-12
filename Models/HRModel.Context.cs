@@ -98,5 +98,7 @@ namespace HRworks.Models
         public virtual DbSet<payroll> payrolls { get; set; }
         public virtual DbSet<cal_ot> cal_ot { get; set; }
         public virtual DbSet<HRotapp> HRotapps { get; set; }
+        public virtual DbSet<Form> Forms { get; set; }
+        public virtual DbSet<FormsFlow> FormsFlows { get; set; }
     }
 }

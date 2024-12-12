@@ -149,6 +149,9 @@
         <AssociationConnector Association="HRModel.FK_cal_ot_To_master_file" />
         <EntityTypeShape EntityType="HRModel.HRotapp" Width="1.5" PointX="54.125" PointY="67.25" />
         <AssociationConnector Association="HRModel.FK_HRotapp_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.Form" Width="1.5" PointX="0.75" PointY="16.5" />
+        <EntityTypeShape EntityType="HRModel.FormsFlow" Width="1.5" PointX="3" PointY="15" />
+        <AssociationConnector Association="HRModel.FK_FormsFlow_ToForms" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
