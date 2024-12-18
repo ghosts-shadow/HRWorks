@@ -848,6 +848,34 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
+        <EntityType Name="OSRF_items">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="quantity" Type="nvarchar(max)" />
+          <Property Name="Remarks" Type="nvarchar(max)" />
+          <Property Name="OSRFref" Type="int" />
+        </EntityType>
+        <EntityType Name="OSRFormref">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fdate" Type="date" />
+          <Property Name="org" Type="nvarchar(max)" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="prep_by" Type="nvarchar(max)" />
+          <Property Name="rev1_by" Type="nvarchar(max)" />
+          <Property Name="rev2_by" Type="nvarchar(max)" />
+          <Property Name="app1_by" Type="nvarchar(max)" />
+          <Property Name="app2_by" Type="nvarchar(max)" />
+          <Property Name="del_by" Type="nvarchar(max)" />
+          <Property Name="del_date" Type="datetime" />
+          <Property Name="received_by" Type="nvarchar(max)" />
+          <Property Name="received_date" Type="datetime" />
+        </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
             <PropertyRef Name="Id" />
@@ -1865,6 +1893,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_OSRF_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="OSRFormref" Type="Self.OSRFormref" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="OSRFormref">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OSRFitems_To_OSRFref">
+          <End Role="OSRFormref" Type="Self.OSRFormref" Multiplicity="0..1" />
+          <End Role="OSRF_items" Type="Self.OSRF_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OSRFormref">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OSRF_items">
+              <PropertyRef Name="OSRFref" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ot_list_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
           <End Role="OT_employee_list" Type="Self.OT_employee_list" Multiplicity="*" />
@@ -2182,6 +2234,8 @@
           <EntitySet Name="liquiexp" EntityType="Self.liquiexp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MANPOWER_TRANSFER_REQUEST" EntityType="Self.MANPOWER_TRANSFER_REQUEST" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="master_file" EntityType="Self.master_file" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OSRF_items" EntityType="Self.OSRF_items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OSRFormref" EntityType="Self.OSRFormref" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OT_employee_list" EntityType="Self.OT_employee_list" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OVERTIME_APPROVAL" EntityType="Self.OVERTIME_APPROVAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="passport" EntityType="Self.passport" Schema="dbo" store:Type="Tables" />
@@ -2407,6 +2461,14 @@
           <AssociationSet Name="FK_MTR_To_master_file" Association="Self.FK_MTR_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="MANPOWER_TRANSFER_REQUEST" EntitySet="MANPOWER_TRANSFER_REQUEST" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OSRF_To_master_file" Association="Self.FK_OSRF_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="OSRFormref" EntitySet="OSRFormref" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OSRFitems_To_OSRFref" Association="Self.FK_OSRFitems_To_OSRFref">
+            <End Role="OSRFormref" EntitySet="OSRFormref" />
+            <End Role="OSRF_items" EntitySet="OSRF_items" />
           </AssociationSet>
           <AssociationSet Name="FK_ot_list_To_master_file" Association="Self.FK_ot_list_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -3294,6 +3356,7 @@
           <NavigationProperty Name="payrolls" Relationship="HRModel.FK_payroll_To_master_file" FromRole="master_file" ToRole="payroll" />
           <NavigationProperty Name="cal_ot" Relationship="HRModel.FK_cal_ot_To_master_file" FromRole="master_file" ToRole="cal_ot" />
           <NavigationProperty Name="HRotapps" Relationship="HRModel.FK_HRotapp_To_master_file" FromRole="master_file" ToRole="HRotapp" />
+          <NavigationProperty Name="OSRFormrefs" Relationship="HRModel.FK_OSRF_To_master_file" FromRole="master_file" ToRole="OSRFormref" />
         </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
@@ -4584,6 +4647,16 @@
             <End Role="Form" EntitySet="Forms" />
             <End Role="FormsFlow" EntitySet="FormsFlows" />
           </AssociationSet>
+          <EntitySet Name="OSRF_items" EntityType="HRModel.OSRF_items" />
+          <EntitySet Name="OSRFormrefs" EntityType="HRModel.OSRFormref" />
+          <AssociationSet Name="FK_OSRF_To_master_file" Association="HRModel.FK_OSRF_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="OSRFormref" EntitySet="OSRFormrefs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OSRFitems_To_OSRFref" Association="HRModel.FK_OSRFitems_To_OSRFref">
+            <End Role="OSRFormref" EntitySet="OSRFormrefs" />
+            <End Role="OSRF_items" EntitySet="OSRF_items" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_EID_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -5097,6 +5170,61 @@
             </Principal>
             <Dependent Role="FormsFlow">
               <PropertyRef Name="form_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OSRF_items">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="quantity" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OSRFref" Type="Int32" />
+          <NavigationProperty Name="OSRFormref" Relationship="HRModel.FK_OSRFitems_To_OSRFref" FromRole="OSRF_items" ToRole="OSRFormref" />
+        </EntityType>
+        <EntityType Name="OSRFormref">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fdate" Type="DateTime" Precision="0" />
+          <Property Name="org" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Employee_id" Type="Int32" />
+          <Property Name="prep_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="rev1_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="rev2_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="app1_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="app2_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="del_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="del_date" Type="DateTime" Precision="3" />
+          <Property Name="received_by" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="received_date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_OSRF_To_master_file" FromRole="OSRFormref" ToRole="master_file" />
+          <NavigationProperty Name="OSRF_items" Relationship="HRModel.FK_OSRFitems_To_OSRFref" FromRole="OSRFormref" ToRole="OSRF_items" />
+        </EntityType>
+        <Association Name="FK_OSRF_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.OSRFormref" Role="OSRFormref" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="OSRFormref">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OSRFitems_To_OSRFref">
+          <End Type="HRModel.OSRFormref" Role="OSRFormref" Multiplicity="0..1" />
+          <End Type="HRModel.OSRF_items" Role="OSRF_items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OSRFormref">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OSRF_items">
+              <PropertyRef Name="OSRFref" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6388,6 +6516,36 @@
                 <ScalarProperty Name="Auth2" ColumnName="Auth2" />
                 <ScalarProperty Name="Auth1" ColumnName="Auth1" />
                 <ScalarProperty Name="originator" ColumnName="originator" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OSRF_items">
+            <EntityTypeMapping TypeName="HRModel.OSRF_items">
+              <MappingFragment StoreEntitySet="OSRF_items">
+                <ScalarProperty Name="OSRFref" ColumnName="OSRFref" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OSRFormrefs">
+            <EntityTypeMapping TypeName="HRModel.OSRFormref">
+              <MappingFragment StoreEntitySet="OSRFormref">
+                <ScalarProperty Name="received_date" ColumnName="received_date" />
+                <ScalarProperty Name="received_by" ColumnName="received_by" />
+                <ScalarProperty Name="del_date" ColumnName="del_date" />
+                <ScalarProperty Name="del_by" ColumnName="del_by" />
+                <ScalarProperty Name="app2_by" ColumnName="app2_by" />
+                <ScalarProperty Name="app1_by" ColumnName="app1_by" />
+                <ScalarProperty Name="rev2_by" ColumnName="rev2_by" />
+                <ScalarProperty Name="rev1_by" ColumnName="rev1_by" />
+                <ScalarProperty Name="prep_by" ColumnName="prep_by" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="org" ColumnName="org" />
+                <ScalarProperty Name="Fdate" ColumnName="Fdate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

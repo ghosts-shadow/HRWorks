@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using HRworks.Models;
@@ -118,7 +119,7 @@ namespace HRworks.Controllers
         
 
         // GET: Forms/Create
-        public ActionResult newFormsFlow(int? formId)
+        public ActionResult NewFormsFlow(int? formId)
         {
             if (formId.HasValue)
             {
@@ -208,14 +209,151 @@ namespace HRworks.Controllers
             return View();
         }
 
-        public ActionResult newFormssubmission()
+
+        //add code for new forms routes 
+        public ActionResult newFormssubmission(int? formname,string department)
         {
+
+            ViewBag.department = department;
+            if (!department.IsNullOrWhiteSpace())
+            {
+                
+            this.ViewBag.formname = new SelectList(db.Forms.Where(x=>x.department == department).ToList(), "Id", "form_name", null);
+            if (formname.HasValue)
+            {
+                if (formname.Value == 1)
+                {
+                    return RedirectToAction("OSRForm");
+                }
+            }
+            }
 
             return View();
         }
 
 
+
         public ActionResult Formstatus()
+        {
+
+            return View();
+        }
+
+        
+        public static DataTable ToDataTable<T>(List<T> items)
+        {
+            DataTable dataTable = new DataTable(typeof(T).Name);
+
+            // Get properties of the type T
+            PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            // Add columns to DataTable
+            foreach (PropertyInfo property in properties)
+            {
+                dataTable.Columns.Add(property.Name, Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType);
+            }
+
+            // Add rows to DataTable
+            foreach (T item in items)
+            {
+                DataRow row = dataTable.NewRow();
+                foreach (PropertyInfo property in properties)
+                {
+                    row[property.Name] = property.GetValue(item) ?? DBNull.Value;
+                }
+                dataTable.Rows.Add(row);
+            }
+
+            return dataTable;
+        }
+        
+
+        public ActionResult OSRForm()
+        {
+
+            var userempnolist = db.usernames
+                .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
+            var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
+            var OSRFcheck = new List<OSRFormref>();
+            if (db.OSRFormrefs.ToList().Any())
+            {
+                OSRFcheck = db.OSRFormrefs
+                    .Where(x => x.Employee_id == empuser.master_file.employee_id && x.Fdate == DateTime.Today).ToList();
+
+            }
+
+            if (!OSRFcheck.Any())
+            {
+                var OSRFormvar = new OSRFormref();
+                OSRFormvar.master_file = empuser.master_file;
+                OSRFormvar.Fdate = DateTime.Now;
+                OSRFormvar.Employee_id = empuser.employee_no;
+                OSRFormvar.org = "citiscape";
+                OSRFormvar.prep_by = empuser.master_file.employee_name;
+                db.OSRFormrefs.Add(OSRFormvar);
+                db.SaveChanges();
+            }
+
+            var OSRFcheck1 = db.OSRFormrefs
+                .Where(x => x.Employee_id == empuser.master_file.employee_id && x.Fdate == DateTime.Today).ToList();
+
+            return RedirectToAction("OSRitems", new { osrFormrefvar = OSRFcheck1.First().Id });
+        }
+
+        public ActionResult OSRitems(int osrFormrefvar,bool? save)
+        {
+            ViewBag.osrFormref = osrFormrefvar;
+            if (save.HasValue && save.Value)
+            {
+                return RedirectToAction("");
+            }
+
+            var OSRFdetailes = db.OSRFormrefs
+                .Where(x => x.Id == osrFormrefvar).ToList();
+            if (OSRFdetailes.Any())
+            {
+                if (OSRFdetailes.First().OSRF_items.ToList().Any())
+                {
+                    var itemlist = OSRFdetailes.First().OSRF_items.ToList();
+                    var dt = ToDataTable(itemlist);
+                    ViewBag.Data = dt;
+                }
+            }
+
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult OSRitems(OSRF_items osrfItems)
+        {
+
+            ViewBag.osrFormref = osrfItems.OSRFref.Value;
+
+            if (osrfItems.description.IsNullOrWhiteSpace())
+            {
+                ViewBag.ErrorMessage = "no item was added";
+                return View();
+            }
+            if (osrfItems.quantity.IsNullOrWhiteSpace())
+            {
+                osrfItems.quantity = "1";
+            }
+            ViewBag.disablebutton = "";
+            if (db.OSRF_items.Where(x=>x.OSRFref == osrfItems.OSRFref).Count() <= 14)
+            {
+                db.OSRF_items.Add(osrfItems);
+                db.SaveChanges();
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "max entries have been added";
+                ViewBag.disablebutton = "disabled";
+                return View();
+            }
+            return RedirectToAction("OSRitems",new{ osrFormrefvar = osrfItems.OSRFref.Value });
+        }
+
+        public ActionResult formsdashboard()
         {
 
             return View();

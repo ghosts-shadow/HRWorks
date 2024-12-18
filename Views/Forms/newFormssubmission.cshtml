@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "newFormssubmission";
+}
+
+@{
+    using (Html.BeginForm())
+    {
+        if (string.IsNullOrWhiteSpace(ViewBag.department))
+        {
+            <h2>new Form submission</h2>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input class="btn btn-default" type="button" onclick="window.location.href = '@Url.Action("newFormssubmission", "Forms", new { department = "Administration" })'" value="Administration" />
+                </div>
+            </div>
+
+        }
+        else
+        {<h2>Administration</h2>
+            <div class="form-group">
+                <label class="control-label col-md-2">form name </label>
+                <div class="col-md-10">
+                    @Html.DropDownList("formname", null, new { @class = "form-control col-md-5" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="create" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    }
+}

@@ -152,6 +152,10 @@
         <EntityTypeShape EntityType="HRModel.Form" Width="1.5" PointX="0.75" PointY="16.5" />
         <EntityTypeShape EntityType="HRModel.FormsFlow" Width="1.5" PointX="3" PointY="15" />
         <AssociationConnector Association="HRModel.FK_FormsFlow_ToForms" />
+        <EntityTypeShape EntityType="HRModel.OSRF_items" Width="1.5" PointX="56.375" PointY="58.875" />
+        <EntityTypeShape EntityType="HRModel.OSRFormref" Width="1.5" PointX="54.125" PointY="58" />
+        <AssociationConnector Association="HRModel.FK_OSRF_To_master_file" />
+        <AssociationConnector Association="HRModel.FK_OSRFitems_To_OSRFref" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

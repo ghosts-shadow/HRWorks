@@ -1266,6 +1266,12 @@
     <Compile Include="Models\MyCompanyInfo.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OSRFormref.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OSRF_items.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\OT_employee_list.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
@@ -2335,6 +2341,9 @@
     <Content Include="Views\Forms\Edit.cshtml" />
     <Content Include="Views\Forms\Index.cshtml" />
     <Content Include="Views\Forms\NewFormsFlow.cshtml" />
+    <Content Include="Views\Forms\newFormssubmission.cshtml" />
+    <Content Include="Views\Forms\OSRitems.cshtml" />
+    <Content Include="Views\uploaddata\Masterfileupload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

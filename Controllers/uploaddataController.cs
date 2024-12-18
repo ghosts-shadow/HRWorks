@@ -13,6 +13,7 @@ using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.CodeAnalysis;
 using OfficeOpenXml;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace HRworks.Controllers
 {
@@ -1165,6 +1166,113 @@ namespace HRworks.Controllers
             }
 
             return this.View();
+        }
+
+        public ActionResult Masterfileupload()
+        {
+                
+            return View();
+        }
+        [HttpPost]
+        [ActionName("Masterfileupload")]
+        public ActionResult MasterfileuploaD()
+        {
+
+            var path1 = "";
+            try
+            {
+                if (this.Request.Files["FileUpload1"].ContentLength > 0)
+                {
+                    var extension = Path.GetExtension(this.Request.Files["FileUpload1"].FileName).ToLower();
+                    string query = null;
+                    var connString = string.Empty;
+                    string[] validFileTypes = { ".csv" };
+                    path1 = string.Format(
+                        "{0}/{1}",
+                        this.Server.MapPath("~/Content/Uploads"),
+                        this.Request.Files["FileUpload1"].FileName);
+                    var masternotuploaded ="emp no not uploaded : ";
+                    if (!Directory.Exists(path1)) Directory.CreateDirectory(this.Server.MapPath("~/Content/Uploads"));
+                    if (validFileTypes.Contains(extension))
+                    {
+                        if (System.IO.File.Exists(path1)) System.IO.File.Delete(path1);
+                        this.Request.Files["FileUpload1"].SaveAs(path1);
+                        if (extension == ".csv")
+                        {
+                            var dt = Utility.ConvertCSVtoDataTable(path1);
+                            this.ViewBag.Data = dt;
+                            if (dt.Rows.Count > 0)
+                            {
+                                foreach (DataRow dr in dt.Rows)
+                                {
+                                    var masterfile = new master_file();
+                                    foreach (DataColumn column in dt.Columns)
+                                    {
+                                        if (dr[column] == null || dr[column].ToString() == " ") goto e;
+                                        if (column.ColumnName == "Citiscape Employee Number")
+                                        {
+                                            int.TryParse(dr[column].ToString(), out var idm);
+                                            if (db.master_file.ToList().Exists(x => x.employee_no == idm))
+                                            {
+                                                masternotuploaded+=(dr[column].ToString() + " ");
+                                                goto e;
+                                            }
+
+                                            masterfile.employee_no = idm;
+                                        }
+                                        else if (column.ColumnName == "Joining Date")
+                                        {
+                                            var dtt = dr[column].ToString();
+                                            DateTime.TryParse(dtt, out var a);
+                                            masterfile.date_joined = a;
+                                        }
+                                        else if (column.ColumnName == "EMPLOYEE NAME")
+                                        {
+                                            var dtt = dr[column].ToString();
+                                            masterfile.employee_name = dtt;
+                                        }
+                                        else if (column.ColumnName == "Nationality")
+                                        {
+                                            var dtt = dr[column].ToString();
+                                            masterfile.nationality = dtt;
+                                        }
+                                        else if (column.ColumnName == "DOB")
+                                        {
+                                            var dtt = dr[column].ToString();
+                                            DateTime.TryParse(dtt, out var a);
+                                            masterfile.dob = a;
+                                        }
+
+
+                                    }
+                                    db.master_file.Add(masterfile);
+                                    db.SaveChanges();
+                                    e:;
+                                }
+                            }
+                        }
+                    }
+
+                    if (masternotuploaded == "emp no not uploaded : ")
+                    {
+                        masternotuploaded = "";
+                    }
+                    ViewBag.masternotuploaded = masternotuploaded;
+                }
+                else
+                {
+                    this.ViewBag.Error = "Please Upload Files in .csv format";
+                }
+            }
+            finally
+            {
+                if (System.IO.File.Exists(path1))
+                {
+                    System.IO.File.Delete(path1);
+                }
+            }
+
+            return View();
         }
     }
 }

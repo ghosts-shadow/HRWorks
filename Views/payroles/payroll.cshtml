@@ -49,7 +49,7 @@
         @if (ViewBag.payday != null && Model.Payrollsaved.Count() != 0)
         {
             <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("wpsprint", "payroles", new {month = newdate})'" value="wps" />
-            @*<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reconsilation", "payroles", new {month = newdate})'" value="reconsilation" />*@
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reconsilation", "payroles", new {month = newdate})'" value="reconsilation" />
         }
     </div>
 }

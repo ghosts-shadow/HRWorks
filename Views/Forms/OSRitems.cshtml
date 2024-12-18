@@ -1,0 +1,208 @@
+﻿@model HRworks.Models.OSRF_items
+@using System.Data;
+@{
+    ViewBag.Title = "OSRitems";
+}
+
+
+<style type="text/css">
+
+
+    /* Generic Styling, for Desktops/Laptops */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    /* Zebra striping */
+
+    tr:nth-of-type(odd) {
+        background: #eee;
+    }
+
+    th {
+        background: #333;
+        color: white;
+        font-weight: bold;
+    }
+
+    td, th {
+        padding: 6px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+    /*
+    Max width before this PARTICULAR table gets nasty
+    This query will take effect for any screen smaller than 760px
+    and also iPads specifically.
+    */
+
+    @@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+        /* Force table to not be like tables anymore */
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+            /* Hide table headers (but not display: none;, for accessibility) */
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+
+        tr {
+            border: 1px solid #ccc;
+        }
+
+        td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+        }
+
+            td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+            }
+
+            td:before {
+                content: attr(data-title);
+            }
+    }
+</style>
+<p style="color: red;">@ViewBag.ErrorMessage</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-10" style="text-align: center;">
+            <b> STATIONERY / OFFICE SUPPLIES REQUEST FORM</b>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+
+        <div class="col-md-5">
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" style="display:none">
+                    @Html.LabelFor(model => model.OSRFref, "OSRFref", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input type="number" name="OSRFref" value="@ViewBag.osrFormref" class="form-control" />
+                        @Html.ValidationMessageFor(model => model.OSRFref, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" @ViewBag.disablebutton ; />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <table>
+
+                @if (ViewBag.Data != null)
+                {
+                    <thead>
+                    @foreach (DataColumn column in (ViewBag.Data as System.Data.DataTable).Columns)
+                    {
+                        if (column.ColumnName != "Id" && column.ColumnName.ToUpper() != "OSRFREF" && column.ColumnName.ToUpper() != "OSRFORMREF")
+                        {
+                            <th>@column.ColumnName.ToUpper()</th>
+                        }
+
+                    }
+                    </thead>
+                    if ((ViewBag.Data as System.Data.DataTable).Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in (ViewBag.Data as System.Data.DataTable).Rows)
+                        {
+                            <tr>
+
+                                @foreach (DataColumn column in (ViewBag.Data as System.Data.DataTable).Columns)
+                                {
+
+                                    if (column.ColumnName != "Id" && column.ColumnName.ToUpper() != "OSRFREF" && column.ColumnName.ToUpper() != "OSRFORMREF")
+                                    {
+                                        <td data-title='@column.ColumnName'>
+
+                                            @dr[column].ToString()
+                                        </td>
+                                    }
+                                }
+
+
+
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        int count = (ViewBag.Data as System.Data.DataTable).Columns.Count;
+                        <tr>
+
+                            <td colspan='@count'>
+                                <br />
+                            </td>
+
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    if (ViewBag.Error != null)
+                    {
+                        <tr>
+                            <td style="color: red;">
+
+                                @(ViewBag.Error != null ? ViewBag.Error.ToString() : "")
+                            </td>
+
+
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+
+    </div>
+}
+
