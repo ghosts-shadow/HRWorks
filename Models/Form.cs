@@ -18,6 +18,7 @@ namespace HRworks.Models
         public Form()
         {
             this.FormsFlows = new HashSet<FormsFlow>();
+            this.formsuserdbs = new HashSet<formsuserdb>();
         }
     
         public int Id { get; set; }
@@ -26,5 +27,7 @@ namespace HRworks.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FormsFlow> FormsFlows { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<formsuserdb> formsuserdbs { get; set; }
     }
 }

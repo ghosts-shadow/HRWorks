@@ -1044,6 +1044,9 @@
     <Compile Include="Models\FormsFlow.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\formsuserdb.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\guardian_groupobjectpermission.cs">
       <DependentUpon>biotime.tt</DependentUpon>
     </Compile>
@@ -2344,6 +2347,9 @@
     <Content Include="Views\Forms\newFormssubmission.cshtml" />
     <Content Include="Views\Forms\OSRitems.cshtml" />
     <Content Include="Views\uploaddata\Masterfileupload.cshtml" />
+    <Content Include="Views\Forms\formsdashboard.cshtml" />
+    <Content Include="Views\Forms\IndexFormsFlow.cshtml" />
+    <Content Include="Views\Forms\formap.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

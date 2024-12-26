@@ -70,6 +70,7 @@ namespace HRworks.Models
             this.transferlists = new HashSet<transferlist>();
             this.payrolls = new HashSet<payroll>();
             this.OSRFormrefs = new HashSet<OSRFormref>();
+            this.formsuserdbs = new HashSet<formsuserdb>();
         }
     
         public int employee_id { get; set; }
@@ -214,5 +215,7 @@ namespace HRworks.Models
         public virtual ICollection<payroll> payrolls { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OSRFormref> OSRFormrefs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<formsuserdb> formsuserdbs { get; set; }
     }
 }

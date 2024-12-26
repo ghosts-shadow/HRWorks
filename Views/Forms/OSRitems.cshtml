@@ -129,7 +129,8 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" @ViewBag.disablebutton ; />
+                        <input type="submit" value="add" class="btn btn-default" @ViewBag.disablebutton/>
+                        <input type="button" value="save" class="btn btn-default" onclick="window.location.href = '@Url.Action("OSRitems","Forms",new{osrFormrefvar = @ViewBag.osrFormref , save =true})'" />
                     </div>
                 </div>
             </div>

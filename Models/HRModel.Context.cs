@@ -102,5 +102,6 @@ namespace HRworks.Models
         public virtual DbSet<FormsFlow> FormsFlows { get; set; }
         public virtual DbSet<OSRF_items> OSRF_items { get; set; }
         public virtual DbSet<OSRFormref> OSRFormrefs { get; set; }
+        public virtual DbSet<formsuserdb> formsuserdbs { get; set; }
     }
 }

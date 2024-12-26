@@ -157,6 +157,8 @@ namespace HRworks.Controllers
             Sheet.Cells["AN1"].Value = "changed by";
             Sheet.Cells["AO1"].Value = "date changed";
             Sheet.Cells["AP1"].Value = "img";
+            Sheet.Cells["AQ1"].Value = "Departmant/Project";
+            Sheet.Cells["AR1"].Value = "Designation";
             int row = 2;
             foreach (var item in passexel.OrderBy(x=>x.employee_no))
             {
@@ -256,6 +258,12 @@ namespace HRworks.Controllers
                     Sheet.Cells[string.Format("AO{0}", row)].Value =
                         item.date_changed.Value.ToString("dd MMM yyyy");
                 Sheet.Cells[string.Format("AP{0}", row)].Value = item.img;
+                if (item.contracts.Count != 0)
+                {
+                    var con = item.contracts.OrderByDescending(x => x.employee_id).First();
+                    Sheet.Cells[string.Format("AQ{0}", row)].Value = con.departmant_project;
+                    Sheet.Cells[string.Format("AR{0}", row)].Value = con.designation;
+                }
                 row++;
             }
 

@@ -504,6 +504,18 @@
           <Property Name="Auth15" Type="nvarchar(max)" />
           <Property Name="form_ID" Type="int" />
         </EntityType>
+        <EntityType Name="formsuserdb">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="reqdate" Type="date" />
+          <Property Name="form_id" Type="int" />
+          <Property Name="subtablename" Type="nvarchar(max)" />
+          <Property Name="subtablerec_id" Type="int" />
+          <Property Name="status" Type="nvarchar(max)" />
+          <Property Name="emp_id" Type="int" />
+        </EntityType>
         <EntityType Name="hik">
           <Key>
             <PropertyRef Name="SID" />
@@ -875,6 +887,7 @@
           <Property Name="del_date" Type="datetime" />
           <Property Name="received_by" Type="nvarchar(max)" />
           <Property Name="received_date" Type="datetime" />
+          <Property Name="status" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
@@ -1693,6 +1706,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_formsuserdb_Toforms">
+          <End Role="Forms" Type="Self.Forms" Multiplicity="0..1" />
+          <End Role="formsuserdb" Type="Self.formsuserdb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Forms">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="formsuserdb">
+              <PropertyRef Name="form_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_formsuserdb_Tomasterfile">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="formsuserdb" Type="Self.formsuserdb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="formsuserdb">
+              <PropertyRef Name="emp_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_HRotapp_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
           <End Role="HRotapp" Type="Self.HRotapp" Multiplicity="*" />
@@ -2212,6 +2249,7 @@
           <EntitySet Name="FINAL_DEPARTURE_CLEARANCE" EntityType="Self.FINAL_DEPARTURE_CLEARANCE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Forms" EntityType="Self.Forms" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FormsFlow" EntityType="Self.FormsFlow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="formsuserdb" EntityType="Self.formsuserdb" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hik" EntityType="Self.hik" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HRA_requset" EntityType="Self.HRA_requset" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HRotapp" EntityType="Self.HRotapp" Schema="dbo" store:Type="Tables" />
@@ -2397,6 +2435,14 @@
           <AssociationSet Name="FK_FormsFlow_ToForms" Association="Self.FK_FormsFlow_ToForms">
             <End Role="Forms" EntitySet="Forms" />
             <End Role="FormsFlow" EntitySet="FormsFlow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_formsuserdb_Toforms" Association="Self.FK_formsuserdb_Toforms">
+            <End Role="Forms" EntitySet="Forms" />
+            <End Role="formsuserdb" EntitySet="formsuserdb" />
+          </AssociationSet>
+          <AssociationSet Name="FK_formsuserdb_Tomasterfile" Association="Self.FK_formsuserdb_Tomasterfile">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="formsuserdb" EntitySet="formsuserdb" />
           </AssociationSet>
           <AssociationSet Name="FK_HRotapp_To_master_file" Association="Self.FK_HRotapp_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
@@ -3357,6 +3403,7 @@
           <NavigationProperty Name="cal_ot" Relationship="HRModel.FK_cal_ot_To_master_file" FromRole="master_file" ToRole="cal_ot" />
           <NavigationProperty Name="HRotapps" Relationship="HRModel.FK_HRotapp_To_master_file" FromRole="master_file" ToRole="HRotapp" />
           <NavigationProperty Name="OSRFormrefs" Relationship="HRModel.FK_OSRF_To_master_file" FromRole="master_file" ToRole="OSRFormref" />
+          <NavigationProperty Name="formsuserdbs" Relationship="HRModel.FK_formsuserdb_Tomasterfile" FromRole="master_file" ToRole="formsuserdb" />
         </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
@@ -4657,6 +4704,15 @@
             <End Role="OSRFormref" EntitySet="OSRFormrefs" />
             <End Role="OSRF_items" EntitySet="OSRF_items" />
           </AssociationSet>
+          <EntitySet Name="formsuserdbs" EntityType="HRModel.formsuserdb" />
+          <AssociationSet Name="FK_formsuserdb_Toforms" Association="HRModel.FK_formsuserdb_Toforms">
+            <End Role="Form" EntitySet="Forms" />
+            <End Role="formsuserdb" EntitySet="formsuserdbs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_formsuserdb_Tomasterfile" Association="HRModel.FK_formsuserdb_Tomasterfile">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="formsuserdb" EntitySet="formsuserdbs" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_EID_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -5136,6 +5192,7 @@
           <Property Name="form_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="department" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="FormsFlows" Relationship="HRModel.FK_FormsFlow_ToForms" FromRole="Form" ToRole="FormsFlow" />
+          <NavigationProperty Name="formsuserdbs" Relationship="HRModel.FK_formsuserdb_Toforms" FromRole="Form" ToRole="formsuserdb" />
         </EntityType>
         <EntityType Name="FormsFlow">
           <Key>
@@ -5203,6 +5260,7 @@
           <Property Name="received_date" Type="DateTime" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_OSRF_To_master_file" FromRole="OSRFormref" ToRole="master_file" />
           <NavigationProperty Name="OSRF_items" Relationship="HRModel.FK_OSRFitems_To_OSRFref" FromRole="OSRFormref" ToRole="OSRF_items" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_OSRF_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
@@ -5225,6 +5283,44 @@
             </Principal>
             <Dependent Role="OSRF_items">
               <PropertyRef Name="OSRFref" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="formsuserdb">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="reqdate" Type="DateTime" Precision="0" />
+          <Property Name="form_id" Type="Int32" />
+          <Property Name="subtablename" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="subtablerec_id" Type="Int32" />
+          <Property Name="status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Form" Relationship="HRModel.FK_formsuserdb_Toforms" FromRole="formsuserdb" ToRole="Form" />
+          <Property Name="emp_id" Type="Int32" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_formsuserdb_Tomasterfile" FromRole="formsuserdb" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_formsuserdb_Toforms">
+          <End Type="HRModel.Form" Role="Form" Multiplicity="0..1" />
+          <End Type="HRModel.formsuserdb" Role="formsuserdb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Form">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="formsuserdb">
+              <PropertyRef Name="form_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_formsuserdb_Tomasterfile">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="0..1" />
+          <End Type="HRModel.formsuserdb" Role="formsuserdb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="formsuserdb">
+              <PropertyRef Name="emp_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -6534,6 +6630,7 @@
           <EntitySetMapping Name="OSRFormrefs">
             <EntityTypeMapping TypeName="HRModel.OSRFormref">
               <MappingFragment StoreEntitySet="OSRFormref">
+                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="received_date" ColumnName="received_date" />
                 <ScalarProperty Name="received_by" ColumnName="received_by" />
                 <ScalarProperty Name="del_date" ColumnName="del_date" />
@@ -6546,6 +6643,19 @@
                 <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
                 <ScalarProperty Name="org" ColumnName="org" />
                 <ScalarProperty Name="Fdate" ColumnName="Fdate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="formsuserdbs">
+            <EntityTypeMapping TypeName="HRModel.formsuserdb">
+              <MappingFragment StoreEntitySet="formsuserdb">
+                <ScalarProperty Name="emp_id" ColumnName="emp_id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="subtablerec_id" ColumnName="subtablerec_id" />
+                <ScalarProperty Name="subtablename" ColumnName="subtablename" />
+                <ScalarProperty Name="form_id" ColumnName="form_id" />
+                <ScalarProperty Name="reqdate" ColumnName="reqdate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

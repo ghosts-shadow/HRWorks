@@ -205,8 +205,8 @@ namespace HRworks.Controllers
         }
         public ActionResult IndexFormsFlow()
         {
-
-            return View();
+            var inflow = db.FormsFlows.ToList();
+            return View(inflow);
         }
 
 
@@ -232,13 +232,6 @@ namespace HRworks.Controllers
         }
 
 
-
-        public ActionResult Formstatus()
-        {
-
-            return View();
-        }
-
         
         public static DataTable ToDataTable<T>(List<T> items)
         {
@@ -263,7 +256,7 @@ namespace HRworks.Controllers
                 }
                 dataTable.Rows.Add(row);
             }
-
+            // before 
             return dataTable;
         }
         
@@ -274,6 +267,10 @@ namespace HRworks.Controllers
             var userempnolist = db.usernames
                 .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
             var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
+            if (empuser == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var OSRFcheck = new List<OSRFormref>();
             if (db.OSRFormrefs.ToList().Any())
             {
@@ -289,6 +286,7 @@ namespace HRworks.Controllers
                 OSRFormvar.Fdate = DateTime.Now;
                 OSRFormvar.Employee_id = empuser.employee_no;
                 OSRFormvar.org = "citiscape";
+                OSRFormvar.status = "submitted";
                 OSRFormvar.prep_by = empuser.master_file.employee_name;
                 db.OSRFormrefs.Add(OSRFormvar);
                 db.SaveChanges();
@@ -300,18 +298,33 @@ namespace HRworks.Controllers
             return RedirectToAction("OSRitems", new { osrFormrefvar = OSRFcheck1.First().Id });
         }
 
-        public ActionResult OSRitems(int osrFormrefvar,bool? save)
+        public ActionResult OSRitems(int osrFormrefvar, bool? save)
         {
             ViewBag.osrFormref = osrFormrefvar;
-            if (save.HasValue && save.Value)
-            {
-                return RedirectToAction("");
-            }
 
             var OSRFdetailes = db.OSRFormrefs
                 .Where(x => x.Id == osrFormrefvar).ToList();
             if (OSRFdetailes.Any())
             {
+                if (save.HasValue && save.Value)
+                {
+                    var formname = db.Forms.ToList().Find(x => x.Id == 1);
+                    var usersub = new formsuserdb();
+                    usersub.form_id = formname.Id;
+                    usersub.reqdate = OSRFdetailes.First().Fdate;
+                    usersub.status = "submitted";
+                    usersub.subtablename = "OSRFormrefs";
+                    usersub.subtablerec_id = osrFormrefvar;
+                    usersub.emp_id = OSRFdetailes.First().Employee_id;
+                    var fudb = db.formsuserdbs.ToList();
+                    if (!fudb.Exists(x=>x.emp_id == usersub.emp_id && x.reqdate == usersub.reqdate))
+                    {
+                        db.formsuserdbs.Add(usersub);
+                        db.SaveChanges();
+                    }
+                    return RedirectToAction("formsdashboard");
+                }
+
                 if (OSRFdetailes.First().OSRF_items.ToList().Any())
                 {
                     var itemlist = OSRFdetailes.First().OSRF_items.ToList();
@@ -319,9 +332,14 @@ namespace HRworks.Controllers
                     ViewBag.Data = dt;
                 }
             }
+            else
+            {
+                return RedirectToAction("OSRForm");
+            }
 
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult OSRitems(OSRF_items osrfItems)
@@ -355,8 +373,46 @@ namespace HRworks.Controllers
 
         public ActionResult formsdashboard()
         {
+            var userempnolist = db.usernames
+                .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
+            var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
+            if (empuser != null)
+            {
+                var usersubfdb = db.formsuserdbs.Where(x=>x.emp_id == empuser.employee_no).ToList();
+                return View(usersubfdb);
+            }
+            return RedirectToAction("Index","Home");
+        }
 
-            return View();
+        public ActionResult formap()
+        {
+            var userempnolist = db.usernames
+                .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
+            var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
+            var userforms = new List<formsuserdb>();
+            if (empuser != null)
+            {
+                var userap = db.FormsFlows
+                    .Where(x => new[] { x.Auth1, x.Auth2, x.Auth3, x.Auth4, x.Auth5,
+                            x.Auth6, x.Auth7, x.Auth8, x.Auth9, x.Auth10,
+                            x.Auth11, x.Auth12, x.Auth13, x.Auth14, x.Auth15 }
+                        .Any(auth => auth.Contains(empuser.master_file.employee_no.ToString())))
+                    .ToList();
+
+                var userapIds = new HashSet<int>(userap.Select(x => x.form_ID.Value));
+
+                userforms = db.formsuserdbs
+                    .Where(y => userapIds.Contains(y.form_id.Value))
+                    .ToList();
+            }
+                return View(userforms);
+        }
+        public ActionResult aporrej(int id)
+        {
+            var userempnolist = db.usernames
+                .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
+            var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
+            return RedirectToAction("formap");
         }
 
 

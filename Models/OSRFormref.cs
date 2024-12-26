@@ -33,6 +33,7 @@ namespace HRworks.Models
         public Nullable<System.DateTime> del_date { get; set; }
         public string received_by { get; set; }
         public Nullable<System.DateTime> received_date { get; set; }
+        public string status { get; set; }
     
         public virtual master_file master_file { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

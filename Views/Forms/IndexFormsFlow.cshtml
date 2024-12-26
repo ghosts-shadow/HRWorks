@@ -1,0 +1,118 @@
+﻿@model IEnumerable<HRworks.Models.FormsFlow>
+
+@{
+    ViewBag.Title = "IndexFormsFlow";
+}
+
+<h2>IndexFormsFlow</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Form.form_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth5)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth6)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth7)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth8)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth9)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth10)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth11)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth12)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth13)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth14)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Auth15)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Form.form_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth5)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth6)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth7)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth8)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth9)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth10)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth11)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth12)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth13)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth14)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Auth15)
+        </td>
+    </tr>
+}
+
+</table>
