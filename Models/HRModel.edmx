@@ -515,6 +515,7 @@
           <Property Name="subtablerec_id" Type="int" />
           <Property Name="status" Type="nvarchar(max)" />
           <Property Name="emp_id" Type="int" />
+          <Property Name="whosnexxt" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="hik">
           <Key>
@@ -5299,6 +5300,7 @@
           <NavigationProperty Name="Form" Relationship="HRModel.FK_formsuserdb_Toforms" FromRole="formsuserdb" ToRole="Form" />
           <Property Name="emp_id" Type="Int32" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_formsuserdb_Tomasterfile" FromRole="formsuserdb" ToRole="master_file" />
+          <Property Name="whosnexxt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_formsuserdb_Toforms">
           <End Type="HRModel.Form" Role="Form" Multiplicity="0..1" />
@@ -6650,6 +6652,7 @@
           <EntitySetMapping Name="formsuserdbs">
             <EntityTypeMapping TypeName="HRModel.formsuserdb">
               <MappingFragment StoreEntitySet="formsuserdb">
+                <ScalarProperty Name="whosnexxt" ColumnName="whosnexxt" />
                 <ScalarProperty Name="emp_id" ColumnName="emp_id" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="subtablerec_id" ColumnName="subtablerec_id" />

@@ -19,11 +19,13 @@ namespace HRworks.Controllers
     using static Humanizer.On;
     using static Microsoft.Isam.Esent.Interop.EnumeratedColumn;
     using System.Collections;
+    using System.Windows.Shell;
 
     [Authorize]
     public class LeavesController : Controller
     {
         private readonly HREntities db = new HREntities();
+        private biometrics_DBEntities db2 = new biometrics_DBEntities();
 
 
         // GET: Leaves/Create               
@@ -4107,8 +4109,40 @@ namespace HRworks.Controllers
         return View(new List<leavecalperyear>());
         }
 
+        public ActionResult addReturn()
+        {
+            var leavereturnempty = db.Leaves.Where(x => x.actual_return_date == null && x.Return_leave == DateTime.Now)
+                .ToList();
+                var mfcon = new master_fileController();
+                var employeelist = mfcon.emplist();
+            foreach (var leaf in leavereturnempty)
+            {
+                var emp = employeelist.Find(x => x.employee_id == leaf.Employee_id);
+                var HObio = db.hiks.Where(x=>x.EMPID == emp.employee_no ).ToList();
+                var projbio = db2.iclock_transaction.Where(x=>x.emp_id == emp.employee_no).ToList();
+                if (projbio.Count()>0)
+                {
+                    foreach (var bio in projbio)
+                    {
+                        var hikcon = new hik();
+                    }
+                }
+                else if (HObio.Count() > 0)
+                {
+                    
+                }
+                else
+                {
+                    
+                }
 
 
+
+            }
+
+
+            return View();
+        }
 
         protected override void Dispose(bool disposing)
         {

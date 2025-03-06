@@ -309,6 +309,7 @@ namespace HRworks.Controllers
                 if (save.HasValue && save.Value)
                 {
                     var formname = db.Forms.ToList().Find(x => x.Id == 1);
+                    var fflow = db.FormsFlows.Local.ToList().Find(x => x.form_ID == formname.Id);
                     var usersub = new formsuserdb();
                     usersub.form_id = formname.Id;
                     usersub.reqdate = OSRFdetailes.First().Fdate;
@@ -316,6 +317,7 @@ namespace HRworks.Controllers
                     usersub.subtablename = "OSRFormrefs";
                     usersub.subtablerec_id = osrFormrefvar;
                     usersub.emp_id = OSRFdetailes.First().Employee_id;
+                    usersub.whosnexxt = fflow.Auth1;
                     var fudb = db.formsuserdbs.ToList();
                     if (!fudb.Exists(x=>x.emp_id == usersub.emp_id && x.reqdate == usersub.reqdate))
                     {
@@ -392,26 +394,21 @@ namespace HRworks.Controllers
             var userforms = new List<formsuserdb>();
             if (empuser != null)
             {
-                var userap = db.FormsFlows
-                    .Where(x => new[] { x.Auth1, x.Auth2, x.Auth3, x.Auth4, x.Auth5,
-                            x.Auth6, x.Auth7, x.Auth8, x.Auth9, x.Auth10,
-                            x.Auth11, x.Auth12, x.Auth13, x.Auth14, x.Auth15 }
-                        .Any(auth => auth.Contains(empuser.master_file.employee_no.ToString())))
-                    .ToList();
-
-                var userapIds = new HashSet<int>(userap.Select(x => x.form_ID.Value));
-
                 userforms = db.formsuserdbs
-                    .Where(y => userapIds.Contains(y.form_id.Value))
+                    .Where(y => y.whosnexxt.Contains(empuser.master_file.employee_no.ToString()))
                     .ToList();
             }
                 return View(userforms);
         }
-        public ActionResult aporrej(int id)
+        public ActionResult aporrej(int id,string aporrej)
         {
             var userempnolist = db.usernames
                 .Where(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name).ToList();
             var empuser = userempnolist.Find(x => x.AspNetUser.UserName == User.Identity.Name);
+            if (true)
+            {
+                
+            }
             return RedirectToAction("formap");
         }
 

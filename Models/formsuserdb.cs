@@ -21,6 +21,7 @@ namespace HRworks.Models
         public Nullable<int> subtablerec_id { get; set; }
         public string status { get; set; }
         public Nullable<int> emp_id { get; set; }
+        public string whosnexxt { get; set; }
     
         public virtual Form Form { get; set; }
         public virtual master_file master_file { get; set; }

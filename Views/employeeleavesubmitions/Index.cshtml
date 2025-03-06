@@ -256,20 +256,20 @@
 
             </td>
 
-            <td>
-                @{
+        <td>
+            @{
 
-                    if (item.half)
-                    {
-                        <p>YES</p>
-                    }
-                    else
-                    {
-                        <p>no</p>
-                    }
-
+                if (item.half)
+                {
+                    <p>YES</p>
                 }
-            </td>
+                else
+                {
+                    <p>no</p>
+                }
+
+            }
+        </td>
             <td>
                 @{
                     if (item.empreturnfromleavesubs != null)
@@ -289,7 +289,7 @@
                                 {
                                     @empreturnfromleavesub.actualreturnleave.Value.ToString("dd MMM yyyy")
                                     <br/>@empreturnfromleavesub.apstatus
-                                }
+                                }@*
                                 else if (empreturnfromleavesub.apstatus == null)
                                 {
                                     if (item.Return_leave <= DateTime.Today)
@@ -341,7 +341,7 @@
                                         }
                                     }
                                     @temp1
-                                }
+                                }*@
                             }
                         }
                     }
@@ -350,7 +350,7 @@
             <td>
                 @*Html.DisplayFor(modelItem => item.apstatus)*@
                 @{
-                    var temp = "";
+                        var temp = "";
                     if (ViewBag.rel == "line_man")
                     {
                         if (item.apstatus == "submitted")

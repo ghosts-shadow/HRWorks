@@ -82,6 +82,23 @@ namespace HRworks.Controllers
             return RedirectToAction("Index");
         }
 
+        public List<master_file> emplist()
+        {
+
+            var prealist = db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList().GroupBy(x => x.employee_no).Select(s => s.First());
+            var alist = prealist
+                .Where(e => e.last_working_day == null)
+                .ToList();
+
+            var afinallist = alist
+                .GroupBy(x => x.employee_no)
+                .Select(g => g.First())
+                .Where(file => file.employee_no != 0 && file.employee_no != 1 && file.employee_no != 100001)
+                .ToList();
+
+            return afinallist;
+        }
+
         public void DownloadExcel(string search)
         {
             List<master_file> passexel;
