@@ -247,6 +247,7 @@
           <Property Name="dateModified" Type="datetime" />
           <Property Name="addedBy" Type="nvarchar(max)" Nullable="false" />
           <Property Name="EmpNo" Type="int" Nullable="false" />
+          <Property Name="is_halfday_included" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="contract">
           <Key>
@@ -860,6 +861,7 @@
           <Property Name="img" Type="nvarchar(max)" />
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
+          <Property Name="emiid" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="OSRF_items">
           <Key>
@@ -3405,6 +3407,7 @@
           <NavigationProperty Name="HRotapps" Relationship="HRModel.FK_HRotapp_To_master_file" FromRole="master_file" ToRole="HRotapp" />
           <NavigationProperty Name="OSRFormrefs" Relationship="HRModel.FK_OSRF_To_master_file" FromRole="master_file" ToRole="OSRFormref" />
           <NavigationProperty Name="formsuserdbs" Relationship="HRModel.FK_formsuserdb_Tomasterfile" FromRole="master_file" ToRole="formsuserdb" />
+          <Property Name="emiid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="OT_employee_list">
           <Key>
@@ -4814,6 +4817,7 @@
           <Property Name="addedBy" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EmpNo" Type="Int32" Nullable="false" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_clrs_To_master_file" FromRole="companLeaveR" ToRole="master_file" />
+          <Property Name="is_halfday_included" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_clrs_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -6056,6 +6060,7 @@
           <EntitySetMapping Name="master_file">
             <EntityTypeMapping TypeName="HRModel.master_file">
               <MappingFragment StoreEntitySet="master_file">
+                <ScalarProperty Name="emiid" ColumnName="emiid" />
                 <ScalarProperty Name="employee_id" ColumnName="employee_id" />
                 <ScalarProperty Name="employee_no" ColumnName="employee_no" />
                 <ScalarProperty Name="employee_name" ColumnName="employee_name" />
@@ -6416,6 +6421,7 @@
           <EntitySetMapping Name="companLeaveRs">
             <EntityTypeMapping TypeName="HRModel.companLeaveR">
               <MappingFragment StoreEntitySet="companLeaveRs">
+                <ScalarProperty Name="is_halfday_included" ColumnName="is_halfday_included" />
                 <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
                 <ScalarProperty Name="addedBy" ColumnName="addedBy" />
                 <ScalarProperty Name="dateModified" ColumnName="dateModified" />

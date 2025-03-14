@@ -57,7 +57,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ForWhichDate,dateModified,addedBy,EmpNo")] companLeaveR companLeaveR)
+        public ActionResult Create([Bind(Include = "Id,ForWhichDate,dateModified,addedBy,EmpNo,is_halfday_included")] companLeaveR companLeaveR)
         {
             if (ModelState.IsValid)
             {
@@ -65,12 +65,28 @@ namespace HRworks.Controllers
                 if (compballist.Exists(x=>x.EmpNo == companLeaveR.EmpNo))
                 {
                     var combal = compballist.Find(x=>x.EmpNo == companLeaveR.EmpNo);
-                    combal.balance += 1;
+                    if (companLeaveR.is_halfday_included)
+                    {
+                        combal.balance += 0.5d;
+                    }
+                    else
+                    {
+                        combal.balance += 1;
+
+                    }
                 }
                 else
                 {
                     var combal = new companleaveBal();
-                    combal.balance = 1;
+                    if (companLeaveR.is_halfday_included)
+                    {
+                        combal.balance = 0.5d;
+                    }
+                    else
+                    {
+                        combal.balance = 1;
+
+                    }
                     combal.EmpNo = companLeaveR.EmpNo;
                     combal.dateModified = DateTime.Now;
                     db.companleaveBals.Add(combal);
@@ -158,7 +174,14 @@ namespace HRworks.Controllers
             {
                 var combal = compballist.Find(x => x.EmpNo == companLeaveR.EmpNo);
                 if (combal.balance != 0) {
-                    combal.balance -= 1;
+                    if (companLeaveR.is_halfday_included)
+                    {
+                        combal.balance -= 0.5d;
+                    }
+                    else
+                    {
+                        combal.balance -= 1;
+                    }
                 }
             }
             db.companLeaveRs.Remove(companLeaveR);

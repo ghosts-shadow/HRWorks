@@ -19,6 +19,7 @@ namespace HRworks.Models
         public Nullable<System.DateTime> dateModified { get; set; }
         public string addedBy { get; set; }
         public int EmpNo { get; set; }
+        public bool is_halfday_included { get; set; }
     
         public virtual master_file master_file { get; set; }
     }

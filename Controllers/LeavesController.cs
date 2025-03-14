@@ -1440,6 +1440,16 @@ namespace HRworks.Controllers
                                         }
                                     }*/
                 }
+
+                var companbal = 0d;
+                var complist = db.companleaveBals.ToList();
+                if (complist.Exists(x => x.EmpNo == empjd.employee_id))
+                {
+                    var compbalance = complist.Find(x => x.EmpNo == empjd.employee_id).balance;
+                    if (compbalance != null)
+                        companbal = compbalance.Value;
+                }
+                this.ViewBag.companbal = companbal;
                 this.ViewBag.udd = udd;
                 this.ViewBag.esco = esco;
                 this.ViewBag.pater = pater;
