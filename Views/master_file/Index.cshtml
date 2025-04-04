@@ -1,4 +1,5 @@
 ﻿@using System.Linq
+@using Microsoft.Ajax.Utilities
 @using PagedList.Mvc
 @model IEnumerable<HRworks.Models.master_file>
 
@@ -214,7 +215,14 @@
             @Html.ActionLink("Delete", "Delete", new {id = item.employee_id})
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.employee_no)
+            @if (!item.emiid.IsNullOrWhiteSpace())
+            {
+                @Html.DisplayFor(modelItem => item.emiid)
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.employee_no)
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.employee_name)

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using OfficeOpenXml;
 using PagedList;
 using HRworks.Models;
@@ -297,11 +298,11 @@ namespace HRworks.Controllers
             //            return View(db.master_file.ToList());
             int pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            int defaSize = 10;
+            int defaSize = 100;
 
             if (pagesize != 0)
             {
-                int a = 10;
+                int a = 100;
                 if (pagesize != null)
                 {
                     if (pagesize != 0)
@@ -362,12 +363,41 @@ namespace HRworks.Controllers
                     ab = db.master_file
                         .Where(x => x.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/)
                         .OrderBy(x => x.employee_no).ThenBy(x => x.date_changed).ToList();
+
+                    int emiidNum = 0;
+                    int searchNum = 0;
+                    ab.AddRange(db.master_file
+                        .AsEnumerable() // Moves data processing to memory
+                        .Where(x => !x.emiid.IsNullOrWhiteSpace() &&
+                                    int.TryParse(x.emiid.Substring(2), out emiidNum) &&
+                                    int.TryParse(search, out searchNum) &&
+                                    emiidNum == searchNum)
+                        .OrderBy(x => x.employee_no)
+                        .ThenBy(x => x.date_changed)
+                        .ToList());
                 }
                 else
                 {
-                    ab = db.master_file
-                        .Where(x => x.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
-                        .OrderBy(x => x.employee_no).ThenBy(x => x.date_changed).ToList();
+                    if (search.ToLower().Contains("g-"))
+                    {
+                        int emiidNum = 0;
+                        int searchNum = 0;
+                        ab = db.master_file
+                            .AsEnumerable() // Moves data processing to memory
+                            .Where(x =>!x.emiid.IsNullOrWhiteSpace()&&
+                                int.TryParse(x.emiid.Substring(2), out  emiidNum) &&
+                                int.TryParse(search.Substring(2), out  searchNum) &&
+                                emiidNum == searchNum)
+                            .OrderBy(x => x.employee_no)
+                            .ThenBy(x => x.date_changed)
+                            .ToList();
+                    }
+                    else
+                    {
+                        ab = db.master_file
+                            .Where(x => x.employee_name.ToLower().Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
+                            .OrderBy(x => x.employee_no).ThenBy(x => x.date_changed).ToList();
+                    }
                 }
 
                 if (ab.Count != 0)
@@ -434,6 +464,13 @@ namespace HRworks.Controllers
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
+
+            var listItems = new List<ListItem>
+            {
+                new ListItem { Text = "Citiscape", Value = "1" },
+                new ListItem { Text = "Grove", Value = "2" }
+            };
+            this.ViewBag.company = new SelectList(listItems, "Value", "Text");
             return View();
         }
 
@@ -444,7 +481,7 @@ namespace HRworks.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "super_admin,admin")]
         public ActionResult Create([Bind(Include =
-                "employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id")]
+                "employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id,emiid,company")]
             master_file master_file, HttpPostedFileBase fileBase)
         {
             //            if (ModelState.IsValid)
@@ -459,17 +496,23 @@ namespace HRworks.Controllers
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
                 DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/masterfile/" + fileexe);
+                var empno = master_file.emiid;
+                if (master_file.company == "2")
+                {
+                    empno = "G-"+ master_file.emiid;
+                    
+                }
                 serverfile =
-                    "D:/HR/img/masterfile/" + master_file.employee_no; /*+ "/"+ passport.employee_no + fileexe;*/
+                    "D:/HR/img/masterfile/" + empno; /*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 int i = 0;
                 do
                 {
-                    serverfile = "D:/HR/img/masterfile/" + master_file.employee_no + "/" + master_file.employee_no +
+                    serverfile = "D:/HR/img/masterfile/" + empno + "/" + empno +
                                  "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/img/masterfile/" + master_file.employee_no + "/" +
-                                                            master_file.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/masterfile/" + empno + "/" +
+                                                            empno + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -482,7 +525,18 @@ namespace HRworks.Controllers
             {
                 var current = DateTime.Now;
                 var img = new master_file();
-                img.employee_no = master_file.employee_no;
+                int.TryParse(master_file.emiid, out var emno);
+                if (master_file.company == "2")
+                {
+                    emno += 77700000;
+                    img.emiid = $"G-{emno:D4}";
+                }
+                else
+                {
+                    img.emiid = emno.ToString();
+                }
+                    img.employee_no = emno;
+
                 img.employee_name = master_file.employee_name;
                 img.nationality = master_file.nationality;
                 img.dob = master_file.dob;
@@ -499,6 +553,12 @@ namespace HRworks.Controllers
             }
 
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
+            var listItems = new List<ListItem>
+            {
+                new ListItem { Text = "Citiscape", Value = "1" },
+                new ListItem { Text = "Grove", Value = "2" }
+            };
+            this.ViewBag.company = new SelectList(listItems, "Value", "Text");
 
             return View(master_file);
         }
@@ -519,6 +579,21 @@ namespace HRworks.Controllers
             }
 
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
+            var listItems = new List<ListItem>
+            {
+                new ListItem { Text = "Citiscape", Value = "1" },
+                new ListItem { Text = "Grove", Value = "2" }
+            };
+            this.ViewBag.company = new SelectList(listItems, "Value", "Text");
+            if (!master_file.emiid.IsNullOrWhiteSpace() && master_file.emiid.Contains("G-"))
+            {
+
+                master_file.company = "Grove";
+            }
+            else
+            {
+                master_file.company = "Citiscape";
+            }
             return View(master_file);
         }
 
@@ -529,28 +604,34 @@ namespace HRworks.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "super_admin,admin,payrole")]
         public ActionResult Edit([Bind(Include =
-                "employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id,status")]
+                "employee_id,employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id,status,emiid,company")]
             master_file master_file, HttpPostedFileBase fileBase)
         {
             var imglist = this.db.master_file.ToList();
             string serverfile;
-            var img = imglist.Find(x => x.employee_no == master_file.employee_no);
+            var img = imglist.Find(x => x.employee_id == master_file.employee_id);
             if (fileBase != null)
             {
+                var empno = master_file.emiid;
+                if (master_file.company == "2")
+                {
+                    empno = "G-" + master_file.emiid;
+
+                }
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
                 DirectoryInfo filepath = new DirectoryInfo("D:/HR/img/masterfile/" + fileexe);
                 serverfile =
-                    "D:/HR/img/masterfile/" + master_file.employee_no; /*+ "/"+ passport.employee_no + fileexe;*/
+                    "D:/HR/img/masterfile/" + empno; /*+ "/"+ passport.employee_no + fileexe;*/
                 filepath = Directory.CreateDirectory(serverfile);
                 int i = 0;
                 do
                 {
-                    serverfile = "D:/HR/img/masterfile/" + master_file.employee_no + "/" + master_file.employee_no +
+                    serverfile = "D:/HR/img/masterfile/" + empno + "/" + empno +
                                  "_" + i + fileexe;
                     i++;
-                } while (System.IO.File.Exists(serverfile = "D:/HR/img/masterfile/" + master_file.employee_no + "/" +
-                                                            master_file.employee_no + "_" + i + fileexe));
+                } while (System.IO.File.Exists(serverfile = "D:/HR/img/masterfile/" + empno + "/" +
+                                                            empno + "_" + i + fileexe));
 
                 fileBase.SaveAs(serverfile);
             }
@@ -585,7 +666,21 @@ namespace HRworks.Controllers
                     master_file.date_changed = DateTime.Now;
                     db.master_file.Add(master_file);*/
                     var current = DateTime.Now;
-                    img.employee_no = master_file.employee_no;
+                    int.TryParse(master_file.emiid, out var empno);
+                    if (master_file.company.ToLower() == "grove")
+                    {
+                        img.emiid = $"G-{empno:D4}";
+                        empno = empno + 77700000;
+                        if (master_file.employee_no.ToString().Contains("777"))
+                        {
+                            img.employee_no = empno;
+                        }
+                    }
+                    else
+                    {
+                        img.employee_no = empno;
+                    }
+
                     img.employee_name = master_file.employee_name;
                     img.nationality = master_file.nationality;
                     img.dob = master_file.dob;
@@ -644,6 +739,12 @@ namespace HRworks.Controllers
 
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
             ViewBag.employee_no = new SelectList(db.emirates_id, "id", "id", master_file.employee_no);
+            var listItems = new List<ListItem>
+            {
+                new ListItem { Text = "Citiscape", Value = "1" },
+                new ListItem { Text = "Grove", Value = "2" }
+            };
+            this.ViewBag.company = new SelectList(listItems, "Value", "Text");
             return View(master_file);
         }
 

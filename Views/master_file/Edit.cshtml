@@ -40,11 +40,21 @@
             <h4>master_file</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group" style="display:none">
+                @Html.LabelFor(model => model.employee_id, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div
+                    class="col-md-10">
+                    @Html.EditorFor(model => model.employee_id, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.employee_id, "", new {@class = "text-danger"})
+                </div>
+            </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                @Html.LabelFor(model => model.employee_no, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.employee_no, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                    @Html.ValidationMessageFor(model => model.employee_no, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.emiid, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div
+                    class="col-md-10">
+                    @Html.EditorFor(model => model.emiid, new {htmlAttributes = new {@class = "form-control"}})
+                    @Html.ValidationMessageFor(model => model.emiid, "", new {@class = "text-danger"})
                 </div>
             </div>
 
@@ -94,6 +104,16 @@
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.gender, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div
+                class="form-group">
+                @Html.LabelFor(model => model.company, htmlAttributes: new {@class = "control-label col-md-2"})
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.gender, new {htmlAttributes = new {@class = "form-control"}})*@
+                    @Html.EditorFor(model => model.company, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.company, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">

@@ -81,6 +81,7 @@ namespace HRworks.Models
         [Display(Name = "Employee Name")]
         public string employee_name { get; set; }
 
+        public string company { get; set; }
         public string nationality { get; set; }
 
         [Display(Name = "DOB")]

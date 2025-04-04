@@ -2064,13 +2064,13 @@ namespace HRworks.Controllers
                         var leaveannualandunpaidpy = leaves.FindAll(x =>
                             x.Date <= new DateTime(i + 1, monthchange, 31) && x.Date > new DateTime(i, pervmonthchange, 31) &&
                             (x.leave_type == "1" || x.leave_type == "6"));
-                        var anun2025remove = leaves.FindAll(x =>
-                            x.Start_leave <= new DateTime(2026, 3, 31) && x.Start_leave > new DateTime(2025, 3, 31) &&
-                            (x.leave_type == "1" || x.leave_type == "6"));
-                        foreach (var leaf in anun2025remove)
-                        {
-                            leaveannualandunpaidpy.Remove(leaf);
-                        }
+                        // var anun2025remove = leaves.FindAll(x =>
+                        //     x.Start_leave <= new DateTime(2026, 3, 31) && x.Start_leave > new DateTime(2025, 3, 31) &&
+                        //     (x.leave_type == "1" || x.leave_type == "6"));
+                        // foreach (var leaf in anun2025remove)
+                        // {
+                        //     leaveannualandunpaidpy.Remove(leaf);
+                        // }
                         var leaverestpy = leaves.FindAll(x =>
                             x.Date <= new DateTime(i, 12, 31) && x.Date >= new DateTime(i, 1, 1) &&
                             !(x.leave_type == "1" || x.leave_type == "6"));
@@ -2423,10 +2423,10 @@ namespace HRworks.Controllers
                     if (asf.Value.Year <= i)
                     {
                         var leaveannualandunpaidpy = leaves.FindAll(x =>
-                            x.Start_leave <= new DateTime(i + 1, 3, 31) && x.Start_leave > new DateTime(i, 3, 31) &&
+                            x.Date <= new DateTime(i + 1, 3, 31) && x.Date > new DateTime(i, 3, 31) &&
                             (x.leave_type == "1" || x.leave_type == "6"));
                         var leaverestpy = leaves.FindAll(x =>
-                            x.Start_leave <= new DateTime(i, 12, 31) && x.Start_leave >= new DateTime(i, 1, 1) &&
+                            x.Date <= new DateTime(i, 12, 31) && x.Date >= new DateTime(i, 1, 1) &&
                             !(x.leave_type == "1" || x.leave_type == "6"));
                         var ifnewleavelist = new List<Leave>();
                         var perviousyearleave = savecheckleaveperyear.Find(x =>
@@ -4121,29 +4121,63 @@ namespace HRworks.Controllers
 
         public ActionResult addReturn()
         {
-            var leavereturnempty = db.Leaves.Where(x => x.actual_return_date == null && x.Return_leave == DateTime.Now)
+            var leavereturnempty = db.Leaves.Where(x => x.actual_return_date == null && x.Return_leave < DateTime.Now && !x.master_file.last_working_day.HasValue /*&& x.master_file.employee_no == 5588*/)
                 .ToList();
-                var mfcon = new master_fileController();
-                var employeelist = mfcon.emplist();
+            var employeelist = db.master_file.ToList();
             foreach (var leaf in leavereturnempty)
             {
+                
                 var emp = employeelist.Find(x => x.employee_id == leaf.Employee_id);
-                var HObio = db.hiks.Where(x=>x.EMPID == emp.employee_no ).ToList();
-                var projbio = db2.iclock_transaction.Where(x=>x.emp_id == emp.employee_no).ToList();
-                if (projbio.Count()>0)
+                var HObio = db.hiks.Where(x=>x.ID == emp.employee_no.ToString()).ToList();
+                var projbio = db2.iclock_transaction.Where(x=>x.emp_code == emp.employee_no.ToString()).ToList();
+                if (HObio.Exists(x=>x.ID == emp.employee_no.ToString() && x.date >= leaf.Return_leave) || projbio.Exists(y=>y.emp_code == emp.employee_no.ToString() && y.punch_time >= leaf.Return_leave))
                 {
-                    foreach (var bio in projbio)
+                    var returnHObiolist = new List<hik>();/*HObio.FindAll(x =>
+                            x.ID == emp.employee_no.ToString() && x.date >= leaf.Return_leave).OrderBy(x => x.date).ToList();*/
+                    var returnprojbiolist = projbio.FindAll(x =>
+                            x.emp_id == emp.employee_no && x.punch_time == leaf.Return_leave).OrderBy(x => x.punch_time).ToList();
+                    var firstreturndateHO = new hik();
+                    var firstreturndatepro = new iclock_transaction();
+                    if (returnHObiolist.Count > 0)
                     {
-                        var hikcon = new hik();
+                        firstreturndateHO = returnHObiolist[0];
                     }
-                }
-                else if (HObio.Count() > 0)
-                {
-                    
-                }
-                else
-                {
-                    
+
+                    if (returnprojbiolist.Count > 0)
+                    {
+                        firstreturndatepro = returnprojbiolist[0];
+                    }
+
+                    if (firstreturndateHO.date != null && !firstreturndatepro.emp_code.IsNullOrWhiteSpace())
+                    {
+                        if (firstreturndateHO.date.Value.Date > firstreturndatepro.punch_time.Date.Date)
+                        {
+                            leaf.actual_return_date = firstreturndateHO.date.Value.Date;
+                            leaf.actualchangedby = "system";
+                            leaf.actualchangeddateby = DateTime.Now;
+                        }
+                        else
+                        {
+                            leaf.actual_return_date = firstreturndatepro.punch_time.Date.Date;
+                            leaf.actualchangedby = "system";
+                            leaf.actualchangeddateby = DateTime.Now;
+                        }
+
+                    }
+                    else if (firstreturndateHO.date == null && !firstreturndatepro.emp_code.IsNullOrWhiteSpace())
+                    {
+                        leaf.actual_return_date = firstreturndatepro.punch_time.Date.Date;
+                        leaf.actualchangedby = "system";
+                        leaf.actualchangeddateby = DateTime.Now;
+
+                    }else if (firstreturndateHO.date != null && firstreturndatepro.emp_code.IsNullOrWhiteSpace())
+                    {
+                        leaf.actual_return_date = firstreturndateHO.date.Value.Date;
+                        leaf.actualchangedby = "system";
+                        leaf.actualchangeddateby = DateTime.Now;
+                    }
+
+
                 }
 
 
@@ -4151,7 +4185,7 @@ namespace HRworks.Controllers
             }
 
 
-            return View();
+            return View(leavereturnempty.OrderBy(x=>x.master_file.employee_no).ToList());
         }
 
         protected override void Dispose(bool disposing)

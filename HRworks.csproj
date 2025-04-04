@@ -2350,6 +2350,7 @@
     <Content Include="Views\Forms\formsdashboard.cshtml" />
     <Content Include="Views\Forms\IndexFormsFlow.cshtml" />
     <Content Include="Views\Forms\formap.cshtml" />
+    <Content Include="Views\Leaves\addReturn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

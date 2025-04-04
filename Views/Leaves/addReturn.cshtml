@@ -1,0 +1,75 @@
+﻿@using Microsoft.Ajax.Utilities
+@model IEnumerable<HRworks.Models.Leave>
+
+@{
+    ViewBag.Title = "addReturn";
+}
+
+<h2>add Return</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Start_leave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.End_leave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Return_leave)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.leave_type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.actual_return_date)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+
+            @if (item.master_file.emiid.IsNullOrWhiteSpace())
+            {
+                @Html.DisplayFor(modelItem => item.master_file.employee_no)
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.master_file.emiid)
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Start_leave)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.End_leave)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Return_leave)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.leave_type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.actual_return_date)
+        </td>
+    </tr>
+}
+
+</table>
