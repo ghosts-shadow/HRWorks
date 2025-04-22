@@ -680,7 +680,7 @@ namespace HRworks.Controllers
                 ModelState.AddModelError("Start_leave", "the entry already exists");
                 goto jderr;
             }
-
+            
             string serverfile;
             if (fileBase != null)
             {
@@ -689,7 +689,7 @@ namespace HRworks.Controllers
                 var fileexe = Path.GetExtension(fileBase.FileName);
                 var filepath = new DirectoryInfo("D:/HR/leave/");
                 serverfile =
-                    "D:/HR/leave/" + empuser.master_file.employee_no; /*+ "/"+ passport.employee_no + fileexe;*/
+                    "D:/HR/leave/" + empuser.master_file.employee_no; 
                 filepath = Directory.CreateDirectory(serverfile);
                 do
                 {

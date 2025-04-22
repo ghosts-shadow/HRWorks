@@ -66,6 +66,7 @@
                 @Html.CheckBox("registration", new { @class = "radio-inline" })@Html.Label("registration")<br />
                 @Html.CheckBox("slapproval", new { @class = "radio-inline" })@Html.Label("sick leave approval")<br />
                 @Html.CheckBox("employee_rel", new { @class = "radio-inline" })@Html.Label("employee relationships")<br />
+                @Html.CheckBox("registration_HR", new { @class = "radio-inline" })@Html.Label("HR registrations")<br />
                 @Html.TextBoxFor(m => m.UserRole, new { @class = "form-control", @id = "roles" })
             </div>
         </div>
@@ -90,6 +91,7 @@
                     @Html.CheckBox("registration", new { @class = "radio-inline" })@Html.Label("registration")<br />
                     @Html.CheckBox("slapproval", new { @class = "radio-inline" })@Html.Label("sick leave approval")<br />
                     @Html.CheckBox("employee_rel", new { @class = "radio-inline" })@Html.Label("employee relationships")<br />
+                    @Html.CheckBox("registration_HR", new { @class = "radio-inline" })@Html.Label("HR registrations")<br />
                 </div>
             </div>
         </div>
@@ -114,6 +116,9 @@
         var reg = document.getElementById("registration");
         var hod = document.getElementById("HOD");
         var emp = document.getElementById("employee");
+        var sl = document.getElementById("slapproval");
+        var emprel = document.getElementById("employee_rel");
+        var reghr = document.getElementById("registration_HR");
         var rol = document.getElementById("roles");
         if (ad.checked == true) {
             rolestring += ad.name + ",";
@@ -147,6 +152,15 @@
         }
         if (emp.checked == true) {
             rolestring += emp.name + ",";
+        }
+        if (sl.checked == true) {
+            rolestring += sl.name + ",";
+        }
+        if (emprel.checked == true) {
+            rolestring += emprel.name + ",";
+        }
+        if (reghr.checked == true) {
+            rolestring += reghr.name + ",";
         }
         var ind = rolestring.lastIndexOf(",");
         rolestring = rolestring.slice(0, ind);

@@ -20,6 +20,7 @@ namespace HRworks.Models
         public string addedBy { get; set; }
         public int EmpNo { get; set; }
         public bool is_halfday_included { get; set; }
+        public double how_many_hrs { get; set; }
     
         public virtual master_file master_file { get; set; }
     }

@@ -96,7 +96,13 @@ namespace HRworks.Controllers
                 .Select(g => g.First())
                 .Where(file => file.employee_no != 0 && file.employee_no != 1 && file.employee_no != 100001)
                 .ToList();
-
+            foreach (var file in afinallist)
+            {
+                if (file.emiid.IsNullOrWhiteSpace())
+                {
+                    file.emiid = file.employee_no.ToString();
+                }
+            }
             return afinallist;
         }
 
@@ -363,18 +369,7 @@ namespace HRworks.Controllers
                     ab = db.master_file
                         .Where(x => x.employee_no.Equals(idk) /*.Contains(search) /*.StartsWith(search)*/)
                         .OrderBy(x => x.employee_no).ThenBy(x => x.date_changed).ToList();
-
-                    int emiidNum = 0;
-                    int searchNum = 0;
-                    ab.AddRange(db.master_file
-                        .AsEnumerable() // Moves data processing to memory
-                        .Where(x => !x.emiid.IsNullOrWhiteSpace() &&
-                                    int.TryParse(x.emiid.Substring(2), out emiidNum) &&
-                                    int.TryParse(search, out searchNum) &&
-                                    emiidNum == searchNum)
-                        .OrderBy(x => x.employee_no)
-                        .ThenBy(x => x.date_changed)
-                        .ToList());
+                    
                 }
                 else
                 {
@@ -384,7 +379,7 @@ namespace HRworks.Controllers
                         int searchNum = 0;
                         ab = db.master_file
                             .AsEnumerable() // Moves data processing to memory
-                            .Where(x =>!x.emiid.IsNullOrWhiteSpace()&&
+                            .Where(x =>!x.emiid.IsNullOrWhiteSpace() && x.emiid.Contains("G-") &&
                                 int.TryParse(x.emiid.Substring(2), out  emiidNum) &&
                                 int.TryParse(search.Substring(2), out  searchNum) &&
                                 emiidNum == searchNum)
@@ -528,8 +523,8 @@ namespace HRworks.Controllers
                 int.TryParse(master_file.emiid, out var emno);
                 if (master_file.company == "2")
                 {
-                    emno += 77700000;
                     img.emiid = $"G-{emno:D4}";
+                    emno += 77700000;
                 }
                 else
                 {

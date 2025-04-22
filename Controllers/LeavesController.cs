@@ -25,7 +25,8 @@ namespace HRworks.Controllers
     public class LeavesController : Controller
     {
         private readonly HREntities db = new HREntities();
-        private biometrics_DBEntities db2 = new biometrics_DBEntities();
+        private readonly biometrics_DBEntities db2 = new biometrics_DBEntities();
+        private readonly LogisticsSoftEntities db3 = new LogisticsSoftEntities();
 
 
         // GET: Leaves/Create               
@@ -1096,11 +1097,27 @@ namespace HRworks.Controllers
                 }
                 else
                 {
-                    leaves = db.Leaves
-                        .Where(
-                            x => x.master_file.employee_name
-                                .Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
-                        .OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.Start_leave).ToList();
+
+                    if (search.ToUpper().Contains("G-"))
+                    {
+                        int emiidNum = 0;
+                        int searchNum = 0;
+                        leaves = db.Leaves
+                            .AsEnumerable() // Moves data processing to memory
+                            .Where(x => !x.master_file.emiid.IsNullOrWhiteSpace() && x.master_file.emiid.Contains("G-") &&
+                                        int.TryParse(x.master_file.emiid.Substring(2), out emiidNum) &&
+                                        int.TryParse(search.Substring(2), out searchNum) &&
+                                        emiidNum == searchNum)
+                            .OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.Start_leave).ToList();
+                    }
+                    else
+                    {
+                        leaves = db.Leaves
+                            .Where(
+                                x => x.master_file.employee_name
+                                    .Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
+                            .OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.Start_leave).ToList();
+                    }
                 }
             }
 
@@ -1213,6 +1230,10 @@ namespace HRworks.Controllers
             var afinallist = new List<master_file>();
             foreach (var file in alist)
             {
+                if (file.emiid.IsNullOrWhiteSpace())
+                {
+                    file.emiid = file.employee_no.ToString();
+                }
                 if (afinallist.Count == 0) afinallist.Add(file);
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
@@ -1223,7 +1244,7 @@ namespace HRworks.Controllers
             this.ViewBag.employee_id = new SelectList(
                 afinallist,
                 "employee_id",
-                "employee_no");
+                "emiid");
 
             if (Employee_id != null)
             {
@@ -1465,7 +1486,7 @@ namespace HRworks.Controllers
                 this.ViewBag.taval = availed + favailed;
                 this.ViewBag.netp = leavebal2020[0].net_period;
                 this.ViewBag.name = empjd.employee_name;
-                this.ViewBag.no = empjd.employee_no;
+                this.ViewBag.no = empjd.emiid;
                 ViewBag.datejoined = empjd.date_joined.Value.ToString("dd MMMM yyyy");
                 this.ViewBag.ump = ump1;
                 this.ViewBag.accr = accr;
@@ -4121,8 +4142,9 @@ namespace HRworks.Controllers
 
         public ActionResult addReturn()
         {
-            var leavereturnempty = db.Leaves.Where(x => x.actual_return_date == null && x.Return_leave < DateTime.Now && !x.master_file.last_working_day.HasValue /*&& x.master_file.employee_no == 5588*/)
+            var leavereturnempty = db.Leaves.Where(x => x.actual_return_date == null && x.Return_leave < DateTime.Now && x.Return_leave >= new DateTime(2025,1,1) && !x.master_file.last_working_day.HasValue /*&& x.master_file.employee_no == 5588*/)
                 .ToList();
+            var leavelist = db.Leaves.ToList();
             var employeelist = db.master_file.ToList();
             foreach (var leaf in leavereturnempty)
             {
@@ -4132,12 +4154,13 @@ namespace HRworks.Controllers
                 var projbio = db2.iclock_transaction.Where(x=>x.emp_code == emp.employee_no.ToString()).ToList();
                 if (HObio.Exists(x=>x.ID == emp.employee_no.ToString() && x.date >= leaf.Return_leave) || projbio.Exists(y=>y.emp_code == emp.employee_no.ToString() && y.punch_time >= leaf.Return_leave))
                 {
-                    var returnHObiolist = new List<hik>();/*HObio.FindAll(x =>
-                            x.ID == emp.employee_no.ToString() && x.date >= leaf.Return_leave).OrderBy(x => x.date).ToList();*/
+                    var returnHObiolist = HObio.FindAll(x =>
+                            x.ID == emp.employee_no.ToString() && x.date >= leaf.Return_leave).OrderBy(x => x.date).ToList();
                     var returnprojbiolist = projbio.FindAll(x =>
                             x.emp_id == emp.employee_no && x.punch_time == leaf.Return_leave).OrderBy(x => x.punch_time).ToList();
                     var firstreturndateHO = new hik();
                     var firstreturndatepro = new iclock_transaction();
+                    var holidaycheck = db3.Holidays.ToList();
                     if (returnHObiolist.Count > 0)
                     {
                         firstreturndateHO = returnHObiolist[0];
@@ -4152,40 +4175,127 @@ namespace HRworks.Controllers
                     {
                         if (firstreturndateHO.date.Value.Date > firstreturndatepro.punch_time.Date.Date)
                         {
-                            leaf.actual_return_date = firstreturndateHO.date.Value.Date;
-                            leaf.actualchangedby = "system";
-                            leaf.actualchangeddateby = DateTime.Now;
+                            if (leavelist.Exists(x=>x.Start_leave == leaf.Return_leave && x.Employee_id == leaf.Employee_id))
+                            {
+                                leaf.actual_return_date = leaf.Return_leave;
+                                leaf.actualchangedby = "auto added by system";
+                                leaf.actualchangeddateby = DateTime.Now;
+                            }
+                            else
+                            {
+                                leaf.actual_return_date = firstreturndateHO.date.Value.Date;
+                                leaf.actualchangedby = "auto added by system";
+                                leaf.actualchangeddateby = DateTime.Now;
+                            }
                         }
                         else
                         {
-                            leaf.actual_return_date = firstreturndatepro.punch_time.Date.Date;
-                            leaf.actualchangedby = "system";
-                            leaf.actualchangeddateby = DateTime.Now;
+                            if (leavelist.Exists(x => x.Start_leave == leaf.Return_leave && x.Employee_id == leaf.Employee_id))
+                            {
+                                leaf.actual_return_date = leaf.Return_leave;
+                                leaf.actualchangedby = "auto added by system";
+                                leaf.actualchangeddateby = DateTime.Now;
+                            }
+                            else
+                            {
+                                leaf.actual_return_date = firstreturndatepro.punch_time.Date.Date;
+                                leaf.actualchangedby = "auto added by system";
+                                leaf.actualchangeddateby = DateTime.Now;
+                            }
                         }
 
                     }
                     else if (firstreturndateHO.date == null && !firstreturndatepro.emp_code.IsNullOrWhiteSpace())
                     {
-                        leaf.actual_return_date = firstreturndatepro.punch_time.Date.Date;
-                        leaf.actualchangedby = "system";
-                        leaf.actualchangeddateby = DateTime.Now;
+                        if (leavelist.Exists(x => x.Start_leave == leaf.Return_leave && x.Employee_id == leaf.Employee_id))
+                        {
+                            leaf.actual_return_date = leaf.Return_leave;
+                            leaf.actualchangedby = "auto added by system";
+                            leaf.actualchangeddateby = DateTime.Now;
+                        }
+                        else
+                        {
+                            leaf.actual_return_date = firstreturndatepro.punch_time.Date.Date;
+                            leaf.actualchangedby = "auto added by system";
+                            leaf.actualchangeddateby = DateTime.Now;
+                        }
 
                     }else if (firstreturndateHO.date != null && firstreturndatepro.emp_code.IsNullOrWhiteSpace())
                     {
-                        leaf.actual_return_date = firstreturndateHO.date.Value.Date;
-                        leaf.actualchangedby = "system";
-                        leaf.actualchangeddateby = DateTime.Now;
+                        if (leavelist.Exists(x => x.Start_leave == leaf.Return_leave && x.Employee_id == leaf.Employee_id))
+                        {
+                            leaf.actual_return_date = leaf.Return_leave;
+                            leaf.actualchangedby = "auto added by system";
+                            leaf.actualchangeddateby = DateTime.Now;
+                        }
+                        else
+                        {
+                            leaf.actual_return_date = firstreturndateHO.date.Value.Date;
+                            leaf.actualchangedby = "auto added by system";
+                            leaf.actualchangeddateby = DateTime.Now;
+                        }
                     }
 
+                    if (leaf.Return_leave == leaf.actual_return_date)
+                    {
+                        leaf.actualchangedby = "auto added by system";
+                        leaf.actualchangeddateby = DateTime.Now;
+                    }
+                    else if(holidaycheck.Exists(x=>x.Date ==  leaf.Return_leave && leaf.actual_return_date.HasValue && x.Date == leaf.actual_return_date.Value.AddDays(-1)))
+                    {
+                        leaf.actual_return_date = leaf.Return_leave;
+                        leaf.actualchangedby = "auto added by system";
+                        leaf.actualchangeddateby = DateTime.Now;
+                    }
 
                 }
 
 
+                // this.db.Entry(leaf).State = EntityState.Modified;
+                // this.db.SaveChanges();
 
             }
 
 
             return View(leavereturnempty.OrderBy(x=>x.master_file.employee_no).ToList());
+        }
+        
+        public ActionResult duplive()
+        {
+            var allLeaves = db.Leaves
+                .OrderBy(x => x.master_file.employee_no)
+                .ThenByDescending(x => x.Date)
+                .ThenByDescending(x => x.actualchangeddateby)
+                .ToList();
+            
+            var duplicateGroups = allLeaves
+                .GroupBy(x => new { x.master_file.employee_no, x.Start_leave,x.End_leave, x.leave_type })
+                .Where(g => g.Count() > 1)
+                .ToList();
+
+            var deletedLeaves = new List<Leave>();
+
+            foreach (var group in duplicateGroups)
+            {
+                var orderedGroup = group.OrderByDescending(x => x.actualchangeddateby).ToList();
+                
+                var toDelete = orderedGroup.Skip(1).ToList();
+
+                deletedLeaves.AddRange(toDelete);
+
+                foreach (var leave in toDelete)
+                {
+                    db.Leaves.Remove(leave);
+                }
+            }
+
+            db.SaveChanges();
+            foreach (var leaf in deletedLeaves)
+            {
+                leaf.master_file = db.master_file.ToList().Find(x => x.employee_id == leaf.Employee_id);
+            }
+            
+            return View(deletedLeaves);
         }
 
         protected override void Dispose(bool disposing)

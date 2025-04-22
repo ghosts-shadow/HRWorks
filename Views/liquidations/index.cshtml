@@ -1,4 +1,5 @@
-﻿@model IEnumerable<HRworks.Models.liquidation>
+﻿@using Microsoft.Ajax.Utilities
+@model IEnumerable<HRworks.Models.liquidation>
 
 @{
     ViewBag.Title = "index";
@@ -144,7 +145,14 @@
         @Html.DisplayFor(modelItem => item.master_file.employee_name)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.master_file.employee_no)
+        @if (item.master_file.emiid.IsNullOrWhiteSpace())
+        {
+            @Html.DisplayFor(modelItem => item.master_file.employee_no)
+        }
+        else
+        {
+            @Html.DisplayFor(modelItem => item.master_file.emiid)
+        }
     </td>
     @if(User.IsInRole("super_admin"))
     {

@@ -18,6 +18,7 @@ namespace HRworks.Models
         public int EmpNo { get; set; }
         public System.DateTime dateModified { get; set; }
         public Nullable<double> balance { get; set; }
+        public Nullable<double> hrs { get; set; }
     
         public virtual master_file master_file { get; set; }
     }

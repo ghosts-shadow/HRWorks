@@ -34,10 +34,13 @@ namespace HRworks.Controllers
                 this.ViewBag.date = refrlist.Last().date.Value.ToShortDateString();
                 this.ViewBag.liq = refrlist.Last().liq;
             }
+
+            var mastercon = new master_fileController();
+            var emplist = mastercon.emplist();
             this.ViewBag.employee_no = new SelectList(
-                this.db.master_file.OrderBy(e => e.employee_no),
+                emplist.OrderBy(e => e.employee_no),
                 "employee_id",
-                "employee_no");
+                "emiid");
             var le = db.liquiexps.ToList().OrderBy(x=>x.expence);
             ViewBag.expenses = new SelectList(le, "expence", "expence");
             ViewBag.nameofgov = new SelectList(le, "issuer", "issuer");
@@ -71,10 +74,13 @@ namespace HRworks.Controllers
             var la = new liqiapproval();
             var errorlist = new List<string>();
             var refrlist = this.db.liquidation_ref.ToList();
+
+            var mastercon = new master_fileController();
+            var emplist = mastercon.emplist();
             this.ViewBag.employee_no = new SelectList(
-                this.db.master_file.OrderBy(e => e.employee_no),
+                emplist.OrderBy(e => e.employee_no),
                 "employee_id",
-                "employee_no");
+                "emiid");
             var eel = this.db.master_file.OrderBy(e => e.employee_no).ToList();
             var liste = new List<master_file>();
             foreach (var file in eel)
@@ -137,13 +143,14 @@ namespace HRworks.Controllers
             var lii = this.db.liquidations.ToList().OrderBy(x => x.master_file.employee_no);
             var lalist = this.db.liqiapprovals.ToList();
             List<liquidation> lii2 = new List<liquidation>();
-            var eel = this.db.master_file.OrderBy(e => e.employee_no).ToList();
-            var liste = new List<master_file>();
-            foreach (var file in eel)
-                if (!liste.Exists(x => x.employee_no == file.employee_no))
-                    liste.Add(file);
-            this.ViewBag.empno = new SelectList(liste, "employee_id", "employee_no");
-            
+
+            var mastercon = new master_fileController();
+            var emplist = mastercon.emplist();
+            this.ViewBag.empno = new SelectList(
+                emplist.OrderBy(e => e.employee_no),
+                "employee_id",
+                "emiid");
+
             foreach (var lii1 in lii)
             {
                 if (lalist.Exists(x => x.pid == lii1.Id))
@@ -182,13 +189,14 @@ namespace HRworks.Controllers
             var lii = this.db.liquidations.ToList().OrderBy(x => x.master_file.employee_no);
             var lalist = this.db.liqiapprovals.ToList();
             List<liquidation> lii2 = new List<liquidation>();
-            var eel = this.db.master_file.OrderBy(e => e.employee_no).ToList();
-            var liste = new List<master_file>();
-            foreach (var file in eel)
-                if (!liste.Exists(x => x.employee_no == file.employee_no))
-                    liste.Add(file);
-            this.ViewBag.empno = new SelectList(liste, "employee_id", "employee_no");
-            
+
+            var mastercon = new master_fileController();
+            var emplist = mastercon.emplist();
+            this.ViewBag.employee_no = new SelectList(
+                emplist.OrderBy(e => e.employee_no),
+                "employee_id",
+                "emiid");
+
             foreach (var lii1 in lii)
             {
                 if (lalist.Exists(x => x.pid == lii1.Id))
@@ -276,7 +284,15 @@ namespace HRworks.Controllers
                 foreach (var pl in printlist1)
                 {
                     if (pl.invoice_amount.HasValue) ttinsum += pl.invoice_amount.Value;
-                    pl.discription = "EMP#" + pl.master_file.employee_no;
+                    if (pl.master_file.emiid.IsNullOrWhiteSpace())
+                    {
+                        pl.discription = "EMP#" + pl.master_file.employee_no;
+                    }
+                    else
+                    {
+                        pl.discription = "EMP#" + pl.master_file.emiid;
+                    }
+
                     if (!printlist2.Exists(x => x.expenses == pl.expenses))
                         printlist2.Add(pl);
                 }
@@ -343,7 +359,15 @@ namespace HRworks.Controllers
                 foreach (var pl in printlist1)
                 {
                     if (pl.invoice_amount.HasValue) ttinsum += pl.invoice_amount.Value;
-                    pl.discription = "EMP#" + pl.master_file.employee_no;
+                    if (pl.master_file.emiid.IsNullOrWhiteSpace())
+                    {
+                        pl.discription = "EMP#" + pl.master_file.employee_no;
+                    }
+                    else
+                    {
+                        pl.discription = "EMP#" + pl.master_file.emiid;
+                    }
+
                     if (!printlist2.Exists(x => x.expenses == pl.expenses))
                         printlist2.Add(pl);
                 }

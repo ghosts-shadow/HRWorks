@@ -52,10 +52,10 @@
                     }
                     @roles
                 </td>
-                @*<td>
+                <td>
                     
-                    @Html.ActionLink("Edit", "RoleEdit", "Account", new { id = item.aspnet_uid },"") 
-                </td>*@
+                    @Html.ActionLink("Edit", "ManageRoles", "Account", new { userId = item.aspnet_uid },"") 
+                </td>
             </tr>
         }
 

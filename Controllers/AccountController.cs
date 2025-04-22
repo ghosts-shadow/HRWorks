@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using HRworks.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace HRworks.Controllers
 {
@@ -18,6 +20,8 @@ namespace HRworks.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private readonly HREntities db = new HREntities();
+        private  RoleManager<IdentityRole> _roleManager => HttpContext.GetOwinContext().Get<RoleManager<IdentityRole>>();
 
         public AccountController()
         {
@@ -28,7 +32,6 @@ namespace HRworks.Controllers
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
         public ApplicationSignInManager SignInManager
         {
             get
@@ -238,6 +241,46 @@ namespace HRworks.Controllers
             fail: ;
             return RedirectToAction("Index", "usernames");
         }
+        [Authorize(Roles = "super_admin")]
+        public async Task<ActionResult> ManageRoles(string userId)
+        {
+            var user = UserManager.Users.ToList().Find(x => x.Id == userId);
+            var allRoles = db.AspNetRoles.ToList();
+            var userRoles = await UserManager.GetRolesAsync(user.Id);
+
+            var model = new ManageRolesViewModel
+            {
+                UserId = userId,
+                Email = user.UserName,
+                Roles = allRoles.Select(r => new RoleSelection
+                {
+                    RoleName = r.Name,
+                    IsSelected = userRoles.Contains(r.Name)
+                }).ToList()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "super_admin")]
+        public async Task<ActionResult> ManageRoles(ManageRolesViewModel model)
+        {
+            var user = await UserManager.FindByIdAsync(model.UserId);
+            var userRoles = await UserManager.GetRolesAsync(user.Id);
+
+            foreach (var role in model.Roles)
+            {
+                if (role.IsSelected && !userRoles.Contains(role.RoleName))
+                    await UserManager.AddToRoleAsync(user.Id, role.RoleName);
+
+                if (!role.IsSelected && userRoles.Contains(role.RoleName))
+                    await UserManager.RemoveFromRoleAsync(user.Id, role.RoleName);
+            }
+
+            return RedirectToAction("Index", "usernames"); 
+        }
+
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

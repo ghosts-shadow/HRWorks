@@ -33,6 +33,8 @@
         <th>
             @Html.DisplayNameFor(model => model.actual_return_date)
         </th>
+        <th></th>
+        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -64,10 +66,85 @@
             @Html.DisplayFor(modelItem => item.Return_leave)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.leave_type)
+            @if (item.leave_type == "1")
+            {
+                <i>Annual</i>
+            }
+            @if (item.leave_type == "2")
+            {
+                <i>Sick(non industrial)</i>
+            }
+            @if (item.leave_type == "3")
+            {
+                <i>Compassionate</i>
+            }
+            @if (item.leave_type == "4")
+            {
+                <i>Maternity </i>
+            }
+            @if (item.leave_type == "5")
+            {
+                <i>Haj</i>
+            }
+            @if (item.leave_type == "6")
+            {
+                <i>Unpaid </i>
+            }
+            @if (item.leave_type == "7")
+            {
+                <i> Sick(industrial)</i>
+            }
+            @if (item.leave_type == "8")
+            {
+                <i>UDDAH</i>
+            }
+            @if (item.leave_type == "9")
+            {
+                <i>ESCORT</i>
+            }
+            @if (item.leave_type == "10")
+            {
+                <i>PATERNITY</i>
+            }
+            @if (item.leave_type == "11")
+            {
+                <i>SABBATICAL</i>
+            }
+            @if (item.leave_type == "12")
+            {
+                <i>STUDY</i>
+            }
+            @if (item.leave_type == "13")
+            {
+                <i>Compensatory</i>
+            }
+            @if (item.leave_type == "14")
+            {
+                <i>balance rectificatiom</i>
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.actual_return_date)
+        </td>
+        <td>
+            @if (item.master_file.contracts.Count() > 0)
+            {
+                @Html.DisplayFor(modelItem => item.master_file.contracts.First().grade)
+            }
+            else
+            {
+                <i>no contract</i>
+            }
+        </td>
+        <td>
+            @if (item.master_file.contracts.Count() > 0)
+            {
+                @Html.DisplayFor(modelItem => item.master_file.contracts.First().designation)
+            }
+            else
+            {
+                <i>no contract</i>
+            }
         </td>
     </tr>
 }

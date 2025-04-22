@@ -237,6 +237,7 @@
           <Property Name="EmpNo" Type="int" Nullable="false" />
           <Property Name="dateModified" Type="datetime" Nullable="false" />
           <Property Name="balance" Type="float" />
+          <Property Name="hrs" Type="float" />
         </EntityType>
         <EntityType Name="companLeaveRs">
           <Key>
@@ -248,6 +249,7 @@
           <Property Name="addedBy" Type="nvarchar(max)" Nullable="false" />
           <Property Name="EmpNo" Type="int" Nullable="false" />
           <Property Name="is_halfday_included" Type="bit" Nullable="false" />
+          <Property Name="how_many_hrs" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="contract">
           <Key>
@@ -4818,6 +4820,7 @@
           <Property Name="EmpNo" Type="Int32" Nullable="false" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_clrs_To_master_file" FromRole="companLeaveR" ToRole="master_file" />
           <Property Name="is_halfday_included" Type="Boolean" Nullable="false" />
+          <Property Name="how_many_hrs" Type="Double" Nullable="false" />
         </EntityType>
         <Association Name="FK_clrs_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -4840,6 +4843,7 @@
           <Property Name="dateModified" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="balance" Type="Double" />
           <NavigationProperty Name="master_file" Relationship="HRModel.FK_clb_To_master_file" FromRole="companleaveBal" ToRole="master_file" />
+          <Property Name="hrs" Type="Double" />
         </EntityType>
         <Association Name="FK_clb_To_master_file">
           <End Type="HRModel.master_file" Role="master_file" Multiplicity="1" />
@@ -6421,6 +6425,7 @@
           <EntitySetMapping Name="companLeaveRs">
             <EntityTypeMapping TypeName="HRModel.companLeaveR">
               <MappingFragment StoreEntitySet="companLeaveRs">
+                <ScalarProperty Name="how_many_hrs" ColumnName="how_many_hrs" />
                 <ScalarProperty Name="is_halfday_included" ColumnName="is_halfday_included" />
                 <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
                 <ScalarProperty Name="addedBy" ColumnName="addedBy" />
@@ -6433,6 +6438,7 @@
           <EntitySetMapping Name="companleaveBals">
             <EntityTypeMapping TypeName="HRModel.companleaveBal">
               <MappingFragment StoreEntitySet="companleaveBal">
+                <ScalarProperty Name="hrs" ColumnName="hrs" />
                 <ScalarProperty Name="balance" ColumnName="balance" />
                 <ScalarProperty Name="dateModified" ColumnName="dateModified" />
                 <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />

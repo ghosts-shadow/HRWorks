@@ -1,0 +1,38 @@
+﻿@model HRworks.Models.ManageRolesViewModel
+
+@{
+    ViewBag.Title = "Manage User Roles";
+}
+
+<h2>Manage Roles for @Model.Email</h2>
+
+@using (Html.BeginForm("ManageRoles", "Account", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.UserId)
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Role</th>
+            <th>Assigned</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for (int i = 0; i < Model.Roles.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Html.HiddenFor(m => m.Roles[i].RoleName)
+                    @Model.Roles[i].RoleName
+                </td>
+                <td>
+                    @Html.CheckBoxFor(m => m.Roles[i].IsSelected)
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="@Url.Action("Index", "usernames")" class="btn btn-secondary">Cancel</a>
+}

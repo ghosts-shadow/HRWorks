@@ -584,6 +584,7 @@
     <Compile Include="Controllers\project_attendenceController.cs" />
     <Compile Include="Controllers\rec_req_formController.cs" />
     <Compile Include="Controllers\rolesettingController.cs" />
+    <Compile Include="Controllers\testController.cs" />
     <Compile Include="Controllers\Training_EffectivenessController.cs" />
     <Compile Include="Controllers\Training_EvaluationController.cs" />
     <Compile Include="Controllers\Training_RequestController.cs" />
@@ -2351,12 +2352,15 @@
     <Content Include="Views\Forms\IndexFormsFlow.cshtml" />
     <Content Include="Views\Forms\formap.cshtml" />
     <Content Include="Views\Leaves\addReturn.cshtml" />
+    <Content Include="Views\Leaves\duplive.cshtml" />
+    <Content Include="Views\Account\ManageRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="pdftohtml\" />
     <Folder Include="Views\allroles\" />
     <Folder Include="Views\RoleEdit\" />
+    <Folder Include="Views\test\" />
     <Folder Include="Views\upload\" />
   </ItemGroup>
   <ItemGroup>
