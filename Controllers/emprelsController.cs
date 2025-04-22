@@ -43,17 +43,11 @@ namespace HRworks.Controllers
         // GET: emprels/Create
         public ActionResult Create()
         {
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
-            var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
-            ViewBag.HOD = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
-            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
-            ViewBag.line_man = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
+            var empmodels = new master_fileController();
+            var afinallist = empmodels.emplist();
+            ViewBag.HOD = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid");
+            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid");
+            ViewBag.line_man = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid");
             return View();
         }
 
@@ -77,17 +71,11 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
 
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
-            var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
-            ViewBag.HOD = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.HOD);
-            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.Employee_id);
-            ViewBag.line_man = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.line_man);
+            var empmodels = new master_fileController();
+            var afinallist = empmodels.emplist();
+            ViewBag.HOD = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid", emprel.HOD);
+            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid", emprel.Employee_id);
+            ViewBag.line_man = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid", emprel.line_man);
             return View(emprel);
         }
 
@@ -103,17 +91,12 @@ namespace HRworks.Controllers
             {
                 return HttpNotFound();
             }
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
-            var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
 
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
-            ViewBag.HOD = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.HOD);
-            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.Employee_id);
-            ViewBag.line_man = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.line_man);
+            var empmodels = new master_fileController();
+            var afinallist = empmodels.emplist();
+            ViewBag.HOD = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid", emprel.HOD);
+            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid", emprel.Employee_id);
+            ViewBag.line_man = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid", emprel.line_man);
             return View(emprel);
         }
 
@@ -149,17 +132,11 @@ namespace HRworks.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
-            var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
-            ViewBag.HOD = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.HOD);
-            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.Employee_id);
-            ViewBag.line_man = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", emprel.line_man);
+            var empmodels = new master_fileController();
+            var afinallist = empmodels.emplist();
+            ViewBag.HOD = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid", emprel.HOD);
+            ViewBag.Employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid", emprel.Employee_id);
+            ViewBag.line_man = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid", emprel.line_man);
             return View(emprel);
         }
 

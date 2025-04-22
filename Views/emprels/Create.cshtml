@@ -4,6 +4,37 @@
     ViewBag.Title = "Create";
 }
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+        $(function () {
+            $("#Employee_id").chosen({ no_results_text: "Oops, nothing found!" });
+            $("#HOD").chosen({ no_results_text: "Oops, nothing found!" });
+            $("#line_man").chosen({ no_results_text: "Oops, nothing found!" });
+        });
+
+        function humanise(diff) {
+            // The string we're working with to create the representation
+            var str = '';
+            // Map lengths of `diff` to different time periods
+            var values = [[' year', 365], [' month', 30], [' day', 1]];
+            // Iterate over the values...
+            for (var i = 0; i < values.length; i++) {
+                var amount = Math.floor(diff / values[i][1]);
+                // ... and find the largest time value that fits into the diff
+                if (amount >= 1) {
+                    // If we match, add to the string ('s' is for pluralization)
+                    str += amount + values[i][0] + (amount > 1 ? 's' : '') + ' ';
+
+                    // and subtract from the diff
+                    diff -= amount * values[i][1];
+                }
+            }
+            return str;
+        }
+    </script>
 <h2>employee relations</h2>
 <h4>Create</h4>
 
