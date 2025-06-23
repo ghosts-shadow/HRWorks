@@ -1,10 +1,10 @@
 ﻿@using System.Data;
 @{
-    ViewBag.Title = "master file upload";
+    ViewBag.Title = "Import Users";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>master file upload</h2>
+<h2>Import Users </h2>
 <!--[if !IE]><!-->
 <style type="text/css">
 
@@ -84,10 +84,8 @@
 </style>
 
 <!--<![endif]-->
-<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value=" back to main" />
-@ViewBag.masternotuploaded
 <br />
-@using (Html.BeginForm("Masterfileupload", "uploaddata", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Importlistregister", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 
 {
     <table>
@@ -150,21 +148,21 @@
 
 
                     </tr>
-                }
             }
-            else
+        }
+        else
+        {
+            if (ViewBag.Errorlist != null)
             {
-                if (ViewBag.Error != null)
-                {
-                    <tr>
-                        <td style="color: red;">
+                <tr>
+                    <td style="color: red;">
 
-                            @(ViewBag.Error != null ? ViewBag.Error.ToString() : "")
-                        </td>
+                        @( ViewBag.Errorlist != null ? ViewBag.Error.ToString() : "")
+                    </td>
 
 
-                    </tr>
-                }
+                </tr>
             }
+        }
     </table>
 </div>

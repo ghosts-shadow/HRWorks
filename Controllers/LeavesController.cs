@@ -4142,124 +4142,124 @@ namespace HRworks.Controllers
 
         public ActionResult addReturn()
         {
-            var leavereturnempty = db.Leaves.Where(x => x.actual_return_date == null && x.Return_leave < DateTime.Now && x.Return_leave >= new DateTime(2025,1,1) && !x.master_file.last_working_day.HasValue /*&& x.master_file.employee_no == 5588*/)
+            var leaveReturnsPending = db.Leaves
+                .Where(x => x.actual_return_date == null &&
+                            x.Return_leave < DateTime.Now &&
+                            x.Return_leave >= new DateTime(2025, 1, 1) &&
+                            !x.master_file.last_working_day.HasValue)
                 .ToList();
-            var leavelist = db.Leaves.ToList();
-            var employeelist = db.master_file.ToList();
-            foreach (var leaf in leavereturnempty)
+
+            var allLeaves = db.Leaves.ToList();
+            var allEmployees = db.master_file.ToList();
+            var allHolidays = db3.Holidays.ToList();
+
+            foreach (var leave in leaveReturnsPending)
             {
-                
-                var emp = employeelist.Find(x => x.employee_id == leaf.Employee_id);
-                var HObio = db.hiks.Where(x=>x.ID == emp.employee_no.ToString()).ToList();
-                var projbio = db2.iclock_transaction.Where(x=>x.emp_code == emp.employee_no.ToString()).ToList();
-                if (HObio.Exists(x=>x.ID == emp.employee_no.ToString() && x.date >= leaf.Return_leave) || projbio.Exists(y=>y.emp_code == emp.employee_no.ToString() && y.punch_time >= leaf.Return_leave))
+                var employee = allEmployees.FirstOrDefault(e => e.employee_id == leave.Employee_id);
+                if (employee == null) continue;
+
+
+                string empCode = employee.employee_no.ToString();
+                var hoBiometrics = db.hiks.Where(b => b.ID == empCode && b.date >= leave.Return_leave).OrderBy(b => b.date).ToList();
+                var projectBiometrics = db2.iclock_transaction.Where(b => b.emp_code == empCode && b.punch_time >= leave.Return_leave).OrderBy(b => b.punch_time).ToList();
+
+                DateTime? firstHO = hoBiometrics.FirstOrDefault()?.date;
+                DateTime? firstProj = projectBiometrics.FirstOrDefault()?.punch_time;
+
+                DateTime? returnDate = null;
+
+                if (firstHO.HasValue && firstProj.HasValue)
                 {
-                    var returnHObiolist = HObio.FindAll(x =>
-                            x.ID == emp.employee_no.ToString() && x.date >= leaf.Return_leave).OrderBy(x => x.date).ToList();
-                    var returnprojbiolist = projbio.FindAll(x =>
-                            x.emp_id == emp.employee_no && x.punch_time == leaf.Return_leave).OrderBy(x => x.punch_time).ToList();
-                    var firstreturndateHO = new hik();
-                    var firstreturndatepro = new iclock_transaction();
-                    var holidaycheck = db3.Holidays.ToList();
-                    if (returnHObiolist.Count > 0)
-                    {
-                        firstreturndateHO = returnHObiolist[0];
-                    }
+                    returnDate = firstHO.Value.Date <= firstProj.Value.Date ? firstHO.Value.Date : firstProj.Value.Date;
+                }
+                else if (firstHO.HasValue)
+                {
+                    returnDate = firstHO.Value.Date;
+                }
+                else if (firstProj.HasValue)
+                {
+                    returnDate = firstProj.Value.Date;
+                }
 
-                    if (returnprojbiolist.Count > 0)
+                // If new leave starts same day, use Return_leave
+                if (allLeaves.Any(x => x.Start_leave == leave.Return_leave && x.Employee_id == leave.Employee_id))
+                {
+                    returnDate = leave.Return_leave;
+                }
+                
+                int absenceDays = 0;
+                if (returnDate.HasValue && returnDate > leave.Return_leave)
+                {
+                    bool allAreHolidays = true;
+                    for (var date = leave.Return_leave.Value; date < returnDate.Value; date = date.AddDays(1))
                     {
-                        firstreturndatepro = returnprojbiolist[0];
-                    }
-
-                    if (firstreturndateHO.date != null && !firstreturndatepro.emp_code.IsNullOrWhiteSpace())
-                    {
-                        if (firstreturndateHO.date.Value.Date > firstreturndatepro.punch_time.Date.Date)
+                        if (!allHolidays.Any(h => h.Date == date))
                         {
-                            if (leavelist.Exists(x=>x.Start_leave == leaf.Return_leave && x.Employee_id == leaf.Employee_id))
-                            {
-                                leaf.actual_return_date = leaf.Return_leave;
-                                leaf.actualchangedby = "auto added by system";
-                                leaf.actualchangeddateby = DateTime.Now;
-                            }
-                            else
-                            {
-                                leaf.actual_return_date = firstreturndateHO.date.Value.Date;
-                                leaf.actualchangedby = "auto added by system";
-                                leaf.actualchangeddateby = DateTime.Now;
-                            }
-                        }
-                        else
-                        {
-                            if (leavelist.Exists(x => x.Start_leave == leaf.Return_leave && x.Employee_id == leaf.Employee_id))
-                            {
-                                leaf.actual_return_date = leaf.Return_leave;
-                                leaf.actualchangedby = "auto added by system";
-                                leaf.actualchangeddateby = DateTime.Now;
-                            }
-                            else
-                            {
-                                leaf.actual_return_date = firstreturndatepro.punch_time.Date.Date;
-                                leaf.actualchangedby = "auto added by system";
-                                leaf.actualchangeddateby = DateTime.Now;
-                            }
-                        }
-
-                    }
-                    else if (firstreturndateHO.date == null && !firstreturndatepro.emp_code.IsNullOrWhiteSpace())
-                    {
-                        if (leavelist.Exists(x => x.Start_leave == leaf.Return_leave && x.Employee_id == leaf.Employee_id))
-                        {
-                            leaf.actual_return_date = leaf.Return_leave;
-                            leaf.actualchangedby = "auto added by system";
-                            leaf.actualchangeddateby = DateTime.Now;
-                        }
-                        else
-                        {
-                            leaf.actual_return_date = firstreturndatepro.punch_time.Date.Date;
-                            leaf.actualchangedby = "auto added by system";
-                            leaf.actualchangeddateby = DateTime.Now;
-                        }
-
-                    }else if (firstreturndateHO.date != null && firstreturndatepro.emp_code.IsNullOrWhiteSpace())
-                    {
-                        if (leavelist.Exists(x => x.Start_leave == leaf.Return_leave && x.Employee_id == leaf.Employee_id))
-                        {
-                            leaf.actual_return_date = leaf.Return_leave;
-                            leaf.actualchangedby = "auto added by system";
-                            leaf.actualchangeddateby = DateTime.Now;
-                        }
-                        else
-                        {
-                            leaf.actual_return_date = firstreturndateHO.date.Value.Date;
-                            leaf.actualchangedby = "auto added by system";
-                            leaf.actualchangeddateby = DateTime.Now;
+                            allAreHolidays = false;
+                            break;
                         }
                     }
 
-                    if (leaf.Return_leave == leaf.actual_return_date)
+                    if (allAreHolidays)
                     {
-                        leaf.actualchangedby = "auto added by system";
-                        leaf.actualchangeddateby = DateTime.Now;
-                    }
-                    else if(holidaycheck.Exists(x=>x.Date ==  leaf.Return_leave && leaf.actual_return_date.HasValue && x.Date == leaf.actual_return_date.Value.AddDays(-1)))
-                    {
-                        leaf.actual_return_date = leaf.Return_leave;
-                        leaf.actualchangedby = "auto added by system";
-                        leaf.actualchangeddateby = DateTime.Now;
+                        var adjustedDate = returnDate.Value;
+                        while (allHolidays.Any(h => h.Date == adjustedDate))
+                        {
+                            adjustedDate = adjustedDate.AddDays(1);
+                        }
+                        returnDate = adjustedDate;
                     }
 
+                    for (var date = leave.Return_leave.Value; date <= returnDate.Value; date = date.AddDays(1))
+                    {
+                        if (!allHolidays.Any(h => h.Date == date))
+                        {
+                            absenceDays++;
+                        }
+                    }
                 }
 
 
-                // this.db.Entry(leaf).State = EntityState.Modified;
-                // this.db.SaveChanges();
+                if (returnDate.HasValue && returnDate == leave.Return_leave)
+                {
+                    leave.actual_return_date = returnDate;
+                    leave.Reference = leave.actualchangedby;
+                    leave.actualchangedby = "auto added by system";
+                    leave.actualchangeddateby = DateTime.Now;
+                    db.Entry(leave).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
 
+                if (absenceDays > 0)
+                {
+                    var absdata = new leave_absence
+                    {
+                        Employee_id = leave.Employee_id,
+                        fromd = leave.Return_leave.Value,
+                        tod = returnDate.Value,
+                        absence = absenceDays
+                    };
+                    
+                    // leave.actual_return_date = returnDate;
+                    // leave.actualchangedby = "auto added by system";
+                    // leave.actualchangeddateby = DateTime.Now;
+                    // db.Entry(leave).State = EntityState.Modified;
+                    // db.leave_absence.Add(absdata);
+                    // db.SaveChanges();
+                }
+                else if (!leave.Return_leave.HasValue)
+                {
+                    leave.Reference = "no return date";
+                    // To activate in live: uncomment the following
+                    // db.Entry(leave).State = EntityState.Modified;
+                    // db.SaveChanges();
+                }
             }
 
-
-            return View(leavereturnempty.OrderBy(x=>x.master_file.employee_no).ToList());
+            return View(leaveReturnsPending.OrderBy(x => x.master_file.employee_no).ToList());
         }
-        
+
+
         public ActionResult duplive()
         {
             var allLeaves = db.Leaves

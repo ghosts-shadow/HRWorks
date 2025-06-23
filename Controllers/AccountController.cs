@@ -12,6 +12,12 @@ using Microsoft.Owin.Security;
 using HRworks.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using System.IO;
+using System.Data;
+using MailKit.Net.Smtp;
+using Microsoft.Office.Interop.Word;
+using Microsoft.Ajax.Utilities;
+using MimeKit;
 
 namespace HRworks.Controllers
 {
@@ -156,18 +162,19 @@ namespace HRworks.Controllers
             if (ModelState.IsValid)
             {
                 HREntities db = new HREntities();
-                var alist = db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
-                var masteremp = new List<master_file>();
-                var inactlist = alist.FindAll(x => x.status == "inactive");
-                foreach (var file in alist.OrderBy(x => x.employee_no).ThenByDescending(x => x.date_changed))
+                var mancon = new master_fileController();
+                var masteremp = mancon.emplist();
+                var emp = new master_file();
+                if (model.UserName.ToUpper().Contains("G-"))
                 {
-                    if (!inactlist.Exists(x => x.employee_no == file.employee_no))
-                    {
-                        masteremp.Add(file);
-                    }
-
+                    emp = masteremp.Find(x => x.emiid == model.UserName);
                 }
-                if (!masteremp.Exists(x=>x.employee_no == model.EMPNO))
+                else
+                {
+                    int.TryParse(model.UserName, out var empno);
+                    emp = masteremp.Find(x => x.employee_no == empno);
+                }
+                if (!masteremp.Exists(x=>x.employee_no == emp.employee_no))
                 {
                     ModelState.AddModelError("EMPNO","invalid emp no");
                     goto fail;
@@ -178,7 +185,7 @@ namespace HRworks.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    un.full_name = model.full_name;
+                    un.full_name = emp.employee_name;
                     un.aspnet_uid = user.Id;
                     var empid = masteremp.Find(x => x.employee_no == model.EMPNO);
                     un.employee_no = empid.employee_id;
@@ -186,12 +193,7 @@ namespace HRworks.Controllers
                     await this.UserManager.AddToRolesAsync(user.Id, userrole);
                     df.usernames.Add(un);
                     df.SaveChanges();
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    SendMail(model);
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -199,6 +201,188 @@ namespace HRworks.Controllers
             fail: ;
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+        public async Task<string> RegisterUserAsync(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return "Invalid model state";
+
+            var error = "";
+            using (var db = new HREntities())
+            {
+                var masteremp = new master_fileController().emplist();
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    var un = new username
+                    {
+                        full_name = model.full_name,
+                        aspnet_uid = user.Id
+                    };
+
+                    var emp = masteremp.Find(x => x.employee_no == model.EMPNO);
+                    if (emp != null)
+                        un.employee_no = emp.employee_id;
+
+                    var userRoles = model.UserRole.Split(',');
+                    await UserManager.AddToRolesAsync(user.Id, userRoles);
+
+                    db.usernames.Add(un);
+                    db.SaveChanges();
+
+                    SendMail(model);
+                }
+                else
+                {
+                    error = result.Errors.FirstOrDefault();
+                }
+            }
+
+            return error;
+        }
+        public void SendMail(RegisterViewModel empreg)
+        {
+            if (string.IsNullOrWhiteSpace(empreg.Email) || !IsValidEmail(empreg.Email))
+                return;
+
+            var message = new MimeMessage();
+
+            message.From.Add(new MailboxAddress("HR Leave System", "leave@citiscapegroup.com"));
+            message.To.Add(new MailboxAddress(empreg.full_name, empreg.Email));
+            message.Subject = "Leave system";
+
+            message.Body = new TextPart("plain")
+            {
+                Text = $@"Dear {empreg.full_name},
+
+Please find below credentials to access the HR system as per the request:
+
+Username: {empreg.UserName}
+Password: Qazwsx1!
+
+HR Leave system Link: http://ess.citiscapegroup.com
+
+Note: Password can be changed through the portal. Please save it for reference.
+
+Thank You And Best Regards"
+            };
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect("outlook.office365.com", 587, false);
+                client.Authenticate("leave@citiscapegroup.com", "Tak98020");
+                client.Send(message);
+                client.Disconnect(true);
+            }
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+
+        public ActionResult Importlistregister()
+        {
+            return View();
+        }
+
+        [ActionName("Importlistregister")]
+        [HttpPost]
+        public async Task<ActionResult> ImportlistregisterPost()
+        {
+            var uploadedFile = Request.Files["FileUpload1"];
+            if (uploadedFile == null || uploadedFile.ContentLength <= 0)
+            {
+                ViewBag.Error = "Please upload a CSV file.";
+                return View();
+            }
+
+            var extension = Path.GetExtension(uploadedFile.FileName).ToLower();
+            var validFileTypes = new[] { ".csv" };
+
+            if (!validFileTypes.Contains(extension))
+            {
+                ViewBag.Error = "Only CSV files are supported.";
+                return View();
+            }
+
+            var uploadPath = Server.MapPath("~/Content/Uploads");
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            var fullPath = Path.Combine(uploadPath, Path.GetFileName(uploadedFile.FileName));
+            if (System.IO.File.Exists(fullPath))
+                System.IO.File.Delete(fullPath);
+
+            uploadedFile.SaveAs(fullPath);
+
+            var dt = Utility.ConvertCSVtoDataTable(fullPath);
+            var errorList = new List<string>();
+            var employeeList = new master_fileController().emplist();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                var model = new RegisterViewModel();
+                bool skipRow = false;
+
+                if (row["Emp No"] == null || string.IsNullOrWhiteSpace(row["Emp No"].ToString()))
+                {
+                    errorList.Add("Missing Employee Number");
+                    continue;
+                }
+
+                var empNoValue = row["Emp No"].ToString();
+                master_file emp = null;
+
+                if (empNoValue.ToUpper().Contains("G-"))
+                    emp = employeeList.Find(x => x.emiid == empNoValue);
+                else if (int.TryParse(empNoValue, out var empNoParsed))
+                    emp = employeeList.Find(x => x.employee_no == empNoParsed);
+
+                if (emp == null)
+                {
+                    errorList.Add($"Employee not found for: {empNoValue}");
+                    continue;
+                }
+
+                model.EMPNO = emp.employee_no;
+                model.UserName = emp.emiid;
+                model.full_name = emp.employee_name;
+
+                if (row.Table.Columns.Contains("Assigned Email"))
+                {
+                    model.Email = row["Assigned Email"].ToString();
+                    model.Password = "Qazwsx1!";
+                    model.ConfirmPassword = "Qazwsx1!";
+                    model.UserRole = "employee";
+                }
+                else
+                {
+                    errorList.Add($"Missing Assigned Email for: {emp.employee_name}");
+                    continue;
+                }
+
+                var registrationError = await RegisterUserAsync(model);
+                if (!string.IsNullOrWhiteSpace(registrationError))
+                    errorList.Add($"{model.UserName}: {registrationError}");
+            }
+
+            ViewBag.Data = dt;
+            ViewBag.Errorlist = errorList;
+
+            return View("Importlistregister");
         }
 
         public async Task<ActionResult> RoleEdit(string id)
@@ -245,7 +429,7 @@ namespace HRworks.Controllers
         public async Task<ActionResult> ManageRoles(string userId)
         {
             var user = UserManager.Users.ToList().Find(x => x.Id == userId);
-            var allRoles = db.AspNetRoles.ToList();
+            var allRoles = db.AspNetRoles.Where(x=>!x.Name.Contains("admin")).ToList();
             var userRoles = await UserManager.GetRolesAsync(user.Id);
 
             var model = new ManageRolesViewModel

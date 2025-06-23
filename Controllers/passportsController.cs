@@ -24,10 +24,10 @@ namespace HRworks.Controllers
             var passports = db.passports;
             int pageIndex = 1;
             pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            int defaSize=10;
+            int defaSize=100;
             if (pagesize!=0)
             {
-                defaSize = (pagesize??10);
+                defaSize = (pagesize??100);
             }
             ViewBag.pagesize = defaSize;
             ViewBag.search = search;/*
@@ -117,7 +117,20 @@ namespace HRworks.Controllers
                 }
                 else
                 {
-                    ab = db.passports.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    if (search.ToUpper().Contains("G-"))
+                    {
+                        var matcon = new master_fileController();
+                        var searchterm = matcon.FormatEmployeeCode(search);
+                        ab = db.passports.Where(x => x.master_file.emiid.ToUpper().Contains("G-") && x.master_file.emiid.Contains(searchterm)).ToList();
+                    }
+                    else
+                    {
+                        ab = db.passports
+                            .Where(
+                                x => x.master_file.employee_name.ToUpper()
+                                    .Contains(search.ToUpper()) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+
+                    }
                 }
                 if (ab.Count != 0)
                 {
@@ -225,16 +238,10 @@ namespace HRworks.Controllers
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var matcon = new master_fileController();
             var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
-
-            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
+            afinallist = matcon.emplist();
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "emiid");
             ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View();
         }
@@ -289,16 +296,10 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var matcon = new master_fileController();
             var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
-
-            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
+            afinallist = matcon.emplist();
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "emiid");
             ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View(passport);
         }
@@ -317,15 +318,9 @@ namespace HRworks.Controllers
                 return HttpNotFound();
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var matcon = new master_fileController();
             var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
-
+            afinallist = matcon.emplist();
             this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
             ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View(passport);
@@ -384,15 +379,9 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
+            var matcon = new master_fileController();
             var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
-
+            afinallist = matcon.emplist();
             this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
             ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View(passport);

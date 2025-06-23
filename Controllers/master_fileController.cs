@@ -106,6 +106,18 @@ namespace HRworks.Controllers
             return afinallist;
         }
 
+        public string FormatEmployeeCode(string input)
+        {
+            if (!string.IsNullOrWhiteSpace(input) && input.ToUpper().StartsWith("G-"))
+            {
+                var parts = input.Split('-');
+                if (parts.Length == 2 && int.TryParse(parts[1], out int empNum))
+                {
+                    return $"G-{empNum.ToString("D4")}";
+                }
+            }
+            return input.ToUpper();
+        }
         public void DownloadExcel(string search)
         {
             List<master_file> passexel;
@@ -474,7 +486,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin")]
+        [Authorize(Roles = "super_admin,admin,payrole")]
         public ActionResult Create([Bind(Include =
                 "employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id,emiid,company")]
             master_file master_file, HttpPostedFileBase fileBase)

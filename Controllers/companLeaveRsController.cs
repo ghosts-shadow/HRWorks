@@ -39,23 +39,17 @@ namespace HRworks.Controllers
         // GET: companLeaveRs/Create
         public ActionResult Create()
         {
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
-            var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
-
-            ViewBag.EmpNo = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
+            var mancontrollar = new master_fileController();
+            var afinallist = mancontrollar.emplist();
+            ViewBag.EmployeeList = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid");
+            ViewBag.HowManyHours = new SelectList(Enumerable.Range(1, 12).Select(x => new { Value = x, Text = x + " Hr(s)" }), "Value", "Text");
             return View();
         }
 
         // POST: companLeaveRs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        /*[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,ForWhichDate,dateModified,addedBy,EmpNo,is_halfday_included")] companLeaveR companLeaveR)
         {
@@ -110,7 +104,81 @@ namespace HRworks.Controllers
 
             ViewBag.EmpNo = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no", companLeaveR.EmpNo);
             return View(companLeaveR);
+        }*/
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(compensatorylist compenLeaveRlist)
+        {
+            if (ModelState.IsValid)
+            {
+                var comlerslist = db.companLeaveRs.ToList();
+                var comleblist = db.companleaveBals.ToList();
+                var errorlist = new List<string>();
+                foreach (var compenLeaveR in compenLeaveRlist.companLeaveRlist)
+                {
+                    var compenbal = new companleaveBal();
+                    if (!comlerslist.Exists(x => x.EmpNo == compenLeaveR.EmpNo && x.ForWhichDate == compenLeaveR.ForWhichDate))
+                    {
+                        if (comleblist.Exists(x => x.EmpNo == compenLeaveR.EmpNo))
+                        {
+                            compenbal = comleblist.Find(x => x.EmpNo == compenLeaveR.EmpNo);
+                            if (compenbal.hrs == null)
+                            {
+                                compenbal.hrs = 0;
+                            }
+
+                            compenbal.hrs += compenLeaveR.how_many_hrs;
+                            if (compenbal.hrs >= 4)
+                            {
+                                var newHrbal = (compenbal.hrs % 4);
+                                compenbal.balance += (compenbal.hrs - newHrbal) / 4 / 2;
+                                compenbal.hrs = newHrbal;
+                            }
+                            compenLeaveR.addedBy = User.Identity.Name;
+                            compenbal.dateModified = DateTime.Now;
+                            db.Entry(compenbal).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            compenbal.EmpNo = compenLeaveR.EmpNo;
+                            compenbal.hrs = 0;
+                            compenbal.balance = 0;
+                            compenbal.hrs += compenLeaveR.how_many_hrs;
+                            if (compenbal.hrs >= 4)
+                            {
+                                var newHrbal = (compenbal.hrs % 4);
+                                compenbal.balance += (compenbal.hrs - newHrbal) / 4 / 2;
+                                compenbal.hrs = newHrbal;
+                            }
+
+                            compenbal.dateModified = DateTime.Now;
+                            db.companleaveBals.Add(compenbal);
+                            db.SaveChanges();
+                        }
+
+                        compenLeaveR.addedBy = User.Identity.Name;
+                        compenLeaveR.dateModified = DateTime.Now;
+                        db.companLeaveRs.Add(compenLeaveR);
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        errorlist.Add(compenLeaveR.EmpNo.ToString() + " " + compenLeaveR.ForWhichDate + " already exist");
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+
+            var mancontrollar = new master_fileController();
+            var afinallist = mancontrollar.emplist(); 
+            ViewBag.EmployeeList = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid", compenLeaveRlist.companLeaveRlist.FirstOrDefault().EmpNo);
+            ViewBag.HowManyHours = new SelectList(Enumerable.Range(1, 12).Select(x => new { Value = x, Text = x + " Hr(s)" }), "Value", "Text");
+            return View(compenLeaveRlist);
         }
+
 
         /*
         // GET: companLeaveRs/Edit/5
@@ -173,20 +241,53 @@ namespace HRworks.Controllers
             if (compballist.Exists(x => x.EmpNo == companLeaveR.EmpNo))
             {
                 var combal = compballist.Find(x => x.EmpNo == companLeaveR.EmpNo);
-                if (combal.balance != 0) {
-                    if (companLeaveR.is_halfday_included)
+                if (!combal.hrs.HasValue)
+                {
+                    combal.hrs = 0;
+                }
+
+                if (combal.balance != 0)
+                {
+                    combal.hrs += combal.balance * 8;
+
+                    if (combal.hrs < 0)
                     {
-                        combal.balance -= 0.5d;
+                        ModelState.AddModelError("ForWhichDate", "insufficient balance remaining to delete record");
+                        return View(companLeaveR);
+                    }
+                    combal.hrs -= companLeaveR.how_many_hrs;
+                    if (combal.hrs < 0)
+                    {
+                        ModelState.AddModelError("ForWhichDate", "insufficient balance remaining to delete record");
+                        return View(companLeaveR);
+                    }
+
+                }
+                else
+                {
+                    if (combal.hrs == 0)
+                    {
+                        ModelState.AddModelError("ForWhichDate", "no balance remaining to delete record");
+                        return View(companLeaveR);
                     }
                     else
                     {
-                        combal.balance -= 1;
+                        combal.hrs -= companLeaveR.how_many_hrs;
+                        if (combal.hrs < 0)
+                        {
+                            ModelState.AddModelError("ForWhichDate", "insufficient balance remaining to delete record");
+                            return View(companLeaveR);
+                        }
                     }
                 }
+
+                db.Entry(combal).State = EntityState.Modified;
+                db.companLeaveRs.Remove(companLeaveR);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            db.companLeaveRs.Remove(companLeaveR);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+
+            return View(companLeaveR);
         }
 
         protected override void Dispose(bool disposing)

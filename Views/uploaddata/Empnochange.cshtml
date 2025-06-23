@@ -1,10 +1,10 @@
 ﻿@using System.Data;
 @{
-    ViewBag.Title = "master file upload";
+    ViewBag.Title = "Emp Update";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>master file upload</h2>
+<h2>Emp Update</h2>
 <!--[if !IE]><!-->
 <style type="text/css">
 
@@ -87,7 +87,7 @@
 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value=" back to main" />
 @ViewBag.masternotuploaded
 <br />
-@using (Html.BeginForm("Masterfileupload", "uploaddata", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Empnochange", "uploaddata", FormMethod.Post, new { enctype = "multipart/form-data" }))
 
 {
     <table>

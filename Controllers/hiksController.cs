@@ -562,7 +562,7 @@ namespace HRworks.Controllers
             return this.View(hiklist.OrderBy(x => x.Employee_id).ThenBy(x => x.datetime1));
         }
 
-        public ActionResult index1(DateTime? getdate, DateTime? todate,string empno)
+        /*public ActionResult index1(DateTime? getdate, DateTime? todate,string empno)
         {
             if (!todate.HasValue && getdate.HasValue)
             {
@@ -631,7 +631,78 @@ namespace HRworks.Controllers
                 return this.View(passexel.FindAll(x=>x.EMPID == empnotemp).OrderBy(x => x.date).ThenBy(x => x.EMPID));
             }
             return this.View(passexel.OrderBy(x => x.date).ThenBy(x => x.EMPID).ThenBy(x=>x.time));
+        }*/
+
+        public ActionResult index1(DateTime? getdate, DateTime? todate, string empno)
+        {
+            if (!getdate.HasValue) return View(new List<hik>());
+
+            if (!todate.HasValue)
+            {
+                getdate = new DateTime(getdate.Value.Year, getdate.Value.Month, 1);
+                todate = new DateTime(getdate.Value.Year, getdate.Value.Month, DateTime.DaysInMonth(getdate.Value.Year, getdate.Value.Month));
+            }
+
+            ViewBag.eddate = getdate;
+            ViewBag.eddate2 = todate;
+
+            var allHiks = db.hiks
+                .Where(h => h.date >= getdate && h.date <= todate)
+                .OrderBy(h => h.datetime)
+                .ToList();
+
+            var masterData = db.master_file
+                .GroupBy(e => e.employee_no)
+                .ToDictionary(g => g.Key, g => g.First().employee_name);
+
+
+            foreach (var hik in allHiks)
+            {
+                if (int.TryParse(hik.ID, out var empId))
+                {
+                    hik.EMPID = empId;
+                    if (masterData.TryGetValue(empId, out var name))
+                    {
+                        hik.Person = name;
+                    }
+                }
+            }
+
+            var checkIns = allHiks.Where(h => h.Status == "CheckIN").ToList();
+            var checkOuts = allHiks.Where(h => h.Status == "CheckOut").ToList();
+
+            var firstCheckIns = checkIns
+                .GroupBy(h => new { h.EMPID, h.date })
+                .Select(g => g.OrderBy(h => h.datetime).First())
+                .ToList();
+
+            var lastCheckOuts = checkOuts
+                .GroupBy(h => new { h.EMPID, h.date })
+                .Select(g => g.OrderByDescending(h => h.datetime).First())
+                .ToList();
+
+            var fallbackCheckOuts = checkIns
+                .GroupBy(h => new { h.EMPID, h.date })
+                .Where(g => !lastCheckOuts.Any(o => o.EMPID == g.Key.EMPID && o.date == g.Key.date))
+                .Select(g => g.OrderByDescending(h => h.datetime).First())
+                .ToList();
+
+            foreach (var h in fallbackCheckOuts)
+                h.Status = "CheckOut";
+
+            var result = new List<hik>();
+            result.AddRange(firstCheckIns);
+            result.AddRange(lastCheckOuts);
+            result.AddRange(fallbackCheckOuts);
+
+            if (!string.IsNullOrWhiteSpace(empno) && int.TryParse(empno, out var empIdFilter))
+            {
+                result = result.Where(h => h.EMPID == empIdFilter).ToList();
+            }
+
+            return View(result.OrderBy(h => h.date).ThenBy(h => h.EMPID).ThenBy(h => h.time));
         }
+
 
         protected override void Dispose(bool disposing)
         {

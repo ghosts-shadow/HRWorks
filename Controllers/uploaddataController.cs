@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,7 @@ using HRworks.Models;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.CodeAnalysis;
+using Microsoft.Office.Interop.Word;
 using OfficeOpenXml;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
@@ -1247,6 +1249,145 @@ namespace HRworks.Controllers
                                     }
                                     db.master_file.Add(masterfile);
                                     db.SaveChanges();
+                                    e:;
+                                }
+                            }
+                        }
+                    }
+
+                    if (masternotuploaded == "emp no not uploaded : ")
+                    {
+                        masternotuploaded = "";
+                    }
+                    ViewBag.masternotuploaded = masternotuploaded;
+                }
+                else
+                {
+                    this.ViewBag.Error = "Please Upload Files in .csv format";
+                }
+            }
+            finally
+            {
+                if (System.IO.File.Exists(path1))
+                {
+                    System.IO.File.Delete(path1);
+                }
+            }
+
+            return View();
+        }
+        public ActionResult Empnochange()
+        {
+                
+            return View();
+        }
+        [HttpPost]
+        [ActionName("Empnochange")]
+        public ActionResult empnochange()
+        {
+
+            var path1 = "";
+            try
+            {
+                if (this.Request.Files["FileUpload1"].ContentLength > 0)
+                {
+                    var extension = Path.GetExtension(this.Request.Files["FileUpload1"].FileName).ToLower();
+                    string query = null;
+                    var connString = string.Empty;
+                    string[] validFileTypes = { ".csv" };
+                    var mancon =new  master_fileController();
+                    var masterlist = mancon.emplist();
+                    path1 = string.Format(
+                        "{0}/{1}",
+                        this.Server.MapPath("~/Content/Uploads"),
+                        this.Request.Files["FileUpload1"].FileName);
+                    var masternotuploaded ="emp no not uploaded : ";
+                    if (!Directory.Exists(path1)) Directory.CreateDirectory(this.Server.MapPath("~/Content/Uploads"));
+                    if (validFileTypes.Contains(extension))
+                    {
+                        if (System.IO.File.Exists(path1)) System.IO.File.Delete(path1);
+                        this.Request.Files["FileUpload1"].SaveAs(path1);
+                        if (extension == ".csv")
+                        {
+                            var dt = Utility.ConvertCSVtoDataTable(path1);
+                            this.ViewBag.Data = dt;
+                            if (dt.Rows.Count > 0)
+                            {
+                                var oldemono = new int();
+                                var newempno = "";
+                                var name = "";
+                                foreach (DataRow dr in dt.Rows)
+                                {
+                                    var addnew = false;
+                                    foreach (DataColumn column in dt.Columns)
+                                    {
+                                        if (dr[column] == null || dr[column].ToString() == " ") goto e;
+                                        if (column.ColumnName == "Old Employee Number")
+                                        {
+                                            int.TryParse(dr[column].ToString(), out var idm);
+                                            if (dr[column].ToString() == "#N/A" || idm == 0)
+                                            {
+                                                addnew = true;
+                                            }
+                                            else
+                                            {
+                                                oldemono = idm;
+                                            }
+                                        }
+                                        else if (column.ColumnName == "EMPNO")
+                                        {
+                                            newempno = dr[column].ToString();
+                                        }
+                                        else if (column.ColumnName == "Name")
+                                        {
+                                            name = dr[column].ToString();
+                                        }
+
+
+                                    }
+
+                                    if (addnew)
+                                    {
+                                        var newmas = new master_file();
+                                        newmas.emiid = newempno;
+                                        var parts = newempno.Split('-');
+                                        int.TryParse(parts[1], out var emp);
+                                        emp += 77700000;
+                                        newmas.employee_no = emp;
+                                        newmas.employee_name = name;
+                                        db.master_file.Add(newmas);
+                                        db.SaveChanges();
+                                    }
+                                    else
+                                    {
+                                        var mastervvarfinal = masterlist.Find(x => x.employee_no == oldemono);
+                                        var newmas = new master_file();
+                                        if (mastervvarfinal == null)
+                                        {
+                                            newmas.emiid = newempno;
+                                            var parts = newempno.Split('-');
+                                            int.TryParse(parts[1], out var emp);
+                                            emp += 77700000;
+                                            newmas.employee_no = emp;
+                                            newmas.employee_name = name;
+                                            db.master_file.Add(newmas);
+                                            db.SaveChanges();
+
+                                        }
+                                        else
+                                        {
+                                            var existingRecord = db.master_file.FirstOrDefault(x => x.employee_no == oldemono);
+                                            if (existingRecord != null || existingRecord.emiid != newempno)
+                                            {
+                                                existingRecord.emiid = newempno;
+                                                db.SaveChanges();
+                                            }
+
+                                        }
+
+                                    }
+
+
                                     e:;
                                 }
                             }

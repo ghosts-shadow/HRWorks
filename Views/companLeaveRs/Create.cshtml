@@ -1,70 +1,138 @@
-﻿@model HRworks.Models.companLeaveR
+﻿@model HRworks.Models.compensatorylist
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "new compensatory records";
 }
 
-<h2>Create</h2>
+<h2>add new compensatory leave records </h2>
 
-@using (Html.BeginForm()) 
+<!-- Styles -->
+<link href="https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.min.css" rel="stylesheet" />
+<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/Content/Style.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        $(function () {
-            $("#ForWhichDate").datepicker({
-                altField: "#alternate",
-                altFormat: "MM,yy",
-                changeMonth: true,
-                changeYear: true,
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                showButtonPanel: true,
-                dateFormat: "dd M yy"
-            });
-            $("#EmpNo").chosen({ no_results_text: "Oops, nothing found!" });
-        });
-    </script>
-<div class="form-horizontal">
-    <h4>companLeaveR</h4>
-    <hr />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.EmpNo, "EmpNo", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("EmpNo", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.EmpNo, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.ForWhichDate, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ForWhichDate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ForWhichDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.ForWhichDate, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.CheckBoxFor(model=>model.is_halfday_included, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.is_halfday_included, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    <table id="rowsTable" class="table">
+        <thead>
+            <tr>
+                <th>Employee No</th>
+                <th>For Which Date</th>
+                <th>How Many Hours</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DropDownList("companLeaveRlist[0].EmpNo", (SelectList)ViewBag.EmployeeList, "-- Select Employee --", new { @class = "form-control chosen-select" })
+                </td>
+                <td>
+                    <input type="text" name="companLeaveRlist[0].ForWhichDate" class="form-control datepicker" autocomplete="off" />
+                </td>
+                <td>
+                    @Html.DropDownList("companLeaveRlist[0].how_many_hrs", (SelectList)ViewBag.HowManyHours, "-- Select Hrs --", new { @class = "form-control chosen-select" })
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-remove">🗑️</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
-</div>
+    <button type="button" id="addRow" class="btn btn-secondary">Add Another Row</button>
+    <br />
+    <br />
+    <input type="submit" value="Save" class="btn btn-primary" />
 }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script>
+    $(function () {
+        // Initialize datepicker and chosen in a given container (or entire document)
+        function initializePlugins(context) {
+            context.find(".datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "dd M yy"
+            });
+
+            context.find(".chosen-select").chosen({ width: "100%" });
+        }
+
+        // Re-index all rows to ensure sequential naming (0,1,2,...)
+        function reindexRows() {
+            $("#rowsTable tbody tr").each(function (index) {
+                $(this).find("select, input").each(function () {
+                    var name = $(this).attr("name");
+                    if (name) {
+                        // Replace any index inside square brackets with the new index.
+                        var newName = name.replace(/\[\d+\]/, "[" + index + "]");
+                        $(this).attr("name", newName);
+                    }
+                });
+            });
+        }
+
+        // Initialize plugins on initial row(s)
+        initializePlugins($(document));
+
+        var rowIndex = $("#rowsTable tbody tr").length; // start index based on the current count
+
+        // Handler for adding rows
+        $("#addRow").click(function () {
+            // Clone the first row (which has the correct structure)
+            var $lastRow = $("#rowsTable tbody tr:first");
+            var $newRow = $lastRow.clone();
+
+            // Clear input values and update the name attributes
+            $newRow.find("select, input").each(function () {
+                var $el = $(this);
+                // Update the index using a temporary rowIndex
+                var name = $el.attr("name");
+                if (name) {
+                    var newName = name.replace(/\[\d+\]/, "[" + rowIndex + "]");
+                    $el.attr("name", newName);
+                }
+                $el.val("");
+            });
+
+            // Remove any existing Chosen container and destroy the instance
+            $newRow.find(".chosen-container").remove();
+            $newRow.find(".chosen-select").removeAttr("data-original-index").show().chosen("destroy");
+
+            // Remove any datepicker binding to avoid duplicate IDs
+            $newRow.find(".datepicker").removeClass("hasDatepicker").removeAttr("id");
+
+            // Append the new row, reinitialize plugins, and then reindex all rows.
+            $("#rowsTable tbody").append($newRow);
+            initializePlugins($newRow);
+            rowIndex++; // Increment the global row counter
+            reindexRows();
+        });
+
+        // Handler for removing rows
+        $("#rowsTable").on("click", ".btn-remove", function () {
+            if ($("#rowsTable tbody tr").length > 1) {
+                $(this).closest("tr").remove();
+                reindexRows();
+                // Also update rowIndex to the new count:
+                rowIndex = $("#rowsTable tbody tr").length;
+            } else {
+                alert("At least one row is required.");
+            }
+        });
+    });
+</script>

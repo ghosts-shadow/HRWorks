@@ -10,19 +10,16 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         $(function () {
-            $("#datepicker").datepicker();
-        });
-        $(function () {
-            $("#datepicker1").datepicker();
-        });
-        $(function () {
-            $("#datepicker2").datepicker();
+            $("#datepicker, #datepicker1, #datepicker2").datepicker();
+            $("#employee_no, #employee_no1").chosen({ no_results_text: "Oops, nothing found!" });
         });
     </script>
     <script>
         function byidfill(parameters) {
+            $("#employee_no, #employee_no1").chosen("destroy");
             var filled = document.getElementById('fill');
             document.getElementById('hide2').style.display = "none";
             var x = document.getElementById("employee_no1");
@@ -33,10 +30,12 @@
             var w = document.getElementById("demo1");
             z.style.display = "";
             w.style.display = "none";
+            $("#employee_no, #employee_no1").chosen({ no_results_text: "Oops, nothing found!" });
             myFunction();
         };
 
         function bynamefill(parameters) {
+            $("#employee_no, #employee_no1").chosen("destroy");
             document.getElementById('hide2').style.display = "";
             var x = document.getElementById("employee_no1");
             var y = document.getElementById("employee_no");
@@ -46,6 +45,7 @@
             var w = document.getElementById("demo1");
             w.style.display = "";
             z.style.display = "none";
+            $("#employee_no, #employee_no1").chosen({ no_results_text: "Oops, nothing found!" });
             myFunction1();
         };
 

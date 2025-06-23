@@ -104,21 +104,21 @@ namespace HRworks.Controllers
 
                 leavetoemp.empreturnfromleavesubs.Add(empreturn);
                 employeeleavesubmitions.Add(leavetoemp);
+                {
+                    /*
                 if (leaf.Reference == null)
                 {
                     leaf.Reference = DateTime.Now.ToString("F");
                 }
 
-                rdate = Convert.ToDateTime(leaf.Reference);
-                {
-                    /*if (leaf.leave_type == "1")
+                //rdate = Convert.ToDateTime(leaf.Reference);if (leaf.leave_type == "1")
                     {
                         if (leaf.half)
                         {
                             if (DateTime.Today > leaf.Start_leave)
                             {
                                 times = leaf.End_leave - leaf.Start_leave;
-                                if (times != null) availed += times.Value.TotalDays + 1 - 0.5;
+                                if (times != null) availed += times.Value.TotalDays + 1 - 0.5; 
                             }
                             else
                             {
@@ -358,7 +358,14 @@ namespace HRworks.Controllers
             this.ViewBag.faval = favailed;
             this.ViewBag.taval = availed + favailed;
             this.ViewBag.name = empjd.employee_name;
-            this.ViewBag.no = empjd.employee_no;
+            if (!empjd.emiid.IsNullOrWhiteSpace())
+            {
+                this.ViewBag.no = empjd.emiid;
+            }
+            else
+            {
+                this.ViewBag.no = empjd.employee_no;
+            }
             this.ViewBag.netp = leavebal2020[0].net_period;
             this.ViewBag.udd = udd;
             this.ViewBag.esco = esco;
