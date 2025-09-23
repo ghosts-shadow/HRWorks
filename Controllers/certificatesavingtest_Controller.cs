@@ -2032,14 +2032,9 @@ namespace HRworks.Controllers
         public ActionResult hrcertificatesubmmit(certificatesavingtest_ certificatesavingtest_, string certificate_of,
             DateTime? resignationsubdate)
         {
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var mancon = new master_fileController();
             var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
+            afinallist = mancon.emplist(true);
 
             if (certificate_of.IsNullOrWhiteSpace())
             {
@@ -2108,7 +2103,7 @@ namespace HRworks.Controllers
             end: ;
             ViewBag.certificate_type = new SelectList(db.certificatetypes.Where(x => x.certificsatefor == "HR"), "Id",
                 "certificate_name_");
-            ViewBag.employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "employee_no");
+            ViewBag.employee_id = new SelectList(afinallist.OrderBy(x => x.employee_no), "employee_id", "emiid");
             return View();
         }
 

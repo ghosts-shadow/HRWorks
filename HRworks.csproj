@@ -2357,6 +2357,9 @@
     <Content Include="Views\Account\ManageRoles.cshtml" />
     <Content Include="Views\Account\Importlistregister.cshtml" />
     <Content Include="Views\uploaddata\Empnochange.cshtml" />
+    <Content Include="Views\master_file\notregistered.cshtml" />
+    <Content Include="Views\Attendances\mobileappatt.cshtml" />
+    <Content Include="Views\Attendances\newprojectatt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

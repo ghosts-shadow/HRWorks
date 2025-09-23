@@ -88,10 +88,8 @@ namespace HRworks.Models
         [Required]
         [Display(Name = "User Role")]
         public string UserRole { get; set; }
-        [Required]
         [Display(Name = "Name")]
         public string full_name { get; set; }
-        [Required]
         [Display(Name = "employee no")]
         public int EMPNO { get; set; }
     }

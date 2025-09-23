@@ -633,11 +633,9 @@
                                 foreach (DataColumn column in dt.Columns)
                                 {
                                     if (dr[column] == null || dr[column].ToString() == " ") goto e;
-
                                     if (column.ColumnName == "designation") pro.designation = dr[column].ToString();
                                     if (column.ColumnName == "grade") pro.grade = dr[column].ToString();
-                                    if (column.ColumnName == "department/project")
-                                        pro.departmant_project = dr[column].ToString();
+                                    if (column.ColumnName == "department/project") pro.departmant_project = dr[column].ToString();
                                     if (column.ColumnName == "salary_details")
                                     {
                                         var dtt = this.Protect(dr[column].ToString());

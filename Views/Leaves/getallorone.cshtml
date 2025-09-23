@@ -2,11 +2,11 @@
     @using PagedList.Mvc
 
 @{
-    ViewBag.Title = "Change/Enter actual return date";
+    ViewBag.Title = "Leave modification";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Change / Enter actual return date</h2>
+<h2>Leave modification</h2>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -61,7 +61,7 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.days)
-        </th>
+        </th>@*
         <th>
             @Html.DisplayNameFor(model => model.Return_leave)
         </th>
@@ -70,7 +70,7 @@
         </th>
         <th>
             actual return date
-        </th>
+        </th>*@
         @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")
         {
             <th>changed by</th>
@@ -101,7 +101,7 @@
             @Html.DisplayFor(modelItem => item.Date)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.master_file.employee_no)
+            @Html.DisplayFor(modelItem => item.master_file.emiid)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.master_file.employee_name)
@@ -220,7 +220,7 @@
                 }
             }
 
-        </td>
+        </td>@*
         <td>
             @Html.DisplayFor(modelItem => item.Return_leave)
         </td>
@@ -267,7 +267,7 @@
             {
                 @Html.DisplayFor(modelItem => item.actual_return_date)
             }
-        </td>
+        </td>*@
         @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")
         {
             <td>
@@ -280,7 +280,7 @@
         @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
         {
             <td>
-                @Html.ActionLink("change/enter actual return date", "Edit", new { id = item.Id, search = @ViewBag.search, page = @ViewBag.page })
+                @Html.ActionLink("Modify Leave", "Edit", new { id = item.Id, search = @ViewBag.search, page = @ViewBag.page })
                 @if (User.IsInRole("super_admin"))
                 {
                     <b>| @Html.ActionLink("delete", "Delete", new { id = item.Id, search = @ViewBag.search, page = @ViewBag.page })</b>

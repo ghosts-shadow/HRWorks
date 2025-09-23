@@ -24,7 +24,7 @@
             <div class="col-lg-4">
                 @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
                 {
-                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("getallorone")'" value="Change/Enter Actual Return Date" />
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("getallorone")'" value="Leave Modification" />
                 }
                 <br />
                 <br />
@@ -33,8 +33,9 @@
                 <br />
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("allpendingapprovals","employeeleavesubmitions")'" value="leave not approved " />
             </div>
-            <div class="col-lg-3">
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leave_absence_Index")'" value=" Absence Report" />
+            <div class="col-lg-3">@*
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leave_absence_Index")'" value=" Absence Report" />*@
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("SickLeaveReport", "Leaves")'" value="Sick leave record" />
                 <br />
                 <br />
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("getallonleave")'" value="On Leave" />
@@ -46,9 +47,9 @@
                 }
             </div>
             <div class="col-lg-3">
-                <br />
-                <br />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("allpendingapprovals","empreturnfromleavesubs")'" value="return leave not approved" />
+                @*
+        <br />
+        <br /><input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("allpendingapprovals","empreturnfromleavesubs")'" value="pending approvals leave" />*@
                 <br />
                 <br />
                 @if (User.IsInRole("super_admin") || User.IsInRole("slapproval"))
@@ -69,7 +70,6 @@
                 }
                 <br />
                 <br />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("SickLeaveReport", "Leaves")'" value="Sick leave record" />
 
             </div>
             

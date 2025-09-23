@@ -1,0 +1,106 @@
+﻿@using HRworks.Models
+@using Microsoft.Ajax.Utilities
+@model IEnumerable<HRworks.Models.iclock_transaction>
+
+@{
+    ViewBag.Title = "mobile app att";
+    var i = 0;
+    string a = "";
+}
+
+<h2>mobile app attendance</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.emp_code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.punch_time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.punch_state)
+        </th>
+        <th>
+            @Html.DisplayName("Project name")
+        </th>
+        <th>
+            @Html.DisplayName("map")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.gps_location)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.OrderByDescending(x=>x.punch_time))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.emp_code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.punch_time)
+            </td>
+            <td>
+                    @if (item.punch_state == "0")
+                    {
+                        var ps = "check in";
+                        @ps
+                    }
+                    else
+                    {
+                        var ps = "check out";
+                        @ps
+                    }</td>
+            <td>
+                @{
+                    if (!item.work_code.IsNullOrWhiteSpace())
+                    {
+                        List<iclock_terminalworkcode> prolist = ViewBag.worktopro;
+                        var proname = prolist.Find(x => x.code == item.work_code);
+                        a = proname.alias;
+                        if (a.IsNullOrWhiteSpace())
+                        {
+                            a = "no project name assigned";
+                        }
+                        @a
+                    }
+                    else
+                    {
+                        a = "no project name assigned";
+                        @a
+                    }
+                }
+            </td>@*
+            <td style="width:500px; height:250px;">
+
+                <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+                <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+                <div id="map_@i" style="height:100%" ></div>
+
+                <script>
+    // Initialize map
+    var map = L.map('map_@i').setView([@item.latitude, @item.longitude], 15);
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Add marker
+    L.marker([@item.latitude, @item.longitude]).addTo(map)
+        .bindPopup("@a")
+        .openPopup();
+                </script>
+            </td>*@
+            <td><a href="https://www.google.com/maps?q=@item.latitude,@item.longitude" target="_blank">
+                Open in Google Maps
+            </a></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.gps_location)
+            </td>
+        </tr>
+        i++;
+    }
+
+</table>

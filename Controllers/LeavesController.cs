@@ -49,7 +49,7 @@ namespace HRworks.Controllers
                 new ListItem { Text = "Compensatory", Value = "13" },
                 new ListItem { Text = "balance rectification", Value = "14" }
             };
-            this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");
+            this.ViewBag.leave_type = new SelectList(listItems, "Value", "Text");/*
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
@@ -58,11 +58,13 @@ namespace HRworks.Controllers
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
             }
-
+            */
+            var mancaon = new master_fileController();
+            var afinallist = mancaon.emplist();
             this.ViewBag.employee_id = new SelectList(
                 afinallist.OrderBy(x => x.employee_no),
                 "employee_id",
-                "employee_no");
+                "emiid");
             ViewBag.employee_id1 = new SelectList(
                 afinallist.OrderBy(e => e.employee_name),
                 "employee_id",
@@ -99,19 +101,12 @@ namespace HRworks.Controllers
                 new ListItem { Text = "Compensatory", Value = "13" },
                 new ListItem { Text = "balance rectification", Value = "14" }
             };
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
-            var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
-
+            var mancaon = new master_fileController();
+            var afinallist = mancaon.emplist();
             this.ViewBag.employee_id = new SelectList(
                 afinallist.OrderBy(x => x.employee_no),
                 "employee_id",
-                "employee_no");
+                "emiid");
             ViewBag.employee_id1 = new SelectList(
                 afinallist.OrderBy(e => e.employee_name),
                 "employee_id",
@@ -1162,11 +1157,22 @@ namespace HRworks.Controllers
                 }
                 else
                 {
-                    leaves = db.Leaves
-                        .Where(
-                            x => x.master_file.employee_name
-                                .Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
-                        .OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.Start_leave).ToList();
+                    if (search.ToUpper().Contains("G-"))
+                    {
+                        leaves = db.Leaves
+                            .Where(
+                                x => x.master_file.emiid
+                                    .Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
+                            .OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.Start_leave).ToList();
+                    }
+                    else
+                    {
+                        leaves = db.Leaves
+                            .Where(
+                                x => x.master_file.employee_name
+                                    .Contains(search) /*.Contains(search) /*.StartsWith(search)*/)
+                            .OrderBy(x => x.master_file.employee_no).ThenByDescending(x => x.Start_leave).ToList();
+                    }
                 }
             }
 
@@ -2788,6 +2794,23 @@ namespace HRworks.Controllers
 
         public ActionResult reportserch(int? days)
         {
+            
+            var leaves = new List<Leave>();
+            var leaveballist = db.leavecalperyears.Where(x => x.balances_of_year.Year == DateTime.Now.Year && x.master_file.last_working_day == null).ToList();
+
+            if (days.HasValue)
+            {
+                var lbldays = leaveballist.FindAll(x => x.leave_balance <= days);
+                foreach (var leavecalperyear in lbldays)
+                {
+                    var templeave = new Leave();
+                    templeave.master_file = leavecalperyear.master_file;
+                    templeave.Employee_id = leavecalperyear.Id;
+                    templeave.leave_bal = leavecalperyear.leave_balance;
+                    leaves.Add(templeave);
+                }
+            }
+            /*
             var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             var duplist = new List<master_file>();
@@ -2813,7 +2836,6 @@ namespace HRworks.Controllers
             }
 
             ViewBag.days = days;
-            var leaves = new List<Leave>();
 
             if (days.HasValue)
             {
@@ -2898,9 +2920,9 @@ namespace HRworks.Controllers
                         leavesnew.Add(leaf);
                     }
                 }
-
                 return this.View(leavesnew.OrderBy(x => x.leave_bal));
             }
+*/
 
             return this.View(leaves);
         }
@@ -2912,16 +2934,8 @@ namespace HRworks.Controllers
             var SLRyear = new DateTime();
             DateTime.TryParse(year, out SLRyear);
             var leavelist = db.Leaves.Where(x => x.leave_type == "2").ToList();
-            var alist = this.db.master_file
-                .Where(e => e.last_working_day == null)
-                .OrderBy(e => e.employee_no)
-                .ThenByDescending(x => x.date_changed)
-                .ToList();
-            var afinallist = alist
-                .GroupBy(x => x.employee_no)
-                .Select(g => g.First())
-                .Where(x => x.employee_no != 0 && x.employee_no != 1 && x.employee_no != 100001)
-                .ToList();
+            var mancaon = new master_fileController();
+            var afinallist = mancaon.emplist();
             var SLRlist = new List<SickLeaveR>();
 
             if (year == null)
@@ -3008,12 +3022,11 @@ namespace HRworks.Controllers
                 }
                 else
                 {
-                    // var svalue = search.ToUpperInvariant();
-                    // lbdisplaylist = Lbpyearlist.FindAll(x => x.master_file.employee_name.ToUpperInvariant().Contains(svalue));
-                    // if (lbdisplaylist.Count > 0)
-                    // {
-                    //     leavebalcalperyear(lbdisplaylist.First().Employee_id);
-                    // }
+                    lbdisplaylist = Lbpyearlist.FindAll(x => x.master_file.emiid == search);
+                    if (lbdisplaylist.Count > 0)
+                    {
+                        leavebalcalperyear(lbdisplaylist.First().Employee_id);
+                    }
                 }
             }
 

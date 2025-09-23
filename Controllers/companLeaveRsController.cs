@@ -10,6 +10,7 @@ using HRworks.Models;
 
 namespace HRworks.Controllers
 {
+    [Authorize]
     public class companLeaveRsController : Controller
     {
         private HREntities db = new HREntities();
@@ -113,13 +114,14 @@ namespace HRworks.Controllers
         {
             if (ModelState.IsValid)
             {
-                var comlerslist = db.companLeaveRs.ToList();
-                var comleblist = db.companleaveBals.ToList();
                 var errorlist = new List<string>();
                 foreach (var compenLeaveR in compenLeaveRlist.companLeaveRlist)
                 {
+                    var comlerslist = db.companLeaveRs.ToList();
+                    var comleblist = db.companleaveBals.ToList();
                     var compenbal = new companleaveBal();
-                    if (!comlerslist.Exists(x => x.EmpNo == compenLeaveR.EmpNo && x.ForWhichDate == compenLeaveR.ForWhichDate))
+                    if (!comlerslist.Exists(x =>
+                            x.EmpNo == compenLeaveR.EmpNo && x.ForWhichDate == compenLeaveR.ForWhichDate))
                     {
                         if (comleblist.Exists(x => x.EmpNo == compenLeaveR.EmpNo))
                         {
@@ -136,6 +138,7 @@ namespace HRworks.Controllers
                                 compenbal.balance += (compenbal.hrs - newHrbal) / 4 / 2;
                                 compenbal.hrs = newHrbal;
                             }
+
                             compenLeaveR.addedBy = User.Identity.Name;
                             compenbal.dateModified = DateTime.Now;
                             db.Entry(compenbal).State = EntityState.Modified;
@@ -166,9 +169,11 @@ namespace HRworks.Controllers
                     }
                     else
                     {
-                        errorlist.Add(compenLeaveR.EmpNo.ToString() + " " + compenLeaveR.ForWhichDate + " already exist");
+                        errorlist.Add(
+                            compenLeaveR.EmpNo.ToString() + " " + compenLeaveR.ForWhichDate + " already exist");
                     }
                 }
+
                 return RedirectToAction("Index");
             }
 
@@ -256,6 +261,11 @@ namespace HRworks.Controllers
                         return View(companLeaveR);
                     }
                     combal.hrs -= companLeaveR.how_many_hrs;
+
+                    var newHrbal = (combal.hrs % 4);
+                    combal.balance = (combal.hrs - newHrbal) / 4 / 2;
+                    combal.hrs = newHrbal;
+
                     if (combal.hrs < 0)
                     {
                         ModelState.AddModelError("ForWhichDate", "insufficient balance remaining to delete record");

@@ -151,8 +151,8 @@ namespace HRworks.Controllers
         {
             return View();
         }
+        
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -181,15 +181,31 @@ namespace HRworks.Controllers
                 }
                 HREntities df=new HREntities();
                 username un=new username();
+                string[] userrole = model.UserRole.Split(',');
+                if (!userrole.Contains("employee"))
+                {
+                    var username = "";
+                    var temp = model.Email.Split('@');
+                    username = temp[0];
+                    model.UserName = username;
+                }
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                var i = 1;
+                while(!result.Succeeded)
+                {
+                    model.UserName = model.UserName.Insert(model.UserName.Length, i.ToString());
+                    user.UserName = model.UserName;
+                    result = await UserManager.CreateAsync(user, model.Password);
+                    i++;
+                } 
                 if (result.Succeeded)
                 {
                     un.full_name = emp.employee_name;
-                    un.aspnet_uid = user.Id;
-                    var empid = masteremp.Find(x => x.employee_no == model.EMPNO);
-                    un.employee_no = empid.employee_id;
-                    string[] userrole = model.UserRole.Split(',');
+                    un.aspnet_uid = user.Id; 
+                    un.employee_no = emp.employee_id;
+                    model.EMPNO = emp.employee_no;
+                    model.full_name = emp.employee_name;
                     await this.UserManager.AddToRolesAsync(user.Id, userrole);
                     df.usernames.Add(un);
                     df.SaveChanges();

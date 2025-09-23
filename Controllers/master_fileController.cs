@@ -88,7 +88,7 @@ namespace HRworks.Controllers
 
             var prealist = db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList().GroupBy(x => x.employee_no).Select(s => s.First());
             var alist = prealist
-                .Where(e => e.last_working_day == null)
+                .Where(e => (e.last_working_day == null))
                 .ToList();
 
             var afinallist = alist
@@ -104,6 +104,80 @@ namespace HRworks.Controllers
                 }
             }
             return afinallist;
+        }
+
+        public List<master_file> emplist(bool? ldnotneeded)
+        {
+
+            var prealist = db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList().GroupBy(x => x.employee_no).Select(s => s.First());
+            var alist = prealist
+                .Where(e => e.last_working_day == null)
+                .ToList();
+            if (ldnotneeded.HasValue && ldnotneeded.Value)
+            {
+                alist = prealist.ToList();
+            }
+
+            var afinallist = alist
+                .GroupBy(x => x.employee_no)
+                .Select(g => g.First())
+                .Where(file => file.employee_no != 1 && file.employee_no != 100001)
+                .ToList();
+            foreach (var file in afinallist)
+            {
+                if (file.emiid.IsNullOrWhiteSpace())
+                {
+                    file.emiid = file.employee_no.ToString();
+                }
+            }
+            return afinallist;
+        }
+
+        public List<master_file> emplistatt(DateTime? datelastend)
+        {
+
+            var prealist = db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList().GroupBy(x => x.employee_no).Select(s => s.First());
+            var alist = prealist
+                .Where(e => e.last_working_day == null || e.last_working_day >= datelastend).ToList();
+                
+            if (!datelastend.HasValue)
+            {
+                alist = prealist
+                    .Where(e => e.last_working_day == null)
+                    .ToList();
+            }
+
+            var testlist = emplist();
+
+            var afinallist = alist
+                .GroupBy(x => x.employee_no)
+                .Select(g => g.First())
+                .Where(file => file.employee_no != 1 && file.employee_no != 100001)
+                .ToList();
+            foreach (var file in afinallist)
+            {
+                if (file.emiid.IsNullOrWhiteSpace())
+                {
+                    file.emiid = file.employee_no.ToString();
+                }
+            }
+            return afinallist;
+        }
+
+        public ActionResult notregistered()
+        {
+            var emplist = this.emplist();
+            var notinuserlist = new List<master_file>();
+            var userlist = db.usernames.ToList();
+            foreach (var emp in emplist)
+            {
+                if (!userlist.Exists(x=>x.employee_no == emp.employee_id))
+                {
+                    notinuserlist.Add(emp);
+                }
+            }
+
+            return View(notinuserlist);
         }
 
         public string FormatEmployeeCode(string input)

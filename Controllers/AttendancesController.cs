@@ -1513,17 +1513,10 @@ namespace HRworks.Controllers
             {
                 dayto = dayto.Value.AddDays(1);
             }
+            var workcode = db2.iclock_terminalworkcode.ToList();
 
-            var alist = this.db1.master_file
-                .Where(e => e.last_working_day == null)
-                .OrderBy(e => e.employee_no)
-                .ThenByDescending(x => x.date_changed)
-                .ToList();
-            var afinallist = alist
-                .GroupBy(x => x.employee_no)
-                .Select(g => g.First())
-                .Where(x => x.employee_no != 0 && x.employee_no != 1 && x.employee_no != 100001)
-                .ToList();
+            var mancon = new master_fileController();
+            var afinallist = mancon.emplist(true);
 
 
             do
@@ -1548,18 +1541,18 @@ namespace HRworks.Controllers
                     {
                         var empatt = iclocklist.FindAll(x => x.emp_code == file.employee_no.ToString())
                             .OrderBy(x => x.punch_time).ToList();
-                        var firstin = empatt.First();
-                        firstin.mobile = file.employee_name;
-                        if (empatt.Count() > 1)
+                        foreach (var transaction in empatt)
                         {
-                            var lastout = empatt.Last();
-                            lastout.punch_state = "1";
-                            lastout.mobile = file.employee_name;
-                            patt.Add(lastout);
+                            transaction.mobile = file.employee_name;
+                            if (transaction.area_alias.IsNullOrWhiteSpace() && !transaction.work_code.IsNullOrWhiteSpace())
+                            {
+                                transaction.area_alias = workcode.Find(x => x.code == transaction.work_code).alias;
+                            }
 
                         }
 
-                        patt.Add(firstin);
+                       
+                        patt.AddRange(empatt);
                     }
                 }
 
@@ -1575,23 +1568,10 @@ namespace HRworks.Controllers
             return View(patt.OrderBy(x => x.area_alias).ThenBy(x => x.emp_code).ThenBy(x => x.punch_time).ToList());
         }
 
-        public ActionResult absreport(DateTime? dayfrom, DateTime? dayto, string empno)
+        public ActionResult newprojectatt(DateTime? dayfrom, DateTime? dayto, string empno)
         {
-            var gradelist = new List<string>
-            {
-                "4C","4B","4A","5B","5A","6B","6A","7B","7A","8B","8A","9"
-            };
-            
-            var alist = this.db1.master_file
-                .Where(e => e.last_working_day == null)
-                .OrderBy(e => e.employee_no)
-                .ThenByDescending(x => x.date_changed)
-                .ToList().FindAll(x => x.contracts.Count > 0 && (x.contracts.First().departmant_project != "Procurement" && gradelist.Exists(y=>y == x.contracts.First().grade))); ;
-            var afinallist = alist
-                .GroupBy(x => x.employee_no)
-                .Select(g => g.First())
-                .Where(x => x.employee_no != 0 && x.employee_no != 1 && x.employee_no != 100001)
-                .ToList();
+
+            var patt = new List<iclock_transaction>();
             if (dayfrom == null)
             {
                 dayfrom = DateTime.Today;
@@ -1605,7 +1585,56 @@ namespace HRworks.Controllers
             {
                 dayto = dayto.Value.AddDays(1);
             }
+            var workcode = db2.iclock_terminalworkcode.ToList();
 
+            var mancon = new master_fileController();
+            var afinallist = mancon.emplist(true).FindAll(x => x.emiid == "4710");
+
+            foreach (var file in afinallist)
+            {
+                do
+                {
+                    var startDate = dayfrom.Value.Date;
+                    var endDate = startDate.AddDays(1);
+                    var iclocklist = db2.iclock_transaction
+                        .Where(x => x.punch_time >= startDate && x.punch_time < endDate && x.emp_code == file.emiid)
+                        .ToList();
+                    if (iclocklist.Count() < 0)
+                    {
+                        goto end;
+                    }
+                    
+
+
+                    end:;
+                    dayfrom.Value.AddDays(1);
+                } while (dayfrom != dayto);
+            }
+
+            return View();
+        }
+        /*
+        public ActionResult absreport(DateTime? dayfrom, DateTime? dayto, string empno)
+        {
+            if (dayfrom == null)
+            {
+                dayfrom = DateTime.Today;
+            }
+
+            if (dayto == null)
+            {
+                dayto = dayfrom.Value.AddDays(1);
+            }
+            else
+            {
+                dayto = dayto.Value.AddDays(1);
+            }
+            var mancon = new master_fileController();
+            var afinallist = mancon.emplistatt(dayto).FindAll(x=>x.employee_no != 0 );
+            if (!empno.IsNullOrWhiteSpace())
+            {
+                afinallist = afinallist.FindAll(x => x.emiid == empno);
+            }
             var HObioatt = db1.hiks
                 .Where(x => x.date >= dayfrom && x.date <= dayto)
                 .ToList();
@@ -1633,6 +1662,7 @@ namespace HRworks.Controllers
                     var tempHOattlist = HObioatt
                         .Where(x => x.ID == file.employee_no.ToString() && x.date == dayfrom)
                         .ToList();
+                    var tempholiday = holidayList.Where(x => x.Date == dayfrom).ToList();
 
                     var tempproattlist = proatt
                         .Where(x => x.emp_code == file.employee_no.ToString() && x.punch_time.Date == dayfrom)
@@ -1662,12 +1692,12 @@ namespace HRworks.Controllers
                     else
                     {
                         weekends.Add(DayOfWeek.Sunday);
-                        weekends.Add(DayOfWeek.Saturday);
+                       // weekends.Add(DayOfWeek.Saturday);
 
                     }
-                    if (!tempHOattlist.Any() && !tempproattlist.Any() && !leaveList.Exists(x =>
+                    if (!tempHOattlist.Any() && !tempproattlist.Any() && !tempholiday.Any() && !leaveList.Exists(x =>
                             x.End_leave >= dayfrom && x.Start_leave <= dayfrom &&
-                            x.Employee_id == file.employee_id) && !weekends.Contains(dayfrom.Value.DayOfWeek))
+                            x.Employee_id == file.employee_id)  && !weekends.Contains(dayfrom.Value.DayOfWeek))
                     {
                         var absvar = new hik();
                         absvar.ID = file.employee_no.ToString();
@@ -1683,9 +1713,232 @@ namespace HRworks.Controllers
             
             return View(abslist);
         }
+        */
+        public ActionResult absreport(DateTime? dayfrom, DateTime? dayto, string empno)
+        {
+            // ----- CONFIG -----
+            // Define weekends per site
+            var hoWeekend = new HashSet<DayOfWeek> { DayOfWeek.Saturday, DayOfWeek.Sunday };
+            var projectWeekend = new HashSet<DayOfWeek> { DayOfWeek.Sunday };
+            var defaultWeekend = hoWeekend; // fallback if we cannot infer site
+            var siteLookbackDays = 14;      // how many days to look back to infer site on no-punch days
 
+            // ----- DATE NORMALIZATION -----
+            if (dayfrom == null) dayfrom = DateTime.Today;
+            if (dayto == null) dayto = dayfrom.Value; // inclusive range [dayfrom..dayto]
+                                                      // we iterate with a day cursor; to keep your original semantics, use endExclusive = dayto+1
+            var endExclusive = dayto.Value.Date.AddDays(1);
+            var startDate = dayfrom.Value.Date;
 
+            // ----- EMPLOYEE LIST -----
+            var mancon = new master_fileController();
+            var afinallist = mancon.emplistatt(endExclusive).FindAll(x => x.employee_no != 0);
+            var proremove = afinallist.FindAll(x =>
+                x.contracts.Any() && !x.contracts.FirstOrDefault().departmant_project.IsNullOrWhiteSpace() && x.contracts.FirstOrDefault().departmant_project.ToLower() == "procurement");
 
+            // Filter by empno, allowing either emiid or numeric employee_no
+            if (!empno.IsNullOrWhiteSpace())
+            {
+                int empNoParsed;
+                if (int.TryParse(empno, out empNoParsed))
+                    afinallist = afinallist.FindAll(x => x.employee_no == empNoParsed);
+                else
+                    afinallist = afinallist.FindAll(x => x.emiid == empno);
+            }
+
+            // ----- DATA PULLS (limit to date window) -----
+            var HObioatt = db1.hiks
+                .Where(x => x.date >= startDate && x.date < endExclusive)
+                .ToList();
+
+            var leaveList = db1.Leaves
+                .Where(x => x.Start_leave <= endExclusive && x.End_leave >= startDate)
+                .ToList();
+
+            var holidayList = db.Holidays
+                .Where(x => x.Date >= startDate && x.Date < endExclusive)
+                .ToList();
+
+            var proatt = db2.iclock_transaction
+                .Where(x => x.punch_time >= startDate && x.punch_time < endExclusive)
+                .ToList();
+
+            // ----- INDEX FOR FAST LOOKUPS -----
+            // Normalize keys: use employee_no string for both sources; dates as Date (no time)
+            Func<DateTime, DateTime> asDate = d => d.Date;
+
+            var hoByEmpDate = HObioatt
+                .GroupBy(x => new { Emp = x.ID, Day = asDate(x.date.Value) })
+                .ToDictionary(g => g.Key, g => true);
+
+            var projByEmpDate = proatt
+                .GroupBy(x => new { Emp = x.emp_code, Day = asDate(x.punch_time) })
+                .ToDictionary(g => g.Key, g => true);
+
+            // Also keep per-employee recent site history (for lookback inference)
+            // Build a map: employee -> list of (date, site)
+            var recentSiteByEmp = new Dictionary<string, SortedSet<DateTime>>();
+
+            // Optional: precompute last seen site per day for each employee
+            // We will not store the site type here; we’ll check both dicts when needed.
+
+            // Helper to check presence quickly
+            bool HasHOPunch(string empKey, DateTime day)
+            {
+                var testval = false;
+                var emktem = empKey;
+
+                if (empKey.Contains("777") && empKey.Length > 3)
+                {
+                    var tempemp = empKey.Substring(0, 3);
+                    var tempemp2 = empKey.Remove(0, 3);
+                    if (tempemp2.Length == 5)
+                    {
+                        tempemp2 = tempemp2.Remove(0, 1);
+                    }
+
+                    emktem = tempemp + tempemp2;
+                    if (hoByEmpDate.ContainsKey(new { Emp = emktem, Day = day }) ||
+                        hoByEmpDate.ContainsKey(new { Emp = empKey, Day = day }))
+                    {
+                        testval = true;
+                    }
+                }
+                else
+                {
+                    testval = hoByEmpDate.ContainsKey(new { Emp = empKey, Day = day });
+                }
+
+                return testval;
+            }
+
+            bool HasProjPunch(string empKey, DateTime day)
+            {
+                var testval = false;
+                var emktem = empKey;
+
+                if (empKey.Contains("777") && empKey.Length > 3)
+                {
+                    var tempemp = empKey.Substring(0, 3);
+                    var tempemp2 = empKey.Remove(0, 3);
+                    if (tempemp2.Length == 5)
+                    {
+                        tempemp2 = tempemp2.Remove(0, 1);
+                    }
+
+                    emktem = tempemp + tempemp2;
+                    if (projByEmpDate.ContainsKey(new { Emp = emktem, Day = day }) ||
+                        projByEmpDate.ContainsKey(new { Emp = empKey, Day = day }))
+                    {
+                        testval = true;
+                    }
+
+                }
+                else
+                {
+                    testval = projByEmpDate.ContainsKey(new { Emp = empKey, Day = day });
+                }
+                return testval;
+
+            }
+
+            // Infer which weekend applies for (employee, day)
+            HashSet<DayOfWeek> WeekendFor(string empKey, DateTime day)
+            {
+                // 1) Direct inference from same-day punches
+                bool ho = HasHOPunch(empKey, day);
+                bool pr = HasProjPunch(empKey, day);
+                if (ho && !pr) return hoWeekend;
+                if (pr && !ho) return projectWeekend;
+                if (ho && pr)
+                {
+                    // If both exist the same day, prefer "working" as true day (rare). Choose any; or treat as working day (no weekend).
+                    // Here, pick the stricter weekend (union) would mark fewer working days as weekends. We’ll prefer none (i.e., not weekend).
+                    return new HashSet<DayOfWeek>(); // no weekend -> treat as working day
+                }
+
+                // 2) Look back up to N days for last seen site
+                for (int i = 1; i <= siteLookbackDays; i++)
+                {
+                    var d = day.AddDays(-i);
+                    bool hoBack = HasHOPunch(empKey, d);
+                    bool prBack = HasProjPunch(empKey, d);
+                    if (hoBack && !prBack) return hoWeekend;
+                    if (prBack && !hoBack) return projectWeekend;
+                    if (hoBack && prBack) return new HashSet<DayOfWeek>(); // ambiguous, treat as working day
+                }
+
+                // 3) Fallback
+                return defaultWeekend;
+            }
+
+            // ----- MAIN -----
+            var abslist = new List<hik>();
+
+            foreach (var file in afinallist)
+            {
+                var empKey = file.employee_no.ToString();
+                var cursor = startDate;
+                if (proremove.Exists(x=>x.employee_id == file.employee_id))
+                {
+                    continue;
+                }
+                while (cursor < endExclusive)
+                {
+                    // Skip holidays (common list). If you have site-specific holidays, split lists and choose by site here.
+                    bool isHoliday = holidayList.Any(h => h.Date.Value.Date == cursor);
+
+                    // Determine weekend for this employee on this day (based on inferred site)
+                    var weekend = WeekendFor(empKey, cursor);
+                    bool isWeekend = weekend.Contains(cursor.DayOfWeek);
+
+                    if (!isHoliday && !isWeekend)
+                    {
+                        // Get punches for that day
+                        bool hasHO = HasHOPunch(empKey, cursor);
+                        bool hasProj = HasProjPunch(empKey, cursor);
+
+                        // On-leave test (inclusive)
+                        bool onLeave = leaveList.Exists(x =>
+                            x.Employee_id == file.employee_id &&
+                            x.Start_leave.Value.Date <= cursor &&
+                            x.End_leave.Value.Date >= cursor);
+
+                        if (!hasHO && !hasProj && !onLeave)
+                        {
+                            // Mark absent
+                            var absvar = new hik
+                            {
+                                ID = file.emiid,
+                                Person = file.employee_name,
+                                date = cursor
+                            };
+                            abslist.Add(absvar);
+                        }
+                    }
+
+                    cursor = cursor.AddDays(1);
+                }
+            }
+            
+            return View(abslist.OrderBy(x=>{
+                // Try to parse numeric part
+                if (int.TryParse(x.ID, out var num))
+                    return (0, num); // group 0 = plain numbers
+                else if (x.ID.StartsWith("G-") && int.TryParse(x.ID.Substring(2), out var gnum))
+                    return (1, gnum); // group 1 = G-numbers
+                else
+                    return (2, int.MaxValue); // group 2 = anything else
+            }).ToList());
+        }
+
+        public ActionResult mobileappatt()
+        {
+            var attlist = db2.iclock_transaction.Where(x => x.terminal_sn.ToUpper() == "APP").ToList();
+            var workcode = db2.iclock_terminalworkcode.ToList();
+            ViewBag.worktopro = workcode;
+            return View(attlist);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -29,6 +29,9 @@
         <th>
             @Html.DisplayNameFor(model => model.ForWhichDate)
         </th>
+        <th>
+            @Html.DisplayName("Hrs")
+        </th>
         @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")
         {
             <th>
@@ -44,7 +47,7 @@
         }
     </tr>
 
-@foreach (var item in Model)
+@foreach (var item in Model.OrderByDescending(x=>x.ForWhichDate))
 {
     <tr>
         @if (User.Identity.Name == "dinizsneden@gmail.com")
@@ -64,6 +67,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ForWhichDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.how_many_hrs)
         </td>
 
         @if (User.IsInRole("super_admin") || User.Identity.Name == "dinizsneden@gmail.com")

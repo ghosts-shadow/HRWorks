@@ -111,43 +111,43 @@
         {
             <thead>
 
-                @foreach (DataColumn column in (ViewBag.Data as System.Data.DataTable).Columns)
-                {
+            @foreach (DataColumn column in (ViewBag.Data as System.Data.DataTable).Columns)
+            {
                 <th>@column.ColumnName.ToUpper()</th>
             }
-                </thead>
-                if ((ViewBag.Data as System.Data.DataTable).Rows.Count > 0)
+            </thead>
+            if ((ViewBag.Data as System.Data.DataTable).Rows.Count > 0)
+            {
+                foreach (DataRow dr in (ViewBag.Data as System.Data.DataTable).Rows)
                 {
-                    foreach (DataRow dr in (ViewBag.Data as System.Data.DataTable).Rows)
-                    {
-                        <tr>
-
-                            @foreach (DataColumn column in (ViewBag.Data as System.Data.DataTable).Columns)
-                            {
-                                <td data-title='@column.ColumnName'>
-
-                                    @dr[column].ToString()
-                                </td>
-                            }
-
-
-
-
-                        </tr>
-                    }
-                }
-                else
-                {
-                    int count = (ViewBag.Data as System.Data.DataTable).Columns.Count;
                     <tr>
 
-                        <td colspan='@count' style="color: red;">
+                        @foreach (DataColumn column in (ViewBag.Data as System.Data.DataTable).Columns)
+                        {
+                            <td data-title='@column.ColumnName'>
 
-                            No Data Found.
-                        </td>
+                                @dr[column].ToString()
+                            </td>
+                        }
+
+
 
 
                     </tr>
+                }
+            }
+            else
+            {
+                int count = (ViewBag.Data as System.Data.DataTable).Columns.Count;
+                <tr>
+
+                    <td colspan='@count' style="color: red;">
+
+                        No Data Found.
+                    </td>
+
+
+                </tr>
             }
         }
         else
@@ -165,4 +165,16 @@
             }
         }
     </table>
+    
+    <div>
+        @if (ViewBag.Errorlist != null)
+        {
+            foreach (var str in ViewBag.Errorlist)
+            {
+                <p style="color:red">
+                    @str
+                </p>
+            }
+        }
+    </div>
 </div>
