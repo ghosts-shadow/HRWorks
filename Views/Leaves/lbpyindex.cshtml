@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "leave balance per year";
+    double prevneglb = 0d;
 }
 
 @using (Html.BeginForm())
@@ -107,6 +108,25 @@
             <td>
                 @Html.DisplayFor(modelItem => item.accrued)
             </td>
+            @{
+                {
+                    if (prevneglb != 0)
+                    {
+                        item.annual_leave_taken += (prevneglb * -1);
+                        item.Annual_Leave_total += (prevneglb * -1);
+                        prevneglb = 0;
+                    }
+                    if (item.leave_balance < 0)
+                    {
+                        var tempprevneglb = item.leave_balance.Value;
+                        item.annual_leave_taken += tempprevneglb;
+                        item.Annual_Leave_total += tempprevneglb;
+                        prevneglb = tempprevneglb;
+                        item.leave_balance = 0;
+
+                    }
+                }
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.annual_leave_taken)
             </td>

@@ -1732,7 +1732,7 @@ namespace HRworks.Controllers
 
             // ----- EMPLOYEE LIST -----
             var mancon = new master_fileController();
-            var afinallist = mancon.emplistatt(endExclusive).FindAll(x => x.employee_no != 0);
+            var afinallist = mancon.emplistatt(startDate).FindAll(x => x.employee_no != 0);
             var proremove = afinallist.FindAll(x =>
                 x.contracts.Any() && !x.contracts.FirstOrDefault().departmant_project.IsNullOrWhiteSpace() && x.contracts.FirstOrDefault().departmant_project.ToLower() == "procurement");
 
@@ -1879,7 +1879,7 @@ namespace HRworks.Controllers
             {
                 var empKey = file.employee_no.ToString();
                 var cursor = startDate;
-                if (proremove.Exists(x=>x.employee_id == file.employee_id))
+                if (proremove.Exists(x=>x.employee_id == file.employee_id) )
                 {
                     continue;
                 }
@@ -1904,7 +1904,7 @@ namespace HRworks.Controllers
                             x.Start_leave.Value.Date <= cursor &&
                             x.End_leave.Value.Date >= cursor);
 
-                        if (!hasHO && !hasProj && !onLeave)
+                        if (!hasHO && !hasProj && !onLeave && file.last_working_day >= cursor)
                         {
                             // Mark absent
                             var absvar = new hik

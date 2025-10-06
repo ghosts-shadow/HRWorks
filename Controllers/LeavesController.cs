@@ -2009,7 +2009,7 @@ namespace HRworks.Controllers
                 savelbpy.escort_leave_balance = escorttill2020;
                 savelbpy.paternity_leave_balance = patertill2020;
                 savelbpy.sabbatical_leave_balance = sabtill2020;
-                savelbpy.study_leave_balance = sabtill2020;
+                savelbpy.study_leave_balance = studytill2020;
                 savelbpy.date_updated = DateTime.Now;
                 savelbpy.leave_count = leave2020.Count;
 
@@ -3328,19 +3328,9 @@ namespace HRworks.Controllers
                     }
                 }
             }*/
+            var mancon = new master_fileController();
 
-            var alist = db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList()
-                .GroupBy(x => x.employee_no).Select(s => s.First())
-                .Where(e => e.last_working_day == null)
-                .ToList();
-
-            var afinallist = alist
-                .GroupBy(x => x.employee_no)
-                .Select(g => g.First())
-                .Where(file => file.employee_no != 0 && file.employee_no != 1 && file.employee_no != 100001 /*&& file.employee_no == 5427*/)
-                .ToList();
-
-
+            var afinallist = mancon.emplist();
 
 
             foreach (var file in afinallist)
@@ -4147,7 +4137,7 @@ namespace HRworks.Controllers
             endfun: ;
             }
 
-            return View(finalleavelist.OrderBy(x => x.master_file.employee_no).ThenBy(x => x.balances_of_year));
+            return View(finalleavelist.Where(x=>x.balances_of_year.Year == caltill.Value.Year).OrderBy(x => x.master_file.employee_no).ThenBy(x => x.balances_of_year));
 
         end: ;
         return View(new List<leavecalperyear>());

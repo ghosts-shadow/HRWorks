@@ -138,13 +138,13 @@ namespace HRworks.Controllers
 
             var prealist = db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList().GroupBy(x => x.employee_no).Select(s => s.First());
             var alist = prealist
-                .Where(e => e.last_working_day == null || e.last_working_day >= datelastend).ToList();
-                
-            if (!datelastend.HasValue)
-            {
-                alist = prealist
                     .Where(e => e.last_working_day == null)
                     .ToList();
+                
+            if (datelastend.HasValue)
+            {
+                alist = prealist
+                .Where(e => e.last_working_day == null || e.last_working_day >= datelastend).ToList();
             }
 
             var testlist = emplist();

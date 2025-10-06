@@ -590,6 +590,7 @@
 
         [ActionName("Importexcel")]
         [HttpPost]
+        /*
         public ActionResult Importexcel()
         {
             if (this.Request.Files["FileUpload1"].ContentLength > 0)
@@ -843,6 +844,266 @@
             }
 
             return this.View();
+        }
+        */
+
+        public ActionResult Importexcel()
+        {
+            try
+            {
+                var file = this.Request.Files["FileUpload1"];
+                if (file == null || file.ContentLength <= 0)
+                {
+                    this.ViewBag.Error = "Please upload a file (.csv, .xls, or .xlsx).";
+                    return this.View();
+                }
+
+                var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+                string[] validFileTypes = { ".csv", ".xls", ".xlsx" };
+                if (!validFileTypes.Contains(extension))
+                {
+                    this.ViewBag.Error = "Please upload files in .csv, .xls, or .xlsx format.";
+                    return this.View();
+                }
+
+                // Ensure upload folder exists and build a correct full path
+                var uploadDir = this.Server.MapPath("~/Content/Uploads");
+                if (!Directory.Exists(uploadDir)) Directory.CreateDirectory(uploadDir);
+                var fileName = Path.GetFileName(file.FileName);
+                var path1 = Path.Combine(uploadDir, fileName);
+
+                if (System.IO.File.Exists(path1)) System.IO.File.Delete(path1);
+                file.SaveAs(path1);
+
+                // Try to use your controller helper to get active/unique employees
+                List<master_file> empList;
+                try
+                {
+                    var mancon = new master_fileController();
+                    empList = mancon.emplist(true);
+                }
+                catch
+                {
+                    // Fallback if helper isn't available
+                    empList = this.db.master_file
+                        .OrderBy(e => e.employee_no)
+                        .ThenByDescending(x => x.date_changed)
+                        .ToList()
+                        .GroupBy(x => x.employee_no)
+                        .Select(g => g.First())
+                        .ToList();
+                }
+
+                // Map CSV employee_no -> internal employee_id (stored in contract.employee_no per your original logic)
+                var empIndex = empList
+                    .Where(m => m != null)
+                    .GroupBy(m => m.employee_no)
+                    .Select(g => g.First())
+                    .ToDictionary(m => m.employee_no, m => m.employee_id);
+
+                // Read file into DataTable
+                var dt = new DataTable();
+                if (extension == ".csv")
+                {
+                    dt = Utility.ConvertCSVtoDataTable(path1);
+                }
+                else // .xls / .xlsx via EPPlus
+                {
+                    // If needed in your project startup: ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                    using (var package = new OfficeOpenXml.ExcelPackage(new FileInfo(path1)))
+                    {
+                        var ws = package.Workbook.Worksheets[0];
+                        if (ws == null || ws.Dimension == null)
+                        {
+                            this.ViewBag.Error = "The Excel file has no readable data.";
+                            return this.View();
+                        }
+
+                        // headers
+                        for (int col = 1; col <= ws.Dimension.Columns; col++)
+                            dt.Columns.Add(ws.Cells[1, col].Text);
+
+                        // rows
+                        for (int row = 2; row <= ws.Dimension.Rows; row++)
+                        {
+                            var newRow = dt.NewRow();
+                            for (int col = 1; col <= ws.Dimension.Columns; col++)
+                                newRow[col - 1] = ws.Cells[row, col].Text;
+                            dt.Rows.Add(newRow);
+                        }
+                    }
+                }
+
+                this.ViewBag.Data = dt;
+
+                if (dt.Rows.Count == 0)
+                {
+                    this.ViewBag.Error = "The uploaded file is empty.";
+                    return this.View();
+                }
+
+                // Helpers
+                Func<DataRow, string, string> Get = (r, col) =>
+                    dt.Columns.Contains(col) ? Convert.ToString(r[col]).Trim() : null;
+
+                Func<DataRow, string, string> GetProtected = (r, col) =>
+                {
+                    var v = Get(r, col);
+                    return string.IsNullOrWhiteSpace(v) ? null : this.Protect(v);
+                };
+
+                // Update helper without ref (properties cannot be passed by ref)
+                bool changed; // will be set inside the loop
+                void UpdateIfProvided<T>(Func<T> get, Action<T> set, T val)
+                {
+                    // Only update if the import actually *provides* a value (avoid wiping with blanks)
+                    if (val == null) return;
+                    if (!EqualityComparer<T>.Default.Equals(get(), val))
+                    {
+                        set(val);
+                        changed = true;
+                    }
+                }
+
+                int added = 0, updated = 0, skippedNoEmp = 0, skippedBlank = 0;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    // skip totally blank rows
+                    bool allBlank = true;
+                    foreach (DataColumn c in dt.Columns)
+                    {
+                        if (!string.IsNullOrWhiteSpace(Convert.ToString(dr[c])))
+                        {
+                            allBlank = false; break;
+                        }
+                    }
+                    if (allBlank) { skippedBlank++; continue; }
+
+                    // employee_no from file
+                    var empNoString = Get(dr, "employee_no");
+                    if (string.IsNullOrWhiteSpace(empNoString) || !int.TryParse(empNoString, out var empNo))
+                    {
+                        skippedNoEmp++; continue;
+                    }
+
+                    if (!empIndex.TryGetValue(empNo, out var employeeId))
+                    {
+                        // employee not found in your system → skip
+                        skippedNoEmp++; continue;
+                    }
+
+                    // Build incoming payload (only set what the file provides)
+                    var incoming = new contract
+                    {
+                        // Keep original mapping: store employee_id in contract.employee_no
+                        employee_no = employeeId,
+                        designation = Get(dr, "designation"),
+                        company = Get(dr, "company"),
+                        grade = Get(dr, "grade"),
+                        departmant_project = Get(dr, "department/project"),
+                        salary_details = GetProtected(dr, "Gross Salary"),
+                        basic = GetProtected(dr, "basic"),
+                        housing_allowance = GetProtected(dr, "housing_allowance"),
+                        food_allowance = GetProtected(dr, "food_allowance"),
+                        living_allowance = GetProtected(dr, "living_allowance"),
+                        ticket_allowance = GetProtected(dr, "ticket_allowance"),
+                        others = GetProtected(dr, "others"),
+                        arrears = GetProtected(dr, "UAE social allowance")
+                    };
+
+                    // Upsert by unique employeeId (stored in contract.employee_no)
+                    var existing = this.db.contracts.FirstOrDefault(c => c.employee_no == employeeId);
+
+                    if (existing == null)
+                    {
+                        this.db.contracts.Add(incoming);
+                        added++;
+                    }
+                    else
+                    {
+                        changed = false;
+
+                        UpdateIfProvided(() => existing.designation, v => existing.designation = v, incoming.designation);
+                        UpdateIfProvided(() => existing.grade, v => existing.grade = v, incoming.grade);
+                        UpdateIfProvided(() => existing.company, v => existing.company = v, incoming.company);
+                        UpdateIfProvided(() => existing.departmant_project, v => existing.departmant_project = v, incoming.departmant_project);
+                        UpdateIfProvided(() => existing.salary_details, v => existing.salary_details = v, incoming.salary_details);
+                        UpdateIfProvided(() => existing.basic, v => existing.basic = v, incoming.basic);
+                        UpdateIfProvided(() => existing.housing_allowance, v => existing.housing_allowance = v, incoming.housing_allowance);
+                        UpdateIfProvided(() => existing.food_allowance, v => existing.food_allowance = v, incoming.food_allowance);
+                        UpdateIfProvided(() => existing.living_allowance, v => existing.living_allowance = v, incoming.living_allowance);
+                        UpdateIfProvided(() => existing.ticket_allowance, v => existing.ticket_allowance = v, incoming.ticket_allowance);
+                        UpdateIfProvided(() => existing.others, v => existing.others = v, incoming.others);
+                        UpdateIfProvided(() => existing.arrears, v => existing.arrears = v, incoming.arrears);
+
+                        if (changed) updated++;
+                    }
+                }
+
+                // save once at the end
+                //this.db.SaveChanges();
+
+                this.ViewBag.ImportSummary = new
+                {
+                    Added = added,
+                    Updated = updated,
+                    Skipped_NoEmployeeMatch = skippedNoEmp,
+                    Skipped_BlankRows = skippedBlank,
+                    TotalRows = dt.Rows.Count
+                };
+
+                return this.View();
+            }
+            catch (Exception ex)
+            {
+                this.ViewBag.Error = "Import failed: " + ex.Message;
+                return this.View();
+            }
+        }
+
+        [HttpGet]
+        public FileResult DownloadContractsTemplateCsv()
+        {
+            var headers = new[]
+            {
+                "employee_no","designation","company","grade","department/project","Gross Salary",
+                "basic","housing_allowance","food_allowance",
+                "living_allowance","ticket_allowance","others","UAE social allowance"
+            };
+
+            var sb = new StringBuilder();
+            sb.AppendLine(string.Join(",", headers));
+            // Optional example row:
+            // sb.AppendLine("12345,Engineer,G3,Project A,ENC(...),ENC(...),ENC(...),ENC(...),ENC(...),ENC(...),ENC(...),ENC(...),ENC(...),ENC(...)");
+
+            var data = Encoding.UTF8.GetPreamble().Concat(Encoding.UTF8.GetBytes(sb.ToString())).ToArray();
+            return File(data, "text/csv", "contracts_template.csv");
+        }
+
+        [HttpGet]
+        public FileResult DownloadContractsTemplateXlsx()
+        {
+            // If not already set in Startup/Global: ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Template");
+                string[] headers =
+                {
+                    "employee_no","designation","company","grade","department/project","Gross Salary",
+                    "basic","housing_allowance","food_allowance",
+                    "living_allowance","ticket_allowance","others","UAE social allowance"
+                };
+
+                for (int i = 0; i < headers.Length; i++)
+                    ws.Cells[1, i + 1].Value = headers[i];
+
+                ws.Cells[1, 1, 1, headers.Length].Style.Font.Bold = true;
+                ws.Cells.AutoFitColumns();
+
+                var bytes = package.GetAsByteArray();
+                return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "contracts_template.xlsx");
+            }
         }
 
         public ActionResult ImportExcel()

@@ -81,6 +81,15 @@
 <!--<![endif]-->
 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value=" back to main" />
 <br />
+<div class="mb-3">
+    <a class="btn btn-outline-primary" href="@Url.Action("DownloadContractsTemplateCsv", "Contracts")">
+        Download Template (CSV)
+    </a>
+    <a class="btn btn-outline-secondary" href="@Url.Action("DownloadContractsTemplateXlsx", "Contracts")">
+        Download Template (Excel)
+    </a>
+</div>
+
 @using (Html.BeginForm("ImportExcel", "contracts", FormMethod.Post, new { enctype = "multipart/form-data" }))
 
 {

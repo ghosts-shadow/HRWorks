@@ -12,8 +12,6 @@ using HRworks.Models;
 using Microsoft.Ajax.Utilities;
 using MimeKit;
 using MailKit.Net.Smtp;
-using Microsoft.AspNet.Identity;
-using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace HRworks.Controllers
 {
@@ -1373,9 +1371,23 @@ namespace HRworks.Controllers
                     desig = temp.designation;
                 }
             }
-
             var emplusersname = usernamelist.Find(x => x.employee_no == emprel.Employee_id);
             message.From.Add(new MailboxAddress("Hrworks", "leave@citiscapegroup.com"));
+
+            if (emprel == null)
+            {
+                var email = "hrteam@citiscapegroup.com";
+
+                message.To.Add((new MailboxAddress("HR", email)));
+                message.Subject = "leave approval";
+                message.Body = new TextPart("plain")
+                {
+                    Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for   (" +
+                           emplusersname.master_file.emiid + ") " +
+                           emplusersname.master_file.employee_name + "-" + desig + " has been submitted but does not have a leave flow" + "\n\n\n" +
+                           "Thanks Best Regards, "
+                };
+            }
 
             if (action.Equals("submitted"))
             {
@@ -1386,7 +1398,7 @@ namespace HRworks.Controllers
                 message.Body = new TextPart("plain")
                 {
                     Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for   (" +
-                           emplusersname.master_file.employee_no + ") " +
+                           emplusersname.master_file.emiid + ") " +
                            emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
                            "http://ess.citiscapegroup.com" + "\n\n\n" +
                            "Thanks Best Regards, "
@@ -1400,7 +1412,7 @@ namespace HRworks.Controllers
                 message.Body = new TextPart("plain")
                 {
                     Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for   (" +
-                           emplusersname.master_file.employee_no + ") " +
+                           emplusersname.master_file.emiid + ") " +
                            emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
                            "http://ess.citiscapegroup.com" + "\n\n\n" +
                            "Thanks Best Regards, "
@@ -1419,7 +1431,7 @@ namespace HRworks.Controllers
                     message.Body = new TextPart("plain")
                     {
                         Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  (" +
-                               emplusersname.master_file.employee_no + ") " +
+                               emplusersname.master_file.emiid + ") " +
                                emplusersname.full_name + "-"  + desig + " has been approved by line manager " +
                                previoususersname.master_file.employee_name + " and forwarded for your approval" +
                                "\n\n\n" +
@@ -1436,7 +1448,7 @@ namespace HRworks.Controllers
                     message.Body = new TextPart("plain")
                     {
                         Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  (" +
-                               emplusersname.master_file.employee_no + ") " +
+                               emplusersname.master_file.emiid + ") " +
                                emplusersname.full_name + "-" + desig + " has been approved" + "\n\n\n" +
                                "http://ess.citiscapegroup.com" + "\n\n\n" +
                                "Thanks Best Regards, "
@@ -1455,7 +1467,7 @@ namespace HRworks.Controllers
                     message.Body = new TextPart("plain")
                     {
                         Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  (" +
-                               emplusersname.master_file.employee_no + ") " +
+                               emplusersname.master_file.emiid + ") " +
                                emplusersname.full_name + "-" + desig + " has been rejected by line manager for " +
                                msg + "\n\n\n" + "\n\n\n" + "Thanks Best Regards, "
                     };
@@ -1469,7 +1481,7 @@ namespace HRworks.Controllers
                     message.Body = new TextPart("plain")
                     {
                         Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for   (" +
-                               emplusersname.master_file.employee_no + ") " +
+                               emplusersname.master_file.emiid + ") " +
                                emplusersname.full_name + "-" + desig + " has been rejected by HOD for " + msg +
                                "\n\n\n" + "\n\n\n" + "Thanks Best Regards, "
                     };
@@ -1483,7 +1495,7 @@ namespace HRworks.Controllers
                     message.Body = new TextPart("plain")
                     {
                         Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  (" +
-                               emplusersname.master_file.employee_no + ") " +
+                               emplusersname.master_file.emiid + ") " +
                                emplusersname.full_name + "-" + desig + " has been rejected by HR for " + msg +
                                "\n\n\n" + "\n\n\n" + "Thanks Best Regards, "
                     };
@@ -1501,6 +1513,7 @@ namespace HRworks.Controllers
                     client.Disconnect(true);
                 }
             }
+        end: ;
         }
 
         protected override void Dispose(bool disposing)
