@@ -650,24 +650,35 @@ namespace HRworks.Controllers
                 .Where(h => h.date >= getdate && h.date <= todate)
                 .OrderBy(h => h.datetime)
                 .ToList();
+            var mancon = new master_fileController();
+            var masterData = mancon.emplistatt(todate);
 
-            var masterData = db.master_file
-                .GroupBy(e => e.employee_no)
-                .ToDictionary(g => g.Key, g => g.First().employee_name);
+            if (!string.IsNullOrWhiteSpace(empno))
+            {
+                if (int.TryParse(empno, out int empNoParsed))
+                    masterData = masterData.FindAll(x => x.employee_no == empNoParsed);
+                else
+                    masterData = masterData.FindAll(x => x.emiid == empno);
+            }
 
-
+            var empstringlist = new List<empnostr>();
             foreach (var hik in allHiks)
             {
                 if (int.TryParse(hik.ID, out var empId))
                 {
-                    hik.EMPID = empId;
-                    if (masterData.TryGetValue(empId, out var name))
+                    if (masterData.Exists(x=>x.employee_no == empId))
                     {
-                        hik.Person = name;
+                        var empmast = masterData.Find(x => x.employee_no == empId);
+                        hik.EMPID = empmast.employee_no;
+                        hik.Person = empmast.employee_name;
+                        var empstr = new empnostr(); 
+                        empstr.Empnoint = empmast.employee_no;
+                        empstr.Empnostring = empmast.emiid;
+                        empstringlist.Add(empstr);
                     }
                 }
             }
-
+            ViewBag.empnostrlist = empstringlist;
             var checkIns = allHiks.Where(h => h.Status == "CheckIN").ToList();
             var checkOuts = allHiks.Where(h => h.Status == "CheckOut").ToList();
 
@@ -695,10 +706,6 @@ namespace HRworks.Controllers
             result.AddRange(lastCheckOuts);
             result.AddRange(fallbackCheckOuts);
 
-            if (!string.IsNullOrWhiteSpace(empno) && int.TryParse(empno, out var empIdFilter))
-            {
-                result = result.Where(h => h.EMPID == empIdFilter).ToList();
-            }
 
             return View(result.OrderBy(h => h.date).ThenBy(h => h.EMPID).ThenBy(h => h.time));
         }

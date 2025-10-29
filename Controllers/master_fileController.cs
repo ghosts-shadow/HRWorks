@@ -94,7 +94,7 @@ namespace HRworks.Controllers
             var afinallist = alist
                 .GroupBy(x => x.employee_no)
                 .Select(g => g.First())
-                .Where(file => file.employee_no != 0 && file.employee_no != 1 && file.employee_no != 100001)
+                .Where(file => file.employee_no != 0 && file.employee_no != 1 && file.employee_no != 100001 && file.employee_no != 77700000)
                 .ToList();
             foreach (var file in afinallist)
             {
@@ -121,7 +121,7 @@ namespace HRworks.Controllers
             var afinallist = alist
                 .GroupBy(x => x.employee_no)
                 .Select(g => g.First())
-                .Where(file => file.employee_no != 1 && file.employee_no != 100001)
+                .Where(file => file.employee_no != 0 && file.employee_no != 100001 && file.employee_no != 77700000)
                 .ToList();
             foreach (var file in afinallist)
             {
@@ -147,13 +147,9 @@ namespace HRworks.Controllers
                 .Where(e => e.last_working_day == null || e.last_working_day >= datelastend).ToList();
             }
 
-            var testlist = emplist();
-
             var afinallist = alist
                 .GroupBy(x => x.employee_no)
-                .Select(g => g.First())
-                .Where(file => file.employee_no != 1 && file.employee_no != 100001)
-                .ToList();
+                .Select(g => g.First()).ToList();
             foreach (var file in afinallist)
             {
                 if (file.emiid.IsNullOrWhiteSpace())
@@ -161,7 +157,7 @@ namespace HRworks.Controllers
                     file.emiid = file.employee_no.ToString();
                 }
             }
-            return afinallist;
+            return afinallist.Where(file => file.employee_no != 0 && file.employee_no != 100001 && file.employee_no != 77700000).ToList();
         }
 
         public ActionResult notregistered()

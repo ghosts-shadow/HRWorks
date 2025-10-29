@@ -11,7 +11,10 @@
 <script>
         $(function () {
             $("#Employee_id").chosen({ no_results_text: "Oops, nothing found!" });
-            $("#HOD").chosen({ no_results_text: "Oops, nothing found!" });
+            $("#HOD").chosen({
+                no_results_text: "Oops, nothing found!",
+                allow_single_deselect: true
+});
             $("#line_man").chosen({ no_results_text: "Oops, nothing found!" });
         });
 

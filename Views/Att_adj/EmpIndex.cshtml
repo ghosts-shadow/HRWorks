@@ -1,0 +1,51 @@
+﻿@model IEnumerable<HRworks.Models.Att_adj>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.which_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.late_in)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.early_out)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.reason)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.which_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.late_in)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.early_out)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.reason)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>

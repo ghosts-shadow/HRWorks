@@ -1,15 +1,9 @@
-﻿@using HRworks.Models
-@model IEnumerable<HRworks.Models.hik>
+﻿@model IEnumerable<HRworks.Models.hik>
 
 @{
-    ViewBag.Title = "Attendance(HO)";
+    ViewBag.Title = "Attendance";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var previn = new DateTime();
-    var emplist = new List<empnostr>();
-    if (ViewBag.empnostrlist != null)
-    {
-        emplist.AddRange(ViewBag.empnostrlist);
-    }
 }
 
 <h2>attendance</h2>
@@ -48,17 +42,14 @@
         }
     });
 </script>
-@using (Html.BeginForm("Index1", "hiks"))
+@using (Html.BeginForm("empattindex", "Att_adj"))
 {
     <div class="row">
         <div class=" col-md-2">
-            <input type="text" name="empno" class="form-control" placeholder="Employee No"/>
+            <input type="text" name="getdate" id="empatdatefrom" class="form-control" placeholder=" From" />
         </div>
         <div class=" col-md-2">
-            <input type="text" name="getdate" id="from" class="form-control" placeholder=" From"/>
-        </div>
-        <div class=" col-md-2">
-            <input type="text" name="todate" id="to" class="form-control" placeholder="To"/>
+            <input type="text" name="todate" id="empatdateto" class="form-control" placeholder="To" />
         </div>
         <div class=" col-md-6">
             <input type="submit" value="search" class="btn btn-default" />
@@ -97,17 +88,9 @@
 
     @foreach (var item in Model)
     {
-
-        int.TryParse(item.ID, out var temp);
-        var empvar = emplist.Find(x => x.Empnoint == temp);
-        if (empvar == null)
-        {
-            continue;
-        }
-
         <tr>
             <td>
-                @empvar.Empnostring
+                @Html.DisplayFor(modelItem => item.ID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Person)

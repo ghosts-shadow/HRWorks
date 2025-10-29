@@ -36,7 +36,7 @@ namespace HRworks.Controllers
             }
 
             var mastercon = new master_fileController();
-            var emplist = mastercon.emplist();
+            var emplist = mastercon.emplist(true);
             this.ViewBag.employee_no = new SelectList(
                 emplist.OrderBy(e => e.employee_no),
                 "employee_id",
@@ -76,7 +76,7 @@ namespace HRworks.Controllers
             var refrlist = this.db.liquidation_ref.ToList();
 
             var mastercon = new master_fileController();
-            var emplist = mastercon.emplist();
+            var emplist = mastercon.emplist(true);
             this.ViewBag.employee_no = new SelectList(
                 emplist.OrderBy(e => e.employee_no),
                 "employee_id",
@@ -145,7 +145,7 @@ namespace HRworks.Controllers
             List<liquidation> lii2 = new List<liquidation>();
 
             var mastercon = new master_fileController();
-            var emplist = mastercon.emplist();
+            var emplist = mastercon.emplist(true);
             this.ViewBag.empno = new SelectList(
                 emplist.OrderBy(e => e.employee_no),
                 "employee_id",
@@ -191,7 +191,7 @@ namespace HRworks.Controllers
             List<liquidation> lii2 = new List<liquidation>();
 
             var mastercon = new master_fileController();
-            var emplist = mastercon.emplist();
+            var emplist = mastercon.emplist(true);
             this.ViewBag.employee_no = new SelectList(
                 emplist.OrderBy(e => e.employee_no),
                 "employee_id",

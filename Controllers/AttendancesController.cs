@@ -1517,6 +1517,11 @@ namespace HRworks.Controllers
 
             var mancon = new master_fileController();
             var afinallist = mancon.emplist(true);
+            if (!empno.IsNullOrWhiteSpace())
+            {
+                afinallist = afinallist.FindAll(x => x.emiid.ToUpper() == empno.ToUpper());
+            }
+
 
 
             do
@@ -1537,12 +1542,24 @@ namespace HRworks.Controllers
 
                 foreach (var file in afinallist)
                 {
-                    if (iclocklist.Exists(x => x.emp_code == file.employee_no.ToString()))
+                    var testemp1 = file.employee_no.ToString();
+                    var testemp2 = "";
+                    if (file.emiid.Contains("G-"))
                     {
-                        var empatt = iclocklist.FindAll(x => x.emp_code == file.employee_no.ToString())
+                        testemp1 = "7770"+file.emiid.Substring(2);
+                    }
+                    if (testemp1.StartsWith("777"))
+                    {
+                        testemp2 = "777" + testemp1.Substring(4);
+                    }
+
+                    if (iclocklist.Exists(x => x.emp_code == testemp1 ||(testemp2.Length <7 && x.emp_code == testemp2 )))
+                    {
+                        var empatt = iclocklist.FindAll(x => x.emp_code == testemp1 || (testemp2.Length < 7 && x.emp_code == testemp2))
                             .OrderBy(x => x.punch_time).ToList();
                         foreach (var transaction in empatt)
                         {
+                            transaction.emp_code = file.emiid;
                             transaction.mobile = file.employee_name;
                             if (transaction.area_alias.IsNullOrWhiteSpace() && !transaction.work_code.IsNullOrWhiteSpace())
                             {
@@ -1559,11 +1576,6 @@ namespace HRworks.Controllers
                 end: ;
                 dayfrom = dayfrom.Value.AddDays(1);
             } while (dayfrom != dayto);
-
-            if (!empno.IsNullOrWhiteSpace())
-            {
-                patt = patt.FindAll(x => x.emp_code == empno);
-            }
 
             return View(patt.OrderBy(x => x.area_alias).ThenBy(x => x.emp_code).ThenBy(x => x.punch_time).ToList());
         }
@@ -1721,7 +1733,7 @@ namespace HRworks.Controllers
             var hoWeekend = new HashSet<DayOfWeek> { DayOfWeek.Saturday, DayOfWeek.Sunday };
             var projectWeekend = new HashSet<DayOfWeek> { DayOfWeek.Sunday };
             var defaultWeekend = hoWeekend; // fallback if we cannot infer site
-            var siteLookbackDays = 14;      // how many days to look back to infer site on no-punch days
+            var siteLookbackDays = 35;      // how many days to look back to infer site on no-punch days
 
             // ----- DATE NORMALIZATION -----
             if (dayfrom == null) dayfrom = DateTime.Today;
@@ -1739,8 +1751,7 @@ namespace HRworks.Controllers
             // Filter by empno, allowing either emiid or numeric employee_no
             if (!empno.IsNullOrWhiteSpace())
             {
-                int empNoParsed;
-                if (int.TryParse(empno, out empNoParsed))
+                if (int.TryParse(empno, out int empNoParsed))
                     afinallist = afinallist.FindAll(x => x.employee_no == empNoParsed);
                 else
                     afinallist = afinallist.FindAll(x => x.emiid == empno);
@@ -1904,7 +1915,7 @@ namespace HRworks.Controllers
                             x.Start_leave.Value.Date <= cursor &&
                             x.End_leave.Value.Date >= cursor);
 
-                        if (!hasHO && !hasProj && !onLeave && file.last_working_day >= cursor)
+                        if (!hasHO && !hasProj && !onLeave && (file.last_working_day >= cursor || !file.last_working_day.HasValue))
                         {
                             // Mark absent
                             var absvar = new hik
@@ -1939,6 +1950,32 @@ namespace HRworks.Controllers
             ViewBag.worktopro = workcode;
             return View(attlist);
         }
+
+        public ActionResult attunfiltered(DateTime? dayfrom, DateTime? dayto, string empno)
+        {
+            var att = db2.iclock_transaction.ToList();
+            if (dayfrom.HasValue)
+            {
+                att = att.FindAll(x => x.punch_time.Date >= dayfrom.Value.Date);
+            }
+            else
+            {
+                att = att.FindAll(x => x.punch_time.Date == DateTime.Today);
+            }
+
+            if (dayto.HasValue)
+            {
+                att = att.FindAll(x => x.punch_time.Date <= dayto.Value.Date);
+            }
+
+            if (!empno.IsNullOrWhiteSpace())
+            {
+                att = att.FindAll(x => x.emp_code.Contains(empno));
+            }
+
+            return View(att.OrderByDescending(x=>x.punch_time).ToList());
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

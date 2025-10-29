@@ -109,6 +109,7 @@
                 @Html.DisplayFor(modelItem => item.accrued)
             </td>
             @{
+                if (User.Identity.Name != "dinizsneden@gmail.com")
                 {
                     if (prevneglb != 0)
                     {

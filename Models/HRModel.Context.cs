@@ -27,17 +27,24 @@ namespace HRworks.Models
     
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<absencelist> absencelists { get; set; }
+        public virtual DbSet<absexception> absexceptions { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<ATTENDANCE_ADJUSTMENT> ATTENDANCE_ADJUSTMENT { get; set; }
+        public virtual DbSet<Att_adj> Att_adj { get; set; }
         public virtual DbSet<bank_details> bank_details { get; set; }
         public virtual DbSet<business_trip> business_trip { get; set; }
         public virtual DbSet<BUSINESS_TRIP_REPORT_> BUSINESS_TRIP_REPORT_ { get; set; }
+        public virtual DbSet<cal_lwop> cal_lwop { get; set; }
+        public virtual DbSet<cal_ot> cal_ot { get; set; }
+        public virtual DbSet<calab> calabs { get; set; }
         public virtual DbSet<CERTIFICATE_REQUEST> CERTIFICATE_REQUEST { get; set; }
+        public virtual DbSet<certificatesavinggrove> certificatesavinggroves { get; set; }
         public virtual DbSet<certificatesavingtest_> certificatesavingtest_ { get; set; }
         public virtual DbSet<certificatetype> certificatetypes { get; set; }
+        public virtual DbSet<companleaveBal> companleaveBals { get; set; }
+        public virtual DbSet<companLeaveR> companLeaveRs { get; set; }
         public virtual DbSet<contract> contracts { get; set; }
         public virtual DbSet<contractlogin> contractlogins { get; set; }
         public virtual DbSet<detailsinarabic> detailsinarabics { get; set; }
@@ -51,8 +58,14 @@ namespace HRworks.Models
         public virtual DbSet<end_of_service> end_of_service { get; set; }
         public virtual DbSet<EXIT_INTERVIEW> EXIT_INTERVIEW { get; set; }
         public virtual DbSet<FINAL_DEPARTURE_CLEARANCE> FINAL_DEPARTURE_CLEARANCE { get; set; }
+        public virtual DbSet<Form> Forms { get; set; }
+        public virtual DbSet<FormsFlow> FormsFlows { get; set; }
+        public virtual DbSet<formsuserdb> formsuserdbs { get; set; }
         public virtual DbSet<hik> hiks { get; set; }
         public virtual DbSet<HRA_requset> HRA_requset { get; set; }
+        public virtual DbSet<HRotapp> HRotapps { get; set; }
+        public virtual DbSet<HRprojectlist> HRprojectlists { get; set; }
+        public virtual DbSet<HRweekend> HRweekends { get; set; }
         public virtual DbSet<induction_training> induction_training { get; set; }
         public virtual DbSet<insurance> insurances { get; set; }
         public virtual DbSet<JOB_INTERVIEW_EVALUATION> JOB_INTERVIEW_EVALUATION { get; set; }
@@ -70,38 +83,25 @@ namespace HRworks.Models
         public virtual DbSet<liquiexp> liquiexps { get; set; }
         public virtual DbSet<MANPOWER_TRANSFER_REQUEST> MANPOWER_TRANSFER_REQUEST { get; set; }
         public virtual DbSet<master_file> master_file { get; set; }
+        public virtual DbSet<OSRF_items> OSRF_items { get; set; }
+        public virtual DbSet<OSRFormref> OSRFormrefs { get; set; }
         public virtual DbSet<OT_employee_list> OT_employee_list { get; set; }
         public virtual DbSet<OVERTIME_APPROVAL> OVERTIME_APPROVAL { get; set; }
         public virtual DbSet<passport> passports { get; set; }
         public virtual DbSet<payrole> payroles { get; set; }
         public virtual DbSet<payrolelogin> payrolelogins { get; set; }
+        public virtual DbSet<payroll> payrolls { get; set; }
         public virtual DbSet<payrollsaved> payrollsaveds { get; set; }
         public virtual DbSet<PROBATION_ASSESSMENT> PROBATION_ASSESSMENT { get; set; }
+        public virtual DbSet<project_attendence> project_attendence { get; set; }
         public virtual DbSet<rec_req_form> rec_req_form { get; set; }
         public virtual DbSet<Table> Tables { get; set; }
         public virtual DbSet<Training_Effectiveness> Training_Effectiveness { get; set; }
         public virtual DbSet<Training_Evaluation> Training_Evaluation { get; set; }
         public virtual DbSet<Training_Request> Training_Request { get; set; }
+        public virtual DbSet<transferlist> transferlists { get; set; }
         public virtual DbSet<username> usernames { get; set; }
         public virtual DbSet<visa> visas { get; set; }
         public virtual DbSet<visa_and_labour_card> visa_and_labour_card { get; set; }
-        public virtual DbSet<certificatesavinggrove> certificatesavinggroves { get; set; }
-        public virtual DbSet<companLeaveR> companLeaveRs { get; set; }
-        public virtual DbSet<companleaveBal> companleaveBals { get; set; }
-        public virtual DbSet<HRprojectlist> HRprojectlists { get; set; }
-        public virtual DbSet<project_attendence> project_attendence { get; set; }
-        public virtual DbSet<absexception> absexceptions { get; set; }
-        public virtual DbSet<cal_lwop> cal_lwop { get; set; }
-        public virtual DbSet<calab> calabs { get; set; }
-        public virtual DbSet<HRweekend> HRweekends { get; set; }
-        public virtual DbSet<transferlist> transferlists { get; set; }
-        public virtual DbSet<payroll> payrolls { get; set; }
-        public virtual DbSet<cal_ot> cal_ot { get; set; }
-        public virtual DbSet<HRotapp> HRotapps { get; set; }
-        public virtual DbSet<Form> Forms { get; set; }
-        public virtual DbSet<FormsFlow> FormsFlows { get; set; }
-        public virtual DbSet<OSRF_items> OSRF_items { get; set; }
-        public virtual DbSet<OSRFormref> OSRFormrefs { get; set; }
-        public virtual DbSet<formsuserdb> formsuserdbs { get; set; }
     }
 }

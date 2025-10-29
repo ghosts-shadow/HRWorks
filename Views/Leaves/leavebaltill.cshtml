@@ -56,12 +56,6 @@
             @Html.DisplayNameFor(model => model.accrued)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.annual_leave_taken)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Annual_Leave_Applied)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Annual_Leave_total)
         </th>
         <th>
@@ -71,6 +65,12 @@
             @Html.DisplayNameFor(model => model.forfited_balance)
         </th>
         @*
+        <th>
+            @Html.DisplayNameFor(model => model.annual_leave_taken)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Annual_Leave_Applied)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.sick_leave_balance)
         </th>
@@ -116,7 +116,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.master_file.employee_no)
+                @Html.DisplayFor(modelItem => item.master_file.emiid)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.master_file.employee_name)
@@ -137,12 +137,6 @@
                 @Html.DisplayFor(modelItem => item.accrued)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.annual_leave_taken)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Annual_Leave_Applied)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Annual_Leave_total)
             </td>
             <td>
@@ -151,8 +145,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.forfited_balance)
             </td>
-            
+
             @*
+            <td>
+                @Html.DisplayFor(modelItem => item.annual_leave_taken)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Annual_Leave_Applied)
+            </td>
         <td>
             @Html.DisplayFor(modelItem => item.sick_leave_balance)
         </td>

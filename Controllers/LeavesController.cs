@@ -3299,7 +3299,7 @@ namespace HRworks.Controllers
             return View(searchresults.OrderByDescending(x => x.Start_leave).ToList());
         }
 
-        public ActionResult leavebaltill(DateTime? caltill)
+        /*public ActionResult leavebaltill(DateTime? caltill)
         {
             var leavelist = new List<leavecalperyear>();
             var finalleavelist = new List<leavecalperyear>();
@@ -3327,10 +3327,10 @@ namespace HRworks.Controllers
                         afinallist.Add(file);
                     }
                 }
-            }*/
+            }#1#
             var mancon = new master_fileController();
 
-            var afinallist = mancon.emplist();
+            var afinallist = mancon.emplist(true).Where(x => x.last_working_day > new DateTime(caltill.Value.Year, 1, 1) || x.last_working_day == null).ToList();
 
 
             foreach (var file in afinallist)
@@ -3446,7 +3446,7 @@ namespace HRworks.Controllers
 
                     var temptime = new DateTime(2020, 12, 31) - asf.Value;
                     period = temptime.TotalDays + 1;
-                    var temptime1 = /*new DateTime(i, 12, 31)*/ new DateTime(DateTime.Now.Year, 12, 31) - asf.Value;
+                    var temptime1 = /*new DateTime(i, 12, 31)#1# new DateTime(DateTime.Now.Year, 12, 31) - asf.Value;
                     var joiningperiod = temptime1.TotalDays + 1;
                     if (joiningperiod < 365)
                     {
@@ -3637,7 +3637,7 @@ namespace HRworks.Controllers
                                 }
                             }
 
-                            var temptime = /*new DateTime(i, 12, 31)*/ new DateTime(DateTime.Now.Year, 12, 31) - asf.Value;
+                            var temptime = /*new DateTime(i, 12, 31)#1# new DateTime(DateTime.Now.Year, 12, 31) - asf.Value;
                             var joiningperiod = temptime.TotalDays + 1;
                             if (perviousyearleave == null)
                             {
@@ -3827,7 +3827,7 @@ namespace HRworks.Controllers
                         else
                         {
                             yearrecord.sumittedleavebal = yearrecord.leave_balance;
-                        }*/
+                        }#1#
 
                         endfun1:;
                             pervmonthchange = monthchange;
@@ -4126,7 +4126,7 @@ namespace HRworks.Controllers
                             else
                             {
                                 yearrecord.sumittedleavebal = yearrecord.leave_balance;
-                            }*/
+                            }#1#
                             
                         endfun1:;
                         }
@@ -4141,6 +4141,185 @@ namespace HRworks.Controllers
 
         end: ;
         return View(new List<leavecalperyear>());
+        }*/
+
+        public ActionResult leavebaltill(DateTime? caltill)
+        {
+            if (caltill.HasValue)
+            {
+                var mancon = new master_fileController();
+                var afinallist = mancon.emplist(true).Where(x=>x.last_working_day > new DateTime(caltill.Value.Year, 1, 1) || x.last_working_day == null)/*.Where(x => x.employee_no == 5885)*/;
+                var leaveballist = db.leavecalperyears.ToList();
+                var leavelist = db.Leaves.ToList();
+                var finallist = new List<leavecalperyear>();
+                const double lbpd30 = (30.0 / 365.0);
+                const double lbpd24 = (24.0 / 365.0);
+                foreach (var file in afinallist.OrderBy(x => x.employee_no))
+                {
+                    var maxleaveperyear = new List<lbperyear>();
+                    if (db.lbperyears.OrderByDescending(y => y.year).ToList()
+                        .Exists(x => x.Employee_id == file.employee_id))
+                    {
+                        maxleaveperyear = db.lbperyears.OrderByDescending(y => y.year).ToList()
+                            .FindAll(x => x.Employee_id == file.employee_id);
+                    }
+                    var leavecaldatestart = new DateTime(caltill.Value.Year, 4, 1);
+                    if (caltill.Value.Year == 2024)
+                    {
+                        leavecaldatestart = new DateTime(caltill.Value.Year, 9, 1);
+                    }
+                    var leavecaldateend = new DateTime(caltill.Value.Year + 1, 3, 31);
+                    var emplb = leaveballist.Find(x =>
+                        x.Employee_id == file.employee_id &&
+                        x.balances_of_year == new DateTime(caltill.Value.Year, 1, 1));
+                    var emplist = leavelist.FindAll(x =>
+                        x.Date <= leavecaldateend && x.Date >= leavecaldatestart &&
+                        x.Employee_id == file.employee_id);
+                    var empleaveanual = emplist.FindAll(x => x.leave_type == "1");
+                    var empleaveunpaid = emplist.FindAll(x => x.leave_type == "6");
+                    var empleavebal = new leavecalperyear
+                    {
+                        Employee_id = file.employee_id,
+                        balances_of_year = new DateTime(caltill.Value.Year, 1, 1),
+                        period = 0,
+                        unpaid = 0,
+                        net_period = 0,
+                        accrued = 0,
+                        annual_leave_taken = 0,
+                        Annual_Leave_Applied = 0,
+                        Annual_Leave_total = 0,
+                        leave_balance = 0,
+                        forfited_balance = 0,
+                        master_file = file
+                    };
+                    foreach (var leaf in empleaveanual)
+                    {
+                        var half = 0d;
+                        if (leaf.half)
+                        {
+                            half = -0.5d;
+                        }
+
+                        if (leaf.Start_leave < caltill)
+                        {
+                            empleavebal.annual_leave_taken +=
+                                (leaf.End_leave - leaf.Start_leave).Value.TotalDays + 1 + half;
+                        }
+                        else
+                        {
+                            // empleavebal.Annual_Leave_Applied +=
+                            //     (leaf.End_leave - leaf.Start_leave).Value.TotalDays + 1 + half;
+                        }
+                    }
+                            empleavebal.Annual_Leave_total += empleavebal.annual_leave_taken;
+                            empleavebal.Annual_Leave_total += empleavebal.Annual_Leave_Applied;
+
+                    foreach (var leaf in empleaveunpaid)
+                    {
+                        var half = 0d;
+                        if (leaf.half)
+                        {
+                            half = -0.5d;
+                        }
+
+                        if (leaf.Start_leave < caltill)
+                        {
+                            empleavebal.unpaid +=
+                                (leaf.End_leave - leaf.Start_leave).Value.TotalDays + 1 + half;
+                        }
+                    }
+                    if (emplb == null)
+                    {
+                        continue;
+                    }
+                    var prevlbvar = leaveballist.Find(x =>
+                        x.Employee_id == file.employee_id &&
+                        x.balances_of_year == new DateTime(caltill.Value.Year-1, 1, 1));
+                    var prevlb = 0d;
+                    var prevpr = 0d;
+                    if (prevlbvar != null)
+                    {
+                        prevlb = prevlbvar.leave_balance.Value;
+                        prevpr = prevlbvar.net_period.Value;
+                    }
+
+                    var asf = file.date_joined;
+
+                    TimeSpan temptime = caltill.Value - asf.Value;
+                    var joiningperiod = temptime.TotalDays + 1;
+                    var period = (caltill.Value -new DateTime(caltill.Value.Year,1,1)).TotalDays +1;
+                    var accleave = 0d;
+                    if (joiningperiod < 365)
+                    {
+                        if (asf.Value <= new DateTime(caltill.Value.Year, 1, 1))
+                        {
+                            temptime = caltill.Value - new DateTime(caltill.Value.Year, 1, 1);
+                            joiningperiod = temptime.TotalDays + 1;
+                        }
+                        period = joiningperiod;
+                        accleave = RoundToNearestHalf((period - empleavebal.unpaid.Value) * lbpd24);
+                    }
+                    else
+                    {
+                        var temp1 = (empleavebal.unpaid.Value);
+                        var temp2 = (period);
+                        accleave = RoundToNearestHalf((temp2/*-temp1*/) * lbpd30);
+                    }
+
+                    if (maxleaveperyear.Count > 0)
+                    {
+                        if (maxleaveperyear.Exists(x => x.year.Year <= caltill.Value.Year))
+                        {
+                            var maxleaveperyeartemp = maxleaveperyear.Find(x => x.year.Year <= caltill.Value.Year);
+                            if (period - empleavebal.unpaid.Value < 365)
+                            {
+                                accleave = RoundToNearestHalf((period - empleavebal.unpaid.Value) *
+                                    maxleaveperyeartemp.total_leave_balance / 365);
+                            }
+                            else
+                            {
+                                accleave = maxleaveperyeartemp.total_leave_balance;
+                            }
+                        }
+                    }
+
+                    var lbdiff = emplb.leave_balance.Value;
+                    if (prevlb < 0)
+                    {
+                        empleavebal.Annual_Leave_total += -1 * prevlb;
+                        empleavebal.annual_leave_taken += -1 * prevlb;
+                    }
+                    empleavebal.leave_balance   = accleave - empleavebal.Annual_Leave_total;
+                    empleavebal.period   = period;
+                    empleavebal.net_period = period + prevpr;
+                    empleavebal.accrued = accleave;
+
+
+                    finallist.Add(empleavebal);
+                }
+
+                return View(finallist);
+            }
+            return View(new List<leavecalperyear>());
+        }
+
+        public ActionResult nobreakup(DateTime? caltill)
+        {
+
+            if (caltill.HasValue)
+            {
+                var mancon = new master_fileController();
+                var afinallist = mancon.emplist(true).Where(x =>
+                    x.last_working_day > new DateTime(caltill.Value.Year, 1, 1) ||
+                    x.last_working_day == null) /*.Where(x => x.employee_no == 5885)*/;
+                var leaveballist = db.leavecalperyears.ToList();
+                var leavelist = db.Leaves.ToList();
+                var finallist = new List<leavecalperyear>();
+                const double lbpd30 = (30.0 / 365.0);
+                const double lbpd24 = (24.0 / 365.0);
+            }
+
+            return View();
         }
 
         public ActionResult addReturn()
@@ -4261,8 +4440,7 @@ namespace HRworks.Controllers
 
             return View(leaveReturnsPending.OrderBy(x => x.master_file.employee_no).ToList());
         }
-
-
+        
         public ActionResult duplive()
         {
             var allLeaves = db.Leaves

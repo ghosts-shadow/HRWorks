@@ -23,4 +23,10 @@ namespace HRworks.Models
         public DateTime dateupperlimit { get; set; }
         public DateTime datelowerlimit { get; set; }
     }
+
+    public class empnostr
+    {
+        public int Empnoint { get;  set; }
+        public string Empnostring { get;  set; }
+    }
 }

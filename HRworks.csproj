@@ -536,7 +536,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AttendancesController.cs" />
-    <Compile Include="Controllers\ATTENDANCE_ADJUSTMENTController.cs" />
+    <Compile Include="Controllers\Att_adjController.cs" />
     <Compile Include="Controllers\bank_detailsController.cs" />
     <Compile Include="Controllers\Bidi.cs" />
     <Compile Include="Controllers\BUSINESS_TRIP_REPORT_Controller.cs" />
@@ -657,11 +657,11 @@
     <Compile Include="Models\AttendanceFreq.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ATTENDANCE_ADJUSTMENT.cs">
-      <DependentUpon>HRModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\attparam.cs">
       <DependentUpon>biotime.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Att_adj.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\att_attcalclog.cs">
       <DependentUpon>biotime.tt</DependentUpon>
@@ -1817,13 +1817,6 @@
     <Content Include="arabic certificates\old\Salary transfer letter.pdf" />
     <Content Include="arabic certificates\old\reference no.pdf" />
     <Content Include="ApplicationInsights.config" />
-    <EntityDeploy Include="Models\HRModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\HRModel.edmx.diagram">
-      <DependentUpon>HRModel.edmx</DependentUpon>
-    </Content>
     <Content Include="arabic certificates\old\Driving Licence - Heavy - Female - Grove.pdf" />
     <Content Include="arabic certificates\Driving Licence - Heavy - Male.pdf" />
     <Content Include="arabic certificates\Driving License - Light - Female.pdf" />
@@ -1870,6 +1863,13 @@
     </EntityDeploy>
     <Content Include="Models\biotime.edmx.diagram">
       <DependentUpon>biotime.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\HRModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HRModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\HRModel.edmx.diagram">
+      <DependentUpon>HRModel.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Models\timesheet.Context.tt">
@@ -2360,6 +2360,14 @@
     <Content Include="Views\master_file\notregistered.cshtml" />
     <Content Include="Views\Attendances\mobileappatt.cshtml" />
     <Content Include="Views\Attendances\newprojectatt.cshtml" />
+    <Content Include="Views\Att_adj\Create.cshtml" />
+    <Content Include="Views\Att_adj\Delete.cshtml" />
+    <Content Include="Views\Att_adj\Details.cshtml" />
+    <Content Include="Views\Att_adj\Edit.cshtml" />
+    <Content Include="Views\Att_adj\Index.cshtml" />
+    <Content Include="Views\Att_adj\EmpIndex.cshtml" />
+    <Content Include="Views\Att_adj\empattindex.cshtml" />
+    <Content Include="Views\Attendances\attunfiltered.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
