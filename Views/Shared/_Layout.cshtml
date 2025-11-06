@@ -296,7 +296,7 @@
                                         {
                                             <li>@Html.ActionLink("Contract", "Create", "contractlogins")</li>
                                         }
-                                        @if (User.IsInRole("super_admin")||User.IsInRole("employee_rel"))
+                                        @if (User.IsInRole("super_admin") || User.IsInRole("employee_rel"))
                                         {
                                             <li>@Html.ActionLink("employee relations", "Index", "emprels")</li>
                                         }
@@ -327,15 +327,16 @@
                                             <li>@Html.ActionLink("details in arabic", "index", "detailsinarabics")</li>
                                             @if (User.IsInRole("super_admin"))
                                             {
-                                                <li>@Html.ActionLink("approvals", "hrapproval", "certificatesavingtest_")
-                                                </li>
-                                            }
+                                                <li>
+                                                    @Html.ActionLink("approvals", "hrapproval", "certificatesavingtest_")
+                                            </li>
+                                        }
                                         </ul>
                                     </div>
                                 }
                                 <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
                                 <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
-                                                                                            
+
                                 <div class="dropdown dd4" id="dd4">
                                     <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd4()" style="background-color: #152939 !important; border-color: #152939">
                                         Attendance
@@ -372,14 +373,27 @@
 
                                         <div class="dropdown dd2" id="dd2">
                                             <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd2()" style="background-color: #152939 !important; border-color: #152939">
-                                                approvals
+                                                Approvals
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li>@Html.ActionLink("leave approvals", "empleaveap", "employeeleavesubmitions")</li>
-                                                <li>@Html.ActionLink("return approvals", "empreturnap", "empreturnfromleavesubs")</li>
                                             </ul>
                                         </div>
+                                    }
+                                    if (User.IsInRole("HOD") || User.IsInRole("Manager") || User.IsInRole("employee"))
+                                    {
+
+                                        @*<div class="dropdown dd3" id="dd3">
+                                            <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd3()" style="background-color: #152939 !important; border-color: #152939">
+                                                Attendance
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>@Html.ActionLink("Attendance", "empattindex", "Att_adj")</li>
+                                            </ul>
+                                        </div>*@
+                                        <li>@Html.ActionLink("Attendance", "empattindex", "Att_adj")</li>
                                     }
                                     //<li>@Html.ActionLink("certificate request", "subcertificatereq", "detailsinarabics")</li>
                                 }

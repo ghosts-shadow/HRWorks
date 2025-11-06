@@ -86,7 +86,14 @@ namespace HRworks.Controllers
                 }
                 else
                 {
-                    ab = db.bank_details.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    if (search.ToUpper().Contains("G-"))
+                    {
+                        ab = db.bank_details.Where(x => x.master_file.emiid.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    }
+                    else
+                    {
+                        ab = db.bank_details.Where(x => x.master_file.employee_name.Contains(search) /*.Contains(search) /*.StartsWith(search)*/).ToList();
+                    }
                 }
                 if (ab.Count != 0)
                 {
@@ -144,15 +151,8 @@ namespace HRworks.Controllers
         // GET: bank_details/Create
         public ActionResult Create()
         {
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ThenByDescending(x=>x.date_changed).ToList();
-            var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
-
+            var mancon = new master_fileController();
+            var afinallist = mancon.emplist();
             this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
             ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View();
@@ -172,14 +172,8 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
 
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
-            var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
+            var mancon = new master_fileController();
+            var afinallist = mancon.emplist();
 
             this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no",bank_details.employee_no);
             ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
@@ -199,14 +193,8 @@ namespace HRworks.Controllers
                 return HttpNotFound();
             }
 
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
-            var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
+            var mancon = new master_fileController();
+            var afinallist = mancon.emplist();
 
             this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
             return View(bank_details);
@@ -226,14 +214,8 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
 
-            var alist = this.db.master_file.OrderBy(e => e.employee_no).ToList();
-            var afinallist = new List<master_file>();
-            foreach (var file in alist)
-            {
-                if (afinallist.Count == 0) afinallist.Add(file);
-
-                if (!afinallist.Exists(x => x.employee_no == file.employee_no)) afinallist.Add(file);
-            }
+            var mancon = new master_fileController();
+            var afinallist = mancon.emplist();
 
             this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
             return View(bank_details);
@@ -273,7 +255,7 @@ namespace HRworks.Controllers
             foreach (var item in passexel)
             {
 
-                Sheet.Cells[string.Format("A{0}", row)].Value = item.master_file.employee_no;
+                Sheet.Cells[string.Format("A{0}", row)].Value = item.master_file.emiid;
                 Sheet.Cells[string.Format("B{0}", row)].Value = item.master_file.employee_name;
                 Sheet.Cells[string.Format("C{0}", row)].Value = item.IBAN;
                 Sheet.Cells[string.Format("D{0}", row)].Value = item.bank_name;

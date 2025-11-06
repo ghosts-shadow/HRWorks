@@ -1,91 +1,140 @@
 ﻿@model HRworks.Models.Att_adj
-
 @{
     ViewBag.Title = "Create";
 }
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+<!-- CSS (theme + timepicker addon) -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css" />
+
+<!-- JS: jQuery -> jQuery UI -> timepicker addon (ONE jQuery only) -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
+
+<style>
+    /* keep the picker above modals/navs */
+    .ui-datepicker, .ui-timepicker-div {
+        z-index: 999999 !important;
+    }
+</style>
+
+<script>
+    // If your _Layout also loads jQuery, remove one of them.
+    // Quick visibility / debug:
+    console.log("jQuery", $.fn.jquery);
+    console.log("has datepicker?", !!$.fn.datepicker);
+    console.log("has timepicker?", !!$.fn.timepicker);
+
+    // Fallback: if addon didn't load (e.g., CDN blocked), try alternate CDN then init.
+    function ensureTimepickerLoaded(cb) {
+        if ($.fn.timepicker) { cb(); return; }
+        var s = document.createElement("script");
+        s.src = "https://cdn.jsdelivr.net/npm/jquery-ui-timepicker-addon@1.6.3/dist/jquery-ui-timepicker-addon.min.js";
+        s.onload = cb;
+        document.head.appendChild(s);
+    }
+
+    function initPickers() {
+        // DATE (your UI with Today/Done)
+        $(".js-ui-date").datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true,
+            currentText: "Today",
+            closeText: "Done",
+            showAnim: "fadeIn"
+        });
+
+        // TIME (time only, 24h, select boxes)
+        $(".js-ui-time").timepicker({
+            timeFormat: "HH:mm",
+            controlType: "select",     // avoids slider dependency
+            oneLine: true,
+            showButtonPanel: true,
+            closeText: "Done",
+            stepMinute: 1
+        });
+
+        // Make jQuery Validate accept our formats (if present)
+        if ($.validator && $.validator.methods) {
+            if ($.validator.methods.date) {
+                $.validator.methods.date = function (value, element) {
+                    return this.optional(element) || /^\d{4}-\d{2}-\d{2}$/.test(value);
+                };
+            }
+            $.validator.methods.time = function (value, element) {
+                return this.optional(element) || /^([01]\d|2[0-3]):[0-5]\d$/.test(value);
+            };
+        }
+    }
+
+    $(function () {
+        ensureTimepickerLoaded(initPickers);
+    });
+</script>
+
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Att_adj</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <!-- which_date -->
         <div class="form-group">
-            @Html.LabelFor(model => model.emp_ID, "emp_ID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(m => m.which_date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("emp_ID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.emp_ID, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(
+                         m => m.which_date,
+                         "{0:yyyy-MM-dd}",
+                         new { @class = "form-control js-ui-date", autocomplete = "off" }
+                     )
+                @Html.ValidationMessageFor(m => m.which_date, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <!-- late_in -->
         <div class="form-group">
-            @Html.LabelFor(model => model.which_date, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(m => m.late_in, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.which_date, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.which_date, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(
+                         m => m.late_in,
+                         "{0:hh\\:mm}",
+                         new { @class = "form-control js-ui-time", type = "text", autocomplete = "off" }
+                     )
+                @Html.ValidationMessageFor(m => m.late_in, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <!-- early_out -->
         <div class="form-group">
-            @Html.LabelFor(model => model.late_in, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(m => m.early_out, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.late_in, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.late_in, "", new { @class = "text-danger" })
+                @Html.TextBoxFor(
+                         m => m.early_out,
+                         "{0:hh\\:mm}",
+                         new { @class = "form-control js-ui-time", type = "text", autocomplete = "off" }
+                     )
+                @Html.ValidationMessageFor(m => m.early_out, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <!-- reason -->
         <div class="form-group">
-            @Html.LabelFor(model => model.early_out, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(m => m.reason, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.early_out, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.early_out, "", new { @class = "text-danger" })
+                @Html.EditorFor(m => m.reason, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.reason, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.reason, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.reason, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.reason, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ap1, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ap1, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ap1, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ap2, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ap2, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ap2, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.date_added, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.date_added, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.date_added, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.date_modified, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.date_modified, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.date_modified, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
+        <!-- submit -->
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />

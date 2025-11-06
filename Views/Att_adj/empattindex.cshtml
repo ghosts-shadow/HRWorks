@@ -14,7 +14,7 @@
 <script>
     $(function() {
         var dateFormat = "mm/dd/yy",
-            from = $("#from")
+            from = $("#empatdatefrom")
                 .datepicker({
                     changeMonth: true
                 })
@@ -22,7 +22,7 @@
                     function() {
                         to.datepicker("option", "minDate", getDate(this));
                     }),
-            to = $("#to").datepicker({
+            to = $("#empatdateto").datepicker({
                     changeMonth: true
                 })
                 .on("change",
@@ -46,24 +46,21 @@
 {
     <div class="row">
         <div class=" col-md-2">
-            <input type="text" name="getdate" id="empatdatefrom" class="form-control" placeholder=" From" />
+            <input type="text" name="empatdatefrom" id="empatdatefrom" class="form-control" placeholder=" From" />
         </div>
         <div class=" col-md-2">
-            <input type="text" name="todate" id="empatdateto" class="form-control" placeholder="To" />
+            <input type="text" name="empatdateto" id="empatdateto" class="form-control" placeholder="To" />
         </div>
         <div class=" col-md-6">
             <input type="submit" value="search" class="btn btn-default" />
-            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("index1", "hiks", new { getdate = DateTime.Today,todate = DateTime.Now })'" value="today" />
-
-            @if (ViewBag.eddate != null)
-            {
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel1", "hiks", new { getdate = ViewBag.eddate ,todate =  ViewBag.eddate2})'" value="Export" />
-
-            }<input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Absent", "hiks")'" value="Absences Report" />
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("empattindex", "Att_adj", new { empatdatefrom = DateTime.Today,empatdateto = DateTime.Now })'" value="today" />
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "Att_adj")'" value="attendance adjustment" />
         </div>
     </div>
     <br />
 }
+
+
 <table class="table">
     <tr>
         <th>
@@ -77,12 +74,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.time)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th>
-            @Html.DisplayName("late")
         </th>
     </tr>
 
@@ -100,35 +91,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.time)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @{
-                    if (item.time.HasValue && item.Status != "CheckOut")
-                    {
-                        DateTime referenceDate = new DateTime(item.date.Value.Year, item.date.Value.Month, item.date.Value.Day, 8, 30, 0);
-                        if (referenceDate.TimeOfDay < item.time.Value)
-                        {
-                            TimeSpan defaultDate = item.time.Value - referenceDate.TimeOfDay;
-                            @defaultDate
-                            var t = " late";
-                            @t
-                        }
-                        if (item.datetime != null)
-                        {
-                            previn = item.datetime.Value;
-                        }
-                    }
-                    else if (item.time.HasValue && item.Status == "CheckOut")
-                    {
-                        var date_diff = item.datetime - previn;
-                        @date_diff
-                        var ta = " total hrs";
-                        @ta
-                    }
-                }
             </td>
         </tr>
     }

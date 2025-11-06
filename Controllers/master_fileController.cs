@@ -17,6 +17,8 @@ using Microsoft.Ajax.Utilities;
 
 namespace HRworks.Controllers
 {
+    using System.Collections;
+    using System.Reflection;
     using System.Web.Routing;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
@@ -849,10 +851,57 @@ namespace HRworks.Controllers
         [Authorize(Roles = "super_admin")]
         public ActionResult DeleteConfirmed(int id)
         {
-            master_file master_file = db.master_file.Find(id);
-            db.master_file.Remove(master_file);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            var master = db.master_file.Find(id);
+            if (master == null) return HttpNotFound();
+
+            using (var tx = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    // 1) Load and delete ALL collection navigation properties (children)
+                    var entry = db.Entry(master);
+
+                    // reflect over all ICollection<T> navigation properties on master_file
+                    var collProps = typeof(master_file)
+                        .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                        .Where(p =>
+                            p.PropertyType.IsGenericType &&
+                            typeof(ICollection<>).IsAssignableFrom(p.PropertyType.GetGenericTypeDefinition()));
+
+                    foreach (var p in collProps)
+                    {
+                        // ensure the collection is loaded
+                        entry.Collection(p.Name).Load();
+
+                        var collection = p.GetValue(master) as IEnumerable;
+                        if (collection == null) continue;
+
+                        var elementType = p.PropertyType.GetGenericArguments()[0];
+
+                        // db.Set(Type) returns a non-generic DbSet that supports Remove(object)
+                        var set = db.Set(elementType);
+
+                        // materialize to avoid modifying collection while iterating
+                        var items = collection.Cast<object>().ToList();
+                        foreach (var child in items)
+                        {
+                            set.Remove(child);
+                        }
+                    }
+                    
+                    db.master_file.Remove(master);
+
+                    db.SaveChanges();
+                    tx.Commit();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    tx.Rollback();
+                    ModelState.AddModelError("", "Delete failed. " + ex.Message);
+                    return View(master);
+                }
+            }
         }
 
         public ActionResult report(DateTime? from, DateTime? to, string status)

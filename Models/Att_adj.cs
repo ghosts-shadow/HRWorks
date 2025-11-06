@@ -11,13 +11,17 @@ namespace HRworks.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Att_adj
     {
         public int Id { get; set; }
         public int emp_ID { get; set; }
+        [Display(Name = "For Which date")]
         public System.DateTime which_date { get; set; }
+        [Display(Name = "Late In")]
         public Nullable<System.TimeSpan> late_in { get; set; }
+        [Display(Name = "Early out")]
         public Nullable<System.TimeSpan> early_out { get; set; }
         public string reason { get; set; }
         public string ap1 { get; set; }
