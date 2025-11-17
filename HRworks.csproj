@@ -2368,6 +2368,8 @@
     <Content Include="Views\Att_adj\EmpIndex.cshtml" />
     <Content Include="Views\Att_adj\empattindex.cshtml" />
     <Content Include="Views\Attendances\attunfiltered.cshtml" />
+    <Content Include="Views\Att_adj\att_adj_app.cshtml" />
+    <Content Include="Views\Att_adj\HRviewAttadj.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

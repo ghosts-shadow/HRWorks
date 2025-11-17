@@ -98,6 +98,7 @@
           <Property Name="ap2" Type="nvarchar(max)" />
           <Property Name="date_added" Type="datetime" Nullable="false" />
           <Property Name="date_modified" Type="datetime" Nullable="false" />
+          <Property Name="status" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="bank_details">
           <Key>
@@ -1269,7 +1270,9 @@
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
         <Association Name="FK_abs_exception_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="absexception" Type="Self.absexception" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1305,7 +1308,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Attadj_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Att_adj" Type="Self.Att_adj" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1317,7 +1322,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_bank_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="bank_details" Type="Self.bank_details" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1329,7 +1336,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BT_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="business_trip" Type="Self.business_trip" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1341,7 +1350,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_BTR_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="BUSINESS_TRIP_REPORT " Type="Self.BUSINESS_TRIP_REPORT " Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1353,7 +1364,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_cal_lwop_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="cal_lwop" Type="Self.cal_lwop" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1365,7 +1378,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_cal_ot_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="cal_ot" Type="Self.cal_ot" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1377,7 +1392,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_calabs_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="calabs" Type="Self.calabs" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1389,7 +1406,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_certificate_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="CERTIFICATE_REQUEST" Type="Self.CERTIFICATE_REQUEST" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1401,7 +1420,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_certificatereq_To_certificatetype">
-          <End Role="certificatetype" Type="Self.certificatetype" Multiplicity="1" />
+          <End Role="certificatetype" Type="Self.certificatetype" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="certificatesavingtest&#x9;" Type="Self.certificatesavingtest&#x9;" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="certificatetype">
@@ -1413,7 +1434,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_certificatereq_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="certificatesavingtest&#x9;" Type="Self.certificatesavingtest&#x9;" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1425,7 +1448,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_certificatereqG_To_certificatetype">
-          <End Role="certificatetype" Type="Self.certificatetype" Multiplicity="1" />
+          <End Role="certificatetype" Type="Self.certificatetype" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="certificatesavinggrove" Type="Self.certificatesavinggrove" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="certificatetype">
@@ -1437,7 +1462,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_certificatereqG_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="certificatesavinggrove" Type="Self.certificatesavinggrove" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1449,7 +1476,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_clb_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="companleaveBal" Type="Self.companleaveBal" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -1461,7 +1490,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_clrs_To_master_file">
-          <End Role="master_file" Type="Self.master_file" Multiplicity="1" />
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="companLeaveRs" Type="Self.companLeaveRs" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="master_file">
@@ -2704,6 +2735,7 @@
           <Property Name="date_added" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="date_modified" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_Attadj_To_master_file" FromRole="Att_adj" ToRole="master_file" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="bank_details">
           <Key>
@@ -5406,6 +5438,7 @@
           <EntitySetMapping Name="Att_adj">
             <EntityTypeMapping TypeName="HRModel.Att_adj">
               <MappingFragment StoreEntitySet="Att_adj">
+                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="emp_ID" ColumnName="emp_ID" />
                 <ScalarProperty Name="which_date" ColumnName="which_date" />

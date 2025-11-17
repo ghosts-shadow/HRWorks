@@ -28,6 +28,7 @@ namespace HRworks.Models
         public string ap2 { get; set; }
         public System.DateTime date_added { get; set; }
         public System.DateTime date_modified { get; set; }
+        public string status { get; set; }
     
         public virtual master_file master_file { get; set; }
     }

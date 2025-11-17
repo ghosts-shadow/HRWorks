@@ -150,17 +150,29 @@ namespace HRworks.Controllers
         {
             if (ModelState.IsValid)
             {
-                var emprel = db.emprels.ToList();
+                var emprellist = db.emprels.ToList();
                 var empuser = db.usernames
                     .FirstOrDefault(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name);
                 att_adj.emp_ID = empuser.employee_no.Value;
                 att_adj.master_file = empuser.master_file;
                 att_adj.date_added = DateTime.Now;
                 att_adj.date_modified = DateTime.Now;
+                if (emprellist.Exists(x=>x.Employee_id == empuser.employee_no))
+                {
+                    var emprel = emprellist.Find(x => x.Employee_id == empuser.employee_no);
+                    if (!emprel.HOD.HasValue)
+                    {
+                        att_adj.status = "pending HODs approval";
+                    }
+                    else
+                    {
+                        att_adj.status = "pending Line managers approval";
+                    }
+                }
                 db.Att_adj.Add(att_adj);
                 db.SaveChanges();
                 var sendmailtrid = db.Att_adj.ToList().Last();
-               // SendMail("", "submitted", sendmailtrid.Id);
+                SendMail("", "submitted", sendmailtrid.Id);
                 return RedirectToAction("Index");
             }
             
@@ -225,7 +237,123 @@ namespace HRworks.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult att_adj_app()
+        {
+            var emprellist = db.emprels.ToList();
+            var empuser = db.usernames
+                .FirstOrDefault(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name);
+            var attadjlist = new List<Att_adj>();
+            if (empuser == null)
+            {
+                return View(attadjlist);
+            }
+            var logedinsrels = emprellist.FindAll(x => x.line_man == empuser.master_file.employee_id || x.HOD == empuser.master_file.employee_id);
+            foreach (var emprel in logedinsrels)
+            {
+                if (emprel.line_man == empuser.master_file.employee_id)
+                {
+                    attadjlist.AddRange(db.Att_adj.ToList()
+                        .FindAll(x => x.emp_ID == emprel.Employee_id && x.status == "pending Line managers approval"));
+                    if (!emprel.HOD.HasValue)
+                    {
+                        attadjlist.AddRange(db.Att_adj.ToList()
+                            .FindAll(x => x.emp_ID == emprel.Employee_id && x.status == "pending HODs approval"));
+                    }
 
+                }
+                if (emprel.HOD.HasValue && emprel.HOD == empuser.master_file.employee_id)
+                {
+                    attadjlist.AddRange(db.Att_adj.ToList()
+                        .FindAll(x => x.emp_ID == emprel.Employee_id && x.status == "pending HODs approval"));
+                }
+
+            }
+
+            return View(attadjlist);
+        }
+        public ActionResult approve(int id)
+        {
+            var empuser = db.usernames
+                .FirstOrDefault(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name);
+            var attadj = db.Att_adj.ToList().Find(x=>x.Id == id);
+            if (attadj.status == "pending Line managers approval")
+            {
+                attadj.ap1 = empuser.AspNetUser.UserName;
+                attadj.status = "pending HODs approval";
+                SendMail("", "approved line managers", id);
+            }
+            else if (attadj.status == "pending HODs approval")
+            {
+                if (attadj.ap1.IsNullOrWhiteSpace())
+                {
+                    attadj.ap1 = empuser.AspNetUser.UserName;
+                    attadj.status = "approved";
+                }
+                else
+                {
+                    attadj.ap2 = empuser.AspNetUser.UserName;
+                    attadj.status = "approved";
+                }
+                SendMail("", "approved", id);
+            }
+            attadj.date_modified= DateTime.Now;
+            db.Entry(attadj).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("att_adj_app");
+        }
+
+        public ActionResult reject(int id,string message)
+        {
+            var empuser = db.usernames
+                .FirstOrDefault(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name);
+            var attadj = db.Att_adj.ToList().Find(x => x.Id == id);
+            if (attadj.status == "pending Line managers approval")
+            {
+                attadj.ap1 = empuser.AspNetUser.UserName;
+                attadj.status = "rejected by line manager for:"+message;
+                SendMail(message, "rejected by line manager", id);
+            }
+            else if (attadj.status == "pending HODs approval")
+            {
+                if (attadj.ap1.IsNullOrWhiteSpace())
+                {
+                    attadj.ap1 = empuser.AspNetUser.UserName;
+                    attadj.status = "rejected by HOD for:"+message;
+                    SendMail(message, "rejected by HOD", id);
+                }
+                else
+                {
+                    attadj.ap2 = empuser.AspNetUser.UserName;
+                    attadj.status = "rejected by HOD for:"+message;
+                    SendMail(message, "rejected by HOD", id);
+                }
+            }
+            attadj.date_modified = DateTime.Now;
+            db.Entry(attadj).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("att_adj_app"); 
+        }
+
+        public ActionResult HRviewAttadj(string empid, DateTime? empatdatefrom, DateTime? empatdateto)
+        {
+            var att_adj = db.Att_adj.Include(a => a.master_file).ToList();
+            if (!empid.IsNullOrWhiteSpace())
+            {
+                att_adj = att_adj.FindAll(x => x.master_file.emiid.ToUpper() == empid.ToUpper());
+            }
+
+            if (empatdatefrom.HasValue)
+            {
+                att_adj = att_adj.FindAll(x => x.which_date >= empatdatefrom);
+            }
+            if (empatdateto.HasValue)
+            {
+                att_adj = att_adj.FindAll(x => x.which_date <= empatdateto);
+            }
+            return View(att_adj);
+        }
 
         public void SendMail(string msg, string action, int elsid)
         {
@@ -254,12 +382,12 @@ namespace HRworks.Controllers
                 var email = "hrteam@citiscapegroup.com";
 
                 message.To.Add((new MailboxAddress("HR", email)));
-                message.Subject = "time adjustment";
+                message.Subject = "attendance adjustment approvals";
                 message.Body = new TextPart("plain")
                 {
-                    Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that  the request for time adjustment  by the employee  (" +
+                    Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that  the request for attendance adjustment by the employee  (" +
                            emplusersname.master_file.emiid + ") " +
-                           emplusersname.master_file.employee_name + "-" + desig + " has been submitted but does not have a record in emp relations table" + "\n\n\n" +
+                           emplusersname.master_file.employee_name + "-" + desig + " has been submitted but does not have a record in employee relations table" + "\n\n\n" +
                            "Thanks Best Regards, "
                 };
             }
@@ -269,10 +397,10 @@ namespace HRworks.Controllers
                 var nextusersname = usernamelist.Find(x => x.employee_no == emprel.line_man);
                 var nextuser = userlist.Find(x => x.Id == nextusersname.aspnet_uid);
                 message.To.Add((new MailboxAddress(nextusersname.full_name, nextuser.Email)));
-                message.Subject = "time adjustment";
+                message.Subject = "attendance adjustment approvals";
                 message.Body = new TextPart("plain")
                 {
-                    Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that the request for time adjustment  by the employee   (" +
+                    Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that the request for attendance adjustment  by the employee   (" +
                            emplusersname.master_file.emiid + ") " +
                            emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
                            "http://ess.citiscapegroup.com" + "\n\n\n" +
@@ -289,10 +417,10 @@ namespace HRworks.Controllers
                     var nextusersname = usernamelist.Find(x => x.employee_no == emprel.HOD);
                     var nextuser = userlist.Find(x => x.Id == nextusersname.aspnet_uid);
                     message.To.Add((new MailboxAddress(nextusersname.full_name, nextuser.Email)));
-                    message.Subject = "time adjustment";
+                    message.Subject = "attendance adjustment approvals";
                     message.Body = new TextPart("plain")
                     {
-                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that  the request for time adjustment  by the employee  (" +
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that  the request for attendance adjustment by the employee  (" +
                                emplusersname.master_file.emiid + ") " +
                                emplusersname.full_name + "-" + desig + " has been approved by line manager " +
                                previoususersname.master_file.employee_name + " and forwarded for your approval" +
@@ -306,10 +434,10 @@ namespace HRworks.Controllers
                     var nextuser = userlist.Find(x => x.Id == emplusersname.aspnet_uid);
                     message.To.Add((new MailboxAddress(emplusersname.full_name, nextuser.Email)));
                     message.Cc.Add((new MailboxAddress("Yahya Rashid", "yrashid@citiscapegroup.com")));
-                    message.Subject = "time adjustment";
+                    message.Subject = "attendance adjustment approvals";
                     message.Body = new TextPart("plain")
                     {
-                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that  the request for time adjustment  by the employee  (" +
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that  the request for attendance adjustment  by the employee  (" +
                                emplusersname.master_file.emiid + ") " +
                                emplusersname.full_name + "-" + desig + " has been approved" + "\n\n\n" +
                                "http://ess.citiscapegroup.com" + "\n\n\n" +
@@ -325,10 +453,10 @@ namespace HRworks.Controllers
                 {
                     var nextuser = userlist.Find(x => x.Id == emplusersname.aspnet_uid);
                     message.To.Add((new MailboxAddress(emplusersname.full_name, nextuser.Email)));
-                    message.Subject = "time adjustment";
+                    message.Subject = "attendance adjustment approvals";
                     message.Body = new TextPart("plain")
                     {
-                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that  the request for time adjustment  by the employee (" +
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that  the request for attendance adjustment  by the employee (" +
                                emplusersname.master_file.emiid + ") " +
                                emplusersname.full_name + "-" + desig + " has been rejected by line manager for " +
                                msg + "\n\n\n" + "\n\n\n" + "Thanks Best Regards, "
@@ -339,10 +467,10 @@ namespace HRworks.Controllers
                 {
                     var nextuser = userlist.Find(x => x.Id == emplusersname.aspnet_uid);
                     message.To.Add((new MailboxAddress(emplusersname.full_name, nextuser.Email)));
-                    message.Subject = "time adjustment";
+                    message.Subject = "attendance adjustment approvals";
                     message.Body = new TextPart("plain")
                     {
-                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for the request for time adjustment  by the employee   (" +
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for the request for attendance adjustment by the employee   (" +
                                emplusersname.master_file.emiid + ") " +
                                emplusersname.full_name + "-" + desig + " has been rejected by HOD for " + msg +
                                "\n\n\n" + "\n\n\n" + "Thanks Best Regards, "

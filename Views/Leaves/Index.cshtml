@@ -67,6 +67,9 @@
                 @if (User.IsInRole("super_admin") || User.IsInRole("payrole"))
                 {
                     <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "companLeaveRs")'" value="compensatory leave record" />
+                    <br />
+                    <br />
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("HRviewAttadj", "Att_adj")'" value="Attendance adjustment" />
                 }
                 <br />
                 <br />

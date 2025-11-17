@@ -7,10 +7,33 @@
 
 <h2>Index</h2>
 
+<style>
+    /* Action cell layout: neat row with wrapping */
+    .action-cell .actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px; /* space between items */
+    }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+        .action-cell .actions form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0; /* avoid extra spacing from forms */
+        }
+
+    .action-cell .comment-input {
+        width: 220px; /* adjust as needed */
+        max-width: 100%;
+    }
+    /* On narrow screens, allow the input to wrap to a new line */
+    @@media (max-width: 768px) {
+        .action-cell .comment-input {
+            flex: 1 1 100%;
+        }
+    }
+</style>
 
 <table class="table">
     <tr>
@@ -35,6 +58,7 @@
         <th>
             @Html.DisplayName("status")
         </th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -63,6 +87,24 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td class="action-cell">
+                <div class="actions">
+                    <a class="btn btn-success btn-sm"
+                       href="@Url.Action("approve", "Att_adj", new { id = item.Id })">
+                        Approve
+                    </a>
+                    @using (Html.BeginForm("reject", "Att_adj", new { id = item.Id }, FormMethod.Post, new { @class = "reject-form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="text"
+                               name="message"
+                               required
+                               class="form-control input-sm comment-input"
+                               placeholder="comment" />
+                        <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                    }
+                </div>
             </td>
         </tr>
     }

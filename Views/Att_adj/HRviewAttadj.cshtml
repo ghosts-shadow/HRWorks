@@ -1,0 +1,130 @@
+﻿@model IEnumerable<HRworks.Models.Att_adj>
+
+@{
+    ViewBag.Title = "HR view Attendance adjustment";
+}
+
+<h2>HR view Attendance adjustment</h2>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(function() {
+        var dateFormat = "mm/dd/yy",
+            from = $("#empatdatefrom")
+                .datepicker({
+                    changeMonth: true
+                })
+                .on("change",
+                    function() {
+                        to.datepicker("option", "minDate", getDate(this));
+                    }),
+            to = $("#empatdateto").datepicker({
+                    changeMonth: true
+                })
+                .on("change",
+                    function() {
+                        from.datepicker("option", "maxDate", getDate(this));
+                    });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+
+            return date;
+        }
+    });
+</script>
+@using (Html.BeginForm("HRviewAttadj", "Att_adj"))
+{
+    <div class="row">
+        <div class=" col-md-2">
+            <input type="text" name="empid" id="empid" class="form-control" placeholder=" ID" />
+        </div>
+        <div class=" col-md-2">
+            <input type="text" name="empatdatefrom" id="empatdatefrom" class="form-control" placeholder=" From" />
+        </div>
+        <div class=" col-md-2">
+            <input type="text" name="empatdateto" id="empatdateto" class="form-control" placeholder="To" />
+        </div>
+        <div class=" col-md-4">
+            <input type="submit" value="search" class="btn btn-default" />
+        </div>
+    </div>
+    <br />
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.which_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.late_in)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.early_out)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.reason)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_added)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_modified)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.emiid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.master_file.employee_name)
+            </td>
+            <td>
+                @{
+                    var datet = item.which_date;
+                    @datet.ToString("D")
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.late_in)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.early_out)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.reason)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_added)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_modified)
+            </td>
+        </tr>
+    }
+
+</table>
