@@ -134,10 +134,21 @@ namespace HRworks.Controllers
             }
             return View(att_adj);
         }
+        //
+        // // GET: Att_adj/Create
+        // public ActionResult Create()
+        // {
+        //     return View();
+        // }
 
-        // GET: Att_adj/Create
-        public ActionResult Create()
+        public ActionResult Create(DateTime? atjdate,TimeSpan? atjtime)
         {
+            if (atjdate.HasValue && atjtime.HasValue)
+            {
+                ViewBag.which_date = atjdate.Value.Date.ToString("d");
+                ViewBag.late_in = atjtime;
+            }
+
             return View();
         }
 
@@ -213,6 +224,7 @@ namespace HRworks.Controllers
         }
 
         // GET: Att_adj/Delete/5
+        [Authorize(Roles = "super_admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -228,6 +240,7 @@ namespace HRworks.Controllers
         }
 
         // POST: Att_adj/Delete/5
+        [Authorize(Roles = "super_admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -432,8 +445,8 @@ namespace HRworks.Controllers
                 else if (action == "approved")
                 {
                     var nextuser = userlist.Find(x => x.Id == emplusersname.aspnet_uid);
-                    message.To.Add((new MailboxAddress(emplusersname.full_name, nextuser.Email)));
-                    message.Cc.Add((new MailboxAddress("Yahya Rashid", "yrashid@citiscapegroup.com")));
+                    message.To.Add((new MailboxAddress(emplusersname.full_name, nextuser.Email)));/*
+                    message.Cc.Add((new MailboxAddress("Yahya Rashid", "yrashid@citiscapegroup.com")));*/
                     message.Subject = "attendance adjustment approvals";
                     message.Body = new TextPart("plain")
                     {
