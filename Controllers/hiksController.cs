@@ -651,7 +651,7 @@ namespace HRworks.Controllers
                 .OrderBy(h => h.datetime)
                 .ToList();
             var mancon = new master_fileController();
-            var masterData = mancon.emplistatt(todate);
+            var masterData = mancon.emplist(true);
 
             if (!string.IsNullOrWhiteSpace(empno))
             {

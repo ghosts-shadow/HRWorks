@@ -91,7 +91,7 @@
             <td class="action-cell">
                 <div class="actions">
                     <a class="btn btn-success btn-sm"
-                       href="@Url.Action("approve", "Att_adj", new { id = item.Id })">
+                       href="@Url.Action("approve", "Att_adj", new { id = item.Id ,actionvalue =""})">
                         Approve
                     </a>
                     @using (Html.BeginForm("reject", "Att_adj", new { id = item.Id }, FormMethod.Post, new { @class = "reject-form" }))

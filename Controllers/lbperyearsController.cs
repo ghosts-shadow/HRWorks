@@ -40,7 +40,7 @@ namespace HRworks.Controllers
         // GET: lbperyears/Create
         public ActionResult Create()
         {
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name");
+            ViewBag.Employee_id = new SelectList(db.master_file.OrderBy(x=>x.employee_no), "employee_id", "emiid");
             return View();
         }
 
@@ -60,7 +60,7 @@ namespace HRworks.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name", lbperyear.Employee_id);
+            ViewBag.Employee_id = new SelectList(db.master_file.OrderBy(x => x.employee_no), "employee_id", "emiid", lbperyear.Employee_id);
             return View(lbperyear);
         }
 
@@ -76,7 +76,7 @@ namespace HRworks.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name", lbperyear.Employee_id);
+            ViewBag.Employee_id = new SelectList(db.master_file.OrderBy(x => x.employee_no), "employee_id", "emiid", lbperyear.Employee_id);
             return View(lbperyear);
         }
 
@@ -93,7 +93,7 @@ namespace HRworks.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Employee_id = new SelectList(db.master_file, "employee_id", "employee_name", lbperyear.Employee_id);
+            ViewBag.Employee_id = new SelectList(db.master_file.OrderBy(x => x.employee_no), "employee_id", "emiid", lbperyear.Employee_id);
             return View(lbperyear);
         }
 

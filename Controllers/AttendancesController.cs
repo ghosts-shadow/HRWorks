@@ -1732,8 +1732,8 @@ namespace HRworks.Controllers
             // Define weekends per site
             var hoWeekend = new HashSet<DayOfWeek> { DayOfWeek.Saturday, DayOfWeek.Sunday };
             var projectWeekend = new HashSet<DayOfWeek> { DayOfWeek.Sunday };
-            var defaultWeekend = hoWeekend; // fallback if we cannot infer site
-            var siteLookbackDays = 35;      // how many days to look back to infer site on no-punch days
+            var defaultWeekend = projectWeekend; // fallback if we cannot infer site
+            var siteLookbackDays = 60;      // how many days to look back to infer site on no-punch days
 
             // ----- DATE NORMALIZATION -----
             if (dayfrom == null) dayfrom = DateTime.Today;
@@ -1915,7 +1915,7 @@ namespace HRworks.Controllers
                             x.Start_leave.Value.Date <= cursor &&
                             x.End_leave.Value.Date >= cursor);
 
-                        if (!hasHO && !hasProj && !onLeave && (file.last_working_day >= cursor || !file.last_working_day.HasValue))
+                        if (!hasHO && !hasProj && !onLeave && (file.last_working_day >= cursor || !file.last_working_day.HasValue) && (file.date_joined < cursor))
                         {
                             // Mark absent
                             var absvar = new hik

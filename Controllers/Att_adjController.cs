@@ -36,8 +36,11 @@ namespace HRworks.Controllers
                 .FirstOrDefault(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name);
             var empint = 7770000;
             var finallist = new List<hik>();
-            if (empatdatefrom.HasValue)
+            if (!empatdatefrom.HasValue)
             {
+                empatdatefrom = DateTime.Now;
+            }
+            empatdatefrom = new DateTime(empatdatefrom.Value.Year, empatdatefrom.Value.Month, 1);
                 var empstring = empuser.master_file.employee_no.ToString();
                 if (empstring.Contains("7770"))
                 {
@@ -54,13 +57,47 @@ namespace HRworks.Controllers
                         x.emp_code == empuser.master_file.employee_no.ToString() || x.emp_code == empint.ToString())
                     .ToList();
                 if (HOatt.Count > 0)
-                {
+                {/*
                     foreach (var hik in HOatt)
                     {
                         hik.ID = empuser.master_file.emiid;
                         hik.Person = empuser.master_file.employee_name;
-                        finallist.Add(hik);
+                        if (!finallist.Exists(x=>x.date == hik.date))
+                        {
+                            var templist = HOatt.FindAll(x=>x.date == hik.date);
+                            finallist.Add(templist.First());
+                            if (templist.Count>1)
+                            {
+                                finallist.Add(templist.Last());
+                            }
+
+                        }
+                    }*/
+                    foreach (var hik in HOatt)
+                    {
+                        hik.ID = empuser.master_file.emiid;
+                        hik.Person = empuser.master_file.employee_name;
                     }
+
+                    var groups = HOatt.OrderBy(x=>x.datetime)
+                        .GroupBy(x =>
+                        {
+                            if (x.date != null) return x.date.Value.Date;
+                            return default;
+                        });
+
+                    foreach (var g in groups)
+                    {
+                        var ordered = g.OrderBy(x => x.date).ToList();
+                        var first = ordered.First();
+                        finallist.Add(first);
+
+                        if (ordered.Count > 1)
+                        {
+                            finallist.Add(ordered.Last());
+                        }
+                    }
+                    
                 }
 
                 if (projectatt.Count > 0)
@@ -70,6 +107,9 @@ namespace HRworks.Controllers
                         var protoho = new hik();
                         protoho.ID = empuser.master_file.emiid;
                         protoho.datetime = tratt.punch_time;
+                        protoho.date = tratt.punch_time.Date;
+                        protoho.time = tratt.punch_time.TimeOfDay;
+                        protoho.Person = empuser.master_file.employee_name;
                         if (tratt.punch_state == "0")
                         {
                             protoho.Status = "check in";
@@ -98,7 +138,6 @@ namespace HRworks.Controllers
                     else
                         return (2, int.MaxValue); // group 2 = anything else
                 }).ToList());
-            }
 
             return View(finallist);
         }
@@ -141,12 +180,19 @@ namespace HRworks.Controllers
         //     return View();
         // }
 
-        public ActionResult Create(DateTime? atjdate,TimeSpan? atjtime)
+        public ActionResult Create(DateTime? atjdate,TimeSpan? atjtime , bool? inout)
         {
-            if (atjdate.HasValue && atjtime.HasValue)
+            if (atjdate.HasValue && atjtime.HasValue && inout.HasValue)
             {
                 ViewBag.which_date = atjdate.Value.Date.ToString("d");
-                ViewBag.late_in = atjtime;
+                if (inout.Value)
+                {
+                    ViewBag.late_in = atjtime;
+                }
+                else
+                {
+                    ViewBag.early_out = atjtime;
+                }
             }
 
             return View();
@@ -248,7 +294,7 @@ namespace HRworks.Controllers
             Att_adj att_adj = db.Att_adj.Find(id);
             db.Att_adj.Remove(att_adj);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("HRviewAttadj");
         }
         public ActionResult att_adj_app()
         {
@@ -284,35 +330,44 @@ namespace HRworks.Controllers
 
             return View(attadjlist);
         }
-        public ActionResult approve(int id)
+        public ActionResult approve(int id,string actionvalue)
         {
             var empuser = db.usernames
                 .FirstOrDefault(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name);
             var attadj = db.Att_adj.ToList().Find(x=>x.Id == id);
-            if (attadj.status == "pending Line managers approval")
+            if (attadj.status == "pending Line managers approval" && actionvalue.IsNullOrWhiteSpace())
             {
                 attadj.ap1 = empuser.AspNetUser.UserName;
                 attadj.status = "pending HODs approval";
                 SendMail("", "approved line managers", id);
             }
-            else if (attadj.status == "pending HODs approval")
+            else if (attadj.status == "pending HODs approval" && actionvalue.IsNullOrWhiteSpace())
             {
                 if (attadj.ap1.IsNullOrWhiteSpace())
                 {
                     attadj.ap1 = empuser.AspNetUser.UserName;
-                    attadj.status = "approved";
+                    attadj.status = "pending HR Approval";
                 }
                 else
                 {
                     attadj.ap2 = empuser.AspNetUser.UserName;
-                    attadj.status = "approved";
+                    attadj.status = "pending HR Approval";
                 }
-                SendMail("", "approved", id);
+                SendMail("", "approved by HOD", id);
             }
-            attadj.date_modified= DateTime.Now;
+            if (attadj.status == "pending HR Approval" && !actionvalue.IsNullOrWhiteSpace())
+            {
+                attadj.HR_ap = User.Identity.Name;
+                attadj.status = "approved";
+                SendMail("", "Approved", id);
+            }
+                attadj.date_modified = DateTime.Now;
             db.Entry(attadj).State = EntityState.Modified;
             db.SaveChanges();
-
+            if (actionvalue == "HRapp")
+            {
+                return RedirectToAction("HRviewAttadj");
+            }
             return RedirectToAction("att_adj_app");
         }
 
@@ -341,6 +396,12 @@ namespace HRworks.Controllers
                     attadj.status = "rejected by HOD for:"+message;
                     SendMail(message, "rejected by HOD", id);
                 }
+            }
+            else if (attadj.status == "pending HR Approval")
+            {
+                attadj.ap2 = empuser.AspNetUser.UserName;
+                attadj.status = "rejected by HR for:" + message;
+                SendMail(message, "rejected by HR", id);
             }
             attadj.date_modified = DateTime.Now;
             db.Entry(attadj).State = EntityState.Modified;
@@ -457,6 +518,20 @@ namespace HRworks.Controllers
                                "Thanks Best Regards, "
                     };
                 }
+                else if (action == "approved by HOD")
+                {
+                    var nextuser = userlist.Find(x => x.Id == emplusersname.aspnet_uid);
+                    message.To.Add((new MailboxAddress("Yahya Rashid", "yrashid@citiscapegroup.com")));
+                    message.Subject = "attendance adjustment approvals";
+                    message.Body = new TextPart("plain")
+                    {
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that  the request for attendance adjustment  by the employee  (" +
+                               emplusersname.master_file.emiid + ") " +
+                               emplusersname.full_name + "-" + desig + " has been approved BY HOD and forwarded for your approval" + "\n\n\n" +
+                               "http://ess.citiscapegroup.com" + "\n\n\n" +
+                               "Thanks Best Regards, "
+                    };
+                }
             }
 
             if (action.Contains("rejected"))
@@ -486,6 +561,19 @@ namespace HRworks.Controllers
                         Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for the request for attendance adjustment by the employee   (" +
                                emplusersname.master_file.emiid + ") " +
                                emplusersname.full_name + "-" + desig + " has been rejected by HOD for " + msg +
+                               "\n\n\n" + "\n\n\n" + "Thanks Best Regards, "
+                    };
+                }
+                if (action.Contains("rejected by HR"))
+                {
+                    var nextuser = userlist.Find(x => x.Id == emplusersname.aspnet_uid);
+                    message.To.Add((new MailboxAddress(emplusersname.full_name, nextuser.Email)));
+                    message.Subject = "attendance adjustment approvals";
+                    message.Body = new TextPart("plain")
+                    {
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for the request for attendance adjustment by the employee   (" +
+                               emplusersname.master_file.emiid + ") " +
+                               emplusersname.full_name + "-" + desig + " has been rejected by HR for " + msg +
                                "\n\n\n" + "\n\n\n" + "Thanks Best Regards, "
                     };
                 }

@@ -111,6 +111,7 @@ namespace HRworks.Controllers
                 cstvar.modifieddate_by = DateTime.Now;
                 db.Entry(cstvar).State = EntityState.Modified;
                 db.SaveChanges();
+                SendMailap(id, "CS", "", true);
             }
             else
             {
@@ -120,6 +121,7 @@ namespace HRworks.Controllers
                 cstvar.modifieddate_by = DateTime.Now;
                 db.Entry(cstvar).State = EntityState.Modified;
                 db.SaveChanges();
+                SendMailap(id, "GR", "", true);
             }
 
             return RedirectToAction("hrapproval");
@@ -135,6 +137,7 @@ namespace HRworks.Controllers
                 cstvar.modifieddate_by = DateTime.Now;
                 db.Entry(cstvar).State = EntityState.Modified;
                 db.SaveChanges();
+                SendMailap(id, "CS", message, false);
             }
             else
             {
@@ -144,6 +147,7 @@ namespace HRworks.Controllers
                 cstvar.modifieddate_by = DateTime.Now;
                 db.Entry(cstvar).State = EntityState.Modified;
                 db.SaveChanges();
+                SendMailap(id, "GR", message, false);
             }
 
             return RedirectToAction("hrapproval");
@@ -2214,6 +2218,123 @@ namespace HRworks.Controllers
                         client.Send(message);
                         client.Disconnect(true);
                     }
+                }
+            }
+        }
+
+        public void SendMailap(int id, string cs_gr, string msg, bool status)
+        {
+            var message = new MimeMessage();
+            var desig = "";
+                var usernamelist = db.usernames.ToList();
+                var contractlist = db.contracts.OrderByDescending(x => x.date_changed).ToList();
+                message.From.Add(new MailboxAddress("Hrworks", "leave@citiscapegroup.com"));
+                message.Subject = "certificate request approval";
+
+            if (cs_gr == "GR")
+            {
+                var cstvar = db.certificatesavinggroves.FirstOrDefault(x => x.Id == id);
+                if (cstvar == null)
+                {
+                    // Handle the scenario where the certificate is not found
+                    return;
+                }
+
+                var emplusersname = usernamelist.Find(x => x.employee_no == cstvar.master_file.employee_id);
+                if (contractlist.Exists(x => x.employee_no == cstvar.master_file.employee_id))
+                {
+                    var temp = contractlist.Find(x => x.employee_no == cstvar.master_file.employee_id);
+                    if (temp != null && !temp.designation.IsNullOrWhiteSpace())
+                    {
+                        desig = temp.designation;
+                    }
+                }
+
+                var aptuser = db.AspNetUsers.ToList().Find(x => x.Id == emplusersname.aspnet_uid);
+                message.To.Add((new MailboxAddress(cstvar.master_file.employee_name, aptuser.Email)));
+
+                if (status)
+                {
+                    message.Body = new TextPart("plain")
+                    {
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that certificate request for   (" +
+                               cstvar.master_file.emiid + ") " +
+                               cstvar.master_file.employee_name + "-" + desig + " has been  approved" + "\n\n\n" +
+                               "http://ess.citiscapegroup.com" + "\n\n\n" +
+                               "Thanks Best Regards, "
+                    };
+                }
+                else
+                {
+                    message.Body = new TextPart("plain")
+                    {
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that certificate request for   (" +
+                               cstvar.master_file.emiid + ") " +
+                               cstvar.master_file.employee_name + "-" + desig + " has been Rejected for :" +
+                               msg + "\n\n\n" +
+                               "http://ess.citiscapegroup.com" + "\n\n\n" +
+                               "Thanks Best Regards, "
+                    };
+
+                }
+
+            }
+            else
+            {
+                var cstvar = db.certificatesavingtest_.FirstOrDefault(x => x.Id == id);
+                if (cstvar == null)
+                {
+                    // Handle the scenario where the certificate is not found
+                    return;
+                }
+                var emplusersname = usernamelist.Find(x => x.employee_no == cstvar.master_file.employee_id);
+                if (contractlist.Exists(x => x.employee_no == cstvar.master_file.employee_id))
+                {
+                    var temp = contractlist.Find(x => x.employee_no == cstvar.master_file.employee_id);
+                    if (!temp.designation.IsNullOrWhiteSpace())
+                    {
+                        desig = temp.designation;
+                    }
+                }
+
+                var aptuser = db.AspNetUsers.ToList().Find(x => x.Id == emplusersname.aspnet_uid);
+                message.To.Add((new MailboxAddress(cstvar.master_file.employee_name, aptuser.Email)));
+                if (status)
+                {
+                    message.Body = new TextPart("plain")
+                    {
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that certificate request for   (" +
+                               cstvar.master_file.emiid + ") " +
+                               cstvar.master_file.employee_name + "-" + desig + " has been  approved" + "\n\n\n" +
+                               "http://ess.citiscapegroup.com" + "\n\n\n" +
+                               "Thanks Best Regards, "
+                    };
+                }
+                else
+                {
+                    message.Body = new TextPart("plain")
+                    {
+                        Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that certificate request for   (" +
+                               cstvar.master_file.emiid + ") " +
+                               cstvar.master_file.employee_name + "-" + desig + " has been Rejected for :" +
+                               msg + "\n\n\n" +
+                               "http://ess.citiscapegroup.com" + "\n\n\n" +
+                               "Thanks Best Regards, "
+                    };
+
+                }
+
+            }
+
+            if (message.To.Count != 0)
+            {
+                using (var client = new SmtpClient())
+                {
+                    client.Connect("outlook.office365.com", 587, false);
+                    // Note: only needed if the SMTP server requires authentication
+                    client.Authenticate("leave@citiscapegroup.com", "Tak98020");
+                    client.Send(message);
+                    client.Disconnect(true);
                 }
             }
         }

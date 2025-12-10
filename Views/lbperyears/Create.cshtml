@@ -22,6 +22,7 @@
                 $(this).val(formattedDate);
             }
         });
+        $("#employee_no").chosen({ no_results_text: "Oops, nothing found!" });
     });
 </script>
 @using (Html.BeginForm())
@@ -35,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Employee_id, "Employee_id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("Employee_id", null, htmlAttributes: new { @class = "form-control", @id = "employee_no" })
                 @Html.ValidationMessageFor(model => model.Employee_id, "", new { @class = "text-danger" })
             </div>
         </div>

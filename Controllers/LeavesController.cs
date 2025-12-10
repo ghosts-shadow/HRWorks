@@ -2573,7 +2573,7 @@ namespace HRworks.Controllers
                             {
                                 savelbpy.unpaid = 0;
                             }
-
+                            period = joiningperiod;
                             accleave = Math.Round((joiningperiod) * lbpd24);
                         }
                         else
@@ -2593,9 +2593,9 @@ namespace HRworks.Controllers
                             if (maxleaveperyear.Exists(x => x.year.Year <= i))
                             {
                                 var maxleaveperyeartemp = maxleaveperyear.Find(x => x.year.Year <= i);
-                                if (period - savelbpy.unpaid.Value < 365)
+                                if (period/* - savelbpy.unpaid.Value*/ < 365)
                                 {
-                                    accleave = Math.Round((period - savelbpy.unpaid.Value) *
+                                    accleave = Math.Round((period /*- savelbpy.unpaid.Value*/) *
                                         maxleaveperyeartemp.total_leave_balance / 365);
                                 }
                                 else
@@ -2606,7 +2606,7 @@ namespace HRworks.Controllers
                         }
 
                         savelbpy.Annual_Leave_total = savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied;
-                        savelbpy.period = 365;
+                        savelbpy.period = period;
                         savelbpy.accrued = accleave;
                         if (perviousyearleave != null)
                         {
@@ -2642,7 +2642,7 @@ namespace HRworks.Controllers
                                 savelbpy.net_period = 0;
                             }
 
-                            savelbpy.leave_balance = Math.Round(accleave) -
+                            savelbpy.leave_balance = accleave -
                                                      (savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied);
                             if (DateTime.Now >= new DateTime(i + 1, 3, 31))
                             {
@@ -2658,7 +2658,7 @@ namespace HRworks.Controllers
                                 }
                             }
 
-                            savelbpy.net_period += period - savelbpy.unpaid;
+                            savelbpy.net_period += period /*- savelbpy.unpaid*/;
                         }
 
 

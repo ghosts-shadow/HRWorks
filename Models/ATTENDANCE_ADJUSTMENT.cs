@@ -13,23 +13,26 @@ namespace HRworks.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public partial class Att_adj
+    public partial class ATTENDANCE_ADJUSTMENT
     {
         public int Id { get; set; }
-        public int emp_ID { get; set; }
-        [Display(Name = "For Which date")]
-        public System.DateTime which_date { get; set; }
-        [Display(Name = "Late In")]
+
+        [Display(Name = "Employee ID")]
+        public Nullable<int> Employee_id { get; set; }
+
+        [Display(Name = "date perpared")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
+        public Nullable<System.DateTime> date_prepared { get; set; }
+
+        [Display(Name = "date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMM yyyy}")]
+        public Nullable<System.DateTime> DJ_date { get; set; }
+
+        [Display(Name = "late IN")]
         public Nullable<System.TimeSpan> late_in { get; set; }
-        [Display(Name = "Early out")]
+        [Display(Name = "early out")]
         public Nullable<System.TimeSpan> early_out { get; set; }
         public string reason { get; set; }
-        public string ap1 { get; set; }
-        public string ap2 { get; set; }
-        public System.DateTime date_added { get; set; }
-        public System.DateTime date_modified { get; set; }
-        public string status { get; set; }
-        public string HR_ap { get; set; }
     
         public virtual master_file master_file { get; set; }
     }

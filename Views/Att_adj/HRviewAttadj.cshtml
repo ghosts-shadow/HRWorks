@@ -2,30 +2,59 @@
 
 @{
     ViewBag.Title = "HR view Attendance adjustment";
+    string HR = "HRapp";
 }
 
 <h2>HR view Attendance adjustment</h2>
+
+<style>
+    /* Action cell layout: neat row with wrapping */
+    .action-cell .actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px; /* space between items */
+    }
+
+        .action-cell .actions form {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0; /* avoid extra spacing from forms */
+        }
+
+    .action-cell .comment-input {
+        width: 220px; /* adjust as needed */
+        max-width: 100%;
+    }
+    /* On narrow screens, allow the input to wrap to a new line */
+    @@media (max-width: 768px) {
+        .action-cell .comment-input {
+            flex: 1 1 100%;
+        }
+    }
+</style>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-    $(function() {
+    $(function () {
         var dateFormat = "mm/dd/yy",
             from = $("#empatdatefrom")
                 .datepicker({
                     changeMonth: true
                 })
                 .on("change",
-                    function() {
+                    function () {
                         to.datepicker("option", "minDate", getDate(this));
                     }),
             to = $("#empatdateto").datepicker({
-                    changeMonth: true
-                })
+                changeMonth: true
+            })
                 .on("change",
-                    function() {
+                    function () {
                         from.datepicker("option", "maxDate", getDate(this));
                     });
 
@@ -89,7 +118,11 @@
         <th>
             @Html.DisplayNameFor(model => model.date_modified)
         </th>
-        <th></th>
+        
+        @if (User.IsInRole("super_admin"))
+        {
+            <th></th><th></th>
+        }
     </tr>
 
     @foreach (var item in Model)
@@ -125,12 +158,33 @@
             <td>
                 @Html.DisplayFor(modelItem => item.date_modified)
             </td>
-            <td>
-                @if (User.IsInRole("super_admin"))
+            @if (User.IsInRole("super_admin"))
+            {
+                if (item.status.Contains("pending HR Approval"))
                 {
-                    <b>| @Html.ActionLink("delete", "Delete", new { id = item.Id, search = @ViewBag.search, page = @ViewBag.page })</b>
+                    <td class="action-cell">
+                        <div class="actions">
+                            <a class="btn btn-success btn-sm"
+                               href="@Url.Action("approve", "Att_adj", new { id = item.Id ,actionvalue =HR})">
+                                Approve
+                            </a>
+                            @using (Html.BeginForm("reject", "Att_adj", new { id = item.Id }, FormMethod.Post, new { @class = "reject-form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="text"
+                                       name="message"
+                                       required
+                                       class="form-control input-sm comment-input"
+                                       placeholder="comment" />
+                                <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                            }
+                        </div>
+                    </td>
                 }
-            </td>
+                <td>
+                    <b> @Html.ActionLink("delete", "Delete", new { id = item.Id, search = @ViewBag.search, page = @ViewBag.page })</b>
+                </td>
+            }
         </tr>
     }
 

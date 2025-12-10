@@ -96,6 +96,7 @@
           <Property Name="reason" Type="nvarchar(max)" Nullable="false" />
           <Property Name="ap1" Type="nvarchar(max)" />
           <Property Name="ap2" Type="nvarchar(max)" />
+          <Property Name="HR ap" Type="nvarchar(max)" />
           <Property Name="date_added" Type="datetime" Nullable="false" />
           <Property Name="date_modified" Type="datetime" Nullable="false" />
           <Property Name="status" Type="nvarchar(max)" Nullable="false" />
@@ -2736,6 +2737,7 @@
           <Property Name="date_modified" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="master_file" Relationship="Self.FK_Attadj_To_master_file" FromRole="Att_adj" ToRole="master_file" />
           <Property Name="status" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HR_ap" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="bank_details">
           <Key>
@@ -5438,6 +5440,7 @@
           <EntitySetMapping Name="Att_adj">
             <EntityTypeMapping TypeName="HRModel.Att_adj">
               <MappingFragment StoreEntitySet="Att_adj">
+                <ScalarProperty Name="HR_ap" ColumnName="HR ap" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="emp_ID" ColumnName="emp_ID" />
