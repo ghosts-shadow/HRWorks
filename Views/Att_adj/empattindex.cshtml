@@ -47,7 +47,6 @@
             <span class="att-hero-kicker">Attendance</span>
             <h2 class="att-hero-month">@firstOfMonth.ToString("MMMM yyyy")</h2>
         </div>
-
     </div>
 
     <div class="att-filters-card">
@@ -55,12 +54,11 @@
         {
             <div class="att-filters-row">
                 <div class="att-filter">
-                    <label for="empatdatefrom" class="att-label">From date</label>
                     <input type="text"
                            name="empatdatefrom"
                            id="empatdatefrom"
                            class="form-control att-input"
-                           placeholder="Select date" />
+                           placeholder="Select Month" />
                 </div>
 
                 <div class="att-actions">
@@ -69,7 +67,7 @@
                     <button type="button"
                             class="btn att-btn att-btn-ghost"
                             onclick="window.location.href='@Url.Action("empattindex", "Att_adj", new { empatdatefrom = DateTime.Today })'">
-                        Today
+                        This Month
                     </button>
 
                     <button type="button"
@@ -84,99 +82,96 @@
 
     <div class="att-calendar-card">
         <table class="att-calendar">
-            <thead>
+            <!-- calendar "header" row (no thead to avoid layout conflicts) -->
+            <tr class="att-header-row">
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+            </tr>
+
+            @{
+                var dayCounter = 1;
+                var maxWeeks = 6;
+            }
+
+            @for (var week = 0; week < maxWeeks; week++)
+            {
                 <tr>
-                    <th>Sun</th>
-                    <th>Mon</th>
-                    <th>Tue</th>
-                    <th>Wed</th>
-                    <th>Thu</th>
-                    <th>Fri</th>
-                    <th>Sat</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @{
-                    var dayCounter = 1;
-                    var maxWeeks = 6;
-                }
-
-                @for (var week = 0; week < maxWeeks; week++)
-                {
-                    <tr>
-                        @for (var dow = 0; dow < 7; dow++)
+                    @for (var dow = 0; dow < 7; dow++)
+                    {
+                        if ((week == 0 && dow < startDayOfWeek) || dayCounter > daysInMonth)
                         {
-                            if ((week == 0 && dow < startDayOfWeek) || dayCounter > daysInMonth)
-                            {
-                                <td class="att-cell att-cell-empty"></td>
-                            }
-                            else
-                            {
-                                var currentDate = new DateTime(year, month, dayCounter);
-                                var hasEntries = grouped.ContainsKey(currentDate);
+                            <td class="att-cell att-cell-empty"></td>
+                        }
+                        else
+                        {
+                            var currentDate = new DateTime(year, month, dayCounter);
+                            var hasEntries = grouped.ContainsKey(currentDate);
 
-                                var entries = hasEntries
-                                    ? grouped[currentDate]
-                                        .OrderBy(x => x.datetime.HasValue ? x.datetime.Value : DateTime.MinValue)
-                                        .ToList()
-                                    : new List<HRworks.Models.hik>();
+                            var entries = hasEntries
+                                ? grouped[currentDate]
+                                    .OrderBy(x => x.datetime.HasValue ? x.datetime.Value : DateTime.MinValue)
+                                    .ToList()
+                                : new List<HRworks.Models.hik>();
 
-                                <td class="att-cell @(hasEntries ? "att-cell-has" : "")">
-                                    <div class="att-day-head">
-                                        <span class="att-day-number">@dayCounter</span>
-                                    </div>
+                            <td class="att-cell @(hasEntries ? "att-cell-has" : "")">
+                                <div class="att-day-head">
+                                    <span class="att-day-number">@dayCounter</span>
+                                </div>
 
-                                    @if (hasEntries && entries.Count > 0)
-                                    {
-                                        var first = entries.First();
-                                        var last = entries.Count > 1 ? entries.Last() : null;
+                                @if (hasEntries && entries.Count > 0)
+                                {
+                                    var first = entries.First();
+                                    var last = entries.Count > 1 ? entries.Last() : null;
 
-                                        <div class="att-punch-list">
+                                    <div class="att-punch-list">
 
-                                            <!-- First entry -->
+                                        <!-- First entry -->
+                                        <div class="att-punch-row">
+                                            <span class="att-time">@first.time</span>
+                                            <button type="button"
+                                                    class="att-adjust-btn"
+                                                    data-date="@first.date.Value.ToString("yyyy-MM-dd")"
+                                                    data-time="@first.time"
+                                                    data-displaydate="@first.date.Value.ToString("dd MMM yyyy")"
+                                                    data-displaytime="@first.time">
+                                                Adjust
+                                            </button>
+                                        </div>
+
+                                        <!-- Last entry (only if different) -->
+                                        @if (last != null && last.time != first.time)
+                                        {
                                             <div class="att-punch-row">
-                                                <span class="att-time">@first.time</span>
+                                                <span class="att-time">@last.time</span>
                                                 <button type="button"
                                                         class="att-adjust-btn"
-                                                        data-date="@first.date.Value.ToString("yyyy-MM-dd")"
-                                                        data-time="@first.time"
-                                                        data-displaydate="@first.date.Value.ToString("dd MMM yyyy")"
-                                                        data-displaytime="@first.time">
+                                                        data-date="@last.date.Value.ToString("yyyy-MM-dd")"
+                                                        data-time="@last.time"
+                                                        data-displaydate="@last.date.Value.ToString("dd MMM yyyy")"
+                                                        data-displaytime="@last.time">
                                                     Adjust
                                                 </button>
                                             </div>
+                                        }
+                                    </div>
+                                }
+                            </td>
 
-                                            <!-- Last entry (only if different) -->
-                                            @if (last != null && last.time != first.time)
-                                            {
-                                                <div class="att-punch-row">
-                                                    <span class="att-time">@last.time</span>
-                                                    <button type="button"
-                                                            class="att-adjust-btn"
-                                                            data-date="@last.date.Value.ToString("yyyy-MM-dd")"
-                                                            data-time="@last.time"
-                                                            data-displaydate="@last.date.Value.ToString("dd MMM yyyy")"
-                                                            data-displaytime="@last.time">
-                                                        Adjust
-                                                    </button>
-                                                </div>
-                                            }
-                                        </div>
-                                    }
-                                </td>
-
-                                dayCounter++;
-                            }
+                            dayCounter++;
                         }
-                    </tr>
-
-                    if (dayCounter > daysInMonth)
-                    {
-                        break;
                     }
+                </tr>
+
+                if (dayCounter > daysInMonth)
+                {
+                    break;
                 }
-            </tbody>
+            }
         </table>
     </div>
 </div>
@@ -224,12 +219,6 @@
         margin: 2px 0 0 0;
         font-weight: 600;
         font-size: 28px;
-    }
-
-    .att-hero-sub {
-        margin-top: 6px;
-        opacity: 0.9;
-        font-size: 12.5px;
     }
 
     /* ===== Filters Card ===== */
@@ -287,11 +276,11 @@
         color: #fff;
     }
 
-    .att-btn-primary:hover {
-        background: #0b1c2a;
-        border-color: #0b1c2a;
-        color: #fff;
-    }
+        .att-btn-primary:hover {
+            background: #0b1c2a;
+            border-color: #0b1c2a;
+            color: #fff;
+        }
 
     .att-btn-ghost {
         background: #f8fafc;
@@ -299,9 +288,9 @@
         color: #0f172a;
     }
 
-    .att-btn-ghost:hover {
-        background: #f1f5f9;
-    }
+        .att-btn-ghost:hover {
+            background: #f1f5f9;
+        }
 
     /* ===== Calendar Card ===== */
     .att-calendar-card {
@@ -310,6 +299,8 @@
         border-radius: 10px;
         padding: 10px;
         box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .att-calendar {
@@ -317,15 +308,21 @@
         border-collapse: collapse;
         table-layout: fixed;
         margin: 0;
+        min-width: 720px;
     }
 
-    .att-calendar thead th {
-        background: #0f2436;
-        color: #fff;
-        padding: 10px 0;
-        font-size: 12px;
-        font-weight: 600;
-        border: 1px solid #0a1a26;
+        .att-calendar .att-header-row th {
+            background: #0f2436;
+            color: #fff;
+            padding: 10px 0;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid #0a1a26;
+            text-align: center;
+        }
+    .body-content .att-calendar th {
+        position: sticky !important;
+        top: auto !important;
     }
 
     .att-cell {
@@ -344,7 +341,6 @@
         background: #f4f9ff;
     }
 
-    /* Day header inside cell */
     .att-day-head {
         display: flex;
         justify-content: flex-end;
@@ -364,7 +360,6 @@
         font-weight: 700;
     }
 
-    /* Punch list */
     .att-punch-list {
         display: flex;
         flex-direction: column;
@@ -386,7 +381,6 @@
         color: #0f172a;
     }
 
-    /* Adjust button matching theme */
     .att-adjust-btn {
         background: transparent;
         border: 1px solid #d5dde7;
@@ -396,12 +390,13 @@
         padding: 3px 10px;
         border-radius: 6px;
         cursor: pointer;
+        white-space: nowrap;
     }
 
-    .att-adjust-btn:hover {
-        background: #eef5ff;
-        border-color: #c9d7ea;
-    }
+        .att-adjust-btn:hover {
+            background: #eef5ff;
+            border-color: #c9d7ea;
+        }
 
     /* ===== Dialog Theme ===== */
     .ui-dialog {
@@ -468,13 +463,76 @@
         color: #64748b;
     }
 
-    /* Responsive */
+    /* ===== Responsive ===== */
+
     @@media (max-width: 992px) {
         .att-cell {
-            height: 150px;
+            height: auto;
+            min-height: 120px;
         }
+
         .att-time {
             min-width: 60px;
+            font-size: 11px;
+        }
+
+        .att-punch-row {
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .att-adjust-btn {
+            padding: 2px 8px;
+            font-size: 10px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .att-hero {
+            background: none;
+            color: #0f172a;
+            box-shadow: none;
+            border-radius: 0;
+            padding: 0 0 8px 0;
+        }
+
+        .att-hero-kicker {
+            display: none;
+        }
+
+        .att-hero-month {
+            font-size: 22px;
+            margin: 0;
+        }
+
+        .att-filters-card {
+            padding: 10px 12px;
+            border-radius: 0;
+        }
+
+        .att-filters-row {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+
+        .att-calendar-card {
+            padding: 8px;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .att-punch-row {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .att-time {
+            min-width: 0;
+        }
+
+        .att-calendar-card {
+            padding: 8px 0;
         }
     }
 </style>

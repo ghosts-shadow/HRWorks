@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\SnedenDiniz\OneDrive - CITISCAPE L.L.C\ddrive\hrworks\Models\HRModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\SnedenDiniz.AzureAD\OneDrive - CITISCAPE L.L.C\mydata\repos\HRworks\Models\HRModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

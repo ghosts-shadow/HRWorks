@@ -139,7 +139,7 @@ namespace HRworks.Controllers
                         return (2, int.MaxValue); // group 2 = anything else
                 }).ToList());
 
-            return View(finallist);
+            
         }
 
         //[Authorize(Roles = "HOD,employee,Manager")]
@@ -214,7 +214,7 @@ namespace HRworks.Controllers
                 att_adj.master_file = empuser.master_file;
                 att_adj.date_added = DateTime.Now;
                 att_adj.date_modified = DateTime.Now;
-                if (emprellist.Exists(x=>x.Employee_id == empuser.employee_no))
+                if (emprellist.Exists(x => x.Employee_id == empuser.employee_no))
                 {
                     var emprel = emprellist.Find(x => x.Employee_id == empuser.employee_no);
                     if (!emprel.HOD.HasValue)
@@ -225,11 +225,18 @@ namespace HRworks.Controllers
                     {
                         att_adj.status = "pending Line managers approval";
                     }
+                    db.Att_adj.Add(att_adj);
+                    db.SaveChanges();
+                    var sendmailtrid = db.Att_adj.ToList().Last();
+                    SendMail("", "submitted", sendmailtrid.Id);
                 }
-                db.Att_adj.Add(att_adj);
-                db.SaveChanges();
-                var sendmailtrid = db.Att_adj.ToList().Last();
-                SendMail("", "submitted", sendmailtrid.Id);
+                else
+                {
+                    ViewBag.error = "no employee relations record found, please contact HR before Submitting again";
+                    SendMailerror(empuser.employee_no.Value);
+                    return View(att_adj);
+                }
+
                 return RedirectToAction("Index");
             }
             
@@ -594,6 +601,41 @@ namespace HRworks.Controllers
         end:;
         }
 
+        public void SendMailerror(int elsid)
+        {
+            var message = new MimeMessage();
+            var empadj = db.master_file.ToList().Find(x => x.employee_id == elsid);
+            var emprellist = db.emprels.ToList();
+            var usernamelist = db.usernames.ToList();
+            var emprel = emprellist.Find(x => x.Employee_id == empadj.employee_id);
+            var emplusersname = usernamelist.Find(x => x.employee_no == empadj.employee_id);
+            var contractlist = db.contracts.OrderByDescending(x => x.date_changed).ToList();
+            var desig = "";
+            if (contractlist.Exists(x => x.employee_no == empadj.employee_id))
+            {
+                var temp = contractlist.Find(x => x.employee_no == empadj.employee_id);
+                if (!temp.designation.IsNullOrWhiteSpace())
+                {
+                    desig = temp.designation;
+                }
+            }
+
+            if (emprel == null)
+            {
+                var email = "hrteam@citiscapegroup.com";
+
+                message.To.Add((new MailboxAddress("HR", email)));
+                message.Subject = "attendance adjustment approvals";
+                message.Body = new TextPart("plain")
+                {
+                    Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that  the request for attendance adjustment by the employee  (" +
+                           emplusersname.master_file.emiid + ") " +
+                           emplusersname.master_file.employee_name + "-" + desig + " can not be submitted as the employee does not have a record in employee relations table" + "\n\n\n" +
+                           "Thanks Best Regards, "
+                };
+            }
+        }
+   
         protected override void Dispose(bool disposing)
         {
             if (disposing)
