@@ -1,0 +1,42 @@
+﻿@model IEnumerable<HRworks.Models.master_file>
+
+@{
+    ViewBag.Title = "NoRel";
+    var i = 0;
+}
+
+<h2>No Relations/Workflows </h2>
+
+<table class="table">
+	<tr>
+        <th>SR#</th>
+		<th>
+			@Html.DisplayNameFor(model => model.employee_no)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.employee_name)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.date_joined)
+		</th>
+	</tr>
+
+@foreach (var item in Model) {
+		<tr>
+        <td>@{
+	            i++;
+				@i;
+            }</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.emiid)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.employee_name)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.date_joined)
+		</td>
+	</tr>
+}
+
+</table>

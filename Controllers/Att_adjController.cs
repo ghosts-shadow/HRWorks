@@ -433,7 +433,14 @@ namespace HRworks.Controllers
             {
                 att_adj = att_adj.FindAll(x => x.which_date <= empatdateto);
             }
-            return View(att_adj);
+
+            var attadjHRapp = att_adj.Where(x => x.status == "pending HR Approval").OrderByDescending(x=>x.date_modified).ToList();
+            var attadjnonHRapp = att_adj.Where(x => x.status != "pending HR Approval").OrderByDescending(x => x.date_modified).ToList();
+            var finalattadj = new List<Att_adj>();
+            finalattadj.AddRange(attadjHRapp);
+            finalattadj.AddRange(attadjnonHRapp);
+
+            return View(finalattadj);
         }
 
         public void SendMail(string msg, string action, int elsid)

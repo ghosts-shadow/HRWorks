@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<HRworks.Models.Att_adj>
 
 @{
-    ViewBag.Title = "HR view Attendance adjustment";
-    string HR = "HRapp";
+	ViewBag.Title = "HR view Attendance adjustment";
+	string HR = "HRapp";
 }
 
 <h2>HR view Attendance adjustment</h2>
@@ -32,6 +32,83 @@
         .action-cell .comment-input {
             flex: 1 1 100%;
         }
+    }
+
+
+    /* Fixed table layout/width */
+    table.table {
+        width: 100vh;
+        table-layout: fixed;
+    }
+
+        /* Default cell behavior */
+        table.table th,
+        table.table td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+            width:170px
+        }
+
+
+            table.table th:nth-child(2),
+            table.table td:nth-child(2),
+            table.table th:nth-child(6),
+            table.table td:nth-child(6),
+            table.table th:nth-child(7),
+            table.table td:nth-child(7) {
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
+                word-break: break-word;
+                width: 260px;
+            }
+
+
+            table.table th:nth-child(3),
+            table.table td:nth-child(3) {
+                white-space: normal;
+                overflow: visible;
+                text-overflow: clip;
+                word-break: break-word;
+            }
+
+    .action-cell .actions {
+        flex-wrap: nowrap !important;
+    }
+
+        .action-cell .actions form {
+            flex-wrap: nowrap !important;
+        }
+
+    .action-cell .comment-input {
+        width: 220px;
+        min-width: 220px;
+        max-width: 220px;
+    }
+
+    /* Override your mobile wrap rule for the comment input */
+    @@media (max-width: 768px) {
+        .action-cell .comment-input {
+            flex: 0 0 auto !important;
+        }
+    }
+
+    table.table th:nth-child(1),
+    table.table td:nth-child(1),
+    table.table th:nth-child(4),
+    table.table td:nth-child(4),
+    table.table th:nth-child(5),
+    table.table td:nth-child(5),
+    table.table th:nth-child(10),
+    table.table td:nth-child(10) {
+        width: 90px; /* delete */
+    }
+
+    table.table th:nth-child(11),
+    table.table td:nth-child(11) {
+        width: 380px; /* action */
     }
 </style>
 
@@ -70,122 +147,125 @@
         }
     });
 </script>
+
 @using (Html.BeginForm("HRviewAttadj", "Att_adj"))
 {
-    <div class="row">
-        <div class=" col-md-2">
-            <input type="text" name="empid" id="empid" class="form-control" placeholder=" ID" />
-        </div>
-        <div class=" col-md-2">
-            <input type="text" name="empatdatefrom" id="empatdatefrom" class="form-control" placeholder=" From" />
-        </div>
-        <div class=" col-md-2">
-            <input type="text" name="empatdateto" id="empatdateto" class="form-control" placeholder="To" />
-        </div>
-        <div class=" col-md-4">
-            <input type="submit" value="search" class="btn btn-default" />
-        </div>
-    </div>
-    <br />
+	<div class="row">
+		<div class=" col-md-2">
+			<input type="text" name="empid" id="empid" class="form-control" placeholder=" ID"/>
+		</div>
+		<div class=" col-md-2">
+			<input type="text" name="empatdatefrom" id="empatdatefrom" class="form-control" placeholder=" From"/>
+		</div>
+		<div class=" col-md-2">
+			<input type="text" name="empatdateto" id="empatdateto" class="form-control" placeholder="To"/>
+		</div>
+		<div class=" col-md-4">
+			<input type="submit" value="search" class="btn btn-default"/>
+		</div>
+	</div>
+	<br/>
 }
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.master_file.employee_no)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.master_file.employee_name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.which_date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.late_in)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.early_out)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.reason)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.date_added)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.date_modified)
-        </th>
-        
-        @if (User.IsInRole("super_admin"))
-        {
-            <th></th><th></th>
-        }
-    </tr>
+<table class="table" style="padding-right:50px">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.master_file.employee_no)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.master_file.employee_name)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.which_date)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.late_in)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.early_out)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.reason)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.status)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.date_added)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.date_modified)
+		</th>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.master_file.emiid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.master_file.employee_name)
-            </td>
-            <td>
-                @{
-                    var datet = item.which_date;
-                    @datet.ToString("D")
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.late_in)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.early_out)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.reason)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.date_added)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.date_modified)
-            </td>
-            @if (User.IsInRole("super_admin"))
-            {
-                if (item.status.Contains("pending HR Approval"))
-                {
-                    <td class="action-cell">
-                        <div class="actions">
-                            <a class="btn btn-success btn-sm"
-                               href="@Url.Action("approve", "Att_adj", new { id = item.Id ,actionvalue =HR})">
-                                Approve
-                            </a>
-                            @using (Html.BeginForm("reject", "Att_adj", new { id = item.Id }, FormMethod.Post, new { @class = "reject-form" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                <input type="text"
-                                       name="message"
-                                       required
-                                       class="form-control input-sm comment-input"
-                                       placeholder="comment" />
-                                <button type="submit" class="btn btn-danger btn-sm">Reject</button>
-                            }
-                        </div>
-                    </td>
-                }
-                <td>
-                    <b> @Html.ActionLink("delete", "Delete", new { id = item.Id, search = @ViewBag.search, page = @ViewBag.page })</b>
-                </td>
-            }
-        </tr>
-    }
+		@if (User.IsInRole("super_admin"))
+		{
+			<th></th>
+			<th></th>
+		}
+	</tr>
 
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.master_file.emiid)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.master_file.employee_name)
+			</td>
+			<td>
+				@{
+					var datet = item.which_date;
+					@datet.ToString("D")
+				}
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.late_in)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.early_out)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.reason)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.status)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.date_added)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.date_modified)
+			</td>
+
+			@if (User.IsInRole("super_admin"))
+			{
+				<td>
+					<b> @Html.ActionLink("delete", "Delete", new { id = item.Id, search = @ViewBag.search, page = @ViewBag.page })</b>
+				</td>
+
+				<td class="action-cell">
+					@if (item.status != null && item.status.Contains("pending HR Approval"))
+					{
+						<div class="actions">
+							<a class="btn btn-success btn-sm"
+							   href="@Url.Action("approve", "Att_adj", new { id = item.Id, actionvalue = HR })">
+								Approve
+							</a>
+							@using (Html.BeginForm("reject", "Att_adj", new { id = item.Id }, FormMethod.Post, new { @class = "reject-form" }))
+							{
+								@Html.AntiForgeryToken()
+								<input type="text"
+								       name="message"
+								       required
+								       class="form-control input-sm comment-input"
+								       placeholder="comment"/>
+								<button type="submit" class="btn btn-danger btn-sm">Reject</button>
+							}
+						</div>
+					}
+				</td>
+			}
+		</tr>
+	}
 </table>

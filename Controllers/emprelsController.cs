@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using HRworks.Models;
 using Microsoft.Ajax.Utilities;
 using OfficeOpenXml;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace HRworks.Controllers
 {
@@ -321,6 +322,22 @@ namespace HRworks.Controllers
             this.Response.Write(csv);
             this.Response.End();
         }
+
+        public ActionResult NoRel()
+        {
+            var empmodels = new master_fileController();
+            var afinallist = empmodels.emplist();
+            var norel = new List<master_file>();
+            foreach (var emp in afinallist)
+            {
+                if (!this.db.emprels.ToList().Exists(x => x.Employee_id == emp.employee_id))
+                {
+                    norel.Add(emp);
+                }
+            }
+            return this.View(norel);
+        }
+
 
         protected override void Dispose(bool disposing)
         {
