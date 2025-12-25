@@ -278,7 +278,7 @@ Please find below credentials to access the HR system as per the request:
 Username: {empreg.UserName}
 Password: Qazwsx1!
 
-HR Leave system Link: http://ess.citiscapegroup.com
+HR Leave system Link: http://csmain.ddns.net:6333/citiworks
 
 Note: Password can be changed through the portal. Please save it for reference.
 

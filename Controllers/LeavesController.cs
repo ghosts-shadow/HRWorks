@@ -1844,8 +1844,8 @@ namespace HRworks.Controllers
                 goto endfun;
             }
 
-            var leaves = this.db.Leaves.OrderByDescending(x => x.Date).ThenBy(y => y.Start_leave).Where(
-                x => x.Employee_id == Employee_id && x.Start_leave >= asf).ToList();
+            var leaves = this.db.Leaves.OrderByDescending(x => x.Date).ThenBy(y => y.Start_leave)
+                .Where(x => x.Employee_id == Employee_id && x.Start_leave >= asf).ToList();
             var submittedleaves = db.employeeleavesubmitions.OrderByDescending(x => x.dateadded)
                 .ThenBy(x => x.Start_leave).Where(x =>
                     x.Employee_id == Employee_id && x.Start_leave >= asf.Value && x.apstatus == "submitted").ToList();
@@ -1859,7 +1859,7 @@ namespace HRworks.Controllers
                 {
                     goto frun;
                 }
-                
+
                 if (datecheck.actualchangeddateby.HasValue)
                 {
                     var leavelastupdated = leaves.First().actualchangeddateby.Value;
@@ -2061,11 +2061,11 @@ namespace HRworks.Controllers
 
             if (asf.Value.Year <= 2024)
             {
-                    var monthchange =new int();
-                    var pervmonthchange = 3;
-                    var effectiveyear = 2023;
-                    var effectivemonth = 8;
-                for (int i = 2021; i < 2025; i++) 
+                var monthchange = new int();
+                var pervmonthchange = 3;
+                var effectiveyear = 2023;
+                var effectivemonth = 8;
+                for (int i = 2021; i < 2025; i++)
                 {
                     if (i == effectiveyear)
                     {
@@ -2075,6 +2075,7 @@ namespace HRworks.Controllers
                     {
                         monthchange = 3;
                     }
+
                     if (asf.Value.Year <= i)
                     {
                         savecheckleaveperyear = db.leavecalperyears.ToList();
@@ -2089,7 +2090,8 @@ namespace HRworks.Controllers
                         }
 
                         var leaveannualandunpaidpy = leaves.FindAll(x =>
-                            x.Date <= new DateTime(i + 1, monthchange, 31) && x.Date > new DateTime(i, pervmonthchange, 31) &&
+                            x.Date <= new DateTime(i + 1, monthchange, 31) &&
+                            x.Date > new DateTime(i, pervmonthchange, 31) &&
                             (x.leave_type == "1" || x.leave_type == "6"));
                         // var anun2025remove = leaves.FindAll(x =>
                         //     x.Start_leave <= new DateTime(2026, 3, 31) && x.Start_leave > new DateTime(2025, 3, 31) &&
@@ -2302,7 +2304,7 @@ namespace HRworks.Controllers
                             savelbpy.leave_balance =
                                 accleave - (savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied);
 
-                            if (DateTime.Now >= new DateTime(i + 1,monthchange, 31))
+                            if (DateTime.Now >= new DateTime(i + 1, monthchange, 31))
                             {
                                 if (savelbpy.leave_balance <= 0)
                                 {
@@ -2360,7 +2362,8 @@ namespace HRworks.Controllers
                         var submitedleave = db.employeeleavesubmitions.ToList()
                             .FindAll(x =>
                                 x.Employee_id == empjd.employee_id && x.apstatus == "submitted" &&
-                                x.Date <= new DateTime(monthchange + 1, 3, 31) && x.Date >= new DateTime(pervmonthchange, 4, 1));
+                                x.Date <= new DateTime(monthchange + 1, 3, 31) &&
+                                x.Date >= new DateTime(pervmonthchange, 4, 1));
 
                         var anun2025sub = db.employeeleavesubmitions.ToList()
                             .FindAll(x =>
@@ -2371,6 +2374,7 @@ namespace HRworks.Controllers
                         {
                             submitedleave.Remove(leaf);
                         }
+
                         var ifnewsublist = new List<employeeleavesubmition>();
                         if (perviousyearleave == null)
                         {
@@ -2445,6 +2449,7 @@ namespace HRworks.Controllers
                 {
                     nextyearleave = 1;
                 }
+
                 for (int i = 2025; i <= DateTime.Now.Year + nextyearleave; i++)
                 {
                     if (asf.Value.Year <= i)
@@ -2565,16 +2570,31 @@ namespace HRworks.Controllers
                         }
 
                         var temptime = new DateTime(i, 12, 31) - asf.Value;
+                        if (empjd.last_working_day.HasValue && empjd.last_working_day < new DateTime(i, 12, 31))
+                        {
+                            temptime = empjd.last_working_day.Value - asf.Value;
+                            var tempperiod = (empjd.last_working_day.Value - new DateTime(i, 1, 1));
+                            period = tempperiod.Days + 1;
+                            if (empjd.last_working_day.Value < new DateTime(i, 1, 1))
+                            {
+                                goto endfun1;
+                            }
+                        }
+                        else
+                        {
+                            period = 365;
+                        }
+
                         var joiningperiod = temptime.TotalDays + 1;
-                        period = 365;
                         if (joiningperiod < 365)
                         {
                             if (!savelbpy.unpaid.HasValue)
                             {
                                 savelbpy.unpaid = 0;
                             }
+
                             period = joiningperiod;
-                            accleave = Math.Round((joiningperiod) * lbpd24);
+                            accleave = RoundToNearestHalf((joiningperiod) * lbpd24);
                         }
                         else
                         {
@@ -2585,7 +2605,7 @@ namespace HRworks.Controllers
 
                             var temp1 = (savelbpy.unpaid.Value);
                             var temp2 = (period);
-                            accleave = Math.Round((temp2) * lbpd30);
+                            accleave = RoundToNearestHalf((temp2) * lbpd30);
                         }
 
                         if (maxleaveperyear.Count > 0)
@@ -2593,9 +2613,9 @@ namespace HRworks.Controllers
                             if (maxleaveperyear.Exists(x => x.year.Year <= i))
                             {
                                 var maxleaveperyeartemp = maxleaveperyear.Find(x => x.year.Year <= i);
-                                if (period/* - savelbpy.unpaid.Value*/ < 365)
+                                if (period /* - savelbpy.unpaid.Value*/ < 365)
                                 {
-                                    accleave = Math.Round((period /*- savelbpy.unpaid.Value*/) *
+                                    accleave = RoundToNearestHalf((period /*- savelbpy.unpaid.Value*/) *
                                         maxleaveperyeartemp.total_leave_balance / 365);
                                 }
                                 else
@@ -2619,7 +2639,7 @@ namespace HRworks.Controllers
                             savelbpy.leave_balance = accleave -
                                                      (savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied) +
                                                      perviousyearleave.leave_balance;
-                            
+
 
                             if (DateTime.Now >= new DateTime(i + 1, 3, 31))
                             {
@@ -2701,12 +2721,13 @@ namespace HRworks.Controllers
                         var submitedleave = db.employeeleavesubmitions.ToList()
                             .FindAll(x =>
                                 x.Employee_id == empjd.employee_id && x.apstatus == "submitted" &&
-                                x.Date <= new DateTime(i+1, 3, 31) && x.Date >= new DateTime(i, 1, 1));
+                                x.Date <= new DateTime(i + 1, 3, 31) && x.Date >= new DateTime(i, 1, 1));
 
                         var ifnewsublist = new List<employeeleavesubmition>();
                         if (perviousyearleave == null)
                         {
-                            ifnewsublist = db.employeeleavesubmitions.ToList().FindAll(x => x.Employee_id == empjd.employee_id &&
+                            ifnewsublist = db.employeeleavesubmitions.ToList().FindAll(x =>
+                                x.Employee_id == empjd.employee_id &&
                                 x.Date <= new DateTime(i, 3, 31) && x.Date >= new DateTime(i, 1, 1) &&
                                 (x.leave_type == "1" || x.leave_type == "6"));
                         }
@@ -2731,7 +2752,8 @@ namespace HRworks.Controllers
                                 }
                                 else
                                 {
-                                    yearrecord.sumittedleavebal = yearrecord.leave_balance - perviousyearleave.leave_balance + perviousyearleave.sumittedleavebal;
+                                    yearrecord.sumittedleavebal = yearrecord.leave_balance -
+                                        perviousyearleave.leave_balance + perviousyearleave.sumittedleavebal;
                                     this.db.Entry(yearrecord).State = EntityState.Modified;
                                     this.db.SaveChanges();
                                 }
@@ -2742,6 +2764,7 @@ namespace HRworks.Controllers
                                 this.db.Entry(yearrecord).State = EntityState.Modified;
                                 this.db.SaveChanges();
                             }
+
                             goto endfun1;
                         }
 
@@ -4147,8 +4170,9 @@ namespace HRworks.Controllers
         {
             if (caltill.HasValue)
             {
+                var incasedate = caltill;
                 var mancon = new master_fileController();
-                var afinallist = mancon.emplist(true).Where(x=>x.last_working_day > new DateTime(caltill.Value.Year, 1, 1) || x.last_working_day == null)/*.Where(x => x.employee_no == 5885)*/;
+                var afinallist = mancon.emplist(true).Where(x=>x.last_working_day > new DateTime(caltill.Value.Year, 1, 1) || x.last_working_day == null).Where(x => x.employee_no == 214);
                 var leaveballist = db.leavecalperyears.ToList();
                 var leavelist = db.Leaves.ToList();
                 var finallist = new List<leavecalperyear>();
@@ -4211,8 +4235,8 @@ namespace HRworks.Controllers
                             //     (leaf.End_leave - leaf.Start_leave).Value.TotalDays + 1 + half;
                         }
                     }
-                            empleavebal.Annual_Leave_total += empleavebal.annual_leave_taken;
-                            empleavebal.Annual_Leave_total += empleavebal.Annual_Leave_Applied;
+                    empleavebal.Annual_Leave_total += empleavebal.annual_leave_taken;
+                    empleavebal.Annual_Leave_total += empleavebal.Annual_Leave_Applied;
 
                     foreach (var leaf in empleaveunpaid)
                     {
@@ -4244,6 +4268,14 @@ namespace HRworks.Controllers
                     }
 
                     var asf = file.date_joined;
+                    if (file.last_working_day.HasValue && caltill > file.last_working_day)
+                    {
+                        caltill = file.last_working_day;
+                    }
+                    else
+                    {
+                        caltill = incasedate;
+                    }
 
                     TimeSpan temptime = caltill.Value - asf.Value;
                     var joiningperiod = temptime.TotalDays + 1;
@@ -4298,7 +4330,14 @@ namespace HRworks.Controllers
                     finallist.Add(empleavebal);
                 }
 
-                return View(finallist);
+                return View(finallist.OrderBy(x => {
+                    if (int.TryParse(x.master_file.emiid, out var num))
+                        return (0, num);
+                    else if (x.master_file.emiid.StartsWith("G-") && int.TryParse(x.master_file.emiid.Substring(2), out var gnum))
+                        return (1, gnum);
+                    else
+                        return (2, int.MaxValue);
+                }));
             }
             return View(new List<leavecalperyear>());
         }

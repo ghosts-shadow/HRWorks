@@ -1400,7 +1400,7 @@ namespace HRworks.Controllers
                     Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for   (" +
                            emplusersname.master_file.emiid + ") " +
                            emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
-                           "http://ess.citiscapegroup.com" + "\n\n\n" +
+                           "http://csmain.ddns.net:6333/citiworks" + "\n\n\n" +
                            "Thanks Best Regards, "
                 };
             }
@@ -1414,7 +1414,7 @@ namespace HRworks.Controllers
                     Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for   (" +
                            emplusersname.master_file.emiid + ") " +
                            emplusersname.full_name + "-" + desig + " has been submitted for your approval" + "\n\n\n" +
-                           "http://ess.citiscapegroup.com" + "\n\n\n" +
+                           "http://csmain.ddns.net:6333/citiworks" + "\n\n\n" +
                            "Thanks Best Regards, "
                 };
             }
@@ -1435,7 +1435,7 @@ namespace HRworks.Controllers
                                emplusersname.full_name + "-"  + desig + " has been approved by line manager " +
                                previoususersname.master_file.employee_name + " and forwarded for your approval" +
                                "\n\n\n" +
-                               "http://ess.citiscapegroup.com" + "\n\n\n" +
+                               "http://csmain.ddns.net:6333/citiworks" + "\n\n\n" +
                                "Thanks Best Regards, "
                     };
                 }
@@ -1450,7 +1450,7 @@ namespace HRworks.Controllers
                         Text = @"Dear Sir/ma'am," + "\n\n" + "Please note that leave application for  (" +
                                emplusersname.master_file.emiid + ") " +
                                emplusersname.full_name + "-" + desig + " has been approved" + "\n\n\n" +
-                               "http://ess.citiscapegroup.com" + "\n\n\n" +
+                               "http://csmain.ddns.net:6333/citiworks" + "\n\n\n" +
                                "Thanks Best Regards, "
                     };
                 }
