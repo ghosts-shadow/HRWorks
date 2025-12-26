@@ -1726,8 +1726,10 @@ namespace HRworks.Controllers
             return View(abslist);
         }
         */
-        public ActionResult absreport(DateTime? dayfrom, DateTime? dayto, string empno)
+        public ActionResult absreport(DateTime? dayfromvar, DateTime? daytovar, string empno)
         {
+            var rawFrom = Request.Form["dayfromvar"];
+            var rawTo = Request.Form["daytovar"];
             // ----- CONFIG -----
             // Define weekends per site
             var hoWeekend = new HashSet<DayOfWeek> { DayOfWeek.Saturday, DayOfWeek.Sunday };
@@ -1736,11 +1738,11 @@ namespace HRworks.Controllers
             var siteLookbackDays = 60;      // how many days to look back to infer site on no-punch days
 
             // ----- DATE NORMALIZATION -----
-            if (dayfrom == null) dayfrom = DateTime.Today;
-            if (dayto == null) dayto = dayfrom.Value; // inclusive range [dayfrom..dayto]
+            if (dayfromvar == null) dayfromvar = DateTime.Today;
+            if (daytovar == null) daytovar = dayfromvar.Value; // inclusive range [dayfrom..dayto]
                                                       // we iterate with a day cursor; to keep your original semantics, use endExclusive = dayto+1
-            var endExclusive = dayto.Value.Date.AddDays(1);
-            var startDate = dayfrom.Value.Date;
+            var endExclusive = daytovar.Value.Date.AddDays(1);
+            var startDate = dayfromvar.Value.Date;
 
             // ----- EMPLOYEE LIST -----
             var mancon = new master_fileController();
@@ -1773,6 +1775,7 @@ namespace HRworks.Controllers
             var proatt = db2.iclock_transaction
                 .Where(x => x.punch_time >= startDate && x.punch_time < endExclusive)
                 .ToList();
+            var att_adjlist = db1.Att_adj.Where(x => x.which_date >= startDate && x.which_date < endExclusive).ToList();
 
             // ----- INDEX FOR FAST LOOKUPS -----
             // Normalize keys: use employee_no string for both sources; dates as Date (no time)
@@ -1915,7 +1918,11 @@ namespace HRworks.Controllers
                             x.Start_leave.Value.Date <= cursor &&
                             x.End_leave.Value.Date >= cursor);
 
-                        if (!hasHO && !hasProj && !onLeave && (file.last_working_day >= cursor || !file.last_working_day.HasValue) && (file.date_joined < cursor))
+                        bool attAdjExists = att_adjlist.Exists(x =>
+                            x.emp_ID == file.employee_id &&
+                            x.which_date.Date == cursor);
+
+                        if (!hasHO && !hasProj && !onLeave && !attAdjExists && (file.last_working_day >= cursor || !file.last_working_day.HasValue) && (file.date_joined < cursor))
                         {
                             // Mark absent
                             var absvar = new hik

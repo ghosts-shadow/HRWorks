@@ -5,14 +5,13 @@
 }
 
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     $(function () {
-        var dateFormat = "mm/dd/yy",
-            from = $("#from")
+        var dateFormat = "dd/mm/yy",
+            from = $("#dayfromvar")
                 .datepicker({
                     changeMonth: true
                 })
@@ -20,7 +19,7 @@
                     function () {
                         to.datepicker("option", "minDate", getDate(this));
                     }),
-            to = $("#to").datepicker({
+            to = $("#daytovar").datepicker({
                 changeMonth: true
             })
                 .on("change",
@@ -50,10 +49,10 @@
             <input type="text" name="empno" class="form-control" placeholder="Employee No" />
         </div>
         <div class=" col-md-2">
-            <input type="text" id="from" name="dayfrom" class="form-control" placeholder=" From" />
+            <input type="text" id="dayfromvar" name="dayfromvar" class="form-control" placeholder=" From" />
         </div>
         <div class=" col-md-2">
-            <input type="text" id="to" name="dayto" class="form-control" placeholder="To" />
+            <input type="text" id="daytovar" name="daytovar" class="form-control" placeholder="To" />
         </div>
         <div class=" col-md-6">
             <input type="submit" value="Search" class="btn btn-default" />

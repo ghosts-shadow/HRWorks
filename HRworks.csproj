@@ -552,6 +552,7 @@
     <Compile Include="Controllers\datacorrectionController.cs" />
     <Compile Include="Controllers\detailsinarabicsController.cs" />
     <Compile Include="Controllers\DUTY_HANDOVERController.cs" />
+    <Compile Include="Controllers\elementstestsController.cs" />
     <Compile Include="Controllers\emirates_idController.cs" />
     <Compile Include="Controllers\employeeleavesubmitionsController.cs" />
     <Compile Include="Controllers\emprelsController.cs" />
@@ -2379,6 +2380,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="pdftohtml\" />
     <Folder Include="Views\allroles\" />
+    <Folder Include="Views\elementstests\" />
     <Folder Include="Views\RoleEdit\" />
     <Folder Include="Views\test\" />
     <Folder Include="Views\upload\" />
