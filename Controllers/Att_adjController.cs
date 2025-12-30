@@ -40,24 +40,32 @@ namespace HRworks.Controllers
             {
                 empatdatefrom = DateTime.Now;
             }
+
             empatdatefrom = new DateTime(empatdatefrom.Value.Year, empatdatefrom.Value.Month, 1);
-                var empstring = empuser.master_file.employee_no.ToString();
-                if (empstring.Contains("7770"))
-                {
-                    var sub = empstring.Substring(4, 4);
-                    int.TryParse(sub, out int result);
-                    empint += result;
+            var empstring = empuser.master_file.emiid.ToString();
+            var empvarstr = empuser.master_file.employee_no.ToString();
+            if (empuser.master_file.emiid.Contains("G-"))
+            {
+                empstring = "7770";
+                empstring += empuser.master_file.emiid.Substring(2);
+            }
+            if (empstring.Contains("7770"))
+            {
+                var sub = empstring.Substring(4, 4);
+                int.TryParse(sub, out int result);
+                empint += result;
 
-                }
+            }
 
-                var HOatt = db.hiks
-                    .Where(x => x.ID == empuser.master_file.employee_no.ToString() || x.ID == empint.ToString())
-                    .ToList();
-                var projectatt = db1.iclock_transaction.Where(x =>
-                        x.emp_code == empuser.master_file.employee_no.ToString() || x.emp_code == empint.ToString())
-                    .ToList();
-                if (HOatt.Count > 0)
-                {/*
+            var HOatt = db.hiks
+                .Where(x => x.ID == empstring || x.ID == empint.ToString() || x.ID == empvarstr)
+                .ToList();
+            var projectatt = db1.iclock_transaction.Where(x =>
+                    x.emp_code == empstring || x.emp_code == empint.ToString()|| x.emp_code == empvarstr)
+                .ToList();
+            if (HOatt.Count > 0)
+            {
+                /*
                     foreach (var hik in HOatt)
                     {
                         hik.ID = empuser.master_file.emiid;
@@ -73,73 +81,76 @@ namespace HRworks.Controllers
 
                         }
                     }*/
-                    foreach (var hik in HOatt)
-                    {
-                        hik.ID = empuser.master_file.emiid;
-                        hik.Person = empuser.master_file.employee_name;
-                    }
-
-                    var groups = HOatt.OrderBy(x=>x.datetime)
-                        .GroupBy(x =>
-                        {
-                            if (x.date != null) return x.date.Value.Date;
-                            return default;
-                        });
-
-                    foreach (var g in groups)
-                    {
-                        var ordered = g.OrderBy(x => x.date).ToList();
-                        var first = ordered.First();
-                        finallist.Add(first);
-
-                        if (ordered.Count > 1)
-                        {
-                            finallist.Add(ordered.Last());
-                        }
-                    }
-                    
-                }
-
-                if (projectatt.Count > 0)
+                foreach (var hik in HOatt)
                 {
-                    foreach (var tratt in projectatt)
+                    hik.ID = empuser.master_file.emiid;
+                    hik.Person = empuser.master_file.employee_name;
+                }
+
+                var groups = HOatt.OrderBy(x => x.datetime)
+                    .GroupBy(x =>
                     {
-                        var protoho = new hik();
-                        protoho.ID = empuser.master_file.emiid;
-                        protoho.datetime = tratt.punch_time;
-                        protoho.date = tratt.punch_time.Date;
-                        protoho.time = tratt.punch_time.TimeOfDay;
-                        protoho.Person = empuser.master_file.employee_name;
-                        if (tratt.punch_state == "0")
-                        {
-                            protoho.Status = "check in";
-                        }
-                        else
-                        {
-                            protoho.Status = "check out";
-                        }
-                        finallist.Add(protoho);
+                        if (x.date != null) return x.date.Value.Date;
+                        return default;
+                    });
+
+                foreach (var g in groups)
+                {
+                    var ordered = g.OrderBy(x => x.date).ToList();
+                    var first = ordered.First();
+                    finallist.Add(first);
+
+                    if (ordered.Count > 1)
+                    {
+                        finallist.Add(ordered.Last());
                     }
                 }
-                
 
-                finallist = finallist.FindAll(x => x.date.HasValue && x.date.Value.Date >= empatdatefrom.Value.Date);
-                if (empatdateto.HasValue)
+            }
+
+            if (projectatt.Count > 0)
+            {
+                foreach (var tratt in projectatt)
                 {
-                    finallist = finallist.FindAll(x => x.date.Value.Date <= empatdateto.Value.Date).OrderBy(x=>x.datetime).ToList();
-                }
-
-                return View(finallist.OrderBy(x => {
-                    // Try to parse numeric part
-                    if (int.TryParse(x.ID, out var num))
-                        return (0, num); // group 0 = plain numbers
-                    else if (x.ID.StartsWith("G-") && int.TryParse(x.ID.Substring(2), out var gnum))
-                        return (1, gnum); // group 1 = G-numbers
+                    var protoho = new hik();
+                    protoho.ID = empuser.master_file.emiid;
+                    protoho.datetime = tratt.punch_time;
+                    protoho.date = tratt.punch_time.Date;
+                    protoho.time = tratt.punch_time.TimeOfDay;
+                    protoho.Person = empuser.master_file.employee_name;
+                    if (tratt.punch_state == "0")
+                    {
+                        protoho.Status = "check in";
+                    }
                     else
-                        return (2, int.MaxValue); // group 2 = anything else
-                }).ToList());
+                    {
+                        protoho.Status = "check out";
+                    }
+                    finallist.Add(protoho);
+                }
+            }
 
-            
+            var atjlist = db.Att_adj.Include(a => a.master_file)
+                .Where(x => x.emp_ID == empuser.employee_no).ToList();
+            finallist = finallist.FindAll(x => x.date.HasValue && x.date.Value.Date >= empatdatefrom.Value.Date);
+            if (empatdateto.HasValue)
+            {
+                finallist = finallist.FindAll(x => x.date.Value.Date <= empatdateto.Value.Date).OrderBy(x => x.datetime)
+                    .ToList();
+            }
+
+            return View(finallist.OrderBy(x =>
+            {
+                // Try to parse numeric part
+                if (int.TryParse(x.ID, out var num))
+                    return (0, num); // group 0 = plain numbers
+                else if (x.ID.StartsWith("G-") && int.TryParse(x.ID.Substring(2), out var gnum))
+                    return (1, gnum); // group 1 = G-numbers
+                else
+                    return (2, int.MaxValue); // group 2 = anything else
+            }).ToList());
+
+
         }
 
         //[Authorize(Roles = "HOD,employee,Manager")]
