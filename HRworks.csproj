@@ -1013,6 +1013,9 @@
     <Compile Include="Models\emirates_id.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\empdayoff.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\employeeleavesub.cs" />
     <Compile Include="Models\employeeleavesubmition.cs">
       <DependentUpon>HRModel.tt</DependentUpon>

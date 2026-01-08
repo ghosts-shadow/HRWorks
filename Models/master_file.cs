@@ -19,16 +19,24 @@ namespace HRworks.Models
         public master_file()
         {
             this.absexceptions = new HashSet<absexception>();
+            this.Att_adj = new HashSet<Att_adj>();
             this.bank_details = new HashSet<bank_details>();
             this.business_trip = new HashSet<business_trip>();
             this.BUSINESS_TRIP_REPORT_ = new HashSet<BUSINESS_TRIP_REPORT_>();
+            this.cal_lwop = new HashSet<cal_lwop>();
+            this.cal_ot = new HashSet<cal_ot>();
+            this.calabs = new HashSet<calab>();
             this.CERTIFICATE_REQUEST = new HashSet<CERTIFICATE_REQUEST>();
+            this.certificatesavinggroves = new HashSet<certificatesavinggrove>();
             this.certificatesavingtest_ = new HashSet<certificatesavingtest_>();
+            this.companleaveBals = new HashSet<companleaveBal>();
+            this.companLeaveRs = new HashSet<companLeaveR>();
             this.contracts = new HashSet<contract>();
             this.detailsinarabics = new HashSet<detailsinarabic>();
             this.DISCIPLINARY_ACTION_FORM = new HashSet<DISCIPLINARY_ACTION_FORM>();
             this.DUTY_HANDOVER = new HashSet<DUTY_HANDOVER>();
             this.DUTY_HANDOVER1 = new HashSet<DUTY_HANDOVER>();
+            this.emirates_id = new HashSet<emirates_id>();
             this.emp_joi_sta_change = new HashSet<emp_joi_sta_change>();
             this.employeeleavesubmitions = new HashSet<employeeleavesubmition>();
             this.emprels = new HashSet<emprel>();
@@ -36,7 +44,11 @@ namespace HRworks.Models
             this.emprels2 = new HashSet<emprel>();
             this.empreturnfromleavesubs = new HashSet<empreturnfromleavesub>();
             this.end_of_service = new HashSet<end_of_service>();
+            this.formsuserdbs = new HashSet<formsuserdb>();
+            this.HRotapps = new HashSet<HRotapp>();
             this.induction_training = new HashSet<induction_training>();
+            this.insurances = new HashSet<insurance>();
+            this.labour_card = new HashSet<labour_card>();
             this.lbperyears = new HashSet<lbperyear>();
             this.Leaves = new HashSet<Leave>();
             this.leave_absence = new HashSet<leave_absence>();
@@ -46,33 +58,21 @@ namespace HRworks.Models
             this.leavecalperyears = new HashSet<leavecalperyear>();
             this.liquidations = new HashSet<liquidation>();
             this.MANPOWER_TRANSFER_REQUEST = new HashSet<MANPOWER_TRANSFER_REQUEST>();
+            this.OSRFormrefs = new HashSet<OSRFormref>();
             this.OT_employee_list = new HashSet<OT_employee_list>();
             this.payroles = new HashSet<payrole>();
+            this.payrolls = new HashSet<payroll>();
+            this.passports = new HashSet<passport>();
             this.PROBATION_ASSESSMENT = new HashSet<PROBATION_ASSESSMENT>();
             this.Training_Effectiveness = new HashSet<Training_Effectiveness>();
             this.Training_Evaluation = new HashSet<Training_Evaluation>();
             this.Training_Request = new HashSet<Training_Request>();
+            this.transferlists = new HashSet<transferlist>();
             this.usernames = new HashSet<username>();
             this.visas = new HashSet<visa>();
-            this.emirates_id = new HashSet<emirates_id>();
-            this.insurances = new HashSet<insurance>();
-            this.labour_card = new HashSet<labour_card>();
-            this.passports = new HashSet<passport>();
-            this.certificatesavinggroves = new HashSet<certificatesavinggrove>();
-            this.companleaveBals = new HashSet<companleaveBal>();
-            this.companLeaveRs = new HashSet<companLeaveR>();
-            this.absexceptions = new HashSet<absexception>();
-            this.cal_lwop = new HashSet<cal_lwop>();
-            this.cal_ot = new HashSet<cal_ot>();
-            this.calabs = new HashSet<calab>();
-            this.HRotapps = new HashSet<HRotapp>();
-            this.transferlists = new HashSet<transferlist>();
-            this.payrolls = new HashSet<payroll>();
-            this.OSRFormrefs = new HashSet<OSRFormref>();
-            this.formsuserdbs = new HashSet<formsuserdb>();
-            this.Att_adj = new HashSet<Att_adj>();
+            this.empdayoffs = new HashSet<empdayoff>();
         }
-        
+    
         public int employee_id { get; set; }
 
         [Display(Name = "Employee NO")]
@@ -218,5 +218,7 @@ namespace HRworks.Models
         public virtual ICollection<username> usernames { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<visa> visas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<empdayoff> empdayoffs { get; set; }
     }
 }

@@ -2585,7 +2585,8 @@ namespace HRworks.Controllers
                             period = 365;
                         }
 
-                        var joiningperiod = temptime.TotalDays + 1;
+                        var joiningdays = new DateTime(DateTime.Now.Year, 12, 31) - asf.Value;
+                        var joiningperiod = joiningdays.TotalDays + 1;
                         if (joiningperiod < 365)
                         {
                             if (!savelbpy.unpaid.HasValue)
@@ -2598,6 +2599,10 @@ namespace HRworks.Controllers
                         }
                         else
                         {
+                            if (asf.Value.Year == i)
+                            {
+                                period = (new DateTime(i,12, 31) - asf.Value).TotalDays +1;
+                            }
                             if (!savelbpy.unpaid.HasValue)
                             {
                                 savelbpy.unpaid = 0;
@@ -4172,7 +4177,7 @@ namespace HRworks.Controllers
             {
                 var incasedate = caltill;
                 var mancon = new master_fileController();
-                var afinallist = mancon.emplist(true).Where(x=>x.last_working_day > new DateTime(caltill.Value.Year, 1, 1) || x.last_working_day == null).Where(x => x.employee_no == 214);
+                var afinallist = mancon.emplist(true).Where(x=>x.last_working_day > new DateTime(caltill.Value.Year, 1, 1) || x.last_working_day == null)/*.Where(x => x.employee_no == 214)*/;
                 var leaveballist = db.leavecalperyears.ToList();
                 var leavelist = db.Leaves.ToList();
                 var finallist = new List<leavecalperyear>();

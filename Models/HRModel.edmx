@@ -368,6 +368,17 @@
           <Property Name="Bank_Account_No" Type="nvarchar(max)" />
           <Property Name="Remarks" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="empdayoff">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="emp_ID" Type="int" Nullable="false" />
+          <Property Name="date_off" Type="datetime" Nullable="false" />
+          <Property Name="date_added" Type="datetime" Nullable="false" />
+          <Property Name="date_modified" Type="datetime" />
+          <Property Name="by_whom" Type="nchar" MaxLength="10" />
+        </EntityType>
         <EntityType Name="employeeleavesubmition">
           <Key>
             <PropertyRef Name="Id" />
@@ -1658,6 +1669,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_empoff_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="empdayoff" Type="Self.empdayoff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="empdayoff">
+              <PropertyRef Name="emp_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_empretsub_To_leave">
           <End Role="Leave" Type="Self.Leave" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2281,6 +2306,7 @@
           <EntitySet Name="DUTY_HANDOVER" EntityType="Self.DUTY_HANDOVER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emirates_id" EntityType="Self.emirates_id" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emp_joi_sta_change" EntityType="Self.emp_joi_sta_change" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="empdayoff" EntityType="Self.empdayoff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="employeeleavesubmition" EntityType="Self.employeeleavesubmition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="emprel" EntityType="Self.emprel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="empreturnfromleavesub" EntityType="Self.empreturnfromleavesub" Schema="dbo" store:Type="Tables" />
@@ -2447,6 +2473,10 @@
           <AssociationSet Name="FK_els_To_master_file" Association="Self.FK_els_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="employeeleavesubmition" EntitySet="employeeleavesubmition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_empoff_To_master_file" Association="Self.FK_empoff_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="empdayoff" EntitySet="empdayoff" />
           </AssociationSet>
           <AssociationSet Name="FK_empretsub_To_leave" Association="Self.FK_empretsub_To_leave">
             <End Role="Leave" EntitySet="Leave" />
@@ -3623,6 +3653,7 @@
           <NavigationProperty Name="transferlists" Relationship="Self.FK_trflist_To_master_file" FromRole="master_file" ToRole="transferlist" />
           <NavigationProperty Name="usernames" Relationship="Self.FK_usernames_To_master_file" FromRole="master_file" ToRole="usernames" />
           <NavigationProperty Name="visas" Relationship="Self.FK_visa_To_master_file" FromRole="master_file" ToRole="visa" />
+          <NavigationProperty Name="empdayoffs" Relationship="HRModel.FK_empoff_To_master_file" FromRole="master_file" ToRole="empdayoff" />
         </EntityType>
         <EntityType Name="OSRF_items">
           <Key>
@@ -5355,7 +5386,38 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="empdayoffs" EntityType="HRModel.empdayoff" />
+          <AssociationSet Name="FK_empoff_To_master_file" Association="HRModel.FK_empoff_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="empdayoff" EntitySet="empdayoffs" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="empdayoff">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="emp_ID" Type="Int32" Nullable="false" />
+          <Property Name="date_off" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="date_added" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <Property Name="by_whom" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_empoff_To_master_file" FromRole="empdayoff" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_empoff_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HRModel.empdayoff" Role="empdayoff" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="empdayoff">
+              <PropertyRef Name="emp_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -6702,6 +6764,18 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="empdayoffs">
+            <EntityTypeMapping TypeName="HRModel.empdayoff">
+              <MappingFragment StoreEntitySet="empdayoff">
+                <ScalarProperty Name="by_whom" ColumnName="by_whom" />
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="date_added" ColumnName="date_added" />
+                <ScalarProperty Name="date_off" ColumnName="date_off" />
+                <ScalarProperty Name="emp_ID" ColumnName="emp_ID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

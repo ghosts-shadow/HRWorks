@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using HRworks.Models;
 using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.Ajax.Utilities;
 using MimeKit;
 
@@ -865,7 +866,7 @@ namespace HRworks.Controllers
             {
                 using (var client = new SmtpClient())
                 {
-                    client.Connect("outlook.office365.com", 587, false);
+                    client.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);
                     // Note: only needed if the SMTP server requires authentication
                     client.Authenticate("leave@citiscapegroup.com", "Tak98020");
                     client.Send(message);

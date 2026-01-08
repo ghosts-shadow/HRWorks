@@ -158,6 +158,8 @@
         <AssociationConnector Association="HRModel.FK_OSRFitems_To_OSRFref" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.FK_ot_list_To_OT" ManuallyRouted="false" />
         <AssociationConnector Association="HRModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HRModel.empdayoff" Width="1.5" PointX="3" PointY="36" />
+        <AssociationConnector Association="HRModel.FK_empoff_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -13,6 +13,7 @@ using Microsoft.Ajax.Utilities;
 using MimeKit;
 using MailKit.Net.Smtp;
 using OfficeOpenXml;
+using MailKit.Security;
 
 namespace HRworks.Controllers
 {
@@ -530,8 +531,7 @@ namespace HRworks.Controllers
             {
                 using (var client = new SmtpClient())
                 {
-                    client.Connect("outlook.office365.com", 587, false);
-                    // Note: only needed if the SMTP server requires authentication
+                    client.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);
                     client.Authenticate("leave@citiscapegroup.com", "Tak98020");
                     client.Send(message);
                     client.Disconnect(true);

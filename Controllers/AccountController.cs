@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -11,13 +9,12 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using HRworks.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
-using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 using System.IO;
 using System.Data;
 using MailKit.Net.Smtp;
-using Microsoft.Office.Interop.Word;
-using Microsoft.Ajax.Utilities;
 using MimeKit;
+using MailKit.Security;
+using System.Net;
 
 namespace HRworks.Controllers
 {
@@ -209,7 +206,14 @@ namespace HRworks.Controllers
                     await this.UserManager.AddToRolesAsync(user.Id, userrole);
                     df.usernames.Add(un);
                     df.SaveChanges();
-                    SendMail(model);
+                    try
+                    {
+                        SendMail(model);
+                    }
+                    catch (Exception e)
+                    {
+                       var error = e.Message;
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -247,8 +251,14 @@ namespace HRworks.Controllers
 
                     db.usernames.Add(un);
                     db.SaveChanges();
-
-                    SendMail(model);
+                    try
+                    {
+                        SendMail(model);
+                    }
+                    catch (Exception e)
+                    {
+                        error = e.Message;
+                    }
                 }
                 else
                 {
@@ -263,34 +273,89 @@ namespace HRworks.Controllers
             if (string.IsNullOrWhiteSpace(empreg.Email) || !IsValidEmail(empreg.Email))
                 return;
 
-            var message = new MimeMessage();
 
-            message.From.Add(new MailboxAddress("HR Leave System", "leave@citiscapegroup.com"));
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Hrworks", "leave@citiscapegroup.com"));
             message.To.Add(new MailboxAddress(empreg.full_name, empreg.Email));
             message.Subject = "Leave system";
 
-            message.Body = new TextPart("plain")
+            var url = "http://csmain.ddns.net:6333/citiworks";
+
+            // Plain-text fallback
+            var textBody =
+            $@"Dear {empreg.full_name},
+
+            Please find below credentials to access the HR system as per the request:
+
+            Username: {empreg.UserName}
+            Password: Qazwsx1!
+
+            HR Leave system Link: {url}
+
+            Note: Password can be changed through the portal. Please save it for reference.
+            Thank You And Best Regards";
+
+            // HTML body with a button-like link
+            var fullNameHtml = WebUtility.HtmlEncode(empreg.full_name);
+            var userNameHtml = WebUtility.HtmlEncode(empreg.UserName);
+
+            var htmlBody =
+            $@"
+                <!doctype html>
+                <html>
+                  <body style=""font-family: Arial, sans-serif; font-size: 14px; color: #222;"">
+                    <p>Dear {fullNameHtml},</p>
+
+                    <p>Please find below credentials to access the HR system as per the request:</p>
+
+                    <p>
+                      <strong>Username:</strong> {userNameHtml}<br/>
+                      <strong>Password:</strong> Qazwsx1!
+                    </p>
+
+                    <p>
+                      <a href=""{url}""
+                         target=""_blank""
+                         style=""
+                           display: inline-block;
+                           padding: 12px 18px;
+                           text-decoration: none;
+                           border-radius: 6px;
+                           font-weight: bold;
+                           background: #0078D4;
+                           color: #ffffff;
+                         "">
+                        Open HR Leave System
+                      </a>
+                    </p>
+
+                    <p style=""margin-top: 18px;"">
+                      <strong>Note:</strong> Password can be changed through the portal. Please save it for reference.
+                    </p>
+
+                    <p>Thank You And Best Regards</p>
+                  </body>
+                </html>
+                ";
+
+            var builder = new BodyBuilder
             {
-                Text = $@"Dear {empreg.full_name},
-
-Please find below credentials to access the HR system as per the request:
-
-Username: {empreg.UserName}
-Password: Qazwsx1!
-
-HR Leave system Link: http://csmain.ddns.net:6333/citiworks
-
-Note: Password can be changed through the portal. Please save it for reference.
-
-Thank You And Best Regards"
+                TextBody = textBody,
+                HtmlBody = htmlBody
             };
 
-            using (var client = new SmtpClient())
+            message.Body = builder.ToMessageBody();
+
+            if (message.To.Count != 0)
             {
-                client.Connect("outlook.office365.com", 587, false);
-                client.Authenticate("leave@citiscapegroup.com", "Tak98020");
-                client.Send(message);
-                client.Disconnect(true);
+                using (var client = new SmtpClient())
+                {
+                    client.CheckCertificateRevocation = false;
+                    client.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);
+                    client.Authenticate("leave@citiscapegroup.com", "Tak98020");
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
             }
         }
 

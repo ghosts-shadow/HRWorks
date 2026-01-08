@@ -103,5 +103,6 @@ namespace HRworks.Models
         public virtual DbSet<username> usernames { get; set; }
         public virtual DbSet<visa> visas { get; set; }
         public virtual DbSet<visa_and_labour_card> visa_and_labour_card { get; set; }
+        public virtual DbSet<empdayoff> empdayoffs { get; set; }
     }
 }
