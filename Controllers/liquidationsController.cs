@@ -53,7 +53,7 @@ namespace HRworks.Controllers
                     liste.Add(file);
 
             this.ViewBag.eee = this.db.master_file.Select(x => x.employee_no).ToList();
-            this.ViewBag.ee = new SelectList(liste, "employee_id", "employee_no");
+            this.ViewBag.ee = new SelectList(liste, "employee_id", "emiid");
             return this.View();
         }
 
@@ -87,7 +87,7 @@ namespace HRworks.Controllers
                 if (!liste.Exists(x => x.employee_no == file.employee_no))
                     liste.Add(file);
 
-            this.ViewBag.ee = new SelectList(liste, "employee_id", "employee_no");
+            this.ViewBag.ee = new SelectList(liste, "employee_id", "emiid");
             if (this.ModelState.IsValid)
             {
                 foreach (var liqui in liquilist.Liquidations1)
@@ -476,7 +476,7 @@ namespace HRworks.Controllers
             ViewBag.employee_no = new SelectList(
                 db.master_file,
                 "employee_id",
-                "employee_no",
+                "emiid",
                 liquidation.employee_no);
             var le = db.liquiexps.OrderBy(x => x.expence).ToList();
             ViewBag.expenses = new SelectList(le, "expence", "expence", liquidation.expenses);
@@ -498,7 +498,7 @@ namespace HRworks.Controllers
             ViewBag.employee_no = new SelectList(
                 db.master_file,
                 "employee_id",
-                "employee_no",
+                "emiid",
                 liquidation.employee_no);
             var le = db.liquiexps.OrderBy(x => x.expence).ToList();
             ViewBag.expenses = new SelectList(le, "expence", "expence", liquidation.expenses);

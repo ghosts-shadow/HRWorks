@@ -1,0 +1,69 @@
+﻿@model IEnumerable<HRworks.Models.empdayoff>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_off)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_added)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date_modified)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.by_whom)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.emiid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.master_file.employee_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date_off)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date_added)
+        </td>
+
+        @if (User.IsInRole("super_admin"))
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.date_modified)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.by_whom)
+            </td>
+        }
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+
+        @if (User.IsInRole("super_admin")) { }|
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })}
+    </td>
+    </tr>
+}
+
+</table>

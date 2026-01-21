@@ -899,7 +899,7 @@
                     .Where(m => m != null)
                     .GroupBy(m => m.employee_no)
                     .Select(g => g.First())
-                    .ToDictionary(m => m.employee_no, m => m.employee_id);
+                    .ToDictionary(m => m.emiid, m => m.employee_id);
 
                 // Read file into DataTable
                 var dt = new DataTable();
@@ -982,12 +982,12 @@
 
                     // employee_no from file
                     var empNoString = Get(dr, "employee_no");
-                    if (string.IsNullOrWhiteSpace(empNoString) || !int.TryParse(empNoString, out var empNo))
+                    if (string.IsNullOrWhiteSpace(empNoString) )
                     {
                         skippedNoEmp++; continue;
                     }
 
-                    if (!empIndex.TryGetValue(empNo, out var employeeId))
+                    if (!empIndex.TryGetValue(empNoString, out var employeeId))
                     {
                         // employee not found in your system → skip
                         skippedNoEmp++; continue;

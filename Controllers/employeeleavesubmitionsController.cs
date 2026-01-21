@@ -719,7 +719,7 @@ namespace HRworks.Controllers
                 employeeleavesubmition.submitted_by = User.Identity.Name;
 
                 employeeleavesubmition.Date = DateTime.Today; 
-                if ((employeeleavesubmition.leave_type == "2" || employeeleavesubmition.leave_type == "7")|| employeeleavesubmition.leave_type == "11")
+                if (employeeleavesubmition.leave_type == "2" || employeeleavesubmition.leave_type == "7"|| employeeleavesubmition.leave_type == "9"|| employeeleavesubmition.leave_type == "11")
                 {
                     employeeleavesubmition.apstatus = "submitted for HR";
                     employeeleavesubmition.imgpath = serverfile;

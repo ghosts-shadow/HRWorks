@@ -1522,7 +1522,7 @@ namespace HRworks.Controllers
                 afinallist = afinallist.FindAll(x => x.emiid.ToUpper() == empno.ToUpper());
             }
 
-
+            var atj_list= db1.Att_adj.ToList();
 
             do
             {
@@ -1561,6 +1561,11 @@ namespace HRworks.Controllers
                         {
                             transaction.emp_code = file.emiid;
                             transaction.mobile = file.employee_name;
+                            var findadj = atj_list.Find(x => x.emp_ID == file.employee_id && x.which_date == transaction.punch_time.Date && (x.early_out == transaction.punch_time.TimeOfDay || x.late_in == transaction.punch_time.TimeOfDay));
+                            if (findadj != null)
+                            {
+                                transaction.punch_state +=" (atjusted "+ findadj.status + ")";
+                            }
                             if (transaction.area_alias.IsNullOrWhiteSpace() && !transaction.work_code.IsNullOrWhiteSpace())
                             {
                                 transaction.area_alias = workcode.Find(x => x.code == transaction.work_code).alias;
@@ -1775,6 +1780,9 @@ namespace HRworks.Controllers
             var proatt = db2.iclock_transaction
                 .Where(x => x.punch_time >= startDate && x.punch_time < endExclusive)
                 .ToList();
+            var empdayoff = db1.empdayoffs
+                .Where(x => x.date_off >= startDate && x.date_off < endExclusive )
+                .ToList();
             var att_adjlist = db1.Att_adj.Where(x => x.which_date >= startDate && x.which_date < endExclusive).ToList();
 
             // ----- INDEX FOR FAST LOOKUPS -----
@@ -1922,7 +1930,7 @@ namespace HRworks.Controllers
                             x.emp_ID == file.employee_id &&
                             x.which_date.Date == cursor);
 
-                        if (!hasHO && !hasProj && !onLeave && !attAdjExists && (file.last_working_day >= cursor || !file.last_working_day.HasValue) && (file.date_joined < cursor))
+                        if (!hasHO && !hasProj && !onLeave && !attAdjExists && (file.last_working_day >= cursor || !file.last_working_day.HasValue) && (file.date_joined < cursor) && !empdayoff.Exists(x=>x.emp_ID == file.employee_id))
                         {
                             // Mark absent
                             var absvar = new hik

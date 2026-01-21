@@ -1843,6 +1843,27 @@ namespace HRworks.Controllers
             {
                 goto endfun;
             }
+        retrylbfix:;
+            var balfix = db.leavecalperyears.ToList();
+            var balfixemp = balfix.FindAll(x => x.Employee_id == empjd.employee_id);
+            var balfixcount = balfixemp.Count;
+            var empnoyear = DateTime.Now.Year - asf.Value.Year + 1;
+            if (balfixcount > empnoyear)
+            {
+                foreach (var leave in balfixemp)
+                {
+                    var leaveyear = leave.balances_of_year.Year;
+                    if (balfixemp.FindAll(x=>x.balances_of_year.Year == leaveyear).Count() > 1)
+                    {
+                        foreach (var lf in balfixemp.FindAll(x => x.balances_of_year.Year == leaveyear))
+                        {
+                            db.leavecalperyears.Remove(lf);
+                            db.SaveChanges();
+                        }
+                        goto retrylbfix; 
+                    }
+                }
+            }
 
             var leaves = this.db.Leaves.OrderByDescending(x => x.Date).ThenBy(y => y.Start_leave)
                 .Where(x => x.Employee_id == Employee_id && x.Start_leave >= asf).ToList();
@@ -4177,7 +4198,7 @@ namespace HRworks.Controllers
             {
                 var incasedate = caltill;
                 var mancon = new master_fileController();
-                var afinallist = mancon.emplist(true).Where(x=>x.last_working_day > new DateTime(caltill.Value.Year, 1, 1) || x.last_working_day == null)/*.Where(x => x.employee_no == 214)*/;
+                var afinallist = mancon.emplist(true).Where(x=>(x.last_working_day > caltill || x.last_working_day == null) && x.date_joined < caltill)/*.Where(x => x.employee_no == 5386)*/;
                 var leaveballist = db.leavecalperyears.ToList();
                 var leavelist = db.Leaves.ToList();
                 var finallist = new List<leavecalperyear>();
@@ -4197,7 +4218,8 @@ namespace HRworks.Controllers
                     {
                         leavecaldatestart = new DateTime(caltill.Value.Year, 9, 1);
                     }
-                    var leavecaldateend = new DateTime(caltill.Value.Year + 1, 3, 31);
+                    //var leavecaldateend = new DateTime(caltill.Value.Year,caltill.Value.Month, DateTime.DaysInMonth(caltill.Value.Year, caltill.Value.Month));
+                    var leavecaldateend = caltill;
                     var emplb = leaveballist.Find(x =>
                         x.Employee_id == file.employee_id &&
                         x.balances_of_year == new DateTime(caltill.Value.Year, 1, 1));

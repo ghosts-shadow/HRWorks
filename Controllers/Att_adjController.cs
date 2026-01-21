@@ -64,6 +64,8 @@ namespace HRworks.Controllers
             var projectatt = db1.iclock_transaction.Where(x =>
                     x.emp_code == empstring || x.emp_code == empint.ToString()|| x.emp_code == empvarstr)
                 .ToList();
+            var atjlist = db.Att_adj.Include(a => a.master_file)
+                .Where(x => x.emp_ID == empuser.employee_no).ToList();
             if (HOatt.Count > 0)
             {
                 /*
@@ -99,8 +101,18 @@ namespace HRworks.Controllers
                 {
                     var ordered = g.OrderBy(x => x.date).ToList();
                     var first = ordered.First();
+                    var atjstat = atjlist.Find(x => x.which_date.Date == first.date && (x.early_out == first.time || x.late_in == first.time) && !x.status.Contains("rejected"));
+                    if (atjstat != null)
+                    {
+                        first.Status += " Adjusted";
+                    }
                     finallist.Add(first);
-
+                    var last = ordered.Last();
+                    atjstat = atjlist.Find(x => x.which_date.Date == last.date && (x.early_out == last.time || x.late_in == last.time) && !x.status.Contains("rejected"));
+                    if (atjstat != null && last != first)
+                    {
+                        last.Status += " Adjusted";
+                    }
                     if (ordered.Count > 1)
                     {
                         finallist.Add(ordered.Last());
@@ -119,6 +131,7 @@ namespace HRworks.Controllers
                     protoho.date = tratt.punch_time.Date;
                     protoho.time = tratt.punch_time.TimeOfDay;
                     protoho.Person = empuser.master_file.employee_name;
+                    var atjstat = atjlist.Find(x => x.which_date.Date == protoho.date && (x.early_out == protoho.time || x.late_in == protoho.time) && !x.status.Contains("rejected"));
                     if (tratt.punch_state == "0")
                     {
                         protoho.Status = "check in";
@@ -127,12 +140,14 @@ namespace HRworks.Controllers
                     {
                         protoho.Status = "check out";
                     }
+                    if (atjstat != null)
+                    {
+                        protoho.Status += " Adjusted";
+                    }
                     finallist.Add(protoho);
                 }
             }
 
-            var atjlist = db.Att_adj.Include(a => a.master_file)
-                .Where(x => x.emp_ID == empuser.employee_no).ToList();
             finallist = finallist.FindAll(x => x.date.HasValue && x.date.Value.Date >= empatdatefrom.Value.Date);
             if (empatdateto.HasValue)
             {

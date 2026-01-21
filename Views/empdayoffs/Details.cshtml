@@ -1,0 +1,58 @@
+﻿@model HRworks.Models.empdayoff
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>empdayoff</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.date_off)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_off)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_added)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_added)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_modified)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_modified)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.by_whom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.by_whom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.master_file.employee_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.master_file.employee_name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

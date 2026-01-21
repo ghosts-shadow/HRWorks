@@ -46,33 +46,36 @@ namespace HRworks.Models
 
         public static DataTable ConvertXSLXtoDataTable(string strFilePath, string connString)
         {
-            OleDbConnection oledbConn = new OleDbConnection(connString);
-            DataTable dt = new DataTable();
-            try
+            using (OleDbConnection oledbConn = new OleDbConnection(connString))
             {
+                DataTable dt = new DataTable();
 
-                oledbConn.Open();
-                using (OleDbCommand cmd = new OleDbCommand("SELECT * FROM [Sheet1$]", oledbConn))
+                try
                 {
-                    OleDbDataAdapter oleda = new OleDbDataAdapter();
-                    oleda.SelectCommand = cmd;
-                    DataSet ds = new DataSet();
-                    oleda.Fill(ds);
+                    oledbConn.Open();
 
-                    dt = ds.Tables[0];
+                    // ✅ Get First Sheet Name Automatically
+                    DataTable schema = oledbConn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                    if (schema == null || schema.Rows.Count == 0)
+                        return dt;
+
+                    string sheetName = schema.Rows[0]["TABLE_NAME"].ToString();
+
+                    using (OleDbCommand cmd = new OleDbCommand("SELECT * FROM [" + sheetName + "]", oledbConn))
+                    {
+                        OleDbDataAdapter oleda = new OleDbDataAdapter(cmd);
+                        DataSet ds = new DataSet();
+                        oleda.Fill(ds);
+                        dt = ds.Tables[0];
+                    }
                 }
-            }
-            catch
-            {
-            }
-            finally
-            {
+                catch
+                {
+                }
 
-                oledbConn.Close();
+                return dt;
             }
-
-            return dt;
-
         }
+
     }
 }

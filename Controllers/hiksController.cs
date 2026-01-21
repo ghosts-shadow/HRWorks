@@ -705,7 +705,16 @@ namespace HRworks.Controllers
             result.AddRange(firstCheckIns);
             result.AddRange(lastCheckOuts);
             result.AddRange(fallbackCheckOuts);
+            var attj = db.Att_adj.ToList();
+            foreach (var hik in result)
+            {
+                int.TryParse(hik.ID, out var temp);
+                if (attj.Exists(x => x.master_file.employee_no == temp && x.which_date == hik.date && (x.early_out ==  hik.time || x.late_in == hik.time )))
+                {
 
+                    hik.Status += " (Adjusted with status " + attj.Find(x => x.master_file.employee_no == temp && x.which_date == hik.date && (x.early_out == hik.time || x.late_in == hik.time)).status +")";
+                }
+            }
 
             return View(result.OrderBy(h => h.date).ThenBy(h => h.EMPID).ThenBy(h => h.time));
         }

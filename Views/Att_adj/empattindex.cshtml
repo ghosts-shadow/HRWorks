@@ -133,14 +133,19 @@
                                         <!-- First entry -->
                                         <div class="att-punch-row">
                                             <span class="att-time">@first.time</span>
-                                            <button type="button"
-                                                    class="att-adjust-btn"
-                                                    data-date="@first.date.Value.ToString("yyyy-MM-dd")"
-                                                    data-time="@first.time"
-                                                    data-displaydate="@first.date.Value.ToString("dd MMM yyyy")"
-                                                    data-displaytime="@first.time">
-                                                Adjust
-                                            </button>
+                                            @{
+                                                if (first.Status != null && !first.Status.ToLower().Contains("rejected"))
+                                                {
+                                                    <button type="button"
+                                                            class="att-adjust-btn"
+                                                            data-date="@first.date.Value.ToString("yyyy-MM-dd")"
+                                                            data-time="@first.time"
+                                                            data-displaydate="@first.date.Value.ToString("dd MMM yyyy")"
+                                                            data-displaytime="@first.time">
+                                                        Adjust
+                                                    </button>
+                                                }
+                                            }
                                         </div>
 
                                         <!-- Last entry (only if different) -->
@@ -148,14 +153,19 @@
                                         {
                                             <div class="att-punch-row">
                                                 <span class="att-time">@last.time</span>
-                                                <button type="button"
-                                                        class="att-adjust-btn"
-                                                        data-date="@last.date.Value.ToString("yyyy-MM-dd")"
-                                                        data-time="@last.time"
-                                                        data-displaydate="@last.date.Value.ToString("dd MMM yyyy")"
-                                                        data-displaytime="@last.time">
-                                                    Adjust
-                                                </button>
+                                                @{
+                                                    if (last.Status != null && !last.Status.ToLower().Contains("rejected"))
+                                                    {
+                                                        <button type="button"
+                                                                class="att-adjust-btn"
+                                                                data-date="@last.date.Value.ToString("yyyy-MM-dd")"
+                                                                data-time="@last.time"
+                                                                data-displaydate="@last.date.Value.ToString("dd MMM yyyy")"
+                                                                data-displaytime="@last.time">
+                                                            Adjust
+                                                        </button>
+                                                    }
+                                                }
                                             </div>
                                         }
                                     </div>

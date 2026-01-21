@@ -372,7 +372,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="emp_ID" Type="int" Nullable="false" />
           <Property Name="date_off" Type="datetime" Nullable="false" />
           <Property Name="date_added" Type="datetime" Nullable="false" />
