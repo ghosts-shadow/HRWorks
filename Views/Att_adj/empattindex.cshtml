@@ -134,7 +134,7 @@
                                         <div class="att-punch-row">
                                             <span class="att-time">@first.time</span>
                                             @{
-                                                if (first.Status != null && !first.Status.ToLower().Contains("rejected"))
+                                                if (first.Status != null && !first.Status.Contains("Adjusted"))
                                                 {
                                                     <button type="button"
                                                             class="att-adjust-btn"
@@ -145,6 +145,11 @@
                                                         Adjust
                                                     </button>
                                                 }
+                                                else
+                                                {
+	                                                var sub = first.Status.Substring(first.Status.IndexOf('z')+1);
+	                                                @sub
+                                                }
                                             }
                                         </div>
 
@@ -154,7 +159,7 @@
                                             <div class="att-punch-row">
                                                 <span class="att-time">@last.time</span>
                                                 @{
-                                                    if (last.Status != null && !last.Status.ToLower().Contains("rejected"))
+                                                    if (last.Status != null && !last.Status.Contains("Adjusted"))
                                                     {
                                                         <button type="button"
                                                                 class="att-adjust-btn"
@@ -164,6 +169,11 @@
                                                                 data-displaytime="@last.time">
                                                             Adjust
                                                         </button>
+                                                    }
+                                                    else
+                                                    {
+	                                                    var sub = last.Status.Substring(last.Status.IndexOf('z')+1);
+	                                                    @sub
                                                     }
                                                 }
                                             </div>

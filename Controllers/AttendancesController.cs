@@ -1553,9 +1553,9 @@ namespace HRworks.Controllers
                         testemp2 = "777" + testemp1.Substring(4);
                     }
 
-                    if (iclocklist.Exists(x => x.emp_code == testemp1 ||(testemp2.Length <7 && x.emp_code == testemp2 )))
+                    if (iclocklist.Exists(x => x.emp_code == testemp1 ||(testemp2.Length <=7 && x.emp_code == testemp2 )))
                     {
-                        var empatt = iclocklist.FindAll(x => x.emp_code == testemp1 || (testemp2.Length < 7 && x.emp_code == testemp2))
+                        var empatt = iclocklist.FindAll(x => x.emp_code == testemp1 || (testemp2.Length <= 7 && x.emp_code == testemp2))
                             .OrderBy(x => x.punch_time).ToList();
                         foreach (var transaction in empatt)
                         {
@@ -1761,7 +1761,7 @@ namespace HRworks.Controllers
                 if (int.TryParse(empno, out int empNoParsed))
                     afinallist = afinallist.FindAll(x => x.employee_no == empNoParsed);
                 else
-                    afinallist = afinallist.FindAll(x => x.emiid == empno);
+                    afinallist = afinallist.FindAll(x => x.emiid.ToUpper() == empno.ToUpper());
             }
 
             // ----- DATA PULLS (limit to date window) -----
@@ -1900,6 +1900,11 @@ namespace HRworks.Controllers
             foreach (var file in afinallist)
             {
                 var empKey = file.employee_no.ToString();
+                if (file.emiid.ToUpper().Contains("G-"))
+                {
+                    empKey = "7770" + file.emiid.Substring(2);
+                }
+                
                 var cursor = startDate;
                 if (proremove.Exists(x=>x.employee_id == file.employee_id) )
                 {

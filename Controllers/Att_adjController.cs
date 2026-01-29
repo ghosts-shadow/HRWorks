@@ -50,6 +50,7 @@ namespace HRworks.Controllers
                 empstring = "7770";
                 empstring += empuser.master_file.emiid.Substring(2);
             }
+
             if (empstring.Contains("7770"))
             {
                 var sub = empstring.Substring(4, 4);
@@ -62,7 +63,7 @@ namespace HRworks.Controllers
                 .Where(x => x.ID == empstring || x.ID == empint.ToString() || x.ID == empvarstr)
                 .ToList();
             var projectatt = db1.iclock_transaction.Where(x =>
-                    x.emp_code == empstring || x.emp_code == empint.ToString()|| x.emp_code == empvarstr)
+                    x.emp_code == empstring || x.emp_code == empint.ToString() || x.emp_code == empvarstr)
                 .ToList();
             var atjlist = db.Att_adj.Include(a => a.master_file)
                 .Where(x => x.emp_ID == empuser.employee_no).ToList();
@@ -101,18 +102,45 @@ namespace HRworks.Controllers
                 {
                     var ordered = g.OrderBy(x => x.date).ToList();
                     var first = ordered.First();
-                    var atjstat = atjlist.Find(x => x.which_date.Date == first.date && (x.early_out == first.time || x.late_in == first.time) && !x.status.Contains("rejected"));
+                    var tempdate = first.date;
+                    var atjstat = atjlist.Find(x =>
+                        x.which_date.Date == first.date && (x.early_out == first.time || x.late_in == first.time) &&
+                        !x.status.Contains("rejected"));
                     if (atjstat != null)
                     {
-                        first.Status += " Adjusted";
+                        var stat = "";
+                        if (atjstat.status != "approved")
+                        {
+                            stat = "pending";
+                        }
+                        else
+                        {
+                            stat = "approved";
+                        }
+
+                        first.Status += " Adjusted z " + stat;
                     }
+
                     finallist.Add(first);
                     var last = ordered.Last();
-                    atjstat = atjlist.Find(x => x.which_date.Date == last.date && (x.early_out == last.time || x.late_in == last.time) && !x.status.Contains("rejected"));
-                    if (atjstat != null && last != first)
+                    atjstat = atjlist.Find(x =>
+                        x.which_date.Date == last.date && (x.early_out == last.time || x.late_in == last.time) &&
+                        !x.status.Contains("rejected"));
+                    if (atjstat != null)
                     {
-                        last.Status += " Adjusted";
+                        var stat = "";
+                        if (atjstat.status != "approved")
+                        {
+                            stat = "pending";
+                        }
+                        else
+                        {
+                            stat = "approved";
+                        }
+
+                        last.Status += " Adjusted z " + stat;
                     }
+
                     if (ordered.Count > 1)
                     {
                         finallist.Add(ordered.Last());
@@ -131,7 +159,9 @@ namespace HRworks.Controllers
                     protoho.date = tratt.punch_time.Date;
                     protoho.time = tratt.punch_time.TimeOfDay;
                     protoho.Person = empuser.master_file.employee_name;
-                    var atjstat = atjlist.Find(x => x.which_date.Date == protoho.date && (x.early_out == protoho.time || x.late_in == protoho.time) && !x.status.Contains("rejected"));
+                    var atjstat = atjlist.Find(x =>
+                        x.which_date.Date == protoho.date &&
+                        (x.early_out == protoho.time || x.late_in == protoho.time) && !x.status.Contains("rejected"));
                     if (tratt.punch_state == "0")
                     {
                         protoho.Status = "check in";
@@ -140,10 +170,22 @@ namespace HRworks.Controllers
                     {
                         protoho.Status = "check out";
                     }
+
                     if (atjstat != null)
                     {
-                        protoho.Status += " Adjusted";
+                        var stat = "";
+                        if (atjstat.status != "approved")
+                        {
+                            stat = "pending";
+                        }
+                        else
+                        {
+                            stat = "approved";
+                        }
+
+                        protoho.Status += " Adjusted z " + stat;
                     }
+
                     finallist.Add(protoho);
                 }
             }
@@ -155,16 +197,49 @@ namespace HRworks.Controllers
                     .ToList();
             }
 
-            return View(finallist.OrderBy(x =>
+            empatdateto = empatdatefrom.Value.AddMonths(1).AddDays(-1);
+            var atjofmon = atjlist.FindAll(x => x.which_date >= empatdatefrom && x.which_date <= empatdateto);
+            if (atjofmon.Count > 0)
             {
-                // Try to parse numeric part
-                if (int.TryParse(x.ID, out var num))
-                    return (0, num); // group 0 = plain numbers
-                else if (x.ID.StartsWith("G-") && int.TryParse(x.ID.Substring(2), out var gnum))
-                    return (1, gnum); // group 1 = G-numbers
-                else
-                    return (2, int.MaxValue); // group 2 = anything else
-            }).ToList());
+                foreach (var atj in atjofmon)
+                {
+                    if (!finallist.Exists(x =>
+                            x.date == atj.which_date.Date && (x.time == atj.late_in || x.time == atj.early_out)))
+                    {
+                        var protoho = new hik();
+                        protoho.ID = empuser.master_file.emiid;
+                        protoho.datetime = atj.which_date;
+                        protoho.date = atj.which_date.Date;
+                        protoho.Status = "Adjusted z ";
+                        if (atj.late_in.HasValue)
+                        {
+                            protoho.time = atj.late_in;
+                            protoho.Status = "Late In Adjusted z ";
+                            protoho.datetime = protoho.datetime.Value.AddMilliseconds(protoho.time.Value.TotalMilliseconds);
+                        }
+                        else if (atj.early_out.HasValue)
+                        {
+                            protoho.time = atj.early_out;
+                            protoho.Status = "Early Out Adjusted z ";
+                            protoho.datetime = protoho.datetime.Value.AddMilliseconds(protoho.time.Value.TotalMilliseconds);
+                        }
+
+                        if (atj.status != "approved")
+                        {
+                            protoho.Status += "pending";
+                        }
+                        else
+                        {
+                            protoho.Status += "approved";
+                        }
+
+                        protoho.Person = empuser.master_file.employee_name;
+                        finallist.Add(protoho);
+                    }
+                }
+            }
+
+            return View(finallist.OrderBy(x => x.datetime).ToList());
 
 
         }
@@ -467,7 +542,7 @@ namespace HRworks.Controllers
             finalattadj.AddRange(attadjHRapp);
             finalattadj.AddRange(attadjnonHRapp);
 
-            return View(finalattadj);
+            return View(finalattadj.FindAll(x=>!x.status.Contains("rejected")));
         }
 
         public void SendMail(string msg, string action, int elsid)
@@ -625,6 +700,7 @@ namespace HRworks.Controllers
             {
                 using (var client = new SmtpClient())
                 {
+                    client.CheckCertificateRevocation = false;
                     client.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);
                     client.Authenticate("leave@citiscapegroup.com", "Tak98020");
                     client.Send(message);
@@ -666,6 +742,17 @@ namespace HRworks.Controllers
                            emplusersname.master_file.employee_name + "-" + desig + " can not be submitted as the employee does not have a record in employee relations table" + "\n\n\n" +
                            "Thanks Best Regards, "
                 };
+                if (message.To.Count != 0)
+                {
+                    using (var client = new SmtpClient())
+                    {
+                        client.CheckCertificateRevocation = false;
+                        client.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);
+                        client.Authenticate("leave@citiscapegroup.com", "Tak98020");
+                        client.Send(message);
+                        client.Disconnect(true);
+                    }
+                }
             }
         }
    

@@ -697,14 +697,19 @@ namespace HRworks.Controllers
                 .Where(g => !lastCheckOuts.Any(o => o.EMPID == g.Key.EMPID && o.date == g.Key.date))
                 .Select(g => g.OrderByDescending(h => h.datetime).First())
                 .ToList();
-
-            foreach (var h in fallbackCheckOuts)
-                h.Status = "CheckOut";
-
             var result = new List<hik>();
             result.AddRange(firstCheckIns);
             result.AddRange(lastCheckOuts);
-            result.AddRange(fallbackCheckOuts);
+
+            foreach (var h in fallbackCheckOuts)
+            {
+                h.Status = "CheckOut";
+                if (!result.Exists(x => x.ID == h.ID && x.datetime == h.datetime))
+                {
+                    result.Add(h);
+                }
+            }
+
             var attj = db.Att_adj.ToList();
             foreach (var hik in result)
             {
