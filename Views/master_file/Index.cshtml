@@ -94,6 +94,9 @@
             @Html.DisplayNameFor(model => model.gender)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.transfer_emp_no)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.emirates_id.First().eid_no)
         </th>
         <th>
@@ -260,6 +263,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.gender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.transfer_emp_no)
         </td>
         @if (item.emirates_id.Count != 0)
         {

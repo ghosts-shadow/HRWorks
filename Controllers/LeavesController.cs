@@ -2765,6 +2765,21 @@ namespace HRworks.Controllers
                             submitedleave.AddRange(ifnewsublist);
                         }
 
+                        if (empjd.transfer_emp_no.HasValue)
+                        {
+                            var pervempid = afinallist.Find(x =>
+                                x.employee_no == empjd.transfer_emp_no.Value);
+                            if (pervempid != null)
+                            {
+                                var pervyearrecord = db.leavecalperyears.ToList().Find(x =>
+                                    x.Employee_id == pervempid.employee_id && x.balances_of_year.Year == i);
+                                if (pervyearrecord != null)
+                                {
+                                    yearrecord.sumittedleavebal += pervyearrecord.sumittedleavebal;
+                                    yearrecord.leave_balance += pervyearrecord.leave_balance;
+                                }
+                            }
+                        }
                         if (submitedleave.Count == 0)
                         {
                             if (perviousyearleave != null)
@@ -2845,8 +2860,15 @@ namespace HRworks.Controllers
         {
             
             var leaves = new List<Leave>();
+            // {
+            //     var mancon = new master_fileController();
+            //     var emplist = mancon.emplist(true);
+            //     foreach (var file in emplist)
+            //     {
+            //         leavebalcalperyear(file.employee_id);
+            //     }
+            // }
             var leaveballist = db.leavecalperyears.Where(x => x.balances_of_year.Year == DateTime.Now.Year && x.master_file.last_working_day == null).ToList();
-
             if (days.HasValue)
             {
                 var lbldays = leaveballist.FindAll(x => x.leave_balance <= days);

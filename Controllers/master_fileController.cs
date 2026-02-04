@@ -560,7 +560,7 @@ namespace HRworks.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "super_admin,admin,payrole")]
         public ActionResult Create([Bind(Include =
-                "employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id,emiid,company")]
+                "employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id,emiid,company,transfer_emp_no")]
             master_file master_file, HttpPostedFileBase fileBase)
         {
             //            if (ModelState.IsValid)
@@ -626,6 +626,7 @@ namespace HRworks.Controllers
                 img.date_changed = current;
                 img.status = "in process";
                 img.img = serverfile;
+                img.transfer_emp_no = master_file.transfer_emp_no;
                 db.master_file.Add(img);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -683,7 +684,7 @@ namespace HRworks.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "super_admin,admin,payrole")]
         public ActionResult Edit([Bind(Include =
-                "employee_id,employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id,status,emiid,company")]
+                "employee_id,employee_no,employee_name,nationality,dob,date_joined,last_working_day,gender,IBAN,account_no,bank_name,img,id,status,emiid,company,transfer_emp_no")]
             master_file master_file, HttpPostedFileBase fileBase)
         {
             var imglist = this.db.master_file.ToList();
@@ -692,10 +693,9 @@ namespace HRworks.Controllers
             if (fileBase != null)
             {
                 var empno = master_file.emiid;
-                if (master_file.company == "2")
+                if (master_file.company == "2" && !master_file.emiid.Contains("G-"))
                 {
                     empno = "G-" + master_file.emiid;
-
                 }
                 var imgname = System.IO.Path.GetFileName(fileBase.FileName);
                 var fileexe = System.IO.Path.GetExtension(fileBase.FileName);
@@ -745,7 +745,7 @@ namespace HRworks.Controllers
                     master_file.date_changed = DateTime.Now;
                     db.master_file.Add(master_file);*/
                     var current = DateTime.Now;
-                    int.TryParse(master_file.emiid, out var empno);
+                    int.TryParse(master_file.emiid.Substring(2), out var empno);
                     if (master_file.company.ToLower() == "grove")
                     {
                         img.emiid = $"G-{empno:D4}";
@@ -781,6 +781,7 @@ namespace HRworks.Controllers
                     }
 
                     img.img = serverfile;
+                    img.transfer_emp_no = master_file.transfer_emp_no;
 
                     this.db.Entry(img).State = EntityState.Modified;
                     this.db.SaveChanges();

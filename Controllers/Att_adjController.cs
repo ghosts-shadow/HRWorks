@@ -731,8 +731,9 @@ namespace HRworks.Controllers
 
             if (emprel == null)
             {
-                var email = "hrteam@citiscapegroup.com";
-
+                var email = "aderbala@citiscapegroup.com";
+                message.To.Add((new MailboxAddress("HR", email)));
+                email = "rlopez@citiscapegroup.com";
                 message.To.Add((new MailboxAddress("HR", email)));
                 message.Subject = "attendance adjustment approvals";
                 message.Body = new TextPart("plain")

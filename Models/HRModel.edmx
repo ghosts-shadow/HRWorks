@@ -880,6 +880,7 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
           <Property Name="emiid" Type="nvarchar(max)" />
+          <Property Name="transfer_emp_no" Type="int" />
         </EntityType>
         <EntityType Name="OSRF_items">
           <Key>
@@ -3654,6 +3655,7 @@
           <NavigationProperty Name="usernames" Relationship="Self.FK_usernames_To_master_file" FromRole="master_file" ToRole="usernames" />
           <NavigationProperty Name="visas" Relationship="Self.FK_visa_To_master_file" FromRole="master_file" ToRole="visa" />
           <NavigationProperty Name="empdayoffs" Relationship="HRModel.FK_empoff_To_master_file" FromRole="master_file" ToRole="empdayoff" />
+          <Property Name="transfer_emp_no" Type="Int32" />
         </EntityType>
         <EntityType Name="OSRF_items">
           <Key>
@@ -6319,6 +6321,7 @@
           <EntitySetMapping Name="master_file">
             <EntityTypeMapping TypeName="HRModel.master_file">
               <MappingFragment StoreEntitySet="master_file">
+                <ScalarProperty Name="transfer_emp_no" ColumnName="transfer_emp_no" />
                 <ScalarProperty Name="employee_id" ColumnName="employee_id" />
                 <ScalarProperty Name="employee_no" ColumnName="employee_no" />
                 <ScalarProperty Name="employee_name" ColumnName="employee_name" />
