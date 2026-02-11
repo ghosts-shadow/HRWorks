@@ -51,7 +51,9 @@ namespace HRworks.Models
         public Nullable<int> emp_id { get; set; }
         public Nullable<int> terminal_id { get; set; }
         public string company_code { get; set; }
-    
+        public string att_adj { get; set; }
+        public string on_leave { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<att_payloadeffectpunch> att_payloadeffectpunch { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

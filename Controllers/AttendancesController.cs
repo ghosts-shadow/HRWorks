@@ -1523,6 +1523,7 @@ namespace HRworks.Controllers
             }
 
             var atj_list= db1.Att_adj.ToList();
+            var leave = db1.Leaves.ToList();
 
             do
             {
@@ -1564,7 +1565,12 @@ namespace HRworks.Controllers
                             var findadj = atj_list.Find(x => x.emp_ID == file.employee_id && x.which_date == transaction.punch_time.Date && (x.early_out == transaction.punch_time.TimeOfDay || x.late_in == transaction.punch_time.TimeOfDay));
                             if (findadj != null)
                             {
-                                transaction.punch_state +=" (atjusted "+ findadj.status + ")";
+                                transaction.att_adj ="atjusted with status "+ findadj.status;
+                            }
+                            var findleave = leave.Find(x => x.Employee_id == file.employee_id && x.Start_leave <= transaction.punch_time.Date && x.End_leave >= transaction.punch_time.Date);
+                            if (findleave != null)
+                            {
+                                transaction.on_leave = "on leave from " + findleave.Start_leave +" to "+findleave.End_leave;
                             }
                             if (transaction.area_alias.IsNullOrWhiteSpace() && !transaction.work_code.IsNullOrWhiteSpace())
                             {

@@ -30,5 +30,7 @@ namespace HRworks.Models
         public string Person { get; set; }
         public int SID { get; set; }
         public bool absence_approved { get; set; }
+        public string att_adj { get; set; }
+        public string on_leave { get; set; }
     }
 }

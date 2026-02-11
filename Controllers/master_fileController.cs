@@ -745,9 +745,11 @@ namespace HRworks.Controllers
                     master_file.date_changed = DateTime.Now;
                     db.master_file.Add(master_file);*/
                     var current = DateTime.Now;
-                    int.TryParse(master_file.emiid.Substring(2), out var empno);
+                    var empno = 0;
+                    int.TryParse(master_file.emiid, out empno);
                     if (master_file.company.ToLower() == "grove")
                     {
+                        int.TryParse(master_file.emiid.Substring(2), out empno);
                         img.emiid = $"G-{empno:D4}";
                         empno = empno + 77700000;
                         if (master_file.employee_no.ToString().Contains("777"))

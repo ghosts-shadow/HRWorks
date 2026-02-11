@@ -93,6 +93,12 @@
         <th>
             @Html.DisplayName("late")
         </th>
+        <th>
+            @Html.DisplayName("Attendance adjustment")
+        </th>
+        <th>
+            @Html.DisplayName("leave")
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -121,35 +127,41 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
-	        <td>
-		        @{
-			        if (!item.Status.Contains("approved"))
-			        {
-				        if (item.time.HasValue && item.Status != "CheckOut")
-				        {
-					        DateTime referenceDate = new DateTime(item.date.Value.Year, item.date.Value.Month, item.date.Value.Day, 8, 30, 0);
-					        if (referenceDate.TimeOfDay < item.time.Value)
-					        {
-						        TimeSpan defaultDate = item.time.Value - referenceDate.TimeOfDay;
-						        @defaultDate
-						        var t = " late";
-						        @t
-					        }
-					        if (item.datetime != null)
-					        {
-						        previn = item.datetime.Value;
-					        }
-				        }
-				        else if (item.time.HasValue && item.Status == "CheckOut")
-				        {
-					        var date_diff = item.datetime - previn;
-					        @date_diff
-					        var ta = " total hrs";
-					        @ta
-				        }
-			        }
-		        }
-	        </td>
+            <td>
+                @{
+                    if (!item.Status.Contains("approved"))
+                    {
+                        if (item.time.HasValue && item.Status != "CheckOut")
+                        {
+                            DateTime referenceDate = new DateTime(item.date.Value.Year, item.date.Value.Month, item.date.Value.Day, 8, 30, 0);
+                            if (referenceDate.TimeOfDay < item.time.Value)
+                            {
+                                TimeSpan defaultDate = item.time.Value - referenceDate.TimeOfDay;
+                                @defaultDate
+                                var t = " late";
+                                @t
+                            }
+                            if (item.datetime != null)
+                            {
+                                previn = item.datetime.Value;
+                            }
+                        }
+                        else if (item.time.HasValue && item.Status == "CheckOut")
+                        {
+                            var date_diff = item.datetime - previn;
+                            @date_diff
+                            var ta = " total hrs";
+                            @ta
+                        }
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.att_adj)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.on_leave)
+            </td>
         </tr>
     }
 

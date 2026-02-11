@@ -82,6 +82,12 @@
         <th>
             @Html.DisplayName("Status")
         </th>
+	    <th>
+		    @Html.DisplayName("Attendance adjustment")
+	    </th>
+	    <th>
+		    @Html.DisplayName("leave")
+	    </th>
     </tr>
 
     @foreach (var item in Model)
@@ -96,7 +102,7 @@
             {
                 projectname = item.area_alias;
                 <tr style="background-color: #152939; color: white; ">
-                    <td colspan="5">&nbsp;</td>
+                    <td colspan="7">&nbsp;</td>
                 </tr>
             }
         }
@@ -117,18 +123,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.area_alias)
             </td>
+	        <td>
+		        @if (item.punch_state == "0")
+		        {
+			        var ps = "check in";
+			        @ps
+		        }
+		        else
+		        {
+			        var ps = "check out";
+			        @ps
+		        }
+		        @item.punch_state
+	        </td>
             <td>
-                @if (item.punch_state == "0")
-                {
-                    var ps = "check in";
-                    @ps
-                }
-                else
-                {
-                    var ps = "check out";
-                    @ps
-                }
-                @item.punch_state
+                @Html.DisplayFor(modelItem => item.att_adj)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.on_leave)
             </td>
         </tr>
     }

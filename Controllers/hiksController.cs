@@ -711,13 +711,27 @@ namespace HRworks.Controllers
             }
 
             var attj = db.Att_adj.ToList();
+            var leave = db.Leaves.ToList();
             foreach (var hik in result)
             {
                 int.TryParse(hik.ID, out var temp);
-                if (attj.Exists(x => x.master_file.employee_no == temp && x.which_date == hik.date && (x.early_out ==  hik.time || x.late_in == hik.time )))
+                if (hik.ID.Contains("7770") && hik.ID.Length == 7)
+                {
+                    var tempid = hik.ID.Replace("7770", "");
+                    if (int.TryParse(tempid, out var tempidint))
+                    {
+                        temp = 77700 + tempidint;
+                    }
+                }
+
+                if (attj.Exists(x => (x.master_file.employee_no == temp) && x.which_date == hik.date && (x.early_out ==  hik.time || x.late_in == hik.time )))
                 {
 
-                    hik.Status += " (Adjusted with status " + attj.Find(x => x.master_file.employee_no == temp && x.which_date == hik.date && (x.early_out == hik.time || x.late_in == hik.time)).status +")";
+                    hik.att_adj += "Adjusted with status " + attj.Find(x => x.master_file.employee_no == temp && x.which_date == hik.date && (x.early_out == hik.time || x.late_in == hik.time)).status;
+                }
+                if (leave.Exists(x => x.master_file.employee_no == temp && x.Start_leave <= hik.date && x.End_leave >= hik.date))
+                {
+                    hik.on_leave = "On leave from " + leave.Find(x => x.master_file.employee_no == temp && x.Start_leave <= hik.date && x.End_leave >= hik.date).Start_leave.Value.ToString("dd MMM") + " to " + leave.Find(x => x.master_file.employee_no == temp && x.Start_leave <= hik.date && x.End_leave >= hik.date).End_leave.Value.ToString("dd MMM");
                 }
             }
 
