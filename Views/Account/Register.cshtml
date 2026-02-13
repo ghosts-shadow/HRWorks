@@ -61,6 +61,7 @@
                 @Html.CheckBox("slapproval", new { @class = "radio-inline" })@Html.Label("sick leave approval")<br />
                 @Html.CheckBox("employee_rel", new { @class = "radio-inline" })@Html.Label("employee relationships")<br />
                 @Html.CheckBox("registration_HR", new { @class = "radio-inline" })@Html.Label("HR registrations")<br />
+                @Html.CheckBox("employee_HR", new { @class = "radio-inline" })@Html.Label("employee_HR")<br />
                 @Html.TextBoxFor(m => m.UserRole, new { @class = "form-control", @id = "roles" })
             </div>
         </div>
@@ -86,6 +87,7 @@
                     @Html.CheckBox("slapproval", new { @class = "radio-inline" })@Html.Label("sick leave approval")<br />
                     @Html.CheckBox("employee_rel", new { @class = "radio-inline" })@Html.Label("employee relationships")<br />
                     @Html.CheckBox("registration_HR", new { @class = "radio-inline" })@Html.Label("HR registrations")<br />
+                    @Html.CheckBox("employee_HR", new { @class = "radio-inline" })@Html.Label("employee_HR")<br />
                 </div>
             </div>
         </div>
@@ -113,6 +115,7 @@
         var sl = document.getElementById("slapproval");
         var emprel = document.getElementById("employee_rel");
         var reghr = document.getElementById("registration_HR");
+        var empHR = document.getElementById("employee_HR");
         var rol = document.getElementById("roles");
         if (ad.checked == true) {
             rolestring += ad.name + ",";
@@ -155,6 +158,9 @@
         }
         if (reghr.checked == true) {
             rolestring += reghr.name + ",";
+        }
+        if (empHR.checked == true) {
+            rolestring += empHR.name + ",";
         }
         var ind = rolestring.lastIndexOf(",");
         rolestring = rolestring.slice(0, ind);

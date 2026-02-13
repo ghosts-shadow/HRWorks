@@ -61,15 +61,28 @@
         }
     </script>
     <div class="row">
-        <div class="col-md-5">
-            <p>
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New" />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel", "Leaves", new {  Employee_id = ViewBag.no, eddate = ViewBag.eddate })'" value="Export" />
-            </p>
-        </div>
-        <div class="col-md-5" style="left:50%">
-            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value="back to main" />
-        </div>
+
+        @if (!User.IsInRole("employee_HR"))
+        {
+            <div class="col-md-5">
+                <p>
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New" />
+                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("DownloadExcel", "Leaves", new { Employee_id = ViewBag.no, eddate = ViewBag.eddate })'" value="Export" />
+                </p>
+            </div>
+            <div class="col-md-5" style="left:50%">
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value="back to main" />
+            </div>
+        }
+        else
+        {
+	        <div class="col-md-5">
+		        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index")'" value="back to main"/>
+	        </div>
+            <br/>
+            <br/>
+            <br/>
+        }
     </div>
 
     @using (Html.BeginForm())

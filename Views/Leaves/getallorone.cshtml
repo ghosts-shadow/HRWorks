@@ -9,7 +9,8 @@
 <h2>Leave modification</h2>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <p>
-    @Html.ActionLink("Create New", "Create")
+	@if (!User.IsInRole("employee_HR")){
+	@Html.ActionLink("Create New", "Create")}
 </p>
 
 @using (Html.BeginForm("getallorone", "Leaves", FormMethod.Get, new { id = "form1" }))

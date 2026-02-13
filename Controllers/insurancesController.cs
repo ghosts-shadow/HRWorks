@@ -186,7 +186,7 @@ namespace HRworks.Controllers
         }
 
         // GET: insurances/Create
-        [Authorize(Roles = "super_admin,admin,employee_INC")]
+        [Authorize(Roles = "super_admin,admin,employee_INC,employee_HR")]
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
@@ -209,7 +209,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,employee_INC")]
+        [Authorize(Roles = "super_admin,admin,employee_INC,employee_HR")]
         public ActionResult Create([Bind(Include = "employee_id,employee_no,card_no,dob,age,gender,dependency,marital_status,nationality,eid_no,pasport_no,uid_no,emitae_visa_issue,annual_primium,deletion_date,invoice_no,credit_amt")] insurance insurance, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -273,7 +273,7 @@ namespace HRworks.Controllers
         }
 
         // GET: insurances/Edit/5
-        [Authorize(Roles = "super_admin,admin,payrole,employee_INC")]
+        [Authorize(Roles = "super_admin,admin,payrole,employee_INC,employee_HR")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -305,7 +305,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,payrole,employee_INC")]
+        [Authorize(Roles = "super_admin,admin,payrole,employee_INC,employee_HR")]
         public ActionResult Edit([Bind(Include = "id,employee_no,card_no,dob,age,gender,dependency,marital_status,nationality,eid_no,pasport_no,uid_no,emitae_visa_issue,annual_primium,deletion_date,invoice_no,credit_amt")] insurance insurance, HttpPostedFileBase fileBase)
         {
             string serverfile;

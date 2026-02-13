@@ -249,7 +249,7 @@ namespace HRworks.Controllers
         }
 
         // GET: emirates_id/Create
-        [Authorize(Roles = "super_admin,admin,employee_EID")]
+        [Authorize(Roles = "super_admin,admin,employee_EID,employee_HR")]
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
@@ -272,7 +272,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,employee_EID")]
+        [Authorize(Roles = "super_admin,admin,employee_EID,employee_HR")]
         public ActionResult Create([Bind(Include = "employee_id,employee_no,eid_no,eid_expiry")] emirates_id emirates_id, HttpPostedFileBase fileBase)
         {
             string serverfile;

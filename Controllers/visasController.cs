@@ -218,7 +218,7 @@ namespace HRworks.Controllers
         }
 
         // GET: visas/Create
-        [Authorize(Roles = "super_admin,admin,payrole,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,payrole,employee_VLC,employee_HR")]
         public ActionResult Create()
         {
             ViewBag.gender = new SelectList(db.Tables, "gender", "gender");
@@ -233,7 +233,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,payrole,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,payrole,employee_VLC,employee_HR")]
         public ActionResult Create(visa visa, HttpPostedFileBase fileBase)
         {
             string serverfile;
@@ -294,7 +294,7 @@ namespace HRworks.Controllers
         }
 
         // GET: visas/Edit/5
-        [Authorize(Roles = "super_admin,admin,payrole,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,payrole,employee_VLC,employee_HR")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -319,7 +319,7 @@ namespace HRworks.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "super_admin,admin,payrole,employee_VLC")]
+        [Authorize(Roles = "super_admin,admin,payrole,employee_VLC,employee_HR")]
         public ActionResult Edit(visa visa, HttpPostedFileBase fileBase)
         {
             string serverfile;

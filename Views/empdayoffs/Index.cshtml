@@ -5,10 +5,41 @@
 }
 
 <h2>Index</h2>
+<div class="page-actions">
+@Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-navy" })
+@Html.ActionLink("Bulk Upload", "Importempdayoff", null, new { @class = "btn btn-navy" })
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<style>
+    .page-actions{
+        display:flex;
+        gap:10px;
+        align-items:center;
+        margin-bottom:12px;
+    }
+
+    .btn-navy{
+        background:#152939;
+        border:1px solid #152939;
+        color:#fff !important;
+        padding:8px 14px;
+        border-radius:6px;
+        text-decoration:none !important;
+        font-weight:600;
+        display:inline-block;
+        line-height:1.2;
+    }
+    .btn-navy:hover{
+        background:#102232;
+        border-color:#102232;
+        color:#fff !important;
+    }
+    .btn-navy:active{
+        background:#0d1b28;
+        border-color:#0d1b28;
+        color:#fff !important;
+    }
+</style>
 <table class="table">
     <tr>
         <th>

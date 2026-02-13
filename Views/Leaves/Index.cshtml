@@ -8,7 +8,10 @@
 <h2>leave</h2>
 <div class="row">
     <div class="col-lg-3">
-        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New" />
+        @if (!User.IsInRole("employee_HR"))
+        {
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Create")'" value="Create New" />
+        }
     </div>
     <div class="col-lg-7">
         <div class="row">
@@ -16,65 +19,79 @@
                 <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("report")'" value="Individual Report " />
                 <br />
                 <br />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reportserch")'" value=" Balance Inquiry" />
-                <br />
-                <br />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("empleaveap","employeeleavesubmitions")'" value="Sick leave approval" />
+                
+                @if (!User.IsInRole("employee_HR"))
+                {
+	                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("reportserch")'" value=" Balance Inquiry"/>
+	                <br/>
+	                <br/>
+	                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("empleaveap", "employeeleavesubmitions")'" value="Sick leave approval"/>
+                }
             </div>
             <div class="col-lg-4">
-                @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole"))
+                @if (User.IsInRole("admin") || User.IsInRole("super_admin") || User.IsInRole("payrole")|| User.IsInRole("employee_HR"))
                 {
                     <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("getallorone")'" value="Leave Modification" />
                 }
-                <br />
-                <br />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("periodic")'" value="Periodic Report" />
-                <br />
-                <br />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("allpendingapprovals","employeeleavesubmitions")'" value="leave not approved " />
-            </div>
-            <div class="col-lg-3">@*
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leave_absence_Index")'" value=" Absence Report" />*@
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("SickLeaveReport", "Leaves")'" value="Sick leave record" />
-                <br />
-                <br />
-                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("getallonleave")'" value="On Leave" />
-                <br />
-                <br />
-                @if (User.IsInRole("super_admin") || User.IsInRole("slapproval"))
+                @if (!User.IsInRole("employee_HR"))
                 {
-                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index","lbperyears")'" value="max leave balance"/>
+	                <br/>
+	                <br/>
+	                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("periodic")'" value="Periodic Report"/>
+	                <br/>
+	                <br/>
+	                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("allpendingapprovals", "employeeleavesubmitions")'" value="leave not approved "/>
                 }
             </div>
-            <div class="col-lg-3">
-                @*
+	        <div class="col-lg-3">@*
+                <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leave_absence_Index")'" value=" Absence Report" />*@
+                
+		        @if (!User.IsInRole("employee_HR"))
+		        {
+			        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("SickLeaveReport", "Leaves")'" value="Sick leave record"/>
+			        <br/>
+			        <br/>
+			        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("getallonleave")'" value="On Leave"/>
+			        <br/>
+			        <br/>
+		        }
+		        @if (User.IsInRole("super_admin") || User.IsInRole("slapproval"))
+		        {
+			        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index","lbperyears")'" value="max leave balance"/>
+		        }
+	        </div>
+            
+	        @if (!User.IsInRole("employee_HR"))
+	        {
+		        <div class="col-lg-3">
+			        @*
         <br />
         <br /><input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("allpendingapprovals","empreturnfromleavesubs")'" value="pending approvals leave" />*@
-                <br />
-                <br />
-                @if (User.IsInRole("super_admin") || User.IsInRole("slapproval"))
-                {
-                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("lbpyindex")'" value="leave balance per year breakup" />
-                    <br />
-                    <br />
-                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leavebaltill")'" value="leave balance till" />
-                }
-            </div>
-            <div class="col-lg-3">
-                <br />
-                <br />
+			        <br/>
+			        <br/>
+			        @if (User.IsInRole("super_admin") || User.IsInRole("slapproval"))
+			        {
+				        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("lbpyindex")'" value="leave balance per year breakup"/>
+				        <br/>
+				        <br/>
+				        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("leavebaltill")'" value="leave balance till"/>
+			        }
+		        </div>
+		        <div class="col-lg-3">
+			        <br/>
+			        <br/>
 
-                @if (User.IsInRole("super_admin") || User.IsInRole("payrole"))
-                {
-                    <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "companLeaveRs")'" value="compensatory leave record" />
-                    <br />
-                    <br />
-                }
-                <br />
-                <br />
+			        @if (User.IsInRole("super_admin") || User.IsInRole("payrole"))
+			        {
+				        <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("Index", "companLeaveRs")'" value="compensatory leave record"/>
+				        <br/>
+				        <br/>
+			        }
+			        <br/>
+			        <br/>
 
-            </div>
-            
+		        </div>
+	        }
         </div>
         </div>
 </div> 

@@ -323,19 +323,25 @@
                                             <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li>@Html.ActionLink("requests", "Index", "certificatesavingtest_")</li>
+                                            <li>@Html.ActionLink("csertifrequests", "Index", "certificatesavingtest_")</li>
                                             <li>@Html.ActionLink("details in arabic", "index", "detailsinarabics")</li>
                                             @if (User.IsInRole("super_admin"))
                                             {
                                                 <li>
                                                     @Html.ActionLink("approvals", "hrapproval", "certificatesavingtest_")
-                                            </li>
-                                        }
+                                                </li>
+                                            }
                                         </ul>
                                     </div>
                                 }
+                                if (User.IsInRole("employee_HR"))
+                                {
+                                    <li>@Html.ActionLink("certificate requests", "Index", "certificatesavingtest_")</li>
+                                }
                                 <li>@Html.ActionLink("Leave", "Index", "Leaves")</li>
-                                <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
+                                if (!User.IsInRole("employee_HR"))
+                                {
+                                    <li>@Html.ActionLink("liquidation", "index", "liquidations")</li>
 
                                 <div class="dropdown dd4" id="dd4">
                                     <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd4()" style="background-color: #152939 !important; border-color: #152939">
@@ -352,6 +358,8 @@
                                     </ul>
                                 </div>
 
+
+                                }
                                 if (User.Identity.Name == "dinizsneden@gmail.com")
                                 {
                                     <li>@Html.ActionLink("HR forms", "HR_Forms", "HR_forms")</li>
@@ -388,14 +396,14 @@
                                     {
 
                                         @*<div class="dropdown dd3" id="dd3">
-                                            <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd3()" style="background-color: #152939 !important; border-color: #152939">
-                                                Attendance
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>@Html.ActionLink("Attendance", "empattindex", "Att_adj")</li>
-                                            </ul>
-                                        </div>*@
+                                <button class="btn btn-primary dropdown-toggle" type="button" onclick="dd3()" style="background-color: #152939 !important; border-color: #152939">
+                                    Attendance
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Attendance", "empattindex", "Att_adj")</li>
+                                </ul>
+                            </div>*@
                                         <li>@Html.ActionLink("Attendance", "empattindex", "Att_adj")</li>
                                     }
                                     //<li>@Html.ActionLink("certificate request", "subcertificatereq", "detailsinarabics")</li>
