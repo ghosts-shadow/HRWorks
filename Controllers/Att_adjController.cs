@@ -11,6 +11,7 @@ using Microsoft.Ajax.Utilities;
 using MimeKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace HRworks.Controllers
 {
@@ -543,6 +544,29 @@ namespace HRworks.Controllers
             finalattadj.AddRange(attadjnonHRapp);
 
             return View(finalattadj);
+        }
+        [Authorize(Roles = "super_admin")]
+        public ActionResult HRapall()
+        {
+            var att_adj = db.Att_adj.Include(a => a.master_file).Where(x=>x.status.Contains("pending HR Approval")).ToList();
+
+            foreach (var attadj in att_adj)
+            {
+
+                var empuser = db.usernames
+                    .FirstOrDefault(x => x.employee_no != null && x.AspNetUser.UserName == User.Identity.Name);
+                if (attadj.status == "pending HR Approval")
+                {
+                    attadj.HR_ap = User.Identity.Name;
+                    attadj.status = "approved";
+                    SendMail("", "Approved", attadj.Id);
+                }
+                attadj.date_modified = DateTime.Now;
+                db.Entry(attadj).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("HRviewAttadj");
         }
 
         public void SendMail(string msg, string action, int elsid)
