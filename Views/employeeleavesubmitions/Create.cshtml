@@ -219,7 +219,7 @@
                         if (fromdate != null && enddate != null) {
                             fromdate.setDate(fromdate.getDate() + 2);
                             if (enddate > fromdate) {
-                                alert("compassionate leave can not exceed more then 5 days for Mother/Father/Children ");
+                                alert("compassionate leave can not exceed more then 3 days for Mother/Father/Children ");
                                 $("#datepicker3").datepicker('setDate', fromdate);
                                 $("#datepicker2").datepicker("option", "minDate", null);
                                 if (fromdate.getDay() == 6) {

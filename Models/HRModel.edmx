@@ -1282,6 +1282,17 @@
           <Property Name="changed_by" Type="nvarchar(max)" />
           <Property Name="date_changed" Type="datetime" />
         </EntityType>
+        <EntityType Name="WorkFHome">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="emp_ID" Type="int" Nullable="false" />
+          <Property Name="date_off" Type="datetime" Nullable="false" />
+          <Property Name="date_added" Type="datetime" Nullable="false" />
+          <Property Name="date_modified" Type="datetime" />
+          <Property Name="by_whom" Type="nchar" MaxLength="10" />
+        </EntityType>
         <Association Name="FK_abs_exception_To_master_file">
           <End Role="master_file" Type="Self.master_file" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2278,6 +2289,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WFH_To_master_file">
+          <End Role="master_file" Type="Self.master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="WorkFHome" Type="Self.WorkFHome" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="WorkFHome">
+              <PropertyRef Name="emp_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="HRModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="absencelist" EntityType="Self.absencelist" Schema="dbo" store:Type="Tables" />
@@ -2359,6 +2384,7 @@
           <EntitySet Name="usernames" EntityType="Self.usernames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa" EntityType="Self.visa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="visa_and_labour_card" EntityType="Self.visa_and_labour_card" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkFHome" EntityType="Self.WorkFHome" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_abs_exception_To_master_file" Association="Self.FK_abs_exception_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="absexception" EntitySet="absexception" />
@@ -2666,6 +2692,10 @@
           <AssociationSet Name="FK_visa_To_master_file" Association="Self.FK_visa_To_master_file">
             <End Role="master_file" EntitySet="master_file" />
             <End Role="visa" EntitySet="visa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WFH_To_master_file" Association="Self.FK_WFH_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="WorkFHome" EntitySet="WorkFHome" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -3656,6 +3686,7 @@
           <NavigationProperty Name="visas" Relationship="Self.FK_visa_To_master_file" FromRole="master_file" ToRole="visa" />
           <NavigationProperty Name="empdayoffs" Relationship="HRModel.FK_empoff_To_master_file" FromRole="master_file" ToRole="empdayoff" />
           <Property Name="transfer_emp_no" Type="Int32" />
+          <NavigationProperty Name="WorkFHomes" Relationship="HRModel.FK_WFH_To_master_file" FromRole="master_file" ToRole="WorkFHome" />
         </EntityType>
         <EntityType Name="OSRF_items">
           <Key>
@@ -5393,6 +5424,11 @@
             <End Role="master_file" EntitySet="master_file" />
             <End Role="empdayoff" EntitySet="empdayoffs" />
           </AssociationSet>
+          <EntitySet Name="WorkFHomes" EntityType="HRModel.WorkFHome" />
+          <AssociationSet Name="FK_WFH_To_master_file" Association="HRModel.FK_WFH_To_master_file">
+            <End Role="master_file" EntitySet="master_file" />
+            <End Role="WorkFHome" EntitySet="WorkFHomes" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="empdayoff">
           <Key>
@@ -5416,6 +5452,32 @@
               <PropertyRef Name="employee_id" />
             </Principal>
             <Dependent Role="empdayoff">
+              <PropertyRef Name="emp_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="WorkFHome">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="emp_ID" Type="Int32" Nullable="false" />
+          <Property Name="date_off" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="date_added" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="date_modified" Type="DateTime" Precision="3" />
+          <Property Name="by_whom" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="master_file" Relationship="HRModel.FK_WFH_To_master_file" FromRole="WorkFHome" ToRole="master_file" />
+        </EntityType>
+        <Association Name="FK_WFH_To_master_file">
+          <End Type="HRModel.master_file" Role="master_file" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HRModel.WorkFHome" Role="WorkFHome" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="master_file">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="WorkFHome">
               <PropertyRef Name="emp_ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -6770,6 +6832,18 @@
           <EntitySetMapping Name="empdayoffs">
             <EntityTypeMapping TypeName="HRModel.empdayoff">
               <MappingFragment StoreEntitySet="empdayoff">
+                <ScalarProperty Name="by_whom" ColumnName="by_whom" />
+                <ScalarProperty Name="date_modified" ColumnName="date_modified" />
+                <ScalarProperty Name="date_added" ColumnName="date_added" />
+                <ScalarProperty Name="date_off" ColumnName="date_off" />
+                <ScalarProperty Name="emp_ID" ColumnName="emp_ID" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkFHomes">
+            <EntityTypeMapping TypeName="HRModel.WorkFHome">
+              <MappingFragment StoreEntitySet="WorkFHome">
                 <ScalarProperty Name="by_whom" ColumnName="by_whom" />
                 <ScalarProperty Name="date_modified" ColumnName="date_modified" />
                 <ScalarProperty Name="date_added" ColumnName="date_added" />

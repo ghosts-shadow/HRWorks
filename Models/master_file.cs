@@ -12,7 +12,7 @@ namespace HRworks.Models
     using System.ComponentModel.DataAnnotations;
     using System;
     using System.Collections.Generic;
-
+    
     public partial class master_file
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -71,8 +71,9 @@ namespace HRworks.Models
             this.usernames = new HashSet<username>();
             this.visas = new HashSet<visa>();
             this.empdayoffs = new HashSet<empdayoff>();
+            this.WorkFHomes = new HashSet<WorkFHome>();
         }
-
+    
         public int employee_id { get; set; }
 
         [Display(Name = "Employee NO")]
@@ -114,7 +115,7 @@ namespace HRworks.Models
 
         public string emiid { get; set; }
         public Nullable<int> transfer_emp_no { get; set; }
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<absexception> absexceptions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -221,5 +222,7 @@ namespace HRworks.Models
         public virtual ICollection<visa> visas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<empdayoff> empdayoffs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkFHome> WorkFHomes { get; set; }
     }
 }

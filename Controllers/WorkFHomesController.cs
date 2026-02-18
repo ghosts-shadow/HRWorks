@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -11,166 +9,137 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using HRworks.Models;
-using Microsoft.Office.Interop.Excel;
 using OfficeOpenXml;
-using DataTable = System.Data.DataTable;
 
 namespace HRworks.Controllers
 {
     [Authorize]
-    public class empdayoffsController : Controller
+    public class WorkFHomesController : Controller
     {
         private HREntities db = new HREntities();
 
-        // GET: empdayoffs
+        // GET: WorkFHomes
         public ActionResult Index()
         {
-            var empdayoffs = db.empdayoffs.Include(e => e.master_file);
-            return View(empdayoffs.ToList());
+            var workFHomes = db.WorkFHomes.Include(w => w.master_file);
+            return View(workFHomes.ToList());
         }
 
-        // GET: empdayoffs/Details/5
+        // GET: WorkFHomes/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            empdayoff empdayoff = db.empdayoffs.Find(id);
-            if (empdayoff == null)
+            WorkFHome workFHome = db.WorkFHomes.Find(id);
+            if (workFHome == null)
             {
                 return HttpNotFound();
             }
-            return View(empdayoff);
+            return View(workFHome);
         }
 
-        // GET: empdayoffs/Create
+        // GET: WorkFHomes/Create
         public ActionResult Create()
         {
-            ViewBag.emp_ID = new SelectList(db.master_file, "employee_id", "emiid");
+            ViewBag.emp_ID = new SelectList(db.master_file, "employee_id", "employee_name");
             return View();
         }
 
-        // POST: empdayoffs/Create
+        // POST: WorkFHomes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,emp_ID,date_off,date_added,date_modified,by_whom")] empdayoff empdayoff)
+        public ActionResult Create([Bind(Include = "Id,emp_ID,date_off,date_added,date_modified,by_whom")] WorkFHome workFHome)
         {
             if (ModelState.IsValid)
             {
-                empdayoff.date_added = DateTime.Now;
-                empdayoff.by_whom = User.Identity.Name;
-                empdayoff.date_modified = DateTime.Now;
-                db.empdayoffs.Add(empdayoff);
+                workFHome.date_added = DateTime.Now;
+                workFHome.by_whom = User.Identity.Name;
+                workFHome.date_modified = DateTime.Now;
+                db.WorkFHomes.Add(workFHome);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.emp_ID = new SelectList(db.master_file, "employee_id", "emiid", empdayoff.emp_ID);
-            return View(empdayoff);
+            ViewBag.emp_ID = new SelectList(db.master_file, "employee_id", "employee_name", workFHome.emp_ID);
+            return View(workFHome);
         }
 
-        // GET: empdayoffs/Edit/5
+        // GET: WorkFHomes/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            empdayoff empdayoff = db.empdayoffs.Find(id);
-            if (empdayoff == null)
+            WorkFHome workFHome = db.WorkFHomes.Find(id);
+            if (workFHome == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.emp_ID = new SelectList(db.master_file, "employee_id", "emiid", empdayoff.emp_ID);
-            return View(empdayoff);
+            ViewBag.emp_ID = new SelectList(db.master_file, "employee_id", "employee_name", workFHome.emp_ID);
+            return View(workFHome);
         }
 
-        // POST: empdayoffs/Edit/5
+        // POST: WorkFHomes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,emp_ID,date_off")] empdayoff model)
+        public ActionResult Edit([Bind(Include = "Id,emp_ID,date_off,date_added,date_modified,by_whom")] WorkFHome workFHome)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                ViewBag.emp_ID = new SelectList(db.master_file, "employee_id", "emiid", model.emp_ID);
-                return View(model);
-            }
-
-            var entity = db.empdayoffs.Find(model.Id);
-            if (entity == null) return HttpNotFound();
-
-            entity.emp_ID = model.emp_ID;
-            entity.date_off = model.date_off;
-            entity.by_whom = User?.Identity?.Name ?? "";
-            entity.date_modified = DateTime.Now;
-
-            try
-            {
+                workFHome.by_whom = User.Identity.Name;
+                workFHome.date_modified = DateTime.Now;
+                db.Entry(workFHome).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (DbEntityValidationException ex)
-            {
-                var errors = ex.EntityValidationErrors
-                    .SelectMany(e => e.ValidationErrors)
-                    .Select(e => $"{e.PropertyName}: {e.ErrorMessage}")
-                    .ToList();
-
-                // Visual Studio Output window
-                Debug.WriteLine(string.Join(" | ", errors));
-
-                // Show on the page too
-                foreach (var err in errors)
-                    ModelState.AddModelError("", err);
-
-                ViewBag.emp_ID = new SelectList(db.master_file, "employee_id", "emiid", model.emp_ID);
-                return View(model);
-            }
+            ViewBag.emp_ID = new SelectList(db.master_file, "employee_id", "employee_name", workFHome.emp_ID);
+            return View(workFHome);
         }
 
-        // GET: empdayoffs/Delete/5
-
         [Authorize(Roles = "super_admin")]
+        // GET: WorkFHomes/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            empdayoff empdayoff = db.empdayoffs.Find(id);
-            if (empdayoff == null)
+            WorkFHome workFHome = db.WorkFHomes.Find(id);
+            if (workFHome == null)
             {
                 return HttpNotFound();
             }
-            return View(empdayoff);
+            return View(workFHome);
         }
 
-        // POST: empdayoffs/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: WorkFHomes/Delete/5
         [Authorize(Roles = "super_admin")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            empdayoff empdayoff = db.empdayoffs.Find(id);
-            db.empdayoffs.Remove(empdayoff);
+            WorkFHome workFHome = db.WorkFHomes.Find(id);
+            db.WorkFHomes.Remove(workFHome);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
 
-        public ActionResult Importempdayoff()
+        public ActionResult ImportWFH()
         {
             return this.View();
         }
 
-        [ActionName("Importempdayoff")]
+        [ActionName("ImportWFH")]
         [HttpPost]
-        public ActionResult importempdayoff()
+        public ActionResult importWFH()
         {
             if (this.Request.Files["FileUpload1"].ContentLength > 0)
             {
@@ -227,13 +196,13 @@ namespace HRworks.Controllers
 
                         foreach (DataRow dr in dt.Rows)
                         {
-                            var pro = new empdayoff();
+                            var pro = new WorkFHome();
 
                             foreach (DataColumn column in dt.Columns)
                             {
                                 if (dr[column] == null || dr[column].ToString() == " ") goto e;
 
-                                if (column.ColumnName == "Date off")
+                                if (column.ColumnName == "WFH")
                                 {
                                     var dtt = dr[column].ToString();
                                     DateTime.TryParse(dtt, out var a);
@@ -248,14 +217,13 @@ namespace HRworks.Controllers
                                     pro.emp_ID = epid.employee_id;
                                 }
                             }
-
                             pro.date_added = DateTime.Now;
                             pro.by_whom = User.Identity.Name;
                             pro.date_modified = DateTime.Now;
-                            this.db.empdayoffs.Add(pro);
+                            this.db.WorkFHomes.Add(pro);
                             this.db.SaveChanges();
 
-                            e: ;
+                        e:;
                         }
                     }
                 }
@@ -273,9 +241,9 @@ namespace HRworks.Controllers
         }
 
         [HttpGet]
-        public FileResult DownloadEmpDayOffTemplateCsv()
+        public FileResult DownloadEmpWFHTemplateCsv()
         {
-            var headers = new[] { "employee no", "Date off" };
+            var headers = new[] { "employee no", "WFH" };
 
             var sb = new StringBuilder();
             sb.AppendLine(string.Join(",", headers));
@@ -287,10 +255,10 @@ namespace HRworks.Controllers
                 .Concat(Encoding.UTF8.GetBytes(sb.ToString()))
                 .ToArray();
 
-            return File(data, "text/csv", "empdayoff_template.csv");
+            return File(data, "text/csv", "empWFH_template.csv");
         }
         [HttpGet]
-        public FileResult DownloadEmpDayOffTemplateXlsx()
+        public FileResult DownloadEmpWFHTemplateXlsx()
         {
             // If using EPPlus v5+ you may need:
             // ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -299,7 +267,7 @@ namespace HRworks.Controllers
             {
                 var ws = package.Workbook.Worksheets.Add("Template");
 
-                string[] headers = { "employee no", "Date off" };
+                string[] headers = { "employee no", "WFH" };
 
                 // Header row
                 for (int i = 0; i < headers.Length; i++)
@@ -318,10 +286,11 @@ namespace HRworks.Controllers
                 return File(
                     bytes,
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    "empdayoff_template.xlsx"
+                    "empWFH_template.xlsx"
                 );
             }
         }
+
 
         protected override void Dispose(bool disposing)
         {

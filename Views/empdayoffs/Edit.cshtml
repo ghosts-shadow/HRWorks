@@ -15,13 +15,13 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
-
+    
     <div class="form-group">
-        @Html.LabelFor(model => model.emp_ID, "emp_ID", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.emp_ID, "emp_ID", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-            @Html.ValidationMessageFor(model => model.emp_ID, "", new { @class = "text-danger" })
-        </div>
+	    @Html.LabelFor(model => model.master_file.employee_no, "emp_ID", htmlAttributes: new { @class = "control-label col-md-2" })
+	    <div class="col-md-10">
+		    @Html.EditorFor(model => model.master_file.employee_no, new { htmlAttributes = new { @class = "form-control" , @readonly = "readonly"} })
+		    @Html.ValidationMessageFor(model => model.emp_ID, "", new { @class = "text-danger" })
+	    </div>
     </div>
 
     <div class="form-group">
@@ -32,6 +32,7 @@
         </div>
     </div>
     @Html.HiddenFor(model => model.date_added)
+    @Html.HiddenFor(model => model.emp_ID)
     @Html.HiddenFor(model => model.by_whom)
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

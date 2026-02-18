@@ -598,6 +598,7 @@
     <Compile Include="Controllers\usernamesController.cs" />
     <Compile Include="Controllers\visasController.cs" />
     <Compile Include="Controllers\visa_and_labour_cardController.cs" />
+    <Compile Include="Controllers\WorkFHomesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1569,6 +1570,9 @@
     <Compile Include="Models\weekendlist.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\WorkFHome.cs">
+      <DependentUpon>HRModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\workflow_nodeinstance.cs">
       <DependentUpon>biotime.tt</DependentUpon>
     </Compile>
@@ -2385,6 +2389,12 @@
     <Content Include="Views\empdayoffs\Edit.cshtml" />
     <Content Include="Views\empdayoffs\Index.cshtml" />
     <Content Include="Views\empdayoffs\Importempdayoff.cshtml" />
+    <Content Include="Views\WorkFHomes\Create.cshtml" />
+    <Content Include="Views\WorkFHomes\Delete.cshtml" />
+    <Content Include="Views\WorkFHomes\Details.cshtml" />
+    <Content Include="Views\WorkFHomes\Edit.cshtml" />
+    <Content Include="Views\WorkFHomes\Index.cshtml" />
+    <Content Include="Views\WorkFHomes\ImportWFH.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

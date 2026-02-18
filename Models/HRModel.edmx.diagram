@@ -160,6 +160,8 @@
         <AssociationConnector Association="HRModel.AspNetUserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="HRModel.empdayoff" Width="1.5" PointX="3" PointY="36" />
         <AssociationConnector Association="HRModel.FK_empoff_To_master_file" />
+        <EntityTypeShape EntityType="HRModel.WorkFHome" Width="1.5" PointX="3" PointY="32.25" />
+        <AssociationConnector Association="HRModel.FK_WFH_To_master_file" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
