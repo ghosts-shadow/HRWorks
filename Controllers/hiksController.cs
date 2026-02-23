@@ -647,7 +647,7 @@ namespace HRworks.Controllers
             ViewBag.eddate2 = todate;
 
             var allHiks = db.hiks
-                .Where(h => h.date >= getdate && h.date <= todate)
+                .Where(h => h.date >= getdate && h.date <= todate && h.Device== "main")
                 .OrderBy(h => h.datetime)
                 .ToList();
             var mancon = new master_fileController();

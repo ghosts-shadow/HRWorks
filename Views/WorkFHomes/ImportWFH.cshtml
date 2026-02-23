@@ -85,10 +85,10 @@
 
     <a class="btn btn-default" href="@Url.Action("DownloadEmpWFHTemplateCsv", "WorkFHomes")">
         Download Template (CSV)
-    </a>
+    </a>@*
     <a class="btn btn-default" href="@Url.Action("DownloadEmpWFHTemplateXlsx", "WorkFHomes")">
         Download Template (Excel)
-    </a>
+    </a>*@
 </div>
 
 @using (Html.BeginForm("ImportWFH", "WorkFHomes", FormMethod.Post, new { enctype = "multipart/form-data" }))

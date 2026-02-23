@@ -1771,8 +1771,11 @@ namespace HRworks.Controllers
             }
 
             // ----- DATA PULLS (limit to date window) -----
-            var HObioatt = db1.hiks
-                .Where(x => x.date >= startDate && x.date < endExclusive)
+            
+            var tempstart = new DateTime(startDate.Year, startDate.Month, 1).AddMonths(-1);
+            var tempend = new DateTime(endExclusive.Year, endExclusive.Month, 1).AddMonths(1);
+            var HObioattmonth = db1.hiks.Where(x=>x.Device == "main").ToList()
+                .FindAll(x => x.date >= tempstart && x.date < tempend)
                 .ToList();
 
             var leaveList = db1.Leaves
@@ -1783,11 +1786,14 @@ namespace HRworks.Controllers
                 .Where(x => x.Date >= startDate && x.Date < endExclusive)
                 .ToList();
 
-            var proatt = db2.iclock_transaction
-                .Where(x => x.punch_time >= startDate && x.punch_time < endExclusive)
+            var proattmonth = db2.iclock_transaction.ToList()
+                .FindAll(x => x.punch_time >= tempstart && x.punch_time < tempend)
                 .ToList();
             var empdayoff = db1.empdayoffs
                 .Where(x => x.date_off >= startDate && x.date_off < endExclusive )
+                .ToList();
+            var empWFH = db1.WorkFHomes
+                .Where(x => x.date_off >= startDate && x.date_off < endExclusive)
                 .ToList();
             var att_adjlist = db1.Att_adj.Where(x => x.which_date >= startDate && x.which_date < endExclusive).ToList();
 
@@ -1795,11 +1801,11 @@ namespace HRworks.Controllers
             // Normalize keys: use employee_no string for both sources; dates as Date (no time)
             Func<DateTime, DateTime> asDate = d => d.Date;
 
-            var hoByEmpDate = HObioatt
+            var hoByEmpDate = HObioattmonth
                 .GroupBy(x => new { Emp = x.ID, Day = asDate(x.date.Value) })
                 .ToDictionary(g => g.Key, g => true);
 
-            var projByEmpDate = proatt
+            var projByEmpDate = proattmonth
                 .GroupBy(x => new { Emp = x.emp_code, Day = asDate(x.punch_time) })
                 .ToDictionary(g => g.Key, g => true);
 
@@ -1909,6 +1915,10 @@ namespace HRworks.Controllers
                 if (file.emiid.ToUpper().Contains("G-"))
                 {
                     empKey = "7770" + file.emiid.Substring(2);
+                    if (file.employee_no.ToString() != empKey)
+                    {
+                        empKey = file.employee_no.ToString();
+                    }
                 }
                 
                 var cursor = startDate;
@@ -1941,7 +1951,7 @@ namespace HRworks.Controllers
                             x.emp_ID == file.employee_id &&
                             x.which_date.Date == cursor);
 
-                        if (!hasHO && !hasProj && !onLeave && !attAdjExists && (file.last_working_day >= cursor || !file.last_working_day.HasValue) && (file.date_joined < cursor) && !empdayoff.Exists(x=>x.emp_ID == file.employee_id))
+                        if (!hasHO && !hasProj && !onLeave && !attAdjExists && (file.last_working_day >= cursor || !file.last_working_day.HasValue) && (file.date_joined < cursor) && !empdayoff.Exists(x=>x.emp_ID == file.employee_id && x.date_off == cursor) && !empWFH.Exists(x=>x.emp_ID == file.employee_id && x.date_off == cursor))
                         {
                             // Mark absent
                             var absvar = new hik
