@@ -2012,6 +2012,118 @@ namespace HRworks.Controllers
             return View(att.OrderByDescending(x=>x.punch_time).ToList());
         }
 
+
+        public ActionResult atcomb(DateTime? getdate, DateTime? todate, string empno)
+        {
+            if (getdate == null)
+            {
+                getdate = DateTime.Now.Date;
+            }
+
+            if (todate == null)
+            {
+                todate = getdate.Value.AddDays(1);
+            }
+            var atcombed = new List<hik>();
+            var allHiks = db1.hiks
+                .Where(h => h.date >= getdate && h.date <= todate && h.Device == "main")
+                .OrderBy(h => h.datetime)
+                .ToList();
+
+            var hiksFirstLastPerDayPerEmp = allHiks
+                .GroupBy(h => new
+                {
+                    Date = h.date.Value.Date,   
+                    EmpNo = h.ID         
+                })
+                .Select(g => new
+                {
+                    Date = g.Key.Date,
+                    EmpNo = g.Key.EmpNo,
+                    FirstEntry = g.First(),
+                    LastEntry = g.Last()
+                })
+                .OrderBy(x => x.Date)
+                .ThenBy(x => x.EmpNo)
+                .ToList();
+
+
+            var allprojectatt = db2.iclock_transaction
+                .Where(t => t.punch_time >= getdate && t.punch_time <= todate)
+                .OrderBy(t => t.punch_time)
+                .ToList();
+
+            var projectAttFirstLastPerDayPerEmp = allprojectatt
+                .GroupBy(t => new
+                {
+                    Date = t.punch_time.Date,
+                    EmpNo = t.emp_code
+                })
+                .Select(g => new
+                {
+                    Date = g.Key.Date,
+                    EmpNo = g.Key.EmpNo,
+                    FirstEntry = g.First(),
+                    LastEntry = g.Last()
+                })
+                .OrderBy(x => x.Date)
+                .ThenBy(x => x.EmpNo)
+                .ToList();
+
+            var mancon = new master_fileController();
+            var afinallist = mancon.emplist();
+            var finallist = new List<hik>();
+            foreach (var hik in hiksFirstLastPerDayPerEmp)
+            {
+                var tempid = afinallist.Find(x => x.employee_no.ToString() == hik.EmpNo);
+                var finvar = new hik
+                {
+                    ID = tempid?.emiid,
+                    Person = tempid?.employee_name,
+                    date = hik.FirstEntry.date,
+                    datetime= hik.FirstEntry.datetime,
+                    time = hik.FirstEntry.datetime.Value.TimeOfDay,
+                };
+                finallist.Add(finvar);
+                finvar = new hik
+                {
+                    ID = tempid?.emiid,
+                    Person = tempid?.employee_name,
+                    date = hik.FirstEntry.date,
+                    datetime = hik.LastEntry.datetime,
+                    time = hik.LastEntry.datetime.Value.TimeOfDay,
+                };
+                finallist.Add(finvar);
+            }
+
+            foreach (var pro in projectAttFirstLastPerDayPerEmp)
+            {
+                //pro.EmpNo = mancon; //NormalizeEmpNo(pro.EmpNo);
+                var tempid = afinallist.Find(x => x.employee_no.ToString() == pro.EmpNo);
+                var finvar = new hik
+                {
+                    ID = tempid?.emiid,
+                    Person = tempid?.employee_name,
+                    date = pro.Date,
+                    datetime= pro.FirstEntry.punch_time,
+                    time = pro.FirstEntry.punch_time.TimeOfDay,
+                };
+                finallist.Add(finvar);
+                finvar = new hik
+                {
+                    ID = tempid?.emiid,
+                    Person = tempid?.employee_name,
+                    date = pro.Date,
+                    datetime= pro.LastEntry.punch_time,
+                    time = pro.LastEntry.punch_time.TimeOfDay,
+                };
+                finallist.Add(finvar);
+            }
+
+            return View(finallist);
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

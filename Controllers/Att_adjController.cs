@@ -726,7 +726,7 @@ namespace HRworks.Controllers
                 {
                     client.CheckCertificateRevocation = false;
                     client.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);
-                    client.Authenticate("leave@citiscapegroup.com", "Tak98020");
+                    client.Authenticate("leave@citiscapegroup.com", "im3.8$5C5FPh_#N");
                     client.Send(message);
                     client.Disconnect(true);
                 }
@@ -772,7 +772,7 @@ namespace HRworks.Controllers
                     {
                         client.CheckCertificateRevocation = false;
                         client.Connect("smtp.office365.com", 587, SecureSocketOptions.StartTls);
-                        client.Authenticate("leave@citiscapegroup.com", "Tak98020");
+                        client.Authenticate("leave@citiscapegroup.com", "im3.8$5C5FPh_#N");
                         client.Send(message);
                         client.Disconnect(true);
                     }

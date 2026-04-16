@@ -2667,7 +2667,7 @@ namespace HRworks.Controllers
                                                      perviousyearleave.leave_balance;
 
 
-                            if (DateTime.Now >= new DateTime(i + 1, 3, 31))
+                            if (DateTime.Now >= new DateTime(i + 1, 4, 1))
                             {
                                 if (savelbpy.leave_balance <= 0)
                                 {
@@ -2690,7 +2690,7 @@ namespace HRworks.Controllers
 
                             savelbpy.leave_balance = accleave -
                                                      (savelbpy.annual_leave_taken + savelbpy.Annual_Leave_Applied);
-                            if (DateTime.Now >= new DateTime(i + 1, 3, 31))
+                            if (DateTime.Now >= new DateTime(i + 1, 4, 1))
                             {
                                 if (savelbpy.leave_balance <= 0)
                                 {

@@ -153,7 +153,7 @@ namespace HRworks.Controllers
         {
             var mancon = new master_fileController();
             var afinallist = mancon.emplist();
-            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "emiid");
             ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View();
         }
@@ -175,7 +175,7 @@ namespace HRworks.Controllers
             var mancon = new master_fileController();
             var afinallist = mancon.emplist();
 
-            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no",bank_details.employee_no);
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "emiid", bank_details.employee_no);
             ViewBag.employee_no1 = new SelectList(afinallist.OrderBy(e => e.employee_name), "employee_id", "employee_name");
             return View(bank_details);
         }
@@ -196,7 +196,7 @@ namespace HRworks.Controllers
             var mancon = new master_fileController();
             var afinallist = mancon.emplist();
 
-            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "emiid");
             return View(bank_details);
         }
 
@@ -217,7 +217,7 @@ namespace HRworks.Controllers
             var mancon = new master_fileController();
             var afinallist = mancon.emplist();
 
-            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "employee_no");
+            this.ViewBag.employee_no = new SelectList(afinallist, "employee_id", "emiid");
             return View(bank_details);
         }
 

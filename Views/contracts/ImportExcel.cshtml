@@ -146,19 +146,18 @@
                 {
                     int count = (ViewBag.Data as System.Data.DataTable).Columns.Count;
                     <tr>
-
                         <td colspan='@count' style="color:red;">
 
                             No Data Found.
                         </td>
-
-
-
                     </tr>
 
 
 
                 }
+		        <tr>
+			        <td>@ViewBag.ImportSummary.ToString()</td>
+		        </tr>
 
             }
             else

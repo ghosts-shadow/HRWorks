@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -172,104 +173,191 @@ namespace HRworks.Controllers
         [HttpPost]
         public ActionResult importempdayoff()
         {
-            if (this.Request.Files["FileUpload1"].ContentLength > 0)
+            var file = this.Request.Files["FileUpload1"];
+
+            if (file == null || file.ContentLength <= 0)
             {
-                var extension = Path.GetExtension(this.Request.Files["FileUpload1"].FileName).ToLower();
-                var connString = string.Empty;
+                this.ViewBag.Error = "Please Upload Files in .csv / .xls / .xlsx format";
+                return this.View();
+            }
 
-                // ✅ allow Excel now
-                string[] validFileTypes = { ".csv", ".xls", ".xlsx" };
+            var extension = (Path.GetExtension(file.FileName) ?? string.Empty).ToLower();
+            string[] validFileTypes = { ".csv", ".xls", ".xlsx" };
 
-                // ✅ correct upload folder creation
-                var uploadDir = this.Server.MapPath("~/Content/Uploads");
-                if (!Directory.Exists(uploadDir))
-                    Directory.CreateDirectory(uploadDir);
+            if (!validFileTypes.Contains(extension))
+            {
+                this.ViewBag.Error = "Please Upload Files in .csv / .xls / .xlsx format";
+                return this.View();
+            }
 
-                var path1 = Path.Combine(uploadDir, this.Request.Files["FileUpload1"].FileName);
+            var uploadDir = this.Server.MapPath("~/Content/Uploads");
+            if (!Directory.Exists(uploadDir))
+                Directory.CreateDirectory(uploadDir);
 
-                if (validFileTypes.Contains(extension))
+            // Strip any directory segments from the client filename to prevent path traversal
+            var safeName = Path.GetFileName(file.FileName);
+            var path1 = Path.Combine(uploadDir, safeName);
+
+            try
+            {
+                if (System.IO.File.Exists(path1))
+                    System.IO.File.Delete(path1);
+
+                file.SaveAs(path1);
+
+                DataTable dt;
+                if (extension == ".csv")
                 {
-                    if (System.IO.File.Exists(path1))
-                        System.IO.File.Delete(path1);
-
-                    this.Request.Files["FileUpload1"].SaveAs(path1);
-
-                    DataTable dt = null;
-
-                    if (extension == ".csv")
-                    {
-                        dt = Utility.ConvertCSVtoDataTable(path1);
-                    }
-                    else if (extension == ".xls" || extension == ".xlsx")
-                    {
-                        if (extension == ".xls")
-                        {
-                            connString =
-                                "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path1 +
-                                ";Extended Properties=\"Excel 8.0;HDR=YES;IMEX=1\";";
-                        }
-                        else
-                        {
-                            connString =
-                                "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path1 +
-                                ";Extended Properties=\"Excel 12.0 Xml;HDR=YES;IMEX=1\";";
-                        }
-
-                        dt = Utility.ConvertXSLXtoDataTable(path1, connString);
-                    }
-
-                    this.ViewBag.Data = dt;
-
-                    if (dt != null && dt.Rows.Count > 0)
-                    {
-                        var mancon = new master_fileController();
-                        var afinallist = mancon.emplist();
-
-                        foreach (DataRow dr in dt.Rows)
-                        {
-                            var pro = new empdayoff();
-
-                            foreach (DataColumn column in dt.Columns)
-                            {
-                                if (dr[column] == null || dr[column].ToString() == " ") goto e;
-
-                                if (column.ColumnName == "Date off")
-                                {
-                                    var dtt = dr[column].ToString();
-                                    DateTime.TryParse(dtt, out var a);
-                                    pro.date_off = a;
-                                }
-
-                                if (column.ColumnName == "employee no")
-                                {
-                                    var dtt = dr[column].ToString();
-                                    var epid = afinallist.Find(x => x.emiid == dtt);
-                                    if (epid == null) goto e;
-                                    pro.emp_ID = epid.employee_id;
-                                }
-                            }
-
-                            pro.date_added = DateTime.Now;
-                            pro.by_whom = User.Identity.Name;
-                            pro.date_modified = DateTime.Now;
-                            this.db.empdayoffs.Add(pro);
-                            this.db.SaveChanges();
-
-                            e: ;
-                        }
-                    }
+                    dt = Utility.ConvertCSVtoDataTable(path1);
                 }
                 else
                 {
-                    this.ViewBag.Error = "Please Upload Files in .csv / .xls / .xlsx format";
+                    var connString = extension == ".xls"
+                        ? "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path1 +
+                          ";Extended Properties=\"Excel 8.0;HDR=YES;IMEX=1\";"
+                        : "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + path1 +
+                          ";Extended Properties=\"Excel 12.0 Xml;HDR=YES;IMEX=1\";";
+
+                    dt = Utility.ConvertXSLXtoDataTable(path1, connString);
                 }
+
+                this.ViewBag.Data = dt;
+
+                if (dt == null || dt.Rows.Count == 0)
+                    return this.View();
+
+                // Build an O(1) lookup once, instead of List.Find per row
+                var mancon = new master_fileController();
+                var empLookup = mancon.emplist()
+                    .Where(x => !string.IsNullOrWhiteSpace(x.emiid))
+                    .GroupBy(x => x.emiid.Trim())
+                    .ToDictionary(g => g.Key, g => g.First().employee_id,
+                                  StringComparer.OrdinalIgnoreCase);
+
+                // Resolve columns once, outside the row loop
+                var dateCol = dt.Columns.Contains("Date off") ? dt.Columns["Date off"] : null;
+                var empCol = dt.Columns.Contains("employee no") ? dt.Columns["employee no"] : null;
+
+                if (dateCol == null || empCol == null)
+                {
+                    this.ViewBag.Error = "Required columns 'Date off' and 'employee no' not found.";
+                    return this.View();
+                }
+
+                var now = DateTime.Now;
+                var user = User.Identity.Name;
+                var toInsert = new List<empdayoff>();
+                var skipped = 0;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    var rawDate = dr[dateCol] == null ? null : dr[dateCol].ToString().Trim();
+                    var rawEmp = dr[empCol] == null ? null : dr[empCol].ToString().Trim();
+
+                    if (string.IsNullOrWhiteSpace(rawDate) || string.IsNullOrWhiteSpace(rawEmp))
+                    {
+                        skipped++;
+                        continue;
+                    }
+
+                    DateTime parsedDate;
+                    if (!TryParseAnyDate(rawDate, out parsedDate))
+                    {
+                        skipped++;
+                        continue;
+                    }
+
+                    int empId;
+                    if (!empLookup.TryGetValue(rawEmp, out empId))
+                    {
+                        skipped++;
+                        continue;
+                    }
+
+                    toInsert.Add(new empdayoff
+                    {
+                        date_off = parsedDate,
+                        emp_ID = empId,
+                        date_added = now,
+                        by_whom = user,
+                        date_modified = now
+                    });
+                }
+
+                if (toInsert.Count > 0)
+                {
+                    this.db.empdayoffs.AddRange(toInsert);
+                    this.db.SaveChanges(); // single round-trip instead of one per row
+                }
+
+                this.ViewBag.Message = "Imported: " + toInsert.Count + ", Skipped: " + skipped;
             }
-            else
+            catch (Exception ex)
             {
-                this.ViewBag.Error = "Please Upload Files in .csv / .xls / .xlsx format";
+                // Swap for your logger (NLog / Serilog / log4net) if you have one
+                System.Diagnostics.Trace.TraceError("Importempdayoff failed: " + ex);
+                this.ViewBag.Error = "Import failed. Please check the file and try again.";
             }
 
             return this.View();
+        }
+
+        private static bool TryParseAnyDate(string input, out DateTime result)
+        {
+            result = default(DateTime);
+            if (string.IsNullOrWhiteSpace(input)) return false;
+
+            input = input.Trim();
+
+            // Excel sometimes exports dates as numeric serials (strings like "45678")
+            double oa;
+            if (double.TryParse(input, NumberStyles.Any, CultureInfo.InvariantCulture, out oa)
+                && oa > 0 && oa < 200000) // sanity window: ~1900-01-01 to ~2447
+            {
+                try
+                {
+                    var d = DateTime.FromOADate(oa);
+                    if (d.Year >= 1900 && d.Year <= 2999)
+                    {
+                        result = d;
+                        return true;
+                    }
+                }
+                catch { /* fall through to string parsing */ }
+            }
+
+            string[] formats =
+            {
+        // Day-first (most of the world, incl. UAE)
+        "d/M/yyyy",  "dd/MM/yyyy",  "d/M/yy",  "dd/MM/yy",
+        "d-M-yyyy",  "dd-MM-yyyy",  "d-M-yy",  "dd-MM-yy",
+        "d.M.yyyy",  "dd.MM.yyyy",
+        // Month-first (US)
+        "M/d/yyyy",  "MM/dd/yyyy",  "M/d/yy",  "MM/dd/yy",
+        "M-d-yyyy",  "MM-dd-yyyy",
+        // ISO / year-first
+        "yyyy-MM-dd", "yyyy/MM/dd", "yyyy.MM.dd", "yyyyMMdd",
+        // Month names
+        "d MMM yyyy",  "dd MMM yyyy",  "d MMMM yyyy",  "dd MMMM yyyy",
+        "d-MMM-yyyy",  "dd-MMM-yyyy",
+        "MMM d, yyyy", "MMMM d, yyyy",
+        "MMM d yyyy",  "MMMM d yyyy",
+    };
+
+            if (DateTime.TryParseExact(input, formats, CultureInfo.InvariantCulture,
+                    DateTimeStyles.AssumeLocal | DateTimeStyles.AllowWhiteSpaces, out result))
+                return true;
+
+            // Loose fallbacks
+            if (DateTime.TryParse(input, CultureInfo.InvariantCulture,
+                    DateTimeStyles.AssumeLocal, out result))
+                return true;
+
+            if (DateTime.TryParse(input, CultureInfo.CurrentCulture,
+                    DateTimeStyles.AssumeLocal, out result))
+                return true;
+
+            return false;
         }
 
         [HttpGet]

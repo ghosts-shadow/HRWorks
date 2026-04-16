@@ -1,0 +1,73 @@
+﻿@model IEnumerable<HRworks.Models.hik>
+
+@{
+    ViewBag.Title = "atcomb";
+}
+
+<h2>atcomb</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.datetime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Device)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeviceNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Person)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.absence_approved)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.datetime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.time)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Device)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeviceNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Person)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.absence_approved)
+        </td>
+    </tr>
+}
+
+</table>

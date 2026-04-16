@@ -2395,6 +2395,7 @@
     <Content Include="Views\WorkFHomes\Edit.cshtml" />
     <Content Include="Views\WorkFHomes\Index.cshtml" />
     <Content Include="Views\WorkFHomes\ImportWFH.cshtml" />
+    <Content Include="Views\Attendances\atcomb.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

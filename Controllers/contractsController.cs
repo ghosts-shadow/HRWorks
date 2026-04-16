@@ -847,6 +847,7 @@
         }
         */
 
+        /*
         public ActionResult Importexcel()
         {
             try
@@ -1059,6 +1060,272 @@
             {
                 this.ViewBag.Error = "Import failed: " + ex.Message;
                 return this.View();
+            }
+        }*/
+
+        public ActionResult Importexcel()
+        {
+            string savedFilePath = null;
+
+            try
+            {
+                var file = this.Request.Files["FileUpload1"];
+                if (file == null || file.ContentLength <= 0)
+                {
+                    this.ViewBag.Error = "Please upload a file (.csv, .xls, or .xlsx).";
+                    return this.View();
+                }
+
+                var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+                string[] validFileTypes = { ".csv", ".xls", ".xlsx" };
+                if (!validFileTypes.Contains(extension))
+                {
+                    this.ViewBag.Error = "Please upload files in .csv, .xls, or .xlsx format.";
+                    return this.View();
+                }
+
+                // Ensure upload folder exists and build a safe unique file path
+                var uploadDir = this.Server.MapPath("~/Content/Uploads");
+                if (!Directory.Exists(uploadDir)) Directory.CreateDirectory(uploadDir);
+                var fileName = Guid.NewGuid() + extension;
+                savedFilePath = Path.Combine(uploadDir, fileName);
+
+                file.SaveAs(savedFilePath);
+
+                // Get active/unique employees via a shared service (preferred) or fallback
+                List<master_file> empList;
+                try
+                {
+                    var mancon = new master_fileController();
+                    empList = mancon.emplist(true);
+                }
+                catch (Exception empEx)
+                {
+                    System.Diagnostics.Debug.WriteLine(
+                        "emplist() helper failed, using fallback: " + empEx.Message);
+
+                    empList = this.db.master_file
+                        .OrderBy(e => e.employee_no)
+                        .ThenByDescending(x => x.date_changed)
+                        .ToList()
+                        .GroupBy(x => x.employee_no)
+                        .Select(g => g.First())
+                        .ToList();
+                }
+
+                // Map CSV emiid -> internal employee_id (single GroupBy pass)
+                var empIndex = empList
+                    .Where(m => m != null)
+                    .GroupBy(m => m.emiid)
+                    .ToDictionary(g => g.Key, g => g.First().employee_id);
+
+                // Read file into DataTable
+                var dt = new DataTable();
+                if (extension == ".csv")
+                {
+                    dt = Utility.ConvertCSVtoDataTable(savedFilePath);
+                }
+                else
+                {
+                    using (var package = new OfficeOpenXml.ExcelPackage(new FileInfo(savedFilePath)))
+                    {
+                        var ws = package.Workbook.Worksheets[0];
+                        if (ws == null || ws.Dimension == null)
+                        {
+                            this.ViewBag.Error = "The Excel file has no readable data.";
+                            return this.View();
+                        }
+
+                        for (int col = 1; col <= ws.Dimension.Columns; col++)
+                            dt.Columns.Add(ws.Cells[1, col].Text);
+
+                        for (int row = 2; row <= ws.Dimension.Rows; row++)
+                        {
+                            var newRow = dt.NewRow();
+                            for (int col = 1; col <= ws.Dimension.Columns; col++)
+                                newRow[col - 1] = ws.Cells[row, col].Value ?? string.Empty;
+                            dt.Rows.Add(newRow);
+                        }
+                    }
+                }
+
+                this.ViewBag.Data = dt;
+
+                if (dt.Rows.Count == 0)
+                {
+                    this.ViewBag.Error = "The uploaded file is empty.";
+                    return this.View();
+                }
+
+                // --- Bulk-load existing contracts (avoids N+1 queries) ---
+                var allEmployeeIds = empIndex.Values.ToHashSet();
+                var existingContracts = this.db.contracts
+                    .Where(c => allEmployeeIds.Contains(c.employee_no))
+                    .GroupBy(c => c.employee_no)
+                    .ToDictionary(g => g.Key, g => g.OrderByDescending(c => c.date_changed).First());
+
+                // Helpers
+                Func<DataRow, string, string> Get = (r, col) =>
+                {
+                    if (!dt.Columns.Contains(col)) return null;
+                    var v = Convert.ToString(r[col]).Trim();
+                    return string.IsNullOrWhiteSpace(v) ? null : v;
+                };
+
+                // Returns true if the field was changed; skips blank/null to preserve existing data
+                Func<string, string, Action<string>, bool> UpdateIfProvided = (current, incoming, setter) =>
+                {
+                    if (string.IsNullOrWhiteSpace(incoming)) return false;
+                    if (!string.Equals(current, incoming, StringComparison.Ordinal))
+                    {
+                        setter(incoming);
+                        return true;
+                    }
+                    return false;
+                };
+
+                // Protected field comparison: decrypt existing value, compare to raw incoming,
+                // only re-encrypt and update if the underlying plaintext has actually changed.
+                Func<string, string, Action<string>, bool> UpdateIfProvidedProtected = (currentEncrypted, incomingRaw, setter) =>
+                {
+                    if (string.IsNullOrWhiteSpace(incomingRaw)) return false;
+
+                    string currentDecrypted = null;
+                    if (!string.IsNullOrWhiteSpace(currentEncrypted))
+                    {
+                        try { currentDecrypted = this.Unprotect(currentEncrypted); }
+                        catch { currentDecrypted = null; }
+                    }
+
+                    if (!string.Equals(currentDecrypted, incomingRaw, StringComparison.Ordinal))
+                    {
+                        setter(this.Protect(incomingRaw));
+                        return true;
+                    }
+                    return false;
+                };
+
+                int added = 0, updated = 0, skippedNoEmp = 0, skippedBlank = 0;
+                string skippedempNoList = "";
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    // Skip totally blank rows
+                    bool allBlank = true;
+                    foreach (DataColumn c in dt.Columns)
+                    {
+                        if (!string.IsNullOrWhiteSpace(Convert.ToString(dr[c])))
+                        {
+                            allBlank = false;
+                            break;
+                        }
+                    }
+                    if (allBlank) { skippedBlank++; continue; }
+
+                    // employee_no from file
+                    var empNoString = Get(dr, "employee_no");
+                    if (string.IsNullOrWhiteSpace(empNoString))
+                    {
+                        skippedNoEmp++;
+                        skippedempNoList += "("+empNoString+"), ";
+                        continue;
+                    }
+
+                    if (!empIndex.TryGetValue(empNoString, out var employeeId))
+                    {
+                        skippedempNoList += "(" + empNoString + "), ";
+                        skippedNoEmp++;
+                        continue;
+                    }
+
+                    // Read raw (unencrypted) values for all fields
+                    var designation = Get(dr, "designation");
+                    var company = Get(dr, "company");
+                    var grade = Get(dr, "grade");
+                    var deptProject = Get(dr, "department/project");
+
+                    // Protected fields — keep raw for comparison, encrypt only when storing
+                    var salaryDetailsRaw = Get(dr, "Gross Salary");
+                    var basicRaw = Get(dr, "basic");
+                    var housingAllowRaw = Get(dr, "housing_allowance");
+                    var foodAllowRaw = Get(dr, "food_allowance");
+                    var livingAllowRaw = Get(dr, "living_allowance");
+                    var ticketAllowRaw = Get(dr, "ticket_allowance");
+                    var othersRaw = Get(dr, "others");
+                    var arrearsRaw = Get(dr, "UAE social allowance");
+
+                    // Upsert
+                    if (!existingContracts.TryGetValue(employeeId, out var existing))
+                    {
+                        // INSERT — encrypt protected fields before storing
+                        var incoming = new contract
+                        {
+                            employee_no = employeeId,
+                            designation = designation,
+                            company = company,
+                            grade = grade,
+                            departmant_project = deptProject,
+                            salary_details = string.IsNullOrWhiteSpace(salaryDetailsRaw) ? null : this.Protect(salaryDetailsRaw),
+                            basic = string.IsNullOrWhiteSpace(basicRaw) ? null : this.Protect(basicRaw),
+                            housing_allowance = string.IsNullOrWhiteSpace(housingAllowRaw) ? null : this.Protect(housingAllowRaw),
+                            food_allowance = string.IsNullOrWhiteSpace(foodAllowRaw) ? null : this.Protect(foodAllowRaw),
+                            living_allowance = string.IsNullOrWhiteSpace(livingAllowRaw) ? null : this.Protect(livingAllowRaw),
+                            ticket_allowance = string.IsNullOrWhiteSpace(ticketAllowRaw) ? null : this.Protect(ticketAllowRaw),
+                            others = string.IsNullOrWhiteSpace(othersRaw) ? null : this.Protect(othersRaw),
+                            arrears = string.IsNullOrWhiteSpace(arrearsRaw) ? null : this.Protect(arrearsRaw)
+                        };
+
+                        this.db.contracts.Add(incoming);
+                        existingContracts[employeeId] = incoming;
+                        added++;
+                    }
+                    else
+                    {
+                        // UPDATE — decrypt existing, compare to raw incoming, re-encrypt only if changed
+                        bool changed =
+                            UpdateIfProvided(existing.designation, designation, v => existing.designation = v)
+                          | UpdateIfProvided(existing.grade, grade, v => existing.grade = v)
+                          | UpdateIfProvided(existing.company, company, v => existing.company = v)
+                          | UpdateIfProvided(existing.departmant_project, deptProject, v => existing.departmant_project = v)
+                          | UpdateIfProvidedProtected(existing.salary_details, salaryDetailsRaw, v => existing.salary_details = v)
+                          | UpdateIfProvidedProtected(existing.basic, basicRaw, v => existing.basic = v)
+                          | UpdateIfProvidedProtected(existing.housing_allowance, housingAllowRaw, v => existing.housing_allowance = v)
+                          | UpdateIfProvidedProtected(existing.food_allowance, foodAllowRaw, v => existing.food_allowance = v)
+                          | UpdateIfProvidedProtected(existing.living_allowance, livingAllowRaw, v => existing.living_allowance = v)
+                          | UpdateIfProvidedProtected(existing.ticket_allowance, ticketAllowRaw, v => existing.ticket_allowance = v)
+                          | UpdateIfProvidedProtected(existing.others, othersRaw, v => existing.others = v)
+                          | UpdateIfProvidedProtected(existing.arrears, arrearsRaw, v => existing.arrears = v);
+
+                        if (changed) updated++;
+                    }
+                }
+
+                this.db.SaveChanges();
+
+                this.ViewBag.ImportSummary = new
+                {
+                    Added = added,
+                    Updated = updated,
+                    Skipped_NoEmployeeMatch = skippedNoEmp,
+                    Skipped_BlankRows = skippedBlank,
+                    TotalRows = dt.Rows.Count
+                };
+                this.ViewBag.SkippedEmployeeNumbers = skippedempNoList.TrimEnd(' ', ',');   
+
+                return this.View();
+            }
+            catch (Exception ex)
+            {
+                this.ViewBag.Error = "Import failed: " + ex.Message;
+                return this.View();
+            }
+            finally
+            {
+                if (!string.IsNullOrEmpty(savedFilePath) && System.IO.File.Exists(savedFilePath))
+                {
+                    try { System.IO.File.Delete(savedFilePath); }
+                    catch { /* best-effort cleanup */ }
+                }
             }
         }
 
