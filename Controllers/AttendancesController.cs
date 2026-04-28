@@ -4,12 +4,15 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Reflection.Emit;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using HRworks.Models;
 using Microsoft.Ajax.Utilities;
 using Microsoft.Office.Interop.Word;
+using Task = System.Threading.Tasks.Task;
 
 namespace HRworks.Controllers
 {
@@ -47,8 +50,9 @@ namespace HRworks.Controllers
             if (month.HasValue)
             {
                 var maintim = maintime.FindAll(
-                    x => (x.ManPowerSupplier == 1 || x.ManPowerSupplier == 8 || x.ManPowerSupplier == 9  ) && x.TMonth.Month == month.Value.Month
-                                                 && x.TMonth.Year == month.Value.Year);
+                    x => (x.ManPowerSupplier == 1 || x.ManPowerSupplier == 8 || x.ManPowerSupplier == 9) &&
+                         x.TMonth.Month == month.Value.Month
+                         && x.TMonth.Year == month.Value.Year);
                 foreach (var sheet in maintim)
                 {
                     var atten = attendanc.FindAll(x => x.SubMain == sheet.ID);
@@ -466,8 +470,9 @@ namespace HRworks.Controllers
             if (month.HasValue)
             {
                 var maintim = maintime.FindAll(
-                    x => (x.ManPowerSupplier == 1 || x.ManPowerSupplier == 8 || x.ManPowerSupplier == 9) && x.TMonth.Month == month.Value.Month
-                                                                              && x.TMonth.Year == month.Value.Year);
+                    x => (x.ManPowerSupplier == 1 || x.ManPowerSupplier == 8 || x.ManPowerSupplier == 9) &&
+                         x.TMonth.Month == month.Value.Month
+                         && x.TMonth.Year == month.Value.Year);
                 foreach (var sheet in maintim)
                 {
                     var atten = attendanc.FindAll(x => x.SubMain == sheet.ID);
@@ -525,7 +530,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 1);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -552,7 +558,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 2);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -579,7 +586,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 3);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -606,7 +614,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 4);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -633,7 +642,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 5);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -660,7 +670,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 6);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -687,7 +698,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 7);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -714,7 +726,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 8);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -741,7 +754,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 9);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -768,7 +782,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 10);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -795,7 +810,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 11);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -822,7 +838,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 12);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -849,7 +866,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 13);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -876,7 +894,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 14);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -903,7 +922,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 15);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -930,7 +950,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 16);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -957,7 +978,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 17);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -984,7 +1006,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 18);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1011,7 +1034,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 19);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1038,7 +1062,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 20);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1065,7 +1090,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 21);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1092,7 +1118,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 22);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1119,7 +1146,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 23);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1146,7 +1174,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 24);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1173,7 +1202,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 25);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1200,7 +1230,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 26);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1227,7 +1258,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 27);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1254,7 +1286,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 28);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1281,7 +1314,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 29);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1308,7 +1342,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 30);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1335,7 +1370,8 @@ namespace HRworks.Controllers
                     var date1 = new DateTime(month.Value.Year, month.Value.Month, 31);
                     var date2 = date1.AddDays(-1);
                     abslist = db1.leave_absence.ToList();
-                    if (!abslist.Exists(x => x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
+                    if (!abslist.Exists(x =>
+                            x.master_file.employee_no == emp.employee_no && x.fromd <= date1 && x.tod >= date1))
                         if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                         {
                             var abs1 = abslist.Find(x =>
@@ -1358,24 +1394,28 @@ namespace HRworks.Controllers
                 }
             }
 
-            return RedirectToAction("Index", new {variable = var1, month = var2, idstr = var3});
+            return RedirectToAction("Index", new { variable = var1, month = var2, idstr = var3 });
         }
 
         public ActionResult approveabsn(DateTime? month)
         {
-            var abslistt= new List<hik>();
+            var abslistt = new List<hik>();
             if (!month.HasValue)
             {
                 goto end;
             }
+
             ViewBag.eddate = month;
             var monthstart = new DateTime(month.Value.Year, month.Value.Month, 1);
-            var startdate = new DateTime(month.Value.Month == 1 ? month.Value.Year - 1 : month.Value.Year, month.Value.Month - 1, 21);
+            var startdate = new DateTime(month.Value.Month == 1 ? month.Value.Year - 1 : month.Value.Year,
+                month.Value.Month - 1, 21);
             var enddate = new DateTime(month.Value.Year, month.Value.Month, 20);
-            var hikplist = db1.hiks.Where(x =>x.date >= startdate && x.date<=enddate).ToList();
-            var leaveabslist = db1.leave_absence.Where(x=>x.month == monthstart).ToList();
-            var alist = this.db1.master_file.Where(x=>x.contracts.Count()!=0).OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
-            var inalist = this.db1.master_file.Where(x => x.last_working_day.HasValue == true).OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
+            var hikplist = db1.hiks.Where(x => x.date >= startdate && x.date <= enddate).ToList();
+            var leaveabslist = db1.leave_absence.Where(x => x.month == monthstart).ToList();
+            var alist = this.db1.master_file.Where(x => x.contracts.Count() != 0).OrderBy(e => e.employee_no)
+                .ThenByDescending(x => x.date_changed).ToList();
+            var inalist = this.db1.master_file.Where(x => x.last_working_day.HasValue == true)
+                .OrderBy(e => e.employee_no).ThenByDescending(x => x.date_changed).ToList();
             var afinallist = new List<master_file>();
             foreach (var file in alist)
             {
@@ -1383,7 +1423,7 @@ namespace HRworks.Controllers
 
                 if (!afinallist.Exists(x => x.employee_no == file.employee_no))
                 {
-                    if (!inalist.Exists(x=>x.employee_no == file.employee_no))
+                    if (!inalist.Exists(x => x.employee_no == file.employee_no))
                     {
                         afinallist.Add(file);
                     }
@@ -1395,9 +1435,10 @@ namespace HRworks.Controllers
             afinallist.Add(temp);
             */
 
-            var hikplistin = hikplist.Where(x=>x.Status == "");
+            var hikplistin = hikplist.Where(x => x.Status == "");
 
-            var timesheetlist = db.access_date.Where(x =>x.entrydate > startdate && x.entrydate <= enddate).OrderBy(x=>x.Id).ToList();
+            var timesheetlist = db.access_date.Where(x => x.entrydate > startdate && x.entrydate <= enddate)
+                .OrderBy(x => x.Id).ToList();
             var leavelist = db1.Leaves.ToList();
             foreach (var file in afinallist)
             {
@@ -1408,6 +1449,7 @@ namespace HRworks.Controllers
                     {
                         goto weekend;
                     }
+
                     var temphik = new hik();
                     if (hikplist.FindAll(x => x.ID == file.employee_no.ToString() && x.date == tempdate).Count() < 2)
                     {
@@ -1419,32 +1461,38 @@ namespace HRworks.Controllers
                         abslistt.Add(temphik);
                         goto skip;
                     }
-                    if (!hikplist.Exists(x=>x.ID == file.employee_no.ToString() && x.date == tempdate))
+
+                    if (!hikplist.Exists(x => x.ID == file.employee_no.ToString() && x.date == tempdate))
                     {
-                        temphik.date= tempdate;
+                        temphik.date = tempdate;
                         temphik.ID = file.employee_no.ToString();
                         temphik.EMPID = file.employee_no;
                         temphik.Person = file.employee_name;
                         temphik.Status = "Absent";
                         abslistt.Add(temphik);
                     }
+
                     skip: ;
-                    if (timesheetlist.Exists(x => x.emp_no == file.employee_no && x.entrydate == tempdate ))
-                    {
-                        abslistt.Remove(temphik);
-                        goto weekend;
-                    }
-                    if (leavelist.Exists(x => x.Employee_id == file.employee_id && x.Start_leave <= tempdate && x.End_leave >= tempdate))
+                    if (timesheetlist.Exists(x => x.emp_no == file.employee_no && x.entrydate == tempdate))
                     {
                         abslistt.Remove(temphik);
                         goto weekend;
                     }
 
-                    if (leaveabslist.Exists(x=>x.Employee_id == file.employee_id && x.fromd <= tempdate && x.tod >= tempdate))
+                    if (leavelist.Exists(x =>
+                            x.Employee_id == file.employee_id && x.Start_leave <= tempdate && x.End_leave >= tempdate))
                     {
                         abslistt.Remove(temphik);
                         goto weekend;
                     }
+
+                    if (leaveabslist.Exists(x =>
+                            x.Employee_id == file.employee_id && x.fromd <= tempdate && x.tod >= tempdate))
+                    {
+                        abslistt.Remove(temphik);
+                        goto weekend;
+                    }
+
                     weekend: ;
                     tempdate = tempdate.AddDays(1);
                     if (tempdate > DateTime.Now)
@@ -1452,13 +1500,15 @@ namespace HRworks.Controllers
                         goto fend;
                     }
                 } while (tempdate <= enddate);
+
                 fend: ;
             }
+
             end: ;
-            return View(abslistt.OrderBy(x=>x.EMPID).ToList());
+            return View(abslistt.OrderBy(x => x.EMPID).ToList());
         }
 
-        public ActionResult Abstransfer(int? id, DateTime? date1,DateTime? month)
+        public ActionResult Abstransfer(int? id, DateTime? date1, DateTime? month)
         {
             var newlistemo = new List<int>();
             var neweos = "";
@@ -1474,7 +1524,8 @@ namespace HRworks.Controllers
                     var date2 = date1.Value.AddDays(-1);
                     if (abslist.Exists(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2))
                     {
-                        var abs1 = abslist.Find(x => x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2);
+                        var abs1 = abslist.Find(x =>
+                            x.Employee_id == emp.employee_id && x.fromd <= date2 && x.tod >= date2);
                         abs1.tod = date1;
                         abs1.absence = (abs1.tod - abs1.fromd).Value.Days + 1;
                         this.db1.Entry(abs1).State = EntityState.Modified;
@@ -1490,11 +1541,10 @@ namespace HRworks.Controllers
                         this.db1.leave_absence.Add(absvar);
                         this.db1.SaveChanges();
                     }
-                    
                 }
             }
 
-            return RedirectToAction("approveabsn", new { month = monthstart});
+            return RedirectToAction("approveabsn", new { month = monthstart });
         }
 
         public ActionResult ProjectAtt(DateTime? dayfrom, DateTime? dayto, string empno)
@@ -1513,6 +1563,7 @@ namespace HRworks.Controllers
             {
                 dayto = dayto.Value.AddDays(1);
             }
+
             var workcode = db2.iclock_terminalworkcode.ToList();
 
             var mancon = new master_fileController();
@@ -1522,7 +1573,7 @@ namespace HRworks.Controllers
                 afinallist = afinallist.FindAll(x => x.emiid.ToUpper() == empno.ToUpper());
             }
 
-            var atj_list= db1.Att_adj.ToList();
+            var atj_list = db1.Att_adj.ToList();
             var leave = db1.Leaves.ToList();
 
             do
@@ -1540,46 +1591,56 @@ namespace HRworks.Controllers
                 }
 
 
-
                 foreach (var file in afinallist)
                 {
                     var testemp1 = file.employee_no.ToString();
                     var testemp2 = "";
                     if (file.emiid.Contains("G-"))
                     {
-                        testemp1 = "7770"+file.emiid.Substring(2);
+                        testemp1 = "7770" + file.emiid.Substring(2);
                     }
+
                     if (testemp1.StartsWith("777"))
                     {
                         testemp2 = "777" + testemp1.Substring(4);
                     }
 
-                    if (iclocklist.Exists(x => x.emp_code == testemp1 ||(testemp2.Length <=7 && x.emp_code == testemp2 )))
+                    if (iclocklist.Exists(x =>
+                            x.emp_code == testemp1 || (testemp2.Length <= 7 && x.emp_code == testemp2)))
                     {
-                        var empatt = iclocklist.FindAll(x => x.emp_code == testemp1 || (testemp2.Length <= 7 && x.emp_code == testemp2))
+                        var empatt = iclocklist.FindAll(x =>
+                                x.emp_code == testemp1 || (testemp2.Length <= 7 && x.emp_code == testemp2))
                             .OrderBy(x => x.punch_time).ToList();
                         foreach (var transaction in empatt)
                         {
                             transaction.emp_code = file.emiid;
                             transaction.mobile = file.employee_name;
-                            var findadj = atj_list.Find(x => x.emp_ID == file.employee_id && x.which_date == transaction.punch_time.Date && (x.early_out == transaction.punch_time.TimeOfDay || x.late_in == transaction.punch_time.TimeOfDay));
+                            var findadj = atj_list.Find(x =>
+                                x.emp_ID == file.employee_id && x.which_date == transaction.punch_time.Date &&
+                                (x.early_out == transaction.punch_time.TimeOfDay ||
+                                 x.late_in == transaction.punch_time.TimeOfDay));
                             if (findadj != null)
                             {
-                                transaction.att_adj ="atjusted with status "+ findadj.status;
+                                transaction.att_adj = "atjusted with status " + findadj.status;
                             }
-                            var findleave = leave.Find(x => x.Employee_id == file.employee_id && x.Start_leave <= transaction.punch_time.Date && x.End_leave >= transaction.punch_time.Date);
+
+                            var findleave = leave.Find(x =>
+                                x.Employee_id == file.employee_id && x.Start_leave <= transaction.punch_time.Date &&
+                                x.End_leave >= transaction.punch_time.Date);
                             if (findleave != null)
                             {
-                                transaction.on_leave = "on leave from " + findleave.Start_leave +" to "+findleave.End_leave;
+                                transaction.on_leave = "on leave from " + findleave.Start_leave + " to " +
+                                                       findleave.End_leave;
                             }
-                            if (transaction.area_alias.IsNullOrWhiteSpace() && !transaction.work_code.IsNullOrWhiteSpace())
+
+                            if (transaction.area_alias.IsNullOrWhiteSpace() &&
+                                !transaction.work_code.IsNullOrWhiteSpace())
                             {
                                 transaction.area_alias = workcode.Find(x => x.code == transaction.work_code).alias;
                             }
-
                         }
 
-                       
+
                         patt.AddRange(empatt);
                     }
                 }
@@ -1593,7 +1654,6 @@ namespace HRworks.Controllers
 
         public ActionResult newprojectatt(DateTime? dayfrom, DateTime? dayto, string empno)
         {
-
             var patt = new List<iclock_transaction>();
             if (dayfrom == null)
             {
@@ -1608,6 +1668,7 @@ namespace HRworks.Controllers
             {
                 dayto = dayto.Value.AddDays(1);
             }
+
             var workcode = db2.iclock_terminalworkcode.ToList();
 
             var mancon = new master_fileController();
@@ -1626,16 +1687,16 @@ namespace HRworks.Controllers
                     {
                         goto end;
                     }
-                    
 
 
-                    end:;
+                    end: ;
                     dayfrom.Value.AddDays(1);
                 } while (dayfrom != dayto);
             }
 
             return View();
         }
+
         /*
         public ActionResult absreport(DateTime? dayfrom, DateTime? dayto, string empno)
         {
@@ -1733,7 +1794,7 @@ namespace HRworks.Controllers
                     dayfrom = dayfrom.Value.AddDays(1);
                 } while (dayto > dayfrom);
             }
-            
+
             return View(abslist);
         }
         */
@@ -1746,12 +1807,12 @@ namespace HRworks.Controllers
             var hoWeekend = new HashSet<DayOfWeek> { DayOfWeek.Saturday, DayOfWeek.Sunday };
             var projectWeekend = new HashSet<DayOfWeek> { DayOfWeek.Sunday };
             var defaultWeekend = projectWeekend; // fallback if we cannot infer site
-            var siteLookbackDays = 60;      // how many days to look back to infer site on no-punch days
+            var siteLookbackDays = 60; // how many days to look back to infer site on no-punch days
 
             // ----- DATE NORMALIZATION -----
             if (dayfromvar == null) dayfromvar = DateTime.Today;
             if (daytovar == null) daytovar = dayfromvar.Value; // inclusive range [dayfrom..dayto]
-                                                      // we iterate with a day cursor; to keep your original semantics, use endExclusive = dayto+1
+            // we iterate with a day cursor; to keep your original semantics, use endExclusive = dayto+1
             var endExclusive = daytovar.Value.Date.AddDays(1);
             var startDate = dayfromvar.Value.Date;
 
@@ -1759,7 +1820,8 @@ namespace HRworks.Controllers
             var mancon = new master_fileController();
             var afinallist = mancon.emplistatt(startDate).FindAll(x => x.employee_no != 0);
             var proremove = afinallist.FindAll(x =>
-                x.contracts.Any() && !x.contracts.FirstOrDefault().departmant_project.IsNullOrWhiteSpace() && x.contracts.FirstOrDefault().departmant_project.ToLower() == "procurement");
+                x.contracts.Any() && !x.contracts.FirstOrDefault().departmant_project.IsNullOrWhiteSpace() &&
+                x.contracts.FirstOrDefault().departmant_project.ToLower() == "procurement");
 
             // Filter by empno, allowing either emiid or numeric employee_no
             if (!empno.IsNullOrWhiteSpace())
@@ -1771,10 +1833,10 @@ namespace HRworks.Controllers
             }
 
             // ----- DATA PULLS (limit to date window) -----
-            
+
             var tempstart = new DateTime(startDate.Year, startDate.Month, 1).AddMonths(-1);
             var tempend = new DateTime(endExclusive.Year, endExclusive.Month, 1).AddMonths(1);
-            var HObioattmonth = db1.hiks.Where(x=>x.Device == "main").ToList()
+            var HObioattmonth = db1.hiks.Where(x => x.Device == "main").ToList()
                 .FindAll(x => x.date >= tempstart && x.date < tempend)
                 .ToList();
 
@@ -1790,7 +1852,7 @@ namespace HRworks.Controllers
                 .FindAll(x => x.punch_time >= tempstart && x.punch_time < tempend)
                 .ToList();
             var empdayoff = db1.empdayoffs
-                .Where(x => x.date_off >= startDate && x.date_off < endExclusive )
+                .Where(x => x.date_off >= startDate && x.date_off < endExclusive)
                 .ToList();
             var empWFH = db1.WorkFHomes
                 .Where(x => x.date_off >= startDate && x.date_off < endExclusive)
@@ -1866,14 +1928,13 @@ namespace HRworks.Controllers
                     {
                         testval = true;
                     }
-
                 }
                 else
                 {
                     testval = projByEmpDate.ContainsKey(new { Emp = empKey, Day = day });
                 }
-                return testval;
 
+                return testval;
             }
 
             // Infer which weekend applies for (employee, day)
@@ -1920,12 +1981,13 @@ namespace HRworks.Controllers
                         empKey = file.employee_no.ToString();
                     }
                 }
-                
+
                 var cursor = startDate;
-                if (proremove.Exists(x=>x.employee_id == file.employee_id) )
+                if (proremove.Exists(x => x.employee_id == file.employee_id))
                 {
                     continue;
                 }
+
                 while (cursor < endExclusive)
                 {
                     // Skip holidays (common list). If you have site-specific holidays, split lists and choose by site here.
@@ -1951,7 +2013,11 @@ namespace HRworks.Controllers
                             x.emp_ID == file.employee_id &&
                             x.which_date.Date == cursor);
 
-                        if (!hasHO && !hasProj && !onLeave && !attAdjExists && (file.last_working_day >= cursor || !file.last_working_day.HasValue) && (file.date_joined < cursor) && !empdayoff.Exists(x=>x.emp_ID == file.employee_id && x.date_off == cursor) && !empWFH.Exists(x=>x.emp_ID == file.employee_id && x.date_off == cursor))
+                        if (!hasHO && !hasProj && !onLeave && !attAdjExists &&
+                            (file.last_working_day >= cursor || !file.last_working_day.HasValue) &&
+                            (file.date_joined < cursor) &&
+                            !empdayoff.Exists(x => x.emp_ID == file.employee_id && x.date_off == cursor) &&
+                            !empWFH.Exists(x => x.emp_ID == file.employee_id && x.date_off == cursor))
                         {
                             // Mark absent
                             var absvar = new hik
@@ -1967,8 +2033,9 @@ namespace HRworks.Controllers
                     cursor = cursor.AddDays(1);
                 }
             }
-            
-            return View(abslist.OrderBy(x=>{
+
+            return View(abslist.OrderBy(x =>
+            {
                 // Try to parse numeric part
                 if (int.TryParse(x.ID, out var num))
                     return (0, num); // group 0 = plain numbers
@@ -2009,10 +2076,11 @@ namespace HRworks.Controllers
                 att = att.FindAll(x => x.emp_code.Contains(empno));
             }
 
-            return View(att.OrderByDescending(x=>x.punch_time).ToList());
+            return View(att.OrderByDescending(x => x.punch_time).ToList());
         }
 
 
+        /*
         public ActionResult atcomb(DateTime? getdate, DateTime? todate, string empno)
         {
             if (getdate == null)
@@ -2024,17 +2092,24 @@ namespace HRworks.Controllers
             {
                 todate = getdate.Value.AddDays(1);
             }
-            var atcombed = new List<hik>();
-            var allHiks = db1.hiks
-                .Where(h => h.date >= getdate && h.date <= todate && h.Device == "main")
+
+            var hiksQuery = db1.hiks
+                .Where(h => h.date >= getdate && h.date <= todate && h.Device == "main");
+            if (!string.IsNullOrWhiteSpace(empno))
+            {
+                hiksQuery = hiksQuery.Where(h => h.ID == empno);
+            }
+
+            var allHiks = hiksQuery
                 .OrderBy(h => h.datetime)
                 .ToList();
+
 
             var hiksFirstLastPerDayPerEmp = allHiks
                 .GroupBy(h => new
                 {
-                    Date = h.date.Value.Date,   
-                    EmpNo = h.ID         
+                    Date = h.date.Value.Date,
+                    EmpNo = h.ID
                 })
                 .Select(g => new
                 {
@@ -2047,9 +2122,15 @@ namespace HRworks.Controllers
                 .ThenBy(x => x.EmpNo)
                 .ToList();
 
+            var projectQuery = db2.iclock_transaction
+                .Where(t => t.punch_time >= getdate && t.punch_time <= todate);
 
-            var allprojectatt = db2.iclock_transaction
-                .Where(t => t.punch_time >= getdate && t.punch_time <= todate)
+            if (!string.IsNullOrWhiteSpace(empno))
+            {
+                projectQuery = projectQuery.Where(t => t.emp_code == empno);
+            }
+
+            var allprojectatt = projectQuery
                 .OrderBy(t => t.punch_time)
                 .ToList();
 
@@ -2081,7 +2162,7 @@ namespace HRworks.Controllers
                     ID = tempid?.emiid,
                     Person = tempid?.employee_name,
                     date = hik.FirstEntry.date,
-                    datetime= hik.FirstEntry.datetime,
+                    datetime = hik.FirstEntry.datetime,
                     time = hik.FirstEntry.datetime.Value.TimeOfDay,
                 };
                 finallist.Add(finvar);
@@ -2105,7 +2186,7 @@ namespace HRworks.Controllers
                     ID = tempid?.emiid,
                     Person = tempid?.employee_name,
                     date = pro.Date,
-                    datetime= pro.FirstEntry.punch_time,
+                    datetime = pro.FirstEntry.punch_time,
                     time = pro.FirstEntry.punch_time.TimeOfDay,
                 };
                 finallist.Add(finvar);
@@ -2114,14 +2195,206 @@ namespace HRworks.Controllers
                     ID = tempid?.emiid,
                     Person = tempid?.employee_name,
                     date = pro.Date,
-                    datetime= pro.LastEntry.punch_time,
+                    datetime = pro.LastEntry.punch_time,
                     time = pro.LastEntry.punch_time.TimeOfDay,
                 };
                 finallist.Add(finvar);
             }
 
             return View(finallist);
+        }*/
+
+        /*
+        public ActionResult atcomb(DateTime? getdate, DateTime? todate, string empno)
+        {
+            var start = (getdate ?? DateTime.Now).Date;
+            var end = (todate ?? start).Date.AddDays(1);
+
+            var filterByEmp = !string.IsNullOrWhiteSpace(empno);
+
+            List<master_file> allEmployees;
+            using (var mancon = new master_fileController())
+            {
+                allEmployees = mancon.emplist();
+            }
+            var empByNo = allEmployees
+                .GroupBy(x => x.employee_no.ToString())
+                .ToDictionary(g => g.Key, g => g.First());
+
+            var hiksQuery = db1.hiks
+                .Where(h => h.date >= start && h.date < end && h.Device == "main");
+            if (filterByEmp)
+                hiksQuery = hiksQuery.Where(h => h.ID == empno);
+
+            var hikGroups = hiksQuery
+                .OrderBy(h => h.datetime)
+                .ToList()
+                .GroupBy(h => new { Date = h.date.Value.Date, EmpNo = h.ID })
+                .OrderBy(g => g.Key.Date).ThenBy(g => g.Key.EmpNo);
+
+            var projectQuery = db2.iclock_transaction
+                .Where(t => t.punch_time >= start && t.punch_time < end);
+            if (filterByEmp)
+                projectQuery = projectQuery.Where(t => t.emp_code == empno);
+
+            var projectGroups = projectQuery
+                .OrderBy(t => t.punch_time)
+                .ToList()
+                .GroupBy(t => new { Date = t.punch_time.Date, EmpNo = t.emp_code })
+                .OrderBy(g => g.Key.Date).ThenBy(g => g.Key.EmpNo);
+
+            var finallist = new List<hik>();
+
+            foreach (var g in hikGroups)
+            {
+                empByNo.TryGetValue(g.Key.EmpNo, out var emp);
+                var first = g.First();
+                var last = g.Last();
+
+                finallist.Add(MakeHik(emp, first.date, first.datetime));
+                if (!ReferenceEquals(first, last))
+                    finallist.Add(MakeHik(emp, first.date, last.datetime));
+            }
+
+            foreach (var g in projectGroups)
+            {
+                empByNo.TryGetValue(g.Key.EmpNo, out var emp);
+                var first = g.First();
+                var last = g.Last();
+
+                finallist.Add(MakeHik(emp, g.Key.Date, first.punch_time));
+                if (!ReferenceEquals(first, last))
+                    finallist.Add(MakeHik(emp, g.Key.Date, last.punch_time));
+            }
+
+            return View(finallist);
+        }*/
+
+        public async Task<ActionResult> atcomb(DateTime? getdate, DateTime? todate, string empno)
+        {
+            var start = (getdate ?? DateTime.Now).Date;
+            var end = (todate ?? start).Date.AddDays(1);
+            var filterByEmp = !string.IsNullOrWhiteSpace(empno);
+
+            // TODO: master_fileController should be a shared service via DI, not instantiated here.
+            List<master_file> allEmployees;
+            using (var mancon = new master_fileController())
+                allEmployees = mancon.emplist();
+
+            var empByNo = allEmployees
+                .GroupBy(x => x.employee_no.ToString())
+                .ToDictionary(g => g.Key, g => g.First());
+
+            // Workcode → alias lookup for iclock location fallback
+            var workCodeAliases = await db2.iclock_terminalworkcode
+                .Where(w => w.code != null && w.alias != null)
+                .ToDictionaryAsync(w => w.code, w => w.alias);
+
+            // Local helper: resolve iclock location across multiple possible columns
+            string ResolveLoc(string ta, string wc)
+            {
+                if (!string.IsNullOrWhiteSpace(ta)) return ta;
+                if (!string.IsNullOrWhiteSpace(wc) && workCodeAliases.TryGetValue(wc, out var alias))
+                    return alias+"(app)";
+                return null;
+            }
+
+            // HIK side
+            var hiksBase = db1.hiks.Where(h => h.date >= start && h.date < end && h.Device == "main");
+            if (filterByEmp) hiksBase = hiksBase.Where(h => h.ID == empno);
+
+            var hikRowsTask = hiksBase
+                .Select(h => new
+                {
+                    h.date,
+                    EmpNo = h.ID,
+                    h.datetime,
+                    Location = h.Device   // <-- PLACEHOLDER: replace with the real location field on hiks
+                })
+                .ToListAsync();
+
+            // iclock side
+            var projectBase = db2.iclock_transaction.Where(t => t.punch_time >= start && t.punch_time < end);
+            if (filterByEmp) projectBase = projectBase.Where(t => t.emp_code == empno);
+
+            var projectRowsTask = projectBase
+                .Select(t => new
+                {
+                    t.punch_time,
+                    EmpNo = t.emp_code,
+                    t.terminal_alias,
+                    t.area_alias,
+                    t.terminal_sn,
+                    t.work_code
+                })
+                .ToListAsync();
+
+            await Task.WhenAll(hikRowsTask, projectRowsTask);
+            var hikRows = hikRowsTask.Result;
+            var projectRows = projectRowsTask.Result;
+
+            var finallist = new List<hik>();
+
+            // HIK groups
+            var hikGroups = hikRows
+                .GroupBy(h => new { Date = h.date.Value.Date, h.EmpNo })
+                .OrderBy(g => g.Key.Date).ThenBy(g => g.Key.EmpNo);
+
+            foreach (var g in hikGroups)
+            {
+                if (!empByNo.TryGetValue(g.Key.EmpNo, out var emp)) continue;
+
+                var ordered = g.OrderBy(x => x.datetime).ToList();
+                var first = ordered.First();
+                var last = ordered.Last();
+
+                finallist.Add(MakeHik(emp, g.Key.Date, first.datetime, "Check-in", first.Location));
+                if (ordered.Count > 1)
+                    finallist.Add(MakeHik(emp, g.Key.Date, last.datetime, "Check-out", last.Location));
+            }
+
+            // iclock groups
+            var projectGroups = projectRows
+                .GroupBy(t => new { Date = t.punch_time.Date, t.EmpNo })
+                .OrderBy(g => g.Key.Date).ThenBy(g => g.Key.EmpNo);
+
+            foreach (var g in projectGroups)
+            {
+                if (!empByNo.TryGetValue(g.Key.EmpNo, out var emp)) continue;
+
+                var ordered = g.OrderBy(x => x.punch_time).ToList();
+                var first = ordered.First();
+                var last = ordered.Last();
+
+                finallist.Add(MakeHik(emp, g.Key.Date, first.punch_time, "Check-in",
+                    ResolveLoc(first.terminal_alias,first.work_code)));
+
+                if (ordered.Count > 1)
+                    finallist.Add(MakeHik(emp, g.Key.Date, last.punch_time, "Check-out",
+                        ResolveLoc(last.terminal_alias, last.work_code)));
+            }
+
+            return View(finallist);
         }
+
+        private static hik MakeHik(master_file emp, DateTime? date, DateTime? datetime, string inout, string location) =>
+            new hik
+            {
+                ID = emp?.emiid,
+                EMPID = 0,
+                Person = emp?.employee_name,
+                SID = 0,
+                absence_approved = false,
+                att_adj = null,
+                on_leave = null,
+                date = date,
+                datetime = datetime,
+                time = datetime?.TimeOfDay,
+                Status = inout,
+                Device = location,
+                DeviceNo = null,
+            };
+
 
 
         protected override void Dispose(bool disposing)

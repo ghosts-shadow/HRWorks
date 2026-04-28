@@ -32,6 +32,7 @@ namespace HRworks.Controllers
             return View(att_adj.ToList());
         }
 
+        /*
         public ActionResult empattindex(DateTime? empatdatefrom, DateTime? empatdateto)
         {
             var empuser = db.usernames
@@ -85,7 +86,7 @@ namespace HRworks.Controllers
                             }
 
                         }
-                    }*/
+                    }#1#
                 foreach (var hik in HOatt)
                 {
                     hik.ID = empuser.master_file.emiid;
@@ -243,6 +244,144 @@ namespace HRworks.Controllers
             return View(finallist.OrderBy(x => x.datetime).ToList());
 
 
+        }*/
+
+        public ActionResult empattindex(System.DateTime? empatdatefrom, System.DateTime? empatdateto)
+        {
+            var empuser = db.usernames
+                .FirstOrDefault(x => x.employee_no != null
+                                  && x.AspNetUser.UserName == User.Identity.Name);
+
+            if (empuser?.master_file == null)
+            {
+                return new HttpStatusCodeResult(
+                    System.Net.HttpStatusCode.Forbidden,
+                    "No employee record linked to this user.");
+            }
+
+            var master = empuser.master_file;
+
+            // --- Resolve the 3 possible ID formats once ---
+            var emiid = master.emiid ?? string.Empty;
+            var empstring = emiid.StartsWith("G-") ? "7770" + emiid.Substring(2) : emiid;
+
+            string empint = null;
+            if (empstring.StartsWith("7770")
+                && empstring.Length >= 8
+                && int.TryParse(empstring.Substring(4, 4), out int parsed))
+            {
+                empint = (7770000 + parsed).ToString();
+            }
+
+            var empvarstr = master.employee_no.ToString();
+
+            var idCandidates = new[] { empstring, empvarstr, empint }
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Distinct()
+                .ToList();
+
+            // --- Normalise date range ---
+            var anchor = empatdatefrom ?? System.DateTime.Now;
+            var dateFrom = new System.DateTime(anchor.Year, anchor.Month, 1);
+            var dateTo = (empatdateto ?? dateFrom.AddMonths(1).AddDays(-1)).Date;
+            var dateToExclusive = dateTo.AddDays(1);
+
+            // --- Pull only the rows we need (date filter pushed into SQL) ---
+            var hoPunches = db.hiks
+                .Where(x => idCandidates.Contains(x.ID)
+                         && x.datetime.HasValue
+                         && x.date.HasValue
+                         && x.date.Value >= dateFrom
+                         && x.date.Value < dateToExclusive)
+                .Select(x => x.datetime.Value)
+                .ToList();
+
+            var projectPunches = db1.iclock_transaction
+                .Where(x => idCandidates.Contains(x.emp_code)
+                         && x.punch_time >= dateFrom
+                         && x.punch_time < dateToExclusive)
+                .Select(x => x.punch_time)
+                .ToList();
+
+            var atjlist = db.Att_adj
+                .Where(x => x.emp_ID == empuser.employee_no
+                         && x.which_date >= dateFrom
+                         && x.which_date <= dateTo
+                         && !x.status.Contains("rejected"))
+                .ToList();
+
+            // --- Reduce both punch sources to first/last per day ---
+            AttCalendarPunch BuildPunch(System.DateTime dt, bool isCheckIn) => new AttCalendarPunch
+            {
+                Id = master.emiid,
+                PersonName = master.employee_name,
+                Date = dt.Date,
+                Time = dt.TimeOfDay,
+                DateTime = dt,
+                IsCheckIn = isCheckIn
+            };
+
+            var dailyPunches = hoPunches.Concat(projectPunches)
+                .GroupBy(dt => dt.Date)
+                .SelectMany(g =>
+                {
+                    var ordered = g.OrderBy(dt => dt).ToList();
+                    var rows = new List<AttCalendarPunch> { BuildPunch(ordered.First(), true) };
+                    if (ordered.Count > 1)
+                        rows.Add(BuildPunch(ordered.Last(), false));
+                    return rows;
+                })
+                .ToList();
+
+            // --- Attach adjustment info to matching punches ---
+            foreach (var punch in dailyPunches)
+            {
+                var match = atjlist.FirstOrDefault(a =>
+                    a.which_date.Date == punch.Date
+                    && (a.late_in == punch.Time || a.early_out == punch.Time));
+
+                if (match == null) continue;
+
+                punch.AdjustmentType = match.late_in == punch.Time
+                    ? AdjustmentType.LateIn
+                    : AdjustmentType.EarlyOut;
+
+                punch.AdjustmentStatus = match.status == "approved"
+                    ? AdjustmentStatus.Approved
+                    : AdjustmentStatus.Pending;
+            }
+
+            // --- Inject orphaned adjustments (no matching punch) ---
+            foreach (var atj in atjlist)
+            {
+                var adjTime = atj.late_in ?? atj.early_out;
+                if (!adjTime.HasValue) continue;
+
+                bool alreadyShown = dailyPunches.Any(p =>
+                    p.Date == atj.which_date.Date && p.Time == adjTime);
+                if (alreadyShown) continue;
+
+                var isLateIn = atj.late_in.HasValue;
+
+                dailyPunches.Add(new AttCalendarPunch
+                {
+                    Id = master.emiid,
+                    PersonName = master.employee_name,
+                    Date = atj.which_date.Date,
+                    Time = adjTime.Value,
+                    DateTime = atj.which_date.Date.Add(adjTime.Value),
+                    IsCheckIn = isLateIn,
+                    AdjustmentType = isLateIn ? AdjustmentType.LateIn : AdjustmentType.EarlyOut,
+                    AdjustmentStatus = atj.status == "approved"
+                                            ? AdjustmentStatus.Approved
+                                            : AdjustmentStatus.Pending
+                });
+            }
+
+            ViewBag.DateFrom = dateFrom;
+            ViewBag.DateTo = dateTo;
+
+            return View(dailyPunches.OrderBy(p => p.DateTime).ToList());
         }
 
         //[Authorize(Roles = "HOD,employee,Manager")]

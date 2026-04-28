@@ -968,6 +968,7 @@
     <Compile Include="Models\CsPermission.cs">
       <DependentUpon>timesheet.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomModels.cs" />
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>HRModel.tt</DependentUpon>
     </Compile>

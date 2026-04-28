@@ -4,15 +4,72 @@
     ViewBag.Title = "atcomb";
 }
 
-<h2>atcomb</h2>
+<h2>attendance combined</h2>
 
+<link rel="stylesheet" href="/resources/demos/style.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"></script>
+<script>
+    $(function() {
+        var dateFormat = "mm/dd/yy",
+            from = $("#from")
+                .datepicker({
+                    changeMonth: true
+                })
+                .on("change",
+                    function() {
+                        to.datepicker("option", "minDate", getDate(this));
+                    }),
+            to = $("#to").datepicker({
+                    changeMonth: true
+                })
+                .on("change",
+                    function() {
+                        from.datepicker("option", "maxDate", getDate(this));
+                    });
+
+        function getDate(element) {
+            var date;
+            try {
+                date = $.datepicker.parseDate(dateFormat, element.value);
+            } catch (error) {
+                date = null;
+            }
+
+            return date;
+        }
+    });
+</script>
+@using (Html.BeginForm("atcomb", "Attendances"))
+{
+    <div class="row">
+        <div class=" col-md-2">
+            <input type="text" name="empno" class="form-control" placeholder="Employee No" />
+        </div>
+        <div class=" col-md-2">
+            <input type="text" name="getdate" id="from" class="form-control" placeholder=" From" />
+        </div>
+        <div class=" col-md-2">
+            <input type="text" name="todate" id="to" class="form-control" placeholder="To" />
+        </div>
+        <div class=" col-md-6">
+            <input type="submit" value="search" class="btn btn-default" />
+            <input type="button" class="btn btn-default" onclick="window.location.href = '@Url.Action("atcomb", "Attendances", new { getdate = DateTime.Today,todate = DateTime.Now })'" value="today" />
+
+        </div>
+    </div>
+    <br />
+}
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.datetime)
+            @Html.DisplayNameFor(model => model.Person)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Device)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.date)
@@ -23,51 +80,37 @@
         <th>
             @Html.DisplayNameFor(model => model.Status)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Device)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DeviceNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Person)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.absence_approved)
-        </th>
-        <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.datetime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.time)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Device)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeviceNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Person)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.absence_approved)
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person)
+            </td>
+            <td>
+                @{
+	                var a = "HO";
+	                if (item.Device.ToLower() != "main")
+	                {
+		                a = item.Device;
+	                }
+                    @a
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+        </tr>
+    }
 
 </table>

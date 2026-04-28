@@ -1,51 +1,37 @@
-﻿@model IEnumerable<HRworks.Models.hik>
+﻿@model IEnumerable<HRworks.Models.AttCalendarPunch>
 
 @{
     ViewBag.Title = "Attendance Calendar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    // Group entries by date
-    var grouped = Model
-        .Where(x => x.date.HasValue)
-        .GroupBy(x => x.date.Value.Date)
-        .ToDictionary(g => g.Key, g => g.ToList());
-
-    // Decide which month to show
-    DateTime referenceDate;
-
-    if (ViewBag.CalendarYear != null && ViewBag.CalendarMonth != null)
-    {
-        referenceDate = new DateTime(
-            (int)ViewBag.CalendarYear,
-            (int)ViewBag.CalendarMonth,
-            1
-        );
-    }
-    else if (grouped.Any())
-    {
-        referenceDate = grouped.Keys.Min();
-        referenceDate = new DateTime(referenceDate.Year, referenceDate.Month, 1);
-    }
-    else
-    {
-        referenceDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
-    }
-
-    var year = referenceDate.Year;
-    var month = referenceDate.Month;
+    var dateFrom = ViewBag.DateFrom is DateTime df ? df : new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+    var year = dateFrom.Year;
+    var month = dateFrom.Month;
     var firstOfMonth = new DateTime(year, month, 1);
     var daysInMonth = DateTime.DaysInMonth(year, month);
-    var startDayOfWeek = (int)firstOfMonth.DayOfWeek; // 0 = Sunday
+    var startDayOfWeek = (int)firstOfMonth.DayOfWeek;
+    var today = DateTime.Today;
+
+    var grouped = Model
+        .GroupBy(x => x.Date)
+        .ToDictionary(g => g.Key, g => g.ToList());
+
+    var totalActiveDays = grouped.Count;
 }
 
-<!-- jQuery UI CSS (for datepicker + dialog) -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 
 <div class="att-page">
     <div class="att-hero">
-        <div class="att-hero-title">
+        <div class="att-hero-left">
             <span class="att-hero-kicker">Attendance</span>
             <h2 class="att-hero-month">@firstOfMonth.ToString("MMMM yyyy")</h2>
+        </div>
+        <div class="att-hero-right">
+            <div class="att-hero-stat">
+                <span class="att-hero-stat-num">@totalActiveDays</span>
+                <span class="att-hero-stat-label">active days</span>
+            </div>
         </div>
     </div>
 
@@ -58,7 +44,8 @@
                            name="empatdatefrom"
                            id="empatdatefrom"
                            class="form-control att-input"
-                           placeholder="Select Month" />
+                           placeholder="Pick any date in the month"
+                           value="@dateFrom.ToString("MM/dd/yyyy")" />
                 </div>
 
                 <div class="att-actions">
@@ -73,7 +60,7 @@
                     <button type="button"
                             class="btn att-btn att-btn-ghost"
                             onclick="window.location.href='@Url.Action("Index", "Att_adj")'">
-                        Attendance adjustment
+                        Attendance Adjustments
                     </button>
                 </div>
             </div>
@@ -81,122 +68,88 @@
     </div>
 
     <div class="att-calendar-card">
-        <table class="att-calendar">
-            <!-- calendar "header" row (no thead to avoid layout conflicts) -->
-            <tr class="att-header-row">
-                <th>Sun</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>
-            </tr>
+        <div class="att-weekdays">
+            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div class="att-weekend-label">Sat</div>
+        </div>
 
-            @{
-                var dayCounter = 1;
-                var maxWeeks = 6;
-            }
+        <div class="att-grid">
+            @{ var dayCounter = 1; const int maxWeeks = 6; }
 
             @for (var week = 0; week < maxWeeks; week++)
             {
-                <tr>
-                    @for (var dow = 0; dow < 7; dow++)
+                for (var dow = 0; dow < 7; dow++)
+                {
+                    if ((week == 0 && dow < startDayOfWeek) || dayCounter > daysInMonth)
                     {
-                        if ((week == 0 && dow < startDayOfWeek) || dayCounter > daysInMonth)
-                        {
-                            <td class="att-cell att-cell-empty"></td>
-                        }
-                        else
-                        {
-                            var currentDate = new DateTime(year, month, dayCounter);
-                            var hasEntries = grouped.ContainsKey(currentDate);
+                        <div class="att-cell att-cell-empty"></div>
+                    }
+                    else
+                    {
+                        var currentDate = new DateTime(year, month, dayCounter);
+                        var entries = grouped.ContainsKey(currentDate) ? grouped[currentDate] : null;
+                        var hasEntries = entries != null && entries.Count > 0;
+                        var isToday = currentDate == today;
+                        var isWeekend = dow == 0 || dow == 6;
 
-                            var entries = hasEntries
-                                ? grouped[currentDate]
-                                    .OrderBy(x => x.datetime.HasValue ? x.datetime.Value : DateTime.MinValue)
-                                    .ToList()
-                                : new List<HRworks.Models.hik>();
+                        var cellClasses = "att-cell";
+                        if (hasEntries) {cellClasses += " att-cell-has";}
+                        if (isToday) {cellClasses += " att-cell-today";}
+                        if (isWeekend) {cellClasses += " att-cell-weekend";}
 
-                            <td class="att-cell @(hasEntries ? "att-cell-has" : "")">
-                                <div class="att-day-head">
-                                    <span class="att-day-number">@dayCounter</span>
-                                </div>
+                        <div class="@cellClasses">
+                            <div class="att-day-head">
+                                <span class="att-day-number @(isToday ? "att-day-today" : "")">@dayCounter</span>
+                            </div>
 
-                                @if (hasEntries && entries.Count > 0)
-                                {
-                                    var first = entries.First();
-                                    var last = entries.Count > 1 ? entries.Last() : null;
+                            @if (hasEntries)
+                            {
+                                var first = entries.First();
+                                var last = entries.Count > 1 ? entries.Last() : null;
 
-                                    <div class="att-punch-list">
+                                var toShow = new List<HRworks.Models.AttCalendarPunch> { first };
+                                if (last != null && last.Time != first.Time) {toShow.Add(last);}
 
-                                        <!-- First entry -->
-                                        <div class="att-punch-row">
-                                            <span class="att-time">@first.time</span>
-                                            @{
-                                                if (first.Status != null && !first.Status.Contains("Adjusted"))
-                                                {
-                                                    <button type="button"
-                                                            class="att-adjust-btn"
-                                                            data-date="@first.date.Value.ToString("yyyy-MM-dd")"
-                                                            data-time="@first.time"
-                                                            data-displaydate="@first.date.Value.ToString("dd MMM yyyy")"
-                                                            data-displaytime="@first.time">
-                                                        Adjust
-                                                    </button>
-                                                }
-                                                else
-                                                {
-	                                                var sub = first.Status.Substring(first.Status.IndexOf('z')+1);
-	                                                @sub
-                                                }
+                                <div class="att-punch-list">
+                                    @foreach (var p in toShow)
+                                    {
+                                        var dirClass = p.IsCheckIn ? "att-punch-in" : "att-punch-out";
+                                        <div class="att-punch-row @dirClass">
+                                            <span class="att-punch-dot"></span>
+                                            <span class="att-time">@p.Time.ToString(@"hh\:mm")</span>
+
+                                            @if (p.HasAdjustment)
+                                            {
+                                                <span class="att-adj att-adj-@p.AdjustmentStatus.ToString().ToLower()">
+                                                    @p.AdjustmentLabel · @p.AdjustmentStatus
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <button type="button"
+                                                        class="att-adjust-btn"
+                                                        data-date="@p.Date.ToString("yyyy-MM-dd")"
+                                                        data-time="@p.Time"
+                                                        data-displaydate="@p.Date.ToString("dd MMM yyyy")"
+                                                        data-displaytime="@p.Time.ToString(@"hh\:mm")">
+                                                    Adjust
+                                                </button>
                                             }
                                         </div>
+                                    }
+                                </div>
+                            }
+                        </div>
 
-                                        <!-- Last entry (only if different) -->
-                                        @if (last != null && last.time != first.time)
-                                        {
-                                            <div class="att-punch-row">
-                                                <span class="att-time">@last.time</span>
-                                                @{
-                                                    if (last.Status != null && !last.Status.Contains("Adjusted"))
-                                                    {
-                                                        <button type="button"
-                                                                class="att-adjust-btn"
-                                                                data-date="@last.date.Value.ToString("yyyy-MM-dd")"
-                                                                data-time="@last.time"
-                                                                data-displaydate="@last.date.Value.ToString("dd MMM yyyy")"
-                                                                data-displaytime="@last.time">
-                                                            Adjust
-                                                        </button>
-                                                    }
-                                                    else
-                                                    {
-	                                                    var sub = last.Status.Substring(last.Status.IndexOf('z')+1);
-	                                                    @sub
-                                                    }
-                                                }
-                                            </div>
-                                        }
-                                    </div>
-                                }
-                            </td>
-
-                            dayCounter++;
-                        }
+                        dayCounter++;
                     }
-                </tr>
-
-                if (dayCounter > daysInMonth)
-                {
-                    break;
                 }
+
+                if (dayCounter > daysInMonth) { break; }
             }
-        </table>
+        </div>
     </div>
 </div>
 
-<!-- Dialog container -->
 <div id="attAdjustDialog" title="Attendance adjustment" style="display:none;">
     <div class="att-dialog-body">
         <div class="att-dialog-line">
@@ -212,49 +165,105 @@
 </div>
 
 <style>
-    /* ===== Page Theme ===== */
+    /* ===== Page ===== */
     .att-page {
-        padding: 6px 0 24px 0;
+        padding: 4px 0 28px 0;
         font-family: "Segoe UI", Tahoma, Arial, sans-serif;
         color: #0f172a;
     }
 
+    /* ===== Hero ===== */
     .att-hero {
-        background: linear-gradient(135deg, #0f2436 0%, #143a5a 55%, #1b4e78 100%);
+        position: relative;
+        background: linear-gradient(135deg, #0f2436 0%, #143a5a 50%, #1b4e78 100%);
         color: #fff;
-        border-radius: 10px;
-        padding: 18px 20px 16px 20px;
+        border-radius: 12px;
+        padding: 18px 22px;
         margin-bottom: 14px;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        box-shadow: 0 8px 24px rgba(15, 36, 54, 0.18);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        overflow: hidden;
+    }
+
+        .att-hero::before {
+            content: "";
+            position: absolute;
+            right: -60px;
+            top: -60px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.12), transparent 70%);
+            pointer-events: none;
+        }
+
+    .att-hero-left {
+        position: relative;
+        z-index: 1;
     }
 
     .att-hero-kicker {
-        opacity: 0.85;
-        font-size: 12px;
-        letter-spacing: 0.08em;
+        display: block;
+        opacity: 0.75;
+        font-size: 11px;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
+        margin-bottom: 2px;
     }
 
     .att-hero-month {
-        margin: 2px 0 0 0;
+        margin: 0;
         font-weight: 600;
-        font-size: 28px;
+        font-size: 26px;
+        letter-spacing: -0.01em;
     }
 
-    /* ===== Filters Card ===== */
-    .att-filters-card {
-        background: #ffffff;
-        border: 1px solid #e6edf5;
+    .att-hero-right {
+        position: relative;
+        z-index: 1;
+    }
+
+    .att-hero-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        padding: 8px 16px;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.12);
         border-radius: 10px;
-        padding: 14px 16px;
+        backdrop-filter: blur(6px);
+    }
+
+    .att-hero-stat-num {
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.1;
+    }
+
+    .att-hero-stat-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        opacity: 0.8;
+    }
+
+    /* ===== Filters ===== */
+    .att-filters-card {
+        background: #fff;
+        border: 1px solid #e6edf5;
+        border-radius: 12px;
+        padding: 12px 16px;
         margin-bottom: 14px;
         box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
     }
 
     .att-filters-row {
         display: flex;
-        align-items: flex-end;
-        gap: 18px;
+        align-items: center;
+        gap: 12px;
         flex-wrap: wrap;
     }
 
@@ -262,32 +271,33 @@
         min-width: 220px;
     }
 
-    .att-label {
-        display: block;
-        margin-bottom: 6px;
-        font-size: 11px;
-        font-weight: 600;
-        color: #334155;
-    }
-
     .att-input {
         border-radius: 8px;
         height: 36px;
-        border-color: #dbe5ef;
+        border: 1px solid #dbe5ef;
         box-shadow: none;
+        font-size: 13px;
     }
+
+        .att-input:focus {
+            border-color: #1b4e78;
+            box-shadow: 0 0 0 3px rgba(27, 78, 120, 0.12);
+        }
 
     .att-actions {
         display: flex;
         gap: 8px;
         flex-wrap: wrap;
+        margin-left: auto;
     }
 
     .att-btn {
         border-radius: 8px;
-        padding: 7px 12px;
+        padding: 8px 14px;
         font-size: 12px;
         font-weight: 600;
+        line-height: 1;
+        transition: all 0.15s ease;
     }
 
     .att-btn-primary {
@@ -297,8 +307,8 @@
     }
 
         .att-btn-primary:hover {
-            background: #0b1c2a;
-            border-color: #0b1c2a;
+            background: #1b4e78;
+            border-color: #1b4e78;
             color: #fff;
         }
 
@@ -309,61 +319,102 @@
     }
 
         .att-btn-ghost:hover {
-            background: #f1f5f9;
+            background: #eef5ff;
+            border-color: #c9d7ea;
         }
 
     /* ===== Calendar Card ===== */
     .att-calendar-card {
-        background: #ffffff;
+        background: #fff;
         border: 1px solid #e6edf5;
-        border-radius: 10px;
-        padding: 10px;
+        border-radius: 12px;
+        padding: 14px;
         box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
     }
 
-    .att-calendar {
-        width: 100%;
-        border-collapse: collapse;
-        table-layout: fixed;
-        margin: 0;
+    /* Weekday strip */
+    .att-weekdays {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+        margin-bottom: 6px;
         min-width: 720px;
     }
 
-        .att-calendar .att-header-row th {
-            background: #0f2436;
-            color: #fff;
-            padding: 10px 0;
-            font-size: 12px;
-            font-weight: 600;
-            border: 1px solid #0a1a26;
+        .att-weekdays > div {
             text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #64748b;
+            padding: 8px 0;
         }
-    .body-content .att-calendar th {
-        position: sticky !important;
-        top: auto !important;
+
+            .att-weekdays .att-weekend-label,
+            .att-weekdays > div:first-child {
+                color: #94a3b8;
+            }
+
+    /* Grid */
+    .att-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+        min-width: 720px;
     }
 
     .att-cell {
-        border: 1px solid #eef2f7;
-        vertical-align: top;
-        height: 130px;
-        padding: 10px 10px 8px 10px;
+        position: relative;
         background: #fff;
+        border: 1px solid #eef2f7;
+        border-radius: 10px;
+        min-height: 110px;
+        padding: 8px 10px 10px 10px;
+        transition: box-shadow 0.15s ease, transform 0.15s ease;
     }
 
     .att-cell-empty {
         background: #f8fafc;
+        border-style: dashed;
+        border-color: #eef2f7;
+    }
+
+    .att-cell-weekend {
+        background: #fafbfd;
     }
 
     .att-cell-has {
-        background: #f4f9ff;
+        background: #fbfdff;
+        border-color: #e3ecf7;
     }
 
+        .att-cell-has:hover {
+            box-shadow: 0 4px 14px rgba(15, 36, 54, 0.08);
+            transform: translateY(-1px);
+        }
+
+    .att-cell-today {
+        border: 1.5px solid #1b4e78;
+        box-shadow: 0 0 0 3px rgba(27, 78, 120, 0.10);
+    }
+
+        .att-cell-today::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 14px;
+            right: 14px;
+            height: 3px;
+            background: linear-gradient(90deg, #1b4e78, #3b82f6);
+            border-radius: 0 0 3px 3px;
+        }
+
+    /* Day number */
     .att-day-head {
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-start;
         margin-bottom: 6px;
     }
 
@@ -371,66 +422,119 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 22px;
+        min-width: 22px;
         height: 22px;
-        border-radius: 50%;
-        background: #e9eef5;
-        color: #0f2436;
-        font-size: 11px;
+        padding: 0 7px;
+        border-radius: 11px;
+        color: #475569;
+        font-size: 12px;
         font-weight: 700;
     }
 
+    .att-day-today {
+        background: #1b4e78;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(27, 78, 120, 0.35);
+    }
+
+    /* Punch rows */
     .att-punch-list {
         display: flex;
         flex-direction: column;
-        gap: 8px;
-        padding-right: 2px;
+        gap: 6px;
+        margin-top: 2px;
     }
 
     .att-punch-row {
         display: flex;
         align-items: center;
-        justify-content: flex-start;
-        gap: 10px;
+        gap: 8px;
+        padding: 4px 6px;
+        border-radius: 6px;
+        background: #f8fbff;
+        border: 1px solid #eef4fb;
+    }
+
+    .att-punch-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+    }
+
+    .att-punch-in .att-punch-dot {
+        background: #10b981;
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.18);
+    }
+
+    .att-punch-out .att-punch-dot {
+        background: #f59e0b;
+        box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.18);
     }
 
     .att-time {
-        min-width: 70px;
         font-size: 12px;
-        font-weight: 600;
+        font-weight: 700;
         color: #0f172a;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.01em;
     }
 
     .att-adjust-btn {
-        background: transparent;
+        margin-left: auto;
+        background: #fff;
         border: 1px solid #d5dde7;
-        color: #0f2436;
-        font-size: 11px;
+        color: #1b4e78;
+        font-size: 10.5px;
         font-weight: 600;
-        padding: 3px 10px;
-        border-radius: 6px;
+        padding: 3px 9px;
+        border-radius: 5px;
         cursor: pointer;
         white-space: nowrap;
+        transition: all 0.15s ease;
     }
 
         .att-adjust-btn:hover {
-            background: #eef5ff;
-            border-color: #c9d7ea;
+            background: #1b4e78;
+            border-color: #1b4e78;
+            color: #fff;
         }
 
-    /* ===== Dialog Theme ===== */
+    /* Adjustment pills */
+    .att-adj {
+        margin-left: auto;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 7px;
+        border-radius: 5px;
+        white-space: nowrap;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .att-adj-approved {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .att-adj-pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    /* ===== Dialog ===== */
     .ui-dialog {
-        border-radius: 10px !important;
+        border-radius: 12px !important;
         overflow: hidden;
         border: 1px solid #e6edf5 !important;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.12) !important;
+        box-shadow: 0 14px 36px rgba(15, 36, 54, 0.18) !important;
     }
 
     .ui-dialog-titlebar {
-        background: #0f2436 !important;
+        background: linear-gradient(135deg, #0f2436, #1b4e78) !important;
         color: #fff !important;
         border: none !important;
-        padding: 10px 12px !important;
+        padding: 12px 14px !important;
     }
 
     .ui-dialog-title {
@@ -439,11 +543,11 @@
     }
 
     .ui-dialog-content {
-        padding: 14px 16px !important;
+        padding: 16px 18px !important;
     }
 
     .ui-dialog-buttonpane {
-        padding: 8px 10px !important;
+        padding: 10px 12px !important;
         border-top: 1px solid #eef2f7 !important;
         background: #fafcff !important;
     }
@@ -452,119 +556,93 @@
         border-radius: 8px !important;
         font-size: 12px !important;
         font-weight: 600 !important;
-        padding: 6px 12px !important;
+        padding: 7px 14px !important;
         margin-left: 6px !important;
     }
 
     .att-dialog-body {
-        font-size: 12.5px;
+        font-size: 13px;
     }
 
     .att-dialog-line {
         display: flex;
-        gap: 10px;
-        margin-bottom: 6px;
+        gap: 12px;
+        margin-bottom: 8px;
     }
 
     .att-dialog-label {
-        width: 40px;
+        width: 50px;
         font-weight: 700;
-        color: #334155;
+        color: #64748b;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding-top: 2px;
     }
 
     .att-dialog-value {
-        font-weight: 600;
+        font-weight: 700;
         color: #0f172a;
     }
 
     .att-dialog-hint {
-        margin-top: 10px;
+        margin-top: 12px;
         font-size: 12px;
         color: #64748b;
+        font-style: italic;
     }
 
     /* ===== Responsive ===== */
-
     @@media (max-width: 992px) {
         .att-cell {
-            height: auto;
-            min-height: 120px;
-        }
-
-        .att-time {
-            min-width: 60px;
-            font-size: 11px;
-        }
-
-        .att-punch-row {
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .att-adjust-btn {
-            padding: 2px 8px;
-            font-size: 10px;
+            min-height: 100px;
         }
     }
 
     @@media (max-width: 768px) {
         .att-hero {
-            background: none;
-            color: #0f172a;
-            box-shadow: none;
-            border-radius: 0;
-            padding: 0 0 8px 0;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 14px 16px;
         }
 
-        .att-hero-kicker {
-            display: none;
+        .att-hero-stat {
+            align-items: flex-start;
         }
 
         .att-hero-month {
             font-size: 22px;
-            margin: 0;
         }
 
         .att-filters-card {
             padding: 10px 12px;
-            border-radius: 0;
         }
 
-        .att-filters-row {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 10px;
+        .att-actions {
+            margin-left: 0;
         }
 
         .att-calendar-card {
-            padding: 8px;
+            padding: 10px;
         }
     }
 
-    @@media (max-width: 480px) {
+    @@media (max-width: 560px) {
         .att-punch-row {
-            flex-direction: column;
-            align-items: flex-start;
+            flex-wrap: wrap;
         }
 
-        .att-time {
-            min-width: 0;
-        }
-
-        .att-calendar-card {
-            padding: 8px 0;
+        .att-adjust-btn, .att-adj {
+            margin-left: 24px;
         }
     }
 </style>
 
 @section Scripts {
-    @* Requires jQuery already in _Layout *@
-    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"></script>
-
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
         $(function () {
-
-            // Datepicker for search
             $("#empatdatefrom").datepicker({
                 changeMonth: true,
                 changeYear: true,
@@ -577,47 +655,24 @@
                 $("#dlgDate").text(displayDate || dateVal);
                 $("#dlgTime").text(displayTime || timeVal);
 
-                var lateUrl = baseCreateUrl
-                    + "?atjdate=" + encodeURIComponent(dateVal)
-                    + "&atjtime=" + encodeURIComponent(timeVal)
-                    + "&inout=true";
-
-                var earlyUrl = baseCreateUrl
-                    + "?atjdate=" + encodeURIComponent(dateVal)
-                    + "&atjtime=" + encodeURIComponent(timeVal)
-                    + "&inout=false";
+                var lateUrl  = baseCreateUrl + "?atjdate=" + encodeURIComponent(dateVal) + "&atjtime=" + encodeURIComponent(timeVal) + "&inout=true";
+                var earlyUrl = baseCreateUrl + "?atjdate=" + encodeURIComponent(dateVal) + "&atjtime=" + encodeURIComponent(timeVal) + "&inout=false";
 
                 $("#attAdjustDialog").dialog({
                     modal: true,
                     width: 380,
                     resizable: false,
                     buttons: [
-                        {
-                            text: "Late In",
-                            click: function () { window.location.href = lateUrl; }
-                        },
-                        {
-                            text: "Early Out",
-                            click: function () { window.location.href = earlyUrl; }
-                        },
-                        {
-                            text: "Cancel",
-                            click: function () { $(this).dialog("close"); }
-                        }
+                        { text: "Late In",   click: function () { window.location.href = lateUrl; } },
+                        { text: "Early Out", click: function () { window.location.href = earlyUrl; } },
+                        { text: "Cancel",    click: function () { $(this).dialog("close"); } }
                     ]
                 });
             }
 
-            // Click handler for each Adjust button
             $(document).on("click", ".att-adjust-btn", function () {
                 var $btn = $(this);
-
-                var dateVal = $btn.data("date");
-                var timeVal = $btn.data("time");
-                var displayDate = $btn.data("displaydate");
-                var displayTime = $btn.data("displaytime");
-
-                openAdjustDialog(dateVal, timeVal, displayDate, displayTime);
+                openAdjustDialog($btn.data("date"), $btn.data("time"), $btn.data("displaydate"), $btn.data("displaytime"));
             });
         });
     </script>
